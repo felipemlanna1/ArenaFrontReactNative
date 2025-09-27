@@ -1,5 +1,6 @@
 const { FlatCompat } = require('@eslint/eslintrc');
 const js = require('@eslint/js');
+const arenaPlugin = require('./eslint-rules');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -35,6 +36,7 @@ module.exports = [
       'react-hooks': require('eslint-plugin-react-hooks'),
       'react-native': require('eslint-plugin-react-native'),
       prettier: require('eslint-plugin-prettier'),
+      arena: arenaPlugin,
     },
     rules: {
       // TypeScript Rules
@@ -56,6 +58,11 @@ module.exports = [
       'prefer-const': 'error',
       'no-var': 'error',
 
+      // Arena Custom Rules
+      'arena/arena-design-tokens': 'error',
+      'arena/arena-file-structure': 'warn',
+      'arena/arena-best-practices': 'warn',
+
       // Prettier
       'prettier/prettier': [
         'error',
@@ -71,6 +78,13 @@ module.exports = [
     },
   },
   {
-    ignores: ['node_modules/', 'dist/', 'build/', '*.config.js', '*.config.ts'],
+    ignores: [
+      'node_modules/',
+      'dist/',
+      'build/',
+      '*.config.js',
+      '*.config.ts',
+      'eslint-rules/',
+    ],
   },
 ];
