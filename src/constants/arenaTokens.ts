@@ -8,18 +8,18 @@ import { Platform } from 'react-native';
 export const ArenaColors = {
   // Cores Primárias da Marca
   brand: {
-    primary: '#FF5301',        // Batalão Flame - Cor principal ARENA
-    primaryHover: '#E04A00',    // Hover state da cor primária
-    primaryPressed: '#D23E00',   // Pressed state da cor primária
+    primary: '#FF5301', // Batalão Flame - Cor principal ARENA
+    primaryHover: '#E04A00', // Hover state da cor primária
+    primaryPressed: '#D23E00', // Pressed state da cor primária
     primarySubtle: 'rgba(255, 83, 1, 0.15)', // Versão sutil da cor primária
   },
 
   // Cores Neutras da Marca
   neutral: {
-    darkest: '#1B1D29',        // Abyss V-1 - Fundo mais escuro
-    dark: '#20303D',           // Radiance Null - Fundo de superfície
-    medium: '#B8B8B8',        // Silver Star - Texto secundário
-    light: '#FFFFFF',          // Branco puro - Texto primário
+    darkest: '#1B1D29', // Abyss V-1 - Fundo mais escuro
+    dark: '#20303D', // Radiance Null - Fundo de superfície
+    medium: '#B8B8B8', // Silver Star - Texto secundário
+    light: '#FFFFFF', // Branco puro - Texto primário
     transparent: 'transparent', // Transparente
   },
 
@@ -58,15 +58,15 @@ export const ArenaColors = {
 export const ArenaSpacing = {
   // Micro Spacings - Para elementos muito próximos
   micro: 2,
-  xs: 4,     // Padding interno de botões pequenos
+  xs: 4, // Padding interno de botões pequenos
 
   // Small Spacings - Para componentes compactos
-  sm: 8,     // Padding interno padrão de botões
-  md: 12,    // Espaçamento entre elementos relacionados
+  sm: 8, // Padding interno padrão de botões
+  md: 12, // Espaçamento entre elementos relacionados
 
   // Medium Spacings - Para seções e grupos
-  lg: 16,    // Padding interno de cards e containers
-  xl: 20,    // Espaçamento entre seções pequenas
+  lg: 16, // Padding interno de cards e containers
+  xl: 20, // Espaçamento entre seções pequenas
 
   // Large Spacings - Para layout e hierarquia
   '2xl': 24, // Espaçamento entre seções relacionadas
@@ -86,58 +86,58 @@ export const ArenaSpacing = {
 export const ArenaTypography = {
   // Font Families - Baseado na identidade ARENA
   family: {
-    heading: 'BebasNeue-Regular',  // ARENA Display - Para títulos e destaques
-    body: 'Helvetica',            // ARENA Text - Para corpo de texto
-    ui: 'Helvetica',              // Para elementos de interface
-    mono: 'Menlo-Regular',        // Para código e dados técnicos
+    heading: 'BebasNeue-Regular', // ARENA Display - Para títulos e destaques
+    body: 'Helvetica', // ARENA Text - Para corpo de texto
+    ui: 'Helvetica', // Para elementos de interface
+    mono: 'Menlo-Regular', // Para código e dados técnicos
   },
 
   // Font Sizes - Escala tipográfica harmônica
   size: {
     // Micro texto
-    xs: 11,          // Labels pequenos, metadados
-    sm: 13,          // Texto secundário, legendas
+    xs: 11, // Labels pequenos, metadados
+    sm: 13, // Texto secundário, legendas
 
     // Texto base
-    md: 15,          // PADRÃO - Texto de corpo
-    lg: 17,          // Texto enfatizado
+    md: 15, // PADRÃO - Texto de corpo
+    lg: 17, // Texto enfatizado
 
     // Texto destacado
-    xl: 19,          // Subtítulos pequenos
-    '2xl': 22,       // Subtítulos
-    '3xl': 26,       // Títulos de seção
+    xl: 19, // Subtítulos pequenos
+    '2xl': 22, // Subtítulos
+    '3xl': 26, // Títulos de seção
 
     // Display
-    '4xl': 32,       // Títulos principais
-    '5xl': 40,       // Títulos de tela
-    '6xl': 48,       // Títulos hero
-    '7xl': 64,       // Display especial
+    '4xl': 32, // Títulos principais
+    '5xl': 40, // Títulos de tela
+    '6xl': 48, // Títulos hero
+    '7xl': 64, // Display especial
   },
 
   // Font Weights - Para hierarquia visual
   weight: {
-    light: '300' as const,        // Para texto sutil
-    regular: '400' as const,      // PADRÃO - Peso normal
-    medium: '500' as const,       // Para destaque suave
-    semibold: '600' as const,     // Para títulos e botões
-    bold: '700' as const,         // Para elementos importantes
-    extrabold: '800' as const,    // Para display (quando disponível)
+    light: '300' as const, // Para texto sutil
+    regular: '400' as const, // PADRÃO - Peso normal
+    medium: '500' as const, // Para destaque suave
+    semibold: '600' as const, // Para títulos e botões
+    bold: '700' as const, // Para elementos importantes
+    extrabold: '800' as const, // Para display (quando disponível)
   },
 
   // Line Heights - Para legibilidade otimizada
   lineHeight: {
-    tight: 1.2,       // Para títulos e display
-    comfortable: 1.4,  // PADRÃO - Para texto de interface
-    relaxed: 1.6,     // Para texto de leitura
-    loose: 1.8,       // Para texto longo e acessibilidade
+    tight: 1.2, // Para títulos e display
+    comfortable: 1.4, // PADRÃO - Para texto de interface
+    relaxed: 1.6, // Para texto de leitura
+    loose: 1.8, // Para texto longo e acessibilidade
   },
 
   // Letter Spacing - Para ajustes finos de tipografia
   letterSpacing: {
-    tight: -0.5,      // Para títulos grandes
-    normal: 0,        // PADRÃO
-    wide: 0.5,        // Para labels e botões
-    wider: 1,         // Para textos em maiúsculo
+    tight: -0.5, // Para títulos grandes
+    normal: 0, // PADRÃO
+    wide: 0.5, // Para labels e botões
+    wider: 1, // Para textos em maiúsculo
   },
 } as const;
 
@@ -148,26 +148,26 @@ export const ArenaTypography = {
 export const ArenaBorders = {
   // Border Radius - Baseado na identidade visual ARENA (bordas quadradas como padrão)
   radius: {
-    none: 0,        // PADRÃO ARENA - Bordas quadradas para todos elementos
-    xs: 2,          // Micro arredondamento (apenas quando necessário)
-    sm: 4,          // Arredondamento sutil
-    md: 6,          // Para elementos que precisam suavização
-    lg: 8,          // Para cards especiais
-    xl: 12,         // Para containers únicos
-    '2xl': 16,      // Para elementos destacados
-    '3xl': 20,      // Para elementos hero especiais
-    pill: 9999,     // Para botões pill (quando explicitamente necessário)
-    circle: 9999,   // Para avatares e elementos circulares
+    none: 0, // PADRÃO ARENA - Bordas quadradas para todos elementos
+    xs: 2, // Micro arredondamento (apenas quando necessário)
+    sm: 4, // Arredondamento sutil
+    md: 6, // Para elementos que precisam suavização
+    lg: 8, // Para cards especiais
+    xl: 12, // Para containers únicos
+    '2xl': 16, // Para elementos destacados
+    '3xl': 20, // Para elementos hero especiais
+    pill: 9999, // Para botões pill (quando explicitamente necessário)
+    circle: 9999, // Para avatares e elementos circulares
   },
 
   // Border Width - Para diferentes níveis de destaque
   width: {
-    none: 0,        // Sem borda
-    hairline: 0.5,  // Borda muito fina (divisores)
-    thin: 1,        // PADRÃO - Borda fina (inputs, cards)
-    medium: 1.5,    // Borda média (elementos destacados)
-    thick: 2,       // Borda grossa (focus states)
-    bold: 3,        // Borda muito grossa (estados especiais)
+    none: 0, // Sem borda
+    hairline: 0.5, // Borda muito fina (divisores)
+    thin: 1, // PADRÃO - Borda fina (inputs, cards)
+    medium: 1.5, // Borda média (elementos destacados)
+    thick: 2, // Borda grossa (focus states)
+    bold: 3, // Borda muito grossa (estados especiais)
   },
 } as const;
 

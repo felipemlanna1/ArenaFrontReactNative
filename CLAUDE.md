@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: ArenaTypography.size['2xl'],
     fontWeight: ArenaTypography.weight.semibold,
-  }
+  },
 });
 
 // ❌ ERRADO
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16, // Valor hardcoded
     backgroundColor: '#20303D', // Cor hardcoded
-  }
+  },
 });
 ```
 

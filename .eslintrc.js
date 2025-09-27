@@ -31,10 +31,10 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-      'react': require('eslint-plugin-react'),
+      react: require('eslint-plugin-react'),
       'react-hooks': require('eslint-plugin-react-hooks'),
       'react-native': require('eslint-plugin-react-native'),
-      'prettier': require('eslint-plugin-prettier'),
+      prettier: require('eslint-plugin-prettier'),
     },
     rules: {
       // TypeScript Rules
@@ -71,12 +71,6 @@ module.exports = [
     },
   },
   {
-    ignores: [
-      'node_modules/',
-      'dist/',
-      'build/',
-      '*.config.js',
-      '*.config.ts',
-    ],
+    ignores: ['node_modules/', 'dist/', 'build/', '*.config.js', '*.config.ts'],
   },
 ];
