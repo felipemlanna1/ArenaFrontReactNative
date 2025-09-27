@@ -1,8 +1,18 @@
 // Arena Welcome Screen - Hook de lógica
 import { useState, useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UseWelcomeScreenReturn } from './typesWelcomeScreen';
+import { RootStackParamList } from '../../navigation/types';
+
+type WelcomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Welcome'
+>;
 
 export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
+  const navigation = useNavigation<WelcomeScreenNavigationProp>();
+
   // Estados
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,6 +29,10 @@ export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
     }, 1000);
   }, []);
 
+  const handleShowComponents = useCallback(() => {
+    navigation.navigate('ComponentsShowcase');
+  }, [navigation]);
+
   const handleReset = useCallback(() => {
     setIsLoading(false);
     setError(null);
@@ -32,6 +46,7 @@ export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
     // Ações
     actions: {
       handleGetStarted,
+      handleShowComponents,
       handleReset,
     },
   };

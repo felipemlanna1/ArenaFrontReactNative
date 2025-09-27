@@ -75,6 +75,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginTop: ArenaSpacing['2xl'],
+    gap: ArenaSpacing.lg,
   },
 
   getStartedButton: {
@@ -85,6 +86,17 @@ export const styles = StyleSheet.create({
     width: '80%',
     alignItems: 'center',
     ...ArenaShadows.brandGlow,
+  },
+
+  secondaryButton: {
+    backgroundColor: 'transparent',
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.xl,
+    borderRadius: ArenaBorders.radius.sm,
+    width: '80%',
+    alignItems: 'center',
+    borderWidth: ArenaBorders.width.thin,
+    borderColor: ArenaColors.neutral.medium,
   },
 
   getStartedButtonPressed: {

@@ -11,6 +11,7 @@ export interface WelcomeScreenState {
 
 export interface WelcomeScreenActions {
   handleGetStarted: () => void;
+  handleShowComponents: () => void;
   handleReset: () => void;
 }
 
