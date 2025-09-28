@@ -12,16 +12,13 @@ type WelcomeScreenNavigationProp = NativeStackNavigationProp<
 export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
 
-  // Estados
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Ações
   const handleGetStarted = useCallback(() => {
     setIsLoading(true);
     setError(null);
 
-    // Simular ação de começar (futuramente navegar para próxima tela)
     setTimeout(() => {
       setIsLoading(false);
       console.log('Arena: Iniciando jornada esportiva!');
@@ -38,11 +35,8 @@ export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
   }, []);
 
   return {
-    // Estado
     isLoading,
     error,
-
-    // Ações
     actions: {
       handleGetStarted,
       handleShowComponents,

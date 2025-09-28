@@ -1,7 +1,4 @@
-// Arena Welcome Screen - Tipos TypeScript
-
 export interface WelcomeScreenProps {
-  // Props vazias por enquanto - screen standalone
 }
 
 export interface WelcomeScreenState {

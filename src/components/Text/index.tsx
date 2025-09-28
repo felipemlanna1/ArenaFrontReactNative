@@ -1,4 +1,3 @@
-// Arena Text Component - Componente base de texto com sistema completo de variantes
 import React, { useMemo } from 'react';
 import { Text as RNText, Pressable } from 'react-native';
 import { useText } from './useText';
@@ -22,12 +21,10 @@ export const Text: React.FC<TextProps> = ({
   testID,
   ...restProps
 }) => {
-  // Hook para computar estilos e processar props
   const {
     computedStyle,
     processedProps,
     isInteractive,
-    hasEllipsis,
     isHeading,
   } = useText({
     variant,
@@ -45,32 +42,21 @@ export const Text: React.FC<TextProps> = ({
     testID,
   });
 
-  // Estilos condicionais baseados no estado
   const conditionalStyles = useMemo(() => {
     const styleArray = [styles.baseText];
 
-    // Adicionar estilos baseados no estado
     if (isInteractive) {
-      // styleArray.push(styles.interactive);
     }
 
     if (isHeading) {
-      // styleArray.push(styles.headingFont);
     }
 
-    // Comentado - family vem do preset agora
-    // if (family === 'mono') {
-    //   styleArray.push(styles.monoFont);
-    // }
-
     if (selectable) {
-      // styleArray.push(styles.selectable);
     }
 
     return styleArray;
   }, [isInteractive, isHeading, selectable]);
 
-  // Props de acessibilidade computadas
   const accessibilityProps = useMemo(() => ({
     accessible: true,
     accessibilityLabel: accessibilityLabel || (typeof children === 'string' ? children : undefined),
@@ -79,19 +65,16 @@ export const Text: React.FC<TextProps> = ({
     importantForAccessibility: 'yes' as const,
   }), [accessibilityLabel, accessibilityHint, accessibilityRole, isInteractive, children]);
 
-  // Props do componente Text
   const textProps = useMemo(() => ({
     ...restProps,
     ...processedProps,
     ...accessibilityProps,
     testID,
     style: [conditionalStyles, computedStyle],
-    // Props específicas do Text que podem afetar rendering
-    allowFontScaling: true, // Permite que o usuário ajuste o tamanho da fonte
-    maxFontSizeMultiplier: 1.3, // Limita o crescimento máximo da fonte
+    allowFontScaling: true,
+    maxFontSizeMultiplier: 1.3,
   }), [restProps, processedProps, accessibilityProps, testID, conditionalStyles, computedStyle]);
 
-  // Renderização condicional baseada na interatividade
   if (isInteractive) {
     return (
       <Pressable
@@ -118,7 +101,6 @@ export const Text: React.FC<TextProps> = ({
     );
   }
 
-  // Renderização padrão para texto não-interativo
   return (
     <RNText {...textProps}>
       {children}
@@ -126,6 +108,5 @@ export const Text: React.FC<TextProps> = ({
   );
 };
 
-// Export do componente principal e tipos
 export type { TextProps } from './typesText';
 export { useText } from './useText';

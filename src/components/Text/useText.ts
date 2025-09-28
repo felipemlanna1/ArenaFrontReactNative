@@ -1,7 +1,6 @@
-// Arena Text Component - Hook com lógica de presets e estilos
 import { useMemo } from 'react';
 import { TextStyle } from 'react-native';
-import { ArenaColors, ArenaTypography, ArenaLineHeight } from '@/constants';
+import { ArenaColors, ArenaTypography } from '@/constants';
 import {
   TextVariant,
   TextSize,
@@ -15,7 +14,6 @@ import {
 } from './typesText';
 
 const VARIANT_PRESETS: TextVariantPresets = {
-  // Display variants - Para hero/landing pages
   displayPrimary: {
     size: '6xl',
     weight: 'bold',
@@ -32,8 +30,6 @@ const VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: -0.5,
     color: 'accent',
   },
-
-  // Heading variants - Títulos principais de telas
   headingPrimary: {
     size: '4xl',
     weight: 'semibold',
@@ -50,8 +46,6 @@ const VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: -0.25,
     color: 'accent',
   },
-
-  // Title variants - Títulos de seções
   titlePrimary: {
     size: '2xl',
     weight: 'semibold',
@@ -68,8 +62,6 @@ const VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0,
     color: 'secondary',
   },
-
-  // Body variants - Texto de corpo
   bodyPrimary: {
     size: 'md',
     weight: 'regular',
@@ -110,8 +102,6 @@ const VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0,
     color: 'success',
   },
-
-  // Caption variants - Textos pequenos/legendas
   captionSecondary: {
     size: 'sm',
     weight: 'regular',
@@ -136,8 +126,6 @@ const VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0.25,
     color: 'error',
   },
-
-  // Label variants - Labels de formulário
   labelPrimary: {
     size: 'xs',
     weight: 'medium',
@@ -164,24 +152,16 @@ const VARIANT_PRESETS: TextVariantPresets = {
   },
 };
 
-// =============================================================================
-// COLOR MAPPING - Mapeamento de cores semânticas
-// =============================================================================
-
 const COLOR_MAP: Record<TextColor, string> = {
-  primary: ArenaColors.neutral.light, // Branco para texto principal
-  secondary: ArenaColors.neutral.medium, // Cinza para texto secundário
-  accent: ArenaColors.brand.primary, // Laranja Arena para destaque
-  muted: `${ArenaColors.neutral.medium}80`, // Cinza com opacity
-  inverse: ArenaColors.neutral.darkest, // Para fundos claros
-  success: '#10B981', // Verde para sucesso
-  error: '#EF4444', // Vermelho para erro
-  warning: '#F59E0B', // Amarelo para aviso
+  primary: ArenaColors.neutral.light,
+  secondary: ArenaColors.neutral.medium,
+  accent: ArenaColors.brand.primary,
+  muted: `${ArenaColors.neutral.medium}80`,
+  inverse: ArenaColors.neutral.darkest,
+  success: '#10B981',
+  error: '#EF4444',
+  warning: '#F59E0B',
 };
-
-// =============================================================================
-// UTILITY FUNCTIONS - Funções auxiliares para conversão de valores
-// =============================================================================
 
 const getFontSize = (size: TextSize): number => {
   return ArenaTypography.size[size];
@@ -203,27 +183,17 @@ const getTextColor = (color: TextColor): string => {
   return COLOR_MAP[color];
 };
 
-// =============================================================================
-// MAIN HOOK - Hook principal do componente Text
-// =============================================================================
-
 export const useText = (input: UseTextInput): UseTextReturn => {
-  // Usar preset obrigatório baseado na variante
   const preset = VARIANT_PRESETS[input.variant];
-
-  // Valores finais vêm diretamente do preset (sem personalização)
   const resolvedSize = preset.size;
   const resolvedWeight = preset.weight;
   const resolvedFamily = preset.family;
   const resolvedColor = preset.color;
-  const resolvedAlign = 'left'; // Sempre left por padrão
-  const resolvedTransform = 'none'; // Sempre none por padrão
-
-  // Line height e letter spacing vêm do preset
+  const resolvedAlign = 'left';
+  const resolvedTransform = 'none';
   const resolvedLineHeight = preset.lineHeight;
   const resolvedLetterSpacing = preset.letterSpacing;
 
-  // Computar estilo final
   const computedStyle: ComputedTextStyle = useMemo(() => {
     const baseStyle: ComputedTextStyle = {
       fontSize: getFontSize(resolvedSize),
@@ -234,7 +204,7 @@ export const useText = (input: UseTextInput): UseTextReturn => {
       color: getTextColor(resolvedColor || 'primary'),
       textAlign: resolvedAlign,
       textTransform: resolvedTransform,
-      includeFontPadding: false, // Para melhor alinhamento no Android
+      includeFontPadding: false,
       textAlignVertical: 'center',
     };
 
@@ -250,7 +220,6 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     resolvedLetterSpacing,
   ]);
 
-  // Mesclar com estilos customizados
   const finalStyle = useMemo(() => {
     if (!input.style) return computedStyle;
 
@@ -261,7 +230,6 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     return { ...computedStyle, ...input.style };
   }, [computedStyle, input.style]);
 
-  // Processar props para o componente Text
   const processedProps = useMemo(
     () => ({
       numberOfLines: input.numberOfLines,
@@ -291,7 +259,6 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     ]
   );
 
-  // Estados derivados
   const isInteractive = Boolean(input.onPress || input.onLongPress);
   const hasEllipsis = Boolean(input.numberOfLines && input.numberOfLines > 0);
   const isHeading =
@@ -300,7 +267,7 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     input.variant.startsWith('title');
 
   return {
-    computedStyle: finalStyle as any, // Temporarily bypass type issue
+    computedStyle: finalStyle as any,
     processedProps,
     isInteractive,
     hasEllipsis,
@@ -308,34 +275,18 @@ export const useText = (input: UseTextInput): UseTextReturn => {
   };
 };
 
-// =============================================================================
-// PRESET UTILITIES - Funções utilitárias para trabalhar com presets
-// =============================================================================
-
-/**
- * Obter preset de uma variante específica
- */
 export const getVariantPreset = (variant: TextVariant) => {
   return VARIANT_PRESETS[variant];
 };
 
-/**
- * Verificar se uma variante é considerada heading
- */
 export const isHeadingVariant = (variant: TextVariant): boolean => {
   return ['display', 'heading', 'title'].includes(variant);
 };
 
-/**
- * Obter todas as variantes disponíveis
- */
 export const getAvailableVariants = (): TextVariant[] => {
   return Object.keys(VARIANT_PRESETS) as TextVariant[];
 };
 
-/**
- * Obter todas as cores disponíveis
- */
 export const getAvailableColors = (): TextColor[] => {
   return Object.keys(COLOR_MAP) as TextColor[];
 };

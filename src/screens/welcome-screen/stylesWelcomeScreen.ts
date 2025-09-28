@@ -1,4 +1,3 @@
-// Arena Welcome Screen - Estilos usando tokens Arena
 import { StyleSheet } from 'react-native';
 import {
   ArenaColors,

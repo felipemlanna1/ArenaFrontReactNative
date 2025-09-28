@@ -1,4 +1,3 @@
-// Arena ComponentsShowcaseScreen - Hook principal
 import { useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -13,10 +12,8 @@ type ComponentsShowcaseScreenNavigationProp = NativeStackNavigationProp<
 export const useComponentsShowcaseScreen = (): UseComponentsShowcaseScreenReturn => {
   const navigation = useNavigation<ComponentsShowcaseScreenNavigationProp>();
 
-  // Estados da tela
   const [activeSection, setActiveSection] = useState<string | null>('text');
 
-  // Ações da tela
   const handleSectionToggle = useCallback((sectionId: string) => {
     setActiveSection(current => current === sectionId ? null : sectionId);
   }, []);
@@ -26,9 +23,7 @@ export const useComponentsShowcaseScreen = (): UseComponentsShowcaseScreenReturn
   }, [navigation]);
 
   const handleCopyCode = useCallback((code: string) => {
-    // Em um app real, aqui usaríamos Clipboard.setString(code)
     console.log('Código copiado:', code);
-    // Poderia mostrar um toast de confirmação
   }, []);
 
   return {

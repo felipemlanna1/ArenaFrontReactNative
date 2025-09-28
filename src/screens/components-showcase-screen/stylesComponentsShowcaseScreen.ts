@@ -1,15 +1,12 @@
-// Arena ComponentsShowcaseScreen - Estilos
 import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
-  // Container principal
   container: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
   },
 
-  // Header da tela
   header: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.xl,
@@ -31,7 +28,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // Content container
   content: {
     flex: 1,
   },
@@ -41,7 +37,6 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.xl,
   },
 
-  // Component Section
   sectionContainer: {
     marginBottom: ArenaSpacing['4xl'],
   },
@@ -71,7 +66,6 @@ export const styles = StyleSheet.create({
     paddingTop: ArenaSpacing.xl,
   },
 
-  // Showcase Item
   showcaseItem: {
     marginBottom: ArenaSpacing['3xl'],
     padding: ArenaSpacing.lg,
@@ -92,7 +86,6 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
 
-  // Empty state
   emptyContainer: {
     flex: 1,
     alignItems: 'center',
@@ -109,7 +102,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // Loading state
   loadingContainer: {
     flex: 1,
     alignItems: 'center',

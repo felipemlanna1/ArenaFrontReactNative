@@ -1,4 +1,3 @@
-// Arena CodeExample - Estilos
 import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
