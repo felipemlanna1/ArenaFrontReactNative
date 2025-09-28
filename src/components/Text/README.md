@@ -21,7 +21,7 @@ O componente `Text` é o fundamento tipográfico de toda a aplicação Arena. El
 import { Text } from '@/components/text';
 
 // Uso básico com variante
-<Text variant="heading">Título Principal</Text>
+<Text variant="heading">Título Principal</Text>;
 ```
 
 ### Importações Especializadas
@@ -44,28 +44,28 @@ import {
 
 ### Variantes Disponíveis
 
-| Variante | Tamanho | Peso | Família | Uso Recomendado |
-|----------|---------|------|---------|-----------------|
-| `display` | 6xl (48px) | bold | heading | Títulos hero, landing pages |
-| `heading` | 4xl (32px) | semibold | heading | Títulos principais de telas |
-| `title` | 2xl (22px) | semibold | body | Títulos de seções |
-| `subtitle` | xl (19px) | medium | body | Subtítulos, categorias |
-| `body` | md (15px) | regular | body | Texto de corpo padrão |
-| `caption` | sm (13px) | regular | body | Legendas, metadados |
-| `label` | xs (11px) | medium | ui | Labels de formulário |
+| Variante   | Tamanho    | Peso     | Família | Uso Recomendado             |
+| ---------- | ---------- | -------- | ------- | --------------------------- |
+| `display`  | 6xl (48px) | bold     | heading | Títulos hero, landing pages |
+| `heading`  | 4xl (32px) | semibold | heading | Títulos principais de telas |
+| `title`    | 2xl (22px) | semibold | body    | Títulos de seções           |
+| `subtitle` | xl (19px)  | medium   | body    | Subtítulos, categorias      |
+| `body`     | md (15px)  | regular  | body    | Texto de corpo padrão       |
+| `caption`  | sm (13px)  | regular  | body    | Legendas, metadados         |
+| `label`    | xs (11px)  | medium   | ui      | Labels de formulário        |
 
 ### Cores Semânticas
 
-| Cor | Valor | Uso |
-|-----|-------|-----|
-| `primary` | #FFFFFF | Texto principal (padrão) |
-| `secondary` | #B8B8B8 | Texto secundário |
-| `accent` | #FF5301 | Destaque Arena |
-| `muted` | #B8B8B880 | Texto suave com opacity |
-| `inverse` | #1B1D29 | Para fundos claros |
-| `success` | #10B981 | Mensagens de sucesso |
-| `error` | #EF4444 | Mensagens de erro |
-| `warning` | #F59E0B | Avisos |
+| Cor         | Valor     | Uso                      |
+| ----------- | --------- | ------------------------ |
+| `primary`   | #FFFFFF   | Texto principal (padrão) |
+| `secondary` | #B8B8B8   | Texto secundário         |
+| `accent`    | #FF5301   | Destaque Arena           |
+| `muted`     | #B8B8B880 | Texto suave com opacity  |
+| `inverse`   | #1B1D29   | Para fundos claros       |
+| `success`   | #10B981   | Mensagens de sucesso     |
+| `error`     | #EF4444   | Mensagens de erro        |
+| `warning`   | #F59E0B   | Avisos                   |
 
 ## 📖 Exemplos de Uso
 
@@ -84,9 +84,9 @@ import {
 ```tsx
 // Sobrescrevendo propriedades do preset
 <Text
-  variant="heading"     // preset: 4xl, semibold, heading
-  size="5xl"           // override: muda para 5xl
-  color="accent"       // override: muda para laranja Arena
+  variant="heading" // preset: 4xl, semibold, heading
+  size="5xl" // override: muda para 5xl
+  color="accent" // override: muda para laranja Arena
 >
   Título Customizado
 </Text>
@@ -201,13 +201,39 @@ interface TextProps {
   children: React.ReactNode;
 
   // Sistema de variantes
-  variant?: 'display' | 'heading' | 'title' | 'subtitle' | 'body' | 'caption' | 'label';
+  variant?:
+    | 'display'
+    | 'heading'
+    | 'title'
+    | 'subtitle'
+    | 'body'
+    | 'caption'
+    | 'label';
 
   // Override de propriedades
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
+  size?:
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | '7xl';
   weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold' | 'extrabold';
   family?: 'heading' | 'body' | 'ui' | 'mono';
-  color?: 'primary' | 'secondary' | 'accent' | 'muted' | 'inverse' | 'success' | 'error' | 'warning';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'muted'
+    | 'inverse'
+    | 'success'
+    | 'error'
+    | 'warning';
 
   // Layout
   align?: 'left' | 'center' | 'right' | 'justify';
@@ -257,11 +283,11 @@ const MyCustomTextComponent = ({ children, ...props }) => {
 
 ```tsx
 interface UseTextReturn {
-  computedStyle: TextStyle;           // Estilo final computado
-  processedProps: ProcessedProps;     // Props processadas para o Text
-  isInteractive: boolean;             // Tem onPress/onLongPress
-  hasEllipsis: boolean;               // Tem numberOfLines > 0
-  isHeading: boolean;                 // É variante de heading
+  computedStyle: TextStyle; // Estilo final computado
+  processedProps: ProcessedProps; // Props processadas para o Text
+  isInteractive: boolean; // Tem onPress/onLongPress
+  hasEllipsis: boolean; // Tem numberOfLines > 0
+  isHeading: boolean; // É variante de heading
 }
 ```
 
@@ -308,12 +334,12 @@ const ActivityCard = ({ activity }) => (
 
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       <CaptionText color="secondary">{activity.date}</CaptionText>
-      <CaptionText color="accent" weight="medium">{activity.duration}</CaptionText>
+      <CaptionText color="accent" weight="medium">
+        {activity.duration}
+      </CaptionText>
     </View>
 
-    <LinkText onPress={() => viewActivity(activity.id)}>
-      Ver detalhes
-    </LinkText>
+    <LinkText onPress={() => viewActivity(activity.id)}>Ver detalhes</LinkText>
   </Card>
 );
 ```
@@ -327,9 +353,7 @@ const EmptyState = () => (
     <BodyText align="center" color="secondary">
       Comece registrando sua primeira atividade esportiva
     </BodyText>
-    <LinkText onPress={createActivity}>
-      Criar atividade
-    </LinkText>
+    <LinkText onPress={createActivity}>Criar atividade</LinkText>
   </View>
 );
 ```
@@ -372,11 +396,11 @@ const { width } = useWindowDimensions();
 const isTablet = width > 768;
 
 <Text
-  variant={isTablet ? "display" : "heading"}
-  size={isTablet ? "7xl" : "5xl"}
+  variant={isTablet ? 'display' : 'heading'}
+  size={isTablet ? '7xl' : '5xl'}
 >
   Título Responsivo
-</Text>
+</Text>;
 ```
 
 ## 📱 Considerações Mobile
@@ -423,15 +447,17 @@ npm test Text -- --coverage
 ### Problemas Comuns
 
 **Q: Fonte não está aparecendo**
+
 ```tsx
 // ❌ Problema: Fonte não carregada
-<Text family="heading">Título</Text>
+<Text family="heading">Título</Text>;
 
 // ✅ Solução: Verificar se a fonte está em expo-font
 import { useFonts } from 'expo-font';
 ```
 
 **Q: Texto cortado no Android**
+
 ```tsx
 // ❌ Problema: includeFontPadding
 <Text style={{ includeFontPadding: true }}>Texto</Text>
@@ -441,6 +467,7 @@ import { useFonts } from 'expo-font';
 ```
 
 **Q: Cores não seguem tema**
+
 ```tsx
 // ❌ Problema: Cor hardcoded
 <Text style={{ color: '#FF0000' }}>Erro</Text>
@@ -452,6 +479,7 @@ import { useFonts } from 'expo-font';
 ## 🔄 Atualizações e Changelog
 
 ### v1.0.0 (Atual)
+
 - ✨ Sistema completo de variantes semânticas
 - ✨ Componentes especializados
 - ✨ Hook useText para casos avançados
@@ -459,6 +487,7 @@ import { useFonts } from 'expo-font';
 - ✨ Documentação completa com exemplos
 
 ### Roadmap
+
 - 🔮 Suporte a temas claro/escuro
 - 🔮 Animações de texto (fade, slide)
 - 🔮 Rich text com markdown

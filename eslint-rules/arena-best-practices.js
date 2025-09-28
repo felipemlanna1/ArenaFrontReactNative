@@ -9,14 +9,21 @@ module.exports = {
       recommended: true,
     },
     messages: {
-      noInlineStyles: 'Avoid inline styles. Use Arena design tokens from styles{{componentName}}.ts',
-      noHardcodedText: 'Use text constants from @/constants/texts instead of hardcoded strings',
-      useArenaComponents: 'Consider using Arena UI components instead of basic React Native components',
+      noInlineStyles:
+        'Avoid inline styles. Use Arena design tokens from styles{{componentName}}.ts',
+      noHardcodedText:
+        'Use text constants from @/constants/texts instead of hardcoded strings',
+      useArenaComponents:
+        'Consider using Arena UI components instead of basic React Native components',
       noAnyType: 'Avoid using "any" type. Arena requires strict typing',
-      usePathAlias: 'Use path aliases (@/...) instead of relative imports for better maintainability',
-      noClassComponents: 'Arena uses functional components only. Convert to React.FC',
-      useCallback: 'Use useCallback for event handlers in Arena components for better performance',
-      noConsoleLog: 'Remove console.log statements before committing Arena code',
+      usePathAlias:
+        'Use path aliases (@/...) instead of relative imports for better maintainability',
+      noClassComponents:
+        'Arena uses functional components only. Convert to React.FC',
+      useCallback:
+        'Use useCallback for event handlers in Arena components for better performance',
+      noConsoleLog:
+        'Remove console.log statements before committing Arena code',
     },
     schema: [],
   },
@@ -25,7 +32,10 @@ module.exports = {
     return {
       // Verificar estilos inline
       JSXAttribute(node) {
-        if (node.name.name === 'style' && node.value.type === 'JSXExpressionContainer') {
+        if (
+          node.name.name === 'style' &&
+          node.value.type === 'JSXExpressionContainer'
+        ) {
           const expression = node.value.expression;
 
           // Verificar se é um objeto literal (estilo inline)
@@ -48,7 +58,8 @@ module.exports = {
         // Verificar se usa import relativo quando deveria usar alias
         if (importPath.startsWith('../') || importPath.startsWith('./')) {
           const depth = (importPath.match(/\.\.\//g) || []).length;
-          if (depth >= 2) { // 2 ou mais níveis up
+          if (depth >= 2) {
+            // 2 ou mais níveis up
             context.report({
               node,
               messageId: 'usePathAlias',
@@ -81,12 +92,12 @@ module.exports = {
 
       // Verificar class components
       ClassDeclaration(node) {
-        const hasReactComponent = node.superClass && (
-          (node.superClass.type === 'MemberExpression' &&
-           node.superClass.object.name === 'React' &&
-           node.superClass.property.name === 'Component') ||
-          node.superClass.name === 'Component'
-        );
+        const hasReactComponent =
+          node.superClass &&
+          ((node.superClass.type === 'MemberExpression' &&
+            node.superClass.object.name === 'React' &&
+            node.superClass.property.name === 'Component') ||
+            node.superClass.name === 'Component');
 
         if (hasReactComponent) {
           context.report({
@@ -102,10 +113,11 @@ module.exports = {
           const parent = node.parent;
 
           // Verificar se é texto em JSX
-          if (parent.type === 'JSXText' ||
-              (parent.type === 'JSXExpressionContainer' &&
-               parent.parent.type === 'JSXElement')) {
-
+          if (
+            parent.type === 'JSXText' ||
+            (parent.type === 'JSXExpressionContainer' &&
+              parent.parent.type === 'JSXElement')
+          ) {
             // Ignorar textos técnicos (códigos, IDs, etc)
             const technicalPatterns = [
               /^[A-Z0-9_]+$/, // CONSTANTS
@@ -134,10 +146,11 @@ module.exports = {
         const parent = node.parent;
 
         // Verificar se é um handler de evento em props
-        if (parent.type === 'Property' &&
-            parent.key.name &&
-            parent.key.name.startsWith('on')) {
-
+        if (
+          parent.type === 'Property' &&
+          parent.key.name &&
+          parent.key.name.startsWith('on')
+        ) {
           // Verificar se está dentro de um componente React
           const isInComponent = isInsideReactComponent(node);
 
@@ -161,11 +174,12 @@ module.exports = {
       let current = node.parent;
 
       while (current) {
-        if (current.type === 'FunctionDeclaration' ||
-            current.type === 'ArrowFunctionExpression') {
+        if (
+          current.type === 'FunctionDeclaration' ||
+          current.type === 'ArrowFunctionExpression'
+        ) {
           // Verificar se é um componente React (começa com maiúscula)
-          if (current.id && current.id.name &&
-              /^[A-Z]/.test(current.id.name)) {
+          if (current.id && current.id.name && /^[A-Z]/.test(current.id.name)) {
             return true;
           }
         }

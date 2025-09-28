@@ -27,6 +27,7 @@ Interface: `WelcomeScreenProps` (sem props no momento)
 ## Hook Principal
 
 `useWelcomeScreen()` retorna:
+
 - `isLoading`: boolean - estado de carregamento
 - `error`: Error | null - estado de erro
 - `actions.handleShowComponents()`: navega para ComponentsShowcase

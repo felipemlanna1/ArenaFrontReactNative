@@ -10,12 +10,16 @@ module.exports = {
     },
     messages: {
       invalidFileName: 'File name should follow Arena convention: {{expected}}',
-      missingStylesImport: 'Arena components must import styles from styles{{componentName}}.ts',
-      missingTypesImport: 'Arena components must import types from types{{componentName}}.ts',
-      invalidExport: 'Use named exports instead of default exports in Arena components',
-      invalidComponentStructure: 'Arena component must follow the structure: types, styles, hooks, component',
-      useArenaPrefix: 'Use Arena prefix for component styles and types files',
-      maxFileLength: 'File exceeds Arena maximum of 150 lines. Consider breaking into smaller components.',
+      missingStylesImport:
+        'Components must import styles from styles{{componentName}}.ts',
+      missingTypesImport:
+        'Components must import types from types{{componentName}}.ts',
+      invalidExport:
+        'Use named exports instead of default exports in components',
+      invalidComponentStructure:
+        'Component must follow the structure: types, styles, hooks, component',
+      maxFileLength:
+        'File exceeds Arena maximum of 150 lines. Consider breaking into smaller components.',
     },
     schema: [],
   },
@@ -44,7 +48,10 @@ module.exports = {
         checkFileNaming(context, filename);
 
         // Verificar estrutura de componentes
-        if (filename.includes('/components/') || filename.includes('/screens/')) {
+        if (
+          filename.includes('/components/') ||
+          filename.includes('/screens/')
+        ) {
           checkComponentStructure(context, node, filename);
         }
       },
@@ -64,35 +71,47 @@ module.exports = {
       const baseName = filename.split('/').pop();
       const directory = filename.split('/').slice(-2, -1)[0];
 
-      // Verificar nomenclatura de arquivos de estilo
+      // Converter diretório para camelCase
+      const directoryInCamelCase = directory
+        .split('-')
+        .map((part, index) =>
+          index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
+        )
+        .join('');
+
+      const expectedComponentName =
+        directoryInCamelCase.charAt(0).toUpperCase() +
+        directoryInCamelCase.slice(1);
+
+      // Verificar nomenclatura de arquivos de estilo - aceitar camelCase
       if (baseName.startsWith('styles') && baseName.endsWith('.ts')) {
         const expectedPattern = /^styles[A-Z][a-zA-Z]+\.ts$/;
         if (!expectedPattern.test(baseName)) {
           context.report({
             node: context.getSourceCode().ast,
-            messageId: 'useArenaPrefix',
+            messageId: 'invalidFileName',
             data: {
-              expected: `styles${directory.charAt(0).toUpperCase() + directory.slice(1)}.ts`,
+              expected: `styles${expectedComponentName}.ts`,
             },
           });
         }
       }
 
-      // Verificar nomenclatura de arquivos de tipos
+      // Verificar nomenclatura de arquivos de tipos - aceitar camelCase
       if (baseName.startsWith('types') && baseName.endsWith('.ts')) {
         const expectedPattern = /^types[A-Z][a-zA-Z]+\.ts$/;
         if (!expectedPattern.test(baseName)) {
           context.report({
             node: context.getSourceCode().ast,
-            messageId: 'useArenaPrefix',
+            messageId: 'invalidFileName',
             data: {
-              expected: `types${directory.charAt(0).toUpperCase() + directory.slice(1)}.ts`,
+              expected: `types${expectedComponentName}.ts`,
             },
           });
         }
       }
 
-      // Verificar nomenclatura de hooks
+      // Verificar nomenclatura de hooks - aceitar camelCase
       if (baseName.startsWith('use') && baseName.endsWith('.ts')) {
         const expectedPattern = /^use[A-Z][a-zA-Z]+\.ts$/;
         if (!expectedPattern.test(baseName)) {
@@ -100,7 +119,7 @@ module.exports = {
             node: context.getSourceCode().ast,
             messageId: 'invalidFileName',
             data: {
-              expected: `use${directory.charAt(0).toUpperCase() + directory.slice(1)}.ts`,
+              expected: `use${expectedComponentName}.ts`,
             },
           });
         }
@@ -114,24 +133,38 @@ module.exports = {
 
       const imports = node.body.filter(n => n.type === 'ImportDeclaration');
       const directory = filename.split('/').slice(-2, -1)[0];
-      const componentName = directory.charAt(0).toUpperCase() + directory.slice(1);
 
-      // Verificar se importa estilos
-      const hasStylesImport = imports.some(imp =>
-        imp.source.value.includes(`styles${componentName}`)
+      // Converter diretório para camelCase para gerar o nome do componente
+      const componentName = directory
+        .split('-')
+        .map((part, index) =>
+          index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
+        )
+        .join('');
+
+      const expectedComponentName =
+        componentName.charAt(0).toUpperCase() + componentName.slice(1);
+
+      // Verificar se importa estilos (aceitar tanto camelCase quanto kebab-case)
+      const hasStylesImport = imports.some(
+        imp =>
+          imp.source.value.includes(`styles${expectedComponentName}`) ||
+          imp.source.value.includes('./styles')
       );
 
       if (!hasStylesImport) {
         context.report({
           node: node.body[0],
           messageId: 'missingStylesImport',
-          data: { componentName },
+          data: { componentName: expectedComponentName },
         });
       }
 
       // Verificar se importa tipos (apenas se o arquivo de tipos existir)
-      const hasTypesImport = imports.some(imp =>
-        imp.source.value.includes(`types${componentName}`)
+      const hasTypesImport = imports.some(
+        imp =>
+          imp.source.value.includes(`types${expectedComponentName}`) ||
+          imp.source.value.includes('./types')
       );
 
       // Não obrigatório, mas recomendado ter tipos

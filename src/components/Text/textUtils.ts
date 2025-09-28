@@ -1,5 +1,5 @@
 import { TextStyle } from 'react-native';
-import { ArenaColors, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaTypography } from '../../constants';
 import {
   TextSize,
   TextWeight,

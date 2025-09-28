@@ -1,1 +1,1 @@
-export type { RootStackParamList } from './types';
+export type { RootStackParamList } from './typesNavigation';

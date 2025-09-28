@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ArenaColors } from '../constants';
 import { WelcomeScreen } from '../screens/welcome-screen';
 import { ComponentsShowcaseScreen } from '../screens/components-showcase-screen';
-import { RootStackParamList } from './types';
+import { RootStackParamList } from './typesNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

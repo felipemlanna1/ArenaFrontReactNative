@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { TextStyle, TextProps as RNTextProps } from 'react-native';
 
 export type TextVariant =

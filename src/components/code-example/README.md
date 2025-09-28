@@ -16,18 +16,18 @@ import { CodeExample } from '@/components/code-example';
 
 <CodeExample
   code={`<Text variant="bodyPrimary">Exemplo</Text>`}
-  onCopy={(code) => Clipboard.setString(code)}
-/>
+  onCopy={code => Clipboard.setString(code)}
+/>;
 ```
 
 ## Props
 
 Interface: `CodeExampleProps`
 
-| Prop | Tipo | Obrigatório | Descrição |
-|------|------|-------------|-----------|
-| `code` | `string` | ✅ | Código a ser exibido |
-| `onCopy` | `(code: string) => void` | ✅ | Callback ao copiar código |
+| Prop     | Tipo                     | Obrigatório | Descrição                 |
+| -------- | ------------------------ | ----------- | ------------------------- |
+| `code`   | `string`                 | ✅          | Código a ser exibido      |
+| `onCopy` | `(code: string) => void` | ✅          | Callback ao copiar código |
 
 ## Estrutura
 
@@ -56,6 +56,7 @@ CodeExample/
 ## Hook
 
 `useCodeExample()` gerencia:
+
 - Estado de feedback visual (se implementado)
 - Lógica de cópia
 - Validações

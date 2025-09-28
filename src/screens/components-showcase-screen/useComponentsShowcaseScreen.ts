@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UseComponentsShowcaseScreenReturn } from './typesComponentsShowcaseScreen';
-import { RootStackParamList } from '@/navigation/types';
+import { RootStackParamList } from '@/navigation/typesNavigation';
 
 type ComponentsShowcaseScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

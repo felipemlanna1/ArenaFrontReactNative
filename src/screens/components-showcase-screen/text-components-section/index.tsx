@@ -3,6 +3,7 @@ import { Text } from '@/components/text';
 import { CodeExample } from '@/components/code-example';
 import { ComponentSection } from '../component-section';
 import { ShowcaseItem } from '../showcase-item';
+import { styles } from './stylesTextComponentsSection';
 
 interface TextComponentsSectionProps {
   onCopyCode: (code: string) => void;
@@ -18,7 +19,7 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         description="Para títulos hero e landing pages"
       >
         <Text variant="displayPrimary">Arena Sports</Text>
-        <Text variant="displayAccent" style={{ marginTop: 8 }}>
+        <Text variant="displayAccent" style={styles.marginTop8}>
           Arena Sports
         </Text>
 
@@ -34,7 +35,7 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         description="Títulos principais de telas"
       >
         <Text variant="headingPrimary">Dashboard</Text>
-        <Text variant="headingAccent" style={{ marginTop: 8 }}>
+        <Text variant="headingAccent" style={styles.marginTop8}>
           Dashboard
         </Text>
 
@@ -47,7 +48,7 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
 
       <ShowcaseItem label="Title Variants" description="Títulos de seções">
         <Text variant="titlePrimary">Seção Principal</Text>
-        <Text variant="titleSecondary" style={{ marginTop: 8 }}>
+        <Text variant="titleSecondary" style={styles.marginTop8}>
           Seção Secundária
         </Text>
 
@@ -63,16 +64,16 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         description="Texto de corpo para conteúdo"
       >
         <Text variant="bodyPrimary">Texto principal de conteúdo</Text>
-        <Text variant="bodySecondary" style={{ marginTop: 8 }}>
+        <Text variant="bodySecondary" style={styles.marginTop8}>
           Texto secundário de conteúdo
         </Text>
-        <Text variant="bodyMuted" style={{ marginTop: 8 }}>
+        <Text variant="bodyMuted" style={styles.marginTop8}>
           Texto com opacity reduzida
         </Text>
-        <Text variant="bodyError" style={{ marginTop: 8 }}>
+        <Text variant="bodyError" style={styles.marginTop8}>
           Mensagem de erro
         </Text>
-        <Text variant="bodySuccess" style={{ marginTop: 8 }}>
+        <Text variant="bodySuccess" style={styles.marginTop8}>
           Mensagem de sucesso
         </Text>
 
@@ -91,10 +92,10 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         description="Textos pequenos e legendas"
       >
         <Text variant="captionSecondary">Legenda secundária</Text>
-        <Text variant="captionMuted" style={{ marginTop: 4 }}>
+        <Text variant="captionMuted" style={styles.marginTop4}>
           Metadado com opacity
         </Text>
-        <Text variant="captionError" style={{ marginTop: 4 }}>
+        <Text variant="captionError" style={styles.marginTop4}>
           Erro de validação
         </Text>
 
@@ -108,10 +109,10 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
 
       <ShowcaseItem label="Label Variants" description="Labels de formulários">
         <Text variant="labelPrimary">Nome do campo</Text>
-        <Text variant="labelSecondary" style={{ marginTop: 4 }}>
+        <Text variant="labelSecondary" style={styles.marginTop4}>
           Campo opcional
         </Text>
-        <Text variant="labelError" style={{ marginTop: 4 }}>
+        <Text variant="labelError" style={styles.marginTop4}>
           Campo obrigatório
         </Text>
 
@@ -130,7 +131,7 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text
           variant="captionSecondary"
           onPress={() => {}}
-          style={{ marginTop: 8 }}
+          style={styles.marginTop8}
         >
           Link pequeno (secondary)
         </Text>
@@ -161,7 +162,7 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text
           variant="bodySecondary"
           numberOfLines={2}
-          style={{ marginTop: 8 }}
+          style={styles.marginTop8}
         >
           Este é outro texto longo que será truncado após duas linhas para
           mostrar como funciona o ellipsizeMode do componente Text

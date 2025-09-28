@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@/navigation/types';
+import { RootStackParamList } from '@/navigation/typesNavigation';
 
 export type ComponentsShowcaseScreenProps = Partial<
   NativeStackScreenProps<RootStackParamList, 'ComponentsShowcase'>
@@ -14,6 +14,9 @@ export interface ShowcaseItemProps {
   label: string;
   description?: string;
   children: React.ReactNode;
+  code?: string;
+  showCode?: boolean;
+  onCopyCode?: (code: string) => void;
 }
 
 export interface UseComponentsShowcaseScreenReturn {

@@ -33,6 +33,7 @@ Interface: `ComponentsShowcaseScreenProps` (sem props no momento)
 ## Hook Principal
 
 `useComponentsShowcaseScreen()` retorna:
+
 - `activeSection`: string | null - seção ativa atual
 - `actions.handleSectionToggle()`: alterna seção
 - `actions.handleBackPress()`: volta para tela anterior
@@ -41,6 +42,7 @@ Interface: `ComponentsShowcaseScreenProps` (sem props no momento)
 ## Seções Implementadas
 
 ### Text Components
+
 - Display Variants (displayPrimary, displayAccent)
 - Heading Variants (headingPrimary, headingAccent)
 - Title Variants (titlePrimary, titleSecondary)
@@ -51,6 +53,7 @@ Interface: `ComponentsShowcaseScreenProps` (sem props no momento)
 - Truncated Text (com numberOfLines)
 
 ### Futuras Seções
+
 - Button Components (planejado)
 - Input Components (planejado)
 

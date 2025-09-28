@@ -26,10 +26,6 @@
       "jsEngine": "hermes",
       "package": "com.arena.app"
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
     "plugins": ["expo-font"],
     "extra": {
       "eas": {

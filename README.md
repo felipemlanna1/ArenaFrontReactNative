@@ -49,6 +49,7 @@ npm run format     # Formata código com Prettier
 O projeto utiliza um design system próprio com tokens semânticos:
 
 ### Cores
+
 - **Primary**: `#FF5301` (Laranja Arena)
 - **Dark**: `#1B1D29` (Azul Escuro)
 - **Medium**: `#B8B8B8` (Cinza)
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: ArenaTypography.size['4xl'],
     color: ArenaColors.brand.primary,
-  }
+  },
 });
 ```
 

@@ -4,16 +4,22 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Enforce usage of Arena design tokens instead of hardcoded values',
+      description:
+        'Enforce usage of Arena design tokens instead of hardcoded values',
       category: 'Arena Design System',
       recommended: true,
     },
     messages: {
-      useArenaTokens: 'Use Arena design tokens instead of hardcoded values. Use {{token}} from @/constants',
-      useArenaSpacing: 'Use ArenaSpacing tokens instead of hardcoded spacing values',
-      useArenaColors: 'Use ArenaColors tokens instead of hardcoded color values',
-      useArenaTypography: 'Use ArenaTypography tokens instead of hardcoded font values',
-      useArenaBorders: 'Use ArenaBorders tokens instead of hardcoded border values',
+      useArenaTokens:
+        'Use Arena design tokens instead of hardcoded values. Use {{token}} from @/constants',
+      useArenaSpacing:
+        'Use ArenaSpacing tokens instead of hardcoded spacing values',
+      useArenaColors:
+        'Use ArenaColors tokens instead of hardcoded color values',
+      useArenaTypography:
+        'Use ArenaTypography tokens instead of hardcoded font values',
+      useArenaBorders:
+        'Use ArenaBorders tokens instead of hardcoded border values',
     },
     schema: [],
   },
@@ -37,49 +43,49 @@ module.exports = {
     // Properties que devem usar tokens
     const tokenProperties = {
       // Cores
-      'backgroundColor': 'ArenaColors',
-      'color': 'ArenaColors',
-      'borderColor': 'ArenaColors',
-      'shadowColor': 'ArenaColors',
-      'tintColor': 'ArenaColors',
+      backgroundColor: 'ArenaColors',
+      color: 'ArenaColors',
+      borderColor: 'ArenaColors',
+      shadowColor: 'ArenaColors',
+      tintColor: 'ArenaColors',
 
       // Spacing
-      'padding': 'ArenaSpacing',
-      'paddingTop': 'ArenaSpacing',
-      'paddingBottom': 'ArenaSpacing',
-      'paddingLeft': 'ArenaSpacing',
-      'paddingRight': 'ArenaSpacing',
-      'paddingHorizontal': 'ArenaSpacing',
-      'paddingVertical': 'ArenaSpacing',
-      'margin': 'ArenaSpacing',
-      'marginTop': 'ArenaSpacing',
-      'marginBottom': 'ArenaSpacing',
-      'marginLeft': 'ArenaSpacing',
-      'marginRight': 'ArenaSpacing',
-      'marginHorizontal': 'ArenaSpacing',
-      'marginVertical': 'ArenaSpacing',
-      'gap': 'ArenaSpacing',
-      'rowGap': 'ArenaSpacing',
-      'columnGap': 'ArenaSpacing',
+      padding: 'ArenaSpacing',
+      paddingTop: 'ArenaSpacing',
+      paddingBottom: 'ArenaSpacing',
+      paddingLeft: 'ArenaSpacing',
+      paddingRight: 'ArenaSpacing',
+      paddingHorizontal: 'ArenaSpacing',
+      paddingVertical: 'ArenaSpacing',
+      margin: 'ArenaSpacing',
+      marginTop: 'ArenaSpacing',
+      marginBottom: 'ArenaSpacing',
+      marginLeft: 'ArenaSpacing',
+      marginRight: 'ArenaSpacing',
+      marginHorizontal: 'ArenaSpacing',
+      marginVertical: 'ArenaSpacing',
+      gap: 'ArenaSpacing',
+      rowGap: 'ArenaSpacing',
+      columnGap: 'ArenaSpacing',
 
       // Typography
-      'fontSize': 'ArenaTypography.size',
-      'fontWeight': 'ArenaTypography.weight',
-      'lineHeight': 'ArenaTypography.lineHeight',
-      'letterSpacing': 'ArenaTypography.letterSpacing',
-      'fontFamily': 'ArenaTypography.family',
+      fontSize: 'ArenaTypography.size',
+      fontWeight: 'ArenaTypography.weight',
+      lineHeight: 'ArenaTypography.lineHeight',
+      letterSpacing: 'ArenaTypography.letterSpacing',
+      fontFamily: 'ArenaTypography.family',
 
       // Borders
-      'borderRadius': 'ArenaBorders.radius',
-      'borderTopLeftRadius': 'ArenaBorders.radius',
-      'borderTopRightRadius': 'ArenaBorders.radius',
-      'borderBottomLeftRadius': 'ArenaBorders.radius',
-      'borderBottomRightRadius': 'ArenaBorders.radius',
-      'borderWidth': 'ArenaBorders.width',
-      'borderTopWidth': 'ArenaBorders.width',
-      'borderBottomWidth': 'ArenaBorders.width',
-      'borderLeftWidth': 'ArenaBorders.width',
-      'borderRightWidth': 'ArenaBorders.width',
+      borderRadius: 'ArenaBorders.radius',
+      borderTopLeftRadius: 'ArenaBorders.radius',
+      borderTopRightRadius: 'ArenaBorders.radius',
+      borderBottomLeftRadius: 'ArenaBorders.radius',
+      borderBottomRightRadius: 'ArenaBorders.radius',
+      borderWidth: 'ArenaBorders.width',
+      borderTopWidth: 'ArenaBorders.width',
+      borderBottomWidth: 'ArenaBorders.width',
+      borderLeftWidth: 'ArenaBorders.width',
+      borderRightWidth: 'ArenaBorders.width',
     };
 
     function checkPropertyValue(node, property, value) {
@@ -95,25 +101,37 @@ module.exports = {
         const valueStr = String(value.value);
 
         // Cores
-        if (expectedToken === 'ArenaColors' && hardcodedPatterns.colors.test(valueStr)) {
+        if (
+          expectedToken === 'ArenaColors' &&
+          hardcodedPatterns.colors.test(valueStr)
+        ) {
           isHardcoded = true;
           messageId = 'useArenaColors';
         }
 
         // Spacing
-        else if (expectedToken === 'ArenaSpacing' && hardcodedPatterns.spacing.test(valueStr)) {
+        else if (
+          expectedToken === 'ArenaSpacing' &&
+          hardcodedPatterns.spacing.test(valueStr)
+        ) {
           isHardcoded = true;
           messageId = 'useArenaSpacing';
         }
 
         // Typography
-        else if (expectedToken.includes('ArenaTypography') && hardcodedPatterns.fonts.test(valueStr)) {
+        else if (
+          expectedToken.includes('ArenaTypography') &&
+          hardcodedPatterns.fonts.test(valueStr)
+        ) {
           isHardcoded = true;
           messageId = 'useArenaTypography';
         }
 
         // Borders
-        else if (expectedToken === 'ArenaBorders.radius' && hardcodedPatterns.borderRadius.test(valueStr)) {
+        else if (
+          expectedToken === 'ArenaBorders.radius' &&
+          hardcodedPatterns.borderRadius.test(valueStr)
+        ) {
           isHardcoded = true;
           messageId = 'useArenaBorders';
         }
@@ -142,7 +160,10 @@ module.exports = {
         ) {
           // Iterar pelos estilos
           node.arguments[0].properties.forEach(styleRule => {
-            if (styleRule.type === 'Property' && styleRule.value.type === 'ObjectExpression') {
+            if (
+              styleRule.type === 'Property' &&
+              styleRule.value.type === 'ObjectExpression'
+            ) {
               // Iterar pelas propriedades de cada estilo
               styleRule.value.properties.forEach(property => {
                 if (property.type === 'Property') {
