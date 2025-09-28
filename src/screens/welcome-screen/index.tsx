@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/text';
 import { Button } from '@/components/ui/button';
@@ -10,63 +11,89 @@ import { useWelcomeScreen } from './useWelcomeScreen';
 import { WelcomeScreenProps } from './typesWelcomeScreen';
 import { styles } from './stylesWelcomeScreen';
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
-  const { isLoading, error, actions } = useWelcomeScreen();
+  const { isLoading, error, actions, isDev } = useWelcomeScreen();
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor={ArenaColors.neutral.darkest} />
-      <View style={styles.content}>
+      <StatusBar style="light" backgroundColor="transparent" translucent />
+      <LinearGradient
+        colors={['#0F0F23', '#1A1A2E', '#16213E']}
+        style={styles.content}
+      >
+        {/* Logo no topo */}
         <View style={styles.logoContainer}>
-          <Text variant="displayAccent">ARENA</Text>
-          <Text variant="captionSecondary">O futuro do esporte</Text>
-        </View>
-        <View style={styles.welcomeContainer}>
-          <Text variant="headingPrimary">Bem-vindo</Text>
-          <Text variant="bodySecondary" style={styles.welcomeDescription}>
-            Conecte-se com atletas, descubra eventos esportivos e leve sua
-            performance para o próximo nível. A Arena é onde campeões nascem.
+          <Text variant="displayLarge" style={styles.logoText}>
+            ARENA
           </Text>
+          {isDev && (
+            <Button
+              variant="ghost"
+              size="xs"
+              onPress={actions.handleShowComponents}
+            >
+              📖
+            </Button>
+          )}
         </View>
-        <View style={styles.buttonContainer}>
+
+        {/* Imagem do tenista no centro */}
+        <View style={styles.playerImageContainer}>
+          <View style={styles.playerImagePlaceholder}>
+            <Text variant="displayLarge" style={styles.playerImageEmoji}>
+              🎾
+            </Text>
+          </View>
+        </View>
+
+        {/* Conteúdo inferior */}
+        <View style={styles.bottomContent}>
+          <Text variant="displayLarge" style={styles.title}>
+            Bem-vindo
+          </Text>
+          <Text variant="displayLarge" style={styles.title}>
+            ao Arena
+          </Text>
+          <Text variant="bodyLarge" style={styles.subtitle}>
+            Conecte-se com atletas, descubra eventos esportivos e leve sua
+            performance para o próximo nível
+          </Text>
+
           <Button
             variant="primary"
             size="lg"
             onPress={actions.handleGetStarted}
             disabled={isLoading}
             loading={isLoading}
-            loadingText="CARREGANDO..."
             fullWidth
-            disableAnimations
+            style={styles.primaryButton}
           >
-            COMEÇAR
+            Entrar
           </Button>
+
           <Button
-            variant="secondary"
+            variant="outline"
             size="lg"
-            onPress={actions.handleShowComponents}
+            onPress={actions.handleCreateAccount}
             disabled={isLoading}
             fullWidth
-            disableAnimations
+            style={styles.secondaryButton}
           >
-            VER COMPONENTES
+            Criar conta
           </Button>
+
+          {error && <Text variant="captionError">Erro: {error}</Text>}
         </View>
-        {error && <Text variant="bodyError">Erro: {error}</Text>}
-      </View>
-      <View style={styles.footer}>
-        <Text variant="captionMuted">
-          Arena v1.0.0 - Desenvolvido com React Native
-        </Text>
-      </View>
-      {isLoading && (
-        <View style={styles.loadingContainer}>
-          <SportsLoading
-            size="lg"
-            animationSpeed="normal"
-            testID="welcome-loading"
-          />
-          <Text variant="bodyPrimary">Carregando...</Text>
-        </View>
-      )}
+
+        {isLoading && (
+          <View style={styles.loadingContainer}>
+            <SportsLoading
+              size="lg"
+              animationSpeed="normal"
+              testID="welcome-loading"
+            />
+          </View>
+        )}
+      </LinearGradient>
     </SafeAreaView>
   );
 };

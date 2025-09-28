@@ -1,75 +1,76 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+
+const { width, height } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ArenaColors.neutral.darkest,
-    paddingHorizontal: ArenaSpacing['4xl'],
-    paddingVertical: ArenaSpacing['6xl'],
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#0F0F23',
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-  },
-  logoContainer: {
-    marginBottom: ArenaSpacing['5xl'],
-    alignItems: 'center',
-  },
-  logo: {
-    fontSize: ArenaTypography.size['6xl'],
-    fontWeight: ArenaTypography.weight.extrabold,
-    color: ArenaColors.brand.primary,
-    letterSpacing: ArenaTypography.letterSpacing.wide,
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.md,
-  },
-  tagline: {
-    fontSize: ArenaTypography.size.lg,
-    fontWeight: ArenaTypography.weight.regular,
-    color: ArenaColors.neutral.light,
-    textAlign: 'center',
-    letterSpacing: ArenaTypography.letterSpacing.normal,
-  },
-  welcomeContainer: {
-    marginBottom: ArenaSpacing['5xl'],
-    alignItems: 'center',
-  },
-  welcomeTitle: {
-    fontSize: ArenaTypography.size['4xl'],
-    fontWeight: ArenaTypography.weight.bold,
-    color: ArenaColors.neutral.light,
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.lg,
-    letterSpacing: ArenaTypography.letterSpacing.normal,
-  },
-  welcomeDescription: {
-    fontSize: ArenaTypography.size.md,
-    fontWeight: ArenaTypography.weight.regular,
-    color: ArenaColors.neutral.medium,
-    textAlign: 'center',
-    lineHeight: ArenaTypography.lineHeight.relaxed * ArenaTypography.size.md,
-    marginBottom: ArenaSpacing.xl,
-    paddingHorizontal: ArenaSpacing.lg,
-  },
-  buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: ArenaSpacing['2xl'],
-    gap: ArenaSpacing.lg,
     paddingHorizontal: ArenaSpacing.xl,
   },
-  buttonText: {
-    fontSize: ArenaTypography.size.lg,
-    fontWeight: ArenaTypography.weight.semibold,
-    color: ArenaColors.neutral.light,
-    letterSpacing: ArenaTypography.letterSpacing.wide,
+  logoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: ArenaSpacing.xl,
+    paddingBottom: ArenaSpacing.lg,
   },
-  buttonTextDisabled: {
-    color: ArenaColors.disabled.text,
+  logoText: {
+    color: ArenaColors.neutral.lightest,
+    fontSize: ArenaTypography.size['2xl'],
+    fontWeight: ArenaTypography.weight.bold,
+    letterSpacing: ArenaTypography.letterSpacing.wider,
+  },
+  playerImageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: ArenaSpacing['2xl'],
+  },
+  playerImagePlaceholder: {
+    width: width * 0.6,
+    height: width * 0.6,
+    borderRadius: (width * 0.6) / 2,
+    backgroundColor: `${ArenaColors.brand.primary}20`,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: `${ArenaColors.brand.primary}40`,
+  },
+  playerImageEmoji: {
+    fontSize: width * 0.15,
+  },
+  bottomContent: {
+    paddingBottom: ArenaSpacing['4xl'],
+    alignItems: 'center',
+  },
+  title: {
+    color: ArenaColors.neutral.lightest,
+    fontSize: ArenaTypography.size['3xl'],
+    fontWeight: ArenaTypography.weight.bold,
+    textAlign: 'center',
+    letterSpacing: ArenaTypography.letterSpacing.normal,
+    lineHeight: ArenaTypography.size['3xl'] * 1.2,
+  },
+  subtitle: {
+    color: ArenaColors.neutral.medium,
+    fontSize: ArenaTypography.size.lg,
+    fontWeight: ArenaTypography.weight.regular,
+    textAlign: 'center',
+    lineHeight: ArenaTypography.size.lg * 1.4,
+    marginTop: ArenaSpacing.lg,
+    marginBottom: ArenaSpacing['3xl'],
+    paddingHorizontal: ArenaSpacing.md,
+  },
+  primaryButton: {
+    marginBottom: ArenaSpacing.lg,
+  },
+  secondaryButton: {
+    marginBottom: ArenaSpacing.xl,
   },
   loadingContainer: {
     position: 'absolute',
@@ -79,23 +80,6 @@ export const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: `${ArenaColors.neutral.darkest}CC`,
-  },
-  loadingText: {
-    fontSize: ArenaTypography.size.md,
-    fontWeight: ArenaTypography.weight.medium,
-    color: ArenaColors.neutral.light,
-    marginTop: ArenaSpacing.lg,
-  },
-  footer: {
-    marginTop: 'auto',
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: ArenaTypography.size.sm,
-    fontWeight: ArenaTypography.weight.light,
-    color: ArenaColors.neutral.medium,
-    textAlign: 'center',
-    opacity: 0.7,
+    backgroundColor: `${ArenaColors.neutral.darkest}80`,
   },
 });
