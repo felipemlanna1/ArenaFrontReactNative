@@ -5,9 +5,7 @@ import { ArenaColors } from '../constants';
 import { WelcomeScreen } from '../screens/welcome-screen';
 import { ComponentsShowcaseScreen } from '../screens/components-showcase-screen';
 import { RootStackParamList } from './typesNavigation';
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
 export const AppNavigator: React.FC = () => {
   const CustomDarkTheme = {
     ...DarkTheme,
@@ -21,7 +19,6 @@ export const AppNavigator: React.FC = () => {
       notification: ArenaColors.brand.primary,
     },
   };
-
   return (
     <NavigationContainer theme={CustomDarkTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>

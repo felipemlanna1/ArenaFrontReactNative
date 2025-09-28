@@ -3,7 +3,6 @@ import { Text as RNText, Pressable } from 'react-native';
 import { useText } from './useText';
 import { styles } from './stylesText';
 import { TextProps } from './typesText';
-
 export const Text: React.FC<TextProps> = ({
   children,
   variant,
@@ -36,25 +35,19 @@ export const Text: React.FC<TextProps> = ({
     accessibilityRole,
     testID,
   });
-
   const conditionalStyles = useMemo(() => {
     const styleArray = [styles.baseText];
-
     if (isInteractive && styles.interactive) {
       styleArray.push(styles.interactive);
     }
-
     if (isHeading && styles.heading) {
       styleArray.push(styles.heading);
     }
-
     if (selectable && styles.selectable) {
       styleArray.push(styles.selectable as typeof styles.baseText);
     }
-
     return styleArray;
   }, [isInteractive, isHeading, selectable]);
-
   const accessibilityProps = useMemo(
     () => ({
       accessible: true,
@@ -73,7 +66,6 @@ export const Text: React.FC<TextProps> = ({
       children,
     ]
   );
-
   const textProps = useMemo(
     () => ({
       ...restProps,
@@ -93,7 +85,6 @@ export const Text: React.FC<TextProps> = ({
       computedStyle,
     ]
   );
-
   if (isInteractive) {
     return (
       <Pressable
@@ -114,9 +105,7 @@ export const Text: React.FC<TextProps> = ({
       </Pressable>
     );
   }
-
   return <RNText {...textProps}>{children}</RNText>;
 };
-
 export type { TextProps } from './typesText';
 export { useText } from './useText';

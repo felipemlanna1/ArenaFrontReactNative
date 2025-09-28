@@ -4,7 +4,6 @@ import Svg, { Path } from 'react-native-svg';
 import { SymbolProps } from './typesSymbol';
 import { useSymbol } from './useSymbol';
 import { styles } from './stylesSymbol';
-
 const SymbolVariant1: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -16,7 +15,6 @@ const SymbolVariant1: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const SymbolVariant2: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -28,7 +26,6 @@ const SymbolVariant2: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const SymbolVariant3: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -40,7 +37,6 @@ const SymbolVariant3: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const SymbolVariant4: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -52,7 +48,6 @@ const SymbolVariant4: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const SymbolBlack: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -64,7 +59,6 @@ const SymbolBlack: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const SymbolWhite: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -76,7 +70,6 @@ const SymbolWhite: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const variantComponents = {
   variant1: SymbolVariant1,
   variant2: SymbolVariant2,
@@ -85,7 +78,6 @@ const variantComponents = {
   black: SymbolBlack,
   white: SymbolWhite,
 };
-
 export const Symbol: React.FC<SymbolProps> = ({
   size = 'md',
   variant = 'variant1',
@@ -94,7 +86,6 @@ export const Symbol: React.FC<SymbolProps> = ({
 }) => {
   const { dimensions } = useSymbol(size, variant);
   const SymbolComponent = variantComponents[variant];
-
   return (
     <View style={[styles.container, style]} testID={testID}>
       <SymbolComponent width={dimensions.width} height={dimensions.height} />

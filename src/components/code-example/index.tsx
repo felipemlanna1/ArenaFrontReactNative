@@ -3,7 +3,6 @@ import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/text';
 import { CodeExampleProps } from './typesCodeExample';
 import { styles } from './stylesCodeExample';
-
 export const CodeExample: React.FC<CodeExampleProps> = ({
   code,
   language = 'tsx',
@@ -14,7 +13,6 @@ export const CodeExample: React.FC<CodeExampleProps> = ({
       onCopy(code);
     }
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>

@@ -4,7 +4,6 @@ import Svg, { Path } from 'react-native-svg';
 import { AppIconProps } from './typesAppIcon';
 import { useAppIcon } from './useAppIcon';
 import { styles } from './stylesAppIcon';
-
 const WhiteSymbol: React.FC<{ size: number }> = ({ size }) => (
   <Svg width={size} height={size} viewBox="0 0 243.12 87.55">
     <Path
@@ -13,14 +12,12 @@ const WhiteSymbol: React.FC<{ size: number }> = ({ size }) => (
     />
   </Svg>
 );
-
 export const AppIcon: React.FC<AppIconProps> = ({
   size = 'md',
   style,
   testID,
 }) => {
   const { dimensions } = useAppIcon(size);
-
   return (
     <View
       style={[
@@ -28,7 +25,7 @@ export const AppIcon: React.FC<AppIconProps> = ({
         {
           width: dimensions.width,
           height: dimensions.height,
-          borderRadius: dimensions.width * 0.18, // 18% do tamanho para bordas arredondadas proporcionais
+          borderRadius: dimensions.width * 0.18,
         },
         style,
       ]}

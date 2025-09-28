@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { Text } from '../index';
-
 describe('Text Component', () => {
   describe('Renderização Básica', () => {
     it('deve renderizar corretamente com variant obrigatória', () => {
@@ -10,7 +9,6 @@ describe('Text Component', () => {
       );
       expect(getByText('Test content')).toBeTruthy();
     });
-
     it('deve aceitar testID', () => {
       const { getByTestId } = render(
         <Text variant="bodyPrimary" testID="test-text">
@@ -20,7 +18,6 @@ describe('Text Component', () => {
       expect(getByTestId('test-text')).toBeTruthy();
     });
   });
-
   describe('Semantic Variants', () => {
     it('deve renderizar display variants', () => {
       const { getByText: getPrimary } = render(
@@ -29,11 +26,9 @@ describe('Text Component', () => {
       const { getByText: getAccent } = render(
         <Text variant="displayAccent">Display Accent</Text>
       );
-
       expect(getPrimary('Display Primary')).toBeTruthy();
       expect(getAccent('Display Accent')).toBeTruthy();
     });
-
     it('deve renderizar heading variants', () => {
       const { getByText: getPrimary } = render(
         <Text variant="headingPrimary">Heading Primary</Text>
@@ -41,11 +36,9 @@ describe('Text Component', () => {
       const { getByText: getAccent } = render(
         <Text variant="headingAccent">Heading Accent</Text>
       );
-
       expect(getPrimary('Heading Primary')).toBeTruthy();
       expect(getAccent('Heading Accent')).toBeTruthy();
     });
-
     it('deve renderizar body variants', () => {
       const variants = [
         'bodyPrimary',
@@ -54,7 +47,6 @@ describe('Text Component', () => {
         'bodyError',
         'bodySuccess',
       ] as const;
-
       variants.forEach(variant => {
         const { getByText } = render(
           <Text variant={variant}>Body {variant}</Text>
@@ -62,14 +54,12 @@ describe('Text Component', () => {
         expect(getByText(`Body ${variant}`)).toBeTruthy();
       });
     });
-
     it('deve renderizar caption variants', () => {
       const variants = [
         'captionSecondary',
         'captionMuted',
         'captionError',
       ] as const;
-
       variants.forEach(variant => {
         const { getByText } = render(
           <Text variant={variant}>Caption {variant}</Text>
@@ -77,14 +67,12 @@ describe('Text Component', () => {
         expect(getByText(`Caption ${variant}`)).toBeTruthy();
       });
     });
-
     it('deve renderizar label variants', () => {
       const variants = [
         'labelPrimary',
         'labelSecondary',
         'labelError',
       ] as const;
-
       variants.forEach(variant => {
         const { getByText } = render(
           <Text variant={variant}>Label {variant}</Text>
@@ -93,7 +81,6 @@ describe('Text Component', () => {
       });
     });
   });
-
   describe('Interatividade', () => {
     it('deve chamar onPress quando clicado', () => {
       const onPressMock = jest.fn();
@@ -102,12 +89,10 @@ describe('Text Component', () => {
           Clickable Text
         </Text>
       );
-
       fireEvent.press(getByText('Clickable Text'));
       expect(onPressMock).toHaveBeenCalledTimes(1);
     });
   });
-
   describe('Props adicionais', () => {
     it('deve aceitar numberOfLines', () => {
       const { getByText } = render(
@@ -119,7 +104,6 @@ describe('Text Component', () => {
         getByText('Very long text that should be truncated after two lines')
       ).toBeTruthy();
     });
-
     it('deve aceitar style customizado', () => {
       const customStyle = { marginTop: 20 };
       const { getByText } = render(

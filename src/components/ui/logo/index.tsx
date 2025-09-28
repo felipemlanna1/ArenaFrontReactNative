@@ -4,7 +4,6 @@ import Svg, { Path } from 'react-native-svg';
 import { LogoProps } from './typesLogo';
 import { useLogo } from './useLogo';
 import { styles } from './stylesLogo';
-
 const LogoVariant1: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -16,7 +15,6 @@ const LogoVariant1: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const LogoVariant2: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -28,7 +26,6 @@ const LogoVariant2: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const LogoVariant3: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -40,7 +37,6 @@ const LogoVariant3: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const LogoVariant4: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -52,7 +48,6 @@ const LogoVariant4: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const LogoBlack: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -64,7 +59,6 @@ const LogoBlack: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const LogoWhite: React.FC<{ width: number; height: number }> = ({
   width,
   height,
@@ -76,7 +70,6 @@ const LogoWhite: React.FC<{ width: number; height: number }> = ({
     />
   </Svg>
 );
-
 const variantComponents = {
   variant1: LogoVariant1,
   variant2: LogoVariant2,
@@ -85,7 +78,6 @@ const variantComponents = {
   black: LogoBlack,
   white: LogoWhite,
 };
-
 export const Logo: React.FC<LogoProps> = ({
   size = 'md',
   variant = 'variant1',
@@ -94,7 +86,6 @@ export const Logo: React.FC<LogoProps> = ({
 }) => {
   const { dimensions } = useLogo(size, variant);
   const LogoComponent = variantComponents[variant];
-
   return (
     <View style={[styles.container, style]} testID={testID}>
       <LogoComponent width={dimensions.width} height={dimensions.height} />

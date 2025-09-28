@@ -5,7 +5,6 @@ import {
   ArenaBorders,
   ArenaTypography,
 } from '@/constants';
-
 export const styles = StyleSheet.create({
   container: {
     marginTop: ArenaSpacing.sm,
@@ -15,7 +14,6 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.dark,
     overflow: 'hidden',
   },
-
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -26,22 +24,18 @@ export const styles = StyleSheet.create({
     borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.medium,
   },
-
   languageLabel: {
     opacity: 0.7,
   },
-
   copyButton: {
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.xs,
     backgroundColor: ArenaColors.neutral.medium,
   },
-
   codeContainer: {
     padding: ArenaSpacing.md,
   },
-
   codeText: {
     fontFamily: ArenaTypography.family.mono,
     fontSize: ArenaTypography.size.xs,

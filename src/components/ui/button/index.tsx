@@ -1,6 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
+import { SportsLoading } from '../sports-loading';
 import { ButtonProps } from './typesButton';
 import { useButton, useButtonAccessibility } from './useButton';
 import {
@@ -8,9 +9,7 @@ import {
   useLoadingSpinnerAnimation,
 } from './buttonAnimations';
 import { styles } from './stylesButton';
-
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
@@ -37,7 +36,6 @@ export const Button: React.FC<ButtonProps> = ({
     onPress,
     disableAnimations,
   });
-
   const animations = useButtonAnimations(
     disabled,
     loading,
@@ -45,53 +43,27 @@ export const Button: React.FC<ButtonProps> = ({
     disableAnimations
   );
   const spinnerAnimation = useLoadingSpinnerAnimation(disableAnimations);
-
   const accessibility = useButtonAccessibility(
     children,
     loading,
     disabled,
     variant
   );
-
   const { animatedContainerStyle, animatedTextStyle } = animations;
-
   const renderContent = () => {
-    // Use native components when animations are disabled
     const ViewComponent = disableAnimations ? View : Animated.View;
     const TextComponent = disableAnimations ? Text : Animated.Text;
-
     if (loading) {
       return (
         <ViewComponent style={styles.loadingContainer}>
-          <ViewComponent
-            style={
-              disableAnimations
-                ? buttonLogic.computedStyles.loadingSpinner
-                : [
-                    buttonLogic.computedStyles.loadingSpinner,
-                    spinnerAnimation.animatedSpinnerStyle,
-                  ]
-            }
-          >
-            <ActivityIndicator
-              size="small"
-              color={buttonLogic.iconProps.color}
-              testID={`${testID}-loading-spinner`}
-            />
-          </ViewComponent>
-          <TextComponent
-            style={
-              disableAnimations
-                ? [buttonLogic.computedStyles.text, styles.loadingText]
-                : [animatedTextStyle, styles.loadingText]
-            }
-          >
-            {loadingText || 'Carregando...'}
-          </TextComponent>
+          <SportsLoading
+            size="xs"
+            animationSpeed="normal"
+            testID={`${testID}-loading-spinner`}
+          />
         </ViewComponent>
       );
     }
-
     return (
       <>
         {LeftIcon && (
@@ -102,7 +74,6 @@ export const Button: React.FC<ButtonProps> = ({
             />
           </ViewComponent>
         )}
-
         <TextComponent
           style={
             disableAnimations
@@ -120,7 +91,6 @@ export const Button: React.FC<ButtonProps> = ({
         >
           {children}
         </TextComponent>
-
         {RightIcon && (
           <ViewComponent style={styles.rightIcon}>
             <RightIcon
@@ -132,7 +102,6 @@ export const Button: React.FC<ButtonProps> = ({
       </>
     );
   };
-
   if (disableAnimations) {
     return (
       <TouchableOpacity
@@ -147,7 +116,6 @@ export const Button: React.FC<ButtonProps> = ({
       </TouchableOpacity>
     );
   }
-
   return (
     <AnimatedTouchable
       onPressIn={animations.handlePressIn}
@@ -160,7 +128,6 @@ export const Button: React.FC<ButtonProps> = ({
       {...touchableProps}
     >
       {renderContent()}
-
       <Animated.View
         style={[
           styles.focusRing,

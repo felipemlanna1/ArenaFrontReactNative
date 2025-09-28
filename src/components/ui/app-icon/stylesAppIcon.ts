@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaBorders } from '@/constants';
-
 export const appIconSizes = {
   xs: { size: 32 },
   sm: { size: 48 },
@@ -9,7 +8,6 @@ export const appIconSizes = {
   xl: { size: 128 },
   xxl: { size: 180 },
 };
-
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.brand.primary,

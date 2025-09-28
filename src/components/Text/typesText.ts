@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { TextStyle, TextProps as RNTextProps } from 'react-native';
-
 export type TextVariant =
   | 'displayPrimary'
   | 'displayAccent'
@@ -19,7 +18,6 @@ export type TextVariant =
   | 'labelPrimary'
   | 'labelSecondary'
   | 'labelError';
-
 export type TextSize =
   | 'xs'
   | 'sm'
@@ -32,7 +30,6 @@ export type TextSize =
   | '5xl'
   | '6xl'
   | '7xl';
-
 export type TextWeight =
   | 'light'
   | 'regular'
@@ -40,9 +37,7 @@ export type TextWeight =
   | 'semibold'
   | 'bold'
   | 'extrabold';
-
 export type TextFamily = 'heading' | 'body' | 'ui' | 'mono';
-
 export type TextColor =
   | 'primary'
   | 'secondary'
@@ -52,11 +47,8 @@ export type TextColor =
   | 'success'
   | 'error'
   | 'warning';
-
 export type TextAlign = 'left' | 'center' | 'right' | 'justify';
-
 export type TextTransform = 'none' | 'uppercase' | 'lowercase' | 'capitalize';
-
 export interface TextVariantPreset {
   size: TextSize;
   weight: TextWeight;
@@ -65,9 +57,7 @@ export interface TextVariantPreset {
   letterSpacing: number;
   color?: TextColor;
 }
-
 export type TextVariantPresets = Record<TextVariant, TextVariantPreset>;
-
 export interface TextProps extends Omit<RNTextProps, 'style'> {
   children: React.ReactNode;
   variant: TextVariant;
@@ -84,7 +74,6 @@ export interface TextProps extends Omit<RNTextProps, 'style'> {
   style?: TextStyle | TextStyle[];
   testID?: string;
 }
-
 export interface UseTextReturn {
   computedStyle: TextStyle;
   processedProps: {
@@ -104,7 +93,6 @@ export interface UseTextReturn {
   hasEllipsis: boolean;
   isHeading: boolean;
 }
-
 export interface UseTextInput {
   variant: TextVariant;
   style?: TextStyle | TextStyle[];
@@ -120,7 +108,6 @@ export interface UseTextInput {
   accessibilityRole?: 'text' | 'button' | 'link' | 'header';
   testID?: string;
 }
-
 export interface ComputedTextStyle extends TextStyle {
   fontSize: number;
   fontWeight: TextStyle['fontWeight'];
@@ -133,13 +120,11 @@ export interface ComputedTextStyle extends TextStyle {
   includeFontPadding?: boolean;
   textAlignVertical?: 'auto' | 'top' | 'bottom' | 'center';
 }
-
 export type RequiredTextProps = Required<Pick<TextProps, 'children'>>;
 export type OptionalTextProps = Omit<TextProps, 'children'>;
 export type TextPropsWithVariant = TextProps &
   Required<Pick<TextProps, 'variant'>>;
 export type TextStyleOverride = Partial<ComputedTextStyle>;
-
 export interface TextColorPalette {
   primary: string;
   secondary: string;

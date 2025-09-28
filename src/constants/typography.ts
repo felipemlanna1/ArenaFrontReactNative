@@ -5,7 +5,6 @@ export const ArenaTypography = {
     ui: 'Helvetica',
     mono: 'Menlo-Regular',
   },
-
   size: {
     xs: 11,
     sm: 13,
@@ -19,7 +18,6 @@ export const ArenaTypography = {
     '6xl': 48,
     '7xl': 64,
   },
-
   weight: {
     light: '300' as const,
     regular: '400' as const,
@@ -28,14 +26,12 @@ export const ArenaTypography = {
     bold: '700' as const,
     extrabold: '800' as const,
   },
-
   lineHeight: {
     tight: 1.2,
     comfortable: 1.4,
     relaxed: 1.6,
     loose: 1.8,
   },
-
   letterSpacing: {
     tight: -0.5,
     normal: 0,
@@ -43,7 +39,6 @@ export const ArenaTypography = {
     wider: 1,
   },
 } as const;
-
 export type ArenaFontFamily = keyof typeof ArenaTypography.family;
 export type ArenaFontSize = keyof typeof ArenaTypography.size;
 export type ArenaFontWeight = keyof typeof ArenaTypography.weight;

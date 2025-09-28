@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaTypography,
-} from '@/constants';
-
+import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -14,19 +9,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   content: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
   },
-
   logoContainer: {
     marginBottom: ArenaSpacing['5xl'],
     alignItems: 'center',
   },
-
   logo: {
     fontSize: ArenaTypography.size['6xl'],
     fontWeight: ArenaTypography.weight.extrabold,
@@ -35,7 +27,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: ArenaSpacing.md,
   },
-
   tagline: {
     fontSize: ArenaTypography.size.lg,
     fontWeight: ArenaTypography.weight.regular,
@@ -43,12 +34,10 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: ArenaTypography.letterSpacing.normal,
   },
-
   welcomeContainer: {
     marginBottom: ArenaSpacing['5xl'],
     alignItems: 'center',
   },
-
   welcomeTitle: {
     fontSize: ArenaTypography.size['4xl'],
     fontWeight: ArenaTypography.weight.bold,
@@ -57,7 +46,6 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.lg,
     letterSpacing: ArenaTypography.letterSpacing.normal,
   },
-
   welcomeDescription: {
     fontSize: ArenaTypography.size.md,
     fontWeight: ArenaTypography.weight.regular,
@@ -67,7 +55,6 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.xl,
     paddingHorizontal: ArenaSpacing.lg,
   },
-
   buttonContainer: {
     width: '100%',
     alignItems: 'center',
@@ -75,18 +62,15 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.lg,
     paddingHorizontal: ArenaSpacing.xl,
   },
-
   buttonText: {
     fontSize: ArenaTypography.size.lg,
     fontWeight: ArenaTypography.weight.semibold,
     color: ArenaColors.neutral.light,
     letterSpacing: ArenaTypography.letterSpacing.wide,
   },
-
   buttonTextDisabled: {
     color: ArenaColors.disabled.text,
   },
-
   loadingContainer: {
     position: 'absolute',
     top: 0,
@@ -97,19 +81,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: `${ArenaColors.neutral.darkest}CC`,
   },
-
   loadingText: {
     fontSize: ArenaTypography.size.md,
     fontWeight: ArenaTypography.weight.medium,
     color: ArenaColors.neutral.light,
     marginTop: ArenaSpacing.lg,
   },
-
   footer: {
     marginTop: 'auto',
     alignItems: 'center',
   },
-
   footerText: {
     fontSize: ArenaTypography.size.sm,
     fontWeight: ArenaTypography.weight.light,

@@ -4,7 +4,6 @@ import {
   ButtonSizeConfigs,
   ButtonAnimationConfig,
 } from './typesButton';
-
 export const buttonVariants: ButtonVariantConfigs = {
   primary: {
     backgroundColor: ArenaColors.brand.primary,
@@ -33,7 +32,6 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
-
   secondary: {
     backgroundColor: ArenaColors.neutral.transparent,
     borderColor: ArenaColors.brand.primary,
@@ -61,7 +59,6 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
-
   subtle: {
     backgroundColor: ArenaColors.brand.primarySubtle,
     borderColor: ArenaColors.neutral.transparent,
@@ -89,7 +86,6 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
-
   destructive: {
     backgroundColor: ArenaColors.semantic.error,
     borderColor: ArenaColors.semantic.error,
@@ -117,7 +113,6 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
-
   success: {
     backgroundColor: ArenaColors.semantic.success,
     borderColor: ArenaColors.semantic.success,
@@ -145,7 +140,6 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
-
   ghost: {
     backgroundColor: ArenaColors.neutral.transparent,
     borderColor: ArenaColors.neutral.transparent,
@@ -174,7 +168,6 @@ export const buttonVariants: ButtonVariantConfigs = {
     },
   },
 };
-
 export const buttonSizes: ButtonSizeConfigs = {
   xs: {
     height: 32,
@@ -217,7 +210,6 @@ export const buttonSizes: ButtonSizeConfigs = {
     minWidth: 120,
   },
 };
-
 export const buttonAnimations: ButtonAnimationConfig = {
   pressScale: 0.98,
   pressDuration: 100,
@@ -225,15 +217,12 @@ export const buttonAnimations: ButtonAnimationConfig = {
   disabledOpacity: 0.5,
   loadingOpacity: 0.7,
 };
-
 export const getButtonVariant = (variant: keyof typeof buttonVariants) => {
   return buttonVariants[variant];
 };
-
 export const getButtonSize = (size: keyof typeof buttonSizes) => {
   return buttonSizes[size];
 };
-
 export const getButtonAnimationConfig = () => {
   return buttonAnimations;
 };

@@ -14,7 +14,6 @@ import {
   getLineHeight,
   getTextColor,
 } from './textUtils';
-
 export const useText = (input: UseTextInput): UseTextReturn => {
   const preset = TEXT_VARIANT_PRESETS[input.variant];
   const resolvedSize = preset.size;
@@ -25,7 +24,6 @@ export const useText = (input: UseTextInput): UseTextReturn => {
   const resolvedTransform = 'none';
   const resolvedLineHeight = preset.lineHeight;
   const resolvedLetterSpacing = preset.letterSpacing;
-
   const computedStyle: ComputedTextStyle = useMemo(() => {
     const baseStyle: ComputedTextStyle = {
       fontSize: getFontSize(resolvedSize),
@@ -39,7 +37,6 @@ export const useText = (input: UseTextInput): UseTextReturn => {
       includeFontPadding: false,
       textAlignVertical: 'center',
     };
-
     return baseStyle;
   }, [
     resolvedSize,
@@ -51,17 +48,13 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     resolvedLineHeight,
     resolvedLetterSpacing,
   ]);
-
   const finalStyle = useMemo(() => {
     if (!input.style) return computedStyle;
-
     if (Array.isArray(input.style)) {
       return [computedStyle, ...input.style];
     }
-
     return { ...computedStyle, ...input.style };
   }, [computedStyle, input.style]);
-
   const processedProps = useMemo(
     () => ({
       numberOfLines: input.numberOfLines,
@@ -90,14 +83,12 @@ export const useText = (input: UseTextInput): UseTextReturn => {
       input.testID,
     ]
   );
-
   const isInteractive = Boolean(input.onPress || input.onLongPress);
   const hasEllipsis = Boolean(input.numberOfLines && input.numberOfLines > 0);
   const isHeading =
     input.variant.startsWith('display') ||
     input.variant.startsWith('heading') ||
     input.variant.startsWith('title');
-
   return {
     computedStyle: finalStyle as TextStyle,
     processedProps,
@@ -106,11 +97,9 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     isHeading,
   };
 };
-
 export const getVariantPreset = (variant: TextVariant) => {
   return TEXT_VARIANT_PRESETS[variant];
 };
-
 export const getAvailableVariants = (): TextVariant[] => {
   return Object.keys(TEXT_VARIANT_PRESETS) as TextVariant[];
 };

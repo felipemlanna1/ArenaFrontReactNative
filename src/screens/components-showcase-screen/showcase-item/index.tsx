@@ -4,7 +4,6 @@ import { Text } from '@/components/text';
 import { ShowcaseItemProps } from '../typesComponentsShowcaseScreen';
 import { CodeBlock } from '../code-block';
 import { styles } from './stylesShowcaseItem';
-
 export const ShowcaseItem: React.FC<ShowcaseItemProps> = ({
   label,
   description,

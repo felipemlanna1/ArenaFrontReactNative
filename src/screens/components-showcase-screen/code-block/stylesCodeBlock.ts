@@ -5,7 +5,6 @@ import {
   ArenaBorders,
   ArenaTypography,
 } from '@/constants';
-
 export const styles = StyleSheet.create({
   container: {
     marginTop: ArenaSpacing.md,

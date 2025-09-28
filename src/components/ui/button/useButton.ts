@@ -8,23 +8,17 @@ import {
 import { getButtonVariant, getButtonSize } from './buttonVariants';
 import { useButtonAnimations } from './buttonAnimations';
 import { styles } from './stylesButton';
-
 export const useButton = (params: UseButtonParams): UseButtonReturn => {
   const { variant, size, loading, disabled, haptic, fullWidth, onPress } =
     params;
-
   const buttonConfig = useMemo(() => getButtonVariant(variant), [variant]);
   const sizeConfig = useMemo(() => getButtonSize(size), [size]);
-
   const isInteractionDisabled = disabled || loading;
-
   const animations = useButtonAnimations(disabled, loading, haptic);
-
   const handlePress = useCallback(() => {
     if (isInteractionDisabled) return;
     onPress();
   }, [isInteractionDisabled, onPress]);
-
   const computedStyles = useMemo(() => {
     const containerBaseStyles = [
       styles.container,
@@ -51,15 +45,12 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
         minWidth: fullWidth ? undefined : sizeConfig.minWidth,
       },
     ];
-
     if (fullWidth) {
       containerBaseStyles.push(styles.containerFullWidth);
     }
-
-    if (disabled) {
+    if (disabled || loading) {
       containerBaseStyles.push(styles.containerDisabled);
     }
-
     const textBaseStyles = [
       styles.text,
       styles[`${size}Text` as keyof typeof styles],
@@ -68,7 +59,6 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
         fontSize: sizeConfig.fontSize,
       },
     ];
-
     return {
       container: containerBaseStyles,
       text: textBaseStyles,
@@ -85,7 +75,6 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
       ],
     };
   }, [variant, size, buttonConfig, sizeConfig, fullWidth, disabled]);
-
   const iconProps = useMemo(
     () => ({
       size: sizeConfig.iconSize,
@@ -93,7 +82,6 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
     }),
     [sizeConfig.iconSize, buttonConfig.textColor]
   );
-
   return {
     buttonConfig,
     sizeConfig,
@@ -107,7 +95,6 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
     iconProps,
   };
 };
-
 export const useButtonAccessibility = (
   children: string,
   loading: boolean,
@@ -118,7 +105,6 @@ export const useButtonAccessibility = (
     const getAccessibilityHint = () => {
       if (loading) return 'Carregando, aguarde...';
       if (disabled) return 'Botão desabilitado';
-
       switch (variant) {
         case 'destructive':
           return 'Duplo toque para ação destrutiva';
@@ -130,7 +116,6 @@ export const useButtonAccessibility = (
           return 'Duplo toque para ativar';
       }
     };
-
     return {
       accessibilityRole: 'button' as const,
       accessibilityState: {

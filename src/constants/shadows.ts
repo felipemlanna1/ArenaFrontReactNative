@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import { ArenaColors } from './colors';
-
 export const ArenaShadows = {
   none: Platform.select({
     ios: {
@@ -11,7 +10,6 @@ export const ArenaShadows = {
     },
     android: { elevation: 0 },
   }),
-
   subtle: Platform.select({
     ios: {
       shadowColor: ArenaColors.neutral.darkest,
@@ -21,7 +19,6 @@ export const ArenaShadows = {
     },
     android: { elevation: 1 },
   }),
-
   soft: Platform.select({
     ios: {
       shadowColor: ArenaColors.neutral.darkest,
@@ -31,7 +28,6 @@ export const ArenaShadows = {
     },
     android: { elevation: 2 },
   }),
-
   medium: Platform.select({
     ios: {
       shadowColor: ArenaColors.neutral.darkest,
@@ -41,7 +37,6 @@ export const ArenaShadows = {
     },
     android: { elevation: 4 },
   }),
-
   strong: Platform.select({
     ios: {
       shadowColor: ArenaColors.neutral.darkest,
@@ -51,7 +46,6 @@ export const ArenaShadows = {
     },
     android: { elevation: 8 },
   }),
-
   brandGlow: Platform.select({
     ios: {
       shadowColor: ArenaColors.brand.primary,
@@ -62,5 +56,4 @@ export const ArenaShadows = {
     android: { elevation: 6 },
   }),
 } as const;
-
 export type ArenaShadowKey = keyof typeof ArenaShadows;

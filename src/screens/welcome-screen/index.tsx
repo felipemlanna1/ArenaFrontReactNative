@@ -1,27 +1,24 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/text';
 import { Button } from '@/components/ui/button';
+import { SportsLoading } from '@/components/ui/sports-loading';
 import { useWelcomeScreen } from './useWelcomeScreen';
 import { WelcomeScreenProps } from './typesWelcomeScreen';
 import { styles } from './stylesWelcomeScreen';
-
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
   const { isLoading, error, actions } = useWelcomeScreen();
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor={ArenaColors.neutral.darkest} />
-
       <View style={styles.content}>
         <View style={styles.logoContainer}>
           <Text variant="displayAccent">ARENA</Text>
           <Text variant="captionSecondary">O futuro do esporte</Text>
         </View>
-
         <View style={styles.welcomeContainer}>
           <Text variant="headingPrimary">Bem-vindo</Text>
           <Text variant="bodySecondary" style={styles.welcomeDescription}>
@@ -29,7 +26,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
             performance para o próximo nível. A Arena é onde campeões nascem.
           </Text>
         </View>
-
         <View style={styles.buttonContainer}>
           <Button
             variant="primary"
@@ -43,7 +39,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
           >
             COMEÇAR
           </Button>
-
           <Button
             variant="secondary"
             size="lg"
@@ -55,19 +50,20 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
             VER COMPONENTES
           </Button>
         </View>
-
         {error && <Text variant="bodyError">Erro: {error}</Text>}
       </View>
-
       <View style={styles.footer}>
         <Text variant="captionMuted">
           Arena v1.0.0 - Desenvolvido com React Native
         </Text>
       </View>
-
       {isLoading && (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={ArenaColors.brand.primary} />
+          <SportsLoading
+            size="lg"
+            animationSpeed="normal"
+            testID="welcome-loading"
+          />
           <Text variant="bodyPrimary">Carregando...</Text>
         </View>
       )}

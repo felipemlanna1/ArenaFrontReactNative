@@ -4,11 +4,9 @@ import { CodeExample } from '@/components/code-example';
 import { ComponentSection } from '../component-section';
 import { ShowcaseItem } from '../showcase-item';
 import { styles } from './stylesTextComponentsSection';
-
 interface TextComponentsSectionProps {
   onCopyCode: (code: string) => void;
 }
-
 export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
   onCopyCode,
 }) => {
@@ -22,14 +20,12 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text variant="displayAccent" style={styles.marginTop8}>
           Arena Sports
         </Text>
-
         <CodeExample
           code={`<Text variant="displayPrimary">Arena Sports</Text>
 <Text variant="displayAccent">Arena Sports</Text>`}
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem
         label="Heading Variants"
         description="Títulos principais de telas"
@@ -38,27 +34,23 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text variant="headingAccent" style={styles.marginTop8}>
           Dashboard
         </Text>
-
         <CodeExample
           code={`<Text variant="headingPrimary">Dashboard</Text>
 <Text variant="headingAccent">Dashboard</Text>`}
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem label="Title Variants" description="Títulos de seções">
         <Text variant="titlePrimary">Seção Principal</Text>
         <Text variant="titleSecondary" style={styles.marginTop8}>
           Seção Secundária
         </Text>
-
         <CodeExample
           code={`<Text variant="titlePrimary">Seção Principal</Text>
 <Text variant="titleSecondary">Seção Secundária</Text>`}
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem
         label="Body Variants"
         description="Texto de corpo para conteúdo"
@@ -76,7 +68,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text variant="bodySuccess" style={styles.marginTop8}>
           Mensagem de sucesso
         </Text>
-
         <CodeExample
           code={`<Text variant="bodyPrimary">Texto principal</Text>
 <Text variant="bodySecondary">Texto secundário</Text>
@@ -86,7 +77,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem
         label="Caption Variants"
         description="Textos pequenos e legendas"
@@ -98,7 +88,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text variant="captionError" style={styles.marginTop4}>
           Erro de validação
         </Text>
-
         <CodeExample
           code={`<Text variant="captionSecondary">Legenda secundária</Text>
 <Text variant="captionMuted">Metadado com opacity</Text>
@@ -106,7 +95,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem label="Label Variants" description="Labels de formulários">
         <Text variant="labelPrimary">Nome do campo</Text>
         <Text variant="labelSecondary" style={styles.marginTop4}>
@@ -115,7 +103,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         <Text variant="labelError" style={styles.marginTop4}>
           Campo obrigatório
         </Text>
-
         <CodeExample
           code={`<Text variant="labelPrimary">Nome do campo</Text>
 <Text variant="labelSecondary">Campo opcional</Text>
@@ -123,7 +110,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem label="Interactive Text" description="Textos clicáveis">
         <Text variant="bodyPrimary" onPress={() => {}}>
           Texto clicável (primary)
@@ -135,7 +121,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
         >
           Link pequeno (secondary)
         </Text>
-
         <CodeExample
           code={`<Text
   variant="bodyPrimary"
@@ -143,7 +128,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
 >
   Texto clicável (primary)
 </Text>
-
 <Text
   variant="captionSecondary"
   onPress={() => alert('Link clicado!')}
@@ -153,7 +137,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
           onCopy={onCopyCode}
         />
       </ShowcaseItem>
-
       <ShowcaseItem label="Truncated Text" description="Texto com truncamento">
         <Text variant="bodyPrimary" numberOfLines={1}>
           Este é um texto muito longo que será truncado após uma linha para
@@ -167,7 +150,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
           Este é outro texto longo que será truncado após duas linhas para
           mostrar como funciona o ellipsizeMode do componente Text
         </Text>
-
         <CodeExample
           code={`<Text
   variant="bodyPrimary"
@@ -175,7 +157,6 @@ export const TextComponentsSection: React.FC<TextComponentsSectionProps> = ({
 >
   Texto longo que será truncado...
 </Text>
-
 <Text
   variant="bodySecondary"
   numberOfLines={2}

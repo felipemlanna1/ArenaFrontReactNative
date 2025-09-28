@@ -11,7 +11,6 @@ export const ArenaBorders = {
     pill: 9999,
     circle: 9999,
   },
-
   width: {
     none: 0,
     hairline: 0.5,
@@ -21,6 +20,5 @@ export const ArenaBorders = {
     bold: 3,
   },
 } as const;
-
 export type ArenaBorderRadius = keyof typeof ArenaBorders.radius;
 export type ArenaBorderWidth = keyof typeof ArenaBorders.width;

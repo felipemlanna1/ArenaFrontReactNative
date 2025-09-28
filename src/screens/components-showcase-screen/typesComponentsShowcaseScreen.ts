@@ -1,15 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
-
 export type ComponentsShowcaseScreenProps = Partial<
   NativeStackScreenProps<RootStackParamList, 'ComponentsShowcase'>
 >;
-
 export interface ComponentSectionProps {
   title: string;
   children: React.ReactNode;
 }
-
 export interface ShowcaseItemProps {
   label: string;
   description?: string;
@@ -18,17 +15,14 @@ export interface ShowcaseItemProps {
   showCode?: boolean;
   onCopyCode?: (code: string) => void;
 }
-
 export interface UseComponentsShowcaseScreenReturn {
   activeSection: string | null;
-
   actions: {
     handleSectionToggle: (sectionId: string) => void;
     handleBackPress: () => void;
     handleCopyCode: (code: string) => void;
   };
 }
-
 export interface ComponentSection {
   id: string;
   title: string;

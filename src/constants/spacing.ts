@@ -12,9 +12,7 @@ export const ArenaSpacing = {
   '6xl': 64,
   '7xl': 80,
 } as const;
-
 export type ArenaSpacingKey = keyof typeof ArenaSpacing;
-
 export const getArenaSpacing = (size: ArenaSpacingKey) => {
   return ArenaSpacing[size];
 };

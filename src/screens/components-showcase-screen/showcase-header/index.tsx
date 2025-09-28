@@ -4,11 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/text';
 import { styles } from './stylesShowcaseHeader';
-
 interface ShowcaseHeaderProps {
   onBackPress: () => void;
 }
-
 export const ShowcaseHeader: React.FC<ShowcaseHeaderProps> = ({
   onBackPress,
 }) => {
@@ -19,7 +17,6 @@ export const ShowcaseHeader: React.FC<ShowcaseHeaderProps> = ({
         <Pressable style={styles.backButton} onPress={onBackPress}>
           <Text variant="bodySecondary">← Voltar</Text>
         </Pressable>
-
         <View style={styles.headerContent}>
           <Text variant="displayAccent">Arena</Text>
           <Text variant="titleSecondary">Design System</Text>

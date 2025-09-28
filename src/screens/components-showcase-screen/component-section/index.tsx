@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Text } from '@/components/text';
 import { ComponentSectionProps } from '../typesComponentsShowcaseScreen';
 import { styles } from './stylesComponentSection';
-
 export const ComponentSection: React.FC<ComponentSectionProps> = ({
   title,
   children,

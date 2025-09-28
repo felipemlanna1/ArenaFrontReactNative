@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { TouchableOpacityProps } from 'react-native';
-
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
@@ -8,11 +7,8 @@ export type ButtonVariant =
   | 'destructive'
   | 'success'
   | 'ghost';
-
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-
 export type ButtonIconPosition = 'left' | 'right';
-
 export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -28,7 +24,6 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   loadingText?: string;
   disableAnimations?: boolean;
 }
-
 export interface ButtonVariantConfig {
   backgroundColor: string;
   borderColor: string;
@@ -56,7 +51,6 @@ export interface ButtonVariantConfig {
     textColor: string;
   };
 }
-
 export interface ButtonSizeConfig {
   height: number;
   paddingHorizontal: number;
@@ -65,7 +59,6 @@ export interface ButtonSizeConfig {
   borderRadius: number;
   minWidth?: number;
 }
-
 export interface UseButtonParams {
   variant: ButtonVariant;
   size: ButtonSize;
@@ -76,7 +69,6 @@ export interface UseButtonParams {
   onPress: () => void;
   disableAnimations: boolean;
 }
-
 export interface UseButtonReturn {
   buttonConfig: ButtonVariantConfig;
   sizeConfig: ButtonSizeConfig;
@@ -97,7 +89,6 @@ export interface UseButtonReturn {
     color: string;
   };
 }
-
 export interface ButtonAnimationConfig {
   pressScale: number;
   pressDuration: number;
@@ -105,7 +96,6 @@ export interface ButtonAnimationConfig {
   disabledOpacity: number;
   loadingOpacity: number;
 }
-
 export interface ButtonAccessibilityProps {
   accessibilityRole: 'button';
   accessibilityState: {
@@ -115,10 +105,8 @@ export interface ButtonAccessibilityProps {
   accessibilityLabel: string;
   accessibilityHint?: string;
 }
-
 export type ButtonVariantConfigs = Record<ButtonVariant, ButtonVariantConfig>;
 export type ButtonSizeConfigs = Record<ButtonSize, ButtonSizeConfig>;
-
 export interface ButtonThemeConfig {
   variants: ButtonVariantConfigs;
   sizes: ButtonSizeConfigs;
