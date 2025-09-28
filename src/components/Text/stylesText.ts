@@ -1,5 +1,5 @@
 import { StyleSheet, TextStyle } from 'react-native';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaTypography } from '@/constants';
 
 export const styles = StyleSheet.create({
   baseText: {
@@ -44,12 +44,13 @@ export const styles = StyleSheet.create({
   },
 
   monoFont: {
-    letterSpacing: 0,
+    fontFamily: ArenaTypography.family.mono,
+    letterSpacing: ArenaTypography.letterSpacing.normal,
   },
 
   uppercase: {
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: ArenaTypography.letterSpacing.wider,
   },
 
   lowercase: {
@@ -94,14 +95,14 @@ export const styles = StyleSheet.create({
   },
 
   errorText: {
-    color: '#EF4444',
+    color: ArenaColors.semantic.error,
   },
 
   successText: {
-    color: '#10B981',
+    color: ArenaColors.semantic.success,
   },
 
   warningText: {
-    color: '#F59E0B',
+    color: ArenaColors.semantic.warning,
   },
 });

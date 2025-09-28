@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaTypography,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -38,9 +43,9 @@ export const styles = StyleSheet.create({
   },
 
   codeText: {
-    fontFamily: 'Courier',
-    fontSize: 12,
-    lineHeight: 16,
+    fontFamily: ArenaTypography.family.mono,
+    fontSize: ArenaTypography.size.xs,
+    lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.tight,
     color: ArenaColors.neutral.light,
   },
 });

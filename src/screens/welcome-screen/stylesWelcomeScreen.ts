@@ -127,7 +127,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(27, 29, 41, 0.8)',
+    backgroundColor: `${ArenaColors.neutral.darkest}CC`,
   },
 
   loadingText: {

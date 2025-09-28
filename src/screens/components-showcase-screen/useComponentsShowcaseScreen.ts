@@ -23,9 +23,7 @@ export const useComponentsShowcaseScreen =
       navigation.goBack();
     }, [navigation]);
 
-    const handleCopyCode = useCallback((code: string) => {
-
-    }, []);
+    const handleCopyCode = useCallback((code: string) => {}, []);
 
     return {
       activeSection,

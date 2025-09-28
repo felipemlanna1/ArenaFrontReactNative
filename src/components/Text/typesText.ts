@@ -150,4 +150,3 @@ export interface TextColorPalette {
   error: string;
   warning: string;
 }
-

@@ -38,6 +38,12 @@ export const ArenaColors = {
     border: 'rgba(255, 83, 1, 0.5)',
     surface: 'rgba(32, 48, 61, 0.5)',
   },
+
+  semantic: {
+    error: '#EF4444',
+    success: '#10B981',
+    warning: '#F59E0B',
+  },
 } as const;
 
 export type ArenaBrandColor = keyof typeof ArenaColors.brand;

@@ -49,7 +49,7 @@ export const Text: React.FC<TextProps> = ({
     }
 
     if (selectable && styles.selectable) {
-      styleArray.push(styles.selectable as any);
+      styleArray.push(styles.selectable as typeof styles.baseText);
     }
 
     return styleArray;
