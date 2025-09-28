@@ -16,13 +16,11 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
       <StatusBar style="light" backgroundColor={ArenaColors.neutral.darkest} />
 
       <View style={styles.content}>
-        {/* Logo e Tagline */}
         <View style={styles.logoContainer}>
           <Text variant="displayAccent">ARENA</Text>
           <Text variant="captionSecondary">O futuro do esporte</Text>
         </View>
 
-        {/* Mensagem de Boas-vindas */}
         <View style={styles.welcomeContainer}>
           <Text variant="headingPrimary">Bem-vindo</Text>
           <Text variant="bodySecondary" style={styles.welcomeDescription}>
@@ -31,7 +29,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
           </Text>
         </View>
 
-        {/* Botões de Ação */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[
@@ -54,7 +51,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
             )}
           </TouchableOpacity>
 
-          {/* Botão para ver componentes */}
           <TouchableOpacity
             style={[styles.secondaryButton]}
             onPress={actions.handleShowComponents}
@@ -67,18 +63,15 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Mensagem de Erro (se houver) */}
         {error && <Text variant="bodyError">Erro: {error}</Text>}
       </View>
 
-      {/* Footer */}
       <View style={styles.footer}>
         <Text variant="captionMuted">
           Arena v1.0.0 - Desenvolvido com React Native
         </Text>
       </View>
 
-      {/* Loading Overlay */}
       {isLoading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={ArenaColors.brand.primary} />
