@@ -1,4 +1,3 @@
-// Arena Welcome Screen - Componente principal
 import React from 'react';
 import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

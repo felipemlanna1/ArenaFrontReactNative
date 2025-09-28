@@ -1,9 +1,7 @@
-// Arena Text Component - Testes do hook useText
 import { renderHook } from '@testing-library/react-native';
 import { useText, getVariantPreset, isHeadingVariant, getAvailableVariants, getAvailableColors } from '../useText';
 import { ArenaColors, ArenaTypography } from '@/constants';
 
-// Mock dos tokens Arena para testes
 jest.mock('@/constants', () => ({
   ArenaColors: {
     brand: { primary: '#FF5301' },
@@ -51,10 +49,6 @@ jest.mock('@/constants', () => ({
 }));
 
 describe('useText Hook', () => {
-  // =============================================================================
-  // TESTES BÁSICOS DE FUNCIONAMENTO
-  // =============================================================================
-
   describe('Funcionalidade Básica', () => {
     it('deve retornar estrutura correta', () => {
       const { result } = renderHook(() => useText({}));
@@ -88,10 +82,6 @@ describe('useText Hook', () => {
       expect(result.current.computedStyle.lineHeight).toBe(expectedLineHeight);
     });
   });
-
-  // =============================================================================
-  // TESTES DE PRESETS DE VARIANTES
-  // =============================================================================
 
   describe('Presets de Variantes', () => {
     it('deve aplicar preset display corretamente', () => {
@@ -183,15 +173,11 @@ describe('useText Hook', () => {
     });
   });
 
-  // =============================================================================
-  // TESTES DE OVERRIDE DE PROPS
-  // =============================================================================
-
   describe('Override de Props', () => {
     it('deve sobrescrever size do preset', () => {
       const { result } = renderHook(() => useText({
-        variant: 'heading', // preset: 4xl
-        size: 'xl'          // override
+        variant: 'heading',
+        size: 'xl'
       }));
 
       expect(result.current.computedStyle.fontSize).toBe(ArenaTypography.size.xl);
@@ -199,8 +185,8 @@ describe('useText Hook', () => {
 
     it('deve sobrescrever weight do preset', () => {
       const { result } = renderHook(() => useText({
-        variant: 'body',   // preset: regular
-        weight: 'bold'     // override
+        variant: 'body',
+        weight: 'bold'
       }));
 
       expect(result.current.computedStyle.fontWeight).toBe(ArenaTypography.weight.bold);
@@ -208,8 +194,8 @@ describe('useText Hook', () => {
 
     it('deve sobrescrever family do preset', () => {
       const { result } = renderHook(() => useText({
-        variant: 'body',   // preset: body
-        family: 'mono'     // override
+        variant: 'body',
+        family: 'mono'
       }));
 
       expect(result.current.computedStyle.fontFamily).toBe(ArenaTypography.family.mono);
@@ -217,8 +203,8 @@ describe('useText Hook', () => {
 
     it('deve sobrescrever color do preset', () => {
       const { result } = renderHook(() => useText({
-        variant: 'subtitle', // preset: secondary
-        color: 'accent'      // override
+        variant: 'subtitle',
+        color: 'accent'
       }));
 
       expect(result.current.computedStyle.color).toBe(ArenaColors.brand.primary);
@@ -242,10 +228,6 @@ describe('useText Hook', () => {
       );
     });
   });
-
-  // =============================================================================
-  // TESTES DE CORES
-  // =============================================================================
 
   describe('Sistema de Cores', () => {
     it('deve mapear cor primary corretamente', () => {
@@ -284,10 +266,6 @@ describe('useText Hook', () => {
     });
   });
 
-  // =============================================================================
-  // TESTES DE ALINHAMENTO E TRANSFORMAÇÃO
-  // =============================================================================
-
   describe('Alinhamento e Transformação', () => {
     it('deve aplicar textAlign corretamente', () => {
       const alignments = ['left', 'center', 'right', 'justify'] as const;
@@ -307,10 +285,6 @@ describe('useText Hook', () => {
       });
     });
   });
-
-  // =============================================================================
-  // TESTES DE ESTILOS CUSTOMIZADOS
-  // =============================================================================
 
   describe('Estilos Customizados', () => {
     it('deve mesclar estilo customizado como objeto', () => {
@@ -349,7 +323,6 @@ describe('useText Hook', () => {
         style: customStyle
       }));
 
-      // Deve conter tanto os estilos computados quanto os customizados
       if (Array.isArray(result.current.computedStyle)) {
         expect(result.current.computedStyle).toEqual(
           expect.arrayContaining([
@@ -362,10 +335,6 @@ describe('useText Hook', () => {
       }
     });
   });
-
-  // =============================================================================
-  // TESTES DE PROCESSAMENTO DE PROPS
-  // =============================================================================
 
   describe('Processamento de Props', () => {
     it('deve processar props de comportamento de texto', () => {
@@ -413,10 +382,6 @@ describe('useText Hook', () => {
     });
   });
 
-  // =============================================================================
-  // TESTES DE ESTADOS DERIVADOS
-  // =============================================================================
-
   describe('Estados Derivados', () => {
     it('deve identificar texto interativo corretamente', () => {
       const { result: withPress } = renderHook(() => useText({
@@ -458,10 +423,6 @@ describe('useText Hook', () => {
     });
   });
 
-  // =============================================================================
-  // TESTES DE MEMOIZAÇÃO
-  // =============================================================================
-
   describe('Memoização', () => {
     it('deve memoizar computedStyle corretamente', () => {
       let renderCount = 0;
@@ -475,11 +436,9 @@ describe('useText Hook', () => {
 
       const firstStyle = result.current.computedStyle;
 
-      // Re-render com as mesmas props
       rerender({ variant: 'body' });
       expect(result.current.computedStyle).toBe(firstStyle);
 
-      // Re-render com props diferentes
       rerender({ variant: 'heading' });
       expect(result.current.computedStyle).not.toBe(firstStyle);
     });
@@ -493,20 +452,14 @@ describe('useText Hook', () => {
 
       const firstProps = result.current.processedProps;
 
-      // Re-render com as mesmas props
       rerender({ testID: 'test' });
       expect(result.current.processedProps).toBe(firstProps);
 
-      // Re-render com props diferentes
       rerender({ testID: 'different' });
       expect(result.current.processedProps).not.toBe(firstProps);
     });
   });
 });
-
-// =============================================================================
-// TESTES DE FUNÇÕES UTILITÁRIAS
-// =============================================================================
 
 describe('Funções Utilitárias do useText', () => {
   describe('getVariantPreset', () => {
