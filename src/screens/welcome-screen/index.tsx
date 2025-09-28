@@ -22,7 +22,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
       >
         {/* Logo no topo */}
         <View style={styles.logoContainer}>
-          <Text variant="displayLarge" style={styles.logoText}>
+          <Text variant="displayPrimary" style={styles.logoText}>
             ARENA
           </Text>
           {isDev && (
@@ -39,7 +39,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
         {/* Imagem do tenista no centro */}
         <View style={styles.playerImageContainer}>
           <View style={styles.playerImagePlaceholder}>
-            <Text variant="displayLarge" style={styles.playerImageEmoji}>
+            <Text variant="displayPrimary" style={styles.playerImageEmoji}>
               🎾
             </Text>
           </View>
@@ -47,39 +47,39 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
 
         {/* Conteúdo inferior */}
         <View style={styles.bottomContent}>
-          <Text variant="displayLarge" style={styles.title}>
+          <Text variant="displayPrimary" style={styles.title}>
             Bem-vindo
           </Text>
-          <Text variant="displayLarge" style={styles.title}>
+          <Text variant="displayPrimary" style={styles.title}>
             ao Arena
           </Text>
-          <Text variant="bodyLarge" style={styles.subtitle}>
+          <Text variant="bodyPrimary" style={styles.subtitle}>
             Conecte-se com atletas, descubra eventos esportivos e leve sua
             performance para o próximo nível
           </Text>
 
-          <Button
-            variant="primary"
-            size="lg"
-            onPress={actions.handleGetStarted}
-            disabled={isLoading}
-            loading={isLoading}
-            fullWidth
-            style={styles.primaryButton}
-          >
-            Entrar
-          </Button>
+          <View style={styles.buttonContainer}>
+            <Button
+              variant="primary"
+              size="lg"
+              onPress={actions.handleGetStarted}
+              disabled={isLoading}
+              loading={isLoading}
+              fullWidth
+            >
+              Entrar
+            </Button>
 
-          <Button
-            variant="outline"
-            size="lg"
-            onPress={actions.handleCreateAccount}
-            disabled={isLoading}
-            fullWidth
-            style={styles.secondaryButton}
-          >
-            Criar conta
-          </Button>
+            <Button
+              variant="secondary"
+              size="lg"
+              onPress={actions.handleCreateAccount}
+              disabled={isLoading}
+              fullWidth
+            >
+              Criar conta
+            </Button>
+          </View>
 
           {error && <Text variant="captionError">Erro: {error}</Text>}
         </View>

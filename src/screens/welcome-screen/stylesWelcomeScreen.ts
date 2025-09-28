@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     paddingBottom: ArenaSpacing.lg,
   },
   logoText: {
-    color: ArenaColors.neutral.lightest,
+    color: ArenaColors.neutral.light,
     fontSize: ArenaTypography.size['2xl'],
     fontWeight: ArenaTypography.weight.bold,
     letterSpacing: ArenaTypography.letterSpacing.wider,
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: ArenaColors.neutral.lightest,
+    color: ArenaColors.neutral.light,
     fontSize: ArenaTypography.size['3xl'],
     fontWeight: ArenaTypography.weight.bold,
     textAlign: 'center',
@@ -66,11 +66,9 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing['3xl'],
     paddingHorizontal: ArenaSpacing.md,
   },
-  primaryButton: {
-    marginBottom: ArenaSpacing.lg,
-  },
-  secondaryButton: {
-    marginBottom: ArenaSpacing.xl,
+  buttonContainer: {
+    gap: ArenaSpacing.lg,
+    width: '100%',
   },
   loadingContainer: {
     position: 'absolute',

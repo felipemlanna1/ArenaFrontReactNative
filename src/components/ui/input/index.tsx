@@ -108,8 +108,8 @@ export const Input: React.FC<InputProps> = ({
     disableAnimations,
     haptic,
     onChangeText,
-    onFocus: (e: any) => textInputProps.onFocus?.(e),
-    onBlur: (e: any) => textInputProps.onBlur?.(e),
+    onFocus: () => textInputProps.onFocus?.(undefined as any),
+    onBlur: () => textInputProps.onBlur?.(undefined as any),
     onClear: () => {},
   });
 

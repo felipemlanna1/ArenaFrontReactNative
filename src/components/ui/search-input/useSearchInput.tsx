@@ -143,7 +143,7 @@ export const useSearchInput = (params: UseSearchInputParams): UseSearchInputRetu
   } = params;
 
   const [isSearching, setIsSearching] = useState(false);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const canSearch = value.length >= minSearchLength;
   const shouldShowClear = value.length > 0;

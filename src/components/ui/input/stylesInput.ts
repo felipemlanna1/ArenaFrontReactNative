@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   },
 
   containerFullWidth: {
+    position: 'relative',
     alignSelf: 'stretch',
   },
 
