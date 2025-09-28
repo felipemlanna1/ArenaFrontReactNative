@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/text';
@@ -7,6 +7,9 @@ import { Logo } from '@/components/ui/logo';
 import { AppIcon } from '@/components/ui/app-icon';
 import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sports-loading';
+import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
+import { SearchInput } from '@/components/ui/search-input';
 import { useComponentsShowcaseScreen } from './useComponentsShowcaseScreen';
 import { ComponentsShowcaseScreenProps } from './typesComponentsShowcaseScreen';
 import { ComponentSection } from './component-section';
@@ -18,6 +21,14 @@ export const ComponentsShowcaseScreen: React.FC<
   ComponentsShowcaseScreenProps
 > = () => {
   const { actions } = useComponentsShowcaseScreen();
+
+  const [inputBasic, setInputBasic] = useState('');
+  const [inputWithLabel, setInputWithLabel] = useState('');
+  const [inputError, setInputError] = useState('');
+  const [inputSuccess, setInputSuccess] = useState('Valid input');
+  const [password, setPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <ShowcaseHeader onBackPress={actions.handleBackPress} />
@@ -414,10 +425,284 @@ export const ComponentsShowcaseScreen: React.FC<
           </ComponentSection>
           <ComponentSection title="Input Components">
             <ShowcaseItem
-              label="Coming Soon"
-              description="Componentes de input em desenvolvimento"
+              label="Input Básico"
+              description="Input padrão com floating label animado e suporte a todos os estados"
+              onCopyCode={actions.handleCopyCode}
+              code={`import { Input } from '@/components/ui/input';
+<Input
+  value={value}
+  onChangeText={setValue}
+  placeholder="Digite algo..."
+  label="Campo básico"
+/>
+
+// Com validação
+<Input
+  value={email}
+  onChangeText={setEmail}
+  label="Email"
+  placeholder="seu@email.com"
+  error={emailError}
+  required
+/>`}
             >
-              <Text variant="captionMuted">Em breve...</Text>
+              <View style={styles.buttonShowcase}>
+                <View style={styles.buttonColumn}>
+                  <Input
+                    value={inputBasic}
+                    onChangeText={setInputBasic}
+                    placeholder="Digite algo..."
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="input-basic"
+                  />
+                  <Input
+                    value={inputWithLabel}
+                    onChangeText={setInputWithLabel}
+                    label="Com Label"
+                    placeholder="Digite aqui"
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="input-label"
+                  />
+                </View>
+              </View>
+            </ShowcaseItem>
+
+            <ShowcaseItem
+              label="Estados & Validação"
+              description="Estados visuais para feedback de validação e interação"
+              onCopyCode={actions.handleCopyCode}
+              code={`import { Input } from '@/components/ui/input';
+// Estado de erro
+<Input
+  value={value}
+  onChangeText={setValue}
+  label="Campo obrigatório"
+  error="Este campo é obrigatório"
+  variant="error"
+/>
+
+// Estado de sucesso
+<Input
+  value={value}
+  onChangeText={setValue}
+  label="Email válido"
+  success="Email confirmado"
+  variant="success"
+/>`}
+            >
+              <View style={styles.buttonShowcase}>
+                <View style={styles.buttonColumn}>
+                  <Input
+                    value={inputError}
+                    onChangeText={setInputError}
+                    label="Campo obrigatório"
+                    placeholder="Digite algo..."
+                    error="Este campo é obrigatório"
+                    variant="error"
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="input-error"
+                  />
+                  <Input
+                    value={inputSuccess}
+                    onChangeText={setInputSuccess}
+                    label="Email válido"
+                    placeholder="seu@email.com"
+                    success="Email confirmado"
+                    variant="success"
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="input-success"
+                  />
+                  <Input
+                    value="Disabled input"
+                    onChangeText={() => {}}
+                    label="Campo desabilitado"
+                    disabled
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="input-disabled"
+                  />
+                </View>
+              </View>
+            </ShowcaseItem>
+
+            <ShowcaseItem
+              label="Tamanhos"
+              description="Diferentes tamanhos para diversos contextos de uso"
+              onCopyCode={actions.handleCopyCode}
+              code={`import { Input } from '@/components/ui/input';
+<Input size="xs" label="Extra Small" />
+<Input size="sm" label="Small" />
+<Input size="md" label="Medium" />
+<Input size="lg" label="Large" />
+<Input size="xl" label="Extra Large" />`}
+            >
+              <View style={styles.buttonShowcase}>
+                <View style={styles.buttonColumn}>
+                  <Input
+                    value=""
+                    onChangeText={() => {}}
+                    label="XS"
+                    placeholder="Extra Small"
+                    size="xs"
+                    fullWidth
+                    disableAnimations
+                    testID="input-xs"
+                  />
+                  <Input
+                    value=""
+                    onChangeText={() => {}}
+                    label="SM"
+                    placeholder="Small"
+                    size="sm"
+                    fullWidth
+                    disableAnimations
+                    testID="input-sm"
+                  />
+                  <Input
+                    value=""
+                    onChangeText={() => {}}
+                    label="MD"
+                    placeholder="Medium"
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="input-md"
+                  />
+                  <Input
+                    value=""
+                    onChangeText={() => {}}
+                    label="LG"
+                    placeholder="Large"
+                    size="lg"
+                    fullWidth
+                    disableAnimations
+                    testID="input-lg"
+                  />
+                  <Input
+                    value=""
+                    onChangeText={() => {}}
+                    label="XL"
+                    placeholder="Extra Large"
+                    size="xl"
+                    fullWidth
+                    disableAnimations
+                    testID="input-xl"
+                  />
+                </View>
+              </View>
+            </ShowcaseItem>
+
+            <ShowcaseItem
+              label="PasswordInput"
+              description="Input de senha com toggle de visibilidade e indicador de força"
+              onCopyCode={actions.handleCopyCode}
+              code={`import { PasswordInput } from '@/components/ui/password-input';
+// Com indicador de força
+<PasswordInput
+  value={password}
+  onChangeText={setPassword}
+  label="Senha"
+  placeholder="Digite sua senha"
+  showStrength={true}
+  showToggle={true}
+/>
+
+// Apenas com toggle
+<PasswordInput
+  value={password}
+  onChangeText={setPassword}
+  label="Confirmar senha"
+  showToggle={true}
+/>`}
+            >
+              <View style={styles.buttonShowcase}>
+                <View style={styles.buttonColumn}>
+                  <PasswordInput
+                    value={password}
+                    onChangeText={setPassword}
+                    label="Senha"
+                    placeholder="Digite sua senha"
+                    showStrength={false}
+                    showToggle={true}
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="password-input"
+                  />
+                  <PasswordInput
+                    value={passwordStrength}
+                    onChangeText={setPasswordStrength}
+                    label="Senha com força"
+                    placeholder="Digite uma senha forte"
+                    showStrength={true}
+                    showToggle={true}
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="password-strength"
+                  />
+                </View>
+              </View>
+            </ShowcaseItem>
+
+            <ShowcaseItem
+              label="SearchInput"
+              description="Input de busca com debounce automático e botão clear"
+              onCopyCode={actions.handleCopyCode}
+              code={`import { SearchInput } from '@/components/ui/search-input';
+// Busca com debounce
+<SearchInput
+  value={query}
+  onChangeText={setQuery}
+  onSearch={handleSearch}
+  placeholder="Buscar atletas..."
+  debounceMs={300}
+  autoSearch={true}
+/>
+
+// Busca manual
+<SearchInput
+  value={query}
+  onChangeText={setQuery}
+  onSearch={handleSearch}
+  placeholder="Buscar eventos..."
+  autoSearch={false}
+  showClearButton={true}
+/>`}
+            >
+              <View style={styles.buttonShowcase}>
+                <View style={styles.buttonColumn}>
+                  <SearchInput
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    onSearch={(query) => console.log('Searching:', query)}
+                    placeholder="Buscar atletas..."
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="search-input"
+                  />
+                  <SearchInput
+                    value=""
+                    onChangeText={() => {}}
+                    placeholder="Buscar eventos..."
+                    searchIconPosition="right"
+                    size="md"
+                    fullWidth
+                    disableAnimations
+                    testID="search-right"
+                  />
+                </View>
+              </View>
             </ShowcaseItem>
           </ComponentSection>
         </ScrollView>
