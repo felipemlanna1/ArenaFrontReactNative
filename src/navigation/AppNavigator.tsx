@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ArenaColors } from './constants';
-import { WelcomeScreen } from './screens/welcome-screen';
-import { ComponentsShowcaseScreen } from './screens/components-showcase-screen';
-import { RootStackParamList } from './navigation/types';
+import { ArenaColors } from '../constants';
+import { WelcomeScreen } from '../screens/welcome-screen';
+import { ComponentsShowcaseScreen } from '../screens/components-showcase-screen';
+import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
