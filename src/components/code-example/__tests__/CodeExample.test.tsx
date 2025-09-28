@@ -41,9 +41,7 @@ describe('CodeExample', () => {
   });
 
   it('deve renderizar sem botão copiar quando onCopy não é fornecido', () => {
-    const { queryByText } = render(
-      <CodeExample code="test code" />
-    );
+    const { queryByText } = render(<CodeExample code="test code" />);
 
     expect(queryByText('Copiar')).toBeNull();
   });
@@ -61,9 +59,7 @@ describe('CodeExample', () => {
   });
 
   it('deve renderizar sem quebrar quando code está vazio', () => {
-    const { getByText } = render(
-      <CodeExample code="" onCopy={jest.fn()} />
-    );
+    const { getByText } = render(<CodeExample code="" onCopy={jest.fn()} />);
 
     expect(getByText('tsx')).toBeTruthy();
     expect(getByText('Copiar')).toBeTruthy();

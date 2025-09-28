@@ -18,7 +18,7 @@ O componente `Text` é o fundamento tipográfico de toda a aplicação Arena. El
 ### Importação Básica
 
 ```tsx
-import { Text } from '@/components/Text';
+import { Text } from '@/components/text';
 
 // Uso básico com variante
 <Text variant="heading">Título Principal</Text>
@@ -32,7 +32,7 @@ import {
   HeadingText,
   BodyText,
   ErrorText
-} from '@/components/Text';
+} from '@/components/text';
 
 <DisplayText>Hero Title</DisplayText>
 <HeadingText>Section Title</HeadingText>
@@ -240,7 +240,7 @@ interface TextProps {
 O hook `useText` pode ser usado independentemente para casos avançados:
 
 ```tsx
-import { useText } from '@/components/Text';
+import { useText } from '@/components/text';
 
 const MyCustomTextComponent = ({ children, ...props }) => {
   const { computedStyle, processedProps, isInteractive } = useText(props);

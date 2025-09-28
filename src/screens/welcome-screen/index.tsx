@@ -3,7 +3,7 @@ import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { ArenaColors } from '@/constants';
-import { Text } from '@/components/Text';
+import { Text } from '@/components/text';
 import { useWelcomeScreen } from './useWelcomeScreen';
 import { WelcomeScreenProps } from './typesWelcomeScreen';
 import { styles } from './stylesWelcomeScreen';

@@ -1,9 +1,13 @@
-export * from './arenaTokens';
+// Re-export all design tokens
+export * from './colors';
+export * from './spacing';
+export * from './typography';
+export * from './borders';
+export * from './shadows';
 
-export {
-  ArenaColors as Colors,
-  ArenaSpacing as Spacing,
-  ArenaTypography as Typography,
-  ArenaBorders as Borders,
-  ArenaShadows as Shadows,
-} from './arenaTokens';
+// Legacy exports for backward compatibility
+export { ArenaColors } from './colors';
+export { ArenaSpacing } from './spacing';
+export { ArenaTypography } from './typography';
+export { ArenaBorders } from './borders';
+export { ArenaShadows } from './shadows';

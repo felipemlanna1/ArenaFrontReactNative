@@ -12,7 +12,7 @@ Componente para exibir exemplos de código com funcionalidade de cópia.
 ## Uso
 
 ```tsx
-import { CodeExample } from '@/components/CodeExample';
+import { CodeExample } from '@/components/code-example';
 
 <CodeExample
   code={`<Text variant="bodyPrimary">Exemplo</Text>`}

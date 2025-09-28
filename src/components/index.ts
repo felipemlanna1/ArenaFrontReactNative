@@ -1,2 +1,2 @@
-export * from './Text';
-export * from './CodeExample';
+export * from './text';
+export * from './code-example';
