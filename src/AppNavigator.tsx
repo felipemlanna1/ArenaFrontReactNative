@@ -1,4 +1,3 @@
-// Arena App Navigator - Navegação com React Navigation
 import React from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,7 +9,6 @@ import { RootStackParamList } from './navigation/types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const AppNavigator: React.FC = () => {
-  // Custom Dark Theme for Navigation
   const CustomDarkTheme = {
     ...DarkTheme,
     colors: {
