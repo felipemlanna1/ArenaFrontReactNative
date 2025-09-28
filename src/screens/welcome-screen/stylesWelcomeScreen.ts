@@ -3,8 +3,6 @@ import {
   ArenaColors,
   ArenaSpacing,
   ArenaTypography,
-  ArenaBorders,
-  ArenaShadows,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -75,37 +73,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: ArenaSpacing['2xl'],
     gap: ArenaSpacing.lg,
-  },
-
-  getStartedButton: {
-    backgroundColor: ArenaColors.brand.primary,
-    paddingVertical: ArenaSpacing.lg,
-    paddingHorizontal: ArenaSpacing['3xl'],
-    borderRadius: ArenaBorders.radius.sm,
-    width: '80%',
-    alignItems: 'center',
-    ...ArenaShadows.brandGlow,
-  },
-
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    paddingVertical: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.xl,
-    borderRadius: ArenaBorders.radius.sm,
-    width: '80%',
-    alignItems: 'center',
-    borderWidth: ArenaBorders.width.thin,
-    borderColor: ArenaColors.neutral.medium,
-  },
-
-  getStartedButtonPressed: {
-    backgroundColor: ArenaColors.brand.primaryPressed,
-    transform: [{ scale: 0.98 }],
-  },
-
-  getStartedButtonDisabled: {
-    backgroundColor: ArenaColors.disabled.background,
-    ...ArenaShadows.none,
   },
 
   buttonText: {

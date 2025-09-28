@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/text';
+import { Button } from '@/components/ui/button';
 import { useWelcomeScreen } from './useWelcomeScreen';
 import { WelcomeScreenProps } from './typesWelcomeScreen';
 import { styles } from './stylesWelcomeScreen';
@@ -30,33 +31,29 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[
-              styles.getStartedButton,
-              isLoading && styles.getStartedButtonDisabled,
-            ]}
+          <Button
+            variant="primary"
+            size="lg"
             onPress={actions.handleGetStarted}
             disabled={isLoading}
-            activeOpacity={0.8}
+            loading={isLoading}
+            loadingText="CARREGANDO..."
+            fullWidth
+            disableAnimations
           >
-            {isLoading ? (
-              <ActivityIndicator
-                size="small"
-                color={ArenaColors.neutral.light}
-              />
-            ) : (
-              <Text variant="labelPrimary">COMEÇAR</Text>
-            )}
-          </TouchableOpacity>
+            COMEÇAR
+          </Button>
 
-          <TouchableOpacity
-            style={[styles.secondaryButton]}
+          <Button
+            variant="secondary"
+            size="lg"
             onPress={actions.handleShowComponents}
             disabled={isLoading}
-            activeOpacity={0.8}
+            fullWidth
+            disableAnimations
           >
-            <Text variant="labelSecondary">VER COMPONENTES</Text>
-          </TouchableOpacity>
+            VER COMPONENTES
+          </Button>
         </View>
 
         {error && <Text variant="bodyError">Erro: {error}</Text>}
