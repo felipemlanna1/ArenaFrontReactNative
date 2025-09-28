@@ -9,7 +9,9 @@ interface ShowcaseHeaderProps {
   onBackPress: () => void;
 }
 
-export const ShowcaseHeader: React.FC<ShowcaseHeaderProps> = ({ onBackPress }) => {
+export const ShowcaseHeader: React.FC<ShowcaseHeaderProps> = ({
+  onBackPress,
+}) => {
   return (
     <>
       <StatusBar style="light" backgroundColor={ArenaColors.neutral.darkest} />

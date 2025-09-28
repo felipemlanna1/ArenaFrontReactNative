@@ -10,9 +10,7 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.lg,
   },
 
-  sectionTitle: {
-    // Styles will be defined by the Text component variant
-  },
+  sectionTitle: {},
 
   sectionContent: {
     gap: ArenaSpacing.lg,

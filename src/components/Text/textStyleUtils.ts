@@ -1,7 +1,10 @@
 import { TextStyle } from 'react-native';
 import { ArenaColors } from '@/constants';
 
-export const createLineHeightStyle = (fontSize: number, multiplier: number) => ({
+export const createLineHeightStyle = (
+  fontSize: number,
+  multiplier: number
+) => ({
   lineHeight: fontSize * multiplier,
 });
 
@@ -80,7 +83,10 @@ export const badgeTextStyle = [
   },
 ];
 
-export const getResponsiveFontSize = (baseFontSize: number, screenWidth: number) => {
+export const getResponsiveFontSize = (
+  baseFontSize: number,
+  screenWidth: number
+) => {
   const scaleFactor = screenWidth / 375;
   const minScale = 0.85;
   const maxScale = 1.15;

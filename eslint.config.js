@@ -1,5 +1,7 @@
 const { FlatCompat } = require('@eslint/eslintrc');
 const js = require('@eslint/js');
+const typescriptEslint = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
 const arenaPlugin = require('./eslint-rules');
 
 const compat = new FlatCompat({
@@ -8,20 +10,22 @@ const compat = new FlatCompat({
 });
 
 module.exports = [
-  ...compat.extends(
-    'expo',
-    'eslint:recommended',
-    '@typescript-eslint/recommended',
-    'prettier'
-  ),
+  js.configs.recommended,
+  ...compat.extends('expo', 'prettier'),
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      '@typescript-eslint': typescriptEslint,
+      react: require('eslint-plugin-react'),
+      'react-hooks': require('eslint-plugin-react-hooks'),
+      'react-native': require('eslint-plugin-react-native'),
+      prettier: require('eslint-plugin-prettier'),
+      arena: arenaPlugin,
+    },
     languageOptions: {
-      parser: require('@typescript-eslint/parser'),
+      parser: typescriptParser,
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
         ecmaVersion: 2020,
         sourceType: 'module',
       },
@@ -30,40 +34,69 @@ module.exports = [
         window: 'readonly',
       },
     },
+    rules: {
+      ...typescriptEslint.configs.recommended.rules,
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      'react/prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/display-name': 'off',
+      'no-console': 'warn',
+      'no-debugger': 'error',
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'arena/arena-design-tokens': 'error',
+      'arena/arena-file-structure': 'warn',
+      'arena/arena-best-practices': 'warn',
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        },
+      ],
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+  },
+  {
+    files: ['**/*.{js,jsx}'],
     plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
       react: require('eslint-plugin-react'),
       'react-hooks': require('eslint-plugin-react-hooks'),
       'react-native': require('eslint-plugin-react-native'),
       prettier: require('eslint-plugin-prettier'),
       arena: arenaPlugin,
     },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+      globals: {
+        __DEV__: 'readonly',
+        window: 'readonly',
+      },
+    },
     rules: {
-      // TypeScript Rules
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'warn',
-
-      // React Rules
       'react/prop-types': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/display-name': 'off',
-
-      // General Rules
       'no-console': 'warn',
       'no-debugger': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
-
-      // Arena Custom Rules
       'arena/arena-design-tokens': 'error',
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
-
-      // Prettier
       'prettier/prettier': [
         'error',
         {

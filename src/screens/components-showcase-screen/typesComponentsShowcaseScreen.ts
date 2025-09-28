@@ -1,7 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '@/navigation/types';
 
-export type ComponentsShowcaseScreenProps = NativeStackScreenProps<RootStackParamList, 'ComponentsShowcase'>;
+export type ComponentsShowcaseScreenProps = Partial<
+  NativeStackScreenProps<RootStackParamList, 'ComponentsShowcase'>
+>;
 
 export interface ComponentSectionProps {
   title: string;

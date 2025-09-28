@@ -47,7 +47,13 @@ describe('Text Component', () => {
     });
 
     it('deve renderizar body variants', () => {
-      const variants = ['bodyPrimary', 'bodySecondary', 'bodyMuted', 'bodyError', 'bodySuccess'] as const;
+      const variants = [
+        'bodyPrimary',
+        'bodySecondary',
+        'bodyMuted',
+        'bodyError',
+        'bodySuccess',
+      ] as const;
 
       variants.forEach(variant => {
         const { getByText } = render(
@@ -58,7 +64,11 @@ describe('Text Component', () => {
     });
 
     it('deve renderizar caption variants', () => {
-      const variants = ['captionSecondary', 'captionMuted', 'captionError'] as const;
+      const variants = [
+        'captionSecondary',
+        'captionMuted',
+        'captionError',
+      ] as const;
 
       variants.forEach(variant => {
         const { getByText } = render(
@@ -69,7 +79,11 @@ describe('Text Component', () => {
     });
 
     it('deve renderizar label variants', () => {
-      const variants = ['labelPrimary', 'labelSecondary', 'labelError'] as const;
+      const variants = [
+        'labelPrimary',
+        'labelSecondary',
+        'labelError',
+      ] as const;
 
       variants.forEach(variant => {
         const { getByText } = render(
@@ -101,7 +115,9 @@ describe('Text Component', () => {
           Very long text that should be truncated after two lines
         </Text>
       );
-      expect(getByText('Very long text that should be truncated after two lines')).toBeTruthy();
+      expect(
+        getByText('Very long text that should be truncated after two lines')
+      ).toBeTruthy();
     });
 
     it('deve aceitar style customizado', () => {

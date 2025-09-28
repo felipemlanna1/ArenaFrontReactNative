@@ -10,7 +10,9 @@ import { ShowcaseHeader } from './showcase-header';
 import { TextComponentsSection } from './text-components-section';
 import { styles } from './stylesComponentsShowcaseScreen';
 
-export const ComponentsShowcaseScreen: React.FC<ComponentsShowcaseScreenProps> = () => {
+export const ComponentsShowcaseScreen: React.FC<
+  ComponentsShowcaseScreenProps
+> = () => {
   const { actions } = useComponentsShowcaseScreen();
 
   return (

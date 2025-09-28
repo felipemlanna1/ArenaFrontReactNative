@@ -21,12 +21,7 @@ export const Text: React.FC<TextProps> = ({
   testID,
   ...restProps
 }) => {
-  const {
-    computedStyle,
-    processedProps,
-    isInteractive,
-    isHeading,
-  } = useText({
+  const { computedStyle, processedProps, isInteractive, isHeading } = useText({
     variant,
     style,
     onPress,
@@ -45,54 +40,73 @@ export const Text: React.FC<TextProps> = ({
   const conditionalStyles = useMemo(() => {
     const styleArray = [styles.baseText];
 
-    if (isInteractive) {
+    if (isInteractive && styles.interactive) {
+      styleArray.push(styles.interactive);
     }
 
-    if (isHeading) {
+    if (isHeading && styles.heading) {
+      styleArray.push(styles.heading);
     }
 
-    if (selectable) {
+    if (selectable && styles.selectable) {
+      styleArray.push(styles.selectable as any);
     }
 
     return styleArray;
   }, [isInteractive, isHeading, selectable]);
 
-  const accessibilityProps = useMemo(() => ({
-    accessible: true,
-    accessibilityLabel: accessibilityLabel || (typeof children === 'string' ? children : undefined),
-    accessibilityHint,
-    accessibilityRole: isInteractive ? 'button' : accessibilityRole,
-    importantForAccessibility: 'yes' as const,
-  }), [accessibilityLabel, accessibilityHint, accessibilityRole, isInteractive, children]);
+  const accessibilityProps = useMemo(
+    () => ({
+      accessible: true,
+      accessibilityLabel:
+        accessibilityLabel ||
+        (typeof children === 'string' ? children : undefined),
+      accessibilityHint,
+      accessibilityRole: isInteractive ? 'button' : accessibilityRole,
+      importantForAccessibility: 'yes' as const,
+    }),
+    [
+      accessibilityLabel,
+      accessibilityHint,
+      accessibilityRole,
+      isInteractive,
+      children,
+    ]
+  );
 
-  const textProps = useMemo(() => ({
-    ...restProps,
-    ...processedProps,
-    ...accessibilityProps,
-    testID,
-    style: [conditionalStyles, computedStyle],
-    allowFontScaling: true,
-    maxFontSizeMultiplier: 1.3,
-  }), [restProps, processedProps, accessibilityProps, testID, conditionalStyles, computedStyle]);
+  const textProps = useMemo(
+    () => ({
+      ...restProps,
+      ...processedProps,
+      ...accessibilityProps,
+      testID,
+      style: [conditionalStyles, computedStyle],
+      allowFontScaling: true,
+      maxFontSizeMultiplier: 1.3,
+    }),
+    [
+      restProps,
+      processedProps,
+      accessibilityProps,
+      testID,
+      conditionalStyles,
+      computedStyle,
+    ]
+  );
 
   if (isInteractive) {
     return (
       <Pressable
         onPress={onPress}
         onLongPress={onLongPress}
-        style={({ pressed }) => [
-          pressed && styles.interactivePressed,
-        ]}
+        style={({ pressed }) => [pressed && styles.interactivePressed]}
         accessibilityRole="button"
         testID={testID ? `${testID}-pressable` : undefined}
       >
         {({ pressed }) => (
           <RNText
             {...textProps}
-            style={[
-              textProps.style,
-              pressed && styles.interactivePressed,
-            ]}
+            style={[textProps.style, pressed && styles.interactivePressed]}
           >
             {children}
           </RNText>
@@ -101,11 +115,7 @@ export const Text: React.FC<TextProps> = ({
     );
   }
 
-  return (
-    <RNText {...textProps}>
-      {children}
-    </RNText>
-  );
+  return <RNText {...textProps}>{children}</RNText>;
 };
 
 export type { TextProps } from './typesText';

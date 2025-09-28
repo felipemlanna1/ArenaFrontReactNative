@@ -10,7 +10,7 @@ export const ArenaSpacing = {
   '4xl': 40,
   '5xl': 48,
   '6xl': 64,
-  '7xl': 80
+  '7xl': 80,
 } as const;
 
 export type ArenaSpacingKey = keyof typeof ArenaSpacing;

@@ -1,12 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
   },
-
 
   content: {
     flex: 1,
@@ -16,7 +15,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.xl,
   },
-
 
   emptyContainer: {
     flex: 1,

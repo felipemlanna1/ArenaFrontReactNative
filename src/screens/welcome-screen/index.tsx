@@ -45,9 +45,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
                 color={ArenaColors.neutral.light}
               />
             ) : (
-              <Text variant="labelPrimary">
-                COMEÇAR
-              </Text>
+              <Text variant="labelPrimary">COMEÇAR</Text>
             )}
           </TouchableOpacity>
 
@@ -57,9 +55,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = () => {
             disabled={isLoading}
             activeOpacity={0.8}
           >
-            <Text variant="labelSecondary">
-              VER COMPONENTES
-            </Text>
+            <Text variant="labelSecondary">VER COMPONENTES</Text>
           </TouchableOpacity>
         </View>
 

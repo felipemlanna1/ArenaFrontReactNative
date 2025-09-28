@@ -1,4 +1,5 @@
 export interface WelcomeScreenProps {
+  navigation?: object;
 }
 
 export interface WelcomeScreenState {

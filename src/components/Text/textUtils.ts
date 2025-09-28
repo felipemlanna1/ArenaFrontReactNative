@@ -31,7 +31,9 @@ export const getFontFamily = (family: TextFamily): string => {
   return ArenaTypography.family[family];
 };
 
-export const getLineHeight = (lineHeight: 'tight' | 'comfortable' | 'relaxed' | 'loose'): number => {
+export const getLineHeight = (
+  lineHeight: 'tight' | 'comfortable' | 'relaxed' | 'loose'
+): number => {
   return ArenaTypography.lineHeight[lineHeight];
 };
 

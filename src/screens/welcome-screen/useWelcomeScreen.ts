@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UseWelcomeScreenReturn } from './typesWelcomeScreen';
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '@/navigation/types';
 
 type WelcomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -21,7 +21,6 @@ export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
 
     setTimeout(() => {
       setIsLoading(false);
-      console.log('Arena: Iniciando jornada esportiva!');
     }, 1000);
   }, []);
 

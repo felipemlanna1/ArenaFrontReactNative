@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
   },
 
   interactive: {
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
 
   interactivePressed: {
@@ -28,14 +30,17 @@ export const styles = StyleSheet.create({
     opacity: 0.5,
   },
 
-  truncated: {
-  },
+  truncated: {},
 
   selectable: {
     userSelect: 'text' as const,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   } as TextStyle,
 
-  headingFont: {
+  heading: {
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
 
   monoFont: {
@@ -71,21 +76,17 @@ export const styles = StyleSheet.create({
     textAlign: 'justify',
   },
 
-  tightLineHeight: {
-  },
+  tightLineHeight: {},
 
-  relaxedLineHeight: {
-  },
+  relaxedLineHeight: {},
 
-  highDensity: {
-  },
+  highDensity: {},
 
   noWrap: {
     flexWrap: 'nowrap',
   },
 
-  container: {
-  },
+  container: {},
 
   containerCentered: {
     alignItems: 'center',

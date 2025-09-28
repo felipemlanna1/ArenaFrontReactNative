@@ -26,7 +26,10 @@ export const AppNavigator: React.FC = () => {
     <NavigationContainer theme={CustomDarkTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="ComponentsShowcase" component={ComponentsShowcaseScreen} />
+        <Stack.Screen
+          name="ComponentsShowcase"
+          component={ComponentsShowcaseScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

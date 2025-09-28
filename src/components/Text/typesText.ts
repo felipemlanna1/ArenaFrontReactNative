@@ -21,15 +21,27 @@ export type TextVariant =
   | 'labelError';
 
 export type TextSize =
-  | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | '2xl'
+  | '3xl'
+  | '4xl'
+  | '5xl'
+  | '6xl'
+  | '7xl';
 
 export type TextWeight =
-  | 'light' | 'regular' | 'medium'
-  | 'semibold' | 'bold' | 'extrabold';
+  | 'light'
+  | 'regular'
+  | 'medium'
+  | 'semibold'
+  | 'bold'
+  | 'extrabold';
 
-export type TextFamily =
-  | 'heading' | 'body' | 'ui' | 'mono';
+export type TextFamily = 'heading' | 'body' | 'ui' | 'mono';
 
 export type TextColor =
   | 'primary'
@@ -124,7 +136,8 @@ export interface ComputedTextStyle extends TextStyle {
 
 export type RequiredTextProps = Required<Pick<TextProps, 'children'>>;
 export type OptionalTextProps = Omit<TextProps, 'children'>;
-export type TextPropsWithVariant = TextProps & Required<Pick<TextProps, 'variant'>>;
+export type TextPropsWithVariant = TextProps &
+  Required<Pick<TextProps, 'variant'>>;
 export type TextStyleOverride = Partial<ComputedTextStyle>;
 
 export interface TextColorPalette {
@@ -138,9 +151,3 @@ export interface TextColorPalette {
   warning: string;
 }
 
-export type {
-  ArenaFontSize,
-  ArenaFontWeight,
-  ArenaFontFamily,
-  ArenaLineHeight,
-} from '@/constants';
