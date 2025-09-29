@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaTypography, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.xs,
     backgroundColor: ArenaColors.semantic.errorSubtle,
     borderRadius: ArenaSpacing.xs,
-    borderLeftWidth: 3,
+    borderLeftWidth: ArenaBorders.width.bold,
     borderLeftColor: ArenaColors.semantic.error,
   },
   errorText: {
