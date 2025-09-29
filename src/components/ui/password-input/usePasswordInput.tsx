@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { ArenaColors } from '@/constants';
 import {
   UsePasswordInputParams,
@@ -8,6 +8,7 @@ import {
 } from './typesPasswordInput';
 
 import { View } from 'react-native';
+import { styles } from './stylesPasswordInput';
 
 const EyeIcon: React.FC<EyeIconProps> = ({
   size,
@@ -23,46 +24,52 @@ const EyeIcon: React.FC<EyeIconProps> = ({
 
   return (
     <View
-      style={{
-        width: iconSize,
-        height: iconSize,
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity,
-      }}
+      style={[
+        styles.eyeIconContainer,
+        {
+          width: iconSize,
+          height: iconSize,
+          opacity,
+        },
+      ]}
     >
       <View
-        style={{
-          width: eyeWidth,
-          height: eyeHeight,
-          borderWidth: 1.5,
-          borderColor: color,
-          borderRadius: eyeWidth / 2,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+        style={[
+          styles.eyeIcon,
+          styles.eyeIconBorder,
+          {
+            width: eyeWidth,
+            height: eyeHeight,
+            borderColor: color,
+            borderRadius: eyeWidth / 2,
+          },
+        ]}
       >
         {isVisible && (
           <View
-            style={{
-              width: pupilSize,
-              height: pupilSize,
-              backgroundColor: color,
-              borderRadius: pupilSize / 2,
-            }}
+            style={[
+              styles.eyeIconPupil,
+              {
+                width: pupilSize,
+                height: pupilSize,
+                backgroundColor: color,
+                borderRadius: pupilSize / 2,
+              },
+            ]}
           />
         )}
       </View>
 
       {!isVisible && (
         <View
-          style={{
-            position: 'absolute',
-            width: iconSize * 0.9,
-            height: 1.5,
-            backgroundColor: color,
-            transform: [{ rotate: '45deg' }],
-          }}
+          style={[
+            styles.eyeIconStrike,
+            {
+              width: iconSize * 0.9,
+              backgroundColor: color,
+              transform: [{ rotate: '45deg' }],
+            },
+          ]}
         />
       )}
     </View>

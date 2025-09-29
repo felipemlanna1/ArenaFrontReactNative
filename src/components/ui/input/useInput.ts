@@ -251,6 +251,7 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     required,
     sizeConfig,
     variantConfig,
+    hasValue,
   ]);
 
   const iconProps = useMemo(
@@ -303,7 +304,7 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
 
 export const useInputAccessibility = (
   label: string | undefined,
-  value: string,
+  _value: string,
   placeholder: string | undefined,
   disabled: boolean,
   hasError: boolean,

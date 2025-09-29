@@ -16,8 +16,8 @@ const PRIMARY_BUTTONS_CODE = `import { Button } from '@/components/ui/button';
 const ACCENT_BUTTONS_CODE = `<Button variant="destructive">Delete</Button>
 <Button variant="success">Approve</Button>`;
 
-const SUBTLE_BUTTONS_CODE = `<Button variant="ghost">Filter</Button>
-<Button variant="ghost">More</Button>`;
+const SUBTLE_BUTTONS_CODE = `<Button variant="subtle">Subtle Action</Button>
+<Button variant="ghost">Filter</Button>`;
 
 export const ButtonSection: React.FC<ButtonSectionProps> = ({ onCopyCode }) => {
   const [loadingStates, setLoadingStates] = React.useState({
@@ -102,13 +102,13 @@ export const ButtonSection: React.FC<ButtonSectionProps> = ({ onCopyCode }) => {
       >
         <View style={styles.buttonRow}>
           <View style={styles.buttonColumn}>
-            <Button variant="ghost" onPress={() => {}} testID="button-ghost">
-              Filter
+            <Button variant="subtle" onPress={() => {}} testID="button-subtle">
+              Subtle Action
             </Button>
           </View>
           <View style={styles.buttonColumn}>
-            <Button variant="ghost" onPress={() => {}} testID="button-outline">
-              More Options
+            <Button variant="ghost" onPress={() => {}} testID="button-ghost">
+              Filter
             </Button>
           </View>
         </View>

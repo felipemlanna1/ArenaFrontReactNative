@@ -56,10 +56,10 @@ const SimpleLabel: React.FC<SimpleLabelProps> = ({
 
 const ClearButton: React.FC<ClearButtonProps> = ({
   onPress,
-  size,
-  variant,
+  size: _size,
+  variant: _variant,
   disabled,
-  disableAnimations,
+  disableAnimations: _disableAnimations,
   testID,
 }) => {
   return (

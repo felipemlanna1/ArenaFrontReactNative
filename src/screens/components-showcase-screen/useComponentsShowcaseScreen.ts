@@ -17,7 +17,7 @@ export const useComponentsShowcaseScreen =
     const handleBackPress = useCallback(() => {
       navigation.goBack();
     }, [navigation]);
-    const handleCopyCode = useCallback((code: string) => {}, []);
+    const handleCopyCode = useCallback((_code: string) => {}, []);
     return {
       activeSection,
       actions: {

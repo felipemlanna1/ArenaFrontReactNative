@@ -3,6 +3,7 @@ import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ArenaColors } from '../constants';
 import { WelcomeScreen } from '../screens/welcome-screen';
+import { LoginScreen } from '../screens/login-screen';
 import { ComponentsShowcaseScreen } from '../screens/components-showcase-screen';
 import { RootStackParamList } from './typesNavigation';
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -23,6 +24,7 @@ export const AppNavigator: React.FC = () => {
     <NavigationContainer theme={CustomDarkTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           name="ComponentsShowcase"
           component={ComponentsShowcaseScreen}

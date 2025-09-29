@@ -1,6 +1,7 @@
 export const ArenaColors = {
   brand: {
     primary: '#FF5301',
+    secondary: '#20303D',
     primaryHover: '#E04A00',
     primaryPressed: '#D23E00',
     primarySubtle: 'rgba(255, 83, 1, 0.15)',
@@ -42,8 +43,11 @@ export const ArenaColors = {
   },
   semantic: {
     error: '#EF4444',
+    errorSubtle: 'rgba(239, 68, 68, 0.1)',
     success: '#10B981',
+    successSubtle: 'rgba(16, 185, 129, 0.1)',
     warning: '#F59E0B',
+    warningSubtle: 'rgba(245, 158, 11, 0.1)',
   },
 } as const;
 export type ArenaBrandColor = keyof typeof ArenaColors.brand;

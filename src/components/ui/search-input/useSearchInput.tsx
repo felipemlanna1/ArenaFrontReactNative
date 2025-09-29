@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import {
   UseSearchInputParams,
@@ -6,6 +6,7 @@ import {
   SearchIconProps,
   ClearIconProps,
 } from './typesSearchInput';
+import { styles } from './stylesSearchInput';
 
 export const SearchIcon: React.FC<SearchIconProps> = ({
   size,
@@ -21,23 +22,25 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
   if (isSearching) {
     return (
       <View
-        style={{
-          width: iconSize,
-          height: iconSize,
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity,
-        }}
+        style={[
+          styles.iconContainer,
+          {
+            width: iconSize,
+            height: iconSize,
+            opacity,
+          },
+        ]}
       >
         <View
-          style={{
-            width: circleSize * 0.8,
-            height: circleSize * 0.8,
-            borderWidth: 2,
-            borderColor: color,
-            borderTopColor: 'transparent',
-            borderRadius: (circleSize * 0.8) / 2,
-          }}
+          style={[
+            styles.searchIconLoading,
+            {
+              width: circleSize * 0.8,
+              height: circleSize * 0.8,
+              borderColor: color,
+              borderRadius: (circleSize * 0.8) / 2,
+            },
+          ]}
         />
       </View>
     );
@@ -45,35 +48,38 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
 
   return (
     <View
-      style={{
-        width: iconSize,
-        height: iconSize,
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity,
-      }}
+      style={[
+        styles.iconContainer,
+        {
+          width: iconSize,
+          height: iconSize,
+          opacity,
+        },
+      ]}
     >
       <View
-        style={{
-          width: circleSize,
-          height: circleSize,
-          borderWidth: 2,
-          borderColor: color,
-          borderRadius: circleSize / 2,
-          position: 'relative',
-        }}
+        style={[
+          styles.searchIconCircle,
+          {
+            width: circleSize,
+            height: circleSize,
+            borderColor: color,
+            borderRadius: circleSize / 2,
+          },
+        ]}
       />
 
       <View
-        style={{
-          position: 'absolute',
-          width: handleSize,
-          height: 2,
-          backgroundColor: color,
-          bottom: iconSize * 0.15,
-          right: iconSize * 0.15,
-          transform: [{ rotate: '45deg' }],
-        }}
+        style={[
+          styles.searchIconHandle,
+          {
+            width: handleSize,
+            backgroundColor: color,
+            bottom: iconSize * 0.15,
+            right: iconSize * 0.15,
+            transform: [{ rotate: '45deg' }],
+          },
+        ]}
       />
     </View>
   );
@@ -90,41 +96,45 @@ export const ClearIcon: React.FC<ClearIconProps> = ({
 
   return (
     <View
-      style={{
-        width: iconSize,
-        height: iconSize,
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity,
-      }}
+      style={[
+        styles.clearIconContainer,
+        {
+          width: iconSize,
+          height: iconSize,
+          opacity,
+        },
+      ]}
     >
       <View
-        style={{
-          width: iconSize * 0.8,
-          height: iconSize * 0.8,
-          backgroundColor: `${color}20`,
-          borderRadius: (iconSize * 0.8) / 2,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+        style={[
+          styles.clearIconBackground,
+          {
+            width: iconSize * 0.8,
+            height: iconSize * 0.8,
+            backgroundColor: `${color}20`,
+            borderRadius: (iconSize * 0.8) / 2,
+          },
+        ]}
       >
         <View
-          style={{
-            position: 'absolute',
-            width: lineLength,
-            height: 1.5,
-            backgroundColor: color,
-            transform: [{ rotate: '45deg' }],
-          }}
+          style={[
+            styles.clearIconLine,
+            {
+              width: lineLength,
+              backgroundColor: color,
+              transform: [{ rotate: '45deg' }],
+            },
+          ]}
         />
         <View
-          style={{
-            position: 'absolute',
-            width: lineLength,
-            height: 1.5,
-            backgroundColor: color,
-            transform: [{ rotate: '-45deg' }],
-          }}
+          style={[
+            styles.clearIconLine,
+            {
+              width: lineLength,
+              backgroundColor: color,
+              transform: [{ rotate: '-45deg' }],
+            },
+          ]}
         />
       </View>
     </View>

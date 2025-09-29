@@ -6,12 +6,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Input } from '../input';
 import { Text } from '@/components/text';
-import { ArenaSpacing } from '@/constants';
 import {
   PasswordInputProps,
   PasswordStrengthIndicatorProps,
 } from './typesPasswordInput';
 import { usePasswordInput } from './usePasswordInput';
+import { styles } from './stylesPasswordInput';
 
 const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
   strength,
@@ -65,48 +65,42 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
   });
 
   return (
-    <View style={{ marginTop: ArenaSpacing.xs }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: ArenaSpacing.xs,
-        }}
-      >
+    <View style={styles.strengthContainer}>
+      <View style={styles.strengthHeader}>
         <Text
           variant="captionSecondary"
-          style={{
-            fontSize: size === 'xs' ? 10 : size === 'sm' ? 11 : 12,
-          }}
+          style={[
+            ...(size === 'xs' ? [styles.strengthTextXs] : []),
+            ...(size === 'sm' ? [styles.strengthTextSm] : []),
+            ...(size === 'md' ? [styles.strengthTextMd] : []),
+          ]}
         >
           Password Strength
         </Text>
         <Text
           variant="captionSecondary"
-          style={{
-            fontSize: size === 'xs' ? 10 : size === 'sm' ? 11 : 12,
-            color: strength.color,
-            fontWeight: '600',
-          }}
+          style={[
+            ...(size === 'xs' ? [styles.strengthTextXs] : []),
+            ...(size === 'sm' ? [styles.strengthTextSm] : []),
+            ...(size === 'md' ? [styles.strengthTextMd] : []),
+            styles.strengthLabel,
+            { color: strength.color },
+          ]}
         >
           {strength.label}
         </Text>
       </View>
 
       <View
-        style={{
-          width: barWidth,
-          height: barHeight,
-          backgroundColor: '#2A2A2A',
-          borderRadius: barHeight / 2,
-          overflow: 'hidden',
-        }}
+        style={[
+          styles.strengthBarContainer,
+          { width: barWidth, height: barHeight, borderRadius: barHeight / 2 },
+        ]}
       >
         <Animated.View
           style={[
+            styles.strengthBar,
             {
-              height: '100%',
               backgroundColor: strength.color,
               borderRadius: barHeight / 2,
             },
@@ -116,15 +110,17 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
       </View>
 
       {strength.suggestions.length > 0 && (
-        <View style={{ marginTop: ArenaSpacing.xs }}>
+        <View style={styles.suggestionsContainer}>
           {strength.suggestions.slice(0, 2).map((suggestion, index) => (
             <Text
               key={index}
               variant="captionMuted"
-              style={{
-                fontSize: size === 'xs' ? 9 : size === 'sm' ? 10 : 11,
-                marginTop: index > 0 ? 2 : 0,
-              }}
+              style={[
+                ...(size === 'xs' ? [styles.suggestionTextXs] : []),
+                ...(size === 'sm' ? [styles.suggestionTextSm] : []),
+                ...(size === 'md' ? [styles.suggestionTextMd] : []),
+                ...(index > 0 ? [styles.suggestionSpacing] : []),
+              ]}
             >
               • {suggestion}
             </Text>
@@ -162,22 +158,15 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
         disabled={inputProps.disabled}
         testID={toggleTestID}
         hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: inputProps.disabled ? 0.5 : 1,
-        }}
+        style={[
+          styles.toggleButtonContainer,
+          inputProps.disabled && styles.toggleButtonDisabled,
+        ]}
       >
         <passwordLogic.EyeIcon size={size} color={color} />
       </TouchableOpacity>
     );
-  }, [
-    showToggle,
-    passwordLogic.toggleVisibility,
-    passwordLogic.EyeIcon,
-    inputProps.disabled,
-    toggleTestID,
-  ]);
+  }, [showToggle, passwordLogic, inputProps.disabled, toggleTestID]);
 
   return (
     <View>

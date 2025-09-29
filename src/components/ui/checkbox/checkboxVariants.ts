@@ -1,0 +1,65 @@
+import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { CheckboxSizeConfig, CheckboxVariantConfig } from './typesCheckbox';
+
+export const checkboxSizes: Record<string, CheckboxSizeConfig> = {
+  sm: {
+    checkboxSize: 16,
+    iconSize: 12,
+    fontSize: ArenaTypography.size.sm,
+    spacing: ArenaSpacing.xs,
+  },
+  md: {
+    checkboxSize: 20,
+    iconSize: 14,
+    fontSize: ArenaTypography.size.md,
+    spacing: ArenaSpacing.sm,
+  },
+  lg: {
+    checkboxSize: 24,
+    iconSize: 16,
+    fontSize: ArenaTypography.size.lg,
+    spacing: ArenaSpacing.md,
+  },
+};
+
+export const checkboxVariants: Record<string, CheckboxVariantConfig> = {
+  default: {
+    backgroundColor: ArenaColors.neutral.light,
+    borderColor: ArenaColors.neutral.medium,
+    borderWidth: 1,
+    checkColor: ArenaColors.neutral.darkest,
+    labelColor: ArenaColors.text.primary,
+    disabled: {
+      backgroundColor: ArenaColors.disabled.background,
+      borderColor: ArenaColors.disabled.border,
+      checkColor: ArenaColors.disabled.text,
+      labelColor: ArenaColors.disabled.text,
+    },
+  },
+  primary: {
+    backgroundColor: ArenaColors.brand.primary,
+    borderColor: ArenaColors.brand.primary,
+    borderWidth: 2,
+    checkColor: ArenaColors.neutral.light,
+    labelColor: ArenaColors.neutral.medium,
+    disabled: {
+      backgroundColor: ArenaColors.disabled.background,
+      borderColor: ArenaColors.disabled.border,
+      checkColor: ArenaColors.disabled.text,
+      labelColor: ArenaColors.disabled.text,
+    },
+  },
+  secondary: {
+    backgroundColor: ArenaColors.neutral.light,
+    borderColor: ArenaColors.brand.primary,
+    borderWidth: 2,
+    checkColor: ArenaColors.brand.primary,
+    labelColor: ArenaColors.text.primary,
+    disabled: {
+      backgroundColor: ArenaColors.disabled.background,
+      borderColor: ArenaColors.disabled.border,
+      checkColor: ArenaColors.disabled.text,
+      labelColor: ArenaColors.disabled.text,
+    },
+  },
+};
