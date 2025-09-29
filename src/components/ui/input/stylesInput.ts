@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaTypography,
+  ArenaBorders,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -59,9 +64,9 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.light,
     includeFontPadding: false,
     textAlignVertical: 'center',
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    margin: 0,
+    paddingHorizontal: ArenaSpacing.none,
+    paddingVertical: ArenaSpacing.none,
+    margin: ArenaSpacing.none,
   },
 
   inputDisabled: {
@@ -158,7 +163,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 24,
     height: 24,
-    borderRadius: 12,
+    borderRadius: ArenaBorders.radius.md,
     backgroundColor: `${ArenaColors.neutral.medium}33`,
     marginLeft: ArenaSpacing.sm,
   },
@@ -284,31 +289,36 @@ export const styles = StyleSheet.create({
 
   xsHelperText: {
     fontSize: ArenaTypography.size.xs * 0.9,
-    lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.comfortable,
+    lineHeight:
+      ArenaTypography.size.xs * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.xs,
   },
 
   smHelperText: {
     fontSize: ArenaTypography.size.sm * 0.9,
-    lineHeight: ArenaTypography.size.sm * ArenaTypography.lineHeight.comfortable,
+    lineHeight:
+      ArenaTypography.size.sm * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.xs,
   },
 
   mdHelperText: {
     fontSize: ArenaTypography.size.md * 0.9,
-    lineHeight: ArenaTypography.size.md * ArenaTypography.lineHeight.comfortable,
+    lineHeight:
+      ArenaTypography.size.md * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.sm,
   },
 
   lgHelperText: {
     fontSize: ArenaTypography.size.lg * 0.9,
-    lineHeight: ArenaTypography.size.lg * ArenaTypography.lineHeight.comfortable,
+    lineHeight:
+      ArenaTypography.size.lg * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.sm,
   },
 
   xlHelperText: {
     fontSize: ArenaTypography.size.xl * 0.9,
-    lineHeight: ArenaTypography.size.xl * ArenaTypography.lineHeight.comfortable,
+    lineHeight:
+      ArenaTypography.size.xl * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.md,
   },
 

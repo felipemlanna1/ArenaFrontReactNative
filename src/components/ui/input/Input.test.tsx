@@ -13,22 +13,14 @@ describe('Input Component', () => {
 
     it('deve aceitar testID', () => {
       const { getByTestId } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          testID="test-input"
-        />
+        <Input value="" onChangeText={() => {}} testID="test-input" />
       );
       expect(getByTestId('test-input')).toBeTruthy();
     });
 
     it('deve renderizar com placeholder', () => {
       const { getByPlaceholderText } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          placeholder="Digite aqui"
-        />
+        <Input value="" onChangeText={() => {}} placeholder="Digite aqui" />
       );
       expect(getByPlaceholderText('Digite aqui')).toBeTruthy();
     });
@@ -40,11 +32,7 @@ describe('Input Component', () => {
     variants.forEach(variant => {
       it(`deve renderizar variante ${variant} corretamente`, () => {
         const { getByDisplayValue } = render(
-          <Input
-            value="test"
-            onChangeText={() => {}}
-            variant={variant}
-          />
+          <Input value="test" onChangeText={() => {}} variant={variant} />
         );
         expect(getByDisplayValue('test')).toBeTruthy();
       });
@@ -57,11 +45,7 @@ describe('Input Component', () => {
     sizes.forEach(size => {
       it(`deve renderizar tamanho ${size} corretamente`, () => {
         const { getByDisplayValue } = render(
-          <Input
-            value="test"
-            onChangeText={() => {}}
-            size={size}
-          />
+          <Input value="test" onChangeText={() => {}} size={size} />
         );
         expect(getByDisplayValue('test')).toBeTruthy();
       });
@@ -71,11 +55,7 @@ describe('Input Component', () => {
   describe('Estados', () => {
     it('deve renderizar estado disabled', () => {
       const { getByDisplayValue } = render(
-        <Input
-          value="test"
-          onChangeText={() => {}}
-          disabled={true}
-        />
+        <Input value="test" onChangeText={() => {}} disabled={true} />
       );
       const input = getByDisplayValue('test');
       expect(input.props.editable).toBe(false);
@@ -83,11 +63,7 @@ describe('Input Component', () => {
 
     it('deve renderizar estado readonly', () => {
       const { getByDisplayValue } = render(
-        <Input
-          value="test"
-          onChangeText={() => {}}
-          readonly={true}
-        />
+        <Input value="test" onChangeText={() => {}} readonly={true} />
       );
       const input = getByDisplayValue('test');
       expect(input.props.editable).toBe(false);
@@ -110,10 +86,7 @@ describe('Input Component', () => {
     it('deve chamar onChangeText quando texto muda', () => {
       const onChangeTextMock = jest.fn();
       const { getByDisplayValue } = render(
-        <Input
-          value="test"
-          onChangeText={onChangeTextMock}
-        />
+        <Input value="test" onChangeText={onChangeTextMock} />
       );
 
       fireEvent.changeText(getByDisplayValue('test'), 'novo texto');
@@ -123,11 +96,7 @@ describe('Input Component', () => {
     it('deve chamar onFocus quando input recebe foco', () => {
       const onFocusMock = jest.fn();
       const { getByDisplayValue } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          onFocus={onFocusMock}
-        />
+        <Input value="" onChangeText={() => {}} onFocus={onFocusMock} />
       );
 
       fireEvent(getByDisplayValue(''), 'focus');
@@ -137,11 +106,7 @@ describe('Input Component', () => {
     it('deve chamar onBlur quando input perde foco', () => {
       const onBlurMock = jest.fn();
       const { getByDisplayValue } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          onBlur={onBlurMock}
-        />
+        <Input value="" onChangeText={() => {}} onBlur={onBlurMock} />
       );
 
       fireEvent(getByDisplayValue(''), 'blur');
@@ -152,34 +117,21 @@ describe('Input Component', () => {
   describe('Label e Helper Text', () => {
     it('deve mostrar label quando fornecida', () => {
       const { getByText } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          label="Nome"
-        />
+        <Input value="" onChangeText={() => {}} label="Nome" />
       );
       expect(getByText('Nome')).toBeTruthy();
     });
 
     it('deve mostrar asterisco para campos obrigatórios', () => {
       const { getByText } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          label="Nome"
-          required={true}
-        />
+        <Input value="" onChangeText={() => {}} label="Nome" required={true} />
       );
       expect(getByText('*')).toBeTruthy();
     });
 
     it('deve mostrar helper text quando há erro', () => {
       const { getByText } = render(
-        <Input
-          value=""
-          onChangeText={() => {}}
-          error="Campo obrigatório"
-        />
+        <Input value="" onChangeText={() => {}} error="Campo obrigatório" />
       );
       expect(getByText('Campo obrigatório')).toBeTruthy();
     });

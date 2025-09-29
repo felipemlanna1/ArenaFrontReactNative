@@ -12,6 +12,11 @@ export const ArenaColors = {
     light: '#FFFFFF',
     transparent: 'transparent',
   },
+  text: {
+    primary: '#1B1D29',
+    secondary: '#20303D',
+    inverse: '#FFFFFF',
+  },
   interaction: {
     hover: {
       primary: '#E04A00',

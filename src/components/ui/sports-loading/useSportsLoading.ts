@@ -23,31 +23,39 @@ import { styles } from './stylesSportsLoading';
 const getSizeConfig = (
   size: SportsLoadingSize
 ): Pick<SportsLoadingConfig, 'iconSize' | 'spacing' | 'containerPadding'> => {
+  if (!ArenaSpacing) {
+    return {
+      iconSize: 32,
+      spacing: 12,
+      containerPadding: 12,
+    };
+  }
+
   switch (size) {
     case 'xs':
       return {
         iconSize: 20,
-        spacing: ArenaSpacing.xs,
-        containerPadding: ArenaSpacing.xs,
+        spacing: ArenaSpacing.xs || 4,
+        containerPadding: ArenaSpacing.xs || 4,
       };
     case 'sm':
       return {
         iconSize: 24,
-        spacing: ArenaSpacing.sm,
-        containerPadding: ArenaSpacing.sm,
+        spacing: ArenaSpacing.sm || 8,
+        containerPadding: ArenaSpacing.sm || 8,
       };
     case 'lg':
       return {
         iconSize: 48,
-        spacing: ArenaSpacing.lg,
-        containerPadding: ArenaSpacing.lg,
+        spacing: ArenaSpacing.lg || 16,
+        containerPadding: ArenaSpacing.lg || 16,
       };
     case 'md':
     default:
       return {
         iconSize: 32,
-        spacing: ArenaSpacing.md,
-        containerPadding: ArenaSpacing.md,
+        spacing: ArenaSpacing.md || 12,
+        containerPadding: ArenaSpacing.md || 12,
       };
   }
 };
@@ -141,18 +149,19 @@ export const useSportsLoading = (
       ...(orientation === 'horizontal'
         ? styles.horizontalContainer
         : styles.verticalContainer),
-      padding: config.containerPadding,
-      gap: config.spacing,
+      padding: config?.containerPadding || 12,
+      gap: config?.spacing || 12,
     };
-  }, [orientation, config.containerPadding, config.spacing]);
+  }, [orientation, config?.containerPadding, config?.spacing]);
 
   const iconContainerStyle = useMemo((): ViewStyle => {
+    const iconSize = config?.iconSize || 32;
     return {
       ...styles.iconContainer,
-      width: config.iconSize,
-      height: config.iconSize,
+      width: iconSize,
+      height: iconSize,
     };
-  }, [config.iconSize]);
+  }, [config?.iconSize]);
 
   const icon1AnimatedStyle = useAnimatedStyle(() => ({
     opacity: icon1Opacity.value,
@@ -170,11 +179,13 @@ export const useSportsLoading = (
   }));
 
   const iconStyle = (index: number) => {
+    const iconSize = config?.iconSize || 32;
+
     const baseStyle = [
       styles.icon,
       {
-        width: config.iconSize,
-        height: config.iconSize,
+        width: iconSize,
+        height: iconSize,
       },
     ];
 

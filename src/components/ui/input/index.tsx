@@ -1,10 +1,19 @@
 import React, { useRef, useMemo } from 'react';
-import { View, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Pressable,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
+  ViewStyle,
+} from 'react-native';
 import Animated from 'react-native-reanimated';
 import { SportsLoading } from '../sports-loading';
+import type { SportsLoadingSize } from '../sports-loading/typesSportsLoading';
 import { Text } from '@/components/text';
 import { ArenaColors } from '@/constants';
-import { InputProps, FloatingLabelProps, SimpleLabelProps, ClearButtonProps } from './typesInput';
+import { InputProps, SimpleLabelProps, ClearButtonProps } from './typesInput';
 import { useInput, useInputAccessibility } from './useInput';
 import { useLoadingAnimation } from './inputAnimations';
 import { getInputSize, getInputVariant } from './inputVariants';
@@ -12,6 +21,8 @@ import { styles } from './stylesInput';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+
+const LOADING_SPINNER_SIZE: SportsLoadingSize = 'xs';
 
 const SimpleLabel: React.FC<SimpleLabelProps> = ({
   label,
@@ -33,7 +44,12 @@ const SimpleLabel: React.FC<SimpleLabelProps> = ({
   return (
     <Text variant="labelPrimary" style={labelStyle}>
       {label}
-      {required && <Text variant="captionSecondary" style={styles.requiredAsterisk}> *</Text>}
+      {required && (
+        <Text variant="captionSecondary" style={styles.requiredAsterisk}>
+          {' '}
+          *
+        </Text>
+      )}
     </Text>
   );
 };
@@ -108,8 +124,14 @@ export const Input: React.FC<InputProps> = ({
     disableAnimations,
     haptic,
     onChangeText,
-    onFocus: () => textInputProps.onFocus?.(undefined as any),
-    onBlur: () => textInputProps.onBlur?.(undefined as any),
+    onFocus: () =>
+      textInputProps.onFocus?.(
+        {} as NativeSyntheticEvent<TextInputFocusEventData>
+      ),
+    onBlur: () =>
+      textInputProps.onBlur?.(
+        {} as NativeSyntheticEvent<TextInputFocusEventData>
+      ),
     onClear: () => {},
   });
 
@@ -141,7 +163,9 @@ export const Input: React.FC<InputProps> = ({
       style={[
         inputLogic.computedStyles.container,
         containerStyle,
-        !disableAnimations && inputLogic.animatedStyles.animatedContainerStyle,
+        ...(disableAnimations
+          ? []
+          : [inputLogic.animatedStyles.animatedContainerStyle as ViewStyle]),
       ]}
     >
       {inputLogic.shouldShowLabel && label && (
@@ -161,7 +185,9 @@ export const Input: React.FC<InputProps> = ({
         disabled={inputLogic.isInteractionDisabled}
         style={[
           inputLogic.computedStyles.inputContainer,
-          !disableAnimations && inputLogic.animatedStyles.animatedInputStyle,
+          ...(disableAnimations
+            ? []
+            : [inputLogic.animatedStyles.animatedInputStyle as ViewStyle]),
           style,
         ]}
       >
@@ -180,15 +206,16 @@ export const Input: React.FC<InputProps> = ({
           onChangeText={inputLogic.handlers.handleChangeText}
           onFocus={inputLogic.handlers.handleFocus}
           onBlur={inputLogic.handlers.handleBlur}
-          placeholder={!inputLogic.shouldShowLabel || !inputLogic.isFocused ? placeholder : undefined}
+          placeholder={
+            !inputLogic.shouldShowLabel || !inputLogic.isFocused
+              ? placeholder
+              : undefined
+          }
           placeholderTextColor={inputLogic.variantConfig.placeholderColor}
           editable={!inputLogic.isInteractionDisabled && !readonly}
           selectTextOnFocus={selectTextOnFocus}
           autoFocus={autoFocus}
-          style={[
-            inputLogic.computedStyles.input,
-            inputStyle,
-          ]}
+          style={[inputLogic.computedStyles.input, inputStyle]}
           testID={testID}
           {...accessibility}
           {...textInputProps}
@@ -202,7 +229,7 @@ export const Input: React.FC<InputProps> = ({
             ]}
           >
             <SportsLoading
-              size="xs"
+              size={LOADING_SPINNER_SIZE}
               animationSpeed="normal"
               testID={`${testID}-loading`}
             />

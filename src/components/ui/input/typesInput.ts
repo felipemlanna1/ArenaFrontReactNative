@@ -152,10 +152,10 @@ export interface UseInputReturn {
   };
 
   animatedStyles: {
-    animatedContainerStyle: any;
-    animatedInputStyle: any;
-    animatedLabelStyle: any;
-    animatedFocusRingStyle: any;
+    animatedContainerStyle: AnimatedStyle<ViewStyle>;
+    animatedInputStyle: AnimatedStyle<TextStyle>;
+    animatedLabelStyle: AnimatedStyle<TextStyle>;
+    animatedFocusRingStyle: AnimatedStyle<ViewStyle>;
   };
 
   handlers: {

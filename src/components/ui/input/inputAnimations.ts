@@ -5,8 +5,6 @@ import {
   withTiming,
   withSequence,
   runOnJS,
-  interpolateColor,
-  SharedValue,
 } from 'react-native-reanimated';
 import { useCallback, useEffect } from 'react';
 import * as Haptics from 'expo-haptics';
@@ -131,7 +129,9 @@ export const useInputAnimations = (
 
     runOnJS(triggerHapticFeedback)('error');
 
-    borderColor.value = withTiming(ArenaColors.semantic.error, { duration: 200 });
+    borderColor.value = withTiming(ArenaColors.semantic.error, {
+      duration: 200,
+    });
 
     errorShake.value = withSequence(
       withTiming(-4, { duration: 50 }),
@@ -147,7 +147,9 @@ export const useInputAnimations = (
 
     runOnJS(triggerHapticFeedback)('success');
 
-    borderColor.value = withTiming(ArenaColors.semantic.success, { duration: 200 });
+    borderColor.value = withTiming(ArenaColors.semantic.success, {
+      duration: 200,
+    });
   }, [disableAnimations, borderColor, triggerHapticFeedback]);
 
   useEffect(() => {
@@ -161,10 +163,14 @@ export const useInputAnimations = (
 
     if (disabled) {
       focusRingOpacity.value = withTiming(0, { duration: 200 });
-      borderColor.value = withTiming(ArenaColors.disabled.border, { duration: 200 });
+      borderColor.value = withTiming(ArenaColors.disabled.border, {
+        duration: 200,
+      });
     } else if (readonly) {
       focusRingOpacity.value = withTiming(0, { duration: 200 });
-      borderColor.value = withTiming(`${ArenaColors.neutral.medium}30`, { duration: 200 });
+      borderColor.value = withTiming(`${ArenaColors.neutral.medium}30`, {
+        duration: 200,
+      });
     }
   }, [
     disabled,
@@ -236,10 +242,7 @@ export const useInputAnimations = (
     }
 
     return {
-      transform: [
-        { translateY: labelY.value },
-        { scale: labelScale.value },
-      ],
+      transform: [{ translateY: labelY.value }, { scale: labelScale.value }],
     };
   });
 
@@ -282,7 +285,10 @@ export const useInputAnimations = (
   };
 };
 
-export const useLoadingAnimation = (loading: boolean, disableAnimations: boolean = false) => {
+export const useLoadingAnimation = (
+  loading: boolean,
+  disableAnimations: boolean = false
+) => {
   const opacity = useSharedValue(0);
   const rotation = useSharedValue(0);
 
@@ -296,7 +302,7 @@ export const useLoadingAnimation = (loading: boolean, disableAnimations: boolean
 
     if (loading) {
       const startRotation = () => {
-        rotation.value = withTiming(360, { duration: 1000 }, (finished) => {
+        rotation.value = withTiming(360, { duration: 1000 }, finished => {
           if (finished && loading) {
             rotation.value = 0;
             startRotation();

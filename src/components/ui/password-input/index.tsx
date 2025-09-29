@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming, interpolate } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 import { Input } from '../input';
 import { Text } from '@/components/text';
 import { ArenaSpacing } from '@/constants';
-import { PasswordInputProps, PasswordStrengthIndicatorProps } from './typesPasswordInput';
+import {
+  PasswordInputProps,
+  PasswordStrengthIndicatorProps,
+} from './typesPasswordInput';
 import { usePasswordInput } from './usePasswordInput';
 
 const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
@@ -88,7 +94,6 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
         </Text>
       </View>
 
-      {/* Progress bar background */}
       <View
         style={{
           width: barWidth,
@@ -98,7 +103,6 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
           overflow: 'hidden',
         }}
       >
-        {/* Progress bar fill */}
         <Animated.View
           style={[
             {
@@ -111,7 +115,6 @@ const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
         />
       </View>
 
-      {/* Suggestions */}
       {strength.suggestions.length > 0 && (
         <View style={{ marginTop: ArenaSpacing.xs }}>
           {strength.suggestions.slice(0, 2).map((suggestion, index) => (

@@ -1,6 +1,11 @@
 import { useCallback, useMemo, useState, useRef } from 'react';
-import { TextInput } from 'react-native';
-import { UseInputParams, UseInputReturn, InputAccessibilityProps } from './typesInput';
+import { TextInput, ViewStyle, TextStyle } from 'react-native';
+import { AnimatedStyle } from 'react-native-reanimated';
+import {
+  UseInputParams,
+  UseInputReturn,
+  InputAccessibilityProps,
+} from './typesInput';
 import { getInputVariant, getInputSize } from './inputVariants';
 import { useInputAnimations } from './inputAnimations';
 import { styles } from './stylesInput';
@@ -17,7 +22,6 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     success,
     warning,
     label,
-    placeholder,
     required,
     clearable,
     fullWidth,
@@ -34,17 +38,24 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
 
   const hasValue = useMemo(() => value.length > 0, [value]);
   const hasError = useMemo(() => Boolean(error), [error]);
-  const hasSuccess = useMemo(() => Boolean(success) && !hasError, [success, hasError]);
-  const hasWarning = useMemo(() => Boolean(warning) && !hasError && !hasSuccess, [warning, hasError, hasSuccess]);
+  const hasSuccess = useMemo(
+    () => Boolean(success) && !hasError,
+    [success, hasError]
+  );
+  const hasWarning = useMemo(
+    () => Boolean(warning) && !hasError && !hasSuccess,
+    [warning, hasError, hasSuccess]
+  );
 
   const isInteractionDisabled = disabled || loading;
   const shouldShowLabel = Boolean(label);
   const shouldShowHelperText = Boolean(
     (hasError && typeof error === 'string') ||
-    (hasSuccess && typeof success === 'string') ||
-    (hasWarning && typeof warning === 'string')
+      (hasSuccess && typeof success === 'string') ||
+      (hasWarning && typeof warning === 'string')
   );
-  const shouldShowClearButton = clearable && hasValue && !disabled && !readonly && !loading;
+  const shouldShowClearButton =
+    clearable && hasValue && !disabled && !readonly && !loading;
 
   const variantConfig = useMemo(() => {
     if (hasError) return getInputVariant('error');
@@ -55,15 +66,18 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
 
   const sizeConfig = useMemo(() => getInputSize(size), [size]);
 
-  const inputConfig = useMemo(() => ({
-    height: sizeConfig.container.height,
-    fontSize: sizeConfig.text.fontSize,
-    paddingHorizontal: sizeConfig.container.paddingHorizontal,
-    paddingVertical: sizeConfig.container.paddingVertical,
-    iconSize: sizeConfig.icon.size,
-    borderRadius: sizeConfig.container.borderRadius,
-    borderWidth: 1.5,
-  }), [sizeConfig]);
+  const inputConfig = useMemo(
+    () => ({
+      height: sizeConfig.container.height,
+      fontSize: sizeConfig.text.fontSize,
+      paddingHorizontal: sizeConfig.container.paddingHorizontal,
+      paddingVertical: sizeConfig.container.paddingVertical,
+      iconSize: sizeConfig.icon.size,
+      borderRadius: sizeConfig.container.borderRadius,
+      borderWidth: 1.5,
+    }),
+    [sizeConfig]
+  );
 
   const animations = useInputAnimations(
     variant,
@@ -91,10 +105,13 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     onBlur?.();
   }, [animations, onBlur]);
 
-  const handleChangeText = useCallback((text: string) => {
-    if (isInteractionDisabled) return;
-    onChangeText(text);
-  }, [isInteractionDisabled, onChangeText]);
+  const handleChangeText = useCallback(
+    (text: string) => {
+      if (isInteractionDisabled) return;
+      onChangeText(text);
+    },
+    [isInteractionDisabled, onChangeText]
+  );
 
   const handleClear = useCallback(() => {
     if (isInteractionDisabled) return;
@@ -124,12 +141,16 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     } else if (isFocused) {
       inputContainerStyles.push(styles.inputContainerFocused);
       if (hasError) inputContainerStyles.push(styles.inputContainerError);
-      else if (hasSuccess) inputContainerStyles.push(styles.inputContainerSuccess);
-      else if (hasWarning) inputContainerStyles.push(styles.inputContainerWarning);
+      else if (hasSuccess)
+        inputContainerStyles.push(styles.inputContainerSuccess);
+      else if (hasWarning)
+        inputContainerStyles.push(styles.inputContainerWarning);
     } else {
       if (hasError) inputContainerStyles.push(styles.inputContainerError);
-      else if (hasSuccess) inputContainerStyles.push(styles.inputContainerSuccess);
-      else if (hasWarning) inputContainerStyles.push(styles.inputContainerWarning);
+      else if (hasSuccess)
+        inputContainerStyles.push(styles.inputContainerSuccess);
+      else if (hasWarning)
+        inputContainerStyles.push(styles.inputContainerWarning);
     }
 
     if (isFocused && !disabled && !readonly) {
@@ -210,10 +231,13 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
       leftIconContainer: [styles.leftIconContainer],
       rightIconContainer: [styles.rightIconContainer],
       clearButton: [styles.clearButton],
-      focusRing: [styles.focusRing, {
-        borderRadius: sizeConfig.container.borderRadius + 3,
-        borderColor: variantConfig.focusRingColor,
-      }],
+      focusRing: [
+        styles.focusRing,
+        {
+          borderRadius: sizeConfig.container.borderRadius + 3,
+          borderColor: variantConfig.focusRingColor,
+        },
+      ],
     };
   }, [
     fullWidth,
@@ -229,10 +253,13 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     variantConfig,
   ]);
 
-  const iconProps = useMemo(() => ({
-    size: sizeConfig.icon.size,
-    color: variantConfig.iconColor,
-  }), [sizeConfig.icon.size, variantConfig.iconColor]);
+  const iconProps = useMemo(
+    () => ({
+      size: sizeConfig.icon.size,
+      color: variantConfig.iconColor,
+    }),
+    [sizeConfig.icon.size, variantConfig.iconColor]
+  );
 
   return {
     inputConfig,
@@ -254,10 +281,14 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
       loadingOpacity: animations.loadingOpacity,
     },
     animatedStyles: {
-      animatedContainerStyle: animations.animatedContainerStyle,
-      animatedInputStyle: animations.animatedInputStyle,
-      animatedLabelStyle: animations.animatedLabelStyle,
-      animatedFocusRingStyle: animations.animatedFocusRingStyle,
+      animatedContainerStyle:
+        animations.animatedContainerStyle as AnimatedStyle<ViewStyle>,
+      animatedInputStyle:
+        animations.animatedInputStyle as AnimatedStyle<TextStyle>,
+      animatedLabelStyle:
+        animations.animatedLabelStyle as AnimatedStyle<TextStyle>,
+      animatedFocusRingStyle:
+        animations.animatedFocusRingStyle as AnimatedStyle<ViewStyle>,
     },
     handlers: {
       handleFocus,
@@ -299,9 +330,19 @@ export const useInputAccessibility = (
         selected: false,
         invalid: hasError,
       },
-      accessibilityLiveRegion: hasError ? 'assertive' as const : 'polite' as const,
+      accessibilityLiveRegion: hasError
+        ? ('assertive' as const)
+        : ('polite' as const),
     };
-  }, [label, placeholder, disabled, hasError, hasSuccess, required, helperText]);
+  }, [
+    label,
+    placeholder,
+    disabled,
+    hasError,
+    hasSuccess,
+    required,
+    helperText,
+  ]);
 };
 
 export const useInputValidation = (
@@ -313,7 +354,11 @@ export const useInputValidation = (
     pattern?: RegExp;
     email?: boolean;
     phone?: boolean;
-    custom?: (value: string) => { isValid: boolean; errors: string[]; warnings: string[] };
+    custom?: (value: string) => {
+      isValid: boolean;
+      errors: string[];
+      warnings: string[];
+    };
   }
 ) => {
   return useMemo(() => {
@@ -346,7 +391,7 @@ export const useInputValidation = (
     }
 
     if (value && rules.phone) {
-      const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
+      const phoneRegex = /^\+?[\d\s\-()]+$/;
       if (!phoneRegex.test(value)) {
         errors.push('Invalid phone format');
       }

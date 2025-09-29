@@ -1,57 +1,60 @@
 import { useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { UseWelcomeScreenReturn } from './typesWelcomeScreen';
+import * as Haptics from 'expo-haptics';
 import { RootStackParamList } from '@/navigation/typesNavigation';
+import { WELCOME_TEXTS } from '@/constants/texts';
 
 type WelcomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'Welcome'
 >;
 
+export interface UseWelcomeScreenReturn {
+  handleGetStarted: () => void;
+  handleLogin: () => void;
+  error: string | null;
+  isDev: boolean;
+  titleLines: string[];
+  subtitle: string;
+  startButtonTitle: string;
+  createAccountButtonTitle: string;
+}
+
 export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isDev = __DEV__;
 
-  const handleGetStarted = useCallback(() => {
-    setIsLoading(true);
-    setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-      // Navigate to the main app or login screen
-    }, 1000);
-  }, []);
+  const handleGetStarted = useCallback(async () => {
+    try {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-  const handleCreateAccount = useCallback(() => {
-    setIsLoading(true);
-    setError(null);
-    setTimeout(() => {
-      setIsLoading(false);
-      // Navigate to register screen
-    }, 1000);
-  }, []);
-
-  const handleShowComponents = useCallback(() => {
-    navigation.navigate('ComponentsShowcase');
+      navigation.navigate('ComponentsShowcase');
+    } catch {
+      setError('Erro ao iniciar. Tente novamente.');
+    }
   }, [navigation]);
 
-  const handleReset = useCallback(() => {
-    setIsLoading(false);
-    setError(null);
-  }, []);
+  const handleLogin = useCallback(async () => {
+    try {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+      navigation.navigate('ComponentsShowcase');
+    } catch {
+      setError('Erro ao fazer login. Tente novamente.');
+    }
+  }, [navigation]);
 
   return {
-    isLoading,
+    handleGetStarted,
+    handleLogin,
     error,
     isDev,
-    actions: {
-      handleGetStarted,
-      handleCreateAccount,
-      handleShowComponents,
-      handleReset,
-    },
+    titleLines: [...WELCOME_TEXTS.TITLE_LINES],
+    subtitle: WELCOME_TEXTS.SUBTITLE,
+    startButtonTitle: WELCOME_TEXTS.START_BUTTON,
+    createAccountButtonTitle: WELCOME_TEXTS.CREATE_ACCOUNT_BUTTON,
   };
 };

@@ -9,7 +9,12 @@ import {
 
 import { View } from 'react-native';
 
-const EyeIcon: React.FC<EyeIconProps> = ({ size, color, isVisible, disabled }) => {
+const EyeIcon: React.FC<EyeIconProps> = ({
+  size,
+  color,
+  isVisible,
+  disabled,
+}) => {
   const opacity = disabled ? 0.5 : 1;
   const iconSize = size;
   const eyeWidth = iconSize * 0.75;
@@ -26,7 +31,6 @@ const EyeIcon: React.FC<EyeIconProps> = ({ size, color, isVisible, disabled }) =
         opacity,
       }}
     >
-      {/* Eye outline */}
       <View
         style={{
           width: eyeWidth,
@@ -38,7 +42,6 @@ const EyeIcon: React.FC<EyeIconProps> = ({ size, color, isVisible, disabled }) =
           justifyContent: 'center',
         }}
       >
-        {/* Pupil */}
         {isVisible && (
           <View
             style={{
@@ -51,7 +54,6 @@ const EyeIcon: React.FC<EyeIconProps> = ({ size, color, isVisible, disabled }) =
         )}
       </View>
 
-      {/* Slash for hidden state */}
       {!isVisible && (
         <View
           style={{
@@ -80,42 +82,36 @@ const calculatePasswordStrength = (password: string): PasswordStrength => {
   let score = 0;
   const suggestions: string[] = [];
 
-  // Length check
   if (password.length >= 8) {
     score += 1;
   } else {
     suggestions.push('Use at least 8 characters');
   }
 
-  // Uppercase check
   if (/[A-Z]/.test(password)) {
     score += 1;
   } else {
     suggestions.push('Add uppercase letters');
   }
 
-  // Lowercase check
   if (/[a-z]/.test(password)) {
     score += 1;
   } else {
     suggestions.push('Add lowercase letters');
   }
 
-  // Number check
   if (/\d/.test(password)) {
     score += 1;
   } else {
     suggestions.push('Add numbers');
   }
 
-  // Special character check
-  if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+  if (/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
     score += 1;
   } else {
     suggestions.push('Add special characters');
   }
 
-  // Bonus for length
   if (password.length >= 12) {
     score = Math.min(score + 1, 4);
   }
@@ -154,7 +150,7 @@ const calculatePasswordStrength = (password: string): PasswordStrength => {
     score: Math.min(score, 4),
     label,
     color,
-    suggestions: suggestions.slice(0, 3), // Limit to 3 suggestions
+    suggestions: suggestions.slice(0, 3),
   };
 };
 
@@ -164,7 +160,6 @@ export const usePasswordInput = (
   const {
     value,
     showStrength,
-    showToggle,
     strengthMinLength,
     customStrengthValidator,
     onToggleVisibility,

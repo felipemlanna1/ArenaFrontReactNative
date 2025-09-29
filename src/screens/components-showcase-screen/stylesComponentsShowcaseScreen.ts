@@ -83,4 +83,37 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
     width: '100%',
   },
+  buttonSizes: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: ArenaSpacing.sm,
+  },
+  loadingGrid: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: ArenaSpacing.md,
+  },
+  orientationShowcase: {
+    gap: ArenaSpacing.lg,
+  },
+  orientationItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  speedShowcase: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: ArenaSpacing.md,
+    flexWrap: 'wrap',
+  },
+  speedItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputColumn: {
+    gap: ArenaSpacing.md,
+  },
 });

@@ -1,4 +1,5 @@
 export const ArenaSpacing = {
+  none: 0,
   micro: 2,
   xs: 4,
   sm: 8,

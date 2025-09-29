@@ -52,6 +52,7 @@ module.exports = [
       'arena/arena-design-tokens': 'error',
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
+      'arena/arena-no-comments': 'error',
       'prettier/prettier': [
         'error',
         {
@@ -97,6 +98,7 @@ module.exports = [
       'arena/arena-design-tokens': 'error',
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
+      'arena/arena-no-comments': 'error',
       'prettier/prettier': [
         'error',
         {

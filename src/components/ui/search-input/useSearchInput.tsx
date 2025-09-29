@@ -11,7 +11,7 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
   size,
   color,
   isSearching,
-  disabled
+  disabled,
 }) => {
   const opacity = disabled ? 0.5 : 1;
   const iconSize = size;
@@ -53,7 +53,6 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
         opacity,
       }}
     >
-      {/* Search circle */}
       <View
         style={{
           width: circleSize,
@@ -65,7 +64,6 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
         }}
       />
 
-      {/* Search handle */}
       <View
         style={{
           position: 'absolute',
@@ -81,7 +79,11 @@ export const SearchIcon: React.FC<SearchIconProps> = ({
   );
 };
 
-export const ClearIcon: React.FC<ClearIconProps> = ({ size, color, disabled }) => {
+export const ClearIcon: React.FC<ClearIconProps> = ({
+  size,
+  color,
+  disabled,
+}) => {
   const opacity = disabled ? 0.5 : 1;
   const iconSize = size;
   const lineLength = iconSize * 0.6;
@@ -96,7 +98,6 @@ export const ClearIcon: React.FC<ClearIconProps> = ({ size, color, disabled }) =
         opacity,
       }}
     >
-      {/* Circle background */}
       <View
         style={{
           width: iconSize * 0.8,
@@ -107,7 +108,6 @@ export const ClearIcon: React.FC<ClearIconProps> = ({ size, color, disabled }) =
           justifyContent: 'center',
         }}
       >
-        {/* X lines */}
         <View
           style={{
             position: 'absolute',
@@ -131,7 +131,9 @@ export const ClearIcon: React.FC<ClearIconProps> = ({ size, color, disabled }) =
   );
 };
 
-export const useSearchInput = (params: UseSearchInputParams): UseSearchInputReturn => {
+export const useSearchInput = (
+  params: UseSearchInputParams
+): UseSearchInputReturn => {
   const {
     value,
     onSearch,
@@ -148,36 +150,38 @@ export const useSearchInput = (params: UseSearchInputParams): UseSearchInputRetu
   const canSearch = value.length >= minSearchLength;
   const shouldShowClear = value.length > 0;
 
-  const performSearch = useCallback((query: string) => {
-    if (query.length >= minSearchLength) {
-      setIsSearching(true);
-      onSearch?.(query);
+  const performSearch = useCallback(
+    (query: string) => {
+      if (query.length >= minSearchLength) {
+        setIsSearching(true);
+        onSearch?.(query);
 
-      // Simulate search completion after a short delay
-      setTimeout(() => {
-        setIsSearching(false);
-      }, 300);
-    }
-  }, [onSearch, minSearchLength]);
-
-  const handleChangeText = useCallback((text: string) => {
-    onChangeText(text);
-
-    if (autoSearch && onSearch) {
-      // Clear existing debounce
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
+        setTimeout(() => {
+          setIsSearching(false);
+        }, 300);
       }
+    },
+    [onSearch, minSearchLength]
+  );
 
-      // Set new debounce
-      debounceRef.current = setTimeout(() => {
-        performSearch(text);
-      }, debounceMs);
-    }
-  }, [onChangeText, autoSearch, onSearch, debounceMs, performSearch]);
+  const handleChangeText = useCallback(
+    (text: string) => {
+      onChangeText(text);
+
+      if (autoSearch && onSearch) {
+        if (debounceRef.current) {
+          clearTimeout(debounceRef.current);
+        }
+
+        debounceRef.current = setTimeout(() => {
+          performSearch(text);
+        }, debounceMs);
+      }
+    },
+    [onChangeText, autoSearch, onSearch, debounceMs, performSearch]
+  );
 
   const handleClear = useCallback(() => {
-    // Clear debounce
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
@@ -189,7 +193,6 @@ export const useSearchInput = (params: UseSearchInputParams): UseSearchInputRetu
 
   const handleSearch = useCallback(() => {
     if (canSearch) {
-      // Clear debounce
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
       }
@@ -198,7 +201,6 @@ export const useSearchInput = (params: UseSearchInputParams): UseSearchInputRetu
     }
   }, [canSearch, value, performSearch]);
 
-  // Cleanup debounce on unmount
   useEffect(() => {
     return () => {
       if (debounceRef.current) {

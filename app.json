@@ -26,7 +26,17 @@
       "jsEngine": "hermes",
       "package": "com.arena.app"
     },
-    "plugins": ["expo-font"],
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/BebasNeue-Regular.ttf",
+            "./assets/fonts/Calibri-Regular.ttf"
+          ]
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "arena-project-id"

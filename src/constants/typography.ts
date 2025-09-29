@@ -1,9 +1,15 @@
 export const ArenaTypography = {
   family: {
     heading: 'BebasNeue-Regular',
-    body: 'Helvetica',
-    ui: 'Helvetica',
-    mono: 'Menlo-Regular',
+    body: 'Inter-Regular',
+    ui: 'Inter-Regular',
+    mono: 'Courier',
+  },
+  fontFamily: {
+    regular: 'Inter-Regular',
+    medium: 'Inter-Medium',
+    semibold: 'Inter-SemiBold',
+    bold: 'Inter-Bold',
   },
   size: {
     xs: 11,

@@ -75,11 +75,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           opacity: inputProps.disabled ? 0.5 : 1,
         }}
       >
-        <ClearIcon
-          size={size}
-          color={color}
-          disabled={inputProps.disabled}
-        />
+        <ClearIcon size={size} color={color} disabled={inputProps.disabled} />
       </TouchableOpacity>
     );
   }, [
@@ -90,8 +86,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     clearTestID,
   ]);
 
-  // Determine icon placement
-  const leftIcon = searchIconPosition === 'left' ? searchIconComponent : undefined;
+  const leftIcon =
+    searchIconPosition === 'left' ? searchIconComponent : undefined;
   const rightIcon = useMemo(() => {
     if (searchIconPosition === 'right') {
       return searchIconComponent;
@@ -111,7 +107,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       autoCorrect={false}
       returnKeyType="search"
       onSubmitEditing={searchLogic.handleSearch}
-      clearButtonMode="never" // We handle clear ourselves
+      clearButtonMode="never"
     />
   );
 };

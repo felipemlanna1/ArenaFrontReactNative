@@ -1,13 +1,14 @@
 import { InputProps } from '../input/typesInput';
 
 export interface PasswordStrength {
-  score: number; // 0-4
+  score: number;
   label: 'Very Weak' | 'Weak' | 'Fair' | 'Good' | 'Strong';
   color: string;
   suggestions: string[];
 }
 
-export interface PasswordInputProps extends Omit<InputProps, 'secureTextEntry' | 'rightIcon'> {
+export interface PasswordInputProps
+  extends Omit<InputProps, 'secureTextEntry' | 'rightIcon'> {
   showStrength?: boolean;
   showToggle?: boolean;
   strengthMinLength?: number;

@@ -1,4 +1,9 @@
-import { ArenaColors, ArenaSpacing, ArenaTypography, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaTypography,
+  ArenaBorders,
+} from '@/constants';
 import { InputVariantPresets, InputSizePresets } from './typesInput';
 
 export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
@@ -177,7 +182,9 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
   },
 };
 
-export const getInputVariant = (variant: keyof typeof INPUT_VARIANT_PRESETS) => {
+export const getInputVariant = (
+  variant: keyof typeof INPUT_VARIANT_PRESETS
+) => {
   return INPUT_VARIANT_PRESETS[variant];
 };
 
@@ -185,7 +192,9 @@ export const getInputSize = (size: keyof typeof INPUT_SIZE_PRESETS) => {
   return INPUT_SIZE_PRESETS[size];
 };
 
-export const getDisabledVariant = (baseVariant: keyof typeof INPUT_VARIANT_PRESETS) => {
+export const getDisabledVariant = (
+  baseVariant: keyof typeof INPUT_VARIANT_PRESETS
+) => {
   return {
     ...INPUT_VARIANT_PRESETS[baseVariant],
     backgroundColor: ArenaColors.disabled.surface,
@@ -198,7 +207,9 @@ export const getDisabledVariant = (baseVariant: keyof typeof INPUT_VARIANT_PRESE
   };
 };
 
-export const getReadonlyVariant = (baseVariant: keyof typeof INPUT_VARIANT_PRESETS) => {
+export const getReadonlyVariant = (
+  baseVariant: keyof typeof INPUT_VARIANT_PRESETS
+) => {
   return {
     ...INPUT_VARIANT_PRESETS[baseVariant],
     backgroundColor: `${ArenaColors.neutral.dark}80`,

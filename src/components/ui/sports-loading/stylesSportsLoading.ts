@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {

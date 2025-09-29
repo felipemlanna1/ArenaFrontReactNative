@@ -13,6 +13,9 @@ export const styles = StyleSheet.create({
   containerDisabled: {
     opacity: 0.5,
   },
+  buttonDisabled: {
+    opacity: 0.5,
+  },
   text: {
     fontFamily: ArenaTypography.family.ui,
     fontWeight: ArenaTypography.weight.medium,

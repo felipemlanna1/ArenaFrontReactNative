@@ -1,6 +1,7 @@
 import { InputProps } from '../input/typesInput';
 
-export interface SearchInputProps extends Omit<InputProps, 'leftIcon' | 'rightIcon'> {
+export interface SearchInputProps
+  extends Omit<InputProps, 'leftIcon' | 'rightIcon'> {
   onSearch?: (query: string) => void;
   onClear?: () => void;
   debounceMs?: number;

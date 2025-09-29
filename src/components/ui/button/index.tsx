@@ -1,15 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { SportsLoading } from '../sports-loading';
+import type { SportsLoadingSize } from '../sports-loading/typesSportsLoading';
 import { ButtonProps } from './typesButton';
 import { useButton, useButtonAccessibility } from './useButton';
-import {
-  useButtonAnimations,
-  useLoadingSpinnerAnimation,
-} from './buttonAnimations';
-import { styles } from './stylesButton';
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+import { styles as buttonStyles } from './stylesButton';
+
+const LOADING_SPINNER_SIZE: SportsLoadingSize = 'xs';
+
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
@@ -36,108 +34,68 @@ export const Button: React.FC<ButtonProps> = ({
     onPress,
     disableAnimations,
   });
-  const animations = useButtonAnimations(
-    disabled,
-    loading,
-    haptic,
-    disableAnimations
-  );
-  const spinnerAnimation = useLoadingSpinnerAnimation(disableAnimations);
   const accessibility = useButtonAccessibility(
     children,
     loading,
     disabled,
     variant
   );
-  const { animatedContainerStyle, animatedTextStyle } = animations;
   const renderContent = () => {
-    const ViewComponent = disableAnimations ? View : Animated.View;
-    const TextComponent = disableAnimations ? Text : Animated.Text;
     if (loading) {
       return (
-        <ViewComponent style={styles.loadingContainer}>
+        <View style={buttonStyles.loadingContainer}>
           <SportsLoading
-            size="xs"
+            size={LOADING_SPINNER_SIZE}
             animationSpeed="normal"
             testID={`${testID}-loading-spinner`}
           />
-        </ViewComponent>
+        </View>
       );
     }
     return (
       <>
         {LeftIcon && (
-          <ViewComponent style={styles.leftIcon}>
+          <View style={buttonStyles.leftIcon}>
             <LeftIcon
               size={buttonLogic.iconProps.size}
               color={buttonLogic.iconProps.color}
             />
-          </ViewComponent>
+          </View>
         )}
-        <TextComponent
-          style={
-            disableAnimations
-              ? [
-                  buttonLogic.computedStyles.text,
-                  LeftIcon && styles.textWithLeftIcon,
-                  RightIcon && styles.textWithRightIcon,
-                ]
-              : [
-                  animatedTextStyle,
-                  LeftIcon && styles.textWithLeftIcon,
-                  RightIcon && styles.textWithRightIcon,
-                ]
-          }
+        <Text
+          style={[
+            buttonLogic.computedStyles.text,
+            LeftIcon && buttonStyles.textWithLeftIcon,
+            RightIcon && buttonStyles.textWithRightIcon,
+          ]}
         >
           {children}
-        </TextComponent>
+        </Text>
         {RightIcon && (
-          <ViewComponent style={styles.rightIcon}>
+          <View style={buttonStyles.rightIcon}>
             <RightIcon
               size={buttonLogic.iconProps.size}
               color={buttonLogic.iconProps.color}
             />
-          </ViewComponent>
+          </View>
         )}
       </>
     );
   };
-  if (disableAnimations) {
-    return (
-      <TouchableOpacity
-        onPress={buttonLogic.handlePress}
-        disabled={buttonLogic.isInteractionDisabled}
-        testID={testID}
-        style={buttonLogic.computedStyles.container}
-        {...accessibility}
-        {...touchableProps}
-      >
-        {renderContent()}
-      </TouchableOpacity>
-    );
-  }
   return (
-    <AnimatedTouchable
-      onPressIn={animations.handlePressIn}
-      onPressOut={animations.handlePressOut}
+    <TouchableOpacity
       onPress={buttonLogic.handlePress}
       disabled={buttonLogic.isInteractionDisabled}
       testID={testID}
-      style={[buttonLogic.computedStyles.container, animatedContainerStyle]}
+      style={[
+        buttonLogic.computedStyles.container,
+        disabled && buttonStyles.buttonDisabled,
+      ]}
+      activeOpacity={0.8}
       {...accessibility}
       {...touchableProps}
     >
       {renderContent()}
-      <Animated.View
-        style={[
-          styles.focusRing,
-          {
-            borderColor: buttonLogic.buttonConfig.focus.shadowColor,
-            borderRadius: 8,
-          },
-          animations.animatedFocusRingStyle,
-        ]}
-      />
-    </AnimatedTouchable>
+    </TouchableOpacity>
   );
 };

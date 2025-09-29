@@ -3,12 +3,14 @@
 const arenaDesignTokens = require('./arena-design-tokens');
 const arenaFileStructure = require('./arena-file-structure');
 const arenaBestPractices = require('./arena-best-practices');
+const arenaNoComments = require('./arena-no-comments');
 
 module.exports = {
   rules: {
     'arena-design-tokens': arenaDesignTokens,
     'arena-file-structure': arenaFileStructure,
     'arena-best-practices': arenaBestPractices,
+    'arena-no-comments': arenaNoComments,
   },
   configs: {
     recommended: {
@@ -17,6 +19,7 @@ module.exports = {
         'arena/arena-design-tokens': 'error',
         'arena/arena-file-structure': 'warn',
         'arena/arena-best-practices': 'warn',
+        'arena/arena-no-comments': 'error',
       },
     },
     strict: {
@@ -25,6 +28,7 @@ module.exports = {
         'arena/arena-design-tokens': 'error',
         'arena/arena-file-structure': 'error',
         'arena/arena-best-practices': 'error',
+        'arena/arena-no-comments': 'error',
       },
     },
     development: {
