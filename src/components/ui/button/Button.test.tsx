@@ -2,7 +2,13 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { Button } from './index';
 import { ButtonProps } from './typesButton';
-const MockIcon = ({ size, color }: { size: number; color: string }) => <></>;
+const MockIcon = ({
+  size: _size,
+  color: _color,
+}: {
+  size: number;
+  color: string;
+}) => <></>;
 describe('Button', () => {
   const defaultProps: ButtonProps = {
     onPress: jest.fn(),

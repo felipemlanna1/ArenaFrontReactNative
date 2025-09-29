@@ -18,5 +18,6 @@ export const styles = StyleSheet.create({
   checkIcon: {
     alignItems: 'center',
     justifyContent: 'center',
+    fontWeight: 'bold',
   },
 });

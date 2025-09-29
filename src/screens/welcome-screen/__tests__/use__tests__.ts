@@ -33,8 +33,8 @@ describe('useWelcomeScreen', () => {
   it('deve navegar para showcase quando handleLogin é chamado', async () => {
     const { result } = renderHook(() => useWelcomeScreen());
 
-    await act(async () => {
-      await result.current.handleLogin();
+    act(() => {
+      result.current.handleLogin();
     });
 
     expect(mockNavigate).toHaveBeenCalledWith('ComponentsShowcase');

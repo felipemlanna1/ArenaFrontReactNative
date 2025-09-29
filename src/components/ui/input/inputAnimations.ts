@@ -182,6 +182,7 @@ export const useInputAnimations = (
     borderColor,
     labelY,
     labelScale,
+    errorShake,
   ]);
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/text';
 import { CheckboxProps } from './typesCheckbox';
 import { useCheckbox } from './useCheckbox';
+import { styles } from './stylesCheckbox';
 
 const CheckIcon: React.FC<{ size: number; color: string }> = ({
   size,
@@ -13,7 +14,7 @@ const CheckIcon: React.FC<{ size: number; color: string }> = ({
     name="checkmark"
     size={size}
     color={color}
-    style={{ fontWeight: 'bold' }}
+    style={styles.checkIcon}
   />
 );
 
@@ -57,7 +58,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       </View>
       {label && (
         <Text
-          style={[checkboxLogic.computedStyles.label, labelStyle]}
+          style={[checkboxLogic.computedStyles.label, labelStyle || {}]}
           variant="bodyPrimary"
         >
           {label}

@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { LinkProps } from './typesLink';
 import { useLink } from './useLink';
+import './stylesLink';
 
 export const Link: React.FC<LinkProps> = ({
   children,

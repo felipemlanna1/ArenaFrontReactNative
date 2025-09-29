@@ -39,7 +39,7 @@ export interface LinkSizeConfig {
 
 export interface LinkVariantConfig {
   color: string;
-  pressedColor?: string;
+  pressedColor: string;
   disabled: {
     color: string;
   };

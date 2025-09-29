@@ -1,6 +1,7 @@
 export const ArenaColors = {
   brand: {
     primary: '#FF5301',
+    secondary: '#20303D',
     primaryHover: '#E04A00',
     primaryPressed: '#D23E00',
     primarySubtle: 'rgba(255, 83, 1, 0.15)',

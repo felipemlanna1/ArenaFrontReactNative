@@ -52,11 +52,11 @@ export interface LoginUserData {
   email: string;
   isActive: boolean;
   isEmailVerified: boolean;
-  sports?: Array<{
+  sports?: {
     id: string;
     name: string;
     color: string;
-  }>;
+  }[];
   hasSports?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -104,7 +104,7 @@ export class ApiError extends Error {
 class HttpService {
   private client: AxiosInstance;
   private isRefreshing = false;
-  private refreshSubscribers: Array<(token: string) => void> = [];
+  private refreshSubscribers: ((token: string) => void)[] = [];
 
   constructor() {
     this.client = axios.create({
@@ -114,7 +114,7 @@ class HttpService {
         'Content-Type': 'application/json',
       },
       transformRequest: [
-        (data) => {
+        data => {
           if (data && typeof data === 'object') {
             return JSON.stringify(data);
           }
@@ -128,14 +128,14 @@ class HttpService {
 
   private setupInterceptors(): void {
     this.client.interceptors.request.use(
-      async (config) => {
+      async config => {
         const token = await this.getAccessToken();
         if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      error => Promise.reject(error)
     );
 
     this.client.interceptors.response.use(
@@ -160,7 +160,7 @@ class HttpService {
               const newToken = await this.refreshAccessToken();
               this.isRefreshing = false;
 
-              this.refreshSubscribers.forEach((callback) => callback(newToken));
+              this.refreshSubscribers.forEach(callback => callback(newToken));
               this.refreshSubscribers = [];
 
               if (originalRequest.headers) {
@@ -175,7 +175,7 @@ class HttpService {
               throw this.handleError(error);
             }
           } else {
-            return new Promise((resolve) => {
+            return new Promise(resolve => {
               this.refreshSubscribers.push((token: string) => {
                 if (originalRequest.headers) {
                   originalRequest.headers.Authorization = `Bearer ${token}`;
@@ -310,8 +310,7 @@ class HttpService {
     try {
       const token = await storageService.getItem(ACCESS_TOKEN_KEY);
       return token;
-    } catch (error) {
-      console.error('Erro ao obter access token:', error);
+    } catch {
       return null;
     }
   }
@@ -319,15 +318,14 @@ class HttpService {
   async getRefreshToken(): Promise<string | null> {
     try {
       return await storageService.getItem(REFRESH_TOKEN_KEY);
-    } catch (error) {
-      console.error('Erro ao obter refresh token:', error);
+    } catch {
       return null;
     }
   }
 
   async saveTokens(tokens: AuthTokens): Promise<void> {
     try {
-      const items: Array<[string, string]> = [
+      const items: [string, string][] = [
         [ACCESS_TOKEN_KEY, tokens.access_token],
       ];
 
@@ -336,8 +334,7 @@ class HttpService {
       }
 
       await storageService.multiSet(items);
-    } catch (error) {
-      console.error('Erro ao salvar tokens:', error);
+    } catch {
       throw new Error('Falha ao salvar tokens de autenticação');
     }
   }
@@ -345,8 +342,7 @@ class HttpService {
   async saveUserData(userData: UserData): Promise<void> {
     try {
       await storageService.setItem(USER_DATA_KEY, JSON.stringify(userData));
-    } catch (error) {
-      console.error('Erro ao salvar dados do usuário:', error);
+    } catch {
       throw new Error('Falha ao salvar dados do usuário');
     }
   }
@@ -355,8 +351,7 @@ class HttpService {
     try {
       const userData = await storageService.getItem(USER_DATA_KEY);
       return userData ? JSON.parse(userData) : null;
-    } catch (error) {
-      console.error('Erro ao obter dados do usuário:', error);
+    } catch {
       return null;
     }
   }
@@ -368,8 +363,8 @@ class HttpService {
         REFRESH_TOKEN_KEY,
         USER_DATA_KEY,
       ]);
-    } catch (error) {
-      console.error('Erro ao limpar dados de autenticação:', error);
+    } catch {
+      return;
     }
   }
 
@@ -433,8 +428,8 @@ export const testConnection = async () => {
   try {
     await httpService.get('/');
     return true;
-  } catch (e) {
-    return console.error('error', e);
+  } catch {
+    return false;
   }
 };
 

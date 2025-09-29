@@ -54,6 +54,7 @@ export interface CheckboxVariantConfig {
   disabled: {
     backgroundColor: string;
     borderColor: string;
+    borderWidth?: number;
     checkColor: string;
     labelColor: string;
   };

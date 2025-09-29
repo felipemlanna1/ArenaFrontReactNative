@@ -52,7 +52,7 @@ export const useLoginScreen = (
           setFormData(prev => ({ ...prev, email: savedEmail }));
         }
       } catch (error) {
-        // Silently fail - not critical for functionality
+        console.warn('Failed to load saved data:', error);
       }
     };
 
@@ -112,7 +112,7 @@ export const useLoginScreen = (
     setErrors({});
 
     try {
-      const response = await authService.login({
+      await authService.login({
         email: formData.email,
         password: formData.password,
         rememberMe,
@@ -125,8 +125,6 @@ export const useLoginScreen = (
 
       navigation.navigate('ComponentsShowcase');
     } catch (error: unknown) {
-      // Log error for debugging if needed
-
       if (error instanceof ApiError) {
         switch (error.status) {
           case 401:
@@ -183,7 +181,7 @@ export const useLoginScreen = (
         'Funcionalidade será implementada em breve.',
         [{ text: 'OK' }]
       );
-    } catch (error: unknown) {
+    } catch {
       setErrors({
         general: 'Erro ao fazer login com Google. Tente novamente.',
       });
@@ -200,7 +198,7 @@ export const useLoginScreen = (
       Alert.alert('Login Apple', 'Funcionalidade será implementada em breve.', [
         { text: 'OK' },
       ]);
-    } catch (error: unknown) {
+    } catch {
       setErrors({
         general: 'Erro ao fazer login com Apple. Tente novamente.',
       });

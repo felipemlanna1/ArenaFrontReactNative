@@ -14,11 +14,6 @@ export const AppleIcon: React.FC<AppleIconProps> = ({
   testID = 'apple-icon',
 }) => {
   return (
-    <Ionicons
-      name="logo-apple"
-      size={size}
-      color={color}
-      testID={testID}
-    />
+    <Ionicons name="logo-apple" size={size} color={color} testID={testID} />
   );
 };

@@ -22,39 +22,31 @@ export const useCheckbox = (params: UseCheckboxParams): UseCheckboxReturn => {
     const currentVariant = disabled ? variantConfig.disabled : variantConfig;
 
     return {
-      container: [
-        styles.container,
-        {
-          opacity: disabled ? 0.5 : 1,
-        },
-      ],
-      checkbox: [
-        styles.checkbox,
-        {
-          width: sizeConfig.checkboxSize,
-          height: sizeConfig.checkboxSize,
-          backgroundColor: checked
-            ? currentVariant.backgroundColor
-            : ArenaColors.neutral.light,
-          borderColor: currentVariant.borderColor,
-          borderWidth: currentVariant.borderWidth,
-        },
-      ],
-      label: [
-        styles.label,
-        {
-          fontSize: sizeConfig.fontSize,
-          color: currentVariant.labelColor,
-          marginLeft: sizeConfig.spacing,
-        },
-      ],
-      checkIcon: [
-        styles.checkIcon,
-        {
-          width: sizeConfig.iconSize,
-          height: sizeConfig.iconSize,
-        },
-      ],
+      container: {
+        ...styles.container,
+        opacity: disabled ? 0.5 : 1,
+      },
+      checkbox: {
+        ...styles.checkbox,
+        width: sizeConfig.checkboxSize,
+        height: sizeConfig.checkboxSize,
+        backgroundColor: checked
+          ? currentVariant.backgroundColor
+          : ArenaColors.neutral.light,
+        borderColor: currentVariant.borderColor,
+        borderWidth: disabled ? 1 : variantConfig.borderWidth,
+      },
+      label: {
+        ...styles.label,
+        fontSize: sizeConfig.fontSize,
+        color: currentVariant.labelColor,
+        marginLeft: sizeConfig.spacing,
+      },
+      checkIcon: {
+        ...styles.checkIcon,
+        width: sizeConfig.iconSize,
+        height: sizeConfig.iconSize,
+      },
     };
   }, [checked, disabled, sizeConfig, variantConfig]);
 

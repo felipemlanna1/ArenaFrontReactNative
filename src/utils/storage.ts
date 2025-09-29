@@ -2,73 +2,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class StorageService {
   async setItem(key: string, value: string): Promise<void> {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      console.error(`Erro ao salvar ${key}:`, error);
-      throw error;
-    }
+    await AsyncStorage.setItem(key, value);
   }
 
   async getItem(key: string): Promise<string | null> {
     try {
       return await AsyncStorage.getItem(key);
-    } catch (error) {
-      console.error(`Erro ao obter ${key}:`, error);
+    } catch {
       return null;
     }
   }
 
   async removeItem(key: string): Promise<void> {
-    try {
-      await AsyncStorage.removeItem(key);
-    } catch (error) {
-      console.error(`Erro ao remover ${key}:`, error);
-      throw error;
-    }
+    await AsyncStorage.removeItem(key);
   }
 
-  async multiSet(items: Array<[string, string]>): Promise<void> {
-    try {
-      await AsyncStorage.multiSet(items);
-    } catch (error) {
-      console.error('Erro ao salvar múltiplos itens:', error);
-      throw error;
-    }
+  async multiSet(items: [string, string][]): Promise<void> {
+    await AsyncStorage.multiSet(items);
   }
 
-  async multiGet(keys: string[]): Promise<Array<[string, string | null]>> {
-    try {
-      return await AsyncStorage.multiGet(keys);
-    } catch (error) {
-      console.error('Erro ao obter múltiplos itens:', error);
-      throw error;
-    }
+  async multiGet(keys: string[]): Promise<[string, string | null][]> {
+    const result = await AsyncStorage.multiGet(keys);
+    return result as [string, string | null][];
   }
 
   async multiRemove(keys: string[]): Promise<void> {
-    try {
-      await AsyncStorage.multiRemove(keys);
-    } catch (error) {
-      console.error('Erro ao remover múltiplos itens:', error);
-      throw error;
-    }
+    await AsyncStorage.multiRemove(keys);
   }
 
   async clear(): Promise<void> {
-    try {
-      await AsyncStorage.clear();
-    } catch (error) {
-      console.error('Erro ao limpar storage:', error);
-      throw error;
-    }
+    await AsyncStorage.clear();
   }
 
   async getAllKeys(): Promise<string[]> {
     try {
-      return await AsyncStorage.getAllKeys();
-    } catch (error) {
-      console.error('Erro ao obter todas as chaves:', error);
+      const result = await AsyncStorage.getAllKeys();
+      return result as string[];
+    } catch {
       return [];
     }
   }

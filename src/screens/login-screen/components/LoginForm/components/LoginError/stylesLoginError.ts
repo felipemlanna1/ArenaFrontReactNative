@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaTypography,
+  ArenaBorders,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,6 +20,6 @@ export const styles = StyleSheet.create({
     fontSize: ArenaTypography.size.sm,
     color: ArenaColors.semantic.error,
     fontWeight: ArenaTypography.weight.medium,
-    lineHeight: ArenaTypography.lineHeight.tight,
+    lineHeight: ArenaTypography.lineHeight.sm,
   },
 });

@@ -74,7 +74,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
         },
       ],
     };
-  }, [variant, size, buttonConfig, sizeConfig, fullWidth, disabled]);
+  }, [variant, size, buttonConfig, sizeConfig, fullWidth, disabled, loading]);
   const iconProps = useMemo(
     () => ({
       size: sizeConfig.iconSize,

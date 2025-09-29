@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Input } from '@/components/ui/input';
 import { LoginInputsProps } from './typesLoginInputs';
+import { styles } from './stylesLoginInputs';
 
 export const LoginInputs: React.FC<LoginInputsProps> = React.memo(
   ({
@@ -13,7 +14,7 @@ export const LoginInputs: React.FC<LoginInputsProps> = React.memo(
     onPasswordChange,
   }) => {
     return (
-      <View>
+      <View style={styles.container}>
         <Input
           label="Email"
           placeholder="Digite seu email"

@@ -1,4 +1,10 @@
-import { httpService, AuthTokens, LoginUserData, ApiError } from './http';
+import {
+  httpService,
+  AuthTokens,
+  LoginUserData,
+  ApiError,
+  UserData,
+} from './http';
 
 export { ApiError } from './http';
 
@@ -45,7 +51,12 @@ class AuthService {
       }
 
       if (response.user) {
-        await httpService.saveUserData(response.user as any);
+        const userData = {
+          ...response.user,
+          createdAt: response.user.createdAt || new Date().toISOString(),
+          updatedAt: response.user.updatedAt || new Date().toISOString(),
+        } as UserData;
+        await httpService.saveUserData(userData);
       }
 
       return response;
@@ -59,14 +70,22 @@ class AuthService {
 
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response = await httpService.post<AuthResponse>('/auth/register', data);
+      const response = await httpService.post<AuthResponse>(
+        '/auth/register',
+        data
+      );
 
       if (response.tokens) {
         await httpService.saveTokens(response.tokens);
       }
 
       if (response.user) {
-        await httpService.saveUserData(response.user as any);
+        const userData = {
+          ...response.user,
+          createdAt: response.user.createdAt || new Date().toISOString(),
+          updatedAt: response.user.updatedAt || new Date().toISOString(),
+        } as UserData;
+        await httpService.saveUserData(userData);
       }
 
       return response;
@@ -85,14 +104,13 @@ class AuthService {
       if (token) {
         try {
           await httpService.post('/auth/logout');
-        } catch {
-          console.warn('Erro ao fazer logout no servidor, continuando com logout local');
+        } catch (error) {
+          console.warn('Server logout failed:', error);
         }
       }
 
       await httpService.clearAuthData();
-    } catch (error) {
-      console.error('Erro durante logout:', error);
+    } catch {
       await httpService.clearAuthData();
     }
   }
@@ -104,7 +122,11 @@ class AuthService {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(500, 'FORGOT_PASSWORD_ERROR', 'Erro ao solicitar redefinição de senha');
+      throw new ApiError(
+        500,
+        'FORGOT_PASSWORD_ERROR',
+        'Erro ao solicitar redefinição de senha'
+      );
     }
   }
 
@@ -115,7 +137,11 @@ class AuthService {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(500, 'RESET_PASSWORD_ERROR', 'Erro ao redefinir senha');
+      throw new ApiError(
+        500,
+        'RESET_PASSWORD_ERROR',
+        'Erro ao redefinir senha'
+      );
     }
   }
 
@@ -126,17 +152,21 @@ class AuthService {
         return null;
       }
 
-      const userData = await httpService.getUserData();
-      if (userData) {
-        return userData as LoginUserData;
+      const savedUserData = await httpService.getUserData();
+      if (savedUserData) {
+        return savedUserData as LoginUserData;
       }
 
       const response = await httpService.get<LoginUserData>('/auth/me');
-      await httpService.saveUserData(response as any);
+      const userDataForStorage = {
+        ...response,
+        createdAt: response.createdAt || new Date().toISOString(),
+        updatedAt: response.updatedAt || new Date().toISOString(),
+      } as UserData;
+      await httpService.saveUserData(userDataForStorage);
 
       return response;
     } catch (error: unknown) {
-      console.error('Erro ao obter usuário atual:', error);
       if (error instanceof ApiError && error.status === 401) {
         await httpService.clearAuthData();
       }
@@ -148,8 +178,7 @@ class AuthService {
     try {
       const newToken = await httpService.getAccessToken();
       return newToken;
-    } catch (error) {
-      console.error('Erro ao renovar token:', error);
+    } catch {
       await httpService.clearAuthData();
       return null;
     }
@@ -166,18 +195,28 @@ class AuthService {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(500, 'EMAIL_VERIFICATION_ERROR', 'Erro ao verificar email');
+      throw new ApiError(
+        500,
+        'EMAIL_VERIFICATION_ERROR',
+        'Erro ao verificar email'
+      );
     }
   }
 
   async resendVerificationEmail(email: string): Promise<{ message: string }> {
     try {
-      return await httpService.postMessage('/auth/resend-verification', { email });
+      return await httpService.postMessage('/auth/resend-verification', {
+        email,
+      });
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(500, 'RESEND_VERIFICATION_ERROR', 'Erro ao reenviar email de verificação');
+      throw new ApiError(
+        500,
+        'RESEND_VERIFICATION_ERROR',
+        'Erro ao reenviar email de verificação'
+      );
     }
   }
 }

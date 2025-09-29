@@ -33,6 +33,9 @@ export const ArenaTypography = {
     extrabold: '800' as const,
   },
   lineHeight: {
+    sm: 1.2,
+    md: 1.4,
+    lg: 1.6,
     tight: 1.2,
     comfortable: 1.4,
     relaxed: 1.6,

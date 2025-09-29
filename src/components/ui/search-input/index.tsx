@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { Input } from '../input';
 import { SearchInputProps } from './typesSearchInput';
 import { useSearchInput, SearchIcon, ClearIcon } from './useSearchInput';
+import { styles } from './stylesSearchInput';
 
 export const SearchInput: React.FC<SearchInputProps> = ({
   onSearch,
@@ -37,11 +38,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         disabled={inputProps.disabled || !searchLogic.canSearch}
         testID={searchTestID}
         hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: inputProps.disabled ? 0.5 : 1,
-        }}
+        style={[styles.searchIcon, inputProps.disabled && { opacity: 0.5 }]}
       >
         <SearchIcon
           size={size}
@@ -69,11 +66,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         disabled={inputProps.disabled}
         testID={clearTestID}
         hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: inputProps.disabled ? 0.5 : 1,
-        }}
+        style={[styles.clearButton, inputProps.disabled && { opacity: 0.5 }]}
       >
         <ClearIcon size={size} color={color} disabled={inputProps.disabled} />
       </TouchableOpacity>
