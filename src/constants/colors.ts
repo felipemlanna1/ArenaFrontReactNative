@@ -42,8 +42,11 @@ export const ArenaColors = {
   },
   semantic: {
     error: '#EF4444',
+    errorSubtle: 'rgba(239, 68, 68, 0.1)',
     success: '#10B981',
+    successSubtle: 'rgba(16, 185, 129, 0.1)',
     warning: '#F59E0B',
+    warningSubtle: 'rgba(245, 158, 11, 0.1)',
   },
 } as const;
 export type ArenaBrandColor = keyof typeof ArenaColors.brand;
