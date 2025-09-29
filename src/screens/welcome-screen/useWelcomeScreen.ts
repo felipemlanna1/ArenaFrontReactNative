@@ -31,7 +31,7 @@ export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-      navigation.navigate('ComponentsShowcase');
+      navigation.navigate('Login');
     } catch {
       setError('Erro ao iniciar. Tente novamente.');
     }
@@ -43,7 +43,7 @@ export const useWelcomeScreen = (): UseWelcomeScreenReturn => {
 
       navigation.navigate('ComponentsShowcase');
     } catch {
-      setError('Erro ao fazer login. Tente novamente.');
+      setError('Erro ao navegar para componentes. Tente novamente.');
     }
   }, [navigation]);
 
