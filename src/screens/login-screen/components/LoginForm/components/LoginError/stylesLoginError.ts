@@ -15,6 +15,6 @@ export const styles = StyleSheet.create({
     fontSize: ArenaTypography.size.sm,
     color: ArenaColors.semantic.error,
     fontWeight: ArenaTypography.weight.medium,
-    lineHeight: ArenaTypography.lineHeight.sm,
+    lineHeight: ArenaTypography.lineHeight.tight,
   },
 });
