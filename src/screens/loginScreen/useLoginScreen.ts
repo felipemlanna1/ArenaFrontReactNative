@@ -2,8 +2,9 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Alert } from 'react-native';
 import { RootStackParamList } from '@/navigation/typesNavigation';
-import { authService, ApiError } from '@/services/auth';
+import { ApiError } from '@/services/auth';
 import { storageService } from '@/utils/storage';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   UseLoginScreenReturn,
   LoginFormData,
@@ -31,6 +32,8 @@ const validatePassword = (password: string): string | undefined => {
 export const useLoginScreen = (
   navigation: LoginNavigationProp
 ): UseLoginScreenReturn => {
+  const { signIn } = useAuth();
+
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
@@ -112,7 +115,7 @@ export const useLoginScreen = (
     setErrors({});
 
     try {
-      await authService.login({
+      await signIn({
         email: formData.email,
         password: formData.password,
         rememberMe,
@@ -123,7 +126,7 @@ export const useLoginScreen = (
         await storageService.setItem('@arena:saved_email', formData.email);
       }
 
-      navigation.navigate('ComponentsShowcase');
+      // Navegação automática via AppNavigator baseado em userHasSports
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {
@@ -155,7 +158,7 @@ export const useLoginScreen = (
     } finally {
       setIsLoading(false);
     }
-  }, [formData.email, formData.password, rememberMe, navigation]);
+  }, [formData.email, formData.password, rememberMe, signIn]);
 
   const handleForgotPassword = useCallback(() => {
     Alert.alert(
