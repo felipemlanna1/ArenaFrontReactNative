@@ -17,4 +17,8 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing['3xl'],
     justifyContent: 'center',
   },
+  contentTop: {
+    justifyContent: 'flex-start',
+    paddingTop: ArenaSpacing['4xl'],
+  },
 });

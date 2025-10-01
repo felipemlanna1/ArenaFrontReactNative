@@ -6,8 +6,13 @@ import { useLoginLayout } from './useLoginLayout';
 import { styles } from './stylesLoginLayout';
 
 export const LoginLayout: React.FC<LoginLayoutProps> = React.memo(
-  ({ children }) => {
+  ({ children, verticalAlign = 'center' }) => {
     const { keyboardBehavior, scrollViewProps } = useLoginLayout();
+
+    const contentStyle = [
+      styles.content,
+      verticalAlign === 'top' && styles.contentTop,
+    ];
 
     return (
       <SafeAreaView style={styles.container} testID="login-layout">
@@ -22,7 +27,7 @@ export const LoginLayout: React.FC<LoginLayoutProps> = React.memo(
             nestedScrollEnabled={true}
             testID="login-layout-scroll-view"
           >
-            <View style={styles.content} testID="login-layout-content">
+            <View style={contentStyle} testID="login-layout-content">
               {children}
             </View>
           </ScrollView>

@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 export interface LoginLayoutProps {
   children: ReactNode;
+  verticalAlign?: 'center' | 'top';
 }
 
 export interface UseLoginLayoutReturn {
