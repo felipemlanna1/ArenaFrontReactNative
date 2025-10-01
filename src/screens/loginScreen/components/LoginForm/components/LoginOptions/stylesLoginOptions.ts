@@ -4,11 +4,10 @@ import { ArenaSpacing } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: ArenaSpacing.lg,
   },
-  forgotPasswordButton: {
-    alignSelf: 'flex-end',
+  forgotPasswordLink: {
+    marginLeft: 'auto',
   },
 });

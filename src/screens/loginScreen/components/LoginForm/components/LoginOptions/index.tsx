@@ -19,15 +19,16 @@ export const LoginOptions: React.FC<LoginOptionsProps> = React.memo(
           testID="remember-me-checkbox"
         />
 
-        <Link
-          onPress={onForgotPassword}
-          variant="captionSecondary"
-          disabled={isLoading}
-          style={styles.forgotPasswordButton}
-          testID="forgot-password-link"
-        >
-          Esqueci minha senha
-        </Link>
+        <View style={styles.forgotPasswordLink}>
+          <Link
+            onPress={onForgotPassword}
+            disabled={isLoading}
+            variant="bodyPrimary"
+            testID="forgot-password-link"
+          >
+            Esqueci minha senha
+          </Link>
+        </View>
       </View>
     );
   }
