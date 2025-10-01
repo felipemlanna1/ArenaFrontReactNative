@@ -1,8 +1,9 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
+import { Text } from '@/components/text';
 import { LinkProps } from './typesLink';
 import { useLink } from './useLink';
-import './stylesLink';
+import { styles } from './stylesLink';
 
 export const Link: React.FC<LinkProps> = ({
   children,
@@ -31,7 +32,7 @@ export const Link: React.FC<LinkProps> = ({
       testID={testID}
       accessibilityRole="link"
       accessibilityState={{ disabled }}
-      style={{ flexShrink: 1 }}
+      style={styles.pressable}
     >
       <Text style={[linkLogic.computedStyles.text, style]}>{children}</Text>
     </Pressable>
