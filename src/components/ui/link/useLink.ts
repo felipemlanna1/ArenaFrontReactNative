@@ -1,14 +1,19 @@
-import { useCallback, useMemo, useState } from 'react';
-import { UseLinkParams, UseLinkReturn, LinkVariantConfig } from './typesLink';
-import { linkSizes, linkVariants } from './linkVariants';
+import { useCallback, useMemo } from 'react';
+import { TextStyle } from 'react-native';
+import { UseLinkParams, UseLinkReturn } from './typesLink';
+import { linkVariants } from './linkVariants';
 import { styles } from './stylesLink';
+import {
+  getFontSize,
+  getFontFamily,
+  getLineHeight,
+  getTextColor,
+} from '@/components/ui/text/textUtils';
+import { ArenaColors, ArenaTypography } from '@/constants';
 
 export const useLink = (params: UseLinkParams): UseLinkReturn => {
-  const { disabled, size, variant, underline, onPress } = params;
+  const { disabled, variant, underline, onPress } = params;
 
-  const [isPressed, setIsPressed] = useState(false);
-
-  const sizeConfig = useMemo(() => linkSizes[size], [size]);
   const variantConfig = useMemo(() => linkVariants[variant], [variant]);
 
   const isInteractionDisabled = useMemo(() => disabled, [disabled]);
@@ -19,42 +24,39 @@ export const useLink = (params: UseLinkParams): UseLinkReturn => {
     }
   }, [isInteractionDisabled, onPress]);
 
-  const handlePressIn = useCallback(() => {
-    if (!isInteractionDisabled) {
-      setIsPressed(true);
-    }
-  }, [isInteractionDisabled]);
+  const getTextStyle = useCallback(
+    (pressed: boolean): TextStyle => {
+      const fontSize = getFontSize(variantConfig.size);
+      const fontFamily = getFontFamily(variantConfig.family);
+      const lineHeightMultiplier = getLineHeight(variantConfig.lineHeight);
+      const baseColor = getTextColor(variantConfig.color || 'primary');
 
-  const handlePressOut = useCallback(() => {
-    setIsPressed(false);
-  }, []);
+      let textColor: string;
+      if (disabled) {
+        textColor = ArenaColors.disabled.text;
+      } else {
+        textColor = pressed ? `${baseColor}CC` : baseColor;
+      }
 
-  const computedStyles = useMemo(() => {
-    const currentVariant = disabled ? variantConfig.disabled : variantConfig;
-    const textColor = isPressed
-      ? (currentVariant as LinkVariantConfig).pressedColor ||
-        currentVariant.color
-      : currentVariant.color;
-
-    return {
-      text: {
+      return {
         ...styles.text,
-        fontSize: sizeConfig.fontSize,
-        lineHeight: sizeConfig.lineHeight,
+        fontSize,
+        fontFamily,
+        lineHeight: fontSize * lineHeightMultiplier,
+        letterSpacing: variantConfig.letterSpacing,
         color: textColor,
-        textDecorationLine: (underline ? 'underline' : 'none') as
-          | 'none'
-          | 'underline',
+        fontWeight: ArenaTypography.weight.bold,
+        fontStyle: 'italic',
+        textDecorationLine: underline ? 'underline' : 'none',
         opacity: disabled ? 0.5 : 1,
-      },
-    };
-  }, [disabled, sizeConfig, variantConfig, underline, isPressed]);
+      };
+    },
+    [disabled, variantConfig, underline]
+  );
 
   return {
     isInteractionDisabled,
     handlePress,
-    handlePressIn,
-    handlePressOut,
-    computedStyles,
+    getTextStyle,
   };
 };

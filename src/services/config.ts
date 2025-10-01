@@ -1,11 +1,9 @@
-import {
-  ANALYTICS_ENABLED,
-  ANALYTICS_KEY,
-  API_TIMEOUT,
-  API_URL,
-  AUTH_TOKEN_KEY,
-  ENVIRONMENT,
-} from '@env';
+const ANALYTICS_ENABLED = process.env.ANALYTICS_ENABLED || '';
+const ANALYTICS_KEY = process.env.ANALYTICS_KEY || '';
+const API_TIMEOUT = process.env.API_TIMEOUT || '';
+const API_URL = process.env.API_URL || process.env.EXPO_PUBLIC_API_URL || '';
+const AUTH_TOKEN_KEY = process.env.AUTH_TOKEN_KEY || '';
+const ENVIRONMENT = process.env.ENVIRONMENT || process.env.NODE_ENV || '';
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const API_BASE_URL_RESOLVED = EXPO_PUBLIC_API_URL

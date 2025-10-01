@@ -1,2 +1,2 @@
-export * from './welcome-screen';
-export * from './components-showcase-screen';
+export * from './welcomeScreen';
+export * from './componentsShowcaseScreen';

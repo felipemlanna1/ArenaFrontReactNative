@@ -104,8 +104,8 @@ class AuthService {
       if (token) {
         try {
           await httpService.post('/auth/logout');
-        } catch (error) {
-          console.warn('Server logout failed:', error);
+        } catch {
+          return;
         }
       }
 

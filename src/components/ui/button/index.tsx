@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
-import { SportsLoading } from '../sports-loading';
-import type { SportsLoadingSize } from '../sports-loading/typesSportsLoading';
+import { SportsLoading } from '../sportsLoading';
+import type { SportsLoadingSize } from '../sportsLoading/typesSportsLoading';
 import { ButtonProps } from './typesButton';
 import { useButton, useButtonAccessibility } from './useButton';
 import { styles as buttonStyles } from './stylesButton';

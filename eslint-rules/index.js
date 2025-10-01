@@ -4,6 +4,7 @@ const arenaDesignTokens = require('./arena-design-tokens');
 const arenaFileStructure = require('./arena-file-structure');
 const arenaBestPractices = require('./arena-best-practices');
 const arenaNoComments = require('./arena-no-comments');
+const arenaUseUiComponents = require('./arena-use-ui-components');
 
 module.exports = {
   rules: {
@@ -11,6 +12,7 @@ module.exports = {
     'arena-file-structure': arenaFileStructure,
     'arena-best-practices': arenaBestPractices,
     'arena-no-comments': arenaNoComments,
+    'arena-use-ui-components': arenaUseUiComponents,
   },
   configs: {
     recommended: {
@@ -20,6 +22,7 @@ module.exports = {
         'arena/arena-file-structure': 'warn',
         'arena/arena-best-practices': 'warn',
         'arena/arena-no-comments': 'error',
+        'arena/arena-use-ui-components': 'error',
       },
     },
     strict: {
@@ -29,6 +32,7 @@ module.exports = {
         'arena/arena-file-structure': 'error',
         'arena/arena-best-practices': 'error',
         'arena/arena-no-comments': 'error',
+        'arena/arena-use-ui-components': 'error',
       },
     },
     development: {
@@ -36,7 +40,8 @@ module.exports = {
       rules: {
         'arena/arena-design-tokens': 'warn',
         'arena/arena-file-structure': 'warn',
-        'arena/arena-best-practices': 'off', // Mais flexível em dev
+        'arena/arena-best-practices': 'off',
+        'arena/arena-use-ui-components': 'warn',
       },
     },
   },

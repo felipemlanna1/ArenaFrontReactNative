@@ -1,14 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { LinkProps } from './typesLink';
 import { useLink } from './useLink';
-import './stylesLink';
+import { styles } from './stylesLink';
 
 export const Link: React.FC<LinkProps> = ({
   children,
   onPress,
-  size = 'md',
-  variant = 'primary',
+  variant = 'bodyPrimary',
   disabled = false,
   underline = false,
   style,
@@ -16,24 +15,23 @@ export const Link: React.FC<LinkProps> = ({
 }) => {
   const linkLogic = useLink({
     disabled,
-    size,
     variant,
     underline,
     onPress,
   });
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={linkLogic.handlePress}
-      onPressIn={linkLogic.handlePressIn}
-      onPressOut={linkLogic.handlePressOut}
       disabled={linkLogic.isInteractionDisabled}
       testID={testID}
-      activeOpacity={1}
       accessibilityRole="link"
       accessibilityState={{ disabled }}
+      style={styles.pressable}
     >
-      <Text style={[linkLogic.computedStyles.text, style]}>{children}</Text>
-    </TouchableOpacity>
+      {({ pressed }) => (
+        <Text style={[linkLogic.getTextStyle(pressed), style]}>{children}</Text>
+      )}
+    </Pressable>
   );
 };

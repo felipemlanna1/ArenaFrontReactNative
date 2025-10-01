@@ -28,7 +28,7 @@ export const checkboxVariants: Record<string, CheckboxVariantConfig> = {
     borderColor: ArenaColors.neutral.medium,
     borderWidth: 1,
     checkColor: ArenaColors.neutral.darkest,
-    labelColor: ArenaColors.text.primary,
+    labelColor: ArenaColors.text.inverse,
     disabled: {
       backgroundColor: ArenaColors.disabled.background,
       borderColor: ArenaColors.disabled.border,
@@ -41,7 +41,7 @@ export const checkboxVariants: Record<string, CheckboxVariantConfig> = {
     borderColor: ArenaColors.brand.primary,
     borderWidth: 2,
     checkColor: ArenaColors.neutral.light,
-    labelColor: ArenaColors.neutral.medium,
+    labelColor: ArenaColors.text.inverse,
     disabled: {
       backgroundColor: ArenaColors.disabled.background,
       borderColor: ArenaColors.disabled.border,
@@ -54,7 +54,7 @@ export const checkboxVariants: Record<string, CheckboxVariantConfig> = {
     borderColor: ArenaColors.brand.primary,
     borderWidth: 2,
     checkColor: ArenaColors.brand.primary,
-    labelColor: ArenaColors.text.primary,
+    labelColor: ArenaColors.text.inverse,
     disabled: {
       backgroundColor: ArenaColors.disabled.background,
       borderColor: ArenaColors.disabled.border,

@@ -22,6 +22,14 @@ export const TEXTS = {
     CREATE_ACCOUNT: 'Criar conta',
   },
 
+  REGISTER: {
+    TERMS_PREFIX: 'Ao me cadastrar, eu aceito os',
+    TERMS_LINK: 'Termos de Uso',
+    TERMS_SEPARATOR: 'e',
+    PRIVACY_LINK: 'Política de Privacidade',
+    TERMS_SUFFIX: 'da Arena',
+  },
+
   COMMON: {
     LOADING: 'Carregando...',
     ERROR_GENERIC: 'Algo deu errado. Tente novamente.',
@@ -37,9 +45,11 @@ export const TEXTS = {
 
 export const WELCOME_TEXTS = TEXTS.WELCOME;
 export const LOGIN_TEXTS = TEXTS.LOGIN;
+export const REGISTER_TEXTS = TEXTS.REGISTER;
 export const COMMON_TEXTS = TEXTS.COMMON;
 
 export type TextsType = typeof TEXTS;
 export type WelcomeTextsType = typeof WELCOME_TEXTS;
 export type LoginTextsType = typeof LOGIN_TEXTS;
+export type RegisterTextsType = typeof REGISTER_TEXTS;
 export type CommonTextsType = typeof COMMON_TEXTS;

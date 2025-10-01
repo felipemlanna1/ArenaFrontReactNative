@@ -4,14 +4,26 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start --clear",
+    "start:dev": "cp .env.development .env && expo start --clear",
+    "start:device": "cp .env.development.device .env && expo start --clear --tunnel",
+    "start:mobile": "expo start --clear",
+    "start:web": "PLATFORM=web expo start --web --clear",
+    "start:prod": "cp .env.production .env && expo start --no-dev --minify --clear",
+    "start:prod-env": "cp .env.production .env && NODE_ENV=production expo start --clear --no-fast-refresh",
     "android": "expo run:android",
+    "android:dev": "cp .env.development .env && expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
+    "ios:dev": "cp .env.development .env && expo run:ios",
+    "web": "PLATFORM=web expo start --web --clear",
+    "env:dev": "cp .env.development .env && echo '✅ Ambiente DEV configurado (localhost)'",
+    "env:device": "cp .env.development.device .env && echo '⚠️  Ambiente DEVICE configurado - Configure seu IP local!'",
+    "env:prod": "cp .env.production .env && echo '✅ Ambiente PROD configurado'",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "clean": "rm -rf node_modules .expo .expo-shared dist build && npm install"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
