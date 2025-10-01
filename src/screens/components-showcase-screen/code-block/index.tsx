@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/text';
+import { Button } from '@/components/ui/button';
 import { styles } from './stylesCodeBlock';
 interface CodeBlockProps {
   code: string;
@@ -14,11 +15,14 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, onCopy }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text variant="captionSecondary">Código</Text>
-        <TouchableOpacity onPress={handleCopyPress} style={styles.copyButton}>
-          <Text variant="captionSecondary" style={styles.copyButtonText}>
-            Copiar
-          </Text>
-        </TouchableOpacity>
+        <Button
+          onPress={handleCopyPress}
+          variant="ghost"
+          size="sm"
+          style={styles.copyButton}
+        >
+          Copiar
+        </Button>
       </View>
       <View style={styles.codeContainer}>
         <Text variant="captionMuted" style={styles.codeText}>

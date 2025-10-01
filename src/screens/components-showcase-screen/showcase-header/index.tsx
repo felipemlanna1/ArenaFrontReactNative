@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Pressable } from 'react-native';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/text';
+import { Button } from '@/components/ui/button';
 import { styles } from './stylesShowcaseHeader';
 interface ShowcaseHeaderProps {
   onBackPress: () => void;
@@ -14,9 +15,14 @@ export const ShowcaseHeader: React.FC<ShowcaseHeaderProps> = ({
     <>
       <StatusBar style="light" backgroundColor={ArenaColors.neutral.darkest} />
       <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={onBackPress}>
-          <Text variant="bodySecondary">← Voltar</Text>
-        </Pressable>
+        <Button
+          onPress={onBackPress}
+          variant="ghost"
+          size="sm"
+          style={styles.backButton}
+        >
+          ← Voltar
+        </Button>
         <View style={styles.headerContent}>
           <Text variant="displayAccent">Arena</Text>
           <Text variant="titleSecondary">Design System</Text>
