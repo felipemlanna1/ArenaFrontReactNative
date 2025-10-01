@@ -7,12 +7,13 @@ export const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
+    position: 'relative',
   },
   backgroundImage: {
     opacity: 0.4,
-    height: height * 0.9,
-    width: '100%',
+    height: height * 1.05,
+    width: '135%',
     position: 'absolute',
-    bottom: 0,
+    bottom: -30,
   },
 });

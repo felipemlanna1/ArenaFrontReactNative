@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StatusBar } from 'react-native';
+import { View, Image, StatusBar } from 'react-native';
 import { styles } from './stylesRegisterBackground';
 import { RegisterBackgroundProps } from './typesRegisterBackground';
 import { useRegisterBackground } from './useRegisterBackground';
@@ -11,15 +11,14 @@ export const RegisterBackground: React.FC<RegisterBackgroundProps> = React.memo(
     return (
       <>
         <StatusBar barStyle="light-content" backgroundColor={statusBarColor} />
-        <ImageBackground
-          source={backgroundImage}
-          style={styles.background}
-          resizeMode="cover"
-          imageStyle={styles.backgroundImage}
-          testID="register-background"
-        >
+        <View style={styles.background} testID="register-background">
+          <Image
+            source={backgroundImage}
+            style={styles.backgroundImage}
+            resizeMode="contain"
+          />
           {children}
-        </ImageBackground>
+        </View>
       </>
     );
   }
