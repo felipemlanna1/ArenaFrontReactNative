@@ -122,6 +122,8 @@ module.exports = [
       '*.config.js',
       '*.config.ts',
       'eslint-rules/',
+      'jest.setup.js',
+      'jest.config.js',
     ],
   },
 ];

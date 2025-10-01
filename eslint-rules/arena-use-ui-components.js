@@ -25,7 +25,7 @@ module.exports = {
     }
 
     const componentMapping = {
-      Text: '@/components/text (Text)',
+      Text: '@/components/ui/text (Text)',
       TextInput: '@/components/ui/input (Input)',
       TouchableOpacity: '@/components/ui/button (Button)',
       Pressable: '@/components/ui/button (Button)',
