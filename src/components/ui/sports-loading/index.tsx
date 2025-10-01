@@ -4,6 +4,7 @@ import Animated from 'react-native-reanimated';
 import { SportsLoadingProps } from './typesSportsLoading';
 import { useSportsLoading } from './useSportsLoading';
 import { getSportIcon } from './sports-icons';
+import './stylesSportsLoading';
 
 export const SportsLoading: React.FC<SportsLoadingProps> = ({
   size = 'md',
