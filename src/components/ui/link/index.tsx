@@ -7,8 +7,7 @@ import { styles } from './stylesLink';
 export const Link: React.FC<LinkProps> = ({
   children,
   onPress,
-  size = 'md',
-  variant = 'primary',
+  variant = 'bodyPrimary',
   disabled = false,
   underline = false,
   style,
@@ -16,7 +15,6 @@ export const Link: React.FC<LinkProps> = ({
 }) => {
   const linkLogic = useLink({
     disabled,
-    size,
     variant,
     underline,
     onPress,
@@ -25,15 +23,15 @@ export const Link: React.FC<LinkProps> = ({
   return (
     <Pressable
       onPress={linkLogic.handlePress}
-      onPressIn={linkLogic.handlePressIn}
-      onPressOut={linkLogic.handlePressOut}
       disabled={linkLogic.isInteractionDisabled}
       testID={testID}
       accessibilityRole="link"
       accessibilityState={{ disabled }}
       style={styles.pressable}
     >
-      <Text style={[linkLogic.computedStyles.text, style]}>{children}</Text>
+      {({ pressed }) => (
+        <Text style={[linkLogic.getTextStyle(pressed), style]}>{children}</Text>
+      )}
     </Pressable>
   );
 };

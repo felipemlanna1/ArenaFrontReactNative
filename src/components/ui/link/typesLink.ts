@@ -1,12 +1,11 @@
 import { TextStyle } from 'react-native';
+import { TextVariant } from '@/components/ui/text/typesText';
 
-export type LinkSize = 'sm' | 'md' | 'lg';
-export type LinkVariant = 'primary' | 'secondary' | 'subtle';
+export type LinkVariant = TextVariant;
 
 export interface LinkProps {
   children: string;
   onPress: () => void;
-  size?: LinkSize;
   variant?: LinkVariant;
   disabled?: boolean;
   underline?: boolean;
@@ -16,7 +15,6 @@ export interface LinkProps {
 
 export interface UseLinkParams {
   disabled: boolean;
-  size: LinkSize;
   variant: LinkVariant;
   underline: boolean;
   onPress: () => void;
@@ -25,22 +23,5 @@ export interface UseLinkParams {
 export interface UseLinkReturn {
   isInteractionDisabled: boolean;
   handlePress: () => void;
-  handlePressIn: () => void;
-  handlePressOut: () => void;
-  computedStyles: {
-    text: TextStyle;
-  };
-}
-
-export interface LinkSizeConfig {
-  fontSize: number;
-  lineHeight: number;
-}
-
-export interface LinkVariantConfig {
-  color: string;
-  pressedColor: string;
-  disabled: {
-    color: string;
-  };
+  getTextStyle: (pressed: boolean) => TextStyle;
 }
