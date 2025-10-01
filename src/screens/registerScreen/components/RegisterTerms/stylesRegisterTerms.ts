@@ -6,13 +6,21 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.lg,
   },
+  textRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   text: {
-    textAlign: 'center',
     color: ArenaColors.neutral.medium,
     fontSize: ArenaTypography.size.sm,
-    fontFamily: ArenaTypography.family.body,
-    lineHeight: ArenaTypography.size.sm * ArenaTypography.lineHeight.sm,
+  },
+  link: {
+    color: ArenaColors.brand.primary,
+    fontSize: ArenaTypography.size.sm,
   },
 });

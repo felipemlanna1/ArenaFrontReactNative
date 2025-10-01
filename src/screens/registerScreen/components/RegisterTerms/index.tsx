@@ -16,27 +16,37 @@ export const RegisterTerms: React.FC = React.memo(() => {
 
   return (
     <View style={styles.container}>
-      <Text variant="captionSecondary" style={styles.text}>
-        {REGISTER_TEXTS.TERMS_PREFIX}{' '}
+      <View style={styles.textRow}>
+        <Text variant="bodySecondary" style={styles.text}>
+          {REGISTER_TEXTS.TERMS_PREFIX}{' '}
+        </Text>
         <Link
           onPress={handleTermsPress}
-          variant="captionSecondary"
+          variant="bodySecondary"
           underline
           testID="terms-link"
+          style={styles.link}
         >
           {REGISTER_TEXTS.TERMS_LINK}
-        </Link>{' '}
-        {REGISTER_TEXTS.TERMS_SEPARATOR}{' '}
+        </Link>
+        <Text variant="bodySecondary" style={styles.text}>
+          {' '}
+          {REGISTER_TEXTS.TERMS_SEPARATOR}{' '}
+        </Text>
         <Link
           onPress={handlePrivacyPress}
-          variant="captionSecondary"
+          variant="bodySecondary"
           underline
           testID="privacy-link"
+          style={styles.link}
         >
           {REGISTER_TEXTS.PRIVACY_LINK}
-        </Link>{' '}
-        {REGISTER_TEXTS.TERMS_SUFFIX}
-      </Text>
+        </Link>
+        <Text variant="bodySecondary" style={styles.text}>
+          {' '}
+          {REGISTER_TEXTS.TERMS_SUFFIX}
+        </Text>
+      </View>
     </View>
   );
 });
