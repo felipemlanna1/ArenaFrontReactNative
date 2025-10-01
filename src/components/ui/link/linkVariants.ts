@@ -19,21 +19,21 @@ export const linkSizes: Record<string, LinkSizeConfig> = {
 export const linkVariants: Record<string, LinkVariantConfig> = {
   primary: {
     color: ArenaColors.brand.primary,
-    pressedColor: ArenaColors.brand.secondary,
+    pressedColor: ArenaColors.brand.primaryPressed,
     disabled: {
       color: ArenaColors.disabled.text,
     },
   },
   secondary: {
-    color: ArenaColors.neutral.medium,
-    pressedColor: ArenaColors.neutral.dark,
+    color: ArenaColors.text.inverse,
+    pressedColor: ArenaColors.neutral.medium,
     disabled: {
       color: ArenaColors.disabled.text,
     },
   },
   subtle: {
-    color: ArenaColors.text.secondary,
-    pressedColor: ArenaColors.text.primary,
+    color: ArenaColors.text.inverse,
+    pressedColor: ArenaColors.brand.primary,
     disabled: {
       color: ArenaColors.disabled.text,
     },
