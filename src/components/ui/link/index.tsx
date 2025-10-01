@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { LinkProps } from './typesLink';
 import { useLink } from './useLink';
 import './stylesLink';
@@ -23,17 +23,17 @@ export const Link: React.FC<LinkProps> = ({
   });
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={linkLogic.handlePress}
       onPressIn={linkLogic.handlePressIn}
       onPressOut={linkLogic.handlePressOut}
       disabled={linkLogic.isInteractionDisabled}
       testID={testID}
-      activeOpacity={1}
       accessibilityRole="link"
       accessibilityState={{ disabled }}
+      style={{ flexShrink: 1 }}
     >
       <Text style={[linkLogic.computedStyles.text, style]}>{children}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
