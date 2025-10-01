@@ -9,8 +9,10 @@ export const RegisterFooter: React.FC<RegisterFooterProps> = React.memo(
   ({ onLoginPress }) => {
     return (
       <View style={styles.container}>
-        <Text variant="bodySecondary" style={styles.loginText}>
-          Já tem uma conta?{' '}
+        <View style={styles.row}>
+          <Text variant="bodySecondary" style={styles.loginText}>
+            Já tem uma conta?{' '}
+          </Text>
           <Link
             onPress={onLoginPress}
             variant="bodySecondary"
@@ -18,7 +20,7 @@ export const RegisterFooter: React.FC<RegisterFooterProps> = React.memo(
           >
             Entrar
           </Link>
-        </Text>
+        </View>
       </View>
     );
   }

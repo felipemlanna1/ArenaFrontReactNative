@@ -6,6 +6,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     marginTop: ArenaSpacing.xl,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loginText: {
     fontSize: ArenaTypography.size.sm,
