@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   topSymbol: {
     position: 'absolute',
-    top: ArenaSpacing.xl,
+    top: ArenaSpacing['3xl'] + 20,
     left: ArenaSpacing.lg,
     zIndex: 10,
   },

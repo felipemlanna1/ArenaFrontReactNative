@@ -44,11 +44,11 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = React.memo(
           <Symbol size="md" variant="variant1" testID="register-arena-symbol" />
         </View>
         <RegisterBackground>
-          <LoginLayout>
+          <LoginLayout verticalAlign="top">
             <RegisterHeader />
             <RegisterForm {...formProps} />
-            <RegisterActions {...actionProps} />
             <RegisterTerms />
+            <RegisterActions {...actionProps} />
             <RegisterFooter {...footerProps} />
           </LoginLayout>
         </RegisterBackground>
