@@ -53,6 +53,7 @@ module.exports = [
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
       'arena/arena-no-comments': 'error',
+      'arena/arena-use-ui-components': 'error',
       'prettier/prettier': [
         'error',
         {
@@ -99,6 +100,7 @@ module.exports = [
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
       'arena/arena-no-comments': 'error',
+      'arena/arena-use-ui-components': 'error',
       'prettier/prettier': [
         'error',
         {
