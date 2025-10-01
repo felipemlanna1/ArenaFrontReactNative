@@ -2,9 +2,10 @@ import React from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ArenaColors } from '../constants';
-import { WelcomeScreen } from '../screens/welcome-screen';
-import { LoginScreen } from '../screens/login-screen';
-import { ComponentsShowcaseScreen } from '../screens/components-showcase-screen';
+import { WelcomeScreen } from '../screens/welcomeScreen';
+import { LoginScreen } from '../screens/loginScreen';
+import { RegisterScreen } from '../screens/registerScreen';
+import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { RootStackParamList } from './typesNavigation';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export const AppNavigator: React.FC = () => {
@@ -25,6 +26,7 @@ export const AppNavigator: React.FC = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen
           name="ComponentsShowcase"
           component={ComponentsShowcaseScreen}
