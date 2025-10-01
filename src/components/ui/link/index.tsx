@@ -1,6 +1,5 @@
 import React from 'react';
-import { Pressable } from 'react-native';
-import { Text } from '@/components/text';
+import { Pressable, Text } from 'react-native';
 import { LinkProps } from './typesLink';
 import { useLink } from './useLink';
 import { styles } from './stylesLink';
