@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   pressable: {
-    width: '100%',
+    alignSelf: 'flex-start',
   },
   text: {
     fontFamily: 'Inter-Regular',
