@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Linking } from 'react-native';
-import { Text } from '@/components/text';
+import { View, Linking, Text } from 'react-native';
 import { Link } from '@/components/ui/link';
 import { styles } from './stylesRegisterTerms';
 
