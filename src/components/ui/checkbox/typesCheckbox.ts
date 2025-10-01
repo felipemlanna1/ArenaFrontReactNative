@@ -1,7 +1,7 @@
 import { ViewStyle, TextStyle } from 'react-native';
 
 export type CheckboxSize = 'sm' | 'md' | 'lg';
-export type CheckboxVariant = 'default' | 'primary' | 'secondary';
+export type CheckboxVariant = 'default' | 'primary' | 'secondary' | 'card';
 
 export interface CheckboxProps {
   checked: boolean;
@@ -57,5 +57,30 @@ export interface CheckboxVariantConfig {
     borderWidth?: number;
     checkColor: string;
     labelColor: string;
+  };
+}
+
+export interface CheckboxCardVariantConfig {
+  unselected: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    textColor: string;
+    fontSize: number;
+    fontWeight: string;
+  };
+  selected: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    textColor: string;
+    fontSize: number;
+    fontWeight: string;
+  };
+  disabled: {
+    opacity: number;
+    backgroundColor: string;
+    borderColor: string;
+    textColor: string;
   };
 }

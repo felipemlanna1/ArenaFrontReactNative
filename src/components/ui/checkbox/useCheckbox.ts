@@ -1,7 +1,12 @@
 import { useCallback, useMemo } from 'react';
+import { ViewStyle, TextStyle } from 'react-native';
 import { ArenaColors } from '@/constants';
 import { UseCheckboxParams, UseCheckboxReturn } from './typesCheckbox';
-import { checkboxSizes, checkboxVariants } from './checkboxVariants';
+import {
+  checkboxSizes,
+  checkboxVariants,
+  checkboxCardVariant,
+} from './checkboxVariants';
 import { styles } from './stylesCheckbox';
 
 export const useCheckbox = (params: UseCheckboxParams): UseCheckboxReturn => {
@@ -19,6 +24,33 @@ export const useCheckbox = (params: UseCheckboxParams): UseCheckboxReturn => {
   }, [isInteractionDisabled, onPress]);
 
   const computedStyles = useMemo(() => {
+    if (variant === 'card') {
+      const cardConfig = disabled
+        ? checkboxCardVariant.disabled
+        : checked
+          ? checkboxCardVariant.selected
+          : checkboxCardVariant.unselected;
+
+      return {
+        container: {
+          ...styles.cardContainer,
+          backgroundColor: cardConfig.backgroundColor,
+          borderColor: cardConfig.borderColor,
+          borderWidth: 'borderWidth' in cardConfig ? cardConfig.borderWidth : 1,
+          opacity: 'opacity' in cardConfig ? cardConfig.opacity : 1,
+        } as ViewStyle,
+        checkbox: {},
+        label: {
+          ...styles.cardLabel,
+          color: cardConfig.textColor,
+          fontSize: 'fontSize' in cardConfig ? cardConfig.fontSize : 16,
+          fontWeight:
+            'fontWeight' in cardConfig ? cardConfig.fontWeight : '400',
+        } as TextStyle,
+        checkIcon: {},
+      };
+    }
+
     const currentVariant = disabled ? variantConfig.disabled : variantConfig;
 
     return {
@@ -48,17 +80,22 @@ export const useCheckbox = (params: UseCheckboxParams): UseCheckboxReturn => {
         height: sizeConfig.iconSize,
       },
     };
-  }, [checked, disabled, sizeConfig, variantConfig]);
+  }, [checked, disabled, variant, sizeConfig, variantConfig]);
 
-  const iconProps = useMemo(
-    () => ({
+  const iconProps = useMemo(() => {
+    if (variant === 'card') {
+      return {
+        size: 0,
+        color: 'transparent',
+      };
+    }
+    return {
       size: sizeConfig.iconSize,
       color: disabled
         ? variantConfig.disabled.checkColor
         : variantConfig.checkColor,
-    }),
-    [sizeConfig.iconSize, disabled, variantConfig]
-  );
+    };
+  }, [sizeConfig.iconSize, disabled, variantConfig, variant]);
 
   return {
     isInteractionDisabled,
