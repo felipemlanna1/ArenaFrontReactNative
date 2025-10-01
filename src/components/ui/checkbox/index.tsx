@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Text } from '@/components/text';
+import { Text } from '@/components/ui/text';
 import { CheckboxProps } from './typesCheckbox';
 import { useCheckbox } from './useCheckbox';
 import { styles } from './stylesCheckbox';

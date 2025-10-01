@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState, useRef } from 'react';
-import { TextInput, ViewStyle, TextStyle } from 'react-native';
-import { AnimatedStyle } from 'react-native-reanimated';
+import { TextInput } from 'react-native';
 import {
   UseInputParams,
   UseInputReturn,
@@ -282,14 +281,10 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
       loadingOpacity: animations.loadingOpacity,
     },
     animatedStyles: {
-      animatedContainerStyle:
-        animations.animatedContainerStyle as AnimatedStyle<ViewStyle>,
-      animatedInputStyle:
-        animations.animatedInputStyle as AnimatedStyle<TextStyle>,
-      animatedLabelStyle:
-        animations.animatedLabelStyle as AnimatedStyle<TextStyle>,
-      animatedFocusRingStyle:
-        animations.animatedFocusRingStyle as AnimatedStyle<ViewStyle>,
+      animatedContainerStyle: animations.animatedContainerStyle,
+      animatedInputStyle: animations.animatedInputStyle,
+      animatedLabelStyle: animations.animatedLabelStyle,
+      animatedFocusRingStyle: animations.animatedFocusRingStyle,
     },
     handlers: {
       handleFocus,

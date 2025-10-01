@@ -4,7 +4,12 @@ import {
   ArenaTypography,
   ArenaBorders,
 } from '@/constants';
-import { InputVariantPresets, InputSizePresets } from './typesInput';
+import {
+  InputVariantPresets,
+  InputSizePresets,
+  InputType,
+  InputTypeConfig,
+} from './typesInput';
 
 export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
   default: {
@@ -216,4 +221,71 @@ export const getReadonlyVariant = (
     borderColor: `${ArenaColors.neutral.medium}30`,
     textColor: `${ArenaColors.neutral.light}CC`,
   };
+};
+
+export const getInputTypeConfig = (
+  type: InputType = 'text'
+): InputTypeConfig => {
+  const configs: Record<InputType, InputTypeConfig> = {
+    text: {
+      keyboardType: 'default',
+      autoCapitalize: 'sentences',
+      autoComplete: 'off',
+    },
+    email: {
+      keyboardType: 'email-address',
+      autoCapitalize: 'none',
+      autoComplete: 'email',
+      textContentType: 'emailAddress',
+    },
+    password: {
+      keyboardType: 'default',
+      autoCapitalize: 'none',
+      secureTextEntry: true,
+      autoComplete: 'current-password',
+      textContentType: 'password',
+    },
+    phone: {
+      keyboardType: 'phone-pad',
+      autoCapitalize: 'none',
+      autoComplete: 'tel',
+      textContentType: 'telephoneNumber',
+    },
+    number: {
+      keyboardType: 'numeric',
+      autoCapitalize: 'none',
+      autoComplete: 'off',
+    },
+    url: {
+      keyboardType: 'url',
+      autoCapitalize: 'none',
+      autoComplete: 'url',
+      textContentType: 'URL',
+    },
+    search: {
+      keyboardType: 'default',
+      autoCapitalize: 'none',
+      autoComplete: 'off',
+    },
+    textarea: {
+      keyboardType: 'default',
+      autoCapitalize: 'sentences',
+      multiline: true,
+      autoComplete: 'off',
+    },
+    username: {
+      keyboardType: 'default',
+      autoCapitalize: 'none',
+      autoComplete: 'username',
+      textContentType: 'username',
+    },
+    otp: {
+      keyboardType: 'number-pad',
+      autoCapitalize: 'none',
+      autoComplete: 'one-time-code',
+      textContentType: 'oneTimeCode',
+    },
+  };
+
+  return configs[type];
 };

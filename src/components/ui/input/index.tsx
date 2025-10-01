@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   TextInput,
@@ -6,21 +6,20 @@ import {
   Pressable,
   NativeSyntheticEvent,
   TextInputFocusEventData,
-  ViewStyle,
 } from 'react-native';
-import Animated from 'react-native-reanimated';
-import { SportsLoading } from '../sports-loading';
-import type { SportsLoadingSize } from '../sports-loading/typesSportsLoading';
-import { Text } from '@/components/text';
+import { Ionicons } from '@expo/vector-icons';
+import { SportsLoading } from '../sportsLoading';
+import type { SportsLoadingSize } from '../sportsLoading/typesSportsLoading';
+import { Text } from '@/components/ui/text';
 import { ArenaColors } from '@/constants';
 import { InputProps, SimpleLabelProps, ClearButtonProps } from './typesInput';
 import { useInput, useInputAccessibility } from './useInput';
-import { useLoadingAnimation } from './inputAnimations';
-import { getInputSize, getInputVariant } from './inputVariants';
+import {
+  getInputSize,
+  getInputVariant,
+  getInputTypeConfig,
+} from './inputVariants';
 import { styles } from './stylesInput';
-
-const AnimatedView = Animated.createAnimatedComponent(View);
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const LOADING_SPINNER_SIZE: SportsLoadingSize = 'xs';
 
@@ -70,215 +69,290 @@ const ClearButton: React.FC<ClearButtonProps> = ({
       testID={testID}
       hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
     >
-      <View style={styles.clearIcon} />
+      <Ionicons
+        name="close-circle"
+        size={16}
+        color={ArenaColors.neutral.medium}
+      />
     </TouchableOpacity>
   );
 };
 
-export const Input: React.FC<InputProps> = ({
-  value,
-  onChangeText,
-  placeholder,
-  variant = 'default',
-  size = 'md',
-  disabled = false,
-  loading = false,
-  readonly = false,
-  error,
-  success,
-  warning,
-  required = false,
-  label,
-  helperText,
-  fullWidth = false,
-  leftIcon: LeftIcon,
-  rightIcon: RightIcon,
-  clearable = false,
-  autoFocus = false,
-  selectTextOnFocus = false,
-  disableAnimations = false,
-  haptic = true,
-  style,
-  inputStyle,
-  containerStyle,
-  testID,
-  ...textInputProps
-}) => {
-  const inputRef = useRef<TextInput>(null);
-
-  const inputLogic = useInput({
-    value,
-    variant,
-    size,
-    disabled,
-    loading,
-    readonly,
+export const Input = React.memo<InputProps>(
+  ({
+    value = '',
+    onChangeText,
+    placeholder,
+    type = 'text',
+    variant = 'default',
+    size = 'md',
+    disabled = false,
+    loading = false,
+    readonly = false,
     error,
     success,
     warning,
+    required = false,
     label,
-    placeholder,
-    required,
-    clearable,
-    fullWidth,
-    disableAnimations,
-    haptic,
-    onChangeText,
-    onFocus: () =>
-      textInputProps.onFocus?.(
-        {} as NativeSyntheticEvent<TextInputFocusEventData>
-      ),
-    onBlur: () =>
-      textInputProps.onBlur?.(
-        {} as NativeSyntheticEvent<TextInputFocusEventData>
-      ),
-    onClear: () => {},
-  });
+    helperText,
+    fullWidth = false,
+    leftIcon: LeftIcon,
+    rightIcon: RightIcon,
+    clearable = false,
+    autoFocus = false,
+    selectTextOnFocus = false,
+    disableAnimations = false,
+    haptic = true,
+    showPasswordToggle = true,
+    onSearch,
+    debounceMs = 300,
+    autoSearch = false,
+    showSearchIcon = true,
+    rows = 4,
+    maxRows = 10,
+    autoGrow = true,
+    style,
+    inputStyle,
+    containerStyle,
+    testID,
+    ...textInputProps
+  }) => {
+    const inputRef = React.useRef<TextInput | null>(null);
+    const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+    const searchTimeout = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
-  const accessibility = useInputAccessibility(
-    label,
-    value,
-    placeholder,
-    disabled,
-    Boolean(error),
-    Boolean(success),
-    required,
-    helperText
-  );
+    const typeConfig = React.useMemo(() => getInputTypeConfig(type), [type]);
 
-  const loadingAnimation = useLoadingAnimation(loading, disableAnimations);
+    const inputLogic = useInput({
+      value: value || '',
+      variant,
+      size,
+      disabled,
+      loading,
+      readonly,
+      error,
+      success,
+      warning,
+      label,
+      placeholder,
+      required,
+      clearable,
+      fullWidth,
+      disableAnimations,
+      haptic,
+      onChangeText,
+      onFocus: () =>
+        textInputProps.onFocus?.(
+          {} as NativeSyntheticEvent<TextInputFocusEventData>
+        ),
+      onBlur: () =>
+        textInputProps.onBlur?.(
+          {} as NativeSyntheticEvent<TextInputFocusEventData>
+        ),
+      onClear: () => {},
+    });
 
-  const helperMessage = useMemo(() => {
-    if (error && typeof error === 'string') return error;
-    if (success && typeof success === 'string') return success;
-    if (warning && typeof warning === 'string') return warning;
-    return helperText;
-  }, [error, success, warning, helperText]);
+    const accessibility = useInputAccessibility(
+      label,
+      value,
+      placeholder,
+      disabled,
+      Boolean(error),
+      Boolean(success),
+      required,
+      helperText
+    );
 
-  const ViewComponent = disableAnimations ? View : AnimatedView;
-  const TextInputComponent = disableAnimations ? TextInput : AnimatedTextInput;
+    const handlePasswordToggle = React.useCallback(() => {
+      setIsPasswordVisible(prev => !prev);
+    }, []);
 
-  return (
-    <ViewComponent
-      style={[
-        inputLogic.computedStyles.container,
-        containerStyle,
-        ...(disableAnimations
-          ? []
-          : [inputLogic.animatedStyles.animatedContainerStyle as ViewStyle]),
-      ]}
-    >
-      {inputLogic.shouldShowLabel && label && (
-        <View>
-          <SimpleLabel
-            label={label}
-            size={size}
-            variant={variant}
-            required={required}
-            disabled={disabled}
-          />
-        </View>
-      )}
+    const handleSearchChange = React.useCallback(
+      (text: string) => {
+        inputLogic.handlers.handleChangeText(text);
 
-      <Pressable
-        onPress={inputLogic.handlers.handlePress}
-        disabled={inputLogic.isInteractionDisabled}
-        style={[
-          inputLogic.computedStyles.inputContainer,
-          ...(disableAnimations
-            ? []
-            : [inputLogic.animatedStyles.animatedInputStyle as ViewStyle]),
-          style,
-        ]}
-      >
-        {LeftIcon && (
-          <View style={inputLogic.computedStyles.leftIconContainer}>
-            <LeftIcon
-              size={inputLogic.iconProps.size}
-              color={inputLogic.iconProps.color}
-            />
-          </View>
-        )}
-
-        <TextInputComponent
-          ref={inputRef}
-          value={value}
-          onChangeText={inputLogic.handlers.handleChangeText}
-          onFocus={inputLogic.handlers.handleFocus}
-          onBlur={inputLogic.handlers.handleBlur}
-          placeholder={
-            !inputLogic.shouldShowLabel || !inputLogic.isFocused
-              ? placeholder
-              : undefined
+        if (autoSearch && onSearch) {
+          if (searchTimeout.current) {
+            clearTimeout(searchTimeout.current);
           }
-          placeholderTextColor={inputLogic.variantConfig.placeholderColor}
-          editable={!inputLogic.isInteractionDisabled && !readonly}
-          selectTextOnFocus={selectTextOnFocus}
-          autoFocus={autoFocus}
-          style={[inputLogic.computedStyles.input, inputStyle]}
-          testID={testID}
-          {...accessibility}
-          {...textInputProps}
-        />
+          searchTimeout.current = setTimeout(() => {
+            onSearch(text);
+          }, debounceMs);
+        }
+      },
+      [inputLogic.handlers, autoSearch, onSearch, debounceMs]
+    );
 
-        {loading && (
-          <AnimatedView
-            style={[
-              styles.loadingContainer,
-              loadingAnimation.animatedLoadingStyle,
-            ]}
-          >
-            <SportsLoading
-              size={LOADING_SPINNER_SIZE}
-              animationSpeed="normal"
-              testID={`${testID}-loading`}
-            />
-          </AnimatedView>
-        )}
+    const handleSearchSubmit = React.useCallback(() => {
+      if (onSearch) {
+        onSearch(value);
+      }
+    }, [onSearch, value]);
 
-        {inputLogic.shouldShowClearButton && (
-          <ClearButton
-            onPress={inputLogic.handlers.handleClear}
-            size={size}
-            variant={variant}
-            disabled={disabled}
-            disableAnimations={disableAnimations}
-            testID={`${testID}-clear`}
-          />
-        )}
+    React.useEffect(() => {
+      return () => {
+        if (searchTimeout.current) {
+          clearTimeout(searchTimeout.current);
+        }
+      };
+    }, []);
 
-        {RightIcon && !loading && !inputLogic.shouldShowClearButton && (
-          <View style={inputLogic.computedStyles.rightIconContainer}>
-            <RightIcon
-              size={inputLogic.iconProps.size}
-              color={inputLogic.iconProps.color}
+    const shouldShowPasswordToggle = type === 'password' && showPasswordToggle;
+    const effectiveSecureTextEntry = type === 'password' && !isPasswordVisible;
+
+    const effectiveLeftIcon =
+      type === 'search' && showSearchIcon ? undefined : LeftIcon;
+    const effectiveRightIcon = shouldShowPasswordToggle ? undefined : RightIcon;
+
+    const helperMessage = useMemo(() => {
+      if (error && typeof error === 'string') return error;
+      if (success && typeof success === 'string') return success;
+      if (warning && typeof warning === 'string') return warning;
+      return helperText;
+    }, [error, success, warning, helperText]);
+
+    return (
+      <View style={[inputLogic.computedStyles.container, containerStyle]}>
+        {inputLogic.shouldShowLabel && label && (
+          <View>
+            <SimpleLabel
+              label={label}
+              size={size}
+              variant={variant}
+              required={required}
+              disabled={disabled}
             />
           </View>
         )}
 
-        {!disableAnimations && (
-          <AnimatedView
-            style={[
-              inputLogic.computedStyles.focusRing,
-              {
-                opacity: inputLogic.animationValues.focusRingOpacity,
-              },
-            ]}
-          />
-        )}
-      </Pressable>
-
-      {inputLogic.shouldShowHelperText && helperMessage && (
-        <Text
-          variant="captionSecondary"
-          style={inputLogic.computedStyles.helperText}
+        <Pressable
+          onPress={inputLogic.handlers.handlePress}
+          disabled={inputLogic.isInteractionDisabled}
+          style={[inputLogic.computedStyles.inputContainer, style]}
         >
-          {helperMessage}
-        </Text>
-      )}
-    </ViewComponent>
-  );
-};
+          {type === 'search' && showSearchIcon && (
+            <View style={inputLogic.computedStyles.leftIconContainer}>
+              <Ionicons
+                name="search-outline"
+                size={inputLogic.iconProps.size}
+                color={inputLogic.iconProps.color}
+              />
+            </View>
+          )}
 
-export type { InputProps } from './typesInput';
+          {effectiveLeftIcon && (
+            <View style={inputLogic.computedStyles.leftIconContainer}>
+              {React.createElement(effectiveLeftIcon, {
+                size: inputLogic.iconProps.size,
+                color: inputLogic.iconProps.color,
+              })}
+            </View>
+          )}
+
+          <TextInput
+            ref={inputRef}
+            value={value}
+            onChangeText={
+              type === 'search'
+                ? handleSearchChange
+                : inputLogic.handlers.handleChangeText
+            }
+            onFocus={inputLogic.handlers.handleFocus}
+            onBlur={inputLogic.handlers.handleBlur}
+            onSubmitEditing={type === 'search' ? handleSearchSubmit : undefined}
+            placeholder={
+              !inputLogic.shouldShowLabel || !inputLogic.isFocused
+                ? placeholder
+                : undefined
+            }
+            placeholderTextColor={inputLogic.variantConfig.placeholderColor}
+            editable={!inputLogic.isInteractionDisabled && !readonly}
+            selectTextOnFocus={selectTextOnFocus}
+            autoFocus={autoFocus}
+            keyboardType={typeConfig.keyboardType}
+            autoCapitalize={typeConfig.autoCapitalize}
+            autoComplete={typeConfig.autoComplete}
+            textContentType={typeConfig.textContentType}
+            secureTextEntry={effectiveSecureTextEntry}
+            multiline={typeConfig.multiline}
+            numberOfLines={typeConfig.multiline ? rows : 1}
+            maxLength={
+              typeConfig.multiline && maxRows ? maxRows * 50 : undefined
+            }
+            style={[
+              inputLogic.computedStyles.input,
+              typeConfig.multiline && {
+                height: rows * 20,
+                textAlignVertical: 'top',
+              },
+              inputStyle,
+            ]}
+            testID={testID}
+            {...accessibility}
+            {...textInputProps}
+          />
+
+          {loading && (
+            <View style={styles.loadingContainer}>
+              <SportsLoading
+                size={LOADING_SPINNER_SIZE}
+                animationSpeed="normal"
+                testID={`${testID}-loading`}
+              />
+            </View>
+          )}
+
+          {inputLogic.shouldShowClearButton && !shouldShowPasswordToggle && (
+            <ClearButton
+              onPress={inputLogic.handlers.handleClear}
+              size={size}
+              variant={variant}
+              disabled={disabled}
+              disableAnimations={disableAnimations}
+              testID={`${testID}-clear`}
+            />
+          )}
+
+          {shouldShowPasswordToggle && (
+            <TouchableOpacity
+              onPress={handlePasswordToggle}
+              style={styles.clearButton}
+              testID={`${testID}-password-toggle`}
+              hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
+            >
+              <Ionicons
+                name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
+                size={inputLogic.iconProps.size}
+                color={inputLogic.iconProps.color}
+              />
+            </TouchableOpacity>
+          )}
+
+          {effectiveRightIcon &&
+            !loading &&
+            !inputLogic.shouldShowClearButton &&
+            !shouldShowPasswordToggle && (
+              <View style={inputLogic.computedStyles.rightIconContainer}>
+                {React.createElement(effectiveRightIcon, {
+                  size: inputLogic.iconProps.size,
+                  color: inputLogic.iconProps.color,
+                })}
+              </View>
+            )}
+        </Pressable>
+
+        {inputLogic.shouldShowHelperText && helperMessage && (
+          <Text
+            variant="captionSecondary"
+            style={inputLogic.computedStyles.helperText}
+          >
+            {helperMessage}
+          </Text>
+        )}
+      </View>
+    );
+  }
+);
+
+export type { InputProps, InputType } from './typesInput';
 export { useInput, useInputAccessibility } from './useInput';

@@ -1,10 +1,20 @@
 import React from 'react';
 import { TextInputProps, ViewStyle, TextStyle } from 'react-native';
-import { SharedValue, AnimatedStyle } from 'react-native-reanimated';
 
 export type InputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type InputVariant = 'default' | 'error' | 'success' | 'warning';
 export type InputState = 'default' | 'focused' | 'disabled' | 'readonly';
+export type InputType =
+  | 'text'
+  | 'email'
+  | 'password'
+  | 'phone'
+  | 'number'
+  | 'url'
+  | 'search'
+  | 'textarea'
+  | 'username'
+  | 'otp';
 
 export interface IconProps {
   size: number;
@@ -16,6 +26,7 @@ export interface InputProps extends Omit<TextInputProps, 'style'> {
   onChangeText: (text: string) => void;
   placeholder?: string;
 
+  type?: InputType;
   variant?: InputVariant;
   size?: InputSize;
 
@@ -42,6 +53,21 @@ export interface InputProps extends Omit<TextInputProps, 'style'> {
   disableAnimations?: boolean;
   haptic?: boolean;
 
+  showPasswordToggle?: boolean;
+  showPasswordStrength?: boolean;
+
+  onSearch?: (query: string) => void;
+  debounceMs?: number;
+  autoSearch?: boolean;
+  showSearchIcon?: boolean;
+
+  rows?: number;
+  maxRows?: number;
+  autoGrow?: boolean;
+
+  countryCode?: string;
+  formatPhone?: boolean;
+
   style?: ViewStyle;
   inputStyle?: TextStyle;
   containerStyle?: ViewStyle;
@@ -56,6 +82,38 @@ export interface InputConfig {
   iconSize: number;
   borderRadius: number;
   borderWidth: number;
+}
+
+export interface InputTypeConfig {
+  keyboardType?:
+    | 'default'
+    | 'email-address'
+    | 'numeric'
+    | 'phone-pad'
+    | 'url'
+    | 'number-pad';
+  autoComplete?:
+    | 'email'
+    | 'password'
+    | 'username'
+    | 'tel'
+    | 'url'
+    | 'off'
+    | 'one-time-code'
+    | 'new-password'
+    | 'current-password';
+  textContentType?:
+    | 'none'
+    | 'emailAddress'
+    | 'password'
+    | 'username'
+    | 'telephoneNumber'
+    | 'URL'
+    | 'oneTimeCode'
+    | 'newPassword';
+  secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  multiline?: boolean;
 }
 
 export interface InputVariantConfig {
@@ -143,19 +201,19 @@ export interface UseInputReturn {
   };
 
   animationValues: {
-    focusRingOpacity: SharedValue<number>;
-    borderColor: SharedValue<string>;
-    labelY: SharedValue<number>;
-    labelScale: SharedValue<number>;
-    errorShake: SharedValue<number>;
-    loadingOpacity: SharedValue<number>;
+    focusRingOpacity: { value: number };
+    borderColor: { value: string };
+    labelY: { value: number };
+    labelScale: { value: number };
+    errorShake: { value: number };
+    loadingOpacity: { value: number };
   };
 
   animatedStyles: {
-    animatedContainerStyle: AnimatedStyle<ViewStyle>;
-    animatedInputStyle: AnimatedStyle<TextStyle>;
-    animatedLabelStyle: AnimatedStyle<TextStyle>;
-    animatedFocusRingStyle: AnimatedStyle<ViewStyle>;
+    animatedContainerStyle: ViewStyle;
+    animatedInputStyle: TextStyle;
+    animatedLabelStyle: TextStyle;
+    animatedFocusRingStyle: ViewStyle;
   };
 
   handlers: {
@@ -173,18 +231,18 @@ export interface UseInputReturn {
 }
 
 export interface InputAnimationHooks {
-  focusRingOpacity: SharedValue<number>;
-  borderColor: SharedValue<string>;
-  labelY: SharedValue<number>;
-  labelScale: SharedValue<number>;
-  errorShake: SharedValue<number>;
-  loadingOpacity: SharedValue<number>;
+  focusRingOpacity: { value: number };
+  borderColor: { value: string };
+  labelY: { value: number };
+  labelScale: { value: number };
+  errorShake: { value: number };
+  loadingOpacity: { value: number };
 
-  animatedContainerStyle: AnimatedStyle<ViewStyle>;
-  animatedInputStyle: AnimatedStyle<TextStyle>;
-  animatedLabelStyle: AnimatedStyle<TextStyle>;
-  animatedFocusRingStyle: AnimatedStyle<ViewStyle>;
-  animatedErrorShakeStyle: AnimatedStyle<ViewStyle>;
+  animatedContainerStyle: ViewStyle;
+  animatedInputStyle: TextStyle;
+  animatedLabelStyle: TextStyle;
+  animatedFocusRingStyle: ViewStyle;
+  animatedErrorShakeStyle: ViewStyle;
 
   triggerFocusAnimation: () => void;
   triggerBlurAnimation: () => void;

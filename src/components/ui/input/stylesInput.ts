@@ -164,18 +164,11 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: ArenaBorders.radius.md,
-    backgroundColor: `${ArenaColors.neutral.medium}33`,
     marginLeft: ArenaSpacing.sm,
   },
 
   clearButtonPressed: {
     backgroundColor: `${ArenaColors.neutral.medium}66`,
-  },
-
-  clearIcon: {
-    width: 14,
-    height: 14,
-    backgroundColor: ArenaColors.neutral.medium,
   },
 
   focusRing: {
