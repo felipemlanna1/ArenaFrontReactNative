@@ -112,7 +112,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signUp = useCallback(async (data: RegisterData) => {
     try {
+      console.log('[AuthContext] signUp called');
       const response = await authService.register(data);
+
+      console.log('[AuthContext] signUp authService.register completed');
 
       const userData: UserData = {
         ...response.user,
@@ -122,8 +125,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
 
+      console.log('[AuthContext] Setting user data:', userData.email);
       setUser(userData);
+      console.log('[AuthContext] signUp completed successfully');
     } catch (error) {
+      console.error('[AuthContext] signUp error:', error);
       throw error instanceof Error ? error : new Error('Falha no cadastro');
     }
   }, []);

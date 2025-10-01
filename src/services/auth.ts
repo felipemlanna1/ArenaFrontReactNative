@@ -70,10 +70,21 @@ class AuthService {
 
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
+      console.log('[AuthService] register called with data:', {
+        ...data,
+        password: '***',
+        confirmPassword: '***',
+      });
+
       const response = await httpService.post<AuthResponse>(
         '/auth/register',
         data
       );
+
+      console.log('[AuthService] register response received:', {
+        user: response.user?.email,
+        hasTokens: !!response.tokens,
+      });
 
       if (response.tokens) {
         await httpService.saveTokens(response.tokens);
@@ -90,6 +101,7 @@ class AuthService {
 
       return response;
     } catch (error) {
+      console.error('[AuthService] register error:', error);
       if (error instanceof ApiError) {
         throw error;
       }
