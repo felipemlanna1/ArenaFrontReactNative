@@ -5,6 +5,7 @@ import { SportCard } from '../SportCard';
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '../../typesOnboardingSportsScreen';
 import { ArenaColors } from '@/constants';
+import { translateSkillLevel } from '../../utils/skillLevelTranslations';
 import { styles } from './stylesSportsSelection';
 
 interface SportsSelectionProps {
@@ -79,7 +80,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
             {selectedSports.map(sport => (
               <View key={sport.sportId} style={styles.chip}>
                 <Text variant="bodyPrimary" style={styles.chipText}>
-                  {sport.sportName} - {sport.level}
+                  {sport.sportName} - {translateSkillLevel(sport.level)}
                 </Text>
                 <TouchableOpacity
                   onPress={() => onRemoveSport(sport.sportId)}
