@@ -37,6 +37,9 @@ module.exports = {
       Picker: '@/components/ui/dropdown (Dropdown)',
       Select: '@/components/ui/dropdown (Dropdown)',
       Menu: '@/components/ui/dropdown (Dropdown)',
+      Accordion: '@/components/ui/accordion (Accordion)',
+      Collapsible: '@/components/ui/accordion (Accordion)',
+      Expandable: '@/components/ui/accordion (Accordion)',
     };
 
     const allowedComponents = [
