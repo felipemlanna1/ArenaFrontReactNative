@@ -78,7 +78,11 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
       style={[styles.fallbackContainer, { backgroundColor }]}
       testID={`${testID}-fallback`}
     >
-      <Image source={iconSource} style={styles.fallbackIcon} resizeMode="contain" />
+      <Image
+        source={iconSource}
+        style={styles.fallbackIcon}
+        resizeMode="contain"
+      />
       {priceBadge}
       {distanceBadge}
     </View>
