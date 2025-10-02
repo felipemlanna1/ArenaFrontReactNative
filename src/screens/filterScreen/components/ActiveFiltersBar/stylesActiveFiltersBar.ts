@@ -48,16 +48,19 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.light,
   },
   chipCloseButton: {
-    width: 16,
-    height: 16,
+    width: 20,
+    height: 20,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.neutral.medium,
     alignItems: 'center',
     justifyContent: 'center',
   },
   chipCloseIcon: {
-    fontSize: ArenaTypography.size.xs,
-    color: ArenaColors.neutral.light,
+    fontSize: 12,
+    lineHeight: 20,
+    color: ArenaColors.neutral.darkest,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   clearAllButton: {
     paddingVertical: ArenaSpacing.xs,

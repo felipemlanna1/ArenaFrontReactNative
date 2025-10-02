@@ -18,8 +18,9 @@ export const styles = StyleSheet.create({
     marginVertical: ArenaSpacing.sm,
   },
   footer: {
-    padding: ArenaSpacing.md,
-    paddingTop: ArenaSpacing.xs,
+    paddingHorizontal: ArenaSpacing.md,
+    paddingBottom: ArenaSpacing.md,
+    marginBottom: 25,
     backgroundColor: ArenaColors.neutral.darkest,
     borderTopWidth: 1,
     borderTopColor: ArenaColors.neutral.dark,

@@ -15,6 +15,8 @@ export const styles = StyleSheet.create({
     borderRadius: ArenaBorders.radius.sm,
   },
   sportsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: ArenaSpacing.sm,
   },
   emptyText: {
