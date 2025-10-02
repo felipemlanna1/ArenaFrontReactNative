@@ -202,6 +202,7 @@ export const useSportsLoading = ({
     height: iconSize,
     opacity: opacity0.value,
     transform: [{ scale: scale0.value }],
+    zIndex: 1,
   }));
 
   const icon1Style = useAnimatedStyle(() => ({
@@ -209,6 +210,7 @@ export const useSportsLoading = ({
     height: iconSize,
     opacity: opacity1.value,
     transform: [{ scale: scale1.value }],
+    zIndex: 1,
   }));
 
   const icon2Style = useAnimatedStyle(() => ({
@@ -216,6 +218,7 @@ export const useSportsLoading = ({
     height: iconSize,
     opacity: opacity2.value,
     transform: [{ scale: scale2.value }],
+    zIndex: 1,
   }));
 
   const icon3Style = useAnimatedStyle(() => ({
@@ -223,6 +226,7 @@ export const useSportsLoading = ({
     height: iconSize,
     opacity: opacity3.value,
     transform: [{ scale: scale3.value }],
+    zIndex: 1,
   }));
 
   const icon4Style = useAnimatedStyle(() => ({
@@ -230,6 +234,7 @@ export const useSportsLoading = ({
     height: iconSize,
     opacity: opacity4.value,
     transform: [{ scale: scale4.value }],
+    zIndex: 1,
   }));
 
   const iconStyles = [
