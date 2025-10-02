@@ -1,25 +1,6 @@
-import { UserSport } from './sport';
+import { UserData as HttpUserData } from '@/services/http';
 
-export interface UserData {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  phone?: string;
-  dateOfBirth?: Date | string;
-  gender?: string;
-  bio?: string;
-  profilePicture?: string;
-  isActive: boolean;
-  isEmailVerified: boolean;
-  lastLoginAt?: Date | string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
-  sports?: UserSport[];
-  hasSports: boolean;
-  primarySportId?: string;
-}
+export type UserData = HttpUserData;
 
 export interface AuthTokens {
   accessToken: string;
