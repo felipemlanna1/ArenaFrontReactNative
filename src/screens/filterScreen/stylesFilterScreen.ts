@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   },
   footer: {
     padding: ArenaSpacing.md,
+    paddingTop: ArenaSpacing.xs,
     backgroundColor: ArenaColors.neutral.darkest,
     borderTopWidth: 1,
     borderTopColor: ArenaColors.neutral.dark,
