@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, TextStyle } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 import { EventCardImage } from './components/EventCardImage';
 import { ProgressBar } from './components/ProgressBar';
 import { EventCardProps } from './typesEventCard';
@@ -27,6 +28,23 @@ export const EventCard: React.FC<EventCardProps> = ({
       currentParticipants: event.currentParticipants,
       maxParticipants: event.maxParticipants,
     });
+
+  const getButtonVariant = (
+    variant: 'primary' | 'secondary' | 'outline' | 'danger'
+  ): 'primary' | 'secondary' | 'subtle' | 'destructive' => {
+    switch (variant) {
+      case 'primary':
+        return 'primary';
+      case 'secondary':
+        return 'secondary';
+      case 'outline':
+        return 'subtle';
+      case 'danger':
+        return 'destructive';
+      default:
+        return 'secondary';
+    }
+  };
 
   const handlePress = () => {
     onPress(event.id);
@@ -112,74 +130,41 @@ export const EventCard: React.FC<EventCardProps> = ({
         </View>
 
         <View style={styles.actionsRow}>
-          <TouchableOpacity
-            style={styles.viewButton}
+          <Button
+            variant={getButtonVariant(viewButton.variant)}
+            size="sm"
             onPress={handlePress}
             testID={viewButton.testID}
+            rightIcon={({ size, color }) => (
+              <Ionicons name="arrow-forward" size={size} color={color} />
+            )}
+            fullWidth
           >
-            <Text variant="labelPrimary" style={styles.viewButtonText}>
-              {viewButton.label}
-            </Text>
-            <Ionicons
-              name="arrow-forward"
-              size={16}
-              color={ArenaColors.text.inverse}
-            />
-          </TouchableOpacity>
+            {viewButton.label}
+          </Button>
 
           {actionButton && (
-            <TouchableOpacity
-              style={[
-                styles.actionButton,
-                actionButton.variant === 'danger' && styles.dangerButton,
-                actionButton.variant === 'outline' && styles.outlineButton,
-              ]}
+            <Button
+              variant={getButtonVariant(actionButton.variant)}
+              size="sm"
               onPress={handleActionPress}
               testID={actionButton.testID}
+              fullWidth
             >
-              <Text
-                variant="labelPrimary"
-                style={
-                  [
-                    styles.actionButtonText,
-                    actionButton.variant === 'danger'
-                      ? styles.dangerButtonText
-                      : undefined,
-                    actionButton.variant === 'outline'
-                      ? styles.outlineButtonText
-                      : undefined,
-                  ].filter(Boolean) as TextStyle[]
-                }
-              >
-                {actionButton.label}
-              </Text>
-            </TouchableOpacity>
+              {actionButton.label}
+            </Button>
           )}
 
           {secondaryActionButton && (
-            <TouchableOpacity
-              style={[
-                styles.actionButton,
-                secondaryActionButton.variant === 'outline' &&
-                  styles.outlineButton,
-              ]}
+            <Button
+              variant={getButtonVariant(secondaryActionButton.variant)}
+              size="sm"
               onPress={handleSecondaryActionPress}
               testID={secondaryActionButton.testID}
+              fullWidth
             >
-              <Text
-                variant="labelPrimary"
-                style={
-                  [
-                    styles.actionButtonText,
-                    secondaryActionButton.variant === 'outline'
-                      ? styles.outlineButtonText
-                      : undefined,
-                  ].filter(Boolean) as TextStyle[]
-                }
-              >
-                {secondaryActionButton.label}
-              </Text>
-            </TouchableOpacity>
+              {secondaryActionButton.label}
+            </Button>
           )}
         </View>
       </View>
