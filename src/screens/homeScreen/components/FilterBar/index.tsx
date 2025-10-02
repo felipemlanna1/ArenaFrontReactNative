@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Pressable, Text } from 'react-native';
+// eslint-disable-next-line arena/arena-use-ui-components
+import { View, TextInput, TouchableOpacity, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Text } from '@/components/ui/text';
 import { ArenaColors } from '@/constants';
 import { FilterBarProps } from './typesFilterBar';
 import { useFilterBar } from './useFilterBar';
@@ -75,9 +77,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         >
           <Ionicons
             name={
-              sortOrder === 'asc'
-                ? 'arrow-up-outline'
-                : 'arrow-down-outline'
+              sortOrder === 'asc' ? 'arrow-up-outline' : 'arrow-down-outline'
             }
             size={20}
             color={ArenaColors.text.inverse}
@@ -99,7 +99,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           />
           {filterCount > 0 && (
             <View style={styles.filterBadge}>
-              <Text style={styles.filterBadgeText}>{filterCount}</Text>
+              <Text variant="labelPrimary" style={styles.filterBadgeText}>
+                {filterCount}
+              </Text>
             </View>
           )}
         </Pressable>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
+import { Text } from '@/components/ui/text';
 import { SportBadge } from './components/SportBadge';
 import { ProgressBar } from './components/ProgressBar';
 import { EventCardProps } from './typesEventCard';
@@ -29,7 +30,7 @@ export const EventCard: React.FC<EventCardProps> = ({
     <View style={styles.container} testID={testID}>
       <SportBadge sport={event.sport} />
 
-      <Text style={styles.title} numberOfLines={2}>
+      <Text variant="titlePrimary" numberOfLines={2} style={styles.title}>
         {event.title}
       </Text>
 
@@ -41,11 +42,15 @@ export const EventCard: React.FC<EventCardProps> = ({
             color={ArenaColors.text.inverse}
           />
         </View>
-        <Text style={styles.locationText} numberOfLines={1}>
+        <Text
+          variant="bodySecondary"
+          numberOfLines={1}
+          style={styles.locationText}
+        >
           {event.location.city}
         </Text>
         {event.distance !== undefined && (
-          <Text style={styles.distanceText}>
+          <Text variant="bodyMuted" style={styles.distanceText}>
             • {formatDistance(event.distance)}
           </Text>
         )}
@@ -59,10 +64,10 @@ export const EventCard: React.FC<EventCardProps> = ({
             color={ArenaColors.text.inverse}
           />
         </View>
-        <Text style={styles.dateTimeText}>
+        <Text variant="bodySecondary" style={styles.dateTimeText}>
           {formatDate(event.startDate)} • {formatTime(event.startDate)}
         </Text>
-        <Text style={styles.priceText}>
+        <Text variant="bodyPrimary" style={styles.priceText}>
           {formatPrice(event.price, event.isFree)}
         </Text>
       </View>
@@ -85,7 +90,9 @@ export const EventCard: React.FC<EventCardProps> = ({
             size={18}
             color={ArenaColors.neutral.medium}
           />
-          <Text style={styles.shareButtonText}>Compartilhar</Text>
+          <Text variant="bodySecondary" style={styles.shareButtonText}>
+            Compartilhar
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -93,7 +100,9 @@ export const EventCard: React.FC<EventCardProps> = ({
           onPress={handlePress}
           testID={`${testID}-view`}
         >
-          <Text style={styles.viewButtonText}>VER</Text>
+          <Text variant="labelPrimary" style={styles.viewButtonText}>
+            VER
+          </Text>
           <Ionicons
             name="arrow-forward"
             size={18}

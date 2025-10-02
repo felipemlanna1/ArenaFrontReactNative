@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { ArenaColors } from '@/constants';
 import { styles } from './stylesProgressBar';
 
@@ -15,7 +16,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   testID = 'progress-bar',
 }) => {
   const percentage = Math.min((current / max) * 100, 100);
-  const available = max - current;
 
   const getProgressColor = () => {
     if (percentage >= 75) return ArenaColors.semantic.error;
@@ -36,7 +36,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           ]}
         />
       </View>
-      <Text style={styles.text}>
+      <Text variant="captionSecondary" style={styles.text}>
         {current}/{max}
       </Text>
     </View>
