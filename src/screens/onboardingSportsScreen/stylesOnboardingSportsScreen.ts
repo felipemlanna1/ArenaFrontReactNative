@@ -6,11 +6,18 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
   },
+  topSymbol: {
+    position: 'absolute',
+    top: ArenaSpacing['3xl'] + 20,
+    left: ArenaSpacing.lg,
+    zIndex: 10,
+  },
   header: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
+    paddingTop: ArenaSpacing['3xl'] + 20,
+    paddingBottom: ArenaSpacing.md,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   content: {

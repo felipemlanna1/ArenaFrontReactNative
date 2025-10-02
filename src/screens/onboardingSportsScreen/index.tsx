@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { Symbol } from '@/components/ui/symbol';
 import { Text } from '@/components/ui/text';
 import { SportsSelection } from './components/SportsSelection';
 import { LevelSelection } from './components/LevelSelection';
@@ -35,13 +36,14 @@ export const OnboardingSportsScreen: React.FC<
 
   return (
     <View style={styles.container}>
+      <View style={styles.topSymbol}>
+        <Symbol
+          size="md"
+          variant="variant1"
+          testID="onboarding-arena-symbol"
+        />
+      </View>
       <View style={styles.header}>
-        <Text
-          variant="headingPrimary"
-          style={{ color: ArenaColors.neutral.light }}
-        >
-          Arena
-        </Text>
         <TouchableOpacity onPress={handleExit}>
           <Text
             variant="bodyPrimary"
