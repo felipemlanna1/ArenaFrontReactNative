@@ -49,6 +49,7 @@ export interface Event {
   distance?: number;
   userEventStatus?: UserEventStatus;
   hasCheckedIn?: boolean;
+  coverImage?: string;
   organizerId: string;
   organizerName: string;
   organizerAvatar?: string;
