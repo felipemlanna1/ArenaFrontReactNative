@@ -225,6 +225,52 @@ Ao criar ou modificar qualquer arquivo, SEMPRE verificar:
 - **Identidade**: Moderna, Esportiva, Confiável
 - **Tom**: Direto, Motivacional, Técnico
 
+## 🔄 Loading States - OBRIGATÓRIO
+
+### Componente SportsLoading
+
+**REGRA CRÍTICA**: SEMPRE usar `SportsLoading` para indicadores de carregamento. NUNCA usar `ActivityIndicator` do React Native.
+
+```tsx
+import { SportsLoading } from '@/components/ui/sportsLoading';
+
+// ✅ CORRETO - Loading em tela cheia
+<View style={styles.loadingContainer}>
+  <SportsLoading size="lg" animationSpeed="normal" />
+</View>
+
+// ✅ CORRETO - Loading em lista (pagination)
+<View style={styles.footer}>
+  <SportsLoading size="sm" animationSpeed="fast" />
+</View>
+
+// ❌ ERRADO - Nunca usar ActivityIndicator
+<ActivityIndicator size="large" />
+```
+
+### Componente ArenaRefreshControl
+
+**REGRA**: Para pull-to-refresh, usar `ArenaRefreshControl` ao invés do `RefreshControl` padrão.
+
+```tsx
+import { ArenaRefreshControl } from '@/components/ui/refreshControl';
+
+// ✅ CORRETO - RefreshControl Arena
+<FlatList
+  data={items}
+  refreshControl={
+    <ArenaRefreshControl
+      refreshing={isRefreshing}
+      onRefresh={handleRefresh}
+    />
+  }
+/>
+
+// ❌ ERRADO - RefreshControl padrão
+import { RefreshControl } from 'react-native';
+<RefreshControl refreshing={...} />
+```
+
 ---
 
 **IMPORTANTE**: Este arquivo deve ser consultado SEMPRE antes de criar ou modificar código. As regras aqui são obrigatórias e não opcionais.
