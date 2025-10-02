@@ -109,28 +109,20 @@ export const EventCard: React.FC<EventCardProps> = ({
         </View>
 
         <View style={styles.actionsRow}>
-          {secondaryActionButton && (
-            <TouchableOpacity
-              style={[
-                styles.actionButton,
-                secondaryActionButton.variant === 'outline' &&
-                  styles.outlineButton,
-              ]}
-              onPress={handleSecondaryActionPress}
-              testID={secondaryActionButton.testID}
-            >
-              <Text
-                variant="labelPrimary"
-                style={[
-                  styles.actionButtonText,
-                  secondaryActionButton.variant === 'outline' &&
-                    styles.outlineButtonText,
-                ]}
-              >
-                {secondaryActionButton.label}
-              </Text>
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={styles.viewButton}
+            onPress={handlePress}
+            testID={viewButton.testID}
+          >
+            <Text variant="labelPrimary" style={styles.viewButtonText}>
+              {viewButton.label}
+            </Text>
+            <Ionicons
+              name="arrow-forward"
+              size={16}
+              color={ArenaColors.text.inverse}
+            />
+          </TouchableOpacity>
 
           {actionButton && (
             <TouchableOpacity
@@ -155,20 +147,28 @@ export const EventCard: React.FC<EventCardProps> = ({
             </TouchableOpacity>
           )}
 
-          <TouchableOpacity
-            style={styles.viewButton}
-            onPress={handlePress}
-            testID={viewButton.testID}
-          >
-            <Text variant="labelPrimary" style={styles.viewButtonText}>
-              {viewButton.label}
-            </Text>
-            <Ionicons
-              name="arrow-forward"
-              size={16}
-              color={ArenaColors.text.inverse}
-            />
-          </TouchableOpacity>
+          {secondaryActionButton && (
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                secondaryActionButton.variant === 'outline' &&
+                  styles.outlineButton,
+              ]}
+              onPress={handleSecondaryActionPress}
+              testID={secondaryActionButton.testID}
+            >
+              <Text
+                variant="labelPrimary"
+                style={[
+                  styles.actionButtonText,
+                  secondaryActionButton.variant === 'outline' &&
+                    styles.outlineButtonText,
+                ]}
+              >
+                {secondaryActionButton.label}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

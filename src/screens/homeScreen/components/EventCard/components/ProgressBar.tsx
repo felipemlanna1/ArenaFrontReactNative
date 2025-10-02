@@ -36,9 +36,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           ]}
         />
       </View>
-      <Text variant="captionSecondary" style={styles.text}>
-        {current}/{max}
-      </Text>
     </View>
   );
 };
