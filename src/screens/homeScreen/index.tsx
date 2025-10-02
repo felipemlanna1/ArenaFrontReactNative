@@ -30,6 +30,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     {}
   );
   const [showSortModal, setShowSortModal] = useState(false);
+  const [isSorting, setIsSorting] = useState(false);
 
   const {
     events,
@@ -52,15 +53,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   }, []);
 
   const handleApplySort = useCallback(
-    (
+    async (
       sortBy: 'date' | 'distance' | 'price' | 'name',
       sortOrder: 'asc' | 'desc'
     ) => {
+      setIsSorting(true);
       setAppliedFilters(prev => ({
         ...prev,
         sortBy,
         sortOrder,
       }));
+
+      setTimeout(() => {
+        setIsSorting(false);
+      }, 800);
     },
     []
   );
@@ -69,7 +75,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate('FilterScreen', {
       currentFilters: currentFilters,
       onApplyFilters: (filters: EventsFilter) => {
+        setIsSorting(true);
         setAppliedFilters(filters);
+
+        setTimeout(() => {
+          setIsSorting(false);
+        }, 800);
       },
     });
   }, [navigation, currentFilters]);
@@ -129,7 +140,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         />
       </View>
 
-      {isLoading && events.length === 0 ? (
+      {(isLoading && events.length === 0) || isSorting ? (
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
