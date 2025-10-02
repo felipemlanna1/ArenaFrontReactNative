@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
+    ...ArenaShadows.card,
   },
   outlined: {
     backgroundColor: 'transparent',
@@ -21,6 +22,7 @@ export const styles = StyleSheet.create({
     borderColor: ArenaColors.neutral.medium,
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
+    ...ArenaShadows.soft,
   },
   elevated: {
     backgroundColor: ArenaColors.neutral.dark,
