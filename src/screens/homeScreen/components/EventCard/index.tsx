@@ -20,12 +20,13 @@ export const EventCard: React.FC<EventCardProps> = ({
   const { formatDate, formatTime, formatPrice, formatDistance } =
     useEventCard();
 
-  const { viewButton, actionButton } = useEventCardActions({
-    userEventStatus: event.userEventStatus,
-    privacy: event.privacy,
-    currentParticipants: event.currentParticipants,
-    maxParticipants: event.maxParticipants,
-  });
+  const { viewButton, actionButton, secondaryActionButton } =
+    useEventCardActions({
+      userEventStatus: event.userEventStatus,
+      privacy: event.privacy,
+      currentParticipants: event.currentParticipants,
+      maxParticipants: event.maxParticipants,
+    });
 
   const handlePress = () => {
     onPress(event.id);
@@ -35,8 +36,14 @@ export const EventCard: React.FC<EventCardProps> = ({
     onShare(event.id);
   };
 
-  const handleActionPress = () => {
+  const handleActionPress = (buttonType?: string) => {
     if (onActionPress && actionButton) {
+      onActionPress(event.id);
+    }
+  };
+
+  const handleSecondaryActionPress = () => {
+    if (onActionPress && secondaryActionButton) {
       onActionPress(event.id);
     }
   };
@@ -123,13 +130,47 @@ export const EventCard: React.FC<EventCardProps> = ({
         </View>
 
         <View style={styles.actionsRow}>
+          {secondaryActionButton && (
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                secondaryActionButton.variant === 'outline' &&
+                  styles.outlineButton,
+              ]}
+              onPress={handleSecondaryActionPress}
+              testID={secondaryActionButton.testID}
+            >
+              <Text
+                variant="labelPrimary"
+                style={[
+                  styles.actionButtonText,
+                  secondaryActionButton.variant === 'outline' &&
+                    styles.outlineButtonText,
+                ]}
+              >
+                {secondaryActionButton.label}
+              </Text>
+            </TouchableOpacity>
+          )}
+
           {actionButton && (
             <TouchableOpacity
-              style={styles.actionButton}
+              style={[
+                styles.actionButton,
+                actionButton.variant === 'danger' && styles.dangerButton,
+                actionButton.variant === 'outline' && styles.outlineButton,
+              ]}
               onPress={handleActionPress}
               testID={actionButton.testID}
             >
-              <Text variant="labelPrimary" style={styles.actionButtonText}>
+              <Text
+                variant="labelPrimary"
+                style={[
+                  styles.actionButtonText,
+                  actionButton.variant === 'danger' && styles.dangerButtonText,
+                  actionButton.variant === 'outline' && styles.outlineButtonText,
+                ]}
+              >
                 {actionButton.label}
               </Text>
             </TouchableOpacity>

@@ -25,6 +25,10 @@ interface Styles {
   shareButton: ViewStyle;
   actionButton: ViewStyle;
   actionButtonText: TextStyle;
+  outlineButton: ViewStyle;
+  outlineButtonText: TextStyle;
+  dangerButton: ViewStyle;
+  dangerButtonText: TextStyle;
   viewButton: ViewStyle;
   viewButtonText: TextStyle;
 }
@@ -139,6 +143,20 @@ export const styles = StyleSheet.create<Styles>({
     color: ArenaColors.brand.primary,
     fontSize: ArenaTypography.size.xs,
     fontWeight: ArenaTypography.weight.bold,
+  },
+  outlineButton: {
+    borderColor: ArenaColors.neutral.medium,
+    backgroundColor: 'transparent',
+  },
+  outlineButtonText: {
+    color: ArenaColors.neutral.medium,
+  },
+  dangerButton: {
+    borderColor: ArenaColors.semantic.error,
+    backgroundColor: 'transparent',
+  },
+  dangerButtonText: {
+    color: ArenaColors.semantic.error,
   },
   viewButton: {
     flex: 1,
