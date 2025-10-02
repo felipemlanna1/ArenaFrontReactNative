@@ -1,21 +1,42 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import { Symbol } from '@/components/ui/symbol';
+import { Text } from '@/components/ui/text';
 import { EventSport } from '@/services/events/typesEvents';
 import { styles } from './stylesEventCardImage';
 
 interface EventCardImageProps {
   coverImage?: string;
   sport: EventSport;
+  price: number | string;
+  isFree: boolean;
+  formatPrice: (price: number | string, isFree: boolean) => string;
   testID?: string;
 }
 
 export const EventCardImage: React.FC<EventCardImageProps> = ({
   coverImage,
   sport,
+  price,
+  isFree,
+  formatPrice,
   testID = 'event-card-image',
 }) => {
   const backgroundColor = sport.color;
+  const isGratuito = isFree || parseFloat(String(price)) === 0;
+
+  const priceBadge = (
+    <View
+      style={[
+        styles.priceBadge,
+        isGratuito ? styles.priceSuccessBadge : styles.pricePrimaryBadge,
+      ]}
+    >
+      <Text variant="labelPrimary" style={styles.priceText}>
+        {isGratuito ? 'GRATUITO' : formatPrice(price, isFree)}
+      </Text>
+    </View>
+  );
 
   if (coverImage) {
     return (
@@ -25,6 +46,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
           style={styles.image}
           resizeMode="cover"
         />
+        {priceBadge}
       </View>
     );
   }
@@ -35,6 +57,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
       testID={`${testID}-fallback`}
     >
       <Symbol size="lg" variant="white" />
+      {priceBadge}
     </View>
   );
 };

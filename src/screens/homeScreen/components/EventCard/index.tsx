@@ -53,6 +53,9 @@ export const EventCard: React.FC<EventCardProps> = ({
       <EventCardImage
         coverImage={event.coverImage}
         sport={event.sport}
+        price={event.price}
+        isFree={event.isFree}
+        formatPrice={formatPrice}
         testID={`${testID}-image`}
       />
 
@@ -93,17 +96,6 @@ export const EventCard: React.FC<EventCardProps> = ({
               {formatDate(event.startDate)} • {formatTime(event.startDate)}
             </Text>
           </View>
-          {event.isFree || parseFloat(String(event.price)) === 0 ? (
-            <View style={styles.priceSuccessBadge}>
-              <Text variant="labelPrimary" style={styles.priceSuccessText}>
-                GRATUITO
-              </Text>
-            </View>
-          ) : (
-            <Text variant="bodyPrimary" style={styles.priceText}>
-              {formatPrice(event.price, event.isFree)}
-            </Text>
-          )}
         </View>
 
         <View style={styles.progressContainer}>

@@ -1,10 +1,14 @@
-import { StyleSheet, ViewStyle, ImageStyle } from 'react-native';
-import { ArenaBorders } from '@/constants';
+import { StyleSheet, ViewStyle, ImageStyle, TextStyle } from 'react-native';
+import { ArenaBorders, ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
   image: ImageStyle;
   fallbackContainer: ViewStyle;
+  priceBadge: ViewStyle;
+  priceSuccessBadge: ViewStyle;
+  pricePrimaryBadge: ViewStyle;
+  priceText: TextStyle;
 }
 
 export const styles = StyleSheet.create<Styles>({
@@ -14,6 +18,7 @@ export const styles = StyleSheet.create<Styles>({
     overflow: 'hidden',
     borderTopLeftRadius: ArenaBorders.radius.lg,
     borderTopRightRadius: ArenaBorders.radius.lg,
+    position: 'relative',
   },
   image: {
     width: '100%',
@@ -26,5 +31,25 @@ export const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     borderTopLeftRadius: ArenaBorders.radius.lg,
     borderTopRightRadius: ArenaBorders.radius.lg,
+    position: 'relative',
+  },
+  priceBadge: {
+    position: 'absolute',
+    top: ArenaSpacing.sm,
+    left: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.pill,
+  },
+  priceSuccessBadge: {
+    backgroundColor: ArenaColors.semantic.success,
+  },
+  pricePrimaryBadge: {
+    backgroundColor: ArenaColors.brand.primary,
+  },
+  priceText: {
+    color: ArenaColors.text.inverse,
+    fontSize: ArenaTypography.size.xs,
+    fontWeight: ArenaTypography.weight.bold,
   },
 });
