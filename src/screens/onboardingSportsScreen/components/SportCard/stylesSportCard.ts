@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.xs,
   },
   iconUnselected: {
-    opacity: 0.6,
+    opacity: 0.3,
   },
   icon: {
     width: iconSize,
@@ -49,6 +49,9 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: ArenaTypography.size.xs,
     color: ArenaColors.neutral.light,
+  },
+  labelUnselected: {
+    opacity: 0.3,
   },
   labelSelected: {
     color: ArenaColors.brand.primary,
