@@ -8,6 +8,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   title,
   children,
   count,
+  defaultExpanded = false,
   testID = 'filter-section',
 }) => {
   const displayTitle =
@@ -24,7 +25,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
       ]}
       variant="default"
       mode="multiple"
-      defaultExpandedIds={[title]}
+      defaultExpandedIds={defaultExpanded ? [title] : []}
       testID={testID}
     />
   );

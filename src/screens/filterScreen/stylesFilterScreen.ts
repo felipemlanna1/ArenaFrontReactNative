@@ -23,14 +23,6 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.darkest,
     borderTopWidth: 1,
     borderTopColor: ArenaColors.neutral.dark,
-    gap: ArenaSpacing.sm,
-  },
-  footerRow: {
-    flexDirection: 'row',
-    gap: ArenaSpacing.sm,
-  },
-  footerButton: {
-    flex: 1,
   },
   checkboxContainer: {
     marginVertical: ArenaSpacing.sm,

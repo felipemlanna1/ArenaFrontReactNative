@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FilterSection } from './components/FilterSection';
+import { SportsFilter } from './components/SportsFilter';
 import { PriceRangeFilter } from './components/PriceRangeFilter';
 import { DateRangeFilter } from './components/DateRangeFilter';
 import { ActiveFiltersBar } from './components/ActiveFiltersBar';
@@ -80,6 +81,20 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <View style={styles.section}>
+          <FilterSection
+            title="Esportes"
+            count={filterCount.byCategory.sports}
+            defaultExpanded
+            testID="filter-sports"
+          >
+            <SportsFilter
+              selectedSportIds={filters.sportIds}
+              onSportsChange={value => updateFilter('sportIds', value)}
+            />
+          </FilterSection>
+        </View>
+
         <View style={styles.section}>
           <FilterSection
             title="Preço"
@@ -160,31 +175,17 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
       </ScrollView>
 
       <View style={styles.footer}>
-        <View style={styles.footerRow}>
-          <View style={styles.footerButton}>
-            <Button
-              variant="subtle"
-              onPress={clearFilters}
-              disabled={isApplying || filterCount.total === 0}
-              testID="filter-clear-button"
-            >
-              Limpar Filtros
-            </Button>
-          </View>
-          <View style={styles.footerButton}>
-            <Button
-              variant="primary"
-              onPress={async () => {
-                await applyFilters();
-                navigation.goBack();
-              }}
-              disabled={isApplying}
-              testID="filter-apply-button"
-            >
-              {isApplying ? 'Aplicando...' : 'Aplicar Filtros'}
-            </Button>
-          </View>
-        </View>
+        <Button
+          variant="primary"
+          onPress={async () => {
+            await applyFilters();
+            navigation.goBack();
+          }}
+          disabled={isApplying}
+          testID="filter-apply-button"
+        >
+          {isApplying ? 'Aplicando...' : 'Aplicar Filtros'}
+        </Button>
       </View>
     </SafeAreaView>
   );
