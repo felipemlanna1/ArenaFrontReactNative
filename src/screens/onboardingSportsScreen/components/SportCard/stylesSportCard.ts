@@ -1,10 +1,19 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaTypography,
+} from '@/constants';
+import {
+  CARDS_PER_ROW,
+  ICON_SIZE_RATIO,
+} from '@/screens/onboardingSportsScreen/constants';
 
 const { width } = Dimensions.get('window');
-const cardWidth = (width - ArenaSpacing.lg * 2 - ArenaSpacing.md * 2) / 3;
-const iconSize = cardWidth * 0.5; // 50% do card para o ícone
-
+const cardWidth =
+  (width - ArenaSpacing.lg * 2 - ArenaSpacing.md * 2) / CARDS_PER_ROW;
+const iconSize = cardWidth * ICON_SIZE_RATIO;
 export const styles = StyleSheet.create({
   container: {
     width: cardWidth,
@@ -38,12 +47,11 @@ export const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'center',
-    fontSize: 11,
+    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.neutral.light,
-    numberOfLines: 2,
   },
   labelSelected: {
     color: ArenaColors.brand.primary,
-    fontWeight: '600',
+    fontWeight: ArenaTypography.weight.semibold,
   },
 });

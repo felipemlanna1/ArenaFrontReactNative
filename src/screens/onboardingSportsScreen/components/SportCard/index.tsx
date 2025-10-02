@@ -1,7 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, Image, View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { getSportIcon } from '../../utils/sportIcons';
+import { getSportIcon } from '@/config/sportIcons';
+import { logger } from '@/utils/logger';
+import { CardPressable } from './CardPressable';
 import { styles } from './stylesSportCard';
 
 interface SportCardProps {
@@ -13,45 +15,47 @@ interface SportCardProps {
   disabled?: boolean;
 }
 
-export const SportCard: React.FC<SportCardProps> = ({
-  sportName,
-  sportIcon,
-  isSelected,
-  onPress,
-  disabled = false,
-}) => {
-  const iconSource = getSportIcon(sportIcon);
+export const SportCard: React.FC<SportCardProps> = React.memo(
+  ({ sportName, sportIcon, isSelected, onPress, disabled = false }) => {
+    const iconSource = getSportIcon(sportIcon);
 
-  console.log('[SportCard] Rendering:', {
-    sportName,
-    sportIcon,
-    isSelected,
-    iconSource: typeof iconSource,
-  });
+    logger.debug('SportCard rendering', {
+      sportName,
+      sportIcon,
+      isSelected,
+      iconSource: typeof iconSource,
+    });
 
-  return (
-    <TouchableOpacity
-      style={[styles.container, isSelected && styles.selectedContainer]}
-      onPress={onPress}
-      disabled={disabled}
-      activeOpacity={0.7}
-    >
-      <View style={[styles.iconContainer, !isSelected && styles.iconUnselected]}>
-        <Image 
-          source={iconSource} 
-          style={styles.icon} 
-          resizeMode="contain"
-          onError={(error) => console.error('[SportCard] Image load error:', sportName, error)}
-          onLoad={() => console.log('[SportCard] Image loaded:', sportName)}
-        />
-      </View>
-      <Text
-        variant="bodyPrimary"
-        style={[styles.label, isSelected && styles.labelSelected]}
-        numberOfLines={2}
+    return (
+      <CardPressable
+        style={[styles.container, isSelected && styles.selectedContainer]}
+        onPress={onPress}
+        disabled={disabled}
+        accessibilityRole="button"
+        accessibilityLabel={`${sportName}${isSelected ? ', selecionado' : ''}`}
+        accessibilityState={{ selected: isSelected }}
       >
-        {sportName}
-      </Text>
-    </TouchableOpacity>
-  );
-};
+        <View
+          style={[styles.iconContainer, !isSelected && styles.iconUnselected]}
+        >
+          <Image
+            source={iconSource}
+            style={styles.icon}
+            resizeMode="contain"
+            onError={error =>
+              logger.error('SportCard image load error', { sportName, error })
+            }
+            onLoad={() => logger.debug('SportCard image loaded', { sportName })}
+          />
+        </View>
+        <Text
+          variant="bodyPrimary"
+          style={[styles.label, ...(isSelected ? [styles.labelSelected] : [])]}
+          numberOfLines={2}
+        >
+          {sportName}
+        </Text>
+      </CardPressable>
+    );
+  }
+);
