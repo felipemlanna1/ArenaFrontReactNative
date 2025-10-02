@@ -16,6 +16,11 @@ export const styles = StyleSheet.create({
   subtitle: {
     textAlign: 'center',
   },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
   selectedList: {
     marginTop: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.md,

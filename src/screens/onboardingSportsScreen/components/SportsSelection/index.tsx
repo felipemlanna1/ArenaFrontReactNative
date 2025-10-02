@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { CheckboxGroup } from '@/components/ui/checkboxGroup';
+import { SportCard } from '../SportCard';
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '../../typesOnboardingSportsScreen';
 import { ArenaColors } from '@/constants';
@@ -22,18 +22,13 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
   onRemoveSport,
   isLoading,
 }) => {
-  const options = availableSports.map(sport => ({
-    value: sport.id,
-    label: sport.name,
-  }));
-
   const selectedIds = selectedSports.map(s => s.sportId);
 
-  const handleChange = (values: string | string[]) => {
-    const valuesArray = Array.isArray(values) ? values : [values];
-    const newSport = valuesArray.find(v => !selectedIds.includes(v));
-    if (newSport) {
-      onSelectSport(newSport);
+  const handleToggleSport = (sportId: string) => {
+    if (selectedIds.includes(sportId)) {
+      onRemoveSport(sportId);
+    } else {
+      onSelectSport(sportId);
     }
   };
 
@@ -62,14 +57,18 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
         </Text>
       </View>
 
-      <CheckboxGroup
-        variant="card"
-        columns={3}
-        multiSelect={true}
-        options={options}
-        value={selectedIds}
-        onChange={handleChange}
-      />
+      <View style={styles.gridContainer}>
+        {availableSports.map(sport => (
+          <SportCard
+            key={sport.id}
+            sportId={sport.id}
+            sportName={sport.name}
+            sportIcon={sport.icon}
+            isSelected={selectedIds.includes(sport.id)}
+            onPress={() => handleToggleSport(sport.id)}
+          />
+        ))}
+      </View>
 
       {selectedSports.length > 0 && (
         <View style={styles.selectedList}>
