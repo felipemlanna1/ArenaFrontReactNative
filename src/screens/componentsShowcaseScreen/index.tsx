@@ -14,6 +14,7 @@ import {
   CheckboxSection,
   LinkSection,
   DropdownSection,
+  AccordionSection,
 } from './components';
 import { styles } from './stylesComponentsShowcaseScreen';
 
@@ -35,6 +36,7 @@ export const ComponentsShowcaseScreen: React.FC<
         <BrandSection onCopyCode={actions.handleCopyCode} />
         <ButtonSection onCopyCode={actions.handleCopyCode} />
         <DropdownSection onCopyCode={actions.handleCopyCode} />
+        <AccordionSection onCopyCode={actions.handleCopyCode} />
         <CardSection onCopyCode={actions.handleCopyCode} />
         <InputSection onCopyCode={actions.handleCopyCode} />
         <CheckboxSection onCopyCode={actions.handleCopyCode} />
