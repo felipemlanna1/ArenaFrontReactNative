@@ -13,10 +13,15 @@ export const useEventCard = () => {
     return format(date, 'HH:mm', { locale: ptBR });
   }, []);
 
-  const formatPrice = useCallback((price: number, isFree: boolean): string => {
-    if (isFree) return 'Gratuito';
-    return `R$ ${price.toFixed(2).replace('.', ',')}`;
-  }, []);
+  const formatPrice = useCallback(
+    (price: number | string, isFree: boolean): string => {
+      if (isFree) return 'Gratuito';
+      const priceNumber = typeof price === 'string' ? parseFloat(price) : price;
+      if (isNaN(priceNumber)) return 'Gratuito';
+      return `R$ ${priceNumber.toFixed(2).replace('.', ',')}`;
+    },
+    []
+  );
 
   const formatDistance = useCallback((distance?: number): string => {
     if (!distance) return '';

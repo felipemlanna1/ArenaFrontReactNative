@@ -38,7 +38,7 @@ export interface Event {
   location: EventLocation;
   startDate: string;
   endDate: string;
-  price: number;
+  price: number | string;
   isFree: boolean;
   maxParticipants: number;
   currentParticipants: number;
