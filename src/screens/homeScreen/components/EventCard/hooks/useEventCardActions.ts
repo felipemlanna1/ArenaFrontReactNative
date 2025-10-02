@@ -98,7 +98,7 @@ export const useEventCardActions = ({
     }
 
     // NONE ou sem status
-    if (!userEventStatus) {
+    if (!userEventStatus || userEventStatus === 'NONE') {
       // Se evento lotado, não mostra botão de ação
       if (isEventFull) return null;
 
