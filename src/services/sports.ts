@@ -32,7 +32,7 @@ class SportsService {
   async getUserSports(userId: string): Promise<UserSport[]> {
     try {
       const response = await httpService.get<UserSportResponse[]>(
-        `/users/${userId}/sports`
+        `/sports/users/${userId}/sports`
       );
 
       return response.map(userSport => ({
@@ -54,8 +54,8 @@ class SportsService {
     data: UpdateUserSportsRequest
   ): Promise<UserSport[]> {
     try {
-      const response = await httpService.put<UserSportResponse[]>(
-        `/users/${userId}/sports`,
+      const response = await httpService.post<UserSportResponse[]>(
+        `/sports/users/${userId}/sports`,
         data
       );
 
