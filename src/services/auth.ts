@@ -25,7 +25,7 @@ export interface RegisterData {
 
 export interface AuthResponse {
   user: LoginUserData;
-  tokens: AuthTokens;
+  access_token: string;
 }
 
 export interface ForgotPasswordData {
@@ -46,8 +46,11 @@ class AuthService {
         password: credentials.password,
       });
 
-      if (response.tokens) {
-        await httpService.saveTokens(response.tokens);
+      if (response.access_token) {
+        const tokens: AuthTokens = {
+          access_token: response.access_token,
+        };
+        await httpService.saveTokens(tokens);
       }
 
       if (response.user) {
@@ -75,8 +78,11 @@ class AuthService {
         data
       );
 
-      if (response.tokens) {
-        await httpService.saveTokens(response.tokens);
+      if (response.access_token) {
+        const tokens: AuthTokens = {
+          access_token: response.access_token,
+        };
+        await httpService.saveTokens(tokens);
       }
 
       if (response.user) {
