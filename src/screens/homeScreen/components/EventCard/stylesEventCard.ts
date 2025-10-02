@@ -8,6 +8,9 @@ import {
 
 interface Styles {
   container: ViewStyle;
+  contentContainer: ViewStyle;
+  sportBadge: ViewStyle;
+  sportBadgeText: TextStyle;
   title: TextStyle;
   infoRow: ViewStyle;
   infoIcon: ViewStyle;
@@ -27,13 +30,31 @@ export const styles = StyleSheet.create<Styles>({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
-    padding: ArenaSpacing['2xl'],
     marginBottom: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 3,
+    overflow: 'hidden',
+  },
+  contentContainer: {
+    padding: ArenaSpacing['2xl'],
+  },
+  sportBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+    alignSelf: 'flex-start',
+    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.pill,
+    marginBottom: ArenaSpacing.md,
+  },
+  sportBadgeText: {
+    fontSize: ArenaTypography.size.xs,
+    fontWeight: ArenaTypography.weight.bold,
+    color: ArenaColors.text.inverse,
   },
   title: {
     fontSize: ArenaTypography.size.lg,
