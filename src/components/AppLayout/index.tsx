@@ -17,9 +17,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
       <View style={styles.content}>{children}</View>
 
       {showBottomNav && (
-        <View style={styles.bottomNavPlaceholder} testID={`${testID}-bottom-nav`}>
-          {/* TODO: Implementar navegação inferior */}
-        </View>
+        <View
+          style={styles.bottomNavPlaceholder}
+          testID={`${testID}-bottom-nav`}
+        />
       )}
     </View>
   );

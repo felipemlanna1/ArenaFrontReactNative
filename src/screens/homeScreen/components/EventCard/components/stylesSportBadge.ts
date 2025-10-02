@@ -1,7 +1,17 @@
-import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaBorders, ArenaTypography } from '@/constants';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import {
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaTypography,
+  ArenaColors,
+} from '@/constants';
 
-export const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  text: TextStyle;
+}
+
+export const styles = StyleSheet.create<Styles>({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -12,7 +22,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   text: {
-    color: '#FFFFFF',
+    color: ArenaColors.text.inverse,
     fontSize: ArenaTypography.size.xs,
     fontWeight: ArenaTypography.weight.bold,
     letterSpacing: 0.5,

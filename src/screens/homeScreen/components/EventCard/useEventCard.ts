@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale';
 export const useEventCard = () => {
   const formatDate = useCallback((dateString: string): string => {
     const date = parseISO(dateString);
-    return format(date, "EEE, dd MMM", { locale: ptBR });
+    return format(date, 'EEE, dd MMM', { locale: ptBR });
   }, []);
 
   const formatTime = useCallback((dateString: string): string => {

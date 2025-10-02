@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import {
   ArenaColors,
   ArenaSpacing,
@@ -6,7 +6,21 @@ import {
   ArenaTypography,
 } from '@/constants';
 
-export const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  content: ViewStyle;
+  searchContainer: ViewStyle;
+  searchContainerFocused: ViewStyle;
+  searchIcon: ViewStyle;
+  searchInput: TextStyle;
+  clearButton: ViewStyle;
+  actionButton: ViewStyle;
+  actionButtonPressed: ViewStyle;
+  filterBadge: ViewStyle;
+  filterBadgeText: TextStyle;
+}
+
+export const styles = StyleSheet.create<Styles>({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
     paddingHorizontal: ArenaSpacing.lg,
@@ -41,8 +55,8 @@ export const styles = StyleSheet.create({
     color: ArenaColors.text.inverse,
     fontSize: ArenaTypography.size.md,
     fontFamily: ArenaTypography.fontFamily.regular,
-    padding: 0,
-    margin: 0,
+    padding: ArenaSpacing.none,
+    margin: ArenaSpacing.none,
   },
   clearButton: {
     padding: ArenaSpacing.xs,
@@ -76,6 +90,6 @@ export const styles = StyleSheet.create({
     color: ArenaColors.text.inverse,
     fontSize: ArenaTypography.size.xs,
     fontWeight: ArenaTypography.weight.bold,
-    lineHeight: 18,
+    lineHeight: ArenaTypography.size.xs * 1.5,
   },
 });

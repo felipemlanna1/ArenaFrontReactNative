@@ -63,7 +63,7 @@ export const useHomeEvents = ({
       const response = await eventsService.getFeedEvents(1, filters);
 
       const currentDate = new Date();
-      const futureEvents = response.data.filter((event) => {
+      const futureEvents = response.data.filter(event => {
         const eventStartDate = new Date(event.startDate);
         return eventStartDate > currentDate && event.status === 'PUBLISHED';
       });
@@ -73,9 +73,7 @@ export const useHomeEvents = ({
       setHasMore(response.pagination.hasMore);
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err
-          : new Error('Erro ao carregar eventos')
+        err instanceof Error ? err : new Error('Erro ao carregar eventos')
       );
     } finally {
       setIsLoading(false);
@@ -94,16 +92,18 @@ export const useHomeEvents = ({
       const response = await eventsService.getFeedEvents(nextPage, filters);
 
       const currentDate = new Date();
-      const futureEvents = response.data.filter((event) => {
+      const futureEvents = response.data.filter(event => {
         const eventStartDate = new Date(event.startDate);
         return eventStartDate > currentDate && event.status === 'PUBLISHED';
       });
 
-      setEvents((prev) => [...prev, ...futureEvents]);
+      setEvents(prev => [...prev, ...futureEvents]);
       setCurrentPage(nextPage);
       setHasMore(response.pagination.hasMore);
     } catch (err) {
-      console.error('Erro ao carregar mais eventos:', err);
+      setError(
+        err instanceof Error ? err : new Error('Erro ao carregar mais eventos')
+      );
     } finally {
       setIsLoadingMore(false);
     }
@@ -121,7 +121,7 @@ export const useHomeEvents = ({
       const response = await eventsService.getFeedEvents(1, filters);
 
       const currentDate = new Date();
-      const futureEvents = response.data.filter((event) => {
+      const futureEvents = response.data.filter(event => {
         const eventStartDate = new Date(event.startDate);
         return eventStartDate > currentDate && event.status === 'PUBLISHED';
       });
@@ -131,9 +131,7 @@ export const useHomeEvents = ({
       setHasMore(response.pagination.hasMore);
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err
-          : new Error('Erro ao atualizar eventos')
+        err instanceof Error ? err : new Error('Erro ao atualizar eventos')
       );
     } finally {
       setIsRefreshing(false);
@@ -142,12 +140,12 @@ export const useHomeEvents = ({
   }, [buildFilters]);
 
   const handleShare = useCallback((eventId: string) => {
-    console.log('Compartilhar evento:', eventId);
+    void eventId;
   }, []);
 
   useEffect(() => {
     loadEvents();
-  }, [searchTerm]);
+  }, [searchTerm, loadEvents]);
 
   return {
     events,
