@@ -30,6 +30,82 @@ interface UseEventCardActionsReturn {
   secondaryActionButton: ActionButton | null;
 }
 
+const isOrganizerOrAdmin = (status?: UserEventStatus): boolean => {
+  return status === 'ORGANIZER' || status === 'ADMIN';
+};
+
+const isParticipant = (status?: UserEventStatus): boolean => {
+  return status === 'PARTICIPANT';
+};
+
+const isInvited = (status?: UserEventStatus): boolean => {
+  return status === 'INVITED';
+};
+
+const isRequested = (status?: UserEventStatus): boolean => {
+  return status === 'REQUESTED';
+};
+
+const hasNoStatus = (status?: UserEventStatus): boolean => {
+  return !status || status === 'NONE';
+};
+
+const createManageButton = (): ActionButton => ({
+  key: 'action',
+  label: 'GERENCIAR',
+  variant: 'secondary',
+  type: 'manage',
+  testID: 'event-card-manage-button',
+});
+
+const createCancelButton = (): ActionButton => ({
+  key: 'action',
+  label: 'CANCELAR',
+  variant: 'danger',
+  type: 'cancel',
+  testID: 'event-card-cancel-button',
+});
+
+const createAcceptButton = (): ActionButton => ({
+  key: 'action',
+  label: 'ACEITAR',
+  variant: 'secondary',
+  type: 'accept',
+  testID: 'event-card-accept-button',
+});
+
+const createUndoButton = (): ActionButton => ({
+  key: 'action',
+  label: 'DESFAZER',
+  variant: 'outline',
+  type: 'undo',
+  testID: 'event-card-undo-button',
+});
+
+const createJoinButton = (): ActionButton => ({
+  key: 'action',
+  label: 'PARTICIPAR',
+  variant: 'secondary',
+  type: 'join',
+  testID: 'event-card-join-button',
+});
+
+const createRequestButton = (): ActionButton => ({
+  key: 'action',
+  label: 'SOLICITAR',
+  variant: 'secondary',
+  type: 'request',
+  testID: 'event-card-request-button',
+});
+
+const createRejectButton = (): ActionButton => ({
+  key: 'secondary',
+  label: 'RECUSAR',
+  variant: 'outline',
+  type: 'reject',
+  testID: 'event-card-reject-button',
+});
+
 export const useEventCardActions = ({
   userEventStatus,
   privacy,
@@ -53,89 +129,38 @@ export const useEventCardActions = ({
   );
 
   const actionButton = useMemo((): ActionButton | null => {
-    // ORGANIZER ou ADMIN = Gerenciar
-    if (userEventStatus === 'ORGANIZER' || userEventStatus === 'ADMIN') {
-      return {
-        key: 'action',
-        label: 'GERENCIAR',
-        variant: 'secondary',
-        type: 'manage',
-        testID: 'event-card-manage-button',
-      };
+    if (isOrganizerOrAdmin(userEventStatus)) {
+      return createManageButton();
     }
 
-    // PARTICIPANT = Cancelar Participação
-    if (userEventStatus === 'PARTICIPANT') {
-      return {
-        key: 'action',
-        label: 'CANCELAR',
-        variant: 'danger',
-        type: 'cancel',
-        testID: 'event-card-cancel-button',
-      };
+    if (isParticipant(userEventStatus)) {
+      return createCancelButton();
     }
 
-    // INVITED = Aceitar Convite (botão principal)
-    if (userEventStatus === 'INVITED') {
-      return {
-        key: 'action',
-        label: 'ACEITAR',
-        variant: 'secondary',
-        type: 'accept',
-        testID: 'event-card-accept-button',
-      };
+    if (isInvited(userEventStatus)) {
+      return createAcceptButton();
     }
 
-    // REQUESTED = Desfazer Solicitação
-    if (userEventStatus === 'REQUESTED') {
-      return {
-        key: 'action',
-        label: 'DESFAZER',
-        variant: 'outline',
-        type: 'undo',
-        testID: 'event-card-undo-button',
-      };
+    if (isRequested(userEventStatus)) {
+      return createUndoButton();
     }
 
-    // NONE ou sem status
-    if (!userEventStatus || userEventStatus === 'NONE') {
-      // Se evento lotado, não mostra botão de ação
+    if (hasNoStatus(userEventStatus)) {
       if (isEventFull) return null;
 
-      // PUBLIC = Participar direto
       if (privacy === 'PUBLIC') {
-        return {
-          key: 'action',
-          label: 'PARTICIPAR',
-          variant: 'secondary',
-          type: 'join',
-          testID: 'event-card-join-button',
-        };
+        return createJoinButton();
       }
 
-      // PRIVATE ou FRIENDS_ONLY = Solicitar participação
-      return {
-        key: 'action',
-        label: 'SOLICITAR',
-        variant: 'secondary',
-        type: 'request',
-        testID: 'event-card-request-button',
-      };
+      return createRequestButton();
     }
 
     return null;
   }, [userEventStatus, privacy, isEventFull]);
 
   const secondaryActionButton = useMemo((): ActionButton | null => {
-    // Apenas INVITED tem botão secundário (Recusar)
-    if (userEventStatus === 'INVITED') {
-      return {
-        key: 'secondary',
-        label: 'RECUSAR',
-        variant: 'outline',
-        type: 'reject',
-        testID: 'event-card-reject-button',
-      };
+    if (isInvited(userEventStatus)) {
+      return createRejectButton();
     }
 
     return null;
