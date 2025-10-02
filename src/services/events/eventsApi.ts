@@ -1,6 +1,25 @@
 import { httpService } from '../http';
 import { EventsFilter, EventsResponse, Event } from './typesEvents';
 
+const prepareParams = (params: Record<string, unknown>): URLSearchParams => {
+  const searchParams = new URLSearchParams();
+
+  Object.keys(params).forEach(key => {
+    const value = params[key];
+    if (value !== undefined && value !== null) {
+      if (Array.isArray(value)) {
+        value.forEach(item => {
+          searchParams.append(`${key}[]`, String(item));
+        });
+      } else {
+        searchParams.append(key, String(value));
+      }
+    }
+  });
+
+  return searchParams;
+};
+
 export class EventsApi {
   private readonly basePath = '/events';
 
@@ -42,9 +61,10 @@ export class EventsApi {
     if (filters.sortBy) params.sortBy = filters.sortBy;
     if (filters.sortOrder) params.sortOrder = filters.sortOrder;
 
-    const response = await httpService.get<EventsResponse>(this.basePath, {
-      params,
-    });
+    const queryString = prepareParams(params).toString();
+    const url = queryString ? `${this.basePath}?${queryString}` : this.basePath;
+
+    const response = await httpService.get<EventsResponse>(url);
     return response;
   }
 
