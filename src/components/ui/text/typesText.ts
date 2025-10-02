@@ -8,6 +8,7 @@ export type TextVariant =
   | 'titlePrimary'
   | 'titleSecondary'
   | 'titleAccent'
+  | 'titleAccentBold'
   | 'bodyPrimary'
   | 'bodySecondary'
   | 'bodyBold'
