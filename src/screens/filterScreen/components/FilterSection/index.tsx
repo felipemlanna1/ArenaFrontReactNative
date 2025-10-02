@@ -10,16 +10,16 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   count,
   testID = 'filter-section',
 }) => {
-  const badge = count !== undefined && count > 0 ? count.toString() : undefined;
+  const displayTitle =
+    count !== undefined && count > 0 ? `${title} (${count})` : title;
 
   return (
     <Accordion
       items={[
         {
           id: title,
-          title,
+          title: displayTitle,
           content: <View style={styles.contentContainer}>{children}</View>,
-          badge,
         },
       ]}
       variant="default"

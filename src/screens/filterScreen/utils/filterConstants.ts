@@ -29,10 +29,10 @@ export const EVENT_TYPE_OPTIONS: FilterOption[] = [
 ];
 
 export const SORT_OPTIONS: FilterOption[] = [
-  { id: 'startDate', label: 'Data', value: 'startDate' },
+  { id: 'date', label: 'Data', value: 'date' },
   { id: 'distance', label: 'Distância', value: 'distance' },
   { id: 'price', label: 'Preço', value: 'price' },
-  { id: 'createdAt', label: 'Mais Recente', value: 'createdAt' },
+  { id: 'name', label: 'Nome', value: 'name' },
 ];
 
 export const DEFAULT_FILTER_STATE = {
@@ -49,7 +49,7 @@ export const DEFAULT_FILTER_STATE = {
   startDateTo: null,
   city: '',
   state: '',
-  sortBy: 'startDate' as const,
+  sortBy: 'date' as const,
   sortOrder: 'desc' as const,
 };
 

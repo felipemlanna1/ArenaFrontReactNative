@@ -21,7 +21,7 @@ export interface FilterScreenState {
   startDateTo: Date | null;
   city: string;
   state: string;
-  sortBy: 'startDate' | 'distance' | 'price' | 'createdAt';
+  sortBy: 'date' | 'distance' | 'price' | 'name';
   sortOrder: 'asc' | 'desc';
 }
 

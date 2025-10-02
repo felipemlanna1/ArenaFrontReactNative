@@ -69,8 +69,7 @@ export const calculateFilterCount = (
     (filters.priceMin !== null ? 1 : 0) +
     (filters.priceMax !== null ? 1 : 0) +
     (filters.isFree ? 1 : 0);
-  const date =
-    (filters.startDateFrom ? 1 : 0) + (filters.startDateTo ? 1 : 0);
+  const date = (filters.startDateFrom ? 1 : 0) + (filters.startDateTo ? 1 : 0);
   const location =
     (filters.city.trim() ? 1 : 0) + (filters.state.trim() ? 1 : 0);
   const other =

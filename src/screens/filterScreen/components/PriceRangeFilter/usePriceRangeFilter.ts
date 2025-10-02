@@ -3,7 +3,7 @@ import {
   UsePriceRangeFilterProps,
   UsePriceRangeFilterReturn,
 } from './typesPriceRangeFilter';
-import { PRICE_LIMITS } from '../../utils/filterConstants';
+import { PRICE_LIMITS } from '@/screens/filterScreen/utils/filterConstants';
 
 export const usePriceRangeFilter = ({
   priceMin,
@@ -11,12 +11,8 @@ export const usePriceRangeFilter = ({
   onPriceMinChange,
   onPriceMaxChange,
 }: UsePriceRangeFilterProps): UsePriceRangeFilterReturn => {
-  const [localMin, setLocalMin] = useState(
-    priceMin?.toString() ?? ''
-  );
-  const [localMax, setLocalMax] = useState(
-    priceMax?.toString() ?? ''
-  );
+  const [localMin, setLocalMin] = useState(priceMin?.toString() ?? '');
+  const [localMax, setLocalMax] = useState(priceMax?.toString() ?? '');
 
   const formattedMin = useMemo(() => {
     return localMin;

@@ -34,17 +34,17 @@ export const useFilterState = ({
       key: K,
       value: FilterScreenState[K]
     ) => {
-      setFilters((prev) => ({ ...prev, [key]: value }));
+      setFilters(prev => ({ ...prev, [key]: value }));
     },
     []
   );
 
   const toggleArrayFilter = useCallback(
     <K extends keyof FilterScreenState>(key: K, value: string) => {
-      setFilters((prev) => {
+      setFilters(prev => {
         const currentArray = prev[key] as unknown as string[];
         const newArray = currentArray.includes(value)
-          ? currentArray.filter((v) => v !== value)
+          ? currentArray.filter(v => v !== value)
           : [...currentArray, value];
         return { ...prev, [key]: newArray };
       });
@@ -56,10 +56,7 @@ export const useFilterState = ({
     setFilters(DEFAULT_FILTER_STATE);
   }, []);
 
-  const filterCount = useMemo(
-    () => calculateFilterCount(filters),
-    [filters]
-  );
+  const filterCount = useMemo(() => calculateFilterCount(filters), [filters]);
 
   return {
     filters,
