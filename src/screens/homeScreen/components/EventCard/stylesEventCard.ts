@@ -34,7 +34,7 @@ export const styles = StyleSheet.create<Styles>({
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
     marginBottom: ArenaSpacing.lg,
-    shadowColor: '#000000',
+    shadowColor: ArenaColors.neutral.darkest,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,

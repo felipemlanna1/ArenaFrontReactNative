@@ -66,15 +66,13 @@ export const styles = StyleSheet.create<Styles>({
     right: ArenaSpacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: ArenaSpacing.micro,
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.pill,
     backgroundColor: ArenaColors.neutral.dark,
   },
-  distanceIcon: {
-    marginRight: 2,
-  },
+  distanceIcon: {},
   distanceText: {
     color: ArenaColors.text.inverse,
     fontSize: ArenaTypography.size.xs,
