@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.sm,
   },
   footer: {
-    marginTop: ArenaSpacing.md,
+    marginTop: ArenaSpacing.none,
+    marginBottom: 25,
   },
 });
