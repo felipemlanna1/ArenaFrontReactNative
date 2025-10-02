@@ -4,6 +4,7 @@ import { eventsService } from '@/services/events/eventsService';
 
 interface UseHomeEventsParams {
   searchTerm: string;
+  externalFilters?: Partial<EventsFilter>;
 }
 
 interface UseHomeEventsReturn {
@@ -17,12 +18,14 @@ interface UseHomeEventsReturn {
   refreshEvents: () => Promise<void>;
   loadMoreEvents: () => Promise<void>;
   handleShare: (eventId: string) => void;
+  currentFilters: EventsFilter;
 }
 
 const ITEMS_PER_PAGE = 10;
 
 export const useHomeEvents = ({
   searchTerm,
+  externalFilters = {},
 }: UseHomeEventsParams): UseHomeEventsReturn => {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,13 +37,15 @@ export const useHomeEvents = ({
 
   const isLoadingRef = useRef(false);
   const searchTermRef = useRef(searchTerm);
+  const externalFiltersRef = useRef(externalFilters);
 
   searchTermRef.current = searchTerm;
+  externalFiltersRef.current = externalFilters;
 
   const buildFilters = useCallback((): EventsFilter => {
     const nowISOString = new Date().toISOString();
 
-    return {
+    const baseFilters: EventsFilter = {
       search: searchTermRef.current || undefined,
       startDateFrom: nowISOString,
       status: ['PUBLISHED'],
@@ -48,6 +53,12 @@ export const useHomeEvents = ({
       limit: ITEMS_PER_PAGE,
       sortBy: 'date',
       sortOrder: 'asc',
+    };
+
+    return {
+      ...baseFilters,
+      ...externalFiltersRef.current,
+      limit: ITEMS_PER_PAGE,
     };
   }, []);
 
@@ -145,7 +156,7 @@ export const useHomeEvents = ({
 
   useEffect(() => {
     loadEvents();
-  }, [searchTerm, loadEvents]);
+  }, [searchTerm, externalFilters, loadEvents]);
 
   return {
     events,
@@ -158,5 +169,6 @@ export const useHomeEvents = ({
     refreshEvents,
     loadMoreEvents,
     handleShare,
+    currentFilters: buildFilters(),
   };
 };
