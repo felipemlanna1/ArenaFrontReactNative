@@ -97,7 +97,7 @@ export const EventCard: React.FC<EventCardProps> = ({
 
       <View style={styles.contentContainer}>
         <Text variant="titlePrimary" numberOfLines={2} style={styles.title}>
-          <Text variant="titleAccentBold">{event.sport.name}</Text>
+          <Text variant="titleAccent">{event.sport.name}</Text>
           <Text variant="bodySecondary"> • </Text>
           {event.title}
         </Text>
