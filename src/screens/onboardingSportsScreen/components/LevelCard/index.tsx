@@ -2,10 +2,10 @@ import React from 'react';
 import { View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
+import { Card } from '@/components/ui/card';
 import { SkillLevel } from '@/types/sport';
 import { ArenaColors } from '@/constants';
 import { LEVEL_ICON_SIZE } from '@/screens/onboardingSportsScreen/constants';
-import { CardPressable } from './CardPressable';
 import { styles } from './stylesLevelCard';
 
 interface LevelCardProps {
@@ -44,14 +44,22 @@ export const LevelCard: React.FC<LevelCardProps> = React.memo(
       : ArenaColors.neutral.medium;
 
     return (
-      <CardPressable
-        style={[styles.container, isSelected && styles.selectedContainer]}
+      <Card
+        style={[
+          styles.container,
+          ...(isSelected ? [styles.selectedContainer] : []),
+        ]}
         onPress={onPress}
         accessibilityRole="button"
         accessibilityLabel={`${label}, ${description}${isSelected ? ', selecionado' : ''}`}
         accessibilityState={{ selected: isSelected }}
       >
-        <View style={styles.iconContainer}>
+        <View
+          style={[
+            styles.iconContainer,
+            ...(!isSelected ? [styles.iconUnselected] : []),
+          ]}
+        >
           <Entypo name={iconName} size={LEVEL_ICON_SIZE} color={iconColor} />
         </View>
         <View style={styles.textContainer}>
@@ -59,7 +67,9 @@ export const LevelCard: React.FC<LevelCardProps> = React.memo(
             variant="titlePrimary"
             style={[
               styles.label,
-              ...(isSelected ? [styles.labelSelected] : []),
+              ...(isSelected
+                ? [styles.labelSelected]
+                : [styles.labelUnselected]),
             ]}
           >
             {label}
@@ -68,13 +78,15 @@ export const LevelCard: React.FC<LevelCardProps> = React.memo(
             variant="bodySecondary"
             style={[
               styles.description,
-              ...(isSelected ? [styles.descriptionSelected] : []),
+              ...(isSelected
+                ? [styles.descriptionSelected]
+                : [styles.descriptionUnselected]),
             ]}
           >
             {description}
           </Text>
         </View>
-      </CardPressable>
+      </Card>
     );
   }
 );

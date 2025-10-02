@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { Card } from '@/components/ui/card';
 import { getSportIcon } from '@/config/sportIcons';
-import { logger } from '@/utils/logger';
-import { CardPressable } from './CardPressable';
 import { styles } from './stylesSportCard';
 
 interface SportCardProps {
@@ -19,16 +18,12 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
   ({ sportName, sportIcon, isSelected, onPress, disabled = false }) => {
     const iconSource = getSportIcon(sportIcon);
 
-    logger.debug('SportCard rendering', {
-      sportName,
-      sportIcon,
-      isSelected,
-      iconSource: typeof iconSource,
-    });
-
     return (
-      <CardPressable
-        style={[styles.container, isSelected && styles.selectedContainer]}
+      <Card
+        style={[
+          styles.container,
+          ...(isSelected ? [styles.selectedContainer] : []),
+        ]}
         onPress={onPress}
         disabled={disabled}
         accessibilityRole="button"
@@ -36,26 +31,24 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
         accessibilityState={{ selected: isSelected }}
       >
         <View
-          style={[styles.iconContainer, !isSelected && styles.iconUnselected]}
+          style={[
+            styles.iconContainer,
+            ...(!isSelected ? [styles.iconUnselected] : []),
+          ]}
         >
-          <Image
-            source={iconSource}
-            style={styles.icon}
-            resizeMode="contain"
-            onError={error =>
-              logger.error('SportCard image load error', { sportName, error })
-            }
-            onLoad={() => logger.debug('SportCard image loaded', { sportName })}
-          />
+          <Image source={iconSource} style={styles.icon} resizeMode="contain" />
         </View>
         <Text
           variant="bodyPrimary"
-          style={[styles.label, ...(isSelected ? [styles.labelSelected] : [])]}
+          style={[
+            styles.label,
+            ...(isSelected ? [styles.labelSelected] : [styles.labelUnselected]),
+          ]}
           numberOfLines={2}
         >
           {sportName}
         </Text>
-      </CardPressable>
+      </Card>
     );
   }
 );
