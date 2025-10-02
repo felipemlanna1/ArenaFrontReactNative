@@ -8,16 +8,25 @@ import { EventCardImage } from './components/EventCardImage';
 import { ProgressBar } from './components/ProgressBar';
 import { EventCardProps } from './typesEventCard';
 import { useEventCard } from './useEventCard';
+import { useEventCardActions } from './hooks/useEventCardActions';
 import { styles } from './stylesEventCard';
 
 export const EventCard: React.FC<EventCardProps> = ({
   event,
   onPress,
   onShare,
+  onActionPress,
   testID = 'event-card',
 }) => {
   const { formatDate, formatTime, formatPrice, formatDistance } =
     useEventCard();
+
+  const { viewButton, actionButton } = useEventCardActions({
+    userEventStatus: event.userEventStatus,
+    privacy: event.privacy,
+    currentParticipants: event.currentParticipants,
+    maxParticipants: event.maxParticipants,
+  });
 
   const handlePress = () => {
     onPress(event.id);
@@ -25,6 +34,12 @@ export const EventCard: React.FC<EventCardProps> = ({
 
   const handleShare = () => {
     onShare(event.id);
+  };
+
+  const handleActionPress = () => {
+    if (onActionPress && actionButton) {
+      onActionPress(event.id);
+    }
   };
 
   const backgroundColor = event.sport.color;
@@ -105,25 +120,34 @@ export const EventCard: React.FC<EventCardProps> = ({
           >
             <Ionicons
               name="share-outline"
-              size={18}
+              size={16}
               color={ArenaColors.neutral.medium}
             />
-            <Text variant="bodySecondary" style={styles.shareButtonText}>
-              Compartilhar
-            </Text>
           </TouchableOpacity>
+
+          {actionButton && (
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={handleActionPress}
+              testID={actionButton.testID}
+            >
+              <Text variant="labelPrimary" style={styles.actionButtonText}>
+                {actionButton.label}
+              </Text>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             style={styles.viewButton}
             onPress={handlePress}
-            testID={`${testID}-view`}
+            testID={viewButton.testID}
           >
             <Text variant="labelPrimary" style={styles.viewButtonText}>
-              VER
+              {viewButton.label}
             </Text>
             <Ionicons
               name="arrow-forward"
-              size={18}
+              size={16}
               color={ArenaColors.text.inverse}
             />
           </TouchableOpacity>

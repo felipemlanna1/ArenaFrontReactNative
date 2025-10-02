@@ -21,7 +21,8 @@ interface Styles {
   progressContainer: ViewStyle;
   actionsRow: ViewStyle;
   shareButton: ViewStyle;
-  shareButtonText: TextStyle;
+  actionButton: ViewStyle;
+  actionButtonText: TextStyle;
   viewButton: ViewStyle;
   viewButtonText: TextStyle;
 }
@@ -100,36 +101,45 @@ export const styles = StyleSheet.create<Styles>({
   actionsRow: {
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
+    alignItems: 'center',
   },
   shareButton: {
-    flex: 1,
-    flexDirection: 'row',
+    width: 36,
+    height: 36,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: ArenaSpacing.xs,
-    paddingVertical: ArenaSpacing.md,
     borderRadius: ArenaBorders.radius.md,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.medium,
   },
-  shareButtonText: {
-    color: ArenaColors.neutral.medium,
-    fontSize: ArenaTypography.size.sm,
-    fontWeight: ArenaTypography.weight.semibold,
+  actionButton: {
+    flex: 1,
+    height: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: ArenaBorders.radius.md,
+    borderWidth: ArenaBorders.width.thin,
+    borderColor: ArenaColors.brand.primary,
+  },
+  actionButtonText: {
+    color: ArenaColors.brand.primary,
+    fontSize: ArenaTypography.size.xs,
+    fontWeight: ArenaTypography.weight.bold,
   },
   viewButton: {
     flex: 1,
+    height: 36,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: ArenaSpacing.xs,
-    paddingVertical: ArenaSpacing.md,
     borderRadius: ArenaBorders.radius.md,
     backgroundColor: ArenaColors.brand.primary,
   },
   viewButtonText: {
     color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.sm,
+    fontSize: ArenaTypography.size.xs,
     fontWeight: ArenaTypography.weight.bold,
   },
 });
