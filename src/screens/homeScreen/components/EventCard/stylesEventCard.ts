@@ -19,6 +19,7 @@ interface Styles {
   dateTimeText: TextStyle;
   progressContainer: ViewStyle;
   actionsRow: ViewStyle;
+  buttonWrapper: ViewStyle;
   actionButton: ViewStyle;
   actionButtonText: TextStyle;
   outlineButton: ViewStyle;
@@ -100,6 +101,9 @@ export const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
     alignItems: 'center',
+  },
+  buttonWrapper: {
+    flex: 1,
   },
   actionButton: {
     flex: 1,

@@ -97,9 +97,13 @@ export const EventCard: React.FC<EventCardProps> = ({
               {event.location.city}
             </Text>
           </View>
-          <Text variant="bodySecondary" style={styles.slotsText}>
-            {event.currentParticipants}/{event.maxParticipants} vagas
-          </Text>
+          <TouchableOpacity onPress={handleShare} testID={`${testID}-share`}>
+            <Ionicons
+              name="share-outline"
+              size={24}
+              color={ArenaColors.brand.primary}
+            />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.dateTimeRow}>
@@ -113,13 +117,9 @@ export const EventCard: React.FC<EventCardProps> = ({
               {formatDate(event.startDate)} • {formatTime(event.startDate)}
             </Text>
           </View>
-          <TouchableOpacity onPress={handleShare} testID={`${testID}-share`}>
-            <Ionicons
-              name="share-outline"
-              size={24}
-              color={ArenaColors.brand.primary}
-            />
-          </TouchableOpacity>
+          <Text variant="bodySecondary" style={styles.slotsText}>
+            {event.currentParticipants}/{event.maxParticipants} vagas
+          </Text>
         </View>
 
         <View style={styles.progressContainer}>
@@ -130,41 +130,47 @@ export const EventCard: React.FC<EventCardProps> = ({
         </View>
 
         <View style={styles.actionsRow}>
-          <Button
-            variant={getButtonVariant(viewButton.variant)}
-            size="sm"
-            onPress={handlePress}
-            testID={viewButton.testID}
-            rightIcon={({ size, color }) => (
-              <Ionicons name="arrow-forward" size={size} color={color} />
-            )}
-            fullWidth
-          >
-            {viewButton.label}
-          </Button>
-
-          {actionButton && (
+          <View style={styles.buttonWrapper}>
             <Button
-              variant={getButtonVariant(actionButton.variant)}
+              variant={getButtonVariant(viewButton.variant)}
               size="sm"
-              onPress={handleActionPress}
-              testID={actionButton.testID}
+              onPress={handlePress}
+              testID={viewButton.testID}
+              rightIcon={({ size, color }) => (
+                <Ionicons name="arrow-forward" size={size} color={color} />
+              )}
               fullWidth
             >
-              {actionButton.label}
+              {viewButton.label}
             </Button>
+          </View>
+
+          {actionButton && (
+            <View style={styles.buttonWrapper}>
+              <Button
+                variant={getButtonVariant(actionButton.variant)}
+                size="sm"
+                onPress={handleActionPress}
+                testID={actionButton.testID}
+                fullWidth
+              >
+                {actionButton.label}
+              </Button>
+            </View>
           )}
 
           {secondaryActionButton && (
-            <Button
-              variant={getButtonVariant(secondaryActionButton.variant)}
-              size="sm"
-              onPress={handleSecondaryActionPress}
-              testID={secondaryActionButton.testID}
-              fullWidth
-            >
-              {secondaryActionButton.label}
-            </Button>
+            <View style={styles.buttonWrapper}>
+              <Button
+                variant={getButtonVariant(secondaryActionButton.variant)}
+                size="sm"
+                onPress={handleSecondaryActionPress}
+                testID={secondaryActionButton.testID}
+                fullWidth
+              >
+                {secondaryActionButton.label}
+              </Button>
+            </View>
           )}
         </View>
       </View>
