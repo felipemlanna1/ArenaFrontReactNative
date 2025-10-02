@@ -29,6 +29,10 @@ module.exports = {
       TextInput: '@/components/ui/input (Input)',
       TouchableOpacity: '@/components/ui/button (Button)',
       Pressable: '@/components/ui/button (Button)',
+      Card: '@/components/ui/card (Card)',
+      Badge: '@/components/ui/badge (Badge)',
+      Checkbox: '@/components/ui/checkbox (Checkbox)',
+      Link: '@/components/ui/link (Link)',
     };
 
     const allowedComponents = [
