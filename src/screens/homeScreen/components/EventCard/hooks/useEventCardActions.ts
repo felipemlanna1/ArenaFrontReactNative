@@ -85,7 +85,7 @@ const createUndoButton = (): ActionButton => ({
 const createJoinButton = (): ActionButton => ({
   key: 'action',
   label: 'PARTICIPAR',
-  variant: 'secondary',
+  variant: 'primary',
   type: 'join',
   testID: 'event-card-join-button',
 });
@@ -121,7 +121,7 @@ export const useEventCardActions = ({
     () => ({
       key: 'view',
       label: 'VER',
-      variant: 'primary',
+      variant: 'secondary',
       type: 'view',
       testID: 'event-card-view-button',
     }),
