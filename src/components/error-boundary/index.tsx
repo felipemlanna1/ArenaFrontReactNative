@@ -2,7 +2,6 @@ import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { logger } from '@/utils/logger';
 import { styles } from './stylesErrorBoundary';
 
 interface ErrorBoundaryProps {
@@ -31,7 +30,6 @@ export class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    logger.error('ErrorBoundary caught error', error, errorInfo);
     this.props.onError?.(error, errorInfo);
   }
 

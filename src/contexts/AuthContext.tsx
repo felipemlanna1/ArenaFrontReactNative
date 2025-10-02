@@ -9,7 +9,6 @@ import React, {
 import { authService, RegisterData } from '@/services/auth';
 import { UserData, LoginCredentials } from '@/types/auth';
 import { UserSportData, httpService } from '@/services/http';
-import { logger } from '@/utils/logger';
 
 interface AuthContextData {
   user: UserData | null;
@@ -112,10 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signUp = useCallback(async (data: RegisterData) => {
     try {
-      logger.info('AuthContext: signUp called');
       const response = await authService.register(data);
-
-      logger.debug('AuthContext: register completed');
 
       const userData: UserData = {
         ...response.user,
@@ -124,9 +120,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
 
-      logger.debug('AuthContext: Setting user data', { email: userData.email });
       setUser(userData);
-      logger.info('AuthContext: signUp completed successfully');
     } catch {
       throw new Error('Falha no cadastro');
     }
@@ -148,9 +142,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
 
         setUser(updatedUser);
-        httpService.saveUserData(updatedUser).catch(error => {
-          logger.error('Error saving updated user data', error);
-        });
+        httpService.saveUserData(updatedUser).catch(() => {});
       }
     },
     [user]
