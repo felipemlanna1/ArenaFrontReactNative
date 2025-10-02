@@ -327,21 +327,14 @@ export const styles = StyleSheet.create({
   xlIcon: {},
 
   shadow: {
-    ...ArenaShadows.input,
+    boxShadow: ArenaShadows.input,
   },
 
   shadowFocused: {
-    ...ArenaShadows.inputFocused,
+    boxShadow: ArenaShadows.inputFocused,
   },
 
   shadowError: {
-    shadowColor: ArenaColors.semantic.error,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 6,
+    boxShadow: ArenaShadows.errorGlow,
   },
 });
