@@ -60,28 +60,28 @@ export const styles = StyleSheet.create({
   },
   primaryContainer: {
     overflow: 'hidden',
-    ...ArenaShadows.button,
+    boxShadow: ArenaShadows.button,
   },
   secondaryContainer: {
     overflow: 'hidden',
     borderWidth: 2,
-    ...ArenaShadows.soft,
+    boxShadow: ArenaShadows.soft,
   },
   subtleContainer: {
     overflow: 'hidden',
-    ...ArenaShadows.none,
+    boxShadow: ArenaShadows.none,
   },
   destructiveContainer: {
     overflow: 'hidden',
-    ...ArenaShadows.button,
+    boxShadow: ArenaShadows.button,
   },
   successContainer: {
     overflow: 'hidden',
-    ...ArenaShadows.button,
+    boxShadow: ArenaShadows.button,
   },
   ghostContainer: {
     overflow: 'hidden',
-    ...ArenaShadows.none,
+    boxShadow: ArenaShadows.none,
   },
   xsContainer: {
     minHeight: 32,
