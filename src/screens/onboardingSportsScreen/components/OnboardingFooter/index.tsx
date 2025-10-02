@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
-import { OnboardingStep } from '../../typesOnboardingSportsScreen';
+import { OnboardingStep } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
 import { styles } from './stylesOnboardingFooter';
 
 interface OnboardingFooterProps {

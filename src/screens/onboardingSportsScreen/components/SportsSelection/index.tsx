@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { SportCard } from '../SportCard';
+import { Badge } from '@/components/ui/badge';
+import { SportCard } from '@/screens/onboardingSportsScreen/components/SportCard';
 import { Sport } from '@/types/sport';
-import { SportSelection as SportSelectionType } from '../../typesOnboardingSportsScreen';
+import { SportSelection as SportSelectionType } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
 import { ArenaColors } from '@/constants';
-import { translateSkillLevel } from '../../utils/skillLevelTranslations';
+import { translateSkillLevel } from '@/utils/i18n/skillLevels';
 import { styles } from './stylesSportsSelection';
 
 interface SportsSelectionProps {
@@ -37,10 +38,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color={ArenaColors.brand.primary} />
-        <Text
-          variant="bodyPrimary"
-          style={{ textAlign: 'center', marginTop: 16 }}
-        >
+        <Text variant="bodyPrimary" style={styles.loadingText}>
           Carregando esportes...
         </Text>
       </View>
@@ -78,19 +76,15 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
           </Text>
           <View style={styles.chipContainer}>
             {selectedSports.map(sport => (
-              <View key={sport.sportId} style={styles.chip}>
-                <Text variant="bodyPrimary" style={styles.chipText}>
-                  {sport.sportName} - {translateSkillLevel(sport.level)}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => onRemoveSport(sport.sportId)}
-                  style={styles.removeButton}
-                >
-                  <Text variant="bodyPrimary" style={styles.chipText}>
-                    ×
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              <Badge
+                key={sport.sportId}
+                variant="primary"
+                removable
+                onRemove={() => onRemoveSport(sport.sportId)}
+                testID={`badge-${sport.sportId}`}
+              >
+                {`${sport.sportName} - ${translateSkillLevel(sport.level)}`}
+              </Badge>
             ))}
           </View>
         </View>

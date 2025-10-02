@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -36,27 +36,12 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: ArenaSpacing.sm,
   },
-  chip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: `${ArenaColors.brand.primary}22`,
-    borderRadius: 20,
-    paddingVertical: ArenaSpacing.xs,
-    paddingHorizontal: ArenaSpacing.md,
-    borderWidth: 1,
-    borderColor: ArenaColors.brand.primary,
-  },
-  chipText: {
-    color: ArenaColors.brand.primary,
-    fontSize: ArenaTypography.size.sm,
-    fontWeight: ArenaTypography.weight.medium,
-    marginRight: ArenaSpacing.xs,
-  },
-  removeButton: {
-    marginLeft: ArenaSpacing.xs,
-  },
   loading: {
     paddingVertical: ArenaSpacing.xl,
     alignItems: 'center',
+  },
+  loadingText: {
+    textAlign: 'center',
+    marginTop: ArenaSpacing.md,
   },
 });
