@@ -1,0 +1,25 @@
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import { CardCheckboxProps } from './typesCardCheckbox';
+import { styles } from './stylesCardCheckbox';
+
+export const CardCheckbox: React.FC<CardCheckboxProps> = ({
+  label,
+  checked,
+  onPress,
+  testID = 'card-checkbox',
+}) => {
+  return (
+    <TouchableOpacity
+      style={[styles.container, checked && styles.containerChecked]}
+      onPress={onPress}
+      testID={testID}
+      activeOpacity={0.7}
+    >
+      <Text variant="bodyPrimary" style={styles.label}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
