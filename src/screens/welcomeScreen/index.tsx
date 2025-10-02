@@ -41,6 +41,7 @@ export const WelcomeScreen: React.FC = () => {
               source={require('@/assets/players/jogadorDeTenis.webp')}
               style={styles.playerImage}
               contentFit="contain"
+              priority="high"
               showLoading={false}
             />
           </View>

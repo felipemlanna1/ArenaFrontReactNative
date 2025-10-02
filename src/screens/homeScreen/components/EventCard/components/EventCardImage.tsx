@@ -67,6 +67,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
           source={{ uri: coverImage }}
           style={styles.image}
           contentFit="cover"
+          priority="normal"
           loadingSize="sm"
         />
         {priceBadge}
@@ -84,6 +85,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
         source={iconSource}
         style={styles.fallbackIcon}
         contentFit="contain"
+        priority="high"
         showLoading={false}
       />
       {priceBadge}

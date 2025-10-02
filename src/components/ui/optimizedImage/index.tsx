@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Image, ImageProps } from 'expo-image';
 import { SportsLoading } from '@/components/ui/sportsLoading';
+import { ArenaColors } from '@/constants';
 
 interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'onError'> {
   showLoading?: boolean;
   loadingSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  priority?: 'high' | 'normal' | 'low';
+  placeholderColor?: string;
   onLoadComplete?: () => void;
   onLoadError?: (error: Error) => void;
 }
@@ -13,6 +16,8 @@ interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'onError'> {
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   showLoading = true,
   loadingSize = 'sm',
+  priority = 'normal',
+  placeholderColor = ArenaColors.neutral.dark,
   onLoadComplete,
   onLoadError,
   style,
@@ -38,7 +43,10 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         onLoad={handleLoad}
         onError={handleError}
         cachePolicy="memory-disk"
-        transition={200}
+        priority={priority}
+        transition={150}
+        placeholder={{ backgroundColor: placeholderColor }}
+        placeholderContentFit="cover"
       />
       {isLoading && showLoading && (
         <View style={styles.loadingOverlay}>

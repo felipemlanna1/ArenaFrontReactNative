@@ -164,11 +164,11 @@ export const useSportsLoading = ({
         index * delayBetweenIcons,
         withRepeat(
           withSequence(
-            withTiming(1.15, {
+            withTiming(1, {
               duration: totalDuration * 0.4,
               easing: Easing.bezier(0.4, 0, 0.2, 1),
             }),
-            withTiming(0.85, {
+            withTiming(0.9, {
               duration: totalDuration * 0.4,
               easing: Easing.bezier(0.4, 0, 0.2, 1),
             })

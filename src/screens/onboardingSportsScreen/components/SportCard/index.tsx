@@ -41,6 +41,7 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
             source={iconSource}
             style={styles.icon}
             contentFit="contain"
+            priority="high"
             showLoading={false}
           />
         </View>
