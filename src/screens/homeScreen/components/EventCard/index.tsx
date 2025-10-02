@@ -53,18 +53,8 @@ export const EventCard: React.FC<EventCardProps> = ({
       />
 
       <View style={styles.contentContainer}>
-        <View
-          style={[styles.sportBadge, { backgroundColor }]}
-          testID={`${testID}-sport-badge`}
-        >
-          <Symbol size="xs" variant="white" />
-          <Text variant="labelPrimary" style={styles.sportBadgeText}>
-            {event.sport.name.toUpperCase()}
-          </Text>
-        </View>
-
         <Text variant="titlePrimary" numberOfLines={2} style={styles.title}>
-          {event.title}
+          <Text variant="bodyAccent">{event.sport.name}</Text> • {event.title}
         </Text>
 
         <View style={styles.infoRow}>
@@ -102,9 +92,17 @@ export const EventCard: React.FC<EventCardProps> = ({
               {formatDate(event.startDate)} • {formatTime(event.startDate)}
             </Text>
           </View>
-          <Text variant="bodyPrimary" style={styles.priceText}>
-            {formatPrice(event.price, event.isFree)}
-          </Text>
+          {event.isFree || parseFloat(String(event.price)) === 0 ? (
+            <View style={styles.priceSuccessBadge}>
+              <Text variant="labelPrimary" style={styles.priceSuccessText}>
+                GRATUITO
+              </Text>
+            </View>
+          ) : (
+            <Text variant="bodyPrimary" style={styles.priceText}>
+              {formatPrice(event.price, event.isFree)}
+            </Text>
+          )}
         </View>
 
         <View style={styles.progressContainer}>
@@ -114,7 +112,10 @@ export const EventCard: React.FC<EventCardProps> = ({
           />
         </View>
 
-        <View style={styles.actionsRow}>
+        <View style={styles.progressRow}>
+          <Text variant="bodySecondary" style={styles.locationText}>
+            {event.currentParticipants}/{event.maxParticipants} vagas
+          </Text>
           <TouchableOpacity
             style={styles.shareButton}
             onPress={handleShare}
@@ -126,7 +127,9 @@ export const EventCard: React.FC<EventCardProps> = ({
               color={ArenaColors.neutral.medium}
             />
           </TouchableOpacity>
+        </View>
 
+        <View style={styles.actionsRow}>
           {actionButton && (
             <TouchableOpacity
               style={styles.actionButton}

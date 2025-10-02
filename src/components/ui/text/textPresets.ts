@@ -88,6 +88,14 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0,
     color: 'success',
   },
+  bodyAccent: {
+    size: 'md',
+    weight: 'semibold',
+    family: 'body',
+    lineHeight: 'comfortable',
+    letterSpacing: 0,
+    color: 'accent',
+  },
   captionSecondary: {
     size: 'sm',
     weight: 'regular',

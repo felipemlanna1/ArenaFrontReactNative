@@ -9,8 +9,6 @@ import {
 interface Styles {
   container: ViewStyle;
   contentContainer: ViewStyle;
-  sportBadge: ViewStyle;
-  sportBadgeText: TextStyle;
   title: TextStyle;
   infoRow: ViewStyle;
   infoIcon: ViewStyle;
@@ -20,7 +18,10 @@ interface Styles {
   dateTimeContainer: ViewStyle;
   dateTimeText: TextStyle;
   priceText: TextStyle;
+  priceSuccessBadge: ViewStyle;
+  priceSuccessText: TextStyle;
   progressContainer: ViewStyle;
+  progressRow: ViewStyle;
   actionsRow: ViewStyle;
   shareButton: ViewStyle;
   actionButton: ViewStyle;
@@ -34,30 +35,15 @@ export const styles = StyleSheet.create<Styles>({
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
     marginBottom: ArenaSpacing.lg,
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
     overflow: 'hidden',
   },
   contentContainer: {
     padding: ArenaSpacing['2xl'],
-  },
-  sportBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: ArenaSpacing.xs,
-    alignSelf: 'flex-start',
-    paddingHorizontal: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.xs,
-    borderRadius: ArenaBorders.radius.pill,
-    marginBottom: ArenaSpacing.md,
-  },
-  sportBadgeText: {
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
-    color: ArenaColors.text.inverse,
   },
   title: {
     fontSize: ArenaTypography.size.lg,
@@ -109,9 +95,26 @@ export const styles = StyleSheet.create<Styles>({
     fontWeight: ArenaTypography.weight.bold,
     marginLeft: ArenaSpacing.sm,
   },
+  priceSuccessBadge: {
+    backgroundColor: ArenaColors.semantic.success,
+    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.pill,
+  },
+  priceSuccessText: {
+    color: ArenaColors.text.inverse,
+    fontSize: ArenaTypography.size.xs,
+    fontWeight: ArenaTypography.weight.bold,
+  },
   progressContainer: {
     marginTop: ArenaSpacing.md,
-    marginBottom: ArenaSpacing.lg,
+    marginBottom: ArenaSpacing.xs,
+  },
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: ArenaSpacing.md,
   },
   actionsRow: {
     flexDirection: 'row',
@@ -119,8 +122,8 @@ export const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
   },
   shareButton: {
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: ArenaBorders.radius.md,

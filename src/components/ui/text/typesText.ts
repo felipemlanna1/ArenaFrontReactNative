@@ -12,6 +12,7 @@ export type TextVariant =
   | 'bodyMuted'
   | 'bodyError'
   | 'bodySuccess'
+  | 'bodyAccent'
   | 'captionSecondary'
   | 'captionMuted'
   | 'captionError'
