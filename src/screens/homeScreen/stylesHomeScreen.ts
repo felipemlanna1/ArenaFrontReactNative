@@ -2,7 +2,7 @@ import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
 interface Styles {
-  filterBarWrapper: ViewStyle;
+  filterBarContainer: ViewStyle;
   content: ViewStyle;
   listContainer: ViewStyle;
   loadingContainer: ViewStyle;
@@ -15,8 +15,10 @@ interface Styles {
 }
 
 export const styles = StyleSheet.create<Styles>({
-  filterBarWrapper: {
-    overflow: 'hidden',
+  filterBarContainer: {
+    backgroundColor: ArenaColors.neutral.darkest,
+    borderBottomWidth: 1,
+    borderBottomColor: ArenaColors.neutral.dark,
   },
   content: {
     flex: 1,

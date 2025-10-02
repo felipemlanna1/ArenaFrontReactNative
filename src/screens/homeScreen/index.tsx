@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Animated,
-  ActivityIndicator,
-  RefreshControl,
-} from 'react-native';
+import { View, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
-import { useFilterBarScroll } from './components/FilterBar/useFilterBarScroll';
 import { useHomeEvents } from './hooks/useHomeEvents';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
@@ -29,7 +23,6 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { handleLogout } = useHomeScreen(navigation);
-  const { handleScroll, filterBarTranslateY } = useFilterBarScroll();
   const [searchValue, setSearchValue] = useState('');
 
   const {
@@ -85,17 +78,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   return (
     <AppLayout onLogout={handleLogout}>
-      <View style={styles.filterBarWrapper}>
-        <Animated.View
-          style={[{ transform: [{ translateY: filterBarTranslateY }] }]}
-        >
-          <FilterBar
-            searchValue={searchValue}
-            onSearchChange={setSearchValue}
-            onSortPress={handleSortPress}
-            onFilterPress={handleFilterPress}
-          />
-        </Animated.View>
+      <View style={styles.filterBarContainer}>
+        <FilterBar
+          searchValue={searchValue}
+          onSearchChange={setSearchValue}
+          onSortPress={handleSortPress}
+          onFilterPress={handleFilterPress}
+        />
       </View>
 
       {isLoading && events.length === 0 ? (
@@ -103,14 +92,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <ActivityIndicator size="large" color={ArenaColors.brand.primary} />
         </View>
       ) : (
-        <Animated.FlatList
+        <FlatList
           data={events}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           style={styles.content}
           contentContainerStyle={styles.listContainer}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
