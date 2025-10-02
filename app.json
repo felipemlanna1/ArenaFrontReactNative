@@ -26,6 +26,9 @@
       "jsEngine": "hermes",
       "package": "com.arena.app"
     },
+    "web": {
+      "bundler": "metro"
+    },
     "plugins": [
       [
         "expo-font",
