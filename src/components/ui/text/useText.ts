@@ -16,6 +16,13 @@ import {
 } from './textUtils';
 export const useText = (input: UseTextInput): UseTextReturn => {
   const preset = TEXT_VARIANT_PRESETS[input.variant];
+
+  if (!preset) {
+    throw new Error(
+      `Invalid text variant: "${input.variant}". Available variants: ${Object.keys(TEXT_VARIANT_PRESETS).join(', ')}`
+    );
+  }
+
   const resolvedSize = preset.size;
   const resolvedWeight = preset.weight;
   const resolvedFamily = preset.family;
