@@ -29,6 +29,7 @@ export const SportsLoading: React.FC<SportsLoadingProps> = ({
           <Animated.Image
             source={getSportIcon(iconKey)}
             style={iconStyle(index)}
+            resizeMode="contain"
             testID={`${testID}-icon-${index}`}
           />
         </View>
