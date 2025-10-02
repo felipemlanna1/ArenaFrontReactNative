@@ -5,8 +5,17 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  headerContainer: {
+    alignItems: 'center',
+    marginBottom: ArenaSpacing.xl,
+  },
   title: {
-    marginBottom: ArenaSpacing.lg,
+    marginBottom: ArenaSpacing.sm,
+    color: ArenaColors.brand.primary,
+    textAlign: 'center',
+  },
+  subtitle: {
     color: ArenaColors.neutral.light,
+    textAlign: 'center',
   },
 });

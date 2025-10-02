@@ -53,12 +53,14 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text variant="titlePrimary" style={styles.title}>
-        Quais esportes voc� pratica?
-      </Text>
-      <Text variant="bodySecondary" style={styles.subtitle}>
-        Selecione seus esportes favoritos
-      </Text>
+      <View style={styles.headerContainer}>
+        <Text variant="titlePrimary" style={styles.title}>
+          Quais esportes você pratica?
+        </Text>
+        <Text variant="bodySecondary" style={styles.subtitle}>
+          Selecione seus esportes favoritos
+        </Text>
+      </View>
 
       <CheckboxGroup
         variant="card"
@@ -85,7 +87,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
                   style={styles.removeButton}
                 >
                   <Text variant="bodyPrimary" style={styles.chipText}>
-                    �
+                    ×
                   </Text>
                 </TouchableOpacity>
               </View>
