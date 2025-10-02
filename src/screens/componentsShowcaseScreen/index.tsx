@@ -8,6 +8,7 @@ import { TextComponentsSection } from './textComponentsSection';
 import {
   BrandSection,
   ButtonSection,
+  CardSection,
   InputSection,
   LoadingSection,
   CheckboxSection,
@@ -32,6 +33,7 @@ export const ComponentsShowcaseScreen: React.FC<
         <TextComponentsSection onCopyCode={actions.handleCopyCode} />
         <BrandSection onCopyCode={actions.handleCopyCode} />
         <ButtonSection onCopyCode={actions.handleCopyCode} />
+        <CardSection onCopyCode={actions.handleCopyCode} />
         <InputSection onCopyCode={actions.handleCopyCode} />
         <CheckboxSection onCopyCode={actions.handleCopyCode} />
         <LinkSection onCopyCode={actions.handleCopyCode} />
