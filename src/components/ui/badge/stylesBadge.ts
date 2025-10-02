@@ -4,6 +4,7 @@ import {
   ArenaSpacing,
   ArenaTypography,
   ArenaBorders,
+  ArenaShadows,
 } from '@/constants';
 import { BadgeVariantConfig, BadgeSizeConfig } from './typesBadge';
 
@@ -66,6 +67,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
+    boxShadow: ArenaShadows.subtle,
   },
   text: {
     fontWeight: ArenaTypography.weight.medium,
