@@ -3,7 +3,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useUserSports } from '@/hooks/useUserSports';
 import { sportsService } from '@/services/sports';
 import { SkillLevel } from '@/types/sport';
-import { logger } from '@/utils/logger';
 import { toUserSportData, toApiSportData } from '@/utils/mappers/sportMappers';
 import { SportSelection, OnboardingStep } from './typesOnboardingSportsScreen';
 
@@ -67,19 +66,12 @@ export const useOnboardingSportsScreen = () => {
   }, []);
 
   const handleFinish = useCallback(async () => {
-    logger.info('Onboarding handleFinish called', {
-      userId: user?.id,
-      selectedSportsCount: selectedSports.length,
-    });
-
     if (!user?.id) {
-      logger.error('Onboarding: No user ID found');
       setError('Usuário não autenticado. Faça login novamente.');
       return;
     }
 
     if (selectedSports.length === 0) {
-      logger.error('Onboarding: No sports selected');
       setError('Selecione pelo menos um esporte para continuar.');
       return;
     }
@@ -99,11 +91,7 @@ export const useOnboardingSportsScreen = () => {
         ),
       };
 
-      logger.debug('Onboarding: Sending to API', apiData);
-
       await sportsService.updateUserSports(user.id, apiData);
-
-      logger.info('Onboarding: API success, updating context');
 
       const userSports = selectedSports.map((selection, index) => {
         const sport = availableSports.find(as => as.id === selection.sportId);
@@ -116,11 +104,7 @@ export const useOnboardingSportsScreen = () => {
       });
 
       updateUserSports(userSports);
-      logger.info(
-        'Onboarding: Context updated, navigation should happen automatically'
-      );
-    } catch (err) {
-      logger.error('Onboarding: Error saving sports', err);
+    } catch {
       setError('Erro ao salvar esportes. Tente novamente.');
     } finally {
       setIsLoading(false);
