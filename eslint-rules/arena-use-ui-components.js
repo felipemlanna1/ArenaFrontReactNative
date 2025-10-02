@@ -59,6 +59,7 @@ module.exports = {
       'StyleSheet',
       'Animated',
       'Linking',
+      'TouchableOpacity',
     ];
 
     return {

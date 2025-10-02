@@ -7,7 +7,6 @@ import {
   ENVIRONMENT,
 } from '@env';
 
-// Usar EXPO_PUBLIC_API_URL se disponível, senão fallback para @env
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const API_BASE_URL_RESOLVED = EXPO_PUBLIC_API_URL
   ? `${EXPO_PUBLIC_API_URL}/api/v1`
