@@ -7,6 +7,7 @@ export type TextVariant =
   | 'headingAccent'
   | 'titlePrimary'
   | 'titleSecondary'
+  | 'titleAccent'
   | 'bodyPrimary'
   | 'bodySecondary'
   | 'bodyMuted'

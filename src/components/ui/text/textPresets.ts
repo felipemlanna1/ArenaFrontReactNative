@@ -48,6 +48,14 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0,
     color: 'secondary',
   },
+  titleAccent: {
+    size: 'lg',
+    weight: 'bold',
+    family: 'body',
+    lineHeight: 'comfortable',
+    letterSpacing: 0,
+    color: 'accent',
+  },
   bodyPrimary: {
     size: 'md',
     weight: 'regular',
