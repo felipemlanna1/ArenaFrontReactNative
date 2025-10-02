@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
+    paddingBottom: ArenaSpacing.md + 15,
     backgroundColor: ArenaColors.neutral.dark,
     borderTopWidth: 1,
     borderTopColor: `${ArenaColors.neutral.medium}22`,
