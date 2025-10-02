@@ -3,6 +3,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 const { width } = Dimensions.get('window');
 const cardWidth = (width - ArenaSpacing.lg * 2 - ArenaSpacing.md * 2) / 3;
+const iconSize = cardWidth * 0.5; // 50% do card para o ícone
 
 export const styles = StyleSheet.create({
   container: {
@@ -22,7 +23,8 @@ export const styles = StyleSheet.create({
     backgroundColor: `${ArenaColors.brand.primary}15`,
   },
   iconContainer: {
-    flex: 1,
+    width: iconSize,
+    height: iconSize,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: ArenaSpacing.xs,
@@ -31,15 +33,17 @@ export const styles = StyleSheet.create({
     opacity: 0.6,
   },
   icon: {
-    width: '70%',
-    height: '70%',
+    width: iconSize,
+    height: iconSize,
   },
   label: {
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 11,
     color: ArenaColors.neutral.light,
+    numberOfLines: 2,
   },
   labelSelected: {
     color: ArenaColors.brand.primary,
+    fontWeight: '600',
   },
 });

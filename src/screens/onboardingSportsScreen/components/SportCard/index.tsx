@@ -22,6 +22,13 @@ export const SportCard: React.FC<SportCardProps> = ({
 }) => {
   const iconSource = getSportIcon(sportIcon);
 
+  console.log('[SportCard] Rendering:', {
+    sportName,
+    sportIcon,
+    isSelected,
+    iconSource: typeof iconSource,
+  });
+
   return (
     <TouchableOpacity
       style={[styles.container, isSelected && styles.selectedContainer]}
@@ -30,11 +37,18 @@ export const SportCard: React.FC<SportCardProps> = ({
       activeOpacity={0.7}
     >
       <View style={[styles.iconContainer, !isSelected && styles.iconUnselected]}>
-        <Image source={iconSource} style={styles.icon} resizeMode="contain" />
+        <Image 
+          source={iconSource} 
+          style={styles.icon} 
+          resizeMode="contain"
+          onError={(error) => console.error('[SportCard] Image load error:', sportName, error)}
+          onLoad={() => console.log('[SportCard] Image loaded:', sportName)}
+        />
       </View>
       <Text
         variant="bodyPrimary"
         style={[styles.label, isSelected && styles.labelSelected]}
+        numberOfLines={2}
       >
         {sportName}
       </Text>
