@@ -23,7 +23,23 @@ export const getFontSize = (size: TextSize): number => {
 export const getFontWeight = (weight: TextWeight): TextStyle['fontWeight'] => {
   return ArenaTypography.weight[weight] as TextStyle['fontWeight'];
 };
-export const getFontFamily = (family: TextFamily): string => {
+export const getFontFamily = (family: TextFamily, weight?: TextWeight): string => {
+  // Para a família 'body', usar a fonte específica baseada no peso
+  if (family === 'body' && weight) {
+    switch (weight) {
+      case 'bold':
+      case 'extrabold':
+        return ArenaTypography.fontFamily.bold;
+      case 'semibold':
+        return ArenaTypography.fontFamily.semibold;
+      case 'medium':
+        return ArenaTypography.fontFamily.medium;
+      default:
+        return ArenaTypography.fontFamily.regular;
+    }
+  }
+
+  // Para outras famílias ou sem peso, retornar a família padrão
   return ArenaTypography.family[family];
 };
 export const getLineHeight = (

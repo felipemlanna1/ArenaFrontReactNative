@@ -35,7 +35,7 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     const baseStyle: ComputedTextStyle = {
       fontSize: getFontSize(resolvedSize),
       fontWeight: getFontWeight(resolvedWeight),
-      fontFamily: getFontFamily(resolvedFamily),
+      fontFamily: getFontFamily(resolvedFamily, resolvedWeight),
       lineHeight: getFontSize(resolvedSize) * getLineHeight(resolvedLineHeight),
       letterSpacing: resolvedLetterSpacing,
       color: getTextColor(resolvedColor || 'primary'),
