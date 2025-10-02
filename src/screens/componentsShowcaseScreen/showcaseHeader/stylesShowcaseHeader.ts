@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 export const styles = StyleSheet.create({
   header: {
-    paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.xl,
+    paddingBottom: ArenaSpacing.xl,
+    marginBottom: ArenaSpacing.lg,
     borderBottomWidth: 1,
     borderBottomColor: `${ArenaColors.neutral.medium}20`,
   },

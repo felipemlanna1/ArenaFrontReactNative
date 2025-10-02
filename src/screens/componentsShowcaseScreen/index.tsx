@@ -86,13 +86,13 @@ export const ComponentsShowcaseScreen: React.FC<
 
   return (
     <SafeAreaView style={styles.container}>
-      <ShowcaseHeader onBackPress={actions.handleBackPress} />
-
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <ShowcaseHeader onBackPress={actions.handleBackPress} />
+
         <Accordion
           variant="default"
           mode="single"
