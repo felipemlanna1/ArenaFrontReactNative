@@ -113,6 +113,9 @@ class HttpService {
       headers: {
         'Content-Type': 'application/json',
       },
+      paramsSerializer: {
+        indexes: null,
+      },
       transformRequest: [
         data => {
           if (data && typeof data === 'object') {

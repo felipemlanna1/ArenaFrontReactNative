@@ -8,23 +8,23 @@ export class EventsApi {
     page: number = 1,
     filters: EventsFilter = {}
   ): Promise<EventsResponse> {
-    const params: Record<string, string | number | boolean> = {
+    const params: Record<string, unknown> = {
       page,
       limit: filters.limit || 10,
     };
 
     if (filters.search) params.search = filters.search;
     if (filters.sportIds && filters.sportIds.length > 0) {
-      params.sportIds = filters.sportIds.join(',');
+      params.sportIds = filters.sportIds;
     }
     if (filters.skillLevel && filters.skillLevel.length > 0) {
-      params.skillLevel = filters.skillLevel.join(',');
+      params.skillLevel = filters.skillLevel;
     }
     if (filters.privacy && filters.privacy.length > 0) {
-      params.privacy = filters.privacy.join(',');
+      params.privacy = filters.privacy;
     }
     if (filters.status && filters.status.length > 0) {
-      params.status = filters.status.join(',');
+      params.status = filters.status;
     }
     if (filters.startDateFrom) params.startDateFrom = filters.startDateFrom;
     if (filters.startDateTo) params.startDateTo = filters.startDateTo;
@@ -37,7 +37,7 @@ export class EventsApi {
     if (filters.city) params.city = filters.city;
     if (filters.state) params.state = filters.state;
     if (filters.userEventStatus && filters.userEventStatus.length > 0) {
-      params.userEventStatus = filters.userEventStatus.join(',');
+      params.userEventStatus = filters.userEventStatus;
     }
     if (filters.sortBy) params.sortBy = filters.sortBy;
     if (filters.sortOrder) params.sortOrder = filters.sortOrder;
