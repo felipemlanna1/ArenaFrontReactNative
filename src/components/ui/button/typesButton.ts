@@ -6,7 +6,9 @@ export type ButtonVariant =
   | 'subtle'
   | 'destructive'
   | 'success'
-  | 'ghost';
+  | 'ghost'
+  | 'outline-light'
+  | 'outline-primary';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonIconPosition = 'left' | 'right';
 export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {

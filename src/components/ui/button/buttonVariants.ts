@@ -167,6 +167,60 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
+  'outline-light': {
+    backgroundColor: ArenaColors.neutral.transparent,
+    borderColor: ArenaColors.neutral.light,
+    borderWidth: 2,
+    textColor: ArenaColors.neutral.light,
+    hover: {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      borderColor: ArenaColors.neutral.light,
+      textColor: ArenaColors.neutral.light,
+    },
+    pressed: {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      borderColor: ArenaColors.neutral.light,
+      textColor: ArenaColors.neutral.light,
+    },
+    focus: {
+      backgroundColor: ArenaColors.neutral.transparent,
+      borderColor: ArenaColors.neutral.light,
+      textColor: ArenaColors.neutral.light,
+      shadowColor: 'rgba(255, 255, 255, 0.3)',
+    },
+    disabled: {
+      backgroundColor: ArenaColors.neutral.transparent,
+      borderColor: ArenaColors.disabled.border,
+      textColor: ArenaColors.disabled.text,
+    },
+  },
+  'outline-primary': {
+    backgroundColor: ArenaColors.neutral.transparent,
+    borderColor: ArenaColors.brand.primary,
+    borderWidth: 2,
+    textColor: ArenaColors.brand.primary,
+    hover: {
+      backgroundColor: 'rgba(255, 83, 1, 0.1)',
+      borderColor: ArenaColors.brand.primaryHover,
+      textColor: ArenaColors.brand.primaryHover,
+    },
+    pressed: {
+      backgroundColor: 'rgba(255, 83, 1, 0.2)',
+      borderColor: ArenaColors.brand.primaryPressed,
+      textColor: ArenaColors.brand.primaryPressed,
+    },
+    focus: {
+      backgroundColor: ArenaColors.neutral.transparent,
+      borderColor: ArenaColors.brand.primary,
+      textColor: ArenaColors.brand.primary,
+      shadowColor: ArenaColors.interaction.focus.primary,
+    },
+    disabled: {
+      backgroundColor: ArenaColors.neutral.transparent,
+      borderColor: ArenaColors.disabled.border,
+      textColor: ArenaColors.disabled.text,
+    },
+  },
 };
 export const buttonSizes: ButtonSizeConfigs = {
   xs: {

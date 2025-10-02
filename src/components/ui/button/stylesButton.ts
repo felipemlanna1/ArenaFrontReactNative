@@ -83,6 +83,16 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
     boxShadow: ArenaShadows.none,
   },
+  'outline-lightContainer': {
+    overflow: 'hidden',
+    borderWidth: 2,
+    boxShadow: ArenaShadows.soft,
+  },
+  'outline-primaryContainer': {
+    overflow: 'hidden',
+    borderWidth: 2,
+    boxShadow: ArenaShadows.soft,
+  },
   xsContainer: {
     minHeight: 32,
     paddingHorizontal: ArenaSpacing.md,
