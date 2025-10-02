@@ -48,7 +48,7 @@ export const styles = StyleSheet.create<Styles>({
     fontSize: ArenaTypography.size.lg,
     fontWeight: ArenaTypography.weight.bold,
     color: ArenaColors.text.inverse,
-    marginTop: ArenaSpacing.md,
+    marginTop: ArenaSpacing.xs,
     marginBottom: ArenaSpacing.sm,
   },
   infoRow: {
@@ -103,7 +103,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   actionButton: {
     flex: 1,
-    height: 36,
+    height: 32,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -132,7 +132,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   viewButton: {
     flex: 1,
-    height: 36,
+    height: 32,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
