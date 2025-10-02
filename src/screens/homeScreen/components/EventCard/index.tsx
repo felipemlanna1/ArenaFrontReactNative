@@ -3,7 +3,6 @@ import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/ui/text';
-import { Symbol } from '@/components/ui/symbol';
 import { EventCardImage } from './components/EventCardImage';
 import { ProgressBar } from './components/ProgressBar';
 import { EventCardProps } from './typesEventCard';
@@ -42,8 +41,6 @@ export const EventCard: React.FC<EventCardProps> = ({
     }
   };
 
-  const backgroundColor = event.sport.color;
-
   return (
     <View style={styles.container} testID={testID}>
       <EventCardImage
@@ -58,13 +55,11 @@ export const EventCard: React.FC<EventCardProps> = ({
         </Text>
 
         <View style={styles.infoRow}>
-          <View style={styles.infoIcon}>
-            <Ionicons
-              name="location-outline"
-              size={18}
-              color={ArenaColors.text.inverse}
-            />
-          </View>
+          <Ionicons
+            name="location-outline"
+            size={18}
+            color={ArenaColors.text.inverse}
+          />
           <Text
             variant="bodySecondary"
             numberOfLines={1}
@@ -81,13 +76,11 @@ export const EventCard: React.FC<EventCardProps> = ({
 
         <View style={styles.dateTimeRow}>
           <View style={styles.dateTimeContainer}>
-            <View style={styles.infoIcon}>
-              <Ionicons
-                name="time-outline"
-                size={18}
-                color={ArenaColors.text.inverse}
-              />
-            </View>
+            <Ionicons
+              name="time-outline"
+              size={18}
+              color={ArenaColors.text.inverse}
+            />
             <Text variant="bodySecondary" style={styles.dateTimeText}>
               {formatDate(event.startDate)} • {formatTime(event.startDate)}
             </Text>

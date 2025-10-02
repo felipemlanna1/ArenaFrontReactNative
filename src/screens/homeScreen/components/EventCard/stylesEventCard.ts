@@ -11,7 +11,6 @@ interface Styles {
   contentContainer: ViewStyle;
   title: TextStyle;
   infoRow: ViewStyle;
-  infoIcon: ViewStyle;
   locationText: TextStyle;
   distanceText: TextStyle;
   dateTimeRow: ViewStyle;
@@ -57,10 +56,6 @@ export const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     gap: ArenaSpacing.xs,
     marginBottom: ArenaSpacing.xs,
-  },
-  infoIcon: {
-    width: 20,
-    alignItems: 'center',
   },
   locationText: {
     flex: 1,
