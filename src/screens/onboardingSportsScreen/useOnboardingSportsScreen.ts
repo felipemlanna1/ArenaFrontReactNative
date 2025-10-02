@@ -3,6 +3,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useUserSports } from '@/hooks/useUserSports';
 import { sportsService } from '@/services/sports';
 import { SkillLevel } from '@/types/sport';
+import { logger } from '@/utils/logger';
+import { toUserSportData, toApiSportData } from '@/utils/mappers/sportMappers';
 import { SportSelection, OnboardingStep } from './typesOnboardingSportsScreen';
 
 export const useOnboardingSportsScreen = () => {
@@ -65,19 +67,19 @@ export const useOnboardingSportsScreen = () => {
   }, []);
 
   const handleFinish = useCallback(async () => {
-    console.log('[Onboarding] handleFinish called', {
+    logger.info('Onboarding handleFinish called', {
       userId: user?.id,
       selectedSportsCount: selectedSports.length,
     });
 
     if (!user?.id) {
-      console.error('[Onboarding] No user ID found');
+      logger.error('Onboarding: No user ID found');
       setError('Usuário não autenticado. Faça login novamente.');
       return;
     }
 
     if (selectedSports.length === 0) {
-      console.error('[Onboarding] No sports selected');
+      logger.error('Onboarding: No sports selected');
       setError('Selecione pelo menos um esporte para continuar.');
       return;
     }
@@ -87,36 +89,38 @@ export const useOnboardingSportsScreen = () => {
 
     try {
       const apiData = {
-        sports: selectedSports.map((s, index) => ({
-          sportId: s.sportId,
-          skillLevel: s.level,
-          isPrimary: index === 0,
-          yearsOfExperience: 0,
-        })),
+        sports: selectedSports.map((s, index) =>
+          toApiSportData({
+            sportId: s.sportId,
+            skillLevel: s.level,
+            isPrimary: index === 0,
+            yearsOfExperience: 0,
+          })
+        ),
       };
 
-      console.log('[Onboarding] Sending to API:', apiData);
+      logger.debug('Onboarding: Sending to API', apiData);
 
       await sportsService.updateUserSports(user.id, apiData);
 
-      console.log('[Onboarding] API success, updating context');
+      logger.info('Onboarding: API success, updating context');
 
-      const userSports = selectedSports.map((s, index) => {
-        const sport = availableSports.find(as => as.id === s.sportId);
-        return {
-          sportId: s.sportId,
-          sportName: s.sportName,
+      const userSports = selectedSports.map((selection, index) => {
+        const sport = availableSports.find(as => as.id === selection.sportId);
+        return toUserSportData({
+          selection,
           sportIcon: sport?.icon || '',
           sportColor: sport?.color || '',
           isPrimary: index === 0,
-          skillLevel: s.level,
-        };
+        });
       });
 
       updateUserSports(userSports);
-      console.log('[Onboarding] Context updated, navigation should happen automatically');
+      logger.info(
+        'Onboarding: Context updated, navigation should happen automatically'
+      );
     } catch (err) {
-      console.error('[Onboarding] Error saving sports:', err);
+      logger.error('Onboarding: Error saving sports', err);
       setError('Erro ao salvar esportes. Tente novamente.');
     } finally {
       setIsLoading(false);
