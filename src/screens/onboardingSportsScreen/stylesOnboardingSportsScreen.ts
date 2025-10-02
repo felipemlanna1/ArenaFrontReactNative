@@ -25,6 +25,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
   },
   scrollContent: {
+    paddingTop: ArenaSpacing['4xl'] + ArenaSpacing['2xl'] + 20,
     paddingBottom: ArenaSpacing.xl,
+  },
+  errorContainer: {
+    marginBottom: ArenaSpacing.md,
+  },
+  errorText: {
+    textAlign: 'center',
   },
 });
