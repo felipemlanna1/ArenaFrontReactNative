@@ -36,14 +36,14 @@ export const EventCard: React.FC<EventCardProps> = ({
     onShare(event.id);
   };
 
-  const handleActionPress = (buttonType?: string) => {
-    if (onActionPress && actionButton) {
+  const handleActionPress = () => {
+    if (onActionPress) {
       onActionPress(event.id);
     }
   };
 
   const handleSecondaryActionPress = () => {
-    if (onActionPress && secondaryActionButton) {
+    if (onActionPress) {
       onActionPress(event.id);
     }
   };
