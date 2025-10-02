@@ -34,6 +34,9 @@ module.exports = {
       Checkbox: '@/components/ui/checkbox (Checkbox)',
       CheckboxGroup: '@/components/ui/checkboxGroup (CheckboxGroup)',
       Link: '@/components/ui/link (Link)',
+      Picker: '@/components/ui/dropdown (Dropdown)',
+      Select: '@/components/ui/dropdown (Dropdown)',
+      Menu: '@/components/ui/dropdown (Dropdown)',
     };
 
     const allowedComponents = [
