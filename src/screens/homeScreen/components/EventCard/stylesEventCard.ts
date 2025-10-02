@@ -16,6 +16,8 @@ interface Styles {
   infoIcon: ViewStyle;
   locationText: TextStyle;
   distanceText: TextStyle;
+  dateTimeRow: ViewStyle;
+  dateTimeContainer: ViewStyle;
   dateTimeText: TextStyle;
   priceText: TextStyle;
   progressContainer: ViewStyle;
@@ -84,6 +86,18 @@ export const styles = StyleSheet.create<Styles>({
     fontSize: ArenaTypography.size.sm,
     color: ArenaColors.neutral.medium,
   },
+  dateTimeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: ArenaSpacing.xs,
+  },
+  dateTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+    flex: 1,
+  },
   dateTimeText: {
     fontSize: ArenaTypography.size.sm,
     color: ArenaColors.text.inverse,
@@ -93,6 +107,7 @@ export const styles = StyleSheet.create<Styles>({
     fontSize: ArenaTypography.size.md,
     color: ArenaColors.brand.primary,
     fontWeight: ArenaTypography.weight.bold,
+    marginLeft: ArenaSpacing.sm,
   },
   progressContainer: {
     marginTop: ArenaSpacing.md,

@@ -89,17 +89,19 @@ export const EventCard: React.FC<EventCardProps> = ({
           )}
         </View>
 
-        <View style={styles.infoRow}>
-          <View style={styles.infoIcon}>
-            <Ionicons
-              name="time-outline"
-              size={18}
-              color={ArenaColors.text.inverse}
-            />
+        <View style={styles.dateTimeRow}>
+          <View style={styles.dateTimeContainer}>
+            <View style={styles.infoIcon}>
+              <Ionicons
+                name="time-outline"
+                size={18}
+                color={ArenaColors.text.inverse}
+              />
+            </View>
+            <Text variant="bodySecondary" style={styles.dateTimeText}>
+              {formatDate(event.startDate)} • {formatTime(event.startDate)}
+            </Text>
           </View>
-          <Text variant="bodySecondary" style={styles.dateTimeText}>
-            {formatDate(event.startDate)} • {formatTime(event.startDate)}
-          </Text>
           <Text variant="bodyPrimary" style={styles.priceText}>
             {formatPrice(event.price, event.isFree)}
           </Text>
