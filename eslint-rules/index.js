@@ -5,6 +5,7 @@ const arenaFileStructure = require('./arena-file-structure');
 const arenaBestPractices = require('./arena-best-practices');
 const arenaNoComments = require('./arena-no-comments');
 const arenaUseUiComponents = require('./arena-use-ui-components');
+const arenaNoConsole = require('./arena-no-console');
 
 module.exports = {
   rules: {
@@ -13,6 +14,7 @@ module.exports = {
     'arena-best-practices': arenaBestPractices,
     'arena-no-comments': arenaNoComments,
     'arena-use-ui-components': arenaUseUiComponents,
+    'arena-no-console': arenaNoConsole,
   },
   configs: {
     recommended: {
@@ -23,6 +25,7 @@ module.exports = {
         'arena/arena-best-practices': 'warn',
         'arena/arena-no-comments': 'error',
         'arena/arena-use-ui-components': 'error',
+        'arena/arena-no-console': 'error',
       },
     },
     strict: {
@@ -33,6 +36,7 @@ module.exports = {
         'arena/arena-best-practices': 'error',
         'arena/arena-no-comments': 'error',
         'arena/arena-use-ui-components': 'error',
+        'arena/arena-no-console': 'error',
       },
     },
     development: {
