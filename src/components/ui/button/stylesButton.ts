@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaTypography, ArenaColors } from '@/constants';
+import { ArenaSpacing, ArenaTypography, ArenaShadows } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -60,45 +60,23 @@ export const styles = StyleSheet.create({
     opacity: 0,
   },
   primaryContainer: {
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    ...ArenaShadows.button,
   },
   secondaryContainer: {
     borderWidth: 2,
+    ...ArenaShadows.soft,
   },
   subtleContainer: {
-    shadowColor: 'transparent',
-    elevation: 0,
+    ...ArenaShadows.none,
   },
   destructiveContainer: {
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 3.84,
-    elevation: 6,
+    ...ArenaShadows.button,
   },
   successContainer: {
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    ...ArenaShadows.button,
   },
   ghostContainer: {
-    shadowColor: 'transparent',
-    elevation: 0,
+    ...ArenaShadows.none,
   },
   xsContainer: {
     minHeight: 32,
