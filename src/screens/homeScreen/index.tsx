@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
-import { ArenaColors, ArenaSpacing } from '@/constants';
 import { styles } from './stylesHomeScreen';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<

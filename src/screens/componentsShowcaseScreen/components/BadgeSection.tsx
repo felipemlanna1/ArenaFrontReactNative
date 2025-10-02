@@ -24,7 +24,7 @@ const BADGE_SIZES_CODE = `<Badge size="sm">Small Badge</Badge>
 const BADGE_REMOVABLE_CODE = `<Badge
   variant="primary"
   removable
-  onRemove={() => console.log('Removed')}
+  onRemove={handleRemove}
 >
   Removable Badge
 </Badge>`;
