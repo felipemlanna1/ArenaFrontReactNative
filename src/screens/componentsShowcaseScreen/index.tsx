@@ -1,11 +1,14 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Accordion } from '@/components/ui/accordion';
+import { AccordionItemData } from '@/components/ui/accordion/typesAccordion';
 import { useComponentsShowcaseScreen } from './useComponentsShowcaseScreen';
 import { ComponentsShowcaseScreenProps } from './typesComponentsShowcaseScreen';
 import { ShowcaseHeader } from './showcaseHeader';
 import { TextComponentsSection } from './textComponentsSection';
 import {
+  BadgeSection,
   BrandSection,
   ButtonSection,
   CardSection,
@@ -23,6 +26,64 @@ export const ComponentsShowcaseScreen: React.FC<
 > = () => {
   const { actions } = useComponentsShowcaseScreen();
 
+  const componentSections: AccordionItemData[] = [
+    {
+      id: 'accordion',
+      title: 'Accordion',
+      content: <AccordionSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'badge',
+      title: 'Badge',
+      content: <BadgeSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'brand',
+      title: 'Brand (Logo, Symbol, Icon)',
+      content: <BrandSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'button',
+      title: 'Button',
+      content: <ButtonSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'card',
+      title: 'Card',
+      content: <CardSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'checkbox',
+      title: 'Checkbox',
+      content: <CheckboxSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'dropdown',
+      title: 'Dropdown',
+      content: <DropdownSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'input',
+      title: 'Input',
+      content: <InputSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'link',
+      title: 'Link',
+      content: <LinkSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'loading',
+      title: 'Loading (SportsLoading)',
+      content: <LoadingSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'text',
+      title: 'Text',
+      content: <TextComponentsSection onCopyCode={actions.handleCopyCode} />,
+    },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
       <ShowcaseHeader onBackPress={actions.handleBackPress} />
@@ -32,16 +93,12 @@ export const ComponentsShowcaseScreen: React.FC<
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <TextComponentsSection onCopyCode={actions.handleCopyCode} />
-        <BrandSection onCopyCode={actions.handleCopyCode} />
-        <ButtonSection onCopyCode={actions.handleCopyCode} />
-        <DropdownSection onCopyCode={actions.handleCopyCode} />
-        <AccordionSection onCopyCode={actions.handleCopyCode} />
-        <CardSection onCopyCode={actions.handleCopyCode} />
-        <InputSection onCopyCode={actions.handleCopyCode} />
-        <CheckboxSection onCopyCode={actions.handleCopyCode} />
-        <LinkSection onCopyCode={actions.handleCopyCode} />
-        <LoadingSection onCopyCode={actions.handleCopyCode} />
+        <Accordion
+          variant="default"
+          mode="single"
+          items={componentSections}
+          testID="components-showcase-accordion"
+        />
       </ScrollView>
     </SafeAreaView>
   );
