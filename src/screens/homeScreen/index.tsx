@@ -45,8 +45,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate('Home');
   };
 
+  const handleActionPress = (eventId: string) => {
+    void eventId;
+  };
+
   const renderItem = ({ item }: { item: Event }) => (
-    <EventCard event={item} onPress={handleEventPress} onShare={handleShare} />
+    <EventCard
+      event={item}
+      onPress={handleEventPress}
+      onShare={handleShare}
+      onActionPress={handleActionPress}
+    />
   );
 
   const renderEmpty = () => {

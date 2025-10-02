@@ -113,8 +113,14 @@ export const useEventCardActions = ({
         };
       }
 
-      // PRIVATE ou FRIENDS_ONLY não permite participação direta
-      return null;
+      // PRIVATE ou FRIENDS_ONLY = Solicitar participação
+      return {
+        key: 'action',
+        label: 'SOLICITAR',
+        variant: 'secondary',
+        type: 'request',
+        testID: 'event-card-request-button',
+      };
     }
 
     return null;
