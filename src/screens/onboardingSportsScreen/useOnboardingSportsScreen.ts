@@ -65,7 +65,22 @@ export const useOnboardingSportsScreen = () => {
   }, []);
 
   const handleFinish = useCallback(async () => {
-    if (!user?.id || selectedSports.length === 0) return;
+    console.log('[Onboarding] handleFinish called', {
+      userId: user?.id,
+      selectedSportsCount: selectedSports.length,
+    });
+
+    if (!user?.id) {
+      console.error('[Onboarding] No user ID found');
+      setError('Usuário não autenticado. Faça login novamente.');
+      return;
+    }
+
+    if (selectedSports.length === 0) {
+      console.error('[Onboarding] No sports selected');
+      setError('Selecione pelo menos um esporte para continuar.');
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -80,24 +95,33 @@ export const useOnboardingSportsScreen = () => {
         })),
       };
 
+      console.log('[Onboarding] Sending to API:', apiData);
+
       await sportsService.updateUserSports(user.id, apiData);
 
-      const userSports = selectedSports.map((s, index) => ({
-        sportId: s.sportId,
-        sportName: s.sportName,
-        sportIcon: '',
-        sportColor: '',
-        isPrimary: index === 0,
-        skillLevel: s.level,
-      }));
+      console.log('[Onboarding] API success, updating context');
+
+      const userSports = selectedSports.map((s, index) => {
+        const sport = availableSports.find(as => as.id === s.sportId);
+        return {
+          sportId: s.sportId,
+          sportName: s.sportName,
+          sportIcon: sport?.icon || '',
+          sportColor: sport?.color || '',
+          isPrimary: index === 0,
+          skillLevel: s.level,
+        };
+      });
 
       updateUserSports(userSports);
+      console.log('[Onboarding] Context updated, navigation should happen automatically');
     } catch (err) {
+      console.error('[Onboarding] Error saving sports:', err);
       setError('Erro ao salvar esportes. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
-  }, [selectedSports, user, updateUserSports]);
+  }, [selectedSports, user, updateUserSports, availableSports]);
 
   const handleSkip = useCallback(() => {
     updateUserSports([]);
