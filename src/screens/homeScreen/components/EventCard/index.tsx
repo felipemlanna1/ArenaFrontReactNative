@@ -73,7 +73,7 @@ export const EventCard: React.FC<EventCardProps> = ({
               color={ArenaColors.text.inverse}
             />
             <Text variant="bodySecondary" style={styles.addressText}>
-              {event.location.address}
+              {event.location.city}
             </Text>
           </View>
           <Text variant="bodySecondary" style={styles.slotsText}>
