@@ -10,7 +10,9 @@ interface EventCardImageProps {
   sport: EventSport;
   price: number | string;
   isFree: boolean;
+  distance?: number;
   formatPrice: (price: number | string, isFree: boolean) => string;
+  formatDistance: (distance: number) => string;
   testID?: string;
 }
 
@@ -19,7 +21,9 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
   sport,
   price,
   isFree,
+  distance,
   formatPrice,
+  formatDistance,
   testID = 'event-card-image',
 }) => {
   const backgroundColor = sport.color;
@@ -39,6 +43,14 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
     </View>
   );
 
+  const distanceBadge = distance !== undefined ? (
+    <View style={styles.distanceBadge}>
+      <Text variant="labelPrimary" style={styles.distanceText}>
+        {formatDistance(distance)}
+      </Text>
+    </View>
+  ) : null;
+
   if (coverImage) {
     return (
       <View style={styles.container} testID={testID}>
@@ -48,6 +60,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
           resizeMode="cover"
         />
         {priceBadge}
+        {distanceBadge}
       </View>
     );
   }
@@ -59,6 +72,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
     >
       <Image source={iconSource} style={styles.fallbackIcon} resizeMode="contain" />
       {priceBadge}
+      {distanceBadge}
     </View>
   );
 };

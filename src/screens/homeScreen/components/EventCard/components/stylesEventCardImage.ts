@@ -10,6 +10,8 @@ interface Styles {
   priceSuccessBadge: ViewStyle;
   pricePrimaryBadge: ViewStyle;
   priceText: TextStyle;
+  distanceBadge: ViewStyle;
+  distanceText: TextStyle;
 }
 
 export const styles = StyleSheet.create<Styles>({
@@ -53,6 +55,20 @@ export const styles = StyleSheet.create<Styles>({
     backgroundColor: ArenaColors.brand.primary,
   },
   priceText: {
+    color: ArenaColors.text.inverse,
+    fontSize: ArenaTypography.size.xs,
+    fontWeight: ArenaTypography.weight.bold,
+  },
+  distanceBadge: {
+    position: 'absolute',
+    top: ArenaSpacing.sm,
+    right: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.pill,
+    backgroundColor: ArenaColors.neutral.dark,
+  },
+  distanceText: {
     color: ArenaColors.text.inverse,
     fontSize: ArenaTypography.size.xs,
     fontWeight: ArenaTypography.weight.bold,

@@ -55,7 +55,9 @@ export const EventCard: React.FC<EventCardProps> = ({
         sport={event.sport}
         price={event.price}
         isFree={event.isFree}
+        distance={event.distance}
         formatPrice={formatPrice}
+        formatDistance={formatDistance}
         testID={`${testID}-image`}
       />
 
