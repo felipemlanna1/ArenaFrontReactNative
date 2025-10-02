@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Card } from '@/components/ui/card';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { getSportIcon } from '@/config/sportIcons';
 import { styles } from './stylesSportCard';
 
@@ -36,7 +37,12 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
             ...(!isSelected ? [styles.iconUnselected] : []),
           ]}
         >
-          <Image source={iconSource} style={styles.icon} resizeMode="contain" />
+          <OptimizedImage
+            source={iconSource}
+            style={styles.icon}
+            contentFit="contain"
+            showLoading={false}
+          />
         </View>
         <Text
           variant="bodyPrimary"

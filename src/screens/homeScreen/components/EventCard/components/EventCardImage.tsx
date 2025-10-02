@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
 import { EventSport } from '@/services/events/typesEvents';
@@ -62,10 +63,11 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
   if (coverImage) {
     return (
       <View style={styles.container} testID={testID}>
-        <Image
+        <OptimizedImage
           source={{ uri: coverImage }}
           style={styles.image}
-          resizeMode="cover"
+          contentFit="cover"
+          loadingSize="sm"
         />
         {priceBadge}
         {distanceBadge}
@@ -78,10 +80,11 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
       style={[styles.fallbackContainer, { backgroundColor }]}
       testID={`${testID}-fallback`}
     >
-      <Image
+      <OptimizedImage
         source={iconSource}
         style={styles.fallbackIcon}
-        resizeMode="contain"
+        contentFit="contain"
+        showLoading={false}
       />
       {priceBadge}
       {distanceBadge}
