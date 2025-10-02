@@ -11,11 +11,9 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginBottom: ArenaSpacing.sm,
-    color: ArenaColors.brand.primary,
     textAlign: 'center',
   },
   subtitle: {
-    color: ArenaColors.neutral.light,
     textAlign: 'center',
   },
   selectedList: {

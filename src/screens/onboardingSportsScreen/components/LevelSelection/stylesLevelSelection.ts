@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors } from '@/constants';
+import { ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,11 +11,9 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginBottom: ArenaSpacing.sm,
-    color: ArenaColors.brand.primary,
     textAlign: 'center',
   },
   subtitle: {
-    color: ArenaColors.neutral.light,
     textAlign: 'center',
   },
 });

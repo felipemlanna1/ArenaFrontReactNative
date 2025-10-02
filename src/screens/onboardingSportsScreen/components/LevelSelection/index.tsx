@@ -26,7 +26,7 @@ export const LevelSelection: React.FC<LevelSelectionProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text variant="titlePrimary" style={styles.title}>
+        <Text variant="displayAccent" style={styles.title}>
           Qual é o seu nível em {sportName}?
         </Text>
         <Text variant="bodySecondary" style={styles.subtitle}>

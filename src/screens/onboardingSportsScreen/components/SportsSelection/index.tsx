@@ -54,7 +54,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text variant="titlePrimary" style={styles.title}>
+        <Text variant="displayAccent" style={styles.title}>
           Quais esportes você pratica?
         </Text>
         <Text variant="bodySecondary" style={styles.subtitle}>
