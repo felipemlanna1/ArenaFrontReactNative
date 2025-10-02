@@ -3,6 +3,7 @@ import {
   ArenaSpacing,
   ArenaTypography,
   ArenaBorders,
+  ArenaShadows,
 } from '@/constants';
 import {
   CheckboxSizeConfig,
@@ -81,6 +82,7 @@ export const checkboxCardVariant: CheckboxCardVariantConfig = {
     textColor: ArenaColors.neutral.light,
     fontSize: ArenaTypography.size.md,
     fontWeight: ArenaTypography.weight.regular.toString(),
+    boxShadow: ArenaShadows.soft,
   },
   selected: {
     backgroundColor: ArenaColors.neutral.dark,
@@ -89,6 +91,7 @@ export const checkboxCardVariant: CheckboxCardVariantConfig = {
     textColor: ArenaColors.brand.primary,
     fontSize: ArenaTypography.size.lg,
     fontWeight: ArenaTypography.weight.semibold.toString(),
+    boxShadow: ArenaShadows.medium,
   },
   disabled: {
     opacity: 0.5,

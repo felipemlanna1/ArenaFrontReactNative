@@ -68,6 +68,7 @@ export interface CheckboxCardVariantConfig {
     textColor: string;
     fontSize: number;
     fontWeight: string;
+    boxShadow: string;
   };
   selected: {
     backgroundColor: string;
@@ -76,6 +77,7 @@ export interface CheckboxCardVariantConfig {
     textColor: string;
     fontSize: number;
     fontWeight: string;
+    boxShadow: string;
   };
   disabled: {
     opacity: number;
