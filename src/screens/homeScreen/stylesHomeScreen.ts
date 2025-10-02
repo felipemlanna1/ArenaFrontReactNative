@@ -1,7 +1,20 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
-export const styles = StyleSheet.create({
+interface Styles {
+  filterBarWrapper: ViewStyle;
+  content: ViewStyle;
+  listContainer: ViewStyle;
+  loadingContainer: ViewStyle;
+  emptyContainer: ViewStyle;
+  emptyTitle: TextStyle;
+  emptyText: TextStyle;
+  footer: ViewStyle;
+  errorContainer: ViewStyle;
+  errorText: TextStyle;
+}
+
+export const styles = StyleSheet.create<Styles>({
   filterBarWrapper: {
     overflow: 'hidden',
   },

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import {
   ArenaColors,
   ArenaSpacing,
@@ -6,7 +6,14 @@ import {
   ArenaTypography,
 } from '@/constants';
 
-export const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  barContainer: ViewStyle;
+  barFill: ViewStyle;
+  text: TextStyle;
+}
+
+export const styles = StyleSheet.create<Styles>({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

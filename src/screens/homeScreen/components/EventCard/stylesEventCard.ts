@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import {
   ArenaColors,
   ArenaSpacing,
@@ -6,7 +6,24 @@ import {
   ArenaTypography,
 } from '@/constants';
 
-export const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  title: TextStyle;
+  infoRow: ViewStyle;
+  infoIcon: ViewStyle;
+  locationText: TextStyle;
+  distanceText: TextStyle;
+  dateTimeText: TextStyle;
+  priceText: TextStyle;
+  progressContainer: ViewStyle;
+  actionsRow: ViewStyle;
+  shareButton: ViewStyle;
+  shareButtonText: TextStyle;
+  viewButton: ViewStyle;
+  viewButtonText: TextStyle;
+}
+
+export const styles = StyleSheet.create<Styles>({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
