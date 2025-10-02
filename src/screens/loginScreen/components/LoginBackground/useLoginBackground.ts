@@ -6,7 +6,7 @@ export const useLoginBackground = (): UseLoginBackgroundReturn => {
   const statusBarColor = useMemo(() => ArenaColors.neutral.darkest, []);
 
   const backgroundImage = useMemo(
-    () => require('@/assets/players/corredores.png'),
+    () => require('@/assets/players/corredores.webp'),
     []
   );
 

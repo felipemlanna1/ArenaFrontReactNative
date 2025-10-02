@@ -1,15 +1,15 @@
 export const SPORTS_ICONS = {
-  basquete: require('../../../assets/iconSports/basquete.png'),
-  beachtenis: require('../../../assets/iconSports/beachtenis.png'),
-  bicicleta: require('../../../assets/iconSports/bicicleta.png'),
-  boxe: require('../../../assets/iconSports/boxe.png'),
-  corrida: require('../../../assets/iconSports/corrida.png'),
-  escalada: require('../../../assets/iconSports/escalada.png'),
-  futebol: require('../../../assets/iconSports/futebol.png'),
-  handebol: require('../../../assets/iconSports/handebol.png'),
-  jiujitsu: require('../../../assets/iconSports/jiujitsu.png'),
-  tenis: require('../../../assets/iconSports/tenis.png'),
-  voleibol: require('../../../assets/iconSports/voleibol.png'),
+  basquete: require('../../../assets/iconSports/basquete.webp'),
+  beachtenis: require('../../../assets/iconSports/beachtenis.webp'),
+  bicicleta: require('../../../assets/iconSports/bicicleta.webp'),
+  boxe: require('../../../assets/iconSports/boxe.webp'),
+  corrida: require('../../../assets/iconSports/corrida.webp'),
+  escalada: require('../../../assets/iconSports/escalada.webp'),
+  futebol: require('../../../assets/iconSports/futebol.webp'),
+  handebol: require('../../../assets/iconSports/handebol.webp'),
+  jiujitsu: require('../../../assets/iconSports/jiujitsu.webp'),
+  tenis: require('../../../assets/iconSports/tenis.webp'),
+  voleibol: require('../../../assets/iconSports/voleibol.webp'),
 } as const;
 
 export type SportIconKey = keyof typeof SPORTS_ICONS;
