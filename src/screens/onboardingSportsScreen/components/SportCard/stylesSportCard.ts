@@ -27,12 +27,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: ArenaSpacing.md,
-    ...ArenaShadows.soft,
+    boxShadow: ArenaShadows.soft,
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,
     backgroundColor: `${ArenaColors.brand.primary}15`,
-    ...ArenaShadows.card,
+    boxShadow: ArenaShadows.card,
   },
   iconContainer: {
     width: iconSize,

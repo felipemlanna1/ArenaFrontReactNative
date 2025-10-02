@@ -18,12 +18,12 @@ export const styles = StyleSheet.create({
     padding: ArenaSpacing.lg,
     marginBottom: ArenaSpacing.md,
     minHeight: 100,
-    ...ArenaShadows.soft,
+    boxShadow: ArenaShadows.soft,
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,
     backgroundColor: `${ArenaColors.brand.primary}15`,
-    ...ArenaShadows.card,
+    boxShadow: ArenaShadows.card,
   },
   iconContainer: {
     marginRight: ArenaSpacing.lg,
