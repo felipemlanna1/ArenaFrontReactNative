@@ -20,7 +20,6 @@ interface Styles {
   priceSuccessBadge: ViewStyle;
   priceSuccessText: TextStyle;
   progressContainer: ViewStyle;
-  progressRow: ViewStyle;
   actionsRow: ViewStyle;
   shareButton: ViewStyle;
   actionButton: ViewStyle;
@@ -107,12 +106,6 @@ export const styles = StyleSheet.create<Styles>({
   },
   progressContainer: {
     marginTop: ArenaSpacing.md,
-    marginBottom: ArenaSpacing.xs,
-  },
-  progressRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: ArenaSpacing.md,
   },
   actionsRow: {

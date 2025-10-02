@@ -112,23 +112,6 @@ export const EventCard: React.FC<EventCardProps> = ({
           />
         </View>
 
-        <View style={styles.progressRow}>
-          <Text variant="bodySecondary" style={styles.locationText}>
-            {event.currentParticipants}/{event.maxParticipants} vagas
-          </Text>
-          <TouchableOpacity
-            style={styles.shareButton}
-            onPress={handleShare}
-            testID={`${testID}-share`}
-          >
-            <Ionicons
-              name="share-outline"
-              size={16}
-              color={ArenaColors.neutral.medium}
-            />
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.actionsRow}>
           {secondaryActionButton && (
             <TouchableOpacity
