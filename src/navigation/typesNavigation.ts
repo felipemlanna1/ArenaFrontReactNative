@@ -1,3 +1,5 @@
+import { EventsFilter } from '@/services/events/typesEvents';
+
 export type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
@@ -5,4 +7,8 @@ export type RootStackParamList = {
   ComponentsShowcase: undefined;
   OnboardingSports: undefined;
   Home: undefined;
+  FilterScreen: {
+    currentFilters?: Partial<EventsFilter>;
+    onApplyFilters: (filters: EventsFilter) => void;
+  };
 };

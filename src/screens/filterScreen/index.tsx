@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@/navigation/typesNavigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -8,14 +10,19 @@ import { FilterSection } from './components/FilterSection';
 import { PriceRangeFilter } from './components/PriceRangeFilter';
 import { DateRangeFilter } from './components/DateRangeFilter';
 import { ActiveFiltersBar } from './components/ActiveFiltersBar';
-import { FilterScreenProps } from './typesFilterScreen';
 import { useFilterScreen } from './hooks/useFilterScreen';
 import { styles } from './stylesFilterScreen';
 
+type FilterScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'FilterScreen'
+>;
+
 export const FilterScreen: React.FC<FilterScreenProps> = ({
-  currentFilters,
-  onApplyFilters,
+  route,
+  navigation,
 }) => {
+  const { currentFilters, onApplyFilters } = route.params;
   const {
     filters,
     updateFilter,
@@ -167,7 +174,10 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
           <View style={styles.footerButton}>
             <Button
               variant="primary"
-              onPress={applyFilters}
+              onPress={async () => {
+                await applyFilters();
+                navigation.goBack();
+              }}
               disabled={isApplying}
               testID="filter-apply-button"
             >

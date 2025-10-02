@@ -9,6 +9,7 @@ import { RegisterScreen } from '../screens/registerScreen';
 import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
 import { HomeScreen } from '../screens/homeScreen';
+import { FilterScreen } from '../screens/filterScreen';
 import { RootStackParamList } from './typesNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -52,7 +53,22 @@ export const AppNavigator: React.FC = () => {
             component={OnboardingSportsScreen}
           />
         ) : (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen
+              name="FilterScreen"
+              component={FilterScreen}
+              options={{
+                presentation: 'modal',
+                headerShown: true,
+                headerTitle: 'Filtros',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
