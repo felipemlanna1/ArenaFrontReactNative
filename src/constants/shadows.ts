@@ -55,5 +55,14 @@ export const ArenaShadows = {
     },
     android: { elevation: 6 },
   }),
+  elevated: Platform.select({
+    ios: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.25,
+      shadowRadius: 12,
+    },
+    android: { elevation: 10 },
+  }),
 } as const;
 export type ArenaShadowKey = keyof typeof ArenaShadows;
