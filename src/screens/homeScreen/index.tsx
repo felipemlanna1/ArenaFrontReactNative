@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Animated } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Header } from '@/components/header';
+import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { useFilterBarScroll } from './components/FilterBar/useFilterBarScroll';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -23,31 +23,24 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { handleScroll, filterBarTranslateY } = useFilterBarScroll();
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSortPress = () => {
-    console.log('Sort pressed');
-  };
+  const handleSortPress = () => {};
 
-  const handleFilterPress = () => {
-    console.log('Filter pressed');
-  };
+  const handleFilterPress = () => {};
 
   return (
-    <View style={styles.container}>
-      <Header onLogout={handleLogout} />
-
-      <Animated.View
-        style={[
-          styles.filterBarContainer,
-          { transform: [{ translateY: filterBarTranslateY }] },
-        ]}
-      >
-        <FilterBar
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          onSortPress={handleSortPress}
-          onFilterPress={handleFilterPress}
-        />
-      </Animated.View>
+    <AppLayout onLogout={handleLogout}>
+      <View style={styles.filterBarWrapper}>
+        <Animated.View
+          style={[{ transform: [{ translateY: filterBarTranslateY }] }]}
+        >
+          <FilterBar
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            onSortPress={handleSortPress}
+            onFilterPress={handleFilterPress}
+          />
+        </Animated.View>
+      </View>
 
       <Animated.ScrollView
         style={styles.content}
@@ -64,6 +57,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </Text>
         </View>
       </Animated.ScrollView>
-    </View>
+    </AppLayout>
   );
 };
