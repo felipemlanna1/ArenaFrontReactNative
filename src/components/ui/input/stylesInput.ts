@@ -4,6 +4,7 @@ import {
   ArenaSpacing,
   ArenaTypography,
   ArenaBorders,
+  ArenaShadows,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -322,25 +323,11 @@ export const styles = StyleSheet.create({
   xlIcon: {},
 
   shadow: {
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    ...ArenaShadows.input,
   },
 
   shadowFocused: {
-    shadowColor: ArenaColors.brand.primary,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 4,
+    ...ArenaShadows.inputFocused,
   },
 
   shadowError: {
@@ -349,8 +336,8 @@ export const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
     elevation: 4,
   },
 });
