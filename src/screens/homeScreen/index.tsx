@@ -1,7 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Button } from '@/components/ui/button';
+import { Header } from '@/components/header';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
@@ -17,27 +17,23 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const { handleLogout, isLoggingOut } = useHomeScreen(navigation);
+  const { handleLogout } = useHomeScreen(navigation);
 
   return (
     <View style={styles.container}>
-      <Text variant="headingPrimary" style={styles.title}>
-        Bem-vindo à Arena
-      </Text>
-      <Text variant="bodyPrimary" style={styles.subtitle}>
-        Tela principal em desenvolvimento
-      </Text>
+      <Header onLogout={handleLogout} />
 
-      <View style={styles.logoutButtonContainer}>
-        <Button
-          variant="destructive"
-          size="md"
-          onPress={handleLogout}
-          disabled={isLoggingOut}
-        >
-          {isLoggingOut ? 'Saindo...' : 'Logout (Dev)'}
-        </Button>
-      </View>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <Text variant="headingPrimary" style={styles.title}>
+          Bem-vindo à Arena
+        </Text>
+        <Text variant="bodyPrimary" style={styles.subtitle}>
+          Tela principal em desenvolvimento
+        </Text>
+      </ScrollView>
     </View>
   );
 };
