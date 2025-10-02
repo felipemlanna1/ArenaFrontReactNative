@@ -28,17 +28,26 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  iconUnselected: {
+    opacity: 0.3,
+  },
   textContainer: {
     flex: 1,
   },
   label: {
     marginBottom: ArenaSpacing.xs,
   },
+  labelUnselected: {
+    opacity: 0.3,
+  },
   labelSelected: {
     color: ArenaColors.brand.primary,
   },
   description: {
     fontSize: ArenaTypography.size.sm,
+  },
+  descriptionUnselected: {
+    opacity: 0.3,
   },
   descriptionSelected: {
     color: ArenaColors.brand.primary,
