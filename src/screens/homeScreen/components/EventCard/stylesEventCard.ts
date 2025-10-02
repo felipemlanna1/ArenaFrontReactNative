@@ -46,9 +46,6 @@ export const styles = StyleSheet.create<Styles>({
     padding: ArenaSpacing['2xl'],
   },
   title: {
-    fontSize: ArenaTypography.size.lg,
-    fontWeight: ArenaTypography.weight.bold,
-    color: ArenaColors.text.inverse,
     marginTop: ArenaSpacing.xs,
     marginBottom: ArenaSpacing.sm,
   },
