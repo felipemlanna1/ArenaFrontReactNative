@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaShadows } from '@/constants';
 
 export const styles = StyleSheet.create({
   background: {
@@ -10,5 +10,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     opacity: 0.3,
+    boxShadow: ArenaShadows.backgroundImage,
   },
 });
