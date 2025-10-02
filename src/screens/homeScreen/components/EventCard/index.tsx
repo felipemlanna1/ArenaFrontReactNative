@@ -66,23 +66,19 @@ export const EventCard: React.FC<EventCardProps> = ({
         </Text>
 
         <View style={styles.infoRow}>
-          <Ionicons
-            name="location-outline"
-            size={18}
-            color={ArenaColors.text.inverse}
-          />
-          <Text
-            variant="bodySecondary"
-            numberOfLines={1}
-            style={styles.locationText}
-          >
-            {event.location.city}
-          </Text>
-          {event.distance !== undefined && (
-            <Text variant="bodyMuted" style={styles.distanceText}>
-              • {formatDistance(event.distance)}
+          <View style={styles.infoContent}>
+            <Ionicons
+              name="location-outline"
+              size={18}
+              color={ArenaColors.text.inverse}
+            />
+            <Text variant="bodySecondary" style={styles.addressText}>
+              {event.location.address}
             </Text>
-          )}
+          </View>
+          <Text variant="bodySecondary" style={styles.slotsText}>
+            {event.currentParticipants}/{event.maxParticipants} vagas
+          </Text>
         </View>
 
         <View style={styles.dateTimeRow}>
@@ -96,6 +92,13 @@ export const EventCard: React.FC<EventCardProps> = ({
               {formatDate(event.startDate)} • {formatTime(event.startDate)}
             </Text>
           </View>
+          <TouchableOpacity onPress={handleShare} testID={`${testID}-share`}>
+            <Ionicons
+              name="share-outline"
+              size={18}
+              color={ArenaColors.brand.primary}
+            />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.progressContainer}>

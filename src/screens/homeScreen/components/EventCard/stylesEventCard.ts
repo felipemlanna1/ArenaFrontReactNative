@@ -11,17 +11,14 @@ interface Styles {
   contentContainer: ViewStyle;
   title: TextStyle;
   infoRow: ViewStyle;
-  locationText: TextStyle;
-  distanceText: TextStyle;
+  infoContent: ViewStyle;
+  addressText: TextStyle;
+  slotsText: TextStyle;
   dateTimeRow: ViewStyle;
   dateTimeContainer: ViewStyle;
   dateTimeText: TextStyle;
-  priceText: TextStyle;
-  priceSuccessBadge: ViewStyle;
-  priceSuccessText: TextStyle;
   progressContainer: ViewStyle;
   actionsRow: ViewStyle;
-  shareButton: ViewStyle;
   actionButton: ViewStyle;
   actionButtonText: TextStyle;
   outlineButton: ViewStyle;
@@ -57,18 +54,26 @@ export const styles = StyleSheet.create<Styles>({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.xs,
+    justifyContent: 'space-between',
+    gap: ArenaSpacing.sm,
     marginBottom: ArenaSpacing.xs,
   },
-  locationText: {
+  infoContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+    flex: 1,
+  },
+  addressText: {
     flex: 1,
     fontSize: ArenaTypography.size.sm,
     color: ArenaColors.text.inverse,
     fontWeight: ArenaTypography.weight.semibold,
   },
-  distanceText: {
+  slotsText: {
     fontSize: ArenaTypography.size.sm,
-    color: ArenaColors.neutral.medium,
+    color: ArenaColors.text.inverse,
+    fontWeight: ArenaTypography.weight.semibold,
   },
   dateTimeRow: {
     flexDirection: 'row',
@@ -87,23 +92,6 @@ export const styles = StyleSheet.create<Styles>({
     color: ArenaColors.text.inverse,
     fontWeight: ArenaTypography.weight.semibold,
   },
-  priceText: {
-    fontSize: ArenaTypography.size.md,
-    color: ArenaColors.brand.primary,
-    fontWeight: ArenaTypography.weight.bold,
-    marginLeft: ArenaSpacing.sm,
-  },
-  priceSuccessBadge: {
-    backgroundColor: ArenaColors.semantic.success,
-    paddingHorizontal: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.xs,
-    borderRadius: ArenaBorders.radius.pill,
-  },
-  priceSuccessText: {
-    color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
-  },
   progressContainer: {
     marginTop: ArenaSpacing.md,
     marginBottom: ArenaSpacing.md,
@@ -112,15 +100,6 @@ export const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
     alignItems: 'center',
-  },
-  shareButton: {
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: ArenaBorders.radius.md,
-    borderWidth: ArenaBorders.width.thin,
-    borderColor: ArenaColors.neutral.medium,
   },
   actionButton: {
     flex: 1,
