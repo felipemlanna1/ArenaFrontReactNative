@@ -8,21 +8,21 @@ import React, {
 } from 'react';
 import { authService, RegisterData } from '@/services/auth';
 import { UserData, LoginCredentials } from '@/types/auth';
-import { UserSport } from '@/types/sport';
-import { httpService } from '@/services/http';
+import { UserSportData, httpService } from '@/services/http';
+import { logger } from '@/utils/logger';
 
 interface AuthContextData {
   user: UserData | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   userHasSports: boolean;
-  userSports: UserSport[];
-  primarySport: UserSport | null;
+  userSports: UserSportData[];
+  primarySport: UserSportData | null;
   signIn: (credentials: LoginCredentials) => Promise<void>;
   signOut: () => Promise<void>;
   signUp: (data: RegisterData) => Promise<void>;
   updateUser: (user: UserData) => Promise<void>;
-  updateUserSports: (sports: UserSport[]) => void;
+  updateUserSports: (sports: UserSportData[]) => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
         setUser(userWithSports);
       }
-    } catch (error) {
+    } catch {
       await httpService.clearAuthData();
     } finally {
       setIsLoading(false);
@@ -85,15 +85,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData: UserData = {
         ...response.user,
+        sports: response.user.sports as unknown as UserSportData[],
         hasSports: response.user.hasSports || false,
-        sports: response.user.sports || [],
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
 
       setUser(userData);
-    } catch (error) {
-      throw error instanceof Error ? error : new Error('Falha no login');
+    } catch {
+      throw new Error('Falha no login');
     }
   }, []);
 
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       await authService.logout();
       setUser(null);
-    } catch (error) {
+    } catch {
       await httpService.clearAuthData();
       setUser(null);
     } finally {
@@ -112,25 +112,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signUp = useCallback(async (data: RegisterData) => {
     try {
-      console.log('[AuthContext] signUp called');
+      logger.info('AuthContext: signUp called');
       const response = await authService.register(data);
 
-      console.log('[AuthContext] signUp authService.register completed');
+      logger.debug('AuthContext: register completed');
 
       const userData: UserData = {
         ...response.user,
-        hasSports: false,
-        sports: [],
+        sports: response.user.sports as unknown as UserSportData[],
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
 
-      console.log('[AuthContext] Setting user data:', userData.email);
+      logger.debug('AuthContext: Setting user data', { email: userData.email });
       setUser(userData);
-      console.log('[AuthContext] signUp completed successfully');
-    } catch (error) {
-      console.error('[AuthContext] signUp error:', error);
-      throw error instanceof Error ? error : new Error('Falha no cadastro');
+      logger.info('AuthContext: signUp completed successfully');
+    } catch {
+      throw new Error('Falha no cadastro');
     }
   }, []);
 
@@ -140,7 +138,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const updateUserSports = useCallback(
-    (sports: UserSport[]) => {
+    (sports: UserSportData[]) => {
       if (user) {
         const updatedUser: UserData = {
           ...user,
@@ -151,7 +149,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         setUser(updatedUser);
         httpService.saveUserData(updatedUser).catch(error => {
-          console.error('Error saving updated user data:', error);
+          logger.error('Error saving updated user data', error);
         });
       }
     },
