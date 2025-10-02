@@ -9,15 +9,14 @@ import {
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
-    borderBottomWidth: ArenaBorders.width.thin,
-    borderBottomColor: ArenaColors.neutral.medium,
+    paddingTop: ArenaSpacing['4xl'] + 10,
+    paddingBottom: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
     shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.26,
-    shadowRadius: 6,
-    elevation: 6,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.45,
+    shadowRadius: 12,
+    elevation: 12,
   },
   content: {
     flexDirection: 'row',
@@ -29,6 +28,15 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+    justifyContent: 'flex-start',
+  },
+  centerSection: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    pointerEvents: 'none',
   },
   logoContainer: {
     marginRight: ArenaSpacing.xl,
@@ -41,6 +49,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.md,
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  notificationButton: {
+    padding: ArenaSpacing.sm,
   },
   profileTrigger: {
     flexDirection: 'row',

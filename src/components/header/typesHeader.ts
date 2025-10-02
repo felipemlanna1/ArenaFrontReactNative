@@ -12,4 +12,5 @@ export interface UseHeaderProps {
 
 export interface UseHeaderReturn {
   getDefaultMenuItems: () => DropdownItem[];
+  handleNotificationsPress: () => void;
 }

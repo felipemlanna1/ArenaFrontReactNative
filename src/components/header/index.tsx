@@ -1,10 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Symbol } from '@/components/ui/symbol';
 import { Dropdown } from '@/components/ui/dropdown';
+import { ArenaColors } from '@/constants';
 import { HeaderProps } from './typesHeader';
 import { useHeader } from './useHeader';
 import { styles } from './stylesHeader';
+import { BellIcon } from './utils/BellIcon';
 
 const MenuIcon: React.FC<{ size: number; color: string }> = () => (
   <View style={styles.menuIconContainer}>
@@ -19,7 +21,9 @@ export const Header: React.FC<HeaderProps> = ({
   onLogout,
   testID = 'header',
 }) => {
-  const { getDefaultMenuItems } = useHeader({ onLogout });
+  const { getDefaultMenuItems, handleNotificationsPress } = useHeader({
+    onLogout,
+  });
 
   const finalMenuItems = menuItems || getDefaultMenuItems();
 
@@ -27,10 +31,6 @@ export const Header: React.FC<HeaderProps> = ({
     <View style={styles.container} testID={testID}>
       <View style={styles.content}>
         <View style={styles.leftSection}>
-          <Symbol variant="variant1" size="sm" testID={`${testID}-symbol`} />
-        </View>
-
-        <View style={styles.rightSection}>
           <Dropdown
             variant="menu"
             trigger={
@@ -41,6 +41,20 @@ export const Header: React.FC<HeaderProps> = ({
             items={finalMenuItems}
             testID={`${testID}-menu-dropdown`}
           />
+        </View>
+
+        <View style={styles.centerSection}>
+          <Symbol variant="variant1" size="lg" testID={`${testID}-symbol`} />
+        </View>
+
+        <View style={styles.rightSection}>
+          <TouchableOpacity
+            onPress={handleNotificationsPress}
+            style={styles.notificationButton}
+            testID={`${testID}-notifications`}
+          >
+            <BellIcon size={24} color={ArenaColors.text.inverse} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
