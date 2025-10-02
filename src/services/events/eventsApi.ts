@@ -1,5 +1,5 @@
-import { http } from '../http';
-import { EventsFilter, EventsResponse } from './typesEvents';
+import { httpService } from '../http';
+import { EventsFilter, EventsResponse, Event } from './typesEvents';
 
 export class EventsApi {
   private readonly basePath = '/events';
@@ -42,12 +42,16 @@ export class EventsApi {
     if (filters.sortBy) params.sortBy = filters.sortBy;
     if (filters.sortOrder) params.sortOrder = filters.sortOrder;
 
-    const response = await http.get<EventsResponse>(this.basePath, { params });
-    return response.data;
+    const response = await httpService.get<EventsResponse>(this.basePath, {
+      params,
+    });
+    return response;
   }
 
-  async getEventDetails(eventId: string) {
-    const response = await http.get(`${this.basePath}/${eventId}`);
-    return response.data;
+  async getEventDetails(eventId: string): Promise<Event> {
+    const response = await httpService.get<Event>(
+      `${this.basePath}/${eventId}`
+    );
+    return response;
   }
 }

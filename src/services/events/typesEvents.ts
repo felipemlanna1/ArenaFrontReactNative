@@ -1,7 +1,17 @@
 export type EventStatus = 'DRAFT' | 'PUBLISHED' | 'CANCELLED' | 'COMPLETED';
 export type EventPrivacy = 'PUBLIC' | 'PRIVATE' | 'FRIENDS_ONLY';
-export type SkillLevel = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'PROFESSIONAL' | 'ALL';
-export type UserEventStatus = 'ORGANIZER' | 'ADMIN' | 'PARTICIPANT' | 'INVITED' | 'REQUESTED';
+export type SkillLevel =
+  | 'BEGINNER'
+  | 'INTERMEDIATE'
+  | 'ADVANCED'
+  | 'PROFESSIONAL'
+  | 'ALL';
+export type UserEventStatus =
+  | 'ORGANIZER'
+  | 'ADMIN'
+  | 'PARTICIPANT'
+  | 'INVITED'
+  | 'REQUESTED';
 
 export interface EventLocation {
   address: string;

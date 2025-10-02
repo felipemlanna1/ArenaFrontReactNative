@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   Animated,
-  FlatList,
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
@@ -50,7 +49,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const handleFilterPress = () => {};
 
   const handleEventPress = (eventId: string) => {
-    console.log('Navegar para evento:', eventId);
+    navigation.navigate('Home');
   };
 
   const renderItem = ({ item }: { item: Event }) => (
@@ -62,7 +61,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
       <View style={styles.emptyContainer}>
-        <Text variant="headingSecondary" style={styles.emptyTitle}>
+        <Text variant="headingPrimary" style={styles.emptyTitle}>
           Nenhum evento encontrado
         </Text>
         <Text variant="bodySecondary" style={styles.emptyText}>
@@ -107,7 +106,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <Animated.FlatList
           data={events}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           style={styles.content}
           contentContainerStyle={styles.listContainer}
           onScroll={handleScroll}

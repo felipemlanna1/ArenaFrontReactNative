@@ -3,12 +3,7 @@ import { Animated } from 'react-native';
 
 export interface UseFilterBarScrollReturn {
   scrollY: Animated.Value;
-  handleScroll: Animated.AnimatedEventConfig<
-    unknown,
-    {
-      nativeEvent: { contentOffset: { y: number } };
-    }
-  >;
+  handleScroll: ReturnType<typeof Animated.event>;
   filterBarTranslateY: Animated.AnimatedInterpolation<number>;
 }
 
