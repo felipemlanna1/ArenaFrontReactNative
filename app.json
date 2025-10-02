@@ -56,7 +56,8 @@
     "extra": {
       "eas": {
         "projectId": "arena-project-id"
-      }
+      },
+      "ENVIRONMENT": "development"
     }
   }
 }
