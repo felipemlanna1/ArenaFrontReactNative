@@ -141,8 +141,12 @@ export const EventCard: React.FC<EventCardProps> = ({
                 variant="labelPrimary"
                 style={[
                   styles.actionButtonText,
-                  actionButton.variant === 'danger' && styles.dangerButtonText,
-                  actionButton.variant === 'outline' && styles.outlineButtonText,
+                  actionButton.variant === 'danger'
+                    ? styles.dangerButtonText
+                    : undefined,
+                  actionButton.variant === 'outline'
+                    ? styles.outlineButtonText
+                    : undefined,
                 ]}
               >
                 {actionButton.label}
@@ -164,8 +168,9 @@ export const EventCard: React.FC<EventCardProps> = ({
                 variant="labelPrimary"
                 style={[
                   styles.actionButtonText,
-                  secondaryActionButton.variant === 'outline' &&
-                    styles.outlineButtonText,
+                  secondaryActionButton.variant === 'outline'
+                    ? styles.outlineButtonText
+                    : undefined,
                 ]}
               >
                 {secondaryActionButton.label}
