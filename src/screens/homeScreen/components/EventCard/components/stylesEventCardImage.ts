@@ -5,6 +5,7 @@ interface Styles {
   container: ViewStyle;
   image: ImageStyle;
   fallbackContainer: ViewStyle;
+  fallbackIcon: ImageStyle;
   priceBadge: ViewStyle;
   priceSuccessBadge: ViewStyle;
   pricePrimaryBadge: ViewStyle;
@@ -32,6 +33,10 @@ export const styles = StyleSheet.create<Styles>({
     borderTopLeftRadius: ArenaBorders.radius.lg,
     borderTopRightRadius: ArenaBorders.radius.lg,
     position: 'relative',
+  },
+  fallbackIcon: {
+    width: 60,
+    height: 60,
   },
   priceBadge: {
     position: 'absolute',

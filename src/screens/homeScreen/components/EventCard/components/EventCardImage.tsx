@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image } from 'react-native';
-import { Symbol } from '@/components/ui/symbol';
 import { Text } from '@/components/ui/text';
+import { getSportIcon } from '@/config/sportIcons';
 import { EventSport } from '@/services/events/typesEvents';
 import { styles } from './stylesEventCardImage';
 
@@ -24,6 +24,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
 }) => {
   const backgroundColor = sport.color;
   const isGratuito = isFree || parseFloat(String(price)) === 0;
+  const iconSource = getSportIcon(sport.icon);
 
   const priceBadge = (
     <View
@@ -56,7 +57,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
       style={[styles.fallbackContainer, { backgroundColor }]}
       testID={`${testID}-fallback`}
     >
-      <Symbol size="lg" variant="white" />
+      <Image source={iconSource} style={styles.fallbackIcon} resizeMode="contain" />
       {priceBadge}
     </View>
   );
