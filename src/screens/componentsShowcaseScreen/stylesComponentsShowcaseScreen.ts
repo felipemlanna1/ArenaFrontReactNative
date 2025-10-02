@@ -177,4 +177,10 @@ export const styles = StyleSheet.create({
   buttonTriggerText: {
     color: ArenaColors.text.inverse,
   },
+  accordionVariantContainer: {
+    gap: ArenaSpacing.md,
+  },
+  accordionVariantItem: {
+    marginBottom: ArenaSpacing.sm,
+  },
 });
