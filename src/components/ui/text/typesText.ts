@@ -11,6 +11,7 @@ export type TextVariant =
   | 'bodyPrimary'
   | 'bodySecondary'
   | 'bodyBold'
+  | 'bodyBoldAccent'
   | 'bodyMuted'
   | 'bodyError'
   | 'bodySuccess'

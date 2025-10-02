@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
+import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
 import { EventSport } from '@/services/events/typesEvents';
 import { styles } from './stylesEventCardImage';
@@ -45,6 +47,12 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
 
   const distanceBadge = (
     <View style={styles.distanceBadge}>
+      <Ionicons
+        name="location-outline"
+        size={12}
+        color={ArenaColors.text.inverse}
+        style={styles.distanceIcon}
+      />
       <Text variant="labelPrimary" style={styles.distanceText}>
         {distance !== undefined ? formatDistance(distance) : '--'}
       </Text>

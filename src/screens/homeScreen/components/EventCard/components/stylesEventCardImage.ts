@@ -11,6 +11,7 @@ interface Styles {
   pricePrimaryBadge: ViewStyle;
   priceText: TextStyle;
   distanceBadge: ViewStyle;
+  distanceIcon: ViewStyle;
   distanceText: TextStyle;
 }
 
@@ -63,10 +64,16 @@ export const styles = StyleSheet.create<Styles>({
     position: 'absolute',
     top: ArenaSpacing.sm,
     right: ArenaSpacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.pill,
     backgroundColor: ArenaColors.neutral.dark,
+  },
+  distanceIcon: {
+    marginRight: 2,
   },
   distanceText: {
     color: ArenaColors.text.inverse,

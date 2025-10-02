@@ -80,6 +80,14 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0,
     color: 'primary',
   },
+  bodyBoldAccent: {
+    size: 'md',
+    weight: 'bold',
+    family: 'body',
+    lineHeight: 'comfortable',
+    letterSpacing: 0,
+    color: 'accent',
+  },
   bodyMuted: {
     size: 'md',
     weight: 'regular',
