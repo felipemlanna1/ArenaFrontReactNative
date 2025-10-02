@@ -5,13 +5,17 @@ module.exports = {
     type: 'problem',
     docs: {
       description:
-        'Enforce usage of Arena UI components instead of React Native base components',
+        'Enforce usage of Arena UI components instead of React Native base components and validate proper prop usage',
       category: 'Arena UI Components',
       recommended: true,
     },
     messages: {
       useArenaComponent:
         "Use Arena UI component '{{arenaComponent}}' instead of React Native '{{rnComponent}}'",
+      invalidStyleProp:
+        "Do not use inline 'style' prop on Arena UI components. Use design system props (variant, size, etc.) instead",
+      useDesignSystemProps:
+        "Use design system props instead of custom styles on '{{component}}' component",
     },
     schema: [],
   },
@@ -62,6 +66,21 @@ module.exports = {
       'TouchableOpacity',
     ];
 
+    const arenaUIComponents = new Set([
+      'Button',
+      'Text',
+      'Input',
+      'Card',
+      'Badge',
+      'Checkbox',
+      'CheckboxGroup',
+      'Link',
+      'Dropdown',
+      'Accordion',
+    ]);
+
+    const importedArenaComponents = new Map();
+
     return {
       ImportDeclaration(node) {
         const importSource = node.source.value;
@@ -91,6 +110,44 @@ module.exports = {
               }
             }
           });
+        }
+
+        if (importSource.startsWith('@/components/ui/')) {
+          node.specifiers.forEach(specifier => {
+            if (specifier.type === 'ImportSpecifier') {
+              const componentName = specifier.imported.name;
+              const localName = specifier.local.name;
+              if (arenaUIComponents.has(componentName)) {
+                importedArenaComponents.set(localName, componentName);
+              }
+            }
+          });
+        }
+      },
+
+      JSXElement(node) {
+        const openingElement = node.openingElement;
+        const componentName = openingElement.name.name;
+
+        if (
+          importedArenaComponents.has(componentName) &&
+          componentName === 'Button'
+        ) {
+          const attributes = openingElement.attributes;
+          const hasStyleProp = attributes.some(
+            attr => attr.type === 'JSXAttribute' && attr.name.name === 'style'
+          );
+
+          if (hasStyleProp) {
+            const styleProp = attributes.find(
+              attr => attr.type === 'JSXAttribute' && attr.name.name === 'style'
+            );
+
+            context.report({
+              node: styleProp,
+              messageId: 'invalidStyleProp',
+            });
+          }
         }
       },
     };
