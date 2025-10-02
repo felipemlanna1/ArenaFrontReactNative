@@ -336,8 +336,8 @@ export const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    elevation: 6,
   },
 });
