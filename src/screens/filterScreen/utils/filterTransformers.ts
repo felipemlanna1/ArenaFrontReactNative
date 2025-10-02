@@ -1,6 +1,72 @@
 import { FilterScreenState, FilterCount } from '../typesFilterScreen';
 import { EventsFilter } from '@/services/events/typesEvents';
 
+export const transformFromAPIFilters = (
+  apiFilters?: Partial<EventsFilter>
+): Partial<FilterScreenState> => {
+  if (!apiFilters) return {};
+
+  const stateFilters: Partial<FilterScreenState> = {};
+
+  if (apiFilters.sportIds) {
+    stateFilters.sportIds = apiFilters.sportIds;
+  }
+
+  if (apiFilters.skillLevel) {
+    stateFilters.skillLevels = apiFilters.skillLevel;
+  }
+
+  if (apiFilters.privacy) {
+    stateFilters.privacy = apiFilters.privacy;
+  }
+
+  if (apiFilters.status) {
+    stateFilters.status = apiFilters.status;
+  }
+
+  if (apiFilters.priceMin !== undefined) {
+    stateFilters.priceMin = apiFilters.priceMin;
+  }
+
+  if (apiFilters.priceMax !== undefined) {
+    stateFilters.priceMax = apiFilters.priceMax;
+  }
+
+  if (apiFilters.isFree !== undefined) {
+    stateFilters.isFree = apiFilters.isFree;
+  }
+
+  if (apiFilters.hasAvailableSpots !== undefined) {
+    stateFilters.hasAvailableSpots = apiFilters.hasAvailableSpots;
+  }
+
+  if (apiFilters.startDateFrom) {
+    stateFilters.startDateFrom = new Date(apiFilters.startDateFrom);
+  }
+
+  if (apiFilters.startDateTo) {
+    stateFilters.startDateTo = new Date(apiFilters.startDateTo);
+  }
+
+  if (apiFilters.city) {
+    stateFilters.city = apiFilters.city;
+  }
+
+  if (apiFilters.state) {
+    stateFilters.state = apiFilters.state;
+  }
+
+  if (apiFilters.sortBy) {
+    stateFilters.sortBy = apiFilters.sortBy;
+  }
+
+  if (apiFilters.sortOrder) {
+    stateFilters.sortOrder = apiFilters.sortOrder;
+  }
+
+  return stateFilters;
+};
+
 export const transformToAPIFilters = (
   state: FilterScreenState
 ): EventsFilter => {
