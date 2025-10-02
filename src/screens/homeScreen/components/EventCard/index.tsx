@@ -30,8 +30,20 @@ export const EventCard: React.FC<EventCardProps> = ({
     });
 
   const getButtonVariant = (
-    variant: 'primary' | 'secondary' | 'outline' | 'danger'
-  ): 'primary' | 'secondary' | 'subtle' | 'destructive' => {
+    variant:
+      | 'primary'
+      | 'secondary'
+      | 'outline'
+      | 'danger'
+      | 'outline-light'
+      | 'outline-primary'
+  ):
+    | 'primary'
+    | 'secondary'
+    | 'subtle'
+    | 'destructive'
+    | 'outline-light'
+    | 'outline-primary' => {
     switch (variant) {
       case 'primary':
         return 'primary';
@@ -41,6 +53,10 @@ export const EventCard: React.FC<EventCardProps> = ({
         return 'subtle';
       case 'danger':
         return 'destructive';
+      case 'outline-light':
+        return 'outline-light';
+      case 'outline-primary':
+        return 'outline-primary';
       default:
         return 'secondary';
     }

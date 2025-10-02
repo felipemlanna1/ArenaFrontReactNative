@@ -11,7 +11,13 @@ interface UseEventCardActionsProps {
 export interface ActionButton {
   key: 'view' | 'action' | 'secondary';
   label: string;
-  variant: 'primary' | 'secondary' | 'outline' | 'danger';
+  variant:
+    | 'primary'
+    | 'secondary'
+    | 'outline'
+    | 'danger'
+    | 'outline-light'
+    | 'outline-primary';
   type:
     | 'view'
     | 'manage'
@@ -121,7 +127,7 @@ export const useEventCardActions = ({
     () => ({
       key: 'view',
       label: 'VER',
-      variant: 'secondary',
+      variant: 'outline-light',
       type: 'view',
       testID: 'event-card-view-button',
     }),
