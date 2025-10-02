@@ -24,7 +24,7 @@ export const useHomeScreen = (
         index: 0,
         routes: [{ name: 'Welcome' }],
       });
-    } catch (err) {
+    } catch {
       setIsLoggingOut(false);
     }
   }, [navigation, signOut]);
