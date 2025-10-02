@@ -24,7 +24,7 @@ class SportsService {
     try {
       const response = await httpService.get<Sport[]>('/sports');
       return response;
-    } catch (error) {
+    } catch {
       throw new Error('Erro ao carregar esportes');
     }
   }
@@ -35,7 +35,7 @@ class SportsService {
         `/users/${userId}/sports`
       );
 
-      return response.map((userSport) => ({
+      return response.map(userSport => ({
         sportId: userSport.sportId,
         sportName: userSport.sport.name,
         sportIcon: userSport.sport.icon,
@@ -44,7 +44,7 @@ class SportsService {
         skillLevel: userSport.skillLevel,
         yearsOfExperience: userSport.yearsOfExperience,
       }));
-    } catch (error) {
+    } catch {
       throw new Error('Erro ao carregar esportes do usuário');
     }
   }
@@ -59,7 +59,7 @@ class SportsService {
         data
       );
 
-      return response.map((userSport) => ({
+      return response.map(userSport => ({
         sportId: userSport.sportId,
         sportName: userSport.sport.name,
         sportIcon: userSport.sport.icon,
@@ -68,7 +68,7 @@ class SportsService {
         skillLevel: userSport.skillLevel,
         yearsOfExperience: userSport.yearsOfExperience,
       }));
-    } catch (error) {
+    } catch {
       throw new Error('Erro ao atualizar esportes');
     }
   }

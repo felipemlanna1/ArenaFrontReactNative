@@ -107,11 +107,6 @@ class HttpService {
   private refreshSubscribers: ((token: string) => void)[] = [];
 
   constructor() {
-    console.log('[HttpService] Initializing with config:', {
-      baseURL: Config.api.url,
-      timeout: Config.api.timeout,
-    });
-
     this.client = axios.create({
       baseURL: Config.api.url,
       timeout: Config.api.timeout,
@@ -134,14 +129,6 @@ class HttpService {
   private setupInterceptors(): void {
     this.client.interceptors.request.use(
       async config => {
-        console.log('[HttpService] Making request:', {
-          method: config.method,
-          url: config.url,
-          baseURL: config.baseURL,
-          fullURL: `${config.baseURL}${config.url}`,
-          timeout: config.timeout,
-        });
-
         const token = await this.getAccessToken();
         if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`;
@@ -149,7 +136,6 @@ class HttpService {
         return config;
       },
       error => {
-        console.error('[HttpService] Request error:', error);
         return Promise.reject(error);
       }
     );
@@ -417,31 +403,16 @@ class HttpService {
   }
 
   private handleError(error: AxiosError): ApiError {
-    console.error('[HttpService] Error details:', {
-      hasResponse: !!error.response,
-      hasRequest: !!error.request,
-      message: error.message,
-      code: (error as { code?: string }).code,
-      config: {
-        url: error.config?.url,
-        baseURL: error.config?.baseURL,
-        timeout: error.config?.timeout,
-      },
-    });
-
     if (error.response) {
       const status = error.response.status;
       const data = error.response.data as ApiErrorData;
       const message = data?.message || error.message || 'Erro na requisição';
       const code = data?.code || `HTTP_${status}`;
 
-      console.error('[HttpService] Response error:', { status, code, message });
       return new ApiError(status, code, message, data);
     } else if (error.request) {
-      console.error('[HttpService] Network error - no response received');
       return new ApiError(0, 'NETWORK_ERROR', 'Erro de conexão', null);
     } else {
-      console.error('[HttpService] Request setup error:', error.message);
       return new ApiError(0, 'REQUEST_ERROR', error.message, null);
     }
   }
