@@ -12,6 +12,7 @@ export const ArenaColors = {
     medium: '#B8B8B8',
     light: '#FFFFFF',
     transparent: 'transparent',
+    overlay: 'rgba(0, 0, 0, 0.5)',
   },
   text: {
     primary: '#1B1D29',
