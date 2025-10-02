@@ -1,5 +1,4 @@
 import { ImageSourcePropType } from 'react-native';
-import { logger } from '@/utils/logger';
 
 const sportIcons: Record<string, ImageSourcePropType> = {
   ball: require('../assets/iconSports/ball.png'),
@@ -38,7 +37,6 @@ const sportIcons: Record<string, ImageSourcePropType> = {
 export const getSportIcon = (iconName: string): ImageSourcePropType => {
   const icon = sportIcons[iconName];
   if (!icon) {
-    logger.warn('Sport icon not found, using fallback', { iconName });
     return sportIcons.ball;
   }
   return icon;

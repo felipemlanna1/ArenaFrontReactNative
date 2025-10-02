@@ -21,14 +21,12 @@ export const useUserSports = (): UseUserSportsReturn => {
 
       const sports = await sportsService.getAllSports();
 
-      // Ordenar por popularidade (maior para menor)
       const sortedSports = sports.sort(
         (a, b) => (b.popularity || 0) - (a.popularity || 0)
       );
 
       setAvailableSports(sortedSports);
-    } catch (err) {
-      console.error('Error fetching sports:', err);
+    } catch {
       setError('Erro ao carregar esportes. Tente novamente.');
     } finally {
       setIsLoading(false);
