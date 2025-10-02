@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { View, FlatList, RefreshControl } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
+import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
@@ -10,7 +11,6 @@ import { useHomeEvents } from './hooks/useHomeEvents';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
-import { ArenaColors } from '@/constants';
 import { Event, EventsFilter } from '@/services/events/typesEvents';
 import { styles } from './stylesHomeScreen';
 
@@ -152,11 +152,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           style={styles.content}
           contentContainerStyle={styles.listContainer}
           refreshControl={
-            <RefreshControl
+            <ArenaRefreshControl
               refreshing={isRefreshing}
               onRefresh={refreshEvents}
-              tintColor={ArenaColors.brand.primary}
-              colors={[ArenaColors.brand.primary]}
             />
           }
           onEndReached={hasMore ? loadMoreEvents : undefined}
