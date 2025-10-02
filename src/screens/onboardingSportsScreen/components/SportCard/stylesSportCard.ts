@@ -4,6 +4,7 @@ import {
   ArenaSpacing,
   ArenaBorders,
   ArenaTypography,
+  ArenaShadows,
 } from '@/constants';
 import {
   CARDS_PER_ROW,
@@ -26,10 +27,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: ArenaSpacing.md,
+    ...ArenaShadows.soft,
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,
     backgroundColor: `${ArenaColors.brand.primary}15`,
+    ...ArenaShadows.card,
   },
   iconContainer: {
     width: iconSize,

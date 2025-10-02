@@ -4,6 +4,7 @@ import {
   ArenaSpacing,
   ArenaBorders,
   ArenaTypography,
+  ArenaShadows,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -17,10 +18,12 @@ export const styles = StyleSheet.create({
     padding: ArenaSpacing.lg,
     marginBottom: ArenaSpacing.md,
     minHeight: 100,
+    ...ArenaShadows.soft,
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,
     backgroundColor: `${ArenaColors.brand.primary}15`,
+    ...ArenaShadows.card,
   },
   iconContainer: {
     marginRight: ArenaSpacing.lg,
