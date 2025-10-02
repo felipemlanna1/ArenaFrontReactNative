@@ -1,6 +1,7 @@
 import React from 'react';
 import { RefreshControl as RNRefreshControl } from 'react-native';
 import { ArenaColors } from '@/constants';
+import './stylesRefreshControl';
 
 interface ArenaRefreshControlProps {
   refreshing: boolean;

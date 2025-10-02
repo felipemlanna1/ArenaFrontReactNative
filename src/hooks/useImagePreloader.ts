@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Image } from 'expo-image';
-import { ImageSource } from 'expo-image';
 
 interface UseImagePreloaderReturn {
   isLoading: boolean;
@@ -9,7 +8,7 @@ interface UseImagePreloaderReturn {
 }
 
 export const useImagePreloader = (
-  imageSources: ImageSource[]
+  imageSources: string[]
 ): UseImagePreloaderReturn => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReady, setIsReady] = useState(false);

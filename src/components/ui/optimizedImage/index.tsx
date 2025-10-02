@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Image, ImageProps } from 'expo-image';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { ArenaColors } from '@/constants';
+import { styles } from './stylesOptimizedImage';
 
 interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'onError'> {
   showLoading?: boolean;
@@ -45,7 +46,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         cachePolicy="memory-disk"
         priority={priority}
         transition={150}
-        placeholder={{ backgroundColor: placeholderColor }}
+        placeholder={placeholderColor}
         placeholderContentFit="cover"
       />
       {isLoading && showLoading && (
@@ -56,19 +57,3 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-});

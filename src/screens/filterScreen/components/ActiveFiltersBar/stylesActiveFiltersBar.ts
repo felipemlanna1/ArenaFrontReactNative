@@ -56,10 +56,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   chipCloseIcon: {
-    fontSize: 12,
-    lineHeight: 20,
+    fontSize: ArenaTypography.size.xs,
+    lineHeight: ArenaTypography.lineHeight.xs,
     color: ArenaColors.neutral.darkest,
-    fontWeight: '700',
+    fontWeight: ArenaTypography.weight.bold,
     textAlign: 'center',
   },
   clearAllButton: {

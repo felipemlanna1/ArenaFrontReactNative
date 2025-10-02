@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: ArenaSpacing.md,
     paddingBottom: ArenaSpacing.md,
-    marginBottom: 25,
+    marginBottom: ArenaSpacing.lg,
     backgroundColor: ArenaColors.neutral.darkest,
     borderTopWidth: 1,
     borderTopColor: ArenaColors.neutral.dark,

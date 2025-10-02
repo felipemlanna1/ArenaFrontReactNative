@@ -33,6 +33,7 @@ module.exports = {
       TextInput: '@/components/ui/input (Input)',
       TouchableOpacity: '@/components/ui/button (Button)',
       Pressable: '@/components/ui/button (Button)',
+      Image: '@/components/ui/optimizedImage (OptimizedImage)',
       Card: '@/components/ui/card (Card)',
       Badge: '@/components/ui/badge (Badge)',
       Checkbox: '@/components/ui/checkbox (Checkbox)',
@@ -45,6 +46,7 @@ module.exports = {
       Collapsible: '@/components/ui/accordion (Accordion)',
       Expandable: '@/components/ui/accordion (Accordion)',
       ActivityIndicator: '@/components/ui/sportsLoading (SportsLoading)',
+      RefreshControl: '@/components/ui/refreshControl (ArenaRefreshControl)',
     };
 
     const allowedComponents = [
@@ -70,14 +72,17 @@ module.exports = {
       'Button',
       'Text',
       'Input',
+      'OptimizedImage',
       'Card',
       'Badge',
       'Checkbox',
       'CheckboxGroup',
+      'CardCheckbox',
       'Link',
       'Dropdown',
       'Accordion',
       'SportsLoading',
+      'ArenaRefreshControl',
     ]);
 
     const importedArenaComponents = new Map();
