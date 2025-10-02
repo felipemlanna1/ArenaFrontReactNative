@@ -191,8 +191,6 @@ export const useRegisterScreen = (
         password: formData.password,
         confirmPassword: formData.confirmPassword,
       });
-
-      // Navegação automática para OnboardingSports (novo usuário sempre vai para onboarding)
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {

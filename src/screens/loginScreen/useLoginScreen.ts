@@ -125,8 +125,6 @@ export const useLoginScreen = (
         await storageService.setItem('@arena:remember_me', 'true');
         await storageService.setItem('@arena:saved_email', formData.email);
       }
-
-      // Navegação automática via AppNavigator baseado em userHasSports
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {

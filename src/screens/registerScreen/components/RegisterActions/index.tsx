@@ -9,16 +9,7 @@ export const RegisterActions: React.FC<RegisterActionsProps> = ({
   isLoading,
   onSubmit,
 }) => {
-  console.log('[RegisterActions] Render:', {
-    isFormValid,
-    isLoading,
-    buttonDisabled: !isFormValid || isLoading,
-    onSubmitType: typeof onSubmit,
-  });
-
   const handlePress = React.useCallback(() => {
-    console.log('[RegisterActions] Button clicked!');
-    console.log('[RegisterActions] Calling onSubmit');
     onSubmit();
   }, [onSubmit]);
 
