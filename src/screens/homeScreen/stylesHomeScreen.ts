@@ -17,4 +17,8 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.medium,
     textAlign: 'center',
   },
+  logoutButtonContainer: {
+    marginTop: ArenaSpacing.xl,
+    minWidth: 200,
+  },
 });
