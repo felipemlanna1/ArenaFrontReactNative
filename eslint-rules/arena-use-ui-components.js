@@ -32,6 +32,7 @@ module.exports = {
       Card: '@/components/ui/card (Card)',
       Badge: '@/components/ui/badge (Badge)',
       Checkbox: '@/components/ui/checkbox (Checkbox)',
+      CheckboxGroup: '@/components/ui/checkboxGroup (CheckboxGroup)',
       Link: '@/components/ui/link (Link)',
     };
 
