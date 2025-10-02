@@ -13,6 +13,7 @@ import {
   LoadingSection,
   CheckboxSection,
   LinkSection,
+  DropdownSection,
 } from './components';
 import { styles } from './stylesComponentsShowcaseScreen';
 
@@ -33,6 +34,7 @@ export const ComponentsShowcaseScreen: React.FC<
         <TextComponentsSection onCopyCode={actions.handleCopyCode} />
         <BrandSection onCopyCode={actions.handleCopyCode} />
         <ButtonSection onCopyCode={actions.handleCopyCode} />
+        <DropdownSection onCopyCode={actions.handleCopyCode} />
         <CardSection onCopyCode={actions.handleCopyCode} />
         <InputSection onCopyCode={actions.handleCopyCode} />
         <CheckboxSection onCopyCode={actions.handleCopyCode} />

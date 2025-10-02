@@ -129,4 +129,52 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: ArenaSpacing.sm,
   },
+  dropdownRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: ArenaSpacing.md,
+    paddingVertical: ArenaSpacing.lg,
+  },
+  menuTrigger: {
+    paddingVertical: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.lg,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaSpacing.sm,
+  },
+  profileTrigger: {
+    paddingVertical: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.lg,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaSpacing.sm,
+  },
+  menuIconContainer: {
+    gap: ArenaSpacing.xs,
+  },
+  menuIconBar: {
+    width: 20,
+    height: 2,
+    backgroundColor: ArenaColors.neutral.light,
+  },
+  iconMenuTrigger: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.sm,
+  },
+  buttonTrigger: {
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.xl,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaSpacing.sm,
+    borderWidth: 1,
+    borderColor: ArenaColors.neutral.medium,
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonTriggerText: {
+    color: ArenaColors.text.inverse,
+  },
 });
