@@ -116,4 +116,17 @@ export const styles = StyleSheet.create({
   inputColumn: {
     gap: ArenaSpacing.md,
   },
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: ArenaSpacing.sm,
+    flexWrap: 'wrap',
+  },
+  badgeColumn: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    gap: ArenaSpacing.sm,
+  },
 });

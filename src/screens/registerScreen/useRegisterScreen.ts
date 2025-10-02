@@ -1,7 +1,8 @@
 import { useState, useCallback, useMemo } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
-import { authService, ApiError } from '@/services/auth';
+import { ApiError } from '@/services/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   UseRegisterScreenReturn,
   RegisterFormData,
@@ -53,6 +54,8 @@ const validateUsername = (username: string): string | undefined => {
 export const useRegisterScreen = (
   navigation: RegisterNavigationProp
 ): UseRegisterScreenReturn => {
+  const { signUp } = useAuth();
+
   const [formData, setFormData] = useState<RegisterFormData>({
     firstName: '',
     lastName: '',
@@ -180,7 +183,7 @@ export const useRegisterScreen = (
     setErrors({});
 
     try {
-      await authService.register({
+      await signUp({
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
         username: formData.username.trim(),
@@ -188,8 +191,6 @@ export const useRegisterScreen = (
         password: formData.password,
         confirmPassword: formData.confirmPassword,
       });
-
-      navigation.navigate('ComponentsShowcase');
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {
@@ -221,7 +222,7 @@ export const useRegisterScreen = (
     } finally {
       setIsLoading(false);
     }
-  }, [formData, navigation]);
+  }, [formData, signUp]);
 
   const handleLoginPress = useCallback(() => {
     navigation.navigate('Login');

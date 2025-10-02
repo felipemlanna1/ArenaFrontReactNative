@@ -13,7 +13,7 @@ interface LinkSectionProps {
 export const LinkSection: React.FC<LinkSectionProps> = ({ onCopyCode }) => {
   const BASIC_CODE = `import { Link } from '@/components/ui/link';
 
-<Link onPress={() => console.log('Link pressed')}>
+<Link onPress={handlePress}>
   Este é um link básico
 </Link>`;
 

@@ -135,7 +135,9 @@ class HttpService {
         }
         return config;
       },
-      error => Promise.reject(error)
+      error => {
+        return Promise.reject(error);
+      }
     );
 
     this.client.interceptors.response.use(

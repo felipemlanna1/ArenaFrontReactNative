@@ -1,5 +1,15 @@
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
-import { CheckboxSizeConfig, CheckboxVariantConfig } from './typesCheckbox';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaTypography,
+  ArenaBorders,
+  ArenaShadows,
+} from '@/constants';
+import {
+  CheckboxSizeConfig,
+  CheckboxVariantConfig,
+  CheckboxCardVariantConfig,
+} from './typesCheckbox';
 
 export const checkboxSizes: Record<string, CheckboxSizeConfig> = {
   sm: {
@@ -61,5 +71,32 @@ export const checkboxVariants: Record<string, CheckboxVariantConfig> = {
       checkColor: ArenaColors.disabled.text,
       labelColor: ArenaColors.disabled.text,
     },
+  },
+};
+
+export const checkboxCardVariant: CheckboxCardVariantConfig = {
+  unselected: {
+    backgroundColor: ArenaColors.neutral.dark,
+    borderColor: `${ArenaColors.neutral.medium}4D`,
+    borderWidth: ArenaBorders.width.thin,
+    textColor: ArenaColors.neutral.light,
+    fontSize: ArenaTypography.size.md,
+    fontWeight: ArenaTypography.weight.regular.toString(),
+    boxShadow: ArenaShadows.soft,
+  },
+  selected: {
+    backgroundColor: ArenaColors.neutral.dark,
+    borderColor: ArenaColors.brand.primary,
+    borderWidth: ArenaBorders.width.medium,
+    textColor: ArenaColors.brand.primary,
+    fontSize: ArenaTypography.size.lg,
+    fontWeight: ArenaTypography.weight.semibold.toString(),
+    boxShadow: ArenaShadows.medium,
+  },
+  disabled: {
+    opacity: 0.5,
+    backgroundColor: ArenaColors.disabled.surface,
+    borderColor: ArenaColors.disabled.border,
+    textColor: ArenaColors.disabled.text,
   },
 };

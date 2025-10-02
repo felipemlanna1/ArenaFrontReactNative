@@ -16,7 +16,9 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
   const isInteractionDisabled = disabled || loading;
   const animations = useButtonAnimations(disabled, loading, haptic);
   const handlePress = useCallback(() => {
-    if (isInteractionDisabled) return;
+    if (isInteractionDisabled) {
+      return;
+    }
     onPress();
   }, [isInteractionDisabled, onPress]);
   const computedStyles = useMemo(() => {

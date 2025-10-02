@@ -5,7 +5,8 @@
   "scripts": {
     "start": "expo start --clear",
     "start:dev": "cp .env.development .env && expo start --clear",
-    "start:device": "cp .env.development.device .env && expo start --clear --tunnel",
+    "start:device": "cp .env.development.device .env && rm -rf .expo node_modules/.cache && expo start --clear --tunnel",
+    "start:device:lan": "cp .env.development.device .env && rm -rf .expo node_modules/.cache && expo start --clear --lan",
     "start:mobile": "expo start --clear",
     "start:web": "PLATFORM=web expo start --web --clear",
     "start:prod": "cp .env.production .env && expo start --no-dev --minify --clear",

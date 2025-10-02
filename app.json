@@ -15,7 +15,20 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.arena.app",
-      "jsEngine": "hermes"
+      "jsEngine": "hermes",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSExceptionDomains": {
+            "backsportpulsemobile-961c.onrender.com": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true,
+              "NSExceptionRequiresForwardSecrecy": true,
+              "NSExceptionMinimumTLSVersion": "TLSv1.2"
+            }
+          }
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +38,9 @@
       "edgeToEdgeEnabled": true,
       "jsEngine": "hermes",
       "package": "com.arena.app"
+    },
+    "web": {
+      "bundler": "metro"
     },
     "plugins": [
       [
@@ -40,7 +56,8 @@
     "extra": {
       "eas": {
         "projectId": "arena-project-id"
-      }
+      },
+      "ENVIRONMENT": "development"
     }
   }
 }

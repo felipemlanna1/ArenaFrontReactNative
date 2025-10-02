@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaBorders } from '@/constants';
+import { ArenaBorders, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -19,5 +19,18 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
+  },
+  cardContainer: {
+    width: '100%',
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.lg,
+    borderRadius: ArenaBorders.radius.lg,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardLabel: {
+    textAlign: 'center',
+    includeFontPadding: false,
+    fontFamily: 'Inter-Regular',
   },
 });

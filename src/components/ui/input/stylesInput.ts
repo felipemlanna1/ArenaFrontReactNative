@@ -4,6 +4,7 @@ import {
   ArenaSpacing,
   ArenaTypography,
   ArenaBorders,
+  ArenaShadows,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -23,7 +24,6 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.dark,
     borderWidth: ArenaBorders.width.thin,
     borderColor: `${ArenaColors.neutral.medium}4D`,
-    overflow: 'hidden',
   },
 
   inputContainerFocused: {
@@ -195,6 +195,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.md,
+    overflow: 'hidden',
   },
 
   smContainer: {
@@ -202,6 +203,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.md,
+    overflow: 'hidden',
   },
 
   mdContainer: {
@@ -209,6 +211,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     borderRadius: ArenaBorders.radius.lg,
+    overflow: 'hidden',
   },
 
   lgContainer: {
@@ -216,6 +219,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.xl,
     paddingVertical: ArenaSpacing.lg,
     borderRadius: ArenaBorders.radius.xl,
+    overflow: 'hidden',
   },
 
   xlContainer: {
@@ -223,6 +227,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing['2xl'],
     paddingVertical: ArenaSpacing.xl,
     borderRadius: ArenaBorders.radius.xl,
+    overflow: 'hidden',
   },
 
   xsInput: {
@@ -322,35 +327,14 @@ export const styles = StyleSheet.create({
   xlIcon: {},
 
   shadow: {
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    boxShadow: ArenaShadows.input,
   },
 
   shadowFocused: {
-    shadowColor: ArenaColors.brand.primary,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 4,
+    boxShadow: ArenaShadows.inputFocused,
   },
 
   shadowError: {
-    shadowColor: ArenaColors.semantic.error,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 4,
+    boxShadow: ArenaShadows.errorGlow,
   },
 });

@@ -37,6 +37,30 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     onPress,
   });
 
+  if (variant === 'card') {
+    return (
+      <TouchableOpacity
+        onPress={checkboxLogic.handlePress}
+        disabled={checkboxLogic.isInteractionDisabled}
+        style={[checkboxLogic.computedStyles.container, style]}
+        testID={testID}
+        activeOpacity={0.8}
+        accessibilityRole="checkbox"
+        accessibilityState={{ checked, disabled }}
+        accessibilityLabel={label}
+      >
+        {label && (
+          <Text
+            style={[checkboxLogic.computedStyles.label, labelStyle || {}]}
+            variant="bodyPrimary"
+          >
+            {label}
+          </Text>
+        )}
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <TouchableOpacity
       onPress={checkboxLogic.handlePress}

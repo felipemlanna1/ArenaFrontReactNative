@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaShadows } from '@/constants';
 
 const { height } = Dimensions.get('window');
 
@@ -15,5 +15,6 @@ export const styles = StyleSheet.create({
     width: '135%',
     position: 'absolute',
     bottom: -30,
+    boxShadow: ArenaShadows.backgroundImage,
   },
 });
