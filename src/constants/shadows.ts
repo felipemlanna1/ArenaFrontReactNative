@@ -28,6 +28,9 @@ export const ArenaShadows = {
   inputFocused: '0px 0px 10px 0px rgba(255, 83, 1, 0.3)',
   brandGlow: '0px 0px 12px 0px rgba(255, 83, 1, 0.4)',
   errorGlow: '0px 0px 12px 0px rgba(239, 68, 68, 0.35)',
+
+  // Background images (camadas profundas)
+  backgroundImage: '6px 12px 24px 0px rgba(0, 0, 0, 0.35)',
 } as const;
 
 export type ArenaShadowKey = keyof typeof ArenaShadows;
