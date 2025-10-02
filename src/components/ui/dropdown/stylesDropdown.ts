@@ -64,6 +64,10 @@ export const styles = StyleSheet.create({
   menuItemLabelDestructive: {
     color: ArenaColors.semantic.error,
   },
+  menuItemLabelSubtle: {
+    color: ArenaColors.neutral.medium,
+    fontWeight: ArenaTypography.weight.semibold,
+  },
   separator: {
     height: ArenaBorders.width.thin,
     backgroundColor: ArenaColors.neutral.medium,

@@ -10,6 +10,7 @@ export interface DropdownItem {
   icon?: React.ComponentType<{ size: number; color: string }>;
   disabled?: boolean;
   destructive?: boolean;
+  subtle?: boolean;
 }
 
 export interface DropdownProps {

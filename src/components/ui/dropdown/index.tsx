@@ -77,7 +77,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
                   position === 'top'
                     ? triggerLayout.y - triggerLayout.height - 8
                     : undefined,
-                left: triggerLayout.x,
+                left: variant === 'menu' ? 16 : triggerLayout.x,
+                right: variant === 'menu' ? undefined : undefined,
               },
             ]}
             onStartShouldSetResponder={() => true}
@@ -104,7 +105,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
                         color={
                           item.destructive
                             ? ArenaColors.semantic.error
-                            : ArenaColors.text.inverse
+                            : item.subtle
+                              ? ArenaColors.neutral.medium
+                              : ArenaColors.text.inverse
                         }
                       />
                     </View>
@@ -113,6 +116,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     style={[
                       styles.menuItemLabel,
                       item.destructive && styles.menuItemLabelDestructive,
+                      item.subtle && styles.menuItemLabelSubtle,
                     ]}
                   >
                     {item.label}
