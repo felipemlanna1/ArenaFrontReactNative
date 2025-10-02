@@ -7,13 +7,12 @@ import {
 } from '@/constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    overflow: 'hidden',
-  },
+  container: {},
   default: {
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
+    overflow: 'hidden',
     ...ArenaShadows.card,
   },
   outlined: {
@@ -22,12 +21,14 @@ export const styles = StyleSheet.create({
     borderColor: ArenaColors.neutral.medium,
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
+    overflow: 'hidden',
     ...ArenaShadows.soft,
   },
   elevated: {
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
+    overflow: 'hidden',
     ...ArenaShadows.elevated,
   },
 });

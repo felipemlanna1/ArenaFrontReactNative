@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden',
   },
   containerFullWidth: {
     alignSelf: 'stretch',
@@ -60,22 +59,28 @@ export const styles = StyleSheet.create({
     opacity: 0,
   },
   primaryContainer: {
+    overflow: 'hidden',
     ...ArenaShadows.button,
   },
   secondaryContainer: {
+    overflow: 'hidden',
     borderWidth: 2,
     ...ArenaShadows.soft,
   },
   subtleContainer: {
+    overflow: 'hidden',
     ...ArenaShadows.none,
   },
   destructiveContainer: {
+    overflow: 'hidden',
     ...ArenaShadows.button,
   },
   successContainer: {
+    overflow: 'hidden',
     ...ArenaShadows.button,
   },
   ghostContainer: {
+    overflow: 'hidden',
     ...ArenaShadows.none,
   },
   xsContainer: {
