@@ -11,7 +11,8 @@ export type UserEventStatus =
   | 'ADMIN'
   | 'PARTICIPANT'
   | 'INVITED'
-  | 'REQUESTED';
+  | 'REQUESTED'
+  | 'NONE';
 
 export interface EventLocation {
   address: string;

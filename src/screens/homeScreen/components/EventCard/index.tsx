@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, TextStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/ui/text';
@@ -139,15 +139,17 @@ export const EventCard: React.FC<EventCardProps> = ({
             >
               <Text
                 variant="labelPrimary"
-                style={[
-                  styles.actionButtonText,
-                  actionButton.variant === 'danger'
-                    ? styles.dangerButtonText
-                    : undefined,
-                  actionButton.variant === 'outline'
-                    ? styles.outlineButtonText
-                    : undefined,
-                ]}
+                style={
+                  [
+                    styles.actionButtonText,
+                    actionButton.variant === 'danger'
+                      ? styles.dangerButtonText
+                      : undefined,
+                    actionButton.variant === 'outline'
+                      ? styles.outlineButtonText
+                      : undefined,
+                  ].filter(Boolean) as TextStyle[]
+                }
               >
                 {actionButton.label}
               </Text>
@@ -166,12 +168,14 @@ export const EventCard: React.FC<EventCardProps> = ({
             >
               <Text
                 variant="labelPrimary"
-                style={[
-                  styles.actionButtonText,
-                  secondaryActionButton.variant === 'outline'
-                    ? styles.outlineButtonText
-                    : undefined,
-                ]}
+                style={
+                  [
+                    styles.actionButtonText,
+                    secondaryActionButton.variant === 'outline'
+                      ? styles.outlineButtonText
+                      : undefined,
+                  ].filter(Boolean) as TextStyle[]
+                }
               >
                 {secondaryActionButton.label}
               </Text>
