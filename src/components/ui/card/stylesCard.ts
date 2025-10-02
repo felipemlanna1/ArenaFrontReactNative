@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
     overflow: 'hidden',
-    ...ArenaShadows.card,
+    boxShadow: ArenaShadows.card,
   },
   outlined: {
     backgroundColor: 'transparent',
@@ -22,13 +22,13 @@ export const styles = StyleSheet.create({
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
     overflow: 'hidden',
-    ...ArenaShadows.soft,
+    boxShadow: ArenaShadows.soft,
   },
   elevated: {
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.md,
     padding: ArenaSpacing.md,
     overflow: 'hidden',
-    ...ArenaShadows.elevated,
+    boxShadow: ArenaShadows.elevated,
   },
 });
