@@ -16,4 +16,7 @@ export const styles = StyleSheet.create({
   subtitle: {
     textAlign: 'center',
   },
+  levelsContainer: {
+    flex: 1,
+  },
 });

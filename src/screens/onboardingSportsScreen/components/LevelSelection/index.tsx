@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { CheckboxGroup } from '@/components/ui/checkboxGroup';
+import { LevelCard } from '../LevelCard';
 import { SkillLevel } from '@/types/sport';
 import { styles } from './stylesLevelSelection';
 
@@ -34,12 +34,17 @@ export const LevelSelection: React.FC<LevelSelectionProps> = ({
         </Text>
       </View>
 
-      <CheckboxGroup
-        multiSelect={false}
-        options={levelOptions}
-        value={selectedLevel || ''}
-        onChange={value => onSelectLevel(value as SkillLevel)}
-      />
+      <View style={styles.levelsContainer}>
+        {levelOptions.map(option => (
+          <LevelCard
+            key={option.value}
+            level={option.value}
+            label={option.label}
+            isSelected={selectedLevel === option.value}
+            onPress={() => onSelectLevel(option.value)}
+          />
+        ))}
+      </View>
     </View>
   );
 };
