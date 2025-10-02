@@ -44,6 +44,7 @@ module.exports = {
       Accordion: '@/components/ui/accordion (Accordion)',
       Collapsible: '@/components/ui/accordion (Accordion)',
       Expandable: '@/components/ui/accordion (Accordion)',
+      ActivityIndicator: '@/components/ui/sportsLoading (SportsLoading)',
     };
 
     const allowedComponents = [
@@ -55,7 +56,6 @@ module.exports = {
       'KeyboardAvoidingView',
       'SafeAreaView',
       'StatusBar',
-      'ActivityIndicator',
       'Modal',
       'Alert',
       'Platform',
@@ -77,6 +77,7 @@ module.exports = {
       'Link',
       'Dropdown',
       'Accordion',
+      'SportsLoading',
     ]);
 
     const importedArenaComponents = new Map();
