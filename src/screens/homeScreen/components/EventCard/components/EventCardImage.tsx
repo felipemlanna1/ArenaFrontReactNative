@@ -43,13 +43,13 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
     </View>
   );
 
-  const distanceBadge = distance !== undefined ? (
+  const distanceBadge = (
     <View style={styles.distanceBadge}>
       <Text variant="labelPrimary" style={styles.distanceText}>
-        {formatDistance(distance)}
+        {distance !== undefined ? formatDistance(distance) : '--'}
       </Text>
     </View>
-  ) : null;
+  );
 
   if (coverImage) {
     return (

@@ -5,7 +5,8 @@ import { ptBR } from 'date-fns/locale';
 export const useEventCard = () => {
   const formatDate = useCallback((dateString: string): string => {
     const date = parseISO(dateString);
-    return format(date, 'EEE, dd MMM', { locale: ptBR });
+    const formatted = format(date, 'EEE, dd MMM', { locale: ptBR });
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   }, []);
 
   const formatTime = useCallback((dateString: string): string => {
@@ -23,8 +24,7 @@ export const useEventCard = () => {
     []
   );
 
-  const formatDistance = useCallback((distance?: number): string => {
-    if (!distance) return '';
+  const formatDistance = useCallback((distance: number): string => {
     if (distance < 1) return `${Math.round(distance * 1000)}m`;
     return `${distance.toFixed(1)}km`;
   }, []);

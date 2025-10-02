@@ -98,7 +98,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           <TouchableOpacity onPress={handleShare} testID={`${testID}-share`}>
             <Ionicons
               name="share-outline"
-              size={18}
+              size={24}
               color={ArenaColors.brand.primary}
             />
           </TouchableOpacity>
