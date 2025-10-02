@@ -10,6 +10,7 @@ export type TextVariant =
   | 'titleAccent'
   | 'bodyPrimary'
   | 'bodySecondary'
+  | 'bodyBold'
   | 'bodyMuted'
   | 'bodyError'
   | 'bodySuccess'

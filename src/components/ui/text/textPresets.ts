@@ -72,6 +72,14 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 0,
     color: 'secondary',
   },
+  bodyBold: {
+    size: 'md',
+    weight: 'bold',
+    family: 'body',
+    lineHeight: 'comfortable',
+    letterSpacing: 0,
+    color: 'primary',
+  },
   bodyMuted: {
     size: 'md',
     weight: 'regular',
