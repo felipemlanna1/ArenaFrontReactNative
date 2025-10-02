@@ -86,6 +86,9 @@ module.exports = {
       borderBottomWidth: 'ArenaBorders.width',
       borderLeftWidth: 'ArenaBorders.width',
       borderRightWidth: 'ArenaBorders.width',
+
+      // Shadows
+      boxShadow: 'ArenaShadows',
     };
 
     function checkPropertyValue(node, property, value) {
