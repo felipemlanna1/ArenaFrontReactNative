@@ -13,11 +13,11 @@ import {
 
 export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
   default: {
-    backgroundColor: ArenaColors.neutral.dark,
-    borderColor: ArenaColors.neutral.mediumSubtle30,
-    textColor: ArenaColors.neutral.light,
+    backgroundColor: ArenaColors.neutral.lighter,
+    borderColor: ArenaColors.neutral.medium,
+    textColor: ArenaColors.text.primary,
     placeholderColor: ArenaColors.neutral.mediumSubtle60,
-    labelColor: ArenaColors.neutral.light,
+    labelColor: ArenaColors.text.primary,
     helperTextColor: ArenaColors.neutral.mediumSubtle80,
     iconColor: ArenaColors.neutral.medium,
     focusBorderColor: ArenaColors.brand.primary,

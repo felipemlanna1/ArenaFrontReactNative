@@ -20,11 +20,11 @@ interface Styles {
 
 export const styles = StyleSheet.create<Styles>({
   container: {
-    backgroundColor: ArenaColors.neutral.lighter,
+    backgroundColor: ArenaColors.neutral.dark,
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     borderBottomWidth: ArenaBorders.width.thin,
-    borderBottomColor: ArenaColors.neutral.medium,
+    borderBottomColor: ArenaColors.neutral.darkest,
   },
   content: {
     flexDirection: 'row',
