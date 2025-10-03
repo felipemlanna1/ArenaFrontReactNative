@@ -49,7 +49,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <Button
           variant="ghost"
-          size="sm"
+          size="xs"
           iconOnly
           onPress={onSortPress}
           testID={`${testID}-sort-button`}
@@ -67,7 +67,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <Button
           variant="ghost"
-          size="sm"
+          size="xs"
           iconOnly
           onPress={onFilterPress}
           testID={`${testID}-filter-button`}
