@@ -74,6 +74,7 @@ export const SortModal: React.FC<SortModalProps> = ({
                     checked={selectedSort === option.id}
                     onPress={() => setSelectedSort(option.id)}
                     label={option.label}
+                    variant="card"
                     size="md"
                     testID={`${testID}-option-${option.id}`}
                   />
