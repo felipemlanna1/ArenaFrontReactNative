@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     paddingBottom: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: { width: 0, height: ArenaSpacing.xs },
     shadowOpacity: 0.45,
     shadowRadius: 12,
     elevation: 12,
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    minHeight: 56,
+    minHeight: ArenaSpacing['5xl'],
   },
   leftSection: {
     flexDirection: 'row',
@@ -65,8 +65,8 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.darkest,
   },
   avatar: {
-    width: 32,
-    height: 32,
+    width: ArenaSpacing['3xl'],
+    height: ArenaSpacing['3xl'],
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
     alignItems: 'center',
@@ -85,8 +85,8 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   menuIconBar: {
-    width: 20,
-    height: 2,
+    width: ArenaSpacing.xl,
+    height: ArenaSpacing.micro,
     backgroundColor: ArenaColors.text.inverse,
   },
   menuButton: {

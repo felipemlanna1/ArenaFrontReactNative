@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.lg,
-    minHeight: 56,
+    minHeight: ArenaSpacing['5xl'],
   },
   headerPressed: {
     backgroundColor: ArenaColors.interaction.pressed.surface,

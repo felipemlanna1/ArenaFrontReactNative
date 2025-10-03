@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import { AppIcon } from './index';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 describe('AppIcon', () => {
   it('should render correctly with default props', () => {
     const { getByTestId } = render(<AppIcon testID="app-icon" />);
@@ -26,7 +27,7 @@ describe('AppIcon', () => {
     );
   });
   it('should handle array of styles', () => {
-    const styles = [{ opacity: 0.5 }, { margin: 10 }];
+    const styles = [{ opacity: 0.5 }, { margin: ArenaSpacing.sm }];
     const { getByTestId } = render(
       <AppIcon style={styles} testID="app-icon" />
     );
@@ -39,7 +40,7 @@ describe('AppIcon', () => {
     expect(iconComponent.props.style).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          backgroundColor: '#FF5301',
+          backgroundColor: ArenaColors.brand.primary,
         }),
       ])
     );
