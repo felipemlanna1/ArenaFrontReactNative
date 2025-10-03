@@ -37,7 +37,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             onBlur={handleSearchBlur}
             placeholder={placeholder}
             type="search"
-            size="md"
+            size="sm"
             clearable
             leftIcon={({ size, color }) => (
               <Ionicons name="search-outline" size={size} color={color} />

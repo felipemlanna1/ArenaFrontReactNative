@@ -27,7 +27,7 @@ export const styles = StyleSheet.create<Styles>({
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.sm,
+    gap: ArenaSpacing.xs,
   },
   searchContainer: {
     flex: 1,
