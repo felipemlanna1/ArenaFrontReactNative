@@ -23,7 +23,7 @@ interface Styles {
 export const styles = StyleSheet.create<Styles>({
   container: {
     width: '100%',
-    height: 120,
+    height: ArenaSpacing['7.5xl'],
     overflow: 'hidden',
     borderTopLeftRadius: ArenaBorders.radius.lg,
     borderTopRightRadius: ArenaBorders.radius.lg,
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   fallbackContainer: {
     width: '100%',
-    height: 120,
+    height: ArenaSpacing['7.5xl'],
     justifyContent: 'center',
     alignItems: 'center',
     borderTopLeftRadius: ArenaBorders.radius.lg,
@@ -43,8 +43,8 @@ export const styles = StyleSheet.create<Styles>({
     position: 'relative',
   },
   fallbackIcon: {
-    width: 60,
-    height: 60,
+    width: ArenaSpacing['6.5xl'],
+    height: ArenaSpacing['6.5xl'],
   },
   priceBadge: {
     position: 'absolute',

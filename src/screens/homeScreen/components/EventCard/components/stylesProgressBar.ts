@@ -21,7 +21,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   barContainer: {
     flex: 1,
-    height: 4,
+    height: ArenaSpacing.xs,
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.pill,
     overflow: 'hidden',
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create<Styles>({
     color: ArenaColors.text.inverse,
     fontSize: ArenaTypography.size.sm,
     fontWeight: ArenaTypography.weight.semibold,
-    minWidth: 40,
+    minWidth: ArenaSpacing['4xl'],
     textAlign: 'right',
   },
 });

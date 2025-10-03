@@ -45,17 +45,17 @@ const MyScreen = () => {
 
 ## Props
 
-| Prop            | Tipo                    | Obrigatório | Padrão      | Descrição                           |
-| --------------- | ----------------------- | ----------- | ----------- | ----------------------------------- |
-| searchValue     | string                  | Sim         | -           | Valor do input de pesquisa          |
-| onSearchChange  | (value: string) => void | Sim         | -           | Callback ao mudar texto de pesquisa |
-| onSortPress     | () => void              | Sim         | -           | Callback ao pressionar ordenação    |
-| onFilterPress   | () => void              | Sim         | -           | Callback ao pressionar filtros      |
-| sortOrder       | 'asc' \| 'desc'         | Não         | 'desc'      | Ordem de classificação atual        |
-| sortField       | SortField               | Não         | -           | Campo de ordenação                  |
-| filterCount     | number                  | Não         | 0           | Quantidade de filtros ativos        |
-| placeholder     | string                  | Não         | 'Buscar...' | Placeholder do input                |
-| testID          | string                  | Não         | -           | ID para testes                      |
+| Prop           | Tipo                    | Obrigatório | Padrão      | Descrição                           |
+| -------------- | ----------------------- | ----------- | ----------- | ----------------------------------- |
+| searchValue    | string                  | Sim         | -           | Valor do input de pesquisa          |
+| onSearchChange | (value: string) => void | Sim         | -           | Callback ao mudar texto de pesquisa |
+| onSortPress    | () => void              | Sim         | -           | Callback ao pressionar ordenação    |
+| onFilterPress  | () => void              | Sim         | -           | Callback ao pressionar filtros      |
+| sortOrder      | 'asc' \| 'desc'         | Não         | 'desc'      | Ordem de classificação atual        |
+| sortField      | SortField               | Não         | -           | Campo de ordenação                  |
+| filterCount    | number                  | Não         | 0           | Quantidade de filtros ativos        |
+| placeholder    | string                  | Não         | 'Buscar...' | Placeholder do input                |
+| testID         | string                  | Não         | -           | ID para testes                      |
 
 ## Hooks
 

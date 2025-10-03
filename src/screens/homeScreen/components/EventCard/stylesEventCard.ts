@@ -36,10 +36,10 @@ export const styles = StyleSheet.create<Styles>({
     borderRadius: ArenaBorders.radius.lg,
     marginBottom: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: ArenaSpacing.none, height: ArenaSpacing.xs },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowRadius: ArenaSpacing.sm,
+    elevation: ArenaSpacing.sm,
     overflow: 'hidden',
   },
   contentContainer: {
@@ -104,7 +104,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   actionButton: {
     flex: 1,
-    height: 32,
+    height: ArenaSpacing['3xl'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -133,7 +133,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   viewButton: {
     flex: 1,
-    height: 32,
+    height: ArenaSpacing['3xl'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
