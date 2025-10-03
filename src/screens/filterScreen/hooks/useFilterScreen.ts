@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { UseFilterScreenReturn } from '../typesFilterScreen';
 import { useFilterState } from './useFilterState';
+import { useUserLocation } from './useUserLocation';
 import {
   transformToAPIFilters,
   transformFromAPIFilters,
@@ -18,6 +19,8 @@ export const useFilterScreen = ({
 }: UseFilterScreenProps): UseFilterScreenReturn => {
   const [isApplying, setIsApplying] = useState(false);
 
+  const { city, state } = useUserLocation();
+
   const initialStateFilters = useMemo(
     () => transformFromAPIFilters(currentFilters),
     [currentFilters]
@@ -30,6 +33,15 @@ export const useFilterScreen = ({
     clearFilters,
     filterCount,
   } = useFilterState({ initialFilters: initialStateFilters });
+
+  useEffect(() => {
+    if (city && !filters.city) {
+      updateFilter('city', city);
+    }
+    if (state && !filters.state) {
+      updateFilter('state', state);
+    }
+  }, [city, state, filters.city, filters.state, updateFilter]);
 
   const applyFilters = useCallback(async () => {
     try {
