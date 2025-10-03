@@ -1,11 +1,21 @@
 import { StyleSheet } from 'react-native';
+import { ArenaSpacing } from '@/constants';
 export const logoSizes = {
-  xs: { width: 60, height: 16 },
-  sm: { width: 90, height: 24 },
-  md: { width: 120, height: 32 },
-  lg: { width: 180, height: 48 },
-  xl: { width: 240, height: 64 },
-  xxl: { width: 360, height: 96 },
+  xs: { width: ArenaSpacing['6xl'] - ArenaSpacing.xs, height: ArenaSpacing.lg },
+  sm: {
+    width: ArenaSpacing['8xl'] - ArenaSpacing.xs,
+    height: ArenaSpacing['2xl'],
+  },
+  md: { width: ArenaSpacing['9xl'], height: ArenaSpacing['3xl'] },
+  lg: {
+    width: ArenaSpacing['10xl'] + ArenaSpacing.xl,
+    height: ArenaSpacing['5xl'],
+  },
+  xl: { width: ArenaSpacing['12xl'], height: ArenaSpacing['6xl'] },
+  xxl: {
+    width: ArenaSpacing['15xl'] + ArenaSpacing['4xl'],
+    height: ArenaSpacing['8xl'],
+  },
 };
 export const styles = StyleSheet.create({
   container: {

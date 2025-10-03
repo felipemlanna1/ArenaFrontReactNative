@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { ArenaSpacing } from '@/constants';
 export const symbolSizes = {
-  xs: { width: 16, height: 16 },
-  sm: { width: 24, height: 24 },
-  md: { width: 32, height: 32 },
-  lg: { width: 48, height: 48 },
-  xl: { width: 64, height: 64 },
-  xxl: { width: 96, height: 96 },
+  xs: { width: ArenaSpacing.lg, height: ArenaSpacing.lg },
+  sm: { width: ArenaSpacing['2xl'], height: ArenaSpacing['2xl'] },
+  md: { width: ArenaSpacing['3xl'], height: ArenaSpacing['3xl'] },
+  lg: { width: ArenaSpacing['5xl'], height: ArenaSpacing['5xl'] },
+  xl: { width: ArenaSpacing['6xl'], height: ArenaSpacing['6xl'] },
+  xxl: { width: ArenaSpacing['8xl'], height: ArenaSpacing['8xl'] },
 };
 export const styles = StyleSheet.create({
   container: {

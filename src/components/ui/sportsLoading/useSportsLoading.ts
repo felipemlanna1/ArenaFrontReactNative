@@ -23,44 +23,36 @@ import { styles } from './stylesSportsLoading';
 const getSizeConfig = (
   size: SportsLoadingSize
 ): Pick<SportsLoadingConfig, 'iconSize' | 'spacing' | 'containerPadding'> => {
-  if (!ArenaSpacing) {
-    return {
-      iconSize: 32,
-      spacing: 12,
-      containerPadding: 12,
-    };
-  }
-
   switch (size) {
     case 'xs':
       return {
-        iconSize: 20,
-        spacing: ArenaSpacing.xs || 4,
-        containerPadding: ArenaSpacing.xs || 4,
+        iconSize: ArenaSpacing.xl,
+        spacing: ArenaSpacing.xs,
+        containerPadding: ArenaSpacing.xs,
       };
     case 'sm':
       return {
-        iconSize: 24,
-        spacing: ArenaSpacing.sm || 8,
-        containerPadding: ArenaSpacing.sm || 8,
+        iconSize: ArenaSpacing['2xl'],
+        spacing: ArenaSpacing.sm,
+        containerPadding: ArenaSpacing.sm,
       };
     case 'lg':
       return {
-        iconSize: 48,
-        spacing: ArenaSpacing.lg || 16,
-        containerPadding: ArenaSpacing.lg || 16,
+        iconSize: ArenaSpacing['5xl'],
+        spacing: ArenaSpacing.lg,
+        containerPadding: ArenaSpacing.lg,
       };
     case 'xl':
       return {
-        iconSize: 64,
-        spacing: ArenaSpacing.xl || 20,
-        containerPadding: ArenaSpacing.xl || 20,
+        iconSize: ArenaSpacing['6xl'],
+        spacing: ArenaSpacing.xl,
+        containerPadding: ArenaSpacing.xl,
       };
     default:
       return {
-        iconSize: 32,
-        spacing: ArenaSpacing.md || 12,
-        containerPadding: ArenaSpacing.md || 12,
+        iconSize: ArenaSpacing['3xl'],
+        spacing: ArenaSpacing.md,
+        containerPadding: ArenaSpacing.md,
       };
   }
 };
@@ -100,13 +92,13 @@ export const useSportsLoading = ({
       ...(orientation === 'horizontal'
         ? styles.horizontalContainer
         : styles.verticalContainer),
-      padding: config?.containerPadding || 12,
-      gap: config?.spacing || 12,
+      padding: config?.containerPadding || ArenaSpacing.md,
+      gap: config?.spacing || ArenaSpacing.md,
     };
   }, [orientation, config?.containerPadding, config?.spacing]);
 
   const iconContainerStyle = useMemo((): ViewStyle => {
-    const iconSize = config?.iconSize || 32;
+    const iconSize = config?.iconSize || ArenaSpacing['3xl'];
     return {
       ...styles.iconContainer,
       width: iconSize,
@@ -195,7 +187,7 @@ export const useSportsLoading = ({
     scale4,
   ]);
 
-  const iconSize = config?.iconSize || 32;
+  const iconSize = config?.iconSize || ArenaSpacing['3xl'];
 
   const icon0Style = useAnimatedStyle(() => ({
     width: iconSize,

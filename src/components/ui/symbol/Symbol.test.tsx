@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import { Symbol } from './index';
+import { ArenaSpacing } from '@/constants';
 describe('Symbol', () => {
   it('should render correctly with default props', () => {
     const { getByTestId } = render(<Symbol testID="symbol" />);
@@ -47,7 +48,7 @@ describe('Symbol', () => {
     );
   });
   it('should handle array of styles', () => {
-    const styles = [{ backgroundColor: 'red' }, { padding: 10 }];
+    const styles = [{ backgroundColor: 'red' }, { padding: ArenaSpacing.sm }];
     const { getByTestId } = render(<Symbol style={styles} testID="symbol" />);
     const symbolComponent = getByTestId('symbol');
     expect(symbolComponent.props.style).toEqual(expect.arrayContaining(styles));
