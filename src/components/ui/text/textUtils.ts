@@ -62,6 +62,22 @@ export const getLineHeight = (
   return ArenaTypography.lineHeight[lineHeight];
 };
 
+export const getLetterSpacing = (
+  letterSpacing:
+    | number
+    | 'tighter'
+    | 'tight'
+    | 'normal'
+    | 'wide'
+    | 'wider'
+    | 'widest'
+): number => {
+  if (typeof letterSpacing === 'number') {
+    return letterSpacing;
+  }
+  return ArenaTypography.letterSpacing[letterSpacing];
+};
+
 export const getTextColor = (color: TextColor): string => {
   return COLOR_MAP[color];
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { Text } from '../index';
+import { ArenaSpacing } from '@/constants';
 describe('Text Component', () => {
   describe('Renderização Básica', () => {
     it('deve renderizar corretamente com variant obrigatória', () => {
@@ -105,7 +106,7 @@ describe('Text Component', () => {
       ).toBeTruthy();
     });
     it('deve aceitar style customizado', () => {
-      const customStyle = { marginTop: 20 };
+      const customStyle = { marginTop: ArenaSpacing.xl };
       const { getByText } = render(
         <Text variant="bodyPrimary" style={customStyle}>
           Styled text

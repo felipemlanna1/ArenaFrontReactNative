@@ -12,6 +12,7 @@ import {
   getFontWeight,
   getFontFamily,
   getLineHeight,
+  getLetterSpacing,
   getTextColor,
 } from './textUtils';
 export const useText = (input: UseTextInput): UseTextReturn => {
@@ -37,7 +38,7 @@ export const useText = (input: UseTextInput): UseTextReturn => {
       fontWeight: getFontWeight(resolvedWeight),
       fontFamily: getFontFamily(resolvedFamily, resolvedWeight),
       lineHeight: getFontSize(resolvedSize) * getLineHeight(resolvedLineHeight),
-      letterSpacing: resolvedLetterSpacing,
+      letterSpacing: getLetterSpacing(resolvedLetterSpacing),
       color: getTextColor(resolvedColor || 'primary'),
       textAlign: resolvedAlign,
       textTransform: resolvedTransform,

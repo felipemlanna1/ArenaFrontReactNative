@@ -59,7 +59,14 @@ export interface TextVariantPreset {
   weight: TextWeight;
   family: TextFamily;
   lineHeight: 'tight' | 'comfortable' | 'relaxed' | 'loose';
-  letterSpacing: number;
+  letterSpacing:
+    | number
+    | 'tighter'
+    | 'tight'
+    | 'normal'
+    | 'wide'
+    | 'wider'
+    | 'widest';
   color?: TextColor;
 }
 export type TextVariantPresets = Record<TextVariant, TextVariantPreset>;

@@ -5,7 +5,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'bold',
     family: 'heading',
     lineHeight: 'tight',
-    letterSpacing: -0.5,
+    letterSpacing: 'tighter',
     color: 'primary',
   },
   displayAccent: {
@@ -13,7 +13,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'bold',
     family: 'heading',
     lineHeight: 'tight',
-    letterSpacing: -0.5,
+    letterSpacing: 'tighter',
     color: 'accent',
   },
   headingPrimary: {
@@ -21,7 +21,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'semibold',
     family: 'heading',
     lineHeight: 'tight',
-    letterSpacing: -0.25,
+    letterSpacing: 'tight',
     color: 'primary',
   },
   headingAccent: {
@@ -29,7 +29,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'semibold',
     family: 'heading',
     lineHeight: 'tight',
-    letterSpacing: -0.25,
+    letterSpacing: 'tight',
     color: 'accent',
   },
   titlePrimary: {
@@ -37,7 +37,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'semibold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'primary',
   },
   titleSecondary: {
@@ -45,7 +45,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'semibold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'secondary',
   },
   titleAccent: {
@@ -53,7 +53,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'bold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'accent',
   },
   titleAccentBold: {
@@ -61,7 +61,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'bold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'accent',
   },
   bodyPrimary: {
@@ -69,7 +69,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'primary',
   },
   bodySecondary: {
@@ -77,7 +77,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'secondary',
   },
   bodyBold: {
@@ -85,7 +85,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'bold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'primary',
   },
   bodyBoldAccent: {
@@ -93,7 +93,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'bold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'accent',
   },
   bodyMuted: {
@@ -101,7 +101,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'muted',
   },
   bodyError: {
@@ -109,7 +109,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'error',
   },
   bodySuccess: {
@@ -117,7 +117,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'success',
   },
   bodyAccent: {
@@ -125,7 +125,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'semibold',
     family: 'body',
     lineHeight: 'comfortable',
-    letterSpacing: 0,
+    letterSpacing: 'normal',
     color: 'accent',
   },
   captionSecondary: {
@@ -133,7 +133,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'relaxed',
-    letterSpacing: 0.25,
+    letterSpacing: 0.5,
     color: 'secondary',
   },
   captionMuted: {
@@ -141,7 +141,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'relaxed',
-    letterSpacing: 0.25,
+    letterSpacing: 0.5,
     color: 'muted',
   },
   captionError: {
@@ -149,7 +149,7 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     weight: 'regular',
     family: 'body',
     lineHeight: 'relaxed',
-    letterSpacing: 0.25,
+    letterSpacing: 0.5,
     color: 'error',
   },
   labelPrimary: {
