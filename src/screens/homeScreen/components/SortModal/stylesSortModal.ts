@@ -22,9 +22,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: ArenaSpacing.sm,
   },
-  closeButton: {
-    padding: ArenaSpacing.xs,
-  },
   section: {
     gap: ArenaSpacing.sm,
   },

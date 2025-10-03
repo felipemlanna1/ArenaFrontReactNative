@@ -10,10 +10,6 @@ interface Styles {
   container: ViewStyle;
   content: ViewStyle;
   searchContainer: ViewStyle;
-  searchContainerFocused: ViewStyle;
-  searchIcon: ViewStyle;
-  searchInput: TextStyle;
-  clearButton: ViewStyle;
   actionButton: ViewStyle;
   actionButtonPressed: ViewStyle;
   filterBadge: ViewStyle;
@@ -35,32 +31,6 @@ export const styles = StyleSheet.create<Styles>({
   },
   searchContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderRadius: ArenaBorders.radius.pill,
-    paddingHorizontal: ArenaSpacing.md,
-    paddingVertical: ArenaSpacing.sm,
-    borderWidth: ArenaBorders.width.thin,
-    borderColor: 'transparent',
-  },
-  searchContainerFocused: {
-    borderColor: ArenaColors.brand.primary,
-  },
-  searchIcon: {
-    marginRight: ArenaSpacing.sm,
-  },
-  searchInput: {
-    flex: 1,
-    color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.md,
-    fontFamily: ArenaTypography.fontFamily.regular,
-    padding: ArenaSpacing.none,
-    margin: ArenaSpacing.none,
-  },
-  clearButton: {
-    padding: ArenaSpacing.xs,
-    marginLeft: ArenaSpacing.xs,
   },
   actionButton: {
     width: ArenaSpacing['4xl'],

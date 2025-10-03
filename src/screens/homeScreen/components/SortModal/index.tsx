@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Modal,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -53,18 +48,19 @@ export const SortModal: React.FC<SortModalProps> = ({
             <View style={styles.modalContent}>
               <View style={styles.header}>
                 <Text variant="headingPrimary">Ordenar por</Text>
-                <TouchableOpacity
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  iconOnly
                   onPress={onClose}
                   testID={`${testID}-close`}
-                  style={styles.closeButton}
-                  activeOpacity={0.7}
                 >
                   <Ionicons
                     name="close"
                     size={24}
                     color={ArenaColors.neutral.light}
                   />
-                </TouchableOpacity>
+                </Button>
               </View>
 
               <View style={styles.section}>

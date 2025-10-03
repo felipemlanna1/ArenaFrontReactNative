@@ -1,8 +1,9 @@
 import React from 'react';
-// eslint-disable-next-line arena/arena-use-ui-components
-import { View, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ArenaColors } from '@/constants';
 import { FilterBarProps } from './typesFilterBar';
 import { useFilterBar } from './useFilterBar';
@@ -18,93 +19,74 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   placeholder = 'Buscar...',
   testID = 'filter-bar',
 }) => {
-  const { handleSearchClear, handleSearchFocus, handleSearchBlur, isFocused } =
-    useFilterBar({
-      searchValue,
-      onSearchChange,
-      onSortPress,
-      onFilterPress,
-    });
+  const { handleSearchFocus, handleSearchBlur } = useFilterBar({
+    searchValue,
+    onSearchChange,
+    onSortPress,
+    onFilterPress,
+  });
 
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.content}>
-        <View
-          style={[
-            styles.searchContainer,
-            isFocused && styles.searchContainerFocused,
-          ]}
-        >
-          <Ionicons
-            name="search-outline"
-            size={20}
-            color={ArenaColors.neutral.medium}
-            style={styles.searchIcon}
-          />
-          <TextInput
+        <View style={styles.searchContainer}>
+          <Input
             value={searchValue}
             onChangeText={onSearchChange}
             onFocus={handleSearchFocus}
             onBlur={handleSearchBlur}
             placeholder={placeholder}
-            placeholderTextColor={ArenaColors.neutral.medium}
-            style={styles.searchInput}
-            returnKeyType="search"
+            type="search"
+            size="md"
+            clearable
+            leftIcon={({ size, color }) => (
+              <Ionicons name="search-outline" size={size} color={color} />
+            )}
             testID={`${testID}-search-input`}
+            fullWidth
           />
-          {searchValue.length > 0 && (
-            <TouchableOpacity
-              onPress={handleSearchClear}
-              style={styles.clearButton}
-              testID={`${testID}-clear-button`}
-            >
-              <Ionicons
-                name="close-circle"
-                size={18}
-                color={ArenaColors.neutral.medium}
-              />
-            </TouchableOpacity>
-          )}
         </View>
 
-        <Pressable
+        <Button
+          variant="ghost"
+          size="sm"
+          iconOnly
           onPress={onSortPress}
-          style={({ pressed }) => [
-            styles.actionButton,
-            pressed && styles.actionButtonPressed,
-          ]}
           testID={`${testID}-sort-button`}
         >
-          <Ionicons
-            name={
-              sortOrder === 'asc' ? 'arrow-up-outline' : 'arrow-down-outline'
-            }
-            size={20}
-            color={ArenaColors.text.inverse}
-          />
-        </Pressable>
+          <View style={styles.actionButton}>
+            <Ionicons
+              name={
+                sortOrder === 'asc' ? 'arrow-up-outline' : 'arrow-down-outline'
+              }
+              size={20}
+              color={ArenaColors.text.inverse}
+            />
+          </View>
+        </Button>
 
-        <Pressable
+        <Button
+          variant="ghost"
+          size="sm"
+          iconOnly
           onPress={onFilterPress}
-          style={({ pressed }) => [
-            styles.actionButton,
-            pressed && styles.actionButtonPressed,
-          ]}
           testID={`${testID}-filter-button`}
         >
-          <Ionicons
-            name="options-outline"
-            size={20}
-            color={ArenaColors.text.inverse}
-          />
-          {filterCount > 0 && (
-            <View style={styles.filterBadge}>
-              <Text variant="labelPrimary" style={styles.filterBadgeText}>
-                {filterCount}
-              </Text>
-            </View>
-          )}
-        </Pressable>
+          <View style={styles.actionButton}>
+            <Ionicons
+              name="options-outline"
+              size={20}
+              color={ArenaColors.text.inverse}
+            />
+            {filterCount > 0 && (
+              <View style={styles.filterBadge}>
+                <Text variant="labelPrimary" style={styles.filterBadgeText}>
+                  {filterCount}
+                </Text>
+              </View>
+            )}
+          </View>
+        </Button>
       </View>
     </View>
   );

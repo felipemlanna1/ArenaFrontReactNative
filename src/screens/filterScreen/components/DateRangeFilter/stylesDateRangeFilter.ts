@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaSpacing,
-  ArenaColors,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaSpacing, ArenaColors, ArenaTypography } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -33,18 +28,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: ArenaSpacing.xs,
-  },
-  shortcutButton: {
-    paddingVertical: ArenaSpacing.xs,
-    paddingHorizontal: ArenaSpacing.sm,
-    borderRadius: ArenaBorders.radius.sm,
-    backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: 1,
-    borderColor: ArenaColors.neutral.medium,
-  },
-  shortcutButtonActive: {
-    backgroundColor: ArenaColors.brand.primary,
-    borderColor: ArenaColors.brand.primary,
   },
   clearButtonWrapper: {
     marginTop: ArenaSpacing.xs,

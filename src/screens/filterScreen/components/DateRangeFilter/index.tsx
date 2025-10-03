@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Platform } from 'react-native';
+import { View, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
@@ -87,14 +87,15 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
         </Text>
         <View style={styles.shortcutsRow}>
           {DATE_SHORTCUTS.map(shortcut => (
-            <TouchableOpacity
+            <Button
               key={shortcut.id}
-              style={styles.shortcutButton}
+              variant="outline-light"
+              size="xs"
               onPress={() => handleQuickDateSelect(shortcut.id)}
               testID={`${testID}-shortcut-${shortcut.id}`}
             >
-              <Text variant="bodySecondary">{shortcut.label}</Text>
-            </TouchableOpacity>
+              {shortcut.label}
+            </Button>
           ))}
         </View>
       </View>

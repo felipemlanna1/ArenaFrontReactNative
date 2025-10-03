@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { View, TouchableOpacity, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   ActiveFiltersBarProps,
@@ -43,13 +44,14 @@ export const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
         <Text variant="bodySecondary">
           {filterCount} {filterCount === 1 ? 'filtro ativo' : 'filtros ativos'}
         </Text>
-        <TouchableOpacity
+        <Button
+          variant="ghost"
+          size="xs"
           onPress={onClearAll}
-          style={styles.clearAllButton}
           testID={`${testID}-clear-all`}
         >
-          <Text variant="bodyPrimary">Limpar tudo</Text>
-        </TouchableOpacity>
+          Limpar tudo
+        </Button>
       </View>
 
       <View style={styles.chipsContainer}>

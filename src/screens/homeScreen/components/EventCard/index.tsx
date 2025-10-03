@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/ui/text';
@@ -113,13 +113,19 @@ export const EventCard: React.FC<EventCardProps> = ({
               {event.location.city}
             </Text>
           </View>
-          <TouchableOpacity onPress={handleShare} testID={`${testID}-share`}>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            onPress={handleShare}
+            testID={`${testID}-share`}
+          >
             <Ionicons
               name="share-outline"
               size={24}
               color={ArenaColors.brand.primary}
             />
-          </TouchableOpacity>
+          </Button>
         </View>
 
         <View style={styles.dateTimeRow}>
