@@ -47,46 +47,50 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           />
         </View>
 
-        <Button
-          variant="ghost"
-          size="xs"
-          iconOnly
-          onPress={onSortPress}
-          testID={`${testID}-sort-button`}
-        >
-          <View style={styles.actionButton}>
-            <Ionicons
-              name={
-                sortOrder === 'asc' ? 'arrow-up-outline' : 'arrow-down-outline'
-              }
-              size={20}
-              color={ArenaColors.text.inverse}
-            />
-          </View>
-        </Button>
+        <View style={styles.buttonsContainer}>
+          <Button
+            variant="ghost"
+            size="xs"
+            iconOnly
+            onPress={onSortPress}
+            testID={`${testID}-sort-button`}
+          >
+            <View style={styles.actionButton}>
+              <Ionicons
+                name={
+                  sortOrder === 'asc'
+                    ? 'arrow-up-outline'
+                    : 'arrow-down-outline'
+                }
+                size={20}
+                color={ArenaColors.text.inverse}
+              />
+            </View>
+          </Button>
 
-        <Button
-          variant="ghost"
-          size="xs"
-          iconOnly
-          onPress={onFilterPress}
-          testID={`${testID}-filter-button`}
-        >
-          <View style={styles.actionButton}>
-            <Ionicons
-              name="options-outline"
-              size={20}
-              color={ArenaColors.text.inverse}
-            />
-            {filterCount > 0 && (
-              <View style={styles.filterBadge}>
-                <Text variant="labelPrimary" style={styles.filterBadgeText}>
-                  {filterCount}
-                </Text>
-              </View>
-            )}
-          </View>
-        </Button>
+          <Button
+            variant="ghost"
+            size="xs"
+            iconOnly
+            onPress={onFilterPress}
+            testID={`${testID}-filter-button`}
+          >
+            <View style={styles.actionButton}>
+              <Ionicons
+                name="options-outline"
+                size={20}
+                color={ArenaColors.text.inverse}
+              />
+              {filterCount > 0 && (
+                <View style={styles.filterBadge}>
+                  <Text variant="labelPrimary" style={styles.filterBadgeText}>
+                    {filterCount}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </Button>
+        </View>
       </View>
     </View>
   );

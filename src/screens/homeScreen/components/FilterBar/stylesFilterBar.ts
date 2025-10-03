@@ -10,8 +10,10 @@ interface Styles {
   container: ViewStyle;
   content: ViewStyle;
   searchContainer: ViewStyle;
+  buttonsContainer: ViewStyle;
   actionButton: ViewStyle;
   actionButtonPressed: ViewStyle;
+  actionButtonStyle: ViewStyle;
   filterBadge: ViewStyle;
   filterBadgeText: TextStyle;
 }
@@ -27,10 +29,15 @@ export const styles = StyleSheet.create<Styles>({
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.xs,
+    gap: ArenaSpacing.none,
   },
   searchContainer: {
     flex: 1,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    gap: ArenaSpacing.none,
+    marginLeft: ArenaSpacing.sm,
   },
   actionButton: {
     width: ArenaSpacing['4xl'],
@@ -43,6 +50,14 @@ export const styles = StyleSheet.create<Styles>({
   },
   actionButtonPressed: {
     backgroundColor: ArenaColors.interaction.pressed.surface,
+  },
+  actionButtonStyle: {
+    width: ArenaSpacing['4xl'],
+    height: ArenaSpacing['4xl'],
+    borderRadius: ArenaBorders.radius.md,
+    backgroundColor: ArenaColors.neutral.darkest,
+    padding: ArenaSpacing.none,
+    minWidth: ArenaSpacing['4xl'],
   },
   filterBadge: {
     position: 'absolute',
