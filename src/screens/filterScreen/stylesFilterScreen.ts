@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors } from '@/constants';
+import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.md,
   },
   sectionDivider: {
-    height: 1,
+    height: ArenaBorders.width.thin,
     backgroundColor: ArenaColors.neutral.dark,
     marginVertical: ArenaSpacing.sm,
   },

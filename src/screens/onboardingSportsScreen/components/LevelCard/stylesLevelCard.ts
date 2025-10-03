@@ -13,11 +13,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
-    borderWidth: 2,
+    borderWidth: ArenaBorders.width.thick,
     borderColor: 'transparent',
     padding: ArenaSpacing.lg,
     marginBottom: ArenaSpacing.md,
-    minHeight: 100,
+    minHeight: ArenaSpacing['8xl'],
     boxShadow: ArenaShadows.soft,
   },
   selectedContainer: {
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   iconContainer: {
     marginRight: ArenaSpacing.lg,
-    width: 50,
+    width: ArenaSpacing['5xl'],
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -152,8 +152,8 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   menuIconBar: {
-    width: 20,
-    height: 2,
+    width: ArenaSpacing.xl,
+    height: ArenaSpacing.micro,
     backgroundColor: ArenaColors.neutral.light,
   },
   iconMenuTrigger: {
@@ -168,9 +168,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.xl,
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaSpacing.sm,
-    borderWidth: 1,
+    borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.medium,
-    minHeight: 44,
+    minHeight: ArenaSpacing['4.5xl'],
     justifyContent: 'center',
     alignItems: 'center',
   },
