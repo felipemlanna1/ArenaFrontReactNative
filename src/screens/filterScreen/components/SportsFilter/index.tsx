@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { CardCheckbox } from '@/components/ui/cardCheckbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { SportsFilterProps } from './typesSportsFilter';
 import { useSportsFilter } from './useSportsFilter';
@@ -47,11 +47,13 @@ export const SportsFilter: React.FC<SportsFilterProps> = ({
     <View style={styles.container} testID={testID}>
       <View style={styles.sportsGrid}>
         {sports.map(sport => (
-          <CardCheckbox
+          <Checkbox
             key={sport.id}
             checked={selectedSportIds.includes(sport.id)}
             onPress={() => toggleSport(sport.id)}
             label={sport.name}
+            variant="card"
+            size="md"
             testID={`${testID}-sport-${sport.id}`}
           />
         ))}
