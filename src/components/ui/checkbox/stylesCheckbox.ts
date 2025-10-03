@@ -21,7 +21,6 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cardContainer: {
-    width: '100%',
     paddingVertical: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.lg,
     borderRadius: ArenaBorders.radius.lg,
