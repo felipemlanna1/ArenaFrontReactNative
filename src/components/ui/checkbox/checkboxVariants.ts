@@ -76,9 +76,9 @@ export const checkboxVariants: Record<string, CheckboxVariantConfig> = {
 
 export const checkboxCardVariant: CheckboxCardVariantConfig = {
   unselected: {
-    backgroundColor: ArenaColors.neutral.dark,
-    borderColor: `${ArenaColors.neutral.medium}4D`,
-    borderWidth: ArenaBorders.width.thin,
+    backgroundColor: `${ArenaColors.neutral.dark}CC`,
+    borderColor: 'transparent',
+    borderWidth: ArenaBorders.width.medium,
     textColor: ArenaColors.neutral.light,
     fontSize: ArenaTypography.size.md,
     fontWeight: ArenaTypography.weight.regular.toString(),
@@ -89,9 +89,9 @@ export const checkboxCardVariant: CheckboxCardVariantConfig = {
     borderColor: ArenaColors.brand.primary,
     borderWidth: ArenaBorders.width.medium,
     textColor: ArenaColors.brand.primary,
-    fontSize: ArenaTypography.size.lg,
+    fontSize: ArenaTypography.size.md,
     fontWeight: ArenaTypography.weight.semibold.toString(),
-    boxShadow: ArenaShadows.medium,
+    boxShadow: ArenaShadows.elevated,
   },
   disabled: {
     opacity: 0.5,
