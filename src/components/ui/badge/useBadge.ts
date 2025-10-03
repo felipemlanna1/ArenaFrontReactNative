@@ -1,6 +1,7 @@
 import { useMemo, useCallback } from 'react';
 import { BadgeVariant, BadgeSize } from './typesBadge';
 import { variantConfigs, sizeConfigs } from './stylesBadge';
+import { ArenaTypography } from '@/constants';
 
 interface UseBadgeParams {
   variant: BadgeVariant;
@@ -38,6 +39,22 @@ export const useBadge = ({
     [variantConfig, sizeConfig]
   );
 
+  const removeIconStyle = useMemo(
+    () => ({
+      color: variantConfig.removeIconColor,
+    }),
+    [variantConfig]
+  );
+
+  const removeIconSize = useMemo(() => {
+    const iconSizeMap: Record<BadgeSize, number> = {
+      sm: ArenaTypography.size.sm,
+      md: ArenaTypography.size.md,
+      lg: ArenaTypography.size.lg,
+    };
+    return iconSizeMap[size];
+  }, [size]);
+
   const handleRemove = useCallback(() => {
     if (removable && onRemove) {
       onRemove();
@@ -47,6 +64,8 @@ export const useBadge = ({
   return {
     containerStyle,
     textStyle,
+    removeIconStyle,
+    removeIconSize,
     handleRemove,
     canRemove: removable && !!onRemove,
   };

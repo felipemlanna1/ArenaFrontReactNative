@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { Badge } from '@/components/ui/badge';
 import {
   ActiveFiltersBarProps,
   ActiveFilterChip,
@@ -59,20 +60,16 @@ export const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
           contentContainerStyle={styles.chipsContent}
         >
           {activeFilters.map(chip => (
-            <View key={chip.id} style={styles.chip}>
-              <Text variant="bodySecondary" style={styles.chipLabel}>
-                {chip.label}
-              </Text>
-              <TouchableOpacity
-                onPress={() => handleRemoveFilter(chip)}
-                style={styles.chipCloseButton}
-                testID={`${testID}-chip-${chip.id}-remove`}
-              >
-                <Text variant="bodySecondary" style={styles.chipCloseIcon}>
-                  ×
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Badge
+              key={chip.id}
+              variant="outlined"
+              size="md"
+              removable
+              onRemove={() => handleRemoveFilter(chip)}
+              testID={`${testID}-chip-${chip.id}`}
+            >
+              {chip.label}
+            </Badge>
           ))}
         </ScrollView>
       </View>

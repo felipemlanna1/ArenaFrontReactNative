@@ -14,30 +14,35 @@ export const variantConfigs: Record<string, BadgeVariantConfig> = {
     borderColor: ArenaColors.neutral.medium,
     borderWidth: 1,
     textColor: ArenaColors.neutral.light,
+    removeIconColor: ArenaColors.neutral.medium,
   },
   primary: {
     backgroundColor: `${ArenaColors.brand.primary}22`,
     borderColor: ArenaColors.brand.primary,
     borderWidth: 1,
     textColor: ArenaColors.brand.primary,
+    removeIconColor: ArenaColors.neutral.medium,
   },
   success: {
     backgroundColor: `${ArenaColors.semantic.success}22`,
     borderColor: ArenaColors.semantic.success,
     borderWidth: 1,
     textColor: ArenaColors.semantic.success,
+    removeIconColor: ArenaColors.neutral.medium,
   },
   error: {
     backgroundColor: `${ArenaColors.semantic.error}22`,
     borderColor: ArenaColors.semantic.error,
     borderWidth: 1,
     textColor: ArenaColors.semantic.error,
+    removeIconColor: ArenaColors.neutral.medium,
   },
   outlined: {
     backgroundColor: 'transparent',
     borderColor: ArenaColors.neutral.medium,
     borderWidth: 1,
     textColor: ArenaColors.neutral.light,
+    removeIconColor: ArenaColors.neutral.medium,
   },
 };
 
@@ -71,13 +76,11 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontWeight: ArenaTypography.weight.medium,
+    paddingRight: ArenaSpacing.xs,
   },
   removeButton: {
     marginLeft: ArenaSpacing.xs,
-    padding: ArenaSpacing.micro,
-  },
-  removeText: {
-    fontWeight: ArenaTypography.weight.bold,
-    lineHeight: ArenaTypography.size.md,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
