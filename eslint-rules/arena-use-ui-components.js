@@ -16,6 +16,8 @@ module.exports = {
         "Do not use inline 'style' prop on Arena UI components. Use design system props (variant, size, etc.) instead",
       useDesignSystemProps:
         "Use design system props instead of custom styles on '{{component}}' component",
+      useCheckboxWithCardVariant:
+        'Use <Checkbox variant="card" /> instead of <CardCheckbox />. O componente Checkbox já suporta a variante "card", tornando o CardCheckbox desnecessário.',
     },
     schema: [],
   },
@@ -134,6 +136,17 @@ module.exports = {
       JSXElement(node) {
         const openingElement = node.openingElement;
         const componentName = openingElement.name.name;
+
+        // Check for CardCheckbox usage
+        if (
+          importedArenaComponents.has(componentName) &&
+          importedArenaComponents.get(componentName) === 'CardCheckbox'
+        ) {
+          context.report({
+            node: openingElement,
+            messageId: 'useCheckboxWithCardVariant',
+          });
+        }
 
         if (
           importedArenaComponents.has(componentName) &&
