@@ -69,6 +69,7 @@ export interface UseButtonParams {
   disabled: boolean;
   haptic: boolean;
   fullWidth: boolean;
+  iconOnly: boolean;
   onPress: () => void;
   disableAnimations: boolean;
 }

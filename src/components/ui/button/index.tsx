@@ -32,6 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
     disabled,
     haptic,
     fullWidth,
+    iconOnly,
     onPress,
     disableAnimations,
   });
