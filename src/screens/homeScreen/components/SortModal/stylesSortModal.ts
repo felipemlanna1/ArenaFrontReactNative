@@ -22,30 +22,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: ArenaSpacing.sm,
   },
+  closeButton: {
+    padding: ArenaSpacing.xs,
+  },
   section: {
     gap: ArenaSpacing.sm,
   },
-  optionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: ArenaSpacing.md,
-    borderRadius: ArenaBorders.radius.md,
-    backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: 2,
-    borderColor: ArenaColors.neutral.dark,
-  },
-  optionButtonSelected: {
-    borderColor: ArenaColors.brand.primary,
-    backgroundColor: ArenaColors.brand.primarySubtle,
-  },
-  orderButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: ArenaSpacing.md,
-    borderRadius: ArenaBorders.radius.md,
-    backgroundColor: ArenaColors.neutral.dark,
-    gap: ArenaSpacing.sm,
+  sectionLabel: {
+    marginBottom: ArenaSpacing.xs,
   },
   footer: {
     marginTop: ArenaSpacing.none,

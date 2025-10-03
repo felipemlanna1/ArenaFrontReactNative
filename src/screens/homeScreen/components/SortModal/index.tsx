@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import {
   View,
   Modal,
-  TouchableOpacity,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ArenaColors } from '@/constants';
 import { SortModalProps, SortOption } from './typesSortModal';
 import { styles } from './stylesSortModal';
 
@@ -50,41 +53,45 @@ export const SortModal: React.FC<SortModalProps> = ({
             <View style={styles.modalContent}>
               <View style={styles.header}>
                 <Text variant="headingPrimary">Ordenar por</Text>
-                <TouchableOpacity onPress={onClose} testID={`${testID}-close`}>
-                  <Text variant="bodyPrimary">✕</Text>
+                <TouchableOpacity
+                  onPress={onClose}
+                  testID={`${testID}-close`}
+                  style={styles.closeButton}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons
+                    name="close"
+                    size={24}
+                    color={ArenaColors.neutral.light}
+                  />
                 </TouchableOpacity>
               </View>
 
               <View style={styles.section}>
                 {SORT_OPTIONS.map(option => (
-                  <TouchableOpacity
+                  <Checkbox
                     key={option.id}
-                    style={[
-                      styles.optionButton,
-                      selectedSort === option.id && styles.optionButtonSelected,
-                    ]}
+                    checked={selectedSort === option.id}
                     onPress={() => setSelectedSort(option.id)}
+                    label={option.label}
+                    size="md"
                     testID={`${testID}-option-${option.id}`}
-                  >
-                    <Text variant="bodyPrimary">{option.label}</Text>
-                    {selectedSort === option.id && (
-                      <Text variant="bodyPrimary">✓</Text>
-                    )}
-                  </TouchableOpacity>
+                  />
                 ))}
               </View>
 
               <View style={styles.section}>
-                <Text variant="bodySecondary">Ordem</Text>
-                <TouchableOpacity
-                  style={styles.orderButton}
+                <Text variant="bodySecondary" style={styles.sectionLabel}>
+                  Ordem
+                </Text>
+                <Button
+                  variant="secondary"
+                  size="md"
                   onPress={toggleOrder}
                   testID={`${testID}-order-toggle`}
                 >
-                  <Text variant="bodyPrimary">
-                    {selectedOrder === 'asc' ? 'Crescente ↑' : 'Decrescente ↓'}
-                  </Text>
-                </TouchableOpacity>
+                  {selectedOrder === 'asc' ? 'Crescente ↑' : 'Decrescente ↓'}
+                </Button>
               </View>
 
               <View style={styles.footer}>
