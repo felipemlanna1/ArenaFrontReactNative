@@ -38,6 +38,7 @@ export const useCheckbox = (params: UseCheckboxParams): UseCheckboxReturn => {
           borderColor: cardConfig.borderColor,
           borderWidth: 'borderWidth' in cardConfig ? cardConfig.borderWidth : 1,
           opacity: 'opacity' in cardConfig ? cardConfig.opacity : 1,
+          boxShadow: 'boxShadow' in cardConfig ? cardConfig.boxShadow : 'none',
         } as ViewStyle,
         checkbox: {},
         label: {
