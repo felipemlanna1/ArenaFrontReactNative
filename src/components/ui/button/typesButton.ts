@@ -18,8 +18,9 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   disabled?: boolean;
   leftIcon?: React.ComponentType<{ size: number; color: string }>;
   rightIcon?: React.ComponentType<{ size: number; color: string }>;
+  iconOnly?: boolean;
   onPress: () => void;
-  children: string;
+  children: React.ReactNode;
   testID?: string;
   haptic?: boolean;
   fullWidth?: boolean;

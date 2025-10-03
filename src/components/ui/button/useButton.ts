@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ArenaBorders } from '@/constants';
 import {
   UseButtonParams,
@@ -98,7 +98,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
   };
 };
 export const useButtonAccessibility = (
-  children: string,
+  children: React.ReactNode,
   loading: boolean,
   disabled: boolean,
   variant: string
@@ -118,13 +118,16 @@ export const useButtonAccessibility = (
           return 'Duplo toque para ativar';
       }
     };
+
+    const label = typeof children === 'string' ? children : 'Botão';
+
     return {
       accessibilityRole: 'button' as const,
       accessibilityState: {
         disabled,
         busy: loading,
       },
-      accessibilityLabel: children,
+      accessibilityLabel: label,
       accessibilityHint: getAccessibilityHint(),
     };
   }, [children, loading, disabled, variant]);

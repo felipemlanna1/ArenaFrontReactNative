@@ -15,6 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
+  iconOnly = false,
   onPress,
   children,
   testID,
@@ -52,6 +53,11 @@ export const Button: React.FC<ButtonProps> = ({
         </View>
       );
     }
+
+    if (iconOnly) {
+      return <>{children}</>;
+    }
+
     return (
       <>
         {LeftIcon && (
