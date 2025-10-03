@@ -17,7 +17,7 @@ export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
     borderColor: ArenaColors.neutral.medium,
     textColor: ArenaColors.text.primary,
     placeholderColor: ArenaColors.neutral.mediumSubtle60,
-    labelColor: ArenaColors.neutral.medium,
+    labelColor: ArenaColors.neutral.mediumSubtle60,
     helperTextColor: ArenaColors.neutral.mediumSubtle80,
     iconColor: ArenaColors.neutral.medium,
     focusBorderColor: ArenaColors.brand.primary,
