@@ -36,7 +36,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    gap: ArenaSpacing.none,
+    gap: ArenaSpacing.lg,
   },
   actionButton: {
     width: ArenaSpacing['4xl'],
