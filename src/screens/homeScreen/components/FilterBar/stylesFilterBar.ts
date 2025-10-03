@@ -29,7 +29,7 @@ export const styles = StyleSheet.create<Styles>({
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.none,
+    gap: ArenaSpacing.lg,
   },
   searchContainer: {
     flex: 1,
@@ -37,7 +37,6 @@ export const styles = StyleSheet.create<Styles>({
   buttonsContainer: {
     flexDirection: 'row',
     gap: ArenaSpacing.none,
-    marginLeft: ArenaSpacing.lg,
   },
   actionButton: {
     width: ArenaSpacing['4xl'],
