@@ -161,8 +161,8 @@ export const styles = StyleSheet.create({
   clearButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 24,
-    height: 24,
+    width: ArenaSpacing['2xl'],
+    height: ArenaSpacing['2xl'],
     borderRadius: ArenaBorders.radius.md,
     marginLeft: ArenaSpacing.sm,
   },
@@ -191,7 +191,7 @@ export const styles = StyleSheet.create({
   },
 
   xsContainer: {
-    height: 32,
+    height: ArenaSpacing['3xl'],
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.md,
@@ -199,7 +199,7 @@ export const styles = StyleSheet.create({
   },
 
   smContainer: {
-    height: 36,
+    height: ArenaSpacing['3.5xl'],
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.md,
@@ -207,7 +207,7 @@ export const styles = StyleSheet.create({
   },
 
   mdContainer: {
-    height: 44,
+    height: ArenaSpacing['4.5xl'],
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     borderRadius: ArenaBorders.radius.lg,
@@ -215,7 +215,7 @@ export const styles = StyleSheet.create({
   },
 
   lgContainer: {
-    height: 52,
+    height: ArenaSpacing['5.5xl'],
     paddingHorizontal: ArenaSpacing.xl,
     paddingVertical: ArenaSpacing.lg,
     borderRadius: ArenaBorders.radius.xl,
@@ -223,7 +223,7 @@ export const styles = StyleSheet.create({
   },
 
   xlContainer: {
-    height: 60,
+    height: ArenaSpacing['6.5xl'],
     paddingHorizontal: ArenaSpacing['2xl'],
     paddingVertical: ArenaSpacing.xl,
     borderRadius: ArenaBorders.radius.xl,

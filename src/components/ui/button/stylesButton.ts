@@ -94,23 +94,23 @@ export const styles = StyleSheet.create({
     boxShadow: ArenaShadows.soft,
   },
   xsContainer: {
-    minHeight: 32,
+    minHeight: ArenaSpacing['3xl'],
     paddingHorizontal: ArenaSpacing.md,
   },
   smContainer: {
-    minHeight: 36,
+    minHeight: ArenaSpacing['3xl'] + ArenaSpacing.xs,
     paddingHorizontal: ArenaSpacing.lg,
   },
   mdContainer: {
-    minHeight: 44,
+    minHeight: ArenaSpacing['4xl'] + ArenaSpacing.xs,
     paddingHorizontal: ArenaSpacing.xl,
   },
   lgContainer: {
-    minHeight: 52,
+    minHeight: ArenaSpacing['5xl'] + ArenaSpacing.xs,
     paddingHorizontal: ArenaSpacing['2xl'],
   },
   xlContainer: {
-    minHeight: 60,
+    minHeight: ArenaSpacing['5xl'] + ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing['3xl'],
   },
   xsText: {

@@ -13,20 +13,20 @@ import {
 
 export const checkboxSizes: Record<string, CheckboxSizeConfig> = {
   sm: {
-    checkboxSize: 16,
-    iconSize: 12,
+    checkboxSize: ArenaSpacing.lg,
+    iconSize: ArenaSpacing.md,
     fontSize: ArenaTypography.size.sm,
     spacing: ArenaSpacing.xs,
   },
   md: {
-    checkboxSize: 20,
-    iconSize: 14,
+    checkboxSize: ArenaSpacing.xl,
+    iconSize: ArenaTypography.size.sm,
     fontSize: ArenaTypography.size.md,
     spacing: ArenaSpacing.sm,
   },
   lg: {
-    checkboxSize: 24,
-    iconSize: 16,
+    checkboxSize: ArenaSpacing['2xl'],
+    iconSize: ArenaSpacing.lg,
     fontSize: ArenaTypography.size.lg,
     spacing: ArenaSpacing.md,
   },
