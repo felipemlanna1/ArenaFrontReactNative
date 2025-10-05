@@ -34,14 +34,16 @@ export const useFilterScreen = ({
     filterCount,
   } = useFilterState({ initialFilters: initialStateFilters });
 
+  // ⭐ REGRA: Preencher cidade/estado automaticamente APENAS na inicialização
   useEffect(() => {
-    if (city && !filters.city) {
+    if (city && !initialStateFilters.city) {
       updateFilter('city', city);
     }
-    if (state && !filters.state) {
+    if (state && !initialStateFilters.state) {
       updateFilter('state', state);
     }
-  }, [city, state, filters.city, filters.state, updateFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city, state]);
 
   const applyFilters = useCallback(async () => {
     try {
