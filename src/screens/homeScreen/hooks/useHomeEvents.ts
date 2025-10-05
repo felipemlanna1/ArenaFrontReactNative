@@ -1,10 +1,9 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Event, EventsFilter } from '@/services/events/typesEvents';
 import { eventsService } from '@/services/events/eventsService';
 
 interface UseHomeEventsParams {
-  searchTerm: string;
-  externalFilters?: Partial<EventsFilter>;
+  apiFilters: EventsFilter;
 }
 
 interface UseHomeEventsReturn {
@@ -14,18 +13,15 @@ interface UseHomeEventsReturn {
   isLoadingMore: boolean;
   error: Error | null;
   hasMore: boolean;
+  currentPage: number;
   loadEvents: () => Promise<void>;
   refreshEvents: () => Promise<void>;
   loadMoreEvents: () => Promise<void>;
   handleShare: (eventId: string) => void;
-  currentFilters: EventsFilter;
 }
 
-const ITEMS_PER_PAGE = 10;
-
 export const useHomeEvents = ({
-  searchTerm,
-  externalFilters = {},
+  apiFilters,
 }: UseHomeEventsParams): UseHomeEventsReturn => {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,31 +31,20 @@ export const useHomeEvents = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
+  // ⭐ REGRA: Usar refs para prevenir múltiplas requisições simultâneas
   const isLoadingRef = useRef(false);
-  const searchTermRef = useRef(searchTerm);
-  const externalFiltersRef = useRef(externalFilters);
+  const apiFiltersRef = useRef(apiFilters);
 
-  searchTermRef.current = searchTerm;
-  externalFiltersRef.current = externalFilters;
+  // Atualizar ref quando filtros mudarem
+  apiFiltersRef.current = apiFilters;
 
-  const buildFilters = useCallback((): EventsFilter => {
-    const nowISOString = new Date().toISOString();
-
-    const baseFilters: EventsFilter = {
-      search: searchTermRef.current || undefined,
-      startDateFrom: nowISOString,
-      status: ['PUBLISHED'],
-      hasAvailableSpots: true,
-      limit: ITEMS_PER_PAGE,
-      sortBy: 'date',
-      sortOrder: 'asc',
-    };
-
-    return {
-      ...baseFilters,
-      ...externalFiltersRef.current,
-      limit: ITEMS_PER_PAGE,
-    };
+  // ⭐ REGRA: Filtrar eventos futuros no cliente (dupla validação)
+  const filterFutureEvents = useCallback((eventsList: Event[]): Event[] => {
+    const currentDate = new Date();
+    return eventsList.filter(event => {
+      const eventStartDate = new Date(event.startDate);
+      return eventStartDate > currentDate && event.status === 'PUBLISHED';
+    });
   }, []);
 
   const loadEvents = useCallback(async () => {
@@ -70,14 +55,10 @@ export const useHomeEvents = ({
       setIsLoading(true);
       setError(null);
 
-      const filters = buildFilters();
+      const filters = apiFiltersRef.current;
       const response = await eventsService.getFeedEvents(1, filters);
 
-      const currentDate = new Date();
-      const futureEvents = response.data.filter(event => {
-        const eventStartDate = new Date(event.startDate);
-        return eventStartDate > currentDate && event.status === 'PUBLISHED';
-      });
+      const futureEvents = filterFutureEvents(response.data);
 
       setEvents(futureEvents);
       setCurrentPage(1);
@@ -90,7 +71,7 @@ export const useHomeEvents = ({
       setIsLoading(false);
       isLoadingRef.current = false;
     }
-  }, [buildFilters]);
+  }, [filterFutureEvents]);
 
   const loadMoreEvents = useCallback(async () => {
     if (isLoadingMore || !hasMore || isLoadingRef.current) return;
@@ -98,27 +79,21 @@ export const useHomeEvents = ({
     try {
       setIsLoadingMore(true);
       const nextPage = currentPage + 1;
-      const filters = buildFilters();
+      const filters = apiFiltersRef.current;
 
       const response = await eventsService.getFeedEvents(nextPage, filters);
 
-      const currentDate = new Date();
-      const futureEvents = response.data.filter(event => {
-        const eventStartDate = new Date(event.startDate);
-        return eventStartDate > currentDate && event.status === 'PUBLISHED';
-      });
+      const futureEvents = filterFutureEvents(response.data);
 
       setEvents(prev => [...prev, ...futureEvents]);
       setCurrentPage(nextPage);
       setHasMore(response.pagination.hasMore);
     } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error('Erro ao carregar mais eventos')
-      );
+      console.error('Error loading more events:', err);
     } finally {
       setIsLoadingMore(false);
     }
-  }, [currentPage, hasMore, isLoadingMore, buildFilters]);
+  }, [currentPage, hasMore, isLoadingMore, filterFutureEvents]);
 
   const refreshEvents = useCallback(async () => {
     if (isLoadingRef.current) return;
@@ -128,14 +103,10 @@ export const useHomeEvents = ({
       setIsRefreshing(true);
       setError(null);
 
-      const filters = buildFilters();
+      const filters = apiFiltersRef.current;
       const response = await eventsService.getFeedEvents(1, filters);
 
-      const currentDate = new Date();
-      const futureEvents = response.data.filter(event => {
-        const eventStartDate = new Date(event.startDate);
-        return eventStartDate > currentDate && event.status === 'PUBLISHED';
-      });
+      const futureEvents = filterFutureEvents(response.data);
 
       setEvents(futureEvents);
       setCurrentPage(1);
@@ -148,15 +119,11 @@ export const useHomeEvents = ({
       setIsRefreshing(false);
       isLoadingRef.current = false;
     }
-  }, [buildFilters]);
+  }, [filterFutureEvents]);
 
   const handleShare = useCallback((eventId: string) => {
     void eventId;
   }, []);
-
-  useEffect(() => {
-    loadEvents();
-  }, [searchTerm, externalFilters, loadEvents]);
 
   return {
     events,
@@ -165,10 +132,10 @@ export const useHomeEvents = ({
     isLoadingMore,
     error,
     hasMore,
+    currentPage,
     loadEvents,
     refreshEvents,
     loadMoreEvents,
     handleShare,
-    currentFilters: buildFilters(),
   };
 };

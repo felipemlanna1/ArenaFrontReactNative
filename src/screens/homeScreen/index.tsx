@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { View, FlatList } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
@@ -7,11 +7,10 @@ import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
 import { SortModal } from './components/SortModal';
-import { useHomeEvents } from './hooks/useHomeEvents';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
-import { Event, EventsFilter } from '@/services/events/typesEvents';
+import { Event } from '@/services/events/typesEvents';
 import { styles } from './stylesHomeScreen';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -24,14 +23,6 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const { handleLogout } = useHomeScreen(navigation);
-  const [searchValue, setSearchValue] = useState('');
-  const [appliedFilters, setAppliedFilters] = useState<Partial<EventsFilter>>(
-    {}
-  );
-  const [showSortModal, setShowSortModal] = useState(false);
-  const [isSorting, setIsSorting] = useState(false);
-
   const {
     events,
     isLoading,
@@ -39,70 +30,42 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     isLoadingMore,
     error,
     hasMore,
+    searchTerm,
+    handleLogout,
+    setSearchTerm,
+    handleSortPress,
+    handleFilterPress,
+    handleApplySort,
     refreshEvents,
     loadMoreEvents,
     handleShare,
-    currentFilters,
-  } = useHomeEvents({
-    searchTerm: searchValue,
-    externalFilters: appliedFilters,
-  });
+    showSortModal,
+    setShowSortModal,
+    sortBy,
+    sortOrder,
+  } = useHomeScreen(navigation);
 
-  const handleSortPress = useCallback(() => {
-    setShowSortModal(true);
+  const handleEventPress = useCallback((eventId: string) => {
+    navigation.navigate('Home');
+  }, [navigation]);
+
+  const handleActionPress = useCallback((eventId: string) => {
+    void eventId;
   }, []);
 
-  const handleApplySort = useCallback(
-    async (
-      sortBy: 'date' | 'distance' | 'price' | 'name',
-      sortOrder: 'asc' | 'desc'
-    ) => {
-      setIsSorting(true);
-      setAppliedFilters(prev => ({
-        ...prev,
-        sortBy,
-        sortOrder,
-      }));
-
-      setTimeout(() => {
-        setIsSorting(false);
-      }, 800);
-    },
-    []
+  const renderItem = useCallback(
+    ({ item }: { item: Event }) => (
+      <EventCard
+        event={item}
+        onPress={handleEventPress}
+        onShare={handleShare}
+        onActionPress={handleActionPress}
+      />
+    ),
+    [handleEventPress, handleShare, handleActionPress]
   );
 
-  const handleFilterPress = useCallback(() => {
-    navigation.navigate('FilterScreen', {
-      currentFilters: currentFilters,
-      onApplyFilters: (filters: EventsFilter) => {
-        setIsSorting(true);
-        setAppliedFilters(filters);
-
-        setTimeout(() => {
-          setIsSorting(false);
-        }, 800);
-      },
-    });
-  }, [navigation, currentFilters]);
-
-  const handleEventPress = (eventId: string) => {
-    navigation.navigate('Home');
-  };
-
-  const handleActionPress = (eventId: string) => {
-    void eventId;
-  };
-
-  const renderItem = ({ item }: { item: Event }) => (
-    <EventCard
-      event={item}
-      onPress={handleEventPress}
-      onShare={handleShare}
-      onActionPress={handleActionPress}
-    />
-  );
-
-  const renderEmpty = () => {
+  const renderEmpty = useCallback(() => {
     if (isLoading) return null;
 
     return (
@@ -111,15 +74,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           Nenhum evento encontrado
         </Text>
         <Text variant="bodySecondary" style={styles.emptyText}>
-          {searchValue
+          {searchTerm
             ? 'Tente buscar por outro termo'
             : 'Não há eventos disponíveis no momento'}
         </Text>
       </View>
     );
-  };
+  }, [isLoading, searchTerm]);
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     if (!isLoadingMore) return null;
 
     return (
@@ -127,20 +90,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <SportsLoading size="sm" animationSpeed="fast" />
       </View>
     );
-  };
+  }, [isLoadingMore]);
 
   return (
     <AppLayout onLogout={handleLogout}>
       <View style={styles.filterBarContainer}>
         <FilterBar
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
+          searchValue={searchTerm}
+          onSearchChange={setSearchTerm}
           onSortPress={handleSortPress}
           onFilterPress={handleFilterPress}
         />
       </View>
 
-      {(isLoading && events.length === 0) || isSorting ? (
+      {isLoading && events.length === 0 ? (
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
@@ -175,10 +138,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <SortModal
         visible={showSortModal}
         currentSort={{
-          sortBy:
-            (currentFilters.sortBy as 'date' | 'distance' | 'price' | 'name') ||
-            'date',
-          sortOrder: currentFilters.sortOrder || 'asc',
+          sortBy,
+          sortOrder,
         }}
         onClose={() => setShowSortModal(false)}
         onApply={handleApplySort}
