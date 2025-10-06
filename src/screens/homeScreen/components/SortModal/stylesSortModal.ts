@@ -29,7 +29,8 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.xs,
   },
   footer: {
-    marginTop: ArenaSpacing.none,
-    marginBottom: ArenaSpacing.lg,
+    marginTop: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.xl,
+    marginHorizontal: ArenaSpacing.md,
   },
 });
