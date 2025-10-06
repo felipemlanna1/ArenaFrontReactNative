@@ -6,6 +6,9 @@ interface UseEventCardActionsProps {
   privacy: EventPrivacy;
   currentParticipants: number;
   maxParticipants: number;
+  isLoading?: boolean;
+  currentActionEventId?: string | null;
+  eventId: string;
 }
 
 export interface ActionButton {
@@ -28,6 +31,8 @@ export interface ActionButton {
     | 'join'
     | 'request';
   testID: string;
+  loading: boolean;
+  disabled: boolean;
 }
 
 interface UseEventCardActionsReturn {
@@ -56,60 +61,95 @@ const hasNoStatus = (status?: UserEventStatus): boolean => {
   return !status || status === 'NONE';
 };
 
-const createManageButton = (): ActionButton => ({
+const createManageButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'action',
   label: 'GERENCIAR',
   variant: 'secondary',
   type: 'manage',
   testID: 'event-card-manage-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
-const createCancelButton = (): ActionButton => ({
+const createCancelButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'action',
   label: 'CANCELAR',
   variant: 'danger',
   type: 'cancel',
   testID: 'event-card-cancel-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
-const createAcceptButton = (): ActionButton => ({
+const createAcceptButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'action',
   label: 'ACEITAR',
   variant: 'secondary',
   type: 'accept',
   testID: 'event-card-accept-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
-const createUndoButton = (): ActionButton => ({
+const createUndoButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'action',
   label: 'DESFAZER',
   variant: 'outline',
   type: 'undo',
   testID: 'event-card-undo-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
-const createJoinButton = (): ActionButton => ({
+const createJoinButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'action',
   label: 'PARTICIPAR',
   variant: 'primary',
   type: 'join',
   testID: 'event-card-join-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
-const createRequestButton = (): ActionButton => ({
+const createRequestButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'action',
   label: 'SOLICITAR',
   variant: 'secondary',
   type: 'request',
   testID: 'event-card-request-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
-const createRejectButton = (): ActionButton => ({
+const createRejectButton = (
+  isLoading: boolean,
+  isDisabled: boolean
+): ActionButton => ({
   key: 'secondary',
   label: 'RECUSAR',
   variant: 'outline',
   type: 'reject',
   testID: 'event-card-reject-button',
+  loading: isLoading,
+  disabled: isDisabled,
 });
 
 export const useEventCardActions = ({
@@ -117,10 +157,18 @@ export const useEventCardActions = ({
   privacy,
   currentParticipants,
   maxParticipants,
+  isLoading = false,
+  currentActionEventId,
+  eventId,
 }: UseEventCardActionsProps): UseEventCardActionsReturn => {
   const isEventFull = useMemo(
     () => currentParticipants >= maxParticipants,
     [currentParticipants, maxParticipants]
+  );
+
+  const isThisEventLoading = useMemo(
+    () => isLoading && currentActionEventId === eventId,
+    [isLoading, currentActionEventId, eventId]
   );
 
   const viewButton: ActionButton = useMemo(
@@ -130,47 +178,49 @@ export const useEventCardActions = ({
       variant: 'outline-light',
       type: 'view',
       testID: 'event-card-view-button',
+      loading: false,
+      disabled: false,
     }),
     []
   );
 
   const actionButton = useMemo((): ActionButton | null => {
     if (isOrganizerOrAdmin(userEventStatus)) {
-      return createManageButton();
+      return createManageButton(false, false);
     }
 
     if (isParticipant(userEventStatus)) {
-      return createCancelButton();
+      return createCancelButton(isThisEventLoading, isThisEventLoading);
     }
 
     if (isInvited(userEventStatus)) {
-      return createAcceptButton();
+      return createAcceptButton(isThisEventLoading, isThisEventLoading);
     }
 
     if (isRequested(userEventStatus)) {
-      return createUndoButton();
+      return createUndoButton(isThisEventLoading, isThisEventLoading);
     }
 
     if (hasNoStatus(userEventStatus)) {
       if (isEventFull) return null;
 
       if (privacy === 'PUBLIC') {
-        return createJoinButton();
+        return createJoinButton(isThisEventLoading, isThisEventLoading);
       }
 
-      return createRequestButton();
+      return createRequestButton(isThisEventLoading, isThisEventLoading);
     }
 
     return null;
-  }, [userEventStatus, privacy, isEventFull]);
+  }, [userEventStatus, privacy, isEventFull, isThisEventLoading]);
 
   const secondaryActionButton = useMemo((): ActionButton | null => {
     if (isInvited(userEventStatus)) {
-      return createRejectButton();
+      return createRejectButton(false, isThisEventLoading);
     }
 
     return null;
-  }, [userEventStatus]);
+  }, [userEventStatus, isThisEventLoading]);
 
   return {
     viewButton,
