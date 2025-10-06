@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { ArenaColors } from '@/constants';
 import { useWelcomeScreen } from './useWelcomeScreen';
 import { styles } from './stylesWelcomeScreen';
@@ -36,10 +37,12 @@ export const WelcomeScreen: React.FC = () => {
           </View>
 
           <View style={styles.playerImageContainer}>
-            <Image
-              source={require('@/assets/players/jogadorDeTenis.png')}
+            <OptimizedImage
+              source={require('@/assets/players/jogadorDeTenis.webp')}
               style={styles.playerImage}
-              resizeMode="contain"
+              contentFit="contain"
+              priority="high"
+              showLoading={false}
             />
           </View>
 

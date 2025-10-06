@@ -23,6 +23,7 @@ export interface BadgeVariantConfig {
   borderColor: string;
   borderWidth: number;
   textColor: string;
+  removeIconColor: string;
 }
 
 export interface BadgeSizeConfig {

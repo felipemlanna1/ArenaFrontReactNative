@@ -42,10 +42,12 @@ export const ArenaTypography = {
     loose: 1.8,
   },
   letterSpacing: {
-    tight: -0.5,
+    tighter: -0.5,
+    tight: -0.25,
     normal: 0,
-    wide: 0.5,
-    wider: 1,
+    wide: 0.25,
+    wider: 0.5,
+    widest: 1,
   },
 } as const;
 export type ArenaFontFamily = keyof typeof ArenaTypography.family;

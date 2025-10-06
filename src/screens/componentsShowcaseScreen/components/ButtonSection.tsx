@@ -19,6 +19,9 @@ const ACCENT_BUTTONS_CODE = `<Button variant="destructive">Delete</Button>
 const SUBTLE_BUTTONS_CODE = `<Button variant="subtle">Subtle Action</Button>
 <Button variant="ghost">Filter</Button>`;
 
+const OUTLINE_BUTTONS_CODE = `<Button variant="outline-primary">Outline Primary</Button>
+<Button variant="outline-light">Outline Light</Button>`;
+
 export const ButtonSection: React.FC<ButtonSectionProps> = ({ onCopyCode }) => {
   const [loadingStates, setLoadingStates] = React.useState({
     primary: false,
@@ -109,6 +112,34 @@ export const ButtonSection: React.FC<ButtonSectionProps> = ({ onCopyCode }) => {
           <View style={styles.buttonColumn}>
             <Button variant="ghost" onPress={() => {}} testID="button-ghost">
               Filter
+            </Button>
+          </View>
+        </View>
+      </ShowcaseItem>
+
+      <ShowcaseItem
+        label="Outline Buttons"
+        description="Transparent background with colored borders"
+        onCopyCode={onCopyCode}
+        code={OUTLINE_BUTTONS_CODE}
+      >
+        <View style={styles.buttonRow}>
+          <View style={styles.buttonColumn}>
+            <Button
+              variant="outline-primary"
+              onPress={() => {}}
+              testID="button-outline-primary"
+            >
+              Outline Primary
+            </Button>
+          </View>
+          <View style={styles.buttonColumn}>
+            <Button
+              variant="outline-light"
+              onPress={() => {}}
+              testID="button-outline-light"
+            >
+              Outline Light
             </Button>
           </View>
         </View>

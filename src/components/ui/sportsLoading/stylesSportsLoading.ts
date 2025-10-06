@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
   iconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'visible',
   },
   icon: {
     resizeMode: 'contain',

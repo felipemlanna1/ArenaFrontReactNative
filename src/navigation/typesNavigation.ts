@@ -5,4 +5,5 @@ export type RootStackParamList = {
   ComponentsShowcase: undefined;
   OnboardingSports: undefined;
   Home: undefined;
+  FilterScreen: undefined;
 };

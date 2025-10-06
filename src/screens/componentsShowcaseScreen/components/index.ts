@@ -1,7 +1,10 @@
+export { AccordionSection } from './AccordionSection';
+export { BadgeSection } from './BadgeSection';
 export { BrandSection } from './BrandSection';
 export { ButtonSection } from './ButtonSection';
 export { CardSection } from './CardSection';
-export { InputSection } from './InputSection';
-export { LoadingSection } from './LoadingSection';
 export { CheckboxSection } from './CheckboxSection';
+export { DropdownSection } from './DropdownSection';
+export { InputSection } from './InputSection';
 export { LinkSection } from './LinkSection';
+export { LoadingSection } from './LoadingSection';

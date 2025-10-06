@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Text } from '../text';
+import { ArenaSpacing } from '@/constants';
 import { BadgeProps } from './typesBadge';
 import { useBadge } from './useBadge';
 import { styles } from './stylesBadge';
@@ -14,7 +16,14 @@ export const Badge: React.FC<BadgeProps> = ({
   testID,
   ...restProps
 }) => {
-  const { containerStyle, textStyle, handleRemove, canRemove } = useBadge({
+  const {
+    containerStyle,
+    textStyle,
+    removeIconStyle,
+    removeIconSize,
+    handleRemove,
+    canRemove,
+  } = useBadge({
     variant,
     size,
     removable,
@@ -34,12 +43,20 @@ export const Badge: React.FC<BadgeProps> = ({
         <TouchableOpacity
           onPress={handleRemove}
           style={styles.removeButton}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          hitSlop={{
+            top: ArenaSpacing.xs,
+            bottom: ArenaSpacing.xs,
+            left: ArenaSpacing.xs,
+            right: ArenaSpacing.xs,
+          }}
           testID={testID ? `${testID}-remove` : undefined}
         >
-          <Text variant="bodyPrimary" style={[styles.removeText, textStyle]}>
-            ×
-          </Text>
+          <Ionicons
+            name="close"
+            size={removeIconSize}
+            color={removeIconStyle.color}
+            testID={testID ? `${testID}-remove-icon` : undefined}
+          />
         </TouchableOpacity>
       )}
     </View>

@@ -12,10 +12,18 @@ import {
   getFontWeight,
   getFontFamily,
   getLineHeight,
+  getLetterSpacing,
   getTextColor,
 } from './textUtils';
 export const useText = (input: UseTextInput): UseTextReturn => {
   const preset = TEXT_VARIANT_PRESETS[input.variant];
+
+  if (!preset) {
+    throw new Error(
+      `Invalid text variant: "${input.variant}". Available variants: ${Object.keys(TEXT_VARIANT_PRESETS).join(', ')}`
+    );
+  }
+
   const resolvedSize = preset.size;
   const resolvedWeight = preset.weight;
   const resolvedFamily = preset.family;
@@ -28,9 +36,9 @@ export const useText = (input: UseTextInput): UseTextReturn => {
     const baseStyle: ComputedTextStyle = {
       fontSize: getFontSize(resolvedSize),
       fontWeight: getFontWeight(resolvedWeight),
-      fontFamily: getFontFamily(resolvedFamily),
+      fontFamily: getFontFamily(resolvedFamily, resolvedWeight),
       lineHeight: getFontSize(resolvedSize) * getLineHeight(resolvedLineHeight),
-      letterSpacing: resolvedLetterSpacing,
+      letterSpacing: getLetterSpacing(resolvedLetterSpacing),
       color: getTextColor(resolvedColor || 'primary'),
       textAlign: resolvedAlign,
       textTransform: resolvedTransform,

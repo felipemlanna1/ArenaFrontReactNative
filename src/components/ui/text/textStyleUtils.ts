@@ -1,5 +1,10 @@
 import { TextStyle } from 'react-native';
-import { ArenaColors } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaTypography,
+  ArenaBorders,
+} from '@/constants';
 export const createLineHeightStyle = (
   fontSize: number,
   multiplier: number
@@ -11,8 +16,11 @@ export const createLetterSpacingStyle = (spacing: number) => ({
 });
 export const createTextShadow = (
   color: string = ArenaColors.neutral.darkest,
-  offset: { width: number; height: number } = { width: 0, height: 1 },
-  radius: number = 2
+  offset: { width: number; height: number } = {
+    width: ArenaSpacing.none,
+    height: ArenaBorders.width.thin,
+  },
+  radius: number = ArenaSpacing.micro
 ) => ({
   textShadowColor: color,
   textShadowOffset: offset,
@@ -35,16 +43,16 @@ export const labelTextStyle = [
   {
     includeFontPadding: false,
     textAlignVertical: 'center',
-    marginBottom: 4,
+    marginBottom: ArenaSpacing.xs,
   },
 ];
 export const validationErrorStyle = [
   {
     includeFontPadding: false,
     textAlignVertical: 'center',
-    color: '#EF4444',
-    marginTop: 4,
-    fontSize: 12,
+    color: ArenaColors.semantic.error,
+    marginTop: ArenaSpacing.xs,
+    fontSize: ArenaTypography.size.md,
   },
 ];
 export const placeholderStyle = [
@@ -67,9 +75,9 @@ export const badgeTextStyle = [
     includeFontPadding: false,
     textAlignVertical: 'center',
     textAlign: 'center' as const,
-    fontSize: 12,
-    fontWeight: '600',
-    letterSpacing: 0.5,
+    fontSize: ArenaTypography.size.md,
+    fontWeight: ArenaTypography.weight.semibold,
+    letterSpacing: ArenaTypography.letterSpacing.wide,
   },
 ];
 export const getResponsiveFontSize = (

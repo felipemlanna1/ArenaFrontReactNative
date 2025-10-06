@@ -13,12 +13,12 @@ import {
 
 export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
   default: {
-    backgroundColor: ArenaColors.neutral.dark,
-    borderColor: `${ArenaColors.neutral.medium}4D`,
+    backgroundColor: ArenaColors.neutral.lighter,
+    borderColor: ArenaColors.neutral.medium,
     textColor: ArenaColors.neutral.light,
-    placeholderColor: `${ArenaColors.neutral.medium}99`,
-    labelColor: ArenaColors.neutral.light,
-    helperTextColor: `${ArenaColors.neutral.medium}CC`,
+    placeholderColor: ArenaColors.neutral.mediumSubtle60,
+    labelColor: ArenaColors.neutral.mediumSubtle60,
+    helperTextColor: ArenaColors.neutral.mediumSubtle80,
     iconColor: ArenaColors.neutral.medium,
     focusBorderColor: ArenaColors.brand.primary,
     focusRingColor: ArenaColors.interaction.focus.primary,
@@ -29,12 +29,12 @@ export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
     backgroundColor: ArenaColors.neutral.dark,
     borderColor: ArenaColors.semantic.error,
     textColor: ArenaColors.neutral.light,
-    placeholderColor: `${ArenaColors.neutral.medium}99`,
+    placeholderColor: ArenaColors.neutral.mediumSubtle60,
     labelColor: ArenaColors.semantic.error,
     helperTextColor: ArenaColors.semantic.error,
     iconColor: ArenaColors.semantic.error,
     focusBorderColor: ArenaColors.semantic.error,
-    focusRingColor: `${ArenaColors.semantic.error}33`,
+    focusRingColor: ArenaColors.semantic.errorSubtle20,
     focusShadowColor: ArenaColors.semantic.error,
   },
 
@@ -42,12 +42,12 @@ export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
     backgroundColor: ArenaColors.neutral.dark,
     borderColor: ArenaColors.semantic.success,
     textColor: ArenaColors.neutral.light,
-    placeholderColor: `${ArenaColors.neutral.medium}99`,
+    placeholderColor: ArenaColors.neutral.mediumSubtle60,
     labelColor: ArenaColors.semantic.success,
     helperTextColor: ArenaColors.semantic.success,
     iconColor: ArenaColors.semantic.success,
     focusBorderColor: ArenaColors.semantic.success,
-    focusRingColor: `${ArenaColors.semantic.success}33`,
+    focusRingColor: ArenaColors.semantic.successSubtle20,
     focusShadowColor: ArenaColors.semantic.success,
   },
 
@@ -68,7 +68,7 @@ export const INPUT_VARIANT_PRESETS: InputVariantPresets = {
 export const INPUT_SIZE_PRESETS: InputSizePresets = {
   xs: {
     container: {
-      height: 32,
+      height: ArenaSpacing['3xl'],
       paddingHorizontal: ArenaSpacing.sm,
       paddingVertical: ArenaSpacing.xs,
       borderRadius: ArenaBorders.radius.md,
@@ -78,7 +78,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.tight,
     },
     icon: {
-      size: 14,
+      size: ArenaTypography.size.sm,
     },
     label: {
       fontSize: ArenaTypography.size.xs * 0.85,
@@ -92,7 +92,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
 
   sm: {
     container: {
-      height: 36,
+      height: ArenaSpacing['3xl'] + ArenaSpacing.xs,
       paddingHorizontal: ArenaSpacing.md,
       paddingVertical: ArenaSpacing.sm,
       borderRadius: ArenaBorders.radius.md,
@@ -102,7 +102,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       lineHeight: ArenaTypography.size.sm * ArenaTypography.lineHeight.tight,
     },
     icon: {
-      size: 16,
+      size: ArenaSpacing.lg,
     },
     label: {
       fontSize: ArenaTypography.size.sm * 0.85,
@@ -116,7 +116,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
 
   md: {
     container: {
-      height: 44,
+      height: ArenaSpacing['4xl'] + ArenaSpacing.xs,
       paddingHorizontal: ArenaSpacing.lg,
       paddingVertical: ArenaSpacing.md,
       borderRadius: ArenaBorders.radius.lg,
@@ -126,7 +126,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       lineHeight: ArenaTypography.size.md * ArenaTypography.lineHeight.tight,
     },
     icon: {
-      size: 18,
+      size: ArenaTypography.size.lg,
     },
     label: {
       fontSize: ArenaTypography.size.md * 0.85,
@@ -140,7 +140,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
 
   lg: {
     container: {
-      height: 52,
+      height: ArenaSpacing['5xl'] + ArenaSpacing.xs,
       paddingHorizontal: ArenaSpacing.xl,
       paddingVertical: ArenaSpacing.lg,
       borderRadius: ArenaBorders.radius.xl,
@@ -150,7 +150,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       lineHeight: ArenaTypography.size.lg * ArenaTypography.lineHeight.tight,
     },
     icon: {
-      size: 20,
+      size: ArenaSpacing.xl,
     },
     label: {
       fontSize: ArenaTypography.size.lg * 0.85,
@@ -164,7 +164,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
 
   xl: {
     container: {
-      height: 60,
+      height: ArenaSpacing['5xl'] + ArenaSpacing.md,
       paddingHorizontal: ArenaSpacing['2xl'],
       paddingVertical: ArenaSpacing.xl,
       borderRadius: ArenaBorders.radius.xl,
@@ -174,7 +174,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       lineHeight: ArenaTypography.size.xl * ArenaTypography.lineHeight.tight,
     },
     icon: {
-      size: 22,
+      size: ArenaTypography.size['2xl'],
     },
     label: {
       fontSize: ArenaTypography.size.xl * 0.85,

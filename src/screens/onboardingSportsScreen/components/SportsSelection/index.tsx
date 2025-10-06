@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
+import { SportsLoading } from '@/components/ui/sportsLoading';
 import { SportCard } from '@/screens/onboardingSportsScreen/components/SportCard';
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
-import { ArenaColors } from '@/constants';
 import { translateSkillLevel } from '@/utils/i18n/skillLevels';
 import { styles } from './stylesSportsSelection';
 
@@ -37,7 +37,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
   if (isLoading) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color={ArenaColors.brand.primary} />
+        <SportsLoading size="lg" animationSpeed="normal" />
         <Text variant="bodyPrimary" style={styles.loadingText}>
           Carregando esportes...
         </Text>

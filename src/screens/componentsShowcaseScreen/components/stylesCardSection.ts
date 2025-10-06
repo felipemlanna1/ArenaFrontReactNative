@@ -6,10 +6,10 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   card: {
-    minHeight: 80,
+    minHeight: ArenaSpacing['7xl'],
   },
   interactiveCard: {
-    minHeight: 100,
+    minHeight: ArenaSpacing['8xl'],
   },
   customCard: {
     padding: ArenaSpacing.xl,

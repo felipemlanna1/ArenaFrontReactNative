@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
+import { Image } from 'expo-image';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ArenaColors } from './src/constants';
+import { SportsLoading } from './src/components/ui/sportsLoading';
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -19,28 +22,38 @@ export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
-    async function loadFonts() {
+    async function loadAssets() {
       try {
-        await Font.loadAsync({
-          'BebasNeue-Regular': require('./assets/fonts/BebasNeue-Regular.ttf'),
-          'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
-          'Inter-Medium': require('./assets/fonts/Inter-Medium.ttf'),
-          'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
-          'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
-        });
+        await Promise.all([
+          Font.loadAsync({
+            'BebasNeue-Regular': require('./assets/fonts/BebasNeue-Regular.ttf'),
+            'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
+            'Inter-Medium': require('./assets/fonts/Inter-Medium.ttf'),
+            'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
+            'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
+          }),
+          Image.prefetch([
+            require('./src/assets/iconSports/futebol.webp'),
+            require('./src/assets/iconSports/basquete.webp'),
+            require('./src/assets/iconSports/voleibol.webp'),
+            require('./src/assets/iconSports/tenis.webp'),
+            require('./src/assets/iconSports/corrida.webp'),
+            require('./src/assets/players/jogadorDeTenis.webp'),
+          ]),
+        ]);
         setFontsLoaded(true);
       } catch {
         setFontsLoaded(true);
       }
     }
 
-    loadFonts();
+    loadAssets();
   }, []);
 
   if (!fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={ArenaColors.brand.primary} />
+        <SportsLoading size="xl" animationSpeed="normal" />
       </View>
     );
   }
@@ -48,7 +61,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <AppNavigator />
+        <HomeFiltersProvider>
+          <AppNavigator />
+        </HomeFiltersProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

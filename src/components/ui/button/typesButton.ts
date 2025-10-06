@@ -6,7 +6,9 @@ export type ButtonVariant =
   | 'subtle'
   | 'destructive'
   | 'success'
-  | 'ghost';
+  | 'ghost'
+  | 'outline-light'
+  | 'outline-primary';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonIconPosition = 'left' | 'right';
 export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
@@ -16,8 +18,9 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   disabled?: boolean;
   leftIcon?: React.ComponentType<{ size: number; color: string }>;
   rightIcon?: React.ComponentType<{ size: number; color: string }>;
+  iconOnly?: boolean;
   onPress: () => void;
-  children: string;
+  children: React.ReactNode;
   testID?: string;
   haptic?: boolean;
   fullWidth?: boolean;
@@ -66,6 +69,7 @@ export interface UseButtonParams {
   disabled: boolean;
   haptic: boolean;
   fullWidth: boolean;
+  iconOnly: boolean;
   onPress: () => void;
   disableAnimations: boolean;
 }

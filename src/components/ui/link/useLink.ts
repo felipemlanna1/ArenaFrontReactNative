@@ -7,6 +7,7 @@ import {
   getFontSize,
   getFontFamily,
   getLineHeight,
+  getLetterSpacing,
   getTextColor,
 } from '@/components/ui/text/textUtils';
 import { ArenaColors, ArenaTypography } from '@/constants';
@@ -43,7 +44,7 @@ export const useLink = (params: UseLinkParams): UseLinkReturn => {
         fontSize,
         fontFamily,
         lineHeight: fontSize * lineHeightMultiplier,
-        letterSpacing: variantConfig.letterSpacing,
+        letterSpacing: getLetterSpacing(variantConfig.letterSpacing),
         color: textColor,
         fontWeight: ArenaTypography.weight.bold,
         fontStyle: 'italic',

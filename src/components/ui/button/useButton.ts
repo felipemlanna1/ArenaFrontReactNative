@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from 'react';
-import { ArenaBorders } from '@/constants';
+import React, { useCallback, useMemo } from 'react';
+import { ArenaBorders, ArenaSpacing } from '@/constants';
 import {
   UseButtonParams,
   UseButtonReturn,
@@ -9,8 +9,16 @@ import { getButtonVariant, getButtonSize } from './buttonVariants';
 import { useButtonAnimations } from './buttonAnimations';
 import { styles } from './stylesButton';
 export const useButton = (params: UseButtonParams): UseButtonReturn => {
-  const { variant, size, loading, disabled, haptic, fullWidth, onPress } =
-    params;
+  const {
+    variant,
+    size,
+    loading,
+    disabled,
+    haptic,
+    fullWidth,
+    iconOnly,
+    onPress,
+  } = params;
   const buttonConfig = useMemo(() => getButtonVariant(variant), [variant]);
   const sizeConfig = useMemo(() => getButtonSize(size), [size]);
   const isInteractionDisabled = disabled || loading;
@@ -42,9 +50,16 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
                     ? 'xl'
                     : '2xl'
           ],
-        height: sizeConfig.height,
-        paddingHorizontal: sizeConfig.paddingHorizontal,
-        minWidth: fullWidth ? undefined : sizeConfig.minWidth,
+        height: iconOnly ? undefined : sizeConfig.height,
+        paddingHorizontal: iconOnly
+          ? ArenaSpacing.none
+          : sizeConfig.paddingHorizontal,
+        paddingVertical: iconOnly ? ArenaSpacing.none : undefined,
+        minWidth: fullWidth
+          ? undefined
+          : iconOnly
+            ? undefined
+            : sizeConfig.minWidth,
       },
     ];
     if (fullWidth) {
@@ -76,7 +91,16 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
         },
       ],
     };
-  }, [variant, size, buttonConfig, sizeConfig, fullWidth, disabled, loading]);
+  }, [
+    variant,
+    size,
+    buttonConfig,
+    sizeConfig,
+    fullWidth,
+    iconOnly,
+    disabled,
+    loading,
+  ]);
   const iconProps = useMemo(
     () => ({
       size: sizeConfig.iconSize,
@@ -98,7 +122,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
   };
 };
 export const useButtonAccessibility = (
-  children: string,
+  children: React.ReactNode,
   loading: boolean,
   disabled: boolean,
   variant: string
@@ -118,13 +142,16 @@ export const useButtonAccessibility = (
           return 'Duplo toque para ativar';
       }
     };
+
+    const label = typeof children === 'string' ? children : 'Botão';
+
     return {
       accessibilityRole: 'button' as const,
       accessibilityState: {
         disabled,
         busy: loading,
       },
-      accessibilityLabel: children,
+      accessibilityLabel: label,
       accessibilityHint: getAccessibilityHint(),
     };
   }, [children, loading, disabled, variant]);

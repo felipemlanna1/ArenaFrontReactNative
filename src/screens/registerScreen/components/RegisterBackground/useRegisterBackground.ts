@@ -6,7 +6,7 @@ export const useRegisterBackground = (): UseRegisterBackgroundReturn => {
   const statusBarColor = useMemo(() => ArenaColors.neutral.darkest, []);
 
   const backgroundImage = useMemo(
-    () => require('@/assets/players/voleibol.png'),
+    () => require('@/assets/players/voleibol.webp'),
     []
   );
 

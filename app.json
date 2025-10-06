@@ -27,7 +27,9 @@
               "NSExceptionMinimumTLSVersion": "TLSv1.2"
             }
           }
-        }
+        },
+        "NSLocationWhenInUseUsageDescription": "Arena precisa acessar sua localização para mostrar eventos próximos a você.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Arena precisa acessar sua localização para mostrar eventos próximos a você."
       }
     },
     "android": {
@@ -37,7 +39,11 @@
       },
       "edgeToEdgeEnabled": true,
       "jsEngine": "hermes",
-      "package": "com.arena.app"
+      "package": "com.arena.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro"
@@ -50,6 +56,13 @@
             "./assets/fonts/BebasNeue-Regular.ttf",
             "./assets/fonts/Calibri-Regular.ttf"
           ]
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Arena precisa acessar sua localização para mostrar eventos próximos a você.",
+          "locationWhenInUsePermission": "Arena precisa acessar sua localização para mostrar eventos próximos a você."
         }
       ]
     ],

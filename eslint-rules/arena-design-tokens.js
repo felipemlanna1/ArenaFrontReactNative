@@ -151,6 +151,68 @@ module.exports = {
       }
     }
 
+    // Propriedades que podem conter tamanhos (size, iconSize, etc)
+    const sizeProperties = new Set([
+      'size',
+      'iconSize',
+      'width',
+      'height',
+      'minWidth',
+      'minHeight',
+      'maxWidth',
+      'maxHeight',
+    ]);
+
+    // Nomes de variáveis que indicam mapeamento de tamanhos
+    const sizeMapNames = new Set(['iconSizeMap', 'sizeMap', 'sizes']);
+
+    function checkObjectForHardcodedValues(node, parentVarName = null) {
+      if (node.type !== 'ObjectExpression') return;
+
+      node.properties.forEach(property => {
+        if (property.type !== 'Property') return;
+
+        const propName = property.key.name || property.key.value;
+        const value = property.value;
+
+        // Verificar se é uma propriedade que deve usar tokens
+        if (tokenProperties[propName]) {
+          checkPropertyValue(node, property, value);
+        }
+
+        // Verificar propriedades de tamanho (size, iconSize, etc) com valores numéricos
+        if (sizeProperties.has(propName) && value.type === 'Literal') {
+          if (typeof value.value === 'number' && value.value > 0) {
+            context.report({
+              node: value,
+              messageId: 'useArenaTypography',
+              data: {
+                token: 'ArenaTypography.size or ArenaSpacing',
+              },
+            });
+          }
+        }
+
+        // Verificar se o objeto pai é um mapa de tamanhos (iconSizeMap, etc)
+        if (parentVarName && sizeMapNames.has(parentVarName)) {
+          if (value.type === 'Literal' && typeof value.value === 'number') {
+            context.report({
+              node: value,
+              messageId: 'useArenaTypography',
+              data: {
+                token: 'ArenaTypography.size or ArenaSpacing',
+              },
+            });
+          }
+        }
+
+        // Verificar objetos aninhados recursivamente
+        if (value.type === 'ObjectExpression') {
+          checkObjectForHardcodedValues(value, propName);
+        }
+      });
+    }
+
     return {
       // Verificar objetos de estilo em StyleSheet.create()
       CallExpression(node) {
@@ -176,6 +238,26 @@ module.exports = {
             }
           });
         }
+      },
+
+      // Verificar objetos literais em geral (como iconSizeMap)
+      ObjectExpression(node) {
+        // Ignorar se for argumento de StyleSheet.create (já tratado acima)
+        if (
+          node.parent.type === 'CallExpression' &&
+          node.parent.callee.type === 'MemberExpression' &&
+          node.parent.callee.object.name === 'StyleSheet'
+        ) {
+          return;
+        }
+
+        // Tentar obter o nome da variável pai
+        let varName = null;
+        if (node.parent.type === 'VariableDeclarator') {
+          varName = node.parent.id.name;
+        }
+
+        checkObjectForHardcodedValues(node, varName);
       },
     };
   },
