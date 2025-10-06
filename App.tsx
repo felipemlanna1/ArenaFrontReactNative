@@ -5,6 +5,7 @@ import * as Font from 'expo-font';
 import { Image } from 'expo-image';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ArenaColors } from './src/constants';
 import { SportsLoading } from './src/components/ui/sportsLoading';
 
@@ -60,7 +61,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <AppNavigator />
+        <HomeFiltersProvider>
+          <AppNavigator />
+        </HomeFiltersProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );
