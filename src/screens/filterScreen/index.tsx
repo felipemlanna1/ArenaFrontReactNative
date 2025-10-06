@@ -3,15 +3,16 @@ import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
+import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FilterSection } from './components/FilterSection';
+import { EventFilterSection } from './components/EventFilterSection';
 import { SportsFilter } from './components/SportsFilter';
 import { PriceRangeFilter } from './components/PriceRangeFilter';
 import { DateRangeFilter } from './components/DateRangeFilter';
 import { ActiveFiltersBar } from './components/ActiveFiltersBar';
-import { useFilterScreen } from './hooks/useFilterScreen';
 import { styles } from './stylesFilterScreen';
 
 type FilterScreenProps = NativeStackScreenProps<
@@ -19,59 +20,53 @@ type FilterScreenProps = NativeStackScreenProps<
   'FilterScreen'
 >;
 
-export const FilterScreen: React.FC<FilterScreenProps> = ({
-  route,
-  navigation,
-}) => {
-  const { currentFilters, onApplyFilters } = route.params;
+export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
   const {
-    filters,
+    activeFilters,
     updateFilter,
-    toggleArrayFilter,
+    toggleSportId,
+    setEventFilter,
     clearFilters,
-    applyFilters,
-    filterCount,
-    isApplying,
-  } = useFilterScreen({
-    currentFilters,
-    onApplyFilters,
-  });
+    activeFiltersCount,
+  } = useHomeFilters();
 
   const handleRemoveFilter = useCallback(
-    (key: keyof typeof filters, value?: string) => {
+    (key: keyof typeof activeFilters, value?: string) => {
       if (value) {
-        toggleArrayFilter(key, value);
+        toggleSportId(value);
       } else {
         switch (key) {
           case 'priceMin':
           case 'priceMax':
-            updateFilter(key, null);
+            updateFilter(key, undefined);
             break;
           case 'startDateFrom':
           case 'startDateTo':
-            updateFilter(key, null);
+            updateFilter(key, undefined);
             break;
           case 'city':
-          case 'state':
             updateFilter(key, '');
             break;
           case 'isFree':
           case 'hasAvailableSpots':
             updateFilter(key, false);
             break;
+          case 'eventFilter':
+            setEventFilter('all');
+            break;
           default:
             break;
         }
       }
     },
-    [updateFilter, toggleArrayFilter]
+    [updateFilter, toggleSportId, setEventFilter]
   );
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <ActiveFiltersBar
-        filters={filters}
-        filterCount={filterCount.total}
+        filters={activeFilters}
+        filterCount={activeFiltersCount}
         onClearAll={clearFilters}
         onRemoveFilter={handleRemoveFilter}
       />
@@ -83,13 +78,26 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
       >
         <View style={styles.section}>
           <FilterSection
+            title="Tipo de Evento"
+            count={activeFilters.eventFilter !== 'all' ? 1 : 0}
+            testID="filter-event-type"
+          >
+            <EventFilterSection
+              value={activeFilters.eventFilter || 'all'}
+              onChange={setEventFilter}
+            />
+          </FilterSection>
+        </View>
+
+        <View style={styles.section}>
+          <FilterSection
             title="Esportes"
-            count={filterCount.byCategory.sports}
+            count={activeFilters.sportIds?.length || 0}
             defaultExpanded
             testID="filter-sports"
           >
             <SportsFilter
-              selectedSportIds={filters.sportIds}
+              selectedSportIds={activeFilters.sportIds || []}
               onSportsChange={value => updateFilter('sportIds', value)}
             />
           </FilterSection>
@@ -98,15 +106,25 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
         <View style={styles.section}>
           <FilterSection
             title="Preço"
-            count={filterCount.byCategory.price}
+            count={
+              activeFilters.priceMin !== undefined ||
+              activeFilters.priceMax !== undefined ||
+              activeFilters.isFree
+                ? 1
+                : 0
+            }
             testID="filter-price"
           >
             <PriceRangeFilter
-              priceMin={filters.priceMin}
-              priceMax={filters.priceMax}
-              isFree={filters.isFree}
-              onPriceMinChange={value => updateFilter('priceMin', value)}
-              onPriceMaxChange={value => updateFilter('priceMax', value)}
+              priceMin={activeFilters.priceMin ?? null}
+              priceMax={activeFilters.priceMax ?? null}
+              isFree={activeFilters.isFree ?? false}
+              onPriceMinChange={value =>
+                updateFilter('priceMin', value ?? undefined)
+              }
+              onPriceMaxChange={value =>
+                updateFilter('priceMax', value ?? undefined)
+              }
               onIsFreeChange={value => updateFilter('isFree', value)}
             />
           </FilterSection>
@@ -115,16 +133,28 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
         <View style={styles.section}>
           <FilterSection
             title="Data"
-            count={filterCount.byCategory.date}
+            count={
+              activeFilters.startDateFrom || activeFilters.startDateTo ? 1 : 0
+            }
             testID="filter-date"
           >
             <DateRangeFilter
-              startDateFrom={filters.startDateFrom}
-              startDateTo={filters.startDateTo}
-              onStartDateFromChange={value =>
-                updateFilter('startDateFrom', value)
+              startDateFrom={
+                activeFilters.startDateFrom
+                  ? new Date(activeFilters.startDateFrom)
+                  : null
               }
-              onStartDateToChange={value => updateFilter('startDateTo', value)}
+              startDateTo={
+                activeFilters.startDateTo
+                  ? new Date(activeFilters.startDateTo)
+                  : null
+              }
+              onStartDateFromChange={value =>
+                updateFilter('startDateFrom', value?.toISOString() ?? undefined)
+              }
+              onStartDateToChange={value =>
+                updateFilter('startDateTo', value?.toISOString() ?? undefined)
+              }
             />
           </FilterSection>
         </View>
@@ -132,23 +162,17 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
         <View style={styles.section}>
           <FilterSection
             title="Localização"
-            count={filterCount.byCategory.location}
+            count={activeFilters.city ? 1 : 0}
             testID="filter-location"
           >
             <View style={styles.locationInputs}>
               <Input
                 label="Cidade"
-                value={filters.city}
-                onChangeText={value => updateFilter('city', value)}
+                value={activeFilters.city ?? ''}
+                onChangeText={value => updateFilter('city', value || undefined)}
                 placeholder="Digite a cidade"
                 testID="filter-city-input"
-              />
-              <Input
-                label="Estado"
-                value={filters.state}
-                onChangeText={value => updateFilter('state', value)}
-                placeholder="Digite o estado"
-                testID="filter-state-input"
+                fullWidth
               />
             </View>
           </FilterSection>
@@ -157,14 +181,17 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
         <View style={styles.section}>
           <FilterSection
             title="Disponibilidade"
-            count={filters.hasAvailableSpots ? 1 : 0}
+            count={activeFilters.hasAvailableSpots ? 1 : 0}
             testID="filter-availability"
           >
             <View style={styles.checkboxContainer}>
               <Checkbox
-                checked={filters.hasAvailableSpots}
+                checked={activeFilters.hasAvailableSpots || false}
                 onPress={() =>
-                  updateFilter('hasAvailableSpots', !filters.hasAvailableSpots)
+                  updateFilter(
+                    'hasAvailableSpots',
+                    !activeFilters.hasAvailableSpots
+                  )
                 }
                 label="Apenas eventos com vagas disponíveis"
                 testID="filter-has-spots-checkbox"
@@ -177,14 +204,10 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
       <View style={styles.footer}>
         <Button
           variant="primary"
-          onPress={async () => {
-            await applyFilters();
-            navigation.goBack();
-          }}
-          disabled={isApplying}
+          onPress={() => navigation.goBack()}
           testID="filter-apply-button"
         >
-          {isApplying ? 'Aplicando...' : 'Aplicar Filtros'}
+          Aplicar Filtros
         </Button>
       </View>
     </SafeAreaView>

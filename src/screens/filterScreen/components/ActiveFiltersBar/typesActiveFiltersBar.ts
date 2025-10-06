@@ -1,22 +1,32 @@
-import { FilterScreenState } from '@/screens/filterScreen/typesFilterScreen';
+export interface ActiveFilters {
+  sportIds?: string[];
+  hasAvailableSpots?: boolean;
+  city?: string;
+  priceMin?: number;
+  priceMax?: number;
+  isFree?: boolean;
+  startDateFrom?: string;
+  startDateTo?: string;
+  eventFilter?: 'all' | 'organizing' | 'participating' | 'invited';
+}
 
 export interface ActiveFiltersBarProps {
-  filters: FilterScreenState;
+  filters: ActiveFilters;
   filterCount: number;
   onClearAll: () => void;
-  onRemoveFilter: (key: keyof FilterScreenState, value?: string) => void;
+  onRemoveFilter: (key: keyof ActiveFilters, value?: string) => void;
   testID?: string;
 }
 
 export interface ActiveFilterChip {
   id: string;
   label: string;
-  key: keyof FilterScreenState;
+  key: keyof ActiveFilters;
   value?: string;
 }
 
 export interface UseActiveFiltersBarProps {
-  filters: FilterScreenState;
+  filters: ActiveFilters;
 }
 
 export interface UseActiveFiltersBarReturn {

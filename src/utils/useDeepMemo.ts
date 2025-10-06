@@ -1,9 +1,5 @@
 import { useRef, useMemo } from 'react';
 
-/**
- * Hook personalizado para memoização profunda de objetos
- * Evita re-renders desnecessários causados por JSON.stringify
- */
 export const useDeepMemo = <T>(value: T): T => {
   const ref = useRef<T>(value);
   const previousValue = ref.current;
@@ -19,10 +15,6 @@ export const useDeepMemo = <T>(value: T): T => {
   return ref.current;
 };
 
-/**
- * Comparação profunda otimizada para objetos de filtro
- * Evita problemas de ordem de propriedades do JSON.stringify
- */
 function deepEqual(obj1: unknown, obj2: unknown): boolean {
   if (obj1 === obj2) return true;
 

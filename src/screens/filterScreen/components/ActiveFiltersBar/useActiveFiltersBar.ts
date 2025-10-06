@@ -4,27 +4,21 @@ import {
   UseActiveFiltersBarReturn,
   ActiveFilterChip,
 } from './typesActiveFiltersBar';
-import {
-  SKILL_LEVEL_OPTIONS,
-  PRIVACY_OPTIONS,
-  EVENT_STATUS_OPTIONS,
-  EVENT_TYPE_OPTIONS,
-  SORT_OPTIONS,
-} from '@/screens/filterScreen/utils/filterConstants';
 
-const findOptionLabel = (
-  options: { id: string; label: string }[],
-  value: string
-): string => {
-  return options.find(opt => opt.id === value)?.label || value;
-};
-
-const formatDate = (date: Date): string => {
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
   return date.toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
   });
+};
+
+const EVENT_FILTER_LABELS: Record<string, string> = {
+  all: 'Todos os eventos',
+  organizing: 'Eventos que organizo',
+  participating: 'Eventos que participo',
+  invited: 'Eventos que fui convidado',
 };
 
 export const useActiveFiltersBar = ({
@@ -33,51 +27,23 @@ export const useActiveFiltersBar = ({
   const activeFilters = useMemo((): ActiveFilterChip[] => {
     const chips: ActiveFilterChip[] = [];
 
-    if (filters.skillLevels.length > 0) {
-      filters.skillLevels.forEach(level => {
-        chips.push({
-          id: `skill-${level}`,
-          label: findOptionLabel(SKILL_LEVEL_OPTIONS, level),
-          key: 'skillLevels',
-          value: level,
-        });
+    if (filters.sportIds && filters.sportIds.length > 0) {
+      chips.push({
+        id: 'sports',
+        label: `${filters.sportIds.length} esporte${filters.sportIds.length > 1 ? 's' : ''}`,
+        key: 'sportIds',
       });
     }
 
-    if (filters.privacy.length > 0) {
-      filters.privacy.forEach(privacy => {
-        chips.push({
-          id: `privacy-${privacy}`,
-          label: findOptionLabel(PRIVACY_OPTIONS, privacy),
-          key: 'privacy',
-          value: privacy,
-        });
+    if (filters.eventFilter && filters.eventFilter !== 'all') {
+      chips.push({
+        id: 'event-filter',
+        label: EVENT_FILTER_LABELS[filters.eventFilter],
+        key: 'eventFilter',
       });
     }
 
-    if (filters.status.length > 0) {
-      filters.status.forEach(status => {
-        chips.push({
-          id: `status-${status}`,
-          label: findOptionLabel(EVENT_STATUS_OPTIONS, status),
-          key: 'status',
-          value: status,
-        });
-      });
-    }
-
-    if (filters.eventTypes.length > 0) {
-      filters.eventTypes.forEach(type => {
-        chips.push({
-          id: `type-${type}`,
-          label: findOptionLabel(EVENT_TYPE_OPTIONS, type),
-          key: 'eventTypes',
-          value: type,
-        });
-      });
-    }
-
-    if (filters.priceMin !== null) {
+    if (filters.priceMin !== undefined && filters.priceMin !== null) {
       chips.push({
         id: 'price-min',
         label: `Mín: R$ ${filters.priceMin}`,
@@ -85,7 +51,7 @@ export const useActiveFiltersBar = ({
       });
     }
 
-    if (filters.priceMax !== null) {
+    if (filters.priceMax !== undefined && filters.priceMax !== null) {
       chips.push({
         id: 'price-max',
         label: `Máx: R$ ${filters.priceMax}`,
@@ -125,27 +91,11 @@ export const useActiveFiltersBar = ({
       });
     }
 
-    if (filters.city.trim()) {
+    if (filters.city && filters.city.trim()) {
       chips.push({
         id: 'city',
         label: `Cidade: ${filters.city}`,
         key: 'city',
-      });
-    }
-
-    if (filters.state.trim()) {
-      chips.push({
-        id: 'state',
-        label: `Estado: ${filters.state}`,
-        key: 'state',
-      });
-    }
-
-    if (filters.sortBy !== 'date') {
-      chips.push({
-        id: 'sort',
-        label: `Ordenar: ${findOptionLabel(SORT_OPTIONS, filters.sortBy)}`,
-        key: 'sortBy',
       });
     }
 

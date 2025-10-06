@@ -9,7 +9,7 @@ import {
 } from './typesActiveFiltersBar';
 import { useActiveFiltersBar } from './useActiveFiltersBar';
 import { styles } from './stylesActiveFiltersBar';
-import { FilterScreenState } from '@/screens/filterScreen/typesFilterScreen';
+import { ActiveFilters } from '@/contexts/HomeFiltersContext';
 
 export const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
   filters,
@@ -79,16 +79,16 @@ export const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
   );
 };
 
-const getResetValue = (key: keyof FilterScreenState): string | undefined => {
+const getResetValue = (key: keyof ActiveFilters): string | undefined => {
   switch (key) {
     case 'priceMin':
     case 'priceMax':
     case 'startDateFrom':
     case 'startDateTo':
     case 'city':
-    case 'state':
     case 'isFree':
     case 'hasAvailableSpots':
+    case 'eventFilter':
       return undefined;
     default:
       return undefined;

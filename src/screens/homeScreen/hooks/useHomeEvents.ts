@@ -3,7 +3,7 @@ import { Event, EventsFilter } from '@/services/events/typesEvents';
 import { eventsService } from '@/services/events/eventsService';
 
 interface UseHomeEventsParams {
-  apiFilters: EventsFilter;
+  apiFilters: EventsFilter | null;
 }
 
 interface UseHomeEventsReturn {
@@ -31,14 +31,11 @@ export const useHomeEvents = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  // ⭐ REGRA: Usar refs para prevenir múltiplas requisições simultâneas
   const isLoadingRef = useRef(false);
   const apiFiltersRef = useRef(apiFilters);
 
-  // Atualizar ref quando filtros mudarem
   apiFiltersRef.current = apiFilters;
 
-  // ⭐ REGRA: Filtrar eventos futuros no cliente (dupla validação)
   const filterFutureEvents = useCallback((eventsList: Event[]): Event[] => {
     const currentDate = new Date();
     return eventsList.filter(event => {
@@ -48,15 +45,42 @@ export const useHomeEvents = ({
   }, []);
 
   const loadEvents = useCallback(async () => {
-    if (isLoadingRef.current) return;
+    if (isLoadingRef.current) {
+      return;
+    }
+
+    const filters = apiFiltersRef.current;
+
+    if (!filters) {
+      return;
+    }
 
     try {
       isLoadingRef.current = true;
       setIsLoading(true);
       setError(null);
 
-      const filters = apiFiltersRef.current;
-      const response = await eventsService.getFeedEvents(1, filters);
+      let response;
+      const currentFilters = filters as EventsFilter & { eventFilter?: string };
+
+      if (currentFilters.eventFilter === 'participating') {
+        response = await eventsService.getFeedEvents(1, {
+          ...filters,
+          userEventStatus: ['PARTICIPANT'],
+        });
+      } else if (currentFilters.eventFilter === 'invited') {
+        response = await eventsService.getFeedEvents(1, {
+          ...filters,
+          userEventStatus: ['INVITED'],
+        });
+      } else if (currentFilters.eventFilter === 'organizing') {
+        response = await eventsService.getFeedEvents(1, {
+          ...filters,
+          userEventStatus: ['ORGANIZER', 'ADMIN'],
+        });
+      } else {
+        response = await eventsService.getFeedEvents(1, filters);
+      }
 
       const futureEvents = filterFutureEvents(response.data);
 
@@ -76,12 +100,37 @@ export const useHomeEvents = ({
   const loadMoreEvents = useCallback(async () => {
     if (isLoadingMore || !hasMore || isLoadingRef.current) return;
 
+    const filters = apiFiltersRef.current;
+
+    if (!filters) {
+      return;
+    }
+
     try {
       setIsLoadingMore(true);
       const nextPage = currentPage + 1;
-      const filters = apiFiltersRef.current;
 
-      const response = await eventsService.getFeedEvents(nextPage, filters);
+      let response;
+      const currentFilters = filters as EventsFilter & { eventFilter?: string };
+
+      if (currentFilters.eventFilter === 'participating') {
+        response = await eventsService.getFeedEvents(nextPage, {
+          ...filters,
+          userEventStatus: ['PARTICIPANT'],
+        });
+      } else if (currentFilters.eventFilter === 'invited') {
+        response = await eventsService.getFeedEvents(nextPage, {
+          ...filters,
+          userEventStatus: ['INVITED'],
+        });
+      } else if (currentFilters.eventFilter === 'organizing') {
+        response = await eventsService.getFeedEvents(nextPage, {
+          ...filters,
+          userEventStatus: ['ORGANIZER', 'ADMIN'],
+        });
+      } else {
+        response = await eventsService.getFeedEvents(nextPage, filters);
+      }
 
       const futureEvents = filterFutureEvents(response.data);
 
@@ -89,7 +138,9 @@ export const useHomeEvents = ({
       setCurrentPage(nextPage);
       setHasMore(response.pagination.hasMore);
     } catch (err) {
-      console.error('Error loading more events:', err);
+      setError(
+        err instanceof Error ? err : new Error('Erro ao carregar mais eventos')
+      );
     } finally {
       setIsLoadingMore(false);
     }
@@ -98,13 +149,38 @@ export const useHomeEvents = ({
   const refreshEvents = useCallback(async () => {
     if (isLoadingRef.current) return;
 
+    const filters = apiFiltersRef.current;
+
+    if (!filters) {
+      return;
+    }
+
     try {
       isLoadingRef.current = true;
       setIsRefreshing(true);
       setError(null);
 
-      const filters = apiFiltersRef.current;
-      const response = await eventsService.getFeedEvents(1, filters);
+      let response;
+      const currentFilters = filters as EventsFilter & { eventFilter?: string };
+
+      if (currentFilters.eventFilter === 'participating') {
+        response = await eventsService.getFeedEvents(1, {
+          ...filters,
+          userEventStatus: ['PARTICIPANT'],
+        });
+      } else if (currentFilters.eventFilter === 'invited') {
+        response = await eventsService.getFeedEvents(1, {
+          ...filters,
+          userEventStatus: ['INVITED'],
+        });
+      } else if (currentFilters.eventFilter === 'organizing') {
+        response = await eventsService.getFeedEvents(1, {
+          ...filters,
+          userEventStatus: ['ORGANIZER', 'ADMIN'],
+        });
+      } else {
+        response = await eventsService.getFeedEvents(1, filters);
+      }
 
       const futureEvents = filterFutureEvents(response.data);
 

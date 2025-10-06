@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { NavigationProp } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
+import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { EventsFilter } from '@/services/events/typesEvents';
-import { useHomeFilters } from './hooks/useHomeFilters';
-import { useHomeLocation } from './hooks/useHomeLocation';
 import { useHomeEvents } from './hooks/useHomeEvents';
 import { useDeepMemo } from '@/utils/useDeepMemo';
+import { useEventActions } from '@/hooks/useEventActions';
 
 interface UseHomeScreenReturn {
   events: ReturnType<typeof useHomeEvents>['events'];
@@ -17,13 +17,12 @@ interface UseHomeScreenReturn {
   hasMore: boolean;
   searchTerm: string;
   activeFiltersCount: number;
-  currentFilters: EventsFilter;
+  currentFilters: EventsFilter | null;
   handleLogout: () => Promise<void>;
   isLoggingOut: boolean;
   setSearchTerm: (term: string) => void;
   handleSortPress: () => void;
   handleFilterPress: () => void;
-  handleApplyFilters: (filters: Partial<EventsFilter>) => void;
   handleApplySort: (
     sortBy: 'date' | 'distance' | 'price' | 'name',
     sortOrder: 'asc' | 'desc'
@@ -35,6 +34,7 @@ interface UseHomeScreenReturn {
   setShowSortModal: (show: boolean) => void;
   sortBy: 'date' | 'distance' | 'price' | 'name';
   sortOrder: 'asc' | 'desc';
+  eventActions: ReturnType<typeof useEventActions>;
 }
 
 export const useHomeScreen = (
@@ -44,16 +44,24 @@ export const useHomeScreen = (
   const [showSortModal, setShowSortModal] = useState(false);
   const { signOut } = useAuth();
 
-  // ⭐ REGRA: Usar hooks modulares
-  const filters = useHomeFilters();
-  const location = useHomeLocation();
+  const {
+    buildApiFilters,
+    searchTerm,
+    setSearchTerm,
+    sortBy,
+    sortOrder,
+    setSortBy,
+    setSortOrder,
+    activeFiltersCount,
+  } = useHomeFilters();
 
-  // ⭐ REGRA: Debounce para searchTerm (500ms)
-  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
   const isInitializedRef = useRef(false);
 
-  // Memoizar filtros para estabilizar dependências
-  const memoizedApiFilters = useDeepMemo(filters.buildApiFilters());
+  const apiFilters = buildApiFilters();
+  const memoizedApiFilters = useDeepMemo(apiFilters);
 
   const events = useHomeEvents({
     apiFilters: memoizedApiFilters,
@@ -74,88 +82,56 @@ export const useHomeScreen = (
     }
   }, [navigation, signOut]);
 
-  // ⭐ REGRA: Carregar eventos apenas uma vez na inicialização
   useEffect(() => {
-    if (!isInitializedRef.current) {
-      isInitializedRef.current = true;
-      events.loadEvents();
+    if (!memoizedApiFilters) {
+      return;
     }
 
-    return () => {
-      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    };
-  }, [events]);
-
-  // ⭐ REGRA: Debounce de 500ms para pesquisa
-  useEffect(() => {
-    if (!isInitializedRef.current) return;
-
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-
-    searchTimeoutRef.current = setTimeout(() => {
-      events.loadEvents();
-    }, 500);
-
-    return () => {
-      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    };
-  }, [filters.searchTerm]);
-
-  // ⭐ REGRA: Recarregar quando filtros ou ordenação mudarem
-  useEffect(() => {
-    if (!isInitializedRef.current) return;
+    if (!isInitializedRef.current) {
+      isInitializedRef.current = true;
+    }
 
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    events.loadEvents();
-  }, [memoizedApiFilters]);
+    if (searchTerm) {
+      searchTimeoutRef.current = setTimeout(() => {
+        events.loadEvents();
+      }, 500);
+    } else {
+      events.loadEvents();
+    }
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [memoizedApiFilters, searchTerm]);
 
   const handleSortPress = useCallback(() => {
     setShowSortModal(true);
   }, []);
 
   const handleFilterPress = useCallback(() => {
-    navigation.navigate('FilterScreen', {
-      currentFilters: filters.buildApiFilters(),
-      onApplyFilters: (newFilters: EventsFilter) => {
-        filters.setActiveFilters({
-          sportIds: newFilters.sportIds,
-          city: newFilters.city,
-          state: newFilters.state,
-          priceMin: newFilters.priceMin,
-          priceMax: newFilters.priceMax,
-          isFree: newFilters.isFree,
-          hasAvailableSpots: newFilters.hasAvailableSpots,
-          startDateFrom: newFilters.startDateFrom,
-          startDateTo: newFilters.startDateTo,
-        });
-      },
-    });
-  }, [navigation, filters]);
-
-  const handleApplyFilters = useCallback(
-    (newFilters: Partial<EventsFilter>) => {
-      filters.setActiveFilters({
-        ...filters.activeFilters,
-        ...newFilters,
-      });
-    },
-    [filters]
-  );
+    navigation.navigate('FilterScreen');
+  }, [navigation]);
 
   const handleApplySort = useCallback(
     (
-      sortBy: 'date' | 'distance' | 'price' | 'name',
-      sortOrder: 'asc' | 'desc'
+      newSortBy: 'date' | 'distance' | 'price' | 'name',
+      newSortOrder: 'asc' | 'desc'
     ) => {
-      filters.setSortBy(sortBy);
-      filters.setSortOrder(sortOrder);
+      setSortBy(newSortBy);
+      setSortOrder(newSortOrder);
       setShowSortModal(false);
     },
-    [filters]
+    [setSortBy, setSortOrder]
   );
+
+  const eventActions = useEventActions(events.refreshEvents);
 
   return {
     events: events.events,
@@ -164,22 +140,22 @@ export const useHomeScreen = (
     isLoadingMore: events.isLoadingMore,
     error: events.error,
     hasMore: events.hasMore,
-    searchTerm: filters.searchTerm,
-    activeFiltersCount: filters.activeFiltersCount,
-    currentFilters: filters.buildApiFilters(),
+    searchTerm,
+    activeFiltersCount,
+    currentFilters: memoizedApiFilters,
     handleLogout,
     isLoggingOut,
-    setSearchTerm: filters.setSearchTerm,
+    setSearchTerm,
     handleSortPress,
     handleFilterPress,
-    handleApplyFilters,
     handleApplySort,
     refreshEvents: events.refreshEvents,
     loadMoreEvents: events.loadMoreEvents,
     handleShare: events.handleShare,
     showSortModal,
     setShowSortModal,
-    sortBy: filters.sortBy,
-    sortOrder: filters.sortOrder,
+    sortBy,
+    sortOrder,
+    eventActions,
   };
 };

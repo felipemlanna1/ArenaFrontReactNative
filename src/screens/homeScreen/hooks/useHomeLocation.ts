@@ -11,13 +11,13 @@ interface UseHomeLocationReturn {
 }
 
 export const useHomeLocation = (): UseHomeLocationReturn => {
-  const [userLocation, setUserLocation] =
-    useState<LocationCoordinates | null>(null);
+  const [userLocation, setUserLocation] = useState<LocationCoordinates | null>(
+    null
+  );
   const [userCity, setUserCity] = useState<string | null>(null);
   const [userState, setUserState] = useState<string | null>(null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
-  // ⭐ REGRA: Solicitar localização na inicialização
   const requestLocation = useCallback(async () => {
     try {
       setIsLoadingLocation(true);
@@ -35,15 +35,12 @@ export const useHomeLocation = (): UseHomeLocationReturn => {
 
       setUserLocation(location.coordinates);
       setUserCity(location.address.city);
-      setUserState(location.address.state);
-    } catch (error) {
-      console.error('Error requesting location:', error);
+      setUserState(location.address.city);
     } finally {
       setIsLoadingLocation(false);
     }
   }, []);
 
-  // Solicitar localização automaticamente no mount
   useEffect(() => {
     requestLocation();
   }, [requestLocation]);

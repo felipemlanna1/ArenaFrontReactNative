@@ -3,7 +3,7 @@ import {
   UsePriceRangeFilterProps,
   UsePriceRangeFilterReturn,
 } from './typesPriceRangeFilter';
-import { PRICE_LIMITS } from '@/screens/filterScreen/utils/filterConstants';
+import { PRICE_LIMITS } from '@/constants/filterDefaults';
 
 export const usePriceRangeFilter = ({
   priceMin,
