@@ -74,4 +74,33 @@ export class EventsApi {
     );
     return response;
   }
+
+  async joinEvent(eventId: string): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/join`, {});
+  }
+
+  async requestJoin(eventId: string): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/request`, {});
+  }
+
+  async leaveEvent(eventId: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/${eventId}/leave`);
+  }
+
+  async cancelRequest(eventId: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/${eventId}/request`);
+  }
+
+  async acceptInvitation(eventId: string, invitationId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/invitations/${invitationId}/accept`,
+      {}
+    );
+  }
+
+  async rejectInvitation(eventId: string, invitationId: string): Promise<void> {
+    await httpService.delete(
+      `${this.basePath}/${eventId}/invitations/${invitationId}/reject`
+    );
+  }
 }

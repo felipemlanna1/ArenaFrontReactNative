@@ -50,6 +50,7 @@ export interface Event {
   distance?: number;
   userEventStatus?: UserEventStatus;
   hasCheckedIn?: boolean;
+  invitationId?: string;
   coverImage?: string;
   organizerId: string;
   organizerName: string;
@@ -72,6 +73,7 @@ export interface EventsFilter {
   hasAvailableSpots?: boolean;
   city?: string;
   state?: string;
+  eventFilter?: 'all' | 'organizing' | 'participating' | 'invited';
   userEventStatus?: UserEventStatus[];
   limit?: number;
   sortBy?: 'date' | 'distance' | 'price' | 'name';
