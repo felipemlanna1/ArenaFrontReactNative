@@ -43,26 +43,41 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     setShowSortModal,
     sortBy,
     sortOrder,
+    eventActions,
   } = useHomeScreen(navigation);
 
-  const handleEventPress = useCallback((eventId: string) => {
-    navigation.navigate('Home');
-  }, [navigation]);
+  const handleDetailsPress = useCallback(
+    (eventId: string) => {
+      navigation.navigate('Home');
+    },
+    [navigation]
+  );
 
-  const handleActionPress = useCallback((eventId: string) => {
-    void eventId;
-  }, []);
+  const handleManagePress = useCallback(
+    (eventId: string) => {
+      navigation.navigate('Home');
+    },
+    [navigation]
+  );
 
   const renderItem = useCallback(
     ({ item }: { item: Event }) => (
       <EventCard
         event={item}
-        onPress={handleEventPress}
+        onDetailsPress={handleDetailsPress}
+        onManagePress={handleManagePress}
         onShare={handleShare}
-        onActionPress={handleActionPress}
+        onJoinEvent={eventActions.handleJoinEvent}
+        onRequestJoin={eventActions.handleRequestJoin}
+        onCancelParticipation={eventActions.handleCancelParticipation}
+        onUndoRequest={eventActions.handleUndoRequest}
+        onAcceptInvitation={eventActions.handleAcceptInvitation}
+        onRejectInvitation={eventActions.handleRejectInvitation}
+        isActionLoading={eventActions.isActionLoading}
+        currentActionEventId={eventActions.currentActionEventId}
       />
     ),
-    [handleEventPress, handleShare, handleActionPress]
+    [handleDetailsPress, handleManagePress, handleShare, eventActions]
   );
 
   const renderEmpty = useCallback(() => {
