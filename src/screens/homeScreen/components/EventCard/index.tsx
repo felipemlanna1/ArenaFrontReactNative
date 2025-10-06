@@ -13,9 +13,17 @@ import { styles } from './stylesEventCard';
 
 export const EventCard: React.FC<EventCardProps> = ({
   event,
-  onPress,
+  onDetailsPress,
+  onManagePress,
   onShare,
-  onActionPress,
+  onJoinEvent,
+  onRequestJoin,
+  onCancelParticipation,
+  onUndoRequest,
+  onAcceptInvitation,
+  onRejectInvitation,
+  isActionLoading = false,
+  currentActionEventId,
   testID = 'event-card',
 }) => {
   const { formatDate, formatTime, formatPrice, formatDistance } =
@@ -27,6 +35,9 @@ export const EventCard: React.FC<EventCardProps> = ({
       privacy: event.privacy,
       currentParticipants: event.currentParticipants,
       maxParticipants: event.maxParticipants,
+      isLoading: isActionLoading,
+      currentActionEventId,
+      eventId: event.id,
     });
 
   const getButtonVariant = (
@@ -62,23 +73,44 @@ export const EventCard: React.FC<EventCardProps> = ({
     }
   };
 
-  const handlePress = () => {
-    onPress(event.id);
+  const handleViewPress = () => {
+    onDetailsPress(event.id);
   };
 
   const handleShare = () => {
     onShare(event.id);
   };
 
-  const handleActionPress = () => {
-    if (onActionPress) {
-      onActionPress(event.id);
+  const handleActionPress = async () => {
+    if (!actionButton) return;
+
+    switch (actionButton.type) {
+      case 'manage':
+        onManagePress(event.id);
+        break;
+      case 'join':
+        await onJoinEvent(event.id);
+        break;
+      case 'request':
+        await onRequestJoin(event.id);
+        break;
+      case 'cancel':
+        await onCancelParticipation(event.id);
+        break;
+      case 'undo':
+        await onUndoRequest(event.id);
+        break;
+      case 'accept':
+        await onAcceptInvitation(event.id, event.invitationId);
+        break;
     }
   };
 
-  const handleSecondaryActionPress = () => {
-    if (onActionPress) {
-      onActionPress(event.id);
+  const handleSecondaryActionPress = async () => {
+    if (!secondaryActionButton) return;
+
+    if (secondaryActionButton.type === 'reject') {
+      await onRejectInvitation(event.id, event.invitationId);
     }
   };
 
@@ -156,8 +188,10 @@ export const EventCard: React.FC<EventCardProps> = ({
             <Button
               variant={getButtonVariant(viewButton.variant)}
               size="sm"
-              onPress={handlePress}
+              onPress={handleViewPress}
               testID={viewButton.testID}
+              loading={viewButton.loading}
+              disabled={viewButton.disabled}
               rightIcon={({ size, color }) => (
                 <Ionicons name="arrow-forward" size={size} color={color} />
               )}
@@ -174,6 +208,8 @@ export const EventCard: React.FC<EventCardProps> = ({
                 size="sm"
                 onPress={handleActionPress}
                 testID={actionButton.testID}
+                loading={actionButton.loading}
+                disabled={actionButton.disabled}
                 fullWidth
               >
                 {actionButton.label}
@@ -188,6 +224,8 @@ export const EventCard: React.FC<EventCardProps> = ({
                 size="sm"
                 onPress={handleSecondaryActionPress}
                 testID={secondaryActionButton.testID}
+                loading={secondaryActionButton.loading}
+                disabled={secondaryActionButton.disabled}
                 fullWidth
               >
                 {secondaryActionButton.label}
