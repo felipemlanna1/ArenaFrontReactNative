@@ -19,38 +19,24 @@ export interface UserLocation {
   address: LocationAddress;
 }
 
-/**
- * Solicita permissão de localização ao usuário
- * @returns true se a permissão foi concedida, false caso contrário
- */
 export const requestLocationPermission = async (): Promise<boolean> => {
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();
     return status === 'granted';
-  } catch (error) {
-    console.error('Error requesting location permission:', error);
+  } catch {
     return false;
   }
 };
 
-/**
- * Verifica se a permissão de localização foi concedida
- * @returns true se a permissão foi concedida, false caso contrário
- */
 export const checkLocationPermission = async (): Promise<boolean> => {
   try {
     const { status } = await Location.getForegroundPermissionsAsync();
     return status === 'granted';
-  } catch (error) {
-    console.error('Error checking location permission:', error);
+  } catch {
     return false;
   }
 };
 
-/**
- * Obtém a localização atual do usuário
- * @returns Coordenadas de latitude e longitude
- */
 export const getCurrentLocation =
   async (): Promise<LocationCoordinates | null> => {
     try {
@@ -59,7 +45,6 @@ export const getCurrentLocation =
       if (!hasPermission) {
         const granted = await requestLocationPermission();
         if (!granted) {
-          console.warn('Location permission not granted');
           return null;
         }
       }
@@ -72,17 +57,11 @@ export const getCurrentLocation =
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
-    } catch (error) {
-      console.error('Error getting current location:', error);
+    } catch {
       return null;
     }
   };
 
-/**
- * Obtém o endereço a partir de coordenadas (reverse geocoding)
- * @param coordinates Coordenadas de latitude e longitude
- * @returns Endereço formatado
- */
 export const getAddressFromCoordinates = async (
   coordinates: LocationCoordinates
 ): Promise<LocationAddress | null> => {
@@ -103,16 +82,11 @@ export const getAddressFromCoordinates = async (
       street: address.street || null,
       region: address.region || null,
     };
-  } catch (error) {
-    console.error('Error getting address from coordinates:', error);
+  } catch {
     return null;
   }
 };
 
-/**
- * Obtém a localização completa do usuário (coordenadas + endereço)
- * @returns Localização completa do usuário
- */
 export const getUserLocation = async (): Promise<UserLocation | null> => {
   try {
     const coordinates = await getCurrentLocation();
@@ -141,23 +115,16 @@ export const getUserLocation = async (): Promise<UserLocation | null> => {
       coordinates,
       address,
     };
-  } catch (error) {
-    console.error('Error getting user location:', error);
+  } catch {
     return null;
   }
 };
 
-/**
- * Calcula a distância entre duas coordenadas em quilômetros usando a fórmula de Haversine
- * @param coord1 Primeira coordenada
- * @param coord2 Segunda coordenada
- * @returns Distância em quilômetros
- */
 export const calculateDistance = (
   coord1: LocationCoordinates,
   coord2: LocationCoordinates
 ): number => {
-  const R = 6371; // Raio da Terra em km
+  const R = 6371;
   const dLat = toRad(coord2.latitude - coord1.latitude);
   const dLon = toRad(coord2.longitude - coord1.longitude);
   const lat1 = toRad(coord1.latitude);
@@ -169,14 +136,9 @@ export const calculateDistance = (
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
-  return Math.round(distance * 10) / 10; // Arredonda para 1 casa decimal
+  return Math.round(distance * 10) / 10;
 };
 
-/**
- * Converte graus para radianos
- * @param degrees Graus
- * @returns Radianos
- */
 const toRad = (degrees: number): number => {
   return degrees * (Math.PI / 180);
 };
