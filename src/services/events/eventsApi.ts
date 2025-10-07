@@ -1,5 +1,6 @@
 import { httpService } from '../http';
 import { EventsFilter, EventsResponse, Event } from './typesEvents';
+import { CreateEventDto } from '@/screens/createEventScreen/typesCreateEventScreen';
 
 const prepareParams = (params: Record<string, unknown>): URLSearchParams => {
   const searchParams = new URLSearchParams();
@@ -102,5 +103,10 @@ export class EventsApi {
     await httpService.delete(
       `${this.basePath}/${eventId}/invitations/${invitationId}/reject`
     );
+  }
+
+  async createEvent(dto: CreateEventDto): Promise<Event> {
+    const response = await httpService.post<Event>(this.basePath, dto);
+    return response;
   }
 }

@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
   filterBarContainer: ViewStyle;
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create<Styles>({
     right: ArenaSpacing.lg,
     backgroundColor: ArenaColors.semantic.error,
     padding: ArenaSpacing.md,
-    borderRadius: ArenaSpacing.sm,
+    borderRadius: ArenaBorders.radius.md,
   },
   errorText: {
     color: ArenaColors.text.inverse,

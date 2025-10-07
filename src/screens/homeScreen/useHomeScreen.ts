@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { NavigationProp } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
-import { RootStackParamList } from '@/navigation/typesNavigation';
 import { EventsFilter } from '@/services/events/typesEvents';
 import { useHomeEvents } from './hooks/useHomeEvents';
 import { useDeepMemo } from '@/utils/useDeepMemo';
 import { useEventActions } from '@/hooks/useEventActions';
+
+interface NavigationLike {
+  navigate: (screen: string, params?: unknown) => void;
+  reset: (state: unknown) => void;
+}
 
 interface UseHomeScreenReturn {
   events: ReturnType<typeof useHomeEvents>['events'];
@@ -38,7 +41,7 @@ interface UseHomeScreenReturn {
 }
 
 export const useHomeScreen = (
-  navigation: NavigationProp<RootStackParamList>
+  navigation: NavigationLike
 ): UseHomeScreenReturn => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [showSortModal, setShowSortModal] = useState(false);

@@ -183,4 +183,16 @@ export const styles = StyleSheet.create({
   accordionVariantItem: {
     marginBottom: ArenaSpacing.sm,
   },
+  verticalStack: {
+    gap: ArenaSpacing.md,
+  },
+  fabShowcase: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.xl,
+    position: 'relative',
+    minHeight: 80,
+  },
 });

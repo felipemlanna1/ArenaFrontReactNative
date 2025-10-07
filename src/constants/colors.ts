@@ -11,6 +11,8 @@ export const ArenaColors = {
   neutral: {
     darkest: '#1B1D29',
     dark: '#20303D',
+    darkIntermediate: '#243441',
+    darkSubtleBorder: '#2C3E50',
     medium: '#B8B8B8',
     lighter: '#E8E8E8',
     light: '#FFFFFF',

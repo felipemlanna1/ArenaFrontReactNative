@@ -8,16 +8,22 @@ import { ComponentsShowcaseScreenProps } from './typesComponentsShowcaseScreen';
 import { ShowcaseHeader } from './showcaseHeader';
 import { TextComponentsSection } from './textComponentsSection';
 import {
+  AccordionSection,
   BadgeSection,
   BrandSection,
   ButtonSection,
   CardSection,
-  InputSection,
-  LoadingSection,
   CheckboxSection,
-  LinkSection,
+  DatePickerSection,
   DropdownSection,
-  AccordionSection,
+  FabSection,
+  InputSection,
+  LabelSection,
+  LinkSection,
+  LoadingSection,
+  ProgressBarSection,
+  StepperSection,
+  SwitchSection,
 } from './components';
 import { styles } from './stylesComponentsShowcaseScreen';
 
@@ -58,14 +64,29 @@ export const ComponentsShowcaseScreen: React.FC<
       content: <CheckboxSection onCopyCode={actions.handleCopyCode} />,
     },
     {
+      id: 'datepicker',
+      title: 'DatePicker',
+      content: <DatePickerSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
       id: 'dropdown',
       title: 'Dropdown',
       content: <DropdownSection onCopyCode={actions.handleCopyCode} />,
     },
     {
+      id: 'fab',
+      title: 'FAB (Floating Action Button)',
+      content: <FabSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
       id: 'input',
       title: 'Input',
       content: <InputSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'label',
+      title: 'Label',
+      content: <LabelSection />,
     },
     {
       id: 'link',
@@ -76,6 +97,21 @@ export const ComponentsShowcaseScreen: React.FC<
       id: 'loading',
       title: 'Loading (SportsLoading)',
       content: <LoadingSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'progressbar',
+      title: 'ProgressBar',
+      content: <ProgressBarSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'stepper',
+      title: 'Stepper',
+      content: <StepperSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'switch',
+      title: 'Switch',
+      content: <SwitchSection onCopyCode={actions.handleCopyCode} />,
     },
     {
       id: 'text',

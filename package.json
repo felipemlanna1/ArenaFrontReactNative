@@ -4,6 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start --clear",
+    "start:local": "EXPO_PUBLIC_API_URL=http://localhost:3000 expo start --clear",
     "start:mobile": "expo start --clear",
     "start:web": "PLATFORM=web expo start --web --clear",
     "android": "expo run:android",

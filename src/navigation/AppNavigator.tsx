@@ -8,8 +8,9 @@ import { LoginScreen } from '../screens/loginScreen';
 import { RegisterScreen } from '../screens/registerScreen';
 import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
-import { HomeScreen } from '../screens/homeScreen';
 import { FilterScreen } from '../screens/filterScreen';
+import { CreateEventScreen } from '../screens/createEventScreen';
+import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -54,7 +55,7 @@ export const AppNavigator: React.FC = () => {
           />
         ) : (
           <>
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
             <Stack.Screen
               name="FilterScreen"
               component={FilterScreen}
@@ -66,6 +67,14 @@ export const AppNavigator: React.FC = () => {
                   backgroundColor: ArenaColors.neutral.darkest,
                 },
                 headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="CreateEvent"
+              component={CreateEventScreen}
+              options={{
+                presentation: 'card',
+                headerShown: false,
               }}
             />
           </>

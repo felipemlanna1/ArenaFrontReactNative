@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { View, FlatList } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
+import { Fab } from '@/components/ui/fab';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
@@ -8,14 +10,24 @@ import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
 import { SortModal } from './components/SortModal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@/navigation/typesNavigation';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import {
+  RootStackParamList,
+  TabParamList,
+  HomeStackParamList,
+} from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
 import { Event } from '@/services/events/typesEvents';
+import { ArenaColors } from '@/constants';
 import { styles } from './stylesHomeScreen';
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
+type HomeScreenNavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<HomeStackParamList, 'Home'>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<TabParamList>,
+    NativeStackNavigationProp<RootStackParamList>
+  >
 >;
 
 interface HomeScreenProps {
@@ -44,20 +56,22 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     sortBy,
     sortOrder,
     eventActions,
-  } = useHomeScreen(navigation);
+  } = useHomeScreen(navigation as never);
 
   const handleDetailsPress = useCallback(
     (eventId: string) => {
-      navigation.navigate('Home');
+      // TODO: Navigate to event details screen
+      console.log('View details for event:', eventId);
     },
-    [navigation]
+    []
   );
 
   const handleManagePress = useCallback(
     (eventId: string) => {
-      navigation.navigate('Home');
+      // TODO: Navigate to event management screen
+      console.log('Manage event:', eventId);
     },
-    [navigation]
+    []
   );
 
   const renderItem = useCallback(
@@ -158,6 +172,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         }}
         onClose={() => setShowSortModal(false)}
         onApply={handleApplySort}
+      />
+
+      {/* FAB - Create Event */}
+      <Fab
+        onPress={() => navigation.navigate('CreateEvent')}
+        icon={<Ionicons name="add" size={24} color={ArenaColors.neutral.light} />}
+        testID="create-event-fab"
       />
     </AppLayout>
   );

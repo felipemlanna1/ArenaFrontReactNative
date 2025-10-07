@@ -10,9 +10,10 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { SportsLoading } from '../sportsLoading';
 import type { SportsLoadingSize } from '../sportsLoading/typesSportsLoading';
-import { Text } from '@/components/ui/text';
+import { Text } from '../text';
+import { Label } from '../label';
 import { ArenaColors } from '@/constants';
-import { InputProps, SimpleLabelProps, ClearButtonProps } from './typesInput';
+import { InputProps, ClearButtonProps } from './typesInput';
 import { useInput, useInputAccessibility } from './useInput';
 import {
   getInputSize,
@@ -22,36 +23,6 @@ import {
 import { styles } from './stylesInput';
 
 const LOADING_SPINNER_SIZE: SportsLoadingSize = 'xs';
-
-const SimpleLabel: React.FC<SimpleLabelProps> = ({
-  label,
-  size,
-  variant,
-  required,
-  disabled,
-}) => {
-  const sizeConfig = getInputSize(size);
-  const variantConfig = getInputVariant(variant);
-
-  const labelStyle = {
-    fontSize: sizeConfig.label.fontSize,
-    marginBottom: sizeConfig.label.marginBottom,
-    color: disabled ? ArenaColors.disabled.text : variantConfig.labelColor,
-    alignSelf: 'flex-start' as const,
-  };
-
-  return (
-    <Text variant="labelPrimary" style={labelStyle}>
-      {label}
-      {required && (
-        <Text variant="captionSecondary" style={styles.requiredAsterisk}>
-          {' '}
-          *
-        </Text>
-      )}
-    </Text>
-  );
-};
 
 const ClearButton: React.FC<ClearButtonProps> = ({
   onPress,
@@ -214,15 +185,14 @@ export const Input = React.memo<InputProps>(
     return (
       <View style={[inputLogic.computedStyles.container, containerStyle]}>
         {inputLogic.shouldShowLabel && label && (
-          <View>
-            <SimpleLabel
-              label={label}
-              size={size}
-              variant={variant}
-              required={required}
-              disabled={disabled}
-            />
-          </View>
+          <Label
+            variant="form"
+            required={required}
+            disabled={disabled}
+            testID={testID ? `${testID}-label` : undefined}
+          >
+            {label}
+          </Label>
         )}
 
         <Pressable

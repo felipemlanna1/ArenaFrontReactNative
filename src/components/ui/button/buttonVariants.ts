@@ -226,6 +226,33 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
+  fab: {
+    backgroundColor: ArenaColors.brand.primary,
+    borderColor: ArenaColors.brand.primary,
+    borderWidth: 0,
+    textColor: ArenaColors.neutral.light,
+    hover: {
+      backgroundColor: ArenaColors.brand.primaryHover,
+      borderColor: ArenaColors.brand.primaryHover,
+      textColor: ArenaColors.neutral.light,
+    },
+    pressed: {
+      backgroundColor: ArenaColors.brand.primaryPressed,
+      borderColor: ArenaColors.brand.primaryPressed,
+      textColor: ArenaColors.neutral.light,
+    },
+    focus: {
+      backgroundColor: ArenaColors.brand.primary,
+      borderColor: ArenaColors.brand.primary,
+      textColor: ArenaColors.neutral.light,
+      shadowColor: ArenaColors.interaction.focus.primary,
+    },
+    disabled: {
+      backgroundColor: ArenaColors.disabled.background,
+      borderColor: ArenaColors.disabled.border,
+      textColor: ArenaColors.disabled.text,
+    },
+  },
 };
 export const buttonSizes: ButtonSizeConfigs = {
   xs: {

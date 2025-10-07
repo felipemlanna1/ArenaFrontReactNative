@@ -277,14 +277,6 @@ export interface FloatingLabelProps {
   disableAnimations?: boolean;
 }
 
-export interface SimpleLabelProps {
-  label: string;
-  size: InputSize;
-  variant: InputVariant;
-  required?: boolean;
-  disabled?: boolean;
-}
-
 export interface ClearButtonProps {
   onPress: () => void;
   size: InputSize;
