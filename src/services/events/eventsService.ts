@@ -30,6 +30,9 @@ class EventsService {
 
   rejectInvitation = (...args: Parameters<EventsApi['rejectInvitation']>) =>
     this.api.rejectInvitation(...args);
+
+  createEvent = (...args: Parameters<EventsApi['createEvent']>) =>
+    this.api.createEvent(...args);
 }
 
 export const eventsService = new EventsService();
