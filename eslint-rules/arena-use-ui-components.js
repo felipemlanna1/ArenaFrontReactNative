@@ -33,11 +33,13 @@ module.exports = {
     const componentMapping = {
       Text: '@/components/ui/text (Text)',
       TextInput: '@/components/ui/input (Input)',
+      Switch: '@/components/ui/switch (Switch)',
       TouchableOpacity: '@/components/ui/button (Button)',
       Pressable: '@/components/ui/button (Button)',
       Image: '@/components/ui/optimizedImage (OptimizedImage)',
       Card: '@/components/ui/card (Card)',
       Badge: '@/components/ui/badge (Badge)',
+      Chip: '@/components/ui/badge (Badge)',
       Checkbox: '@/components/ui/checkbox (Checkbox)',
       CheckboxGroup: '@/components/ui/checkboxGroup (CheckboxGroup)',
       Link: '@/components/ui/link (Link)',
@@ -49,6 +51,14 @@ module.exports = {
       Expandable: '@/components/ui/accordion (Accordion)',
       ActivityIndicator: '@/components/ui/sportsLoading (SportsLoading)',
       RefreshControl: '@/components/ui/refreshControl (ArenaRefreshControl)',
+    };
+
+    const externalLibraryMapping = {
+      '@react-native-community/datetimepicker': {
+        components: ['DateTimePicker', 'default'],
+        replacement: '@/components/ui/datePicker (DatePicker)',
+        message: 'Use @/components/ui/datePicker (DatePicker) instead of @react-native-community/datetimepicker directly',
+      },
     };
 
     const allowedComponents = [
@@ -74,6 +84,9 @@ module.exports = {
       'Button',
       'Text',
       'Input',
+      'Switch',
+      'DatePicker',
+      'Label',
       'OptimizedImage',
       'Card',
       'Badge',
@@ -85,6 +98,9 @@ module.exports = {
       'Accordion',
       'SportsLoading',
       'ArenaRefreshControl',
+      'ProgressBar',
+      'Stepper',
+      'Fab',
     ]);
 
     const importedArenaComponents = new Map();
@@ -92,6 +108,19 @@ module.exports = {
     return {
       ImportDeclaration(node) {
         const importSource = node.source.value;
+
+        // Check for banned external libraries
+        if (externalLibraryMapping[importSource]) {
+          const libInfo = externalLibraryMapping[importSource];
+          context.report({
+            node,
+            messageId: 'useArenaComponent',
+            data: {
+              rnComponent: importSource,
+              arenaComponent: libInfo.replacement,
+            },
+          });
+        }
 
         if (importSource === 'react-native') {
           node.specifiers.forEach(specifier => {
