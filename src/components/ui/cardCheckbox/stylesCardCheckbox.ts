@@ -16,10 +16,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.md,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: ArenaSpacing.xs,
   },
   containerChecked: {
     borderColor: ArenaColors.brand.primary,
     backgroundColor: ArenaColors.brand.primarySubtle,
+  },
+  icon: {
+    fontSize: ArenaTypography.size.xl,
+    textAlign: 'center',
   },
   label: {
     fontSize: ArenaTypography.size.sm,

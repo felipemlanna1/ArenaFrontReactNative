@@ -8,6 +8,7 @@ export const CardCheckbox: React.FC<CardCheckboxProps> = ({
   label,
   checked,
   onPress,
+  icon,
   testID = 'card-checkbox',
 }) => {
   return (
@@ -16,7 +17,11 @@ export const CardCheckbox: React.FC<CardCheckboxProps> = ({
       onPress={onPress}
       testID={testID}
       activeOpacity={0.7}
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked }}
+      accessibilityLabel={label}
     >
+      {icon && <Text variant="bodyPrimary" style={styles.icon}>{icon}</Text>}
       <Text variant="bodyPrimary" style={styles.label}>
         {label}
       </Text>

@@ -8,6 +8,7 @@ export type ButtonVariant =
   | 'success'
   | 'ghost'
   | 'outline-light'
+  | 'fab'
   | 'outline-primary';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonIconPosition = 'left' | 'right';
