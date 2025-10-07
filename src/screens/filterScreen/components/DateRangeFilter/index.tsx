@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Input } from '@/components/ui/input';
+import { View } from 'react-native';
+import { DatePicker } from '@/components/ui/datePicker';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,25 +25,13 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
   onStartDateToChange,
   testID = 'date-range-filter',
 }) => {
-  const {
-    formattedStartFrom,
-    formattedStartTo,
-    showFromPicker,
-    showToPicker,
-    hasError,
-    errorMessage,
-    handleFromPress,
-    handleToPress,
-    handleFromDateChange,
-    handleToDateChange,
-    handleQuickDateSelect,
-    handleClearDates,
-  } = useDateRangeFilter({
-    startDateFrom,
-    startDateTo,
-    onStartDateFromChange,
-    onStartDateToChange,
-  });
+  const { hasError, errorMessage, handleQuickDateSelect, handleClearDates } =
+    useDateRangeFilter({
+      startDateFrom,
+      startDateTo,
+      onStartDateFromChange,
+      onStartDateToChange,
+    });
 
   const hasSelectedDates = startDateFrom !== null || startDateTo !== null;
 
@@ -52,24 +39,22 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
     <View style={styles.container} testID={testID}>
       <View style={styles.row}>
         <View style={styles.inputWrapper}>
-          <Input
+          <DatePicker
             label="Data inicial"
-            value={formattedStartFrom}
-            onChangeText={() => {}}
-            onPressIn={handleFromPress}
+            variant="date"
+            value={startDateFrom}
+            onChange={onStartDateFromChange}
             placeholder="DD/MM/AAAA"
-            editable={false}
             testID={`${testID}-from`}
           />
         </View>
         <View style={styles.inputWrapper}>
-          <Input
+          <DatePicker
             label="Data final"
-            value={formattedStartTo}
-            onChangeText={() => {}}
-            onPressIn={handleToPress}
+            variant="date"
+            value={startDateTo}
+            onChange={onStartDateToChange}
             placeholder="DD/MM/AAAA"
-            editable={false}
             testID={`${testID}-to`}
           />
         </View>
@@ -110,30 +95,6 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
             Limpar datas
           </Button>
         </View>
-      )}
-
-      {showFromPicker && (
-        <DateTimePicker
-          value={startDateFrom || new Date()}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={(_event: unknown, date?: Date) => {
-            if (date) handleFromDateChange(date);
-          }}
-          testID={`${testID}-from-picker`}
-        />
-      )}
-
-      {showToPicker && (
-        <DateTimePicker
-          value={startDateTo || new Date()}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={(_event: unknown, date?: Date) => {
-            if (date) handleToDateChange(date);
-          }}
-          testID={`${testID}-to-picker`}
-        />
       )}
     </View>
   );

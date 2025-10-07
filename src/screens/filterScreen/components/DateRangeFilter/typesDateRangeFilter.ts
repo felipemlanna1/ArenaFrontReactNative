@@ -14,16 +14,8 @@ export interface UseDateRangeFilterProps {
 }
 
 export interface UseDateRangeFilterReturn {
-  formattedStartFrom: string;
-  formattedStartTo: string;
-  showFromPicker: boolean;
-  showToPicker: boolean;
   hasError: boolean;
   errorMessage: string;
-  handleFromPress: () => void;
-  handleToPress: () => void;
-  handleFromDateChange: (date: Date) => void;
-  handleToDateChange: (date: Date) => void;
   handleQuickDateSelect: (shortcut: DateShortcut) => void;
   handleClearDates: () => void;
 }

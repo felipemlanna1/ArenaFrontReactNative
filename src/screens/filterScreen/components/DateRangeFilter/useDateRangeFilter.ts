@@ -1,18 +1,9 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   UseDateRangeFilterProps,
   UseDateRangeFilterReturn,
   DateShortcut,
 } from './typesDateRangeFilter';
-
-const formatDate = (date: Date | null): string => {
-  if (!date) return '';
-  return date.toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
-};
 
 const getDateForShortcut = (
   shortcut: DateShortcut
@@ -58,18 +49,6 @@ export const useDateRangeFilter = ({
   onStartDateFromChange,
   onStartDateToChange,
 }: UseDateRangeFilterProps): UseDateRangeFilterReturn => {
-  const [showFromPicker, setShowFromPicker] = useState(false);
-  const [showToPicker, setShowToPicker] = useState(false);
-
-  const formattedStartFrom = useMemo(
-    () => formatDate(startDateFrom),
-    [startDateFrom]
-  );
-  const formattedStartTo = useMemo(
-    () => formatDate(startDateTo),
-    [startDateTo]
-  );
-
   const hasError = useMemo(() => {
     if (startDateFrom && startDateTo) {
       return startDateFrom > startDateTo;
@@ -84,39 +63,11 @@ export const useDateRangeFilter = ({
     return '';
   }, [hasError]);
 
-  const handleFromPress = useCallback(() => {
-    setShowFromPicker(true);
-    setShowToPicker(false);
-  }, []);
-
-  const handleToPress = useCallback(() => {
-    setShowToPicker(true);
-    setShowFromPicker(false);
-  }, []);
-
-  const handleFromDateChange = useCallback(
-    (date: Date) => {
-      onStartDateFromChange(date);
-      setShowFromPicker(false);
-    },
-    [onStartDateFromChange]
-  );
-
-  const handleToDateChange = useCallback(
-    (date: Date) => {
-      onStartDateToChange(date);
-      setShowToPicker(false);
-    },
-    [onStartDateToChange]
-  );
-
   const handleQuickDateSelect = useCallback(
     (shortcut: DateShortcut) => {
       const { from, to } = getDateForShortcut(shortcut);
       onStartDateFromChange(from);
       onStartDateToChange(to);
-      setShowFromPicker(false);
-      setShowToPicker(false);
     },
     [onStartDateFromChange, onStartDateToChange]
   );
@@ -124,21 +75,11 @@ export const useDateRangeFilter = ({
   const handleClearDates = useCallback(() => {
     onStartDateFromChange(null);
     onStartDateToChange(null);
-    setShowFromPicker(false);
-    setShowToPicker(false);
   }, [onStartDateFromChange, onStartDateToChange]);
 
   return {
-    formattedStartFrom,
-    formattedStartTo,
-    showFromPicker,
-    showToPicker,
     hasError,
     errorMessage,
-    handleFromPress,
-    handleToPress,
-    handleFromDateChange,
-    handleToDateChange,
     handleQuickDateSelect,
     handleClearDates,
   };
