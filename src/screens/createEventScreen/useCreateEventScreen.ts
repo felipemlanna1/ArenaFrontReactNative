@@ -100,10 +100,10 @@ export const useCreateEventScreen = ({
           startDate: formData.startDate?.toISOString(),
           endDate: formData.startDate ? new Date(formData.startDate.getTime() + formData.duration * 60000).toISOString() : undefined,
           location: formData.location,
-          price: formData.price,
+          price: formData.price || 0,
           maxParticipants: formData.maxParticipants,
           privacy: formData.privacy || 'PUBLIC',
-          isFree: formData.isFree ?? (formData.price === 0),
+          isFree: formData.isFree ?? (!formData.price || formData.price === 0),
         };
         result = await eventsService.updateEvent(eventToEdit.id, updateDto);
       } else {
