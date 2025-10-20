@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { useLocationAutofill } from '@/screens/createEventScreen/hooks/useLocationAutofill';
+import { applyCepMask, removeMask, isCepComplete } from '@/utils/masks';
 import { LocationStepProps } from './typesLocationStep';
 import { styles } from './stylesLocationStep';
 
@@ -16,18 +17,44 @@ export const LocationStep: React.FC<LocationStepProps> = ({
   const [hasMaxParticipants, setHasMaxParticipants] = useState(
     formData.maxParticipants !== null
   );
+  const lastFetchedCepRef = useRef<string>('');
 
-  const handleCepBlur = async () => {
-    if (formData.location.zipCode.length >= 8) {
-      const addressData = await fetchAddressByCep(formData.location.zipCode);
-      if (addressData) {
-        onUpdate({
-          location: {
-            ...formData.location,
-            ...addressData,
-          },
-        });
-      }
+  useEffect(() => {
+    const cleanCep = removeMask(formData.location.zipCode);
+    if (
+      isCepComplete(formData.location.zipCode) &&
+      !isLoadingCep &&
+      cleanCep !== lastFetchedCepRef.current
+    ) {
+      lastFetchedCepRef.current = cleanCep;
+      const loadAddress = async () => {
+        const addressData = await fetchAddressByCep(cleanCep);
+        if (addressData) {
+          onUpdate({
+            location: {
+              ...formData.location,
+              ...addressData,
+              zipCode: applyCepMask(cleanCep),
+            },
+          });
+        }
+      };
+      loadAddress();
+    }
+  }, [
+    formData.location.zipCode,
+    isLoadingCep,
+    fetchAddressByCep,
+    onUpdate,
+    formData.location,
+  ]);
+
+  const handleCepChange = (value: string) => {
+    const masked = applyCepMask(value);
+    if (masked.length <= 9) {
+      onUpdate({
+        location: { ...formData.location, zipCode: masked },
+      });
     }
   };
 
@@ -46,12 +73,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
           label="CEP"
           placeholder="00000-000"
           value={formData.location.zipCode}
-          onChangeText={zipCode =>
-            onUpdate({
-              location: { ...formData.location, zipCode },
-            })
-          }
-          onBlur={handleCepBlur}
+          onChangeText={handleCepChange}
           error={errors.zipCode || cepError || undefined}
           keyboardType="numeric"
           maxLength={9}
