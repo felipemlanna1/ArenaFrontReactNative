@@ -55,6 +55,7 @@ module.exports = [
       'arena/arena-no-comments': 'error',
       'arena/arena-use-ui-components': 'error',
       'arena/arena-no-custom-text-styles': 'error',
+      'arena/arena-use-alert-context': 'error',
       'prettier/prettier': [
         'error',
         {
@@ -109,6 +110,7 @@ module.exports = [
       'arena/arena-no-comments': 'error',
       'arena/arena-use-ui-components': 'error',
       'arena/arena-no-custom-text-styles': 'error',
+      'arena/arena-use-alert-context': 'error',
       'prettier/prettier': [
         'error',
         {

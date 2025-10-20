@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { Alert } from 'react-native';
+import { useCallback, useMemo } from 'react';
 import { useCreateEventForm } from './hooks/useCreateEventForm';
 import { useCreateEventApi } from './hooks/useCreateEventApi';
 import { FormStep, TOTAL_STEPS, CreateEventFormData } from './typesCreateEventScreen';
 import { CreateEventScreenNavigationProp } from './typesCreateEventScreen';
 import { eventsService } from '@/services/events/eventsService';
+import { useAlert } from '@/contexts/AlertContext';
 
 interface UseCreateEventScreenParams {
   navigation: CreateEventScreenNavigationProp;
@@ -17,6 +17,8 @@ export const useCreateEventScreen = ({
   isEditMode = false,
   eventToEdit,
 }: UseCreateEventScreenParams) => {
+  const { showError, showSuccess, showConfirm } = useAlert();
+
   const initialData = useMemo(() => {
     if (!isEditMode || !eventToEdit) return undefined;
 
@@ -81,10 +83,7 @@ export const useCreateEventScreen = ({
     ].every(step => validateStep(step));
 
     if (!allStepsValid) {
-      Alert.alert(
-        'Erro',
-        `Por favor, corrija os erros antes de ${isEditMode ? 'salvar' : 'criar'} o evento.`
-      );
+      showError(`Por favor, corrija os erros antes de ${isEditMode ? 'salvar' : 'criar'} o evento.`);
       return;
     }
 
@@ -112,33 +111,23 @@ export const useCreateEventScreen = ({
 
       if (result) {
         resetForm();
-        Alert.alert(
-          'Sucesso!',
-          isEditMode ? 'Evento atualizado com sucesso!' : 'Evento criado com sucesso!',
-          [
-            {
-              text: 'Ver Evento',
-              onPress: () => {
-                navigation.navigate('EventDetails', { eventId: result.id || eventToEdit?.id });
-              },
-            },
-            {
-              text: 'Voltar à Home',
-              onPress: () => {
-                navigation.navigate('MainTabs');
-              },
-              style: 'cancel',
-            },
-          ]
-        );
+        showConfirm({
+          title: 'Sucesso!',
+          message: isEditMode ? 'Evento atualizado com sucesso!' : 'Evento criado com sucesso!',
+          primaryButtonText: 'Ver Evento',
+          secondaryButtonText: 'Voltar à Home',
+          onConfirm: () => {
+            navigation.navigate('EventDetails', { eventId: result.id || eventToEdit?.id });
+          },
+          onCancel: () => {
+            navigation.navigate('MainTabs');
+          },
+        });
       }
     } catch (error) {
-      Alert.alert(
-        'Erro',
-        isEditMode ? 'Erro ao atualizar o evento.' : 'Erro ao criar o evento.'
-      );
+      showError(isEditMode ? 'Erro ao atualizar o evento.' : 'Erro ao criar o evento.');
     }
-  }, [formData, validateStep, createEvent, navigation, resetForm, isEditMode, eventToEdit]);
+  }, [formData, validateStep, createEvent, navigation, resetForm, isEditMode, eventToEdit, showError, showConfirm]);
 
   const handleCancel = useCallback(() => {
     const hasChanges = !!(
@@ -148,25 +137,24 @@ export const useCreateEventScreen = ({
     );
 
     if (hasChanges) {
-      Alert.alert(
-        'Cancelar criação?',
-        'As informações preenchidas serão perdidas.',
-        [
-          { text: 'Continuar editando', style: 'cancel' },
-          {
-            text: 'Descartar',
-            style: 'destructive',
-            onPress: () => {
-              resetForm();
-              navigation.goBack();
-            },
-          },
-        ]
-      );
+      showConfirm({
+        title: 'Cancelar criação?',
+        message: 'As informações preenchidas serão perdidas.',
+        primaryButtonText: 'Descartar',
+        secondaryButtonText: 'Continuar editando',
+        variant: 'warning',
+        onConfirm: () => {
+          resetForm();
+          navigation.goBack();
+        },
+        onCancel: () => {
+          // Não faz nada, continua editando
+        },
+      });
     } else {
       navigation.goBack();
     }
-  }, [formData, navigation, resetForm]);
+  }, [formData, navigation, resetForm, showConfirm]);
 
   const progress = ((currentStep + 1) / TOTAL_STEPS) * 100;
 

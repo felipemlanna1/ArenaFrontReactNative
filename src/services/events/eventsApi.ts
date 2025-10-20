@@ -156,7 +156,7 @@ export class EventsApi {
 
   // Método para atualizar evento
   async updateEvent(eventId: string, dto: Partial<CreateEventDto>): Promise<Event> {
-    const response = await httpService.put<Event>(
+    const response = await httpService.patch<Event>(
       `${this.basePath}/${eventId}`,
       dto
     );
