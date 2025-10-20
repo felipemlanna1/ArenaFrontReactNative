@@ -111,7 +111,8 @@ export const useHomeScreen = (
         clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [memoizedApiFilters, searchTerm, events]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [memoizedApiFilters, searchTerm]);
 
   const handleSortPress = useCallback(() => {
     setShowSortModal(true);
