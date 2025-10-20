@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 
 export type CreateEventScreenNavigationProp = NativeStackNavigationProp<
@@ -6,8 +7,14 @@ export type CreateEventScreenNavigationProp = NativeStackNavigationProp<
   'CreateEvent'
 >;
 
+export type CreateEventScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CreateEvent'
+>;
+
 export interface CreateEventScreenProps {
   navigation: CreateEventScreenNavigationProp;
+  route?: CreateEventScreenRouteProp;
 }
 
 export enum EventType {
@@ -78,6 +85,9 @@ export interface CreateEventFormData {
   location: EventLocation;
   maxParticipants: number | null;
   price: number;
+  isFree?: boolean;
+  privacy?: string;
+  coverImage?: string;
 
   skillLevel?: SkillLevel;
   ageRestriction?: AgeRestriction;

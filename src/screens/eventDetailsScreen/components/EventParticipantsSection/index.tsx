@@ -1,23 +1,59 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { Accordion } from '@/components/ui/accordion';
 import { Text } from '@/components/ui/text';
 import { Event } from '@/services/events/typesEvents';
 import { ParticipantListItem } from './components/ParticipantListItem';
+import { useEventManagement } from '../../hooks/useEventManagement';
 import { styles } from './stylesEventParticipantsSection';
 
 interface EventParticipantsSectionProps {
   event: Event;
+  isOwner?: boolean;
+  onRefresh?: () => void;
 }
 
 export const EventParticipantsSection: React.FC<
   EventParticipantsSectionProps
-> = ({ event }) => {
+> = ({ event, isOwner = false, onRefresh }) => {
   const participantCount = event.currentParticipants || 0;
   const participants = event.participants || [];
+
+  // Hook de gestão
+  const {
+    isManaging,
+    handleApprove,
+    handleReject,
+    handleRemove,
+  } = useEventManagement({
+    eventId: event.id,
+    onSuccess: onRefresh,
+  });
+
+  // Filtrar participantes por status
   const confirmedParticipants = participants.filter(
-    p => p.status === 'CONFIRMED' && p.userId !== event.organizerId
+    p => p.status === 'CONFIRMED'
   );
+  const pendingParticipants = participants.filter(
+    p => p.status === 'PENDING'
+  );
+  const invitedParticipants = participants.filter(
+    p => p.status === 'INVITED'
+  );
+
+  // Ordenar organizador primeiro
+  const sortParticipants = (participants: typeof confirmedParticipants) => {
+    return [...participants].sort((a, b) => {
+      if (a.userId === event.organizerId) return -1;
+      if (b.userId === event.organizerId) return 1;
+      return 0;
+    });
+  };
+
+  // Combinar todos os participantes para mostrar com status diferentes
+  const allParticipants = isOwner
+    ? [...pendingParticipants, ...sortParticipants(confirmedParticipants), ...invitedParticipants]
+    : sortParticipants(confirmedParticipants);
 
   const items = [
     {
@@ -25,17 +61,34 @@ export const EventParticipantsSection: React.FC<
       title: `Participantes (${participantCount})`,
       content: (
         <View style={styles.content}>
-          {confirmedParticipants.length === 0 ? (
+          {allParticipants.length === 0 ? (
             <Text variant="bodySecondary" style={styles.emptyText}>
               Ainda não há participantes confirmados.
             </Text>
           ) : (
             <View style={styles.listContainer}>
-              {confirmedParticipants.map(participant => (
+              {allParticipants.map(participant => (
                 <ParticipantListItem
                   key={participant.id}
                   participant={participant}
                   isOrganizer={participant.userId === event.organizerId}
+                  isOwner={isOwner}
+                  isManaging={isManaging}
+                  onApprove={
+                    participant.status === 'PENDING'
+                      ? () => handleApprove(participant.userId)
+                      : undefined
+                  }
+                  onReject={
+                    participant.status === 'PENDING'
+                      ? () => handleReject(participant.userId)
+                      : undefined
+                  }
+                  onRemove={
+                    participant.status === 'CONFIRMED'
+                      ? () => handleRemove(participant.userId)
+                      : undefined
+                  }
                 />
               ))}
             </View>

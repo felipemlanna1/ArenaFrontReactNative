@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
+import { Fab } from '@/components/ui/fab';
 import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { EventHeroSection } from './components/EventHeroSection';
 import { EventInfoGrid } from './components/EventInfoGrid';
@@ -14,12 +16,21 @@ import { EventActionButton } from './components/EventActionButton';
 import { useEventDetailsScreen } from './useEventDetailsScreen';
 import { EventDetailsScreenProps } from './typesEventDetailsScreen';
 import { styles } from './stylesEventDetailsScreen';
+import { ArenaColors } from '@/constants';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
   navigation,
   route,
 }) => {
   const { eventId } = route.params;
+  const { user } = useAuth();
+
+  console.log('EventDetailsScreen - Auth User:', {
+    userId: user?.id,
+    userName: user?.firstName,
+    hasUser: !!user,
+  });
 
   const {
     event,
@@ -33,7 +44,13 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
   } = useEventDetailsScreen({
     eventId,
     navigation,
-    currentUserId: undefined,
+    currentUserId: user?.id,
+  });
+
+  console.log('EventDetailsScreen - Status:', {
+    isOwner: status.isOwner,
+    isOrganizer: status.isOrganizer,
+    userEventStatus: status.userEventStatus,
   });
 
   if (isLoading && !event) {
@@ -113,11 +130,38 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
             <EventDescriptionSection description={event.description} />
           )}
 
-          <EventParticipantsSection event={event} />
+          <EventParticipantsSection
+            event={event}
+            isOwner={status.isOwner}
+            onRefresh={refresh}
+          />
         </View>
       </ScrollView>
 
-      <EventActionButton state={actionButtonState} />
+      {!status.isOwner && <EventActionButton state={actionButtonState} />}
+
+      {status.isOwner && (
+        <Fab
+          variant="primary"
+          size="md"
+          position="bottom-right"
+          icon={
+            <Ionicons
+              name="create-outline"
+              size={24}
+              color={ArenaColors.neutral.light}
+            />
+          }
+          onPress={() => {
+            navigation.navigate('CreateEvent', {
+              mode: 'edit',
+              eventId: event.id,
+              eventData: event
+            });
+          }}
+          testID="edit-event-fab"
+        />
+      )}
     </View>
   );
 };

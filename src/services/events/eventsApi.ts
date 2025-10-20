@@ -109,4 +109,74 @@ export class EventsApi {
     const response = await httpService.post<Event>(this.basePath, dto);
     return response;
   }
+
+  // Métodos de Gestão de Participantes
+  async approveParticipant(eventId: string, participantId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/participants/${participantId}/approve`,
+      {}
+    );
+  }
+
+  async rejectParticipant(eventId: string, participantId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/participants/${participantId}/reject`,
+      {}
+    );
+  }
+
+  async removeParticipant(eventId: string, participantId: string): Promise<void> {
+    await httpService.delete(
+      `${this.basePath}/${eventId}/participants/${participantId}/remove`
+    );
+  }
+
+  // Métodos de Gestão de Owners
+  async addOwner(eventId: string, ownerId: string): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/owners`, {
+      userId: ownerId,
+    });
+  }
+
+  async removeOwner(eventId: string, ownerId: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/${eventId}/owners/${ownerId}`);
+  }
+
+  // Método para enviar convites
+  async sendInvitations(
+    eventId: string,
+    userIds: string[],
+    message?: string
+  ): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/send-invitations`, {
+      userIds,
+      message,
+    });
+  }
+
+  // Método para atualizar evento
+  async updateEvent(eventId: string, dto: Partial<CreateEventDto>): Promise<Event> {
+    const response = await httpService.put<Event>(
+      `${this.basePath}/${eventId}`,
+      dto
+    );
+    return response;
+  }
+
+  // Método para deletar evento
+  async deleteEvent(eventId: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/${eventId}`);
+  }
+
+  // Método para buscar participantes com status
+  async getEventParticipants(
+    eventId: string,
+    status?: 'confirmed' | 'pending' | 'invited'
+  ): Promise<Event['participants']> {
+    const queryParams = status ? `?status=${status}` : '';
+    const response = await httpService.get<Event['participants']>(
+      `${this.basePath}/${eventId}/participants${queryParams}`
+    );
+    return response;
+  }
 }

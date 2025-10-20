@@ -6,7 +6,7 @@ export type RootStackParamList = {
   OnboardingSports: undefined;
   MainTabs: undefined;
   FilterScreen: undefined;
-  CreateEvent: undefined;
+  CreateEvent: { mode?: 'create' | 'edit'; eventId?: string; eventData?: any } | undefined;
   EventDetails: { eventId: string };
 };
 

@@ -32,8 +32,17 @@ export const useEventDetailsStatus = ({
 
     const userEventStatus =
       event.userEventStatus || ('NONE' as UserEventStatus);
-    const isOwner = currentUserId === event.organizerId;
-    const isOrganizer = userEventStatus === 'ORGANIZER' || isOwner;
+
+    console.log('Event Details Status Debug:', {
+      currentUserId,
+      organizerId: event.organizerId,
+      userEventStatus,
+      isCurrentUserOrganizer: currentUserId === event.organizerId,
+    });
+
+    const isOwner = userEventStatus === 'ORGANIZER' || userEventStatus === 'ADMIN' ||
+      (currentUserId !== undefined && currentUserId === event.organizerId);
+    const isOrganizer = isOwner;
     const isParticipant = userEventStatus === 'PARTICIPANT';
     const isPending = userEventStatus === 'REQUESTED';
     const isInvited = userEventStatus === 'INVITED';

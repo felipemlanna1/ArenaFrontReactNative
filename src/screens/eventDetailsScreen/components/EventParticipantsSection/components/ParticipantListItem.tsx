@@ -3,16 +3,27 @@ import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { EventParticipant } from '@/services/events/typesEvents';
+import { ParticipantActions } from './ParticipantActions';
 import { styles } from './stylesParticipantListItem';
 
 interface ParticipantListItemProps {
   participant: EventParticipant;
   isOrganizer?: boolean;
+  isOwner?: boolean;
+  onApprove?: () => void;
+  onReject?: () => void;
+  onRemove?: () => void;
+  isManaging?: boolean;
 }
 
 export const ParticipantListItem: React.FC<ParticipantListItemProps> = ({
   participant,
   isOrganizer = false,
+  isOwner = false,
+  onApprove,
+  onReject,
+  onRemove,
+  isManaging = false,
 }) => {
   const { user } = participant;
   const fullName = `${user.firstName} ${user.lastName}`;
@@ -81,6 +92,16 @@ export const ParticipantListItem: React.FC<ParticipantListItemProps> = ({
           </Text>
         )}
       </View>
+
+      <ParticipantActions
+        status={participant.status}
+        isOwner={isOwner}
+        isOrganizer={isOrganizer}
+        onApprove={onApprove}
+        onReject={onReject}
+        onRemove={onRemove}
+        isManaging={isManaging}
+      />
     </View>
   );
 };
