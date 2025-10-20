@@ -127,7 +127,7 @@ export class EventsApi {
 
   async removeParticipant(eventId: string, participantId: string): Promise<void> {
     await httpService.delete(
-      `${this.basePath}/${eventId}/participants/${participantId}/remove`
+      `${this.basePath}/${eventId}/participants/${participantId}`
     );
   }
 
