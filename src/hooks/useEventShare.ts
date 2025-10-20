@@ -55,9 +55,7 @@ Participe pelo app Arena! 🔥`;
     try {
       const message = buildShareMessage(event);
 
-      // Web: usar Web Share API ou fallback para clipboard
       if (Platform.OS === 'web') {
-        // Verificar se Web Share API está disponível
         if (navigator.share) {
           await navigator.share({
             title: `Arena - ${event.title}`,
@@ -65,21 +63,20 @@ Participe pelo app Arena! 🔥`;
           });
           onSuccess?.();
         } else {
-          // Fallback: copiar para clipboard
           await Clipboard.setStringAsync(message);
-          alert(
-            'Link copiado para a área de transferência!\n\nCole e compartilhe onde quiser.'
-          );
+          if (typeof window !== 'undefined' && window.alert) {
+            window.alert(
+              'Link copiado para a área de transferência!\n\nCole e compartilhe onde quiser.'
+            );
+          }
           onSuccess?.();
         }
       } else {
-        // iOS e Android: usar Share nativo
         const result = await Share.share({
           message,
           title: `Arena - ${event.title}`,
         });
 
-        // iOS retorna result.action, Android pode não retornar nada
         if (
           result.action === Share.sharedAction ||
           result.action === undefined
@@ -88,9 +85,7 @@ Participe pelo app Arena! 🔥`;
         }
       }
     } catch (error) {
-      // Usuário cancelou o share ou erro ocorreu
-      if (__DEV__) {
-        console.log('Share cancelled or error:', error);
+      if (__DEV__ && error) {
       }
     }
   }, [event, buildShareMessage, onSuccess]);

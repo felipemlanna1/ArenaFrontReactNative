@@ -12,12 +12,6 @@ export const EventOrganizerCard: React.FC<EventOrganizerCardProps> = ({
   isOwner,
   onPress,
 }) => {
-  // Prioridade de busca do organizador:
-  // 1. Campo organizer (objeto completo) - padrão SportPulse
-  // 2. Buscar nos participants por userId
-  // 3. Se há apenas 1 participante, assumir que é o organizador
-  // 4. Fallback para campos legados (organizerName, organizerAvatar)
-
   const organizerParticipant = event.participants?.find(
     p => p.userId === event.organizerId
   );
@@ -26,14 +20,14 @@ export const EventOrganizerCard: React.FC<EventOrganizerCardProps> = ({
     organizerParticipant ||
     (event.participants?.length === 1 ? event.participants[0] : null);
 
-  // Usar organizer object se disponível, senão usar participante encontrado
   const organizerData = event.organizer || participantToUse?.user;
 
   const organizerName = organizerData
     ? `${organizerData.firstName} ${organizerData.lastName}`
     : event.organizerName || 'Organizador';
 
-  const organizerAvatar = organizerData?.profilePicture || event.organizerAvatar;
+  const organizerAvatar =
+    organizerData?.profilePicture || event.organizerAvatar;
 
   const organizerUsername = organizerData?.username;
 

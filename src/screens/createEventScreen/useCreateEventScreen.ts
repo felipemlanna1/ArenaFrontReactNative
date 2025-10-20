@@ -1,15 +1,20 @@
 import { useCallback, useMemo } from 'react';
 import { useCreateEventForm } from './hooks/useCreateEventForm';
 import { useCreateEventApi } from './hooks/useCreateEventApi';
-import { FormStep, TOTAL_STEPS, CreateEventFormData } from './typesCreateEventScreen';
+import {
+  FormStep,
+  TOTAL_STEPS,
+  CreateEventFormData,
+} from './typesCreateEventScreen';
 import { CreateEventScreenNavigationProp } from './typesCreateEventScreen';
 import { eventsService } from '@/services/events/eventsService';
 import { useAlert } from '@/contexts/AlertContext';
+import { Event } from '@/services/events/typesEvents';
 
 interface UseCreateEventScreenParams {
   navigation: CreateEventScreenNavigationProp;
   isEditMode?: boolean;
-  eventToEdit?: any;
+  eventToEdit?: Event;
 }
 
 export const useCreateEventScreen = ({
@@ -17,33 +22,40 @@ export const useCreateEventScreen = ({
   isEditMode = false,
   eventToEdit,
 }: UseCreateEventScreenParams) => {
-  const { showError, showSuccess, showConfirm } = useAlert();
+  const { showError, showConfirm } = useAlert();
 
   const initialData = useMemo(() => {
     if (!isEditMode || !eventToEdit) return undefined;
 
+    const startDate = new Date(eventToEdit.startDate);
+    const endDate = eventToEdit.endDate
+      ? new Date(eventToEdit.endDate)
+      : startDate;
+    const duration =
+      Math.round((endDate.getTime() - startDate.getTime()) / 60000) || 60;
+
     const initialFormData: Partial<CreateEventFormData> = {
       title: eventToEdit.title,
       description: eventToEdit.description || '',
-      sportId: eventToEdit.sport?.id || eventToEdit.sportId,
-      startDate: new Date(eventToEdit.startDate),
-      duration: eventToEdit.duration || 60,
+      sportId: eventToEdit.sport?.id || '',
+      startDate,
+      duration,
       location: {
-        zipCode: eventToEdit.location?.zipCode || '',
-        street: eventToEdit.location?.street || '',
-        number: eventToEdit.location?.number || '',
-        complement: eventToEdit.location?.complement || '',
-        district: eventToEdit.location?.district || '',
+        zipCode: '',
+        street: eventToEdit.location?.address || '',
+        number: '',
+        complement: '',
+        district: '',
         city: eventToEdit.location?.city || '',
         state: eventToEdit.location?.state || '',
-        country: 'Brasil',
+        country: eventToEdit.location?.country || 'Brasil',
         latitude: eventToEdit.location?.latitude || 0,
         longitude: eventToEdit.location?.longitude || 0,
       },
       privacy: eventToEdit.privacy || 'PUBLIC',
-      maxParticipants: eventToEdit.maxParticipants,
+      maxParticipants: eventToEdit.maxParticipants || null,
       isFree: eventToEdit.isFree ?? true,
-      price: eventToEdit.price || 0,
+      price: typeof eventToEdit.price === 'number' ? eventToEdit.price : 0,
       coverImage: eventToEdit.coverImage,
     };
     return initialFormData;
@@ -83,7 +95,9 @@ export const useCreateEventScreen = ({
     ].every(step => validateStep(step));
 
     if (!allStepsValid) {
-      showError(`Por favor, corrija os erros antes de ${isEditMode ? 'salvar' : 'criar'} o evento.`);
+      showError(
+        `Por favor, corrija os erros antes de ${isEditMode ? 'salvar' : 'criar'} o evento.`
+      );
       return;
     }
 
@@ -91,16 +105,19 @@ export const useCreateEventScreen = ({
       let result;
 
       if (isEditMode && eventToEdit?.id) {
-        // Converter formData para o formato esperado pela API
-        const updateDto: any = {
+        const updateDto = {
           title: formData.title,
           description: formData.description,
           sportId: formData.sportId,
           startDate: formData.startDate?.toISOString(),
-          endDate: formData.startDate ? new Date(formData.startDate.getTime() + formData.duration * 60000).toISOString() : undefined,
+          endDate: formData.startDate
+            ? new Date(
+                formData.startDate.getTime() + formData.duration * 60000
+              ).toISOString()
+            : undefined,
           location: formData.location,
           price: formData.price || 0,
-          maxParticipants: formData.maxParticipants,
+          maxParticipants: formData.maxParticipants || undefined,
           privacy: formData.privacy || 'PUBLIC',
           isFree: formData.isFree ?? (!formData.price || formData.price === 0),
         };
@@ -113,21 +130,37 @@ export const useCreateEventScreen = ({
         resetForm();
         showConfirm({
           title: 'Sucesso!',
-          message: isEditMode ? 'Evento atualizado com sucesso!' : 'Evento criado com sucesso!',
-          primaryButtonText: 'Ver Evento',
-          secondaryButtonText: 'Voltar à Home',
+          message: isEditMode
+            ? 'Evento atualizado com sucesso!'
+            : 'Evento criado com sucesso!',
+          confirmText: 'Ver Evento',
+          cancelText: 'Voltar à Home',
           onConfirm: () => {
-            navigation.navigate('EventDetails', { eventId: result.id || eventToEdit?.id });
+            navigation.navigate('EventDetails', {
+              eventId: result.id || eventToEdit?.id || '',
+            });
           },
           onCancel: () => {
             navigation.navigate('MainTabs');
           },
         });
       }
-    } catch (error) {
-      showError(isEditMode ? 'Erro ao atualizar o evento.' : 'Erro ao criar o evento.');
+    } catch {
+      showError(
+        isEditMode ? 'Erro ao atualizar o evento.' : 'Erro ao criar o evento.'
+      );
     }
-  }, [formData, validateStep, createEvent, navigation, resetForm, isEditMode, eventToEdit, showError, showConfirm]);
+  }, [
+    formData,
+    validateStep,
+    createEvent,
+    navigation,
+    resetForm,
+    isEditMode,
+    eventToEdit,
+    showError,
+    showConfirm,
+  ]);
 
   const handleCancel = useCallback(() => {
     const hasChanges = !!(
@@ -140,16 +173,14 @@ export const useCreateEventScreen = ({
       showConfirm({
         title: 'Cancelar criação?',
         message: 'As informações preenchidas serão perdidas.',
-        primaryButtonText: 'Descartar',
-        secondaryButtonText: 'Continuar editando',
+        confirmText: 'Descartar',
+        cancelText: 'Continuar editando',
         variant: 'warning',
         onConfirm: () => {
           resetForm();
           navigation.goBack();
         },
-        onCancel: () => {
-          // Não faz nada, continua editando
-        },
+        onCancel: () => {},
       });
     } else {
       navigation.goBack();

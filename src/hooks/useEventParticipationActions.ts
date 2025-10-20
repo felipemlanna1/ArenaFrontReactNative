@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { eventsService } from '@/services/events/eventsService';
+import { useAlert } from '@/contexts/AlertContext';
 
 export interface UseEventParticipationActionsReturn {
   isParticipationLoading: boolean;
@@ -12,66 +12,65 @@ export interface UseEventParticipationActionsReturn {
 export const useEventParticipationActions = (
   onRefreshEvents?: () => void
 ): UseEventParticipationActionsReturn => {
+  const { showConfirm } = useAlert();
   const [isParticipationLoading, setIsParticipationLoading] = useState(false);
   const [currentParticipationEventId, setCurrentParticipationEventId] =
     useState<string | null>(null);
 
   const handleCancelParticipation = useCallback(
     async (eventId: string) => {
-      Alert.alert(
-        'Cancelar Participação',
-        'Tem certeza que deseja cancelar sua participação neste evento?',
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          {
-            text: 'Confirmar',
-            style: 'destructive',
-            onPress: async () => {
-              setIsParticipationLoading(true);
-              setCurrentParticipationEventId(eventId);
+      showConfirm({
+        title: 'Cancelar Participação',
+        message:
+          'Tem certeza que deseja cancelar sua participação neste evento?',
+        confirmText: 'Confirmar',
+        cancelText: 'Cancelar',
+        variant: 'warning',
+        destructive: true,
+        onConfirm: async () => {
+          setIsParticipationLoading(true);
+          setCurrentParticipationEventId(eventId);
 
-              try {
-                await eventsService.leaveEvent(eventId);
-                onRefreshEvents?.();
-              } finally {
-                setIsParticipationLoading(false);
-                setCurrentParticipationEventId(null);
-              }
-            },
-          },
-        ]
-      );
+          try {
+            await eventsService.leaveEvent(eventId);
+            onRefreshEvents?.();
+          } finally {
+            setIsParticipationLoading(false);
+            setCurrentParticipationEventId(null);
+          }
+        },
+        onCancel: () => {},
+      });
     },
-    [onRefreshEvents]
+    [onRefreshEvents, showConfirm]
   );
 
   const handleUndoRequest = useCallback(
     async (eventId: string) => {
-      Alert.alert(
-        'Desfazer Solicitação',
-        'Tem certeza que deseja desfazer sua solicitação de entrada neste evento?',
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          {
-            text: 'Confirmar',
-            style: 'destructive',
-            onPress: async () => {
-              setIsParticipationLoading(true);
-              setCurrentParticipationEventId(eventId);
+      showConfirm({
+        title: 'Desfazer Solicitação',
+        message:
+          'Tem certeza que deseja desfazer sua solicitação de entrada neste evento?',
+        confirmText: 'Confirmar',
+        cancelText: 'Cancelar',
+        variant: 'warning',
+        destructive: true,
+        onConfirm: async () => {
+          setIsParticipationLoading(true);
+          setCurrentParticipationEventId(eventId);
 
-              try {
-                await eventsService.cancelRequest(eventId);
-                onRefreshEvents?.();
-              } finally {
-                setIsParticipationLoading(false);
-                setCurrentParticipationEventId(null);
-              }
-            },
-          },
-        ]
-      );
+          try {
+            await eventsService.cancelRequest(eventId);
+            onRefreshEvents?.();
+          } finally {
+            setIsParticipationLoading(false);
+            setCurrentParticipationEventId(null);
+          }
+        },
+        onCancel: () => {},
+      });
     },
-    [onRefreshEvents]
+    [onRefreshEvents, showConfirm]
   );
 
   return {

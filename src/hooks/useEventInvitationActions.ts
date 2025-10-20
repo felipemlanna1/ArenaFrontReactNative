@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { eventsService } from '@/services/events/eventsService';
+import { useAlert } from '@/contexts/AlertContext';
 
 export interface UseEventInvitationActionsReturn {
   isInvitationLoading: boolean;
@@ -18,6 +18,7 @@ export interface UseEventInvitationActionsReturn {
 export const useEventInvitationActions = (
   onRefreshEvents?: () => void
 ): UseEventInvitationActionsReturn => {
+  const { showConfirm } = useAlert();
   const [isInvitationLoading, setIsInvitationLoading] = useState(false);
   const [currentInvitationEventId, setCurrentInvitationEventId] = useState<
     string | null
@@ -49,31 +50,29 @@ export const useEventInvitationActions = (
         return;
       }
 
-      Alert.alert(
-        'Recusar Convite',
-        'Tem certeza que deseja recusar este convite?',
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          {
-            text: 'Recusar',
-            style: 'destructive',
-            onPress: async () => {
-              setIsInvitationLoading(true);
-              setCurrentInvitationEventId(eventId);
+      showConfirm({
+        title: 'Recusar Convite',
+        message: 'Tem certeza que deseja recusar este convite?',
+        confirmText: 'Recusar',
+        cancelText: 'Cancelar',
+        variant: 'warning',
+        destructive: true,
+        onConfirm: async () => {
+          setIsInvitationLoading(true);
+          setCurrentInvitationEventId(eventId);
 
-              try {
-                await eventsService.rejectInvitation(eventId, invitationId);
-                onRefreshEvents?.();
-              } finally {
-                setIsInvitationLoading(false);
-                setCurrentInvitationEventId(null);
-              }
-            },
-          },
-        ]
-      );
+          try {
+            await eventsService.rejectInvitation(eventId, invitationId);
+            onRefreshEvents?.();
+          } finally {
+            setIsInvitationLoading(false);
+            setCurrentInvitationEventId(null);
+          }
+        },
+        onCancel: () => {},
+      });
     },
-    [onRefreshEvents]
+    [onRefreshEvents, showConfirm]
   );
 
   return {

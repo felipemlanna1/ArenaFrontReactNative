@@ -39,11 +39,9 @@ export const styles = StyleSheet.create({
   label: {
     color: ArenaColors.neutral.light,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
   },
   name: {
     color: ArenaColors.neutral.light,
-    letterSpacing: -0.3,
   },
   username: {
     color: ArenaColors.neutral.medium,

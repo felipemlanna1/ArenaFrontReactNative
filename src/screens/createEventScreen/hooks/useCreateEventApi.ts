@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { eventsService } from '@/services/events/eventsService';
 import {
   CreateEventFormData,
@@ -7,6 +6,7 @@ import {
   EventType,
 } from '../typesCreateEventScreen';
 import { Event } from '@/services/events/typesEvents';
+import { useAlert } from '@/contexts/AlertContext';
 
 interface UseCreateEventApiReturn {
   isCreating: boolean;
@@ -15,6 +15,7 @@ interface UseCreateEventApiReturn {
 }
 
 export const useCreateEventApi = (): UseCreateEventApiReturn => {
+  const { showError } = useAlert();
   const [isCreating, setIsCreating] = useState(false);
   const [createEventError, setCreateEventError] = useState<string | null>(null);
 
@@ -90,14 +91,14 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
         }
 
         setCreateEventError(errorMessage);
-        Alert.alert('Erro', errorMessage);
+        showError(errorMessage);
 
         return null;
       } finally {
         setIsCreating(false);
       }
     },
-    [buildEventDto]
+    [buildEventDto, showError]
   );
 
   return {
