@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaSizes,
+} from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -193,6 +198,71 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.xl,
     position: 'relative',
-    minHeight: 80,
+    minHeight: ArenaSpacing['7xl'],
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.md,
+    flexWrap: 'wrap',
+  },
+  column: {
+    gap: ArenaSpacing.md,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: ArenaSpacing.sm,
+  },
+  imageShowcaseFull: {
+    width: '100%' as const,
+    height: ArenaSizes.imageShowcaseMedium,
+    borderRadius: ArenaBorders.radius.md,
+  },
+  imageShowcaseMedium: {
+    width: ArenaSizes.imageShowcaseExtraLarge,
+    height: ArenaSizes.imageShowcaseLarge,
+    borderRadius: ArenaBorders.radius.md,
+  },
+  imageShowcaseSmall: {
+    width: ArenaSizes.imageShowcaseMediumWidth,
+    height: ArenaSizes.imageShowcaseMediumWidth,
+    borderRadius: ArenaBorders.radius.md,
+  },
+  imageShowcaseThumbnail: {
+    width: ArenaSizes.imageShowcaseSmall,
+    height: ArenaSizes.imageShowcaseSmall,
+    borderRadius: ArenaBorders.radius.md,
+  },
+  imageShowcaseCompare: {
+    width: ArenaSizes.imageShowcaseLarge,
+    height: ArenaSizes.imageShowcaseMedium,
+    borderRadius: ArenaBorders.radius.md,
+    backgroundColor: ArenaColors.neutral.dark,
+  },
+  imageShowcaseCallbacks: {
+    width: ArenaSizes.imageShowcaseExtraLarge,
+    height: ArenaSizes.imageShowcaseLargeHeight,
+    borderRadius: ArenaBorders.radius.md,
+  },
+  imageShowcaseRemote: {
+    width: '100%' as const,
+    height: ArenaSizes.imageShowcaseLarge,
+    borderRadius: ArenaBorders.radius.md,
+  },
+  gapXs: {
+    gap: ArenaSpacing.xs,
+  },
+  gapSm: {
+    gap: ArenaSpacing.sm,
+  },
+  gapMd: {
+    gap: ArenaSpacing.md,
+  },
+  gapLg: {
+    gap: ArenaSpacing.sm,
+  },
+  textMarginBottom: {
+    marginBottom: ArenaSpacing.sm,
   },
 });

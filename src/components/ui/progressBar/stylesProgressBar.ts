@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaBorders } from '@/constants';
+import { ArenaColors, ArenaBorders, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   percentageContainer: {
     alignItems: 'flex-end',
-    marginTop: 4,
+    marginTop: ArenaSpacing.xs,
   },
   percentageText: {
     color: ArenaColors.neutral.medium,

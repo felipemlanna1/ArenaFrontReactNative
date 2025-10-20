@@ -66,7 +66,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <TouchableOpacity
         style={[
           styles.inputContainer,
-          backgroundVariant === 'filled' && styles.inputContainerFilled,
           isFocused && styles.inputContainerFocused,
           disabled && styles.inputContainerDisabled,
           error && styles.inputContainerError,
@@ -88,22 +87,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         </Text>
 
         <View style={isFocused ? styles.iconActive : styles.icon}>
-          <Ionicons
-            name={getIconName()}
-            size={20}
-            color={getIconColor()}
-          />
+          <Ionicons name={getIconName()} size={20} color={getIconColor()} />
         </View>
       </TouchableOpacity>
 
       {error && (
-        <Text variant="bodyPrimary" style={styles.error}>
+        <Text variant="captionError" style={styles.error}>
           {error}
         </Text>
       )}
 
       {!error && helperText && (
-        <Text variant="bodyPrimary" style={styles.helperText}>
+        <Text variant="captionMuted" style={styles.helperText}>
           {helperText}
         </Text>
       )}

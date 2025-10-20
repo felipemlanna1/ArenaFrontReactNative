@@ -14,6 +14,12 @@ export type UserEventStatus =
   | 'REQUESTED'
   | 'NONE';
 
+export type ParticipantStatus =
+  | 'CONFIRMED'
+  | 'PENDING'
+  | 'INVITED'
+  | 'DECLINED';
+
 export interface EventLocation {
   address: string;
   city: string;
@@ -29,6 +35,30 @@ export interface EventSport {
   name: string;
   icon: string;
   color: string;
+}
+
+export interface EventUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email?: string;
+  profilePicture?: string;
+  bio?: string;
+  isActive: boolean;
+}
+
+export interface EventParticipant {
+  id: string;
+  eventId: string;
+  userId: string;
+  status: ParticipantStatus;
+  joinedAt: string;
+  updatedAt: string;
+  note?: string;
+  invitedBy?: string | null;
+  isNotified: boolean;
+  user: EventUser;
 }
 
 export interface Event {
@@ -53,8 +83,10 @@ export interface Event {
   invitationId?: string;
   coverImage?: string;
   organizerId: string;
-  organizerName: string;
+  organizerName?: string;
   organizerAvatar?: string;
+  organizer?: EventUser;
+  participants?: EventParticipant[];
   createdAt: string;
   updatedAt: string;
 }

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors, ArenaTypography } from '@/constants';
+import { ArenaSpacing, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,13 +17,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: ArenaSpacing.sm,
   },
-  toggleLabel: {
-    fontSize: ArenaTypography.size.sm,
-    color: ArenaColors.neutral.light,
-  },
   helpText: {
-    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.neutral.medium,
     marginTop: ArenaSpacing.xs,
+  },
+  flex1: {
+    flex: 1,
+  },
+  flex2: {
+    flex: 2,
   },
 });

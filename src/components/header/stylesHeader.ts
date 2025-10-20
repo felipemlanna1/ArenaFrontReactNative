@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -72,11 +67,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: {
-    color: ArenaColors.text.inverse,
-    fontWeight: ArenaTypography.weight.semibold,
-    fontSize: ArenaTypography.size.sm,
-  },
   menuTrigger: {
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
@@ -95,8 +85,5 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.md,
-  },
-  menuButtonText: {
-    color: ArenaColors.text.inverse,
   },
 });

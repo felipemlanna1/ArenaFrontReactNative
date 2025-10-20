@@ -15,18 +15,13 @@ export const Switch: React.FC<SwitchProps> = ({
   testID,
   ...switchProps
 }) => {
-  const {
-    trackColor,
-    thumbColor,
-    containerStyle,
-    labelStyle,
-    sizeConfig,
-  } = useSwitch({
-    variant,
-    size,
-    value,
-    disabled,
-  });
+  const { trackColor, thumbColor, containerStyle, labelStyle, switchStyle } =
+    useSwitch({
+      variant,
+      size,
+      value,
+      disabled,
+    });
 
   return (
     <View
@@ -43,7 +38,7 @@ export const Switch: React.FC<SwitchProps> = ({
         trackColor={trackColor}
         thumbColor={thumbColor}
         disabled={disabled}
-        style={{ transform: sizeConfig.transform }}
+        style={switchStyle}
         testID={testID ? `${testID}-switch` : undefined}
         accessibilityRole="switch"
         accessibilityState={{ checked: value, disabled }}

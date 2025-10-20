@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   text: {
-    fontFamily: 'Inter-Regular',
     textAlign: 'left',
   },
 });

@@ -44,19 +44,37 @@ import { ArenaColors } from '@/constants';
           <Fab
             size="sm"
             onPress={() => {}}
-            icon={<Ionicons name="add" size={20} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="add"
+                size={20}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
           <Fab
             size="md"
             onPress={() => {}}
-            icon={<Ionicons name="add" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="add"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
           <Fab
             size="lg"
             onPress={() => {}}
-            icon={<Ionicons name="add" size={28} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="add"
+                size={28}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
         </View>
@@ -82,13 +100,25 @@ import { ArenaColors } from '@/constants';
           <Fab
             variant="primary"
             onPress={() => {}}
-            icon={<Ionicons name="add" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="add"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
           <Fab
             variant="secondary"
             onPress={() => {}}
-            icon={<Ionicons name="create" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="create"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
         </View>
@@ -116,17 +146,35 @@ import { ArenaColors } from '@/constants';
         <View style={styles.fabShowcase}>
           <Fab
             onPress={() => {}}
-            icon={<Ionicons name="add" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="add"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
           <Fab
             onPress={() => {}}
-            icon={<Ionicons name="create" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="create"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
           <Fab
             onPress={() => {}}
-            icon={<Ionicons name="camera" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="camera"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
         </View>
@@ -146,7 +194,13 @@ import { ArenaColors } from '@/constants';
           <Fab
             disabled
             onPress={() => {}}
-            icon={<Ionicons name="add" size={24} color={ArenaColors.neutral.light} />}
+            icon={
+              <Ionicons
+                name="add"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
             position="bottom-center"
           />
         </View>

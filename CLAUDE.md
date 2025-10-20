@@ -63,28 +63,120 @@ src/
 **REGRA**: Usar SEMPRE os tokens do `arenaTokens.ts`. Nunca valores hardcoded.
 
 ```tsx
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
+import { Text } from '@/components/ui/text';
 
-// ✅ CORRETO
+// ✅ CORRETO - Usar variantes de Text
 const styles = StyleSheet.create({
   container: {
     padding: ArenaSpacing.lg,
     backgroundColor: ArenaColors.neutral.dark,
   },
   title: {
-    fontSize: ArenaTypography.size['2xl'],
-    fontWeight: ArenaTypography.weight.semibold,
+    textAlign: 'center', // Apenas propriedades de layout
   },
 });
 
-// ❌ ERRADO
+// No componente
+<Text variant="titlePrimary" style={styles.title}>Título</Text>
+
+// ❌ ERRADO - Propriedades tipográficas em styles
 const styles = StyleSheet.create({
   container: {
     padding: 16, // Valor hardcoded
     backgroundColor: '#20303D', // Cor hardcoded
   },
+  title: {
+    fontSize: 22, // ❌ Usar variant ao invés
+    fontWeight: '600', // ❌ Usar variant ao invés
+  },
 });
 ```
+
+### 🚨 REGRA CRÍTICA: Text Component
+
+#### 1. Variant é OBRIGATÓRIA
+
+**TODO `<Text>` DEVE ter a prop `variant`**. Nunca use `<Text>` sem `variant` - isso causará erro em runtime.
+
+#### 2. NUNCA Use Propriedades Tipográficas em Styles
+
+**NUNCA** usar propriedades tipográficas (`fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`, `fontFamily`, `color`) em `StyleSheet.create()`.
+
+**SEMPRE** usar a prop `variant` do componente `<Text>`:
+
+```tsx
+// ❌ ERRADO - Sem variant (causará erro)
+<Text>Olá Mundo</Text>
+<Text style={styles.title}>Título</Text>
+
+// ❌ ERRADO - Propriedades tipográficas em styles
+const styles = StyleSheet.create({
+  title: {
+    fontSize: ArenaTypography.size.lg,
+    fontWeight: ArenaTypography.weight.bold,
+    color: ArenaColors.neutral.light,
+    lineHeight: 24,
+  },
+});
+<Text variant="titlePrimary" style={styles.title}>Título</Text>
+
+// ✅ CORRETO - Sempre com variant
+<Text variant="bodyPrimary">Olá Mundo</Text>
+<Text variant="titlePrimary">Título</Text>
+
+// ✅ CORRETO - Variant + apenas propriedades de layout
+const styles = StyleSheet.create({
+  title: {
+    // Apenas propriedades de layout/posicionamento
+    textAlign: 'center',
+    marginTop: ArenaSpacing.md,
+  },
+});
+<Text variant="titlePrimary" style={styles.title}>Título</Text>
+```
+
+#### 3. ESLint Enforcement
+
+A regra `arena/arena-text-requires-variant` garante que todo `<Text>` tenha `variant`:
+
+```bash
+# ❌ Isso causará erro ESLint
+<Text>Hello</Text>
+# Error: Text component from "@/components/ui/text" must have a "variant" prop
+
+# ✅ Correto
+<Text variant="bodyPrimary">Hello</Text>
+```
+
+**Variantes Disponíveis (25 total)**:
+
+| Categoria | Variantes | Uso |
+|-----------|-----------|-----|
+| **Display/Headings** | `displayPrimary`, `headingPrimary`, `headingSecondary` | Títulos grandes e principais |
+| **Titles** | `titlePrimary`, `titleSecondary` | Títulos de seções e cards |
+| **Subtitles** | `subtitlePrimary`, `subtitleSecondary` | Subtítulos |
+| **Body** | `bodyPrimary`, `bodySecondary` | Texto de corpo/parágrafos |
+| **Captions** | `captionPrimary`, `captionSecondary` | Legendas e textos pequenos |
+| **Labels** | `labelPrimary`, `labelSecondary` | Labels de formulários |
+| **Links** | `linkPrimary`, `linkSecondary` | Links clicáveis |
+| **Buttons** | `buttonPrimary`, `buttonSecondary` | Texto dentro de botões |
+| **Inputs** | `inputPrimary`, `inputSecondary`, `placeholderPrimary` | Inputs de formulário |
+| **States** | `errorPrimary`, `errorSecondary`, `successPrimary`, `warningPrimary`, `infoPrimary`, `disabledPrimary` | Estados de UI |
+
+**Propriedades Permitidas em Styles**:
+- ✅ Layout: `textAlign`, `textDecorationLine`, `textTransform`
+- ✅ Espaçamento: `margin*`, `padding*`
+- ✅ Posicionamento: `position`, `top`, `left`, `right`, `bottom`
+- ✅ Outros: `opacity`, `backgroundColor` (para highlight)
+
+**Propriedades PROIBIDAS em Styles** (use variantes):
+- ❌ `fontSize` → Use variant apropriada
+- ❌ `fontWeight` → Use variant apropriada
+- ❌ `fontFamily` → Use variant apropriada
+- ❌ `lineHeight` → Use variant apropriada
+- ❌ `letterSpacing` → Use variant apropriada
+- ❌ `color` → Use variant apropriada (exceto casos especiais como highlight)
 
 ### Cores Arena
 
@@ -418,10 +510,17 @@ import { RadioButton } from '@/components/ui/radioButton';
 
 #### **Layout & Navigation**
 ```tsx
-// Button
+// Button - NUNCA use <Text> dentro de <Button>
 import { Button } from '@/components/ui/button';
+
+// ✅ CORRETO - String direta como children
 <Button variant="primary" onPress={handleSubmit} size="lg">
-  <Text>Enviar</Text>
+  Enviar
+</Button>
+
+// ❌ ERRADO - Nunca use <Text> dentro
+<Button variant="primary" onPress={handleSubmit}>
+  <Text>Enviar</Text>  {/* ❌ NÃO FAÇA ISSO */}
 </Button>
 
 // Card
@@ -628,6 +727,92 @@ import { Button } from '../../../components/ui/button';
 import { Switch } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 ```
+
+---
+
+## 🔒 Regras de Componentes UI - Restrições de Children
+
+### Componentes que NUNCA devem conter `<Text>` como children
+
+Alguns componentes já gerenciam seu próprio texto internamente. **NUNCA** passe `<Text>` como children:
+
+#### ❌ Button
+```tsx
+// ❌ ERRADO - Nunca use <Text> dentro
+<Button variant="primary">
+  <Text variant="bodyPrimary">Enviar</Text>  {/* ❌ CAUSARÁ ERRO */}
+</Button>
+
+// ✅ CORRETO - String direta
+<Button variant="primary">Enviar</Button>
+```
+
+#### ❌ Badge
+```tsx
+// ❌ ERRADO
+<Badge variant="primary">
+  <Text variant="captionPrimary">Novo</Text>  {/* ❌ CAUSARÁ ERRO */}
+</Badge>
+
+// ✅ CORRETO
+<Badge variant="primary">Novo</Badge>
+```
+
+#### ❌ Input, Label, RadioButton, Checkbox
+Esses componentes recebem texto via **prop `label`**, NÃO como children:
+
+```tsx
+// ❌ ERRADO - Children não é aceito
+<Input>
+  <Text>Nome</Text>  {/* ❌ NÃO FUNCIONA */}
+</Input>
+
+// ✅ CORRETO - Use prop label
+<Input label="Nome" value={name} onChangeText={setName} />
+<Label variant="form" required>Nome completo</Label>
+<RadioButton label="Opção 1" selected={selected} onPress={handleSelect} />
+<Checkbox label="Aceito os termos" checked={checked} onPress={handlePress} />
+```
+
+### Componentes que ACEITAM `<Text>` como children
+
+Apenas use `<Text>` dentro destes componentes quando necessário:
+
+#### ✅ Card, View, ScrollView
+```tsx
+// ✅ Permitido - Containers genéricos
+<Card variant="outlined">
+  <Text variant="titlePrimary">Título do Card</Text>
+  <Text variant="bodySecondary">Descrição do card...</Text>
+</Card>
+
+<View style={styles.container}>
+  <Text variant="headingPrimary">Bem-vindo</Text>
+</View>
+```
+
+#### ✅ Link
+```tsx
+// ✅ Link pode conter Text (mas precisa de variant)
+<Link href="/terms">
+  <Text variant="linkPrimary">Ver Termos de Uso</Text>
+</Link>
+```
+
+### Resumo: Quando Usar `<Text>`
+
+| Situação | Usar `<Text>` | Como Passar Texto |
+|----------|---------------|-------------------|
+| **Dentro de View/Card/ScrollView** | ✅ Sim, com `variant` | `<Text variant="bodyPrimary">Texto</Text>` |
+| **Dentro de Button** | ❌ Nunca | String direta: `<Button>Enviar</Button>` |
+| **Dentro de Badge** | ❌ Nunca | String direta: `<Badge>Novo</Badge>` |
+| **Input/Label/Checkbox/Radio** | ❌ Nunca | Via prop: `label="Nome"` |
+| **Textos livres na UI** | ✅ Sempre | `<Text variant="bodyPrimary">Texto</Text>` |
+
+### ESLint Rules que Validam
+
+- `arena/arena-text-requires-variant` - Garante que `<Text>` sempre tenha `variant`
+- `arena/arena-use-ui-components` - Bloqueia uso de componentes primitivos do React Native
 
 ---
 

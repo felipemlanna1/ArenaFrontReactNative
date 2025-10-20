@@ -18,4 +18,13 @@ export const ArenaShadows = {
   backgroundImage: '6px 12px 24px 0px rgba(0, 0, 0, 0.35)',
 } as const;
 
+export const ArenaShadowConfig = {
+  alertShadow: {
+    offset: { width: 0, height: -2 },
+    opacity: 0.2,
+    radius: 12,
+    elevation: 8,
+  },
+} as const;
+
 export type ArenaShadowKey = keyof typeof ArenaShadows;

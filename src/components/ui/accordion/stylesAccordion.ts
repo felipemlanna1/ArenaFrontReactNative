@@ -3,7 +3,7 @@ import {
   ArenaColors,
   ArenaSpacing,
   ArenaBorders,
-  ArenaTypography,
+  ArenaOpacity,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.interaction.pressed.surface,
   },
   headerDisabled: {
-    opacity: 0.5,
+    opacity: ArenaOpacity.medium,
   },
   headerContent: {
     flexDirection: 'row',
@@ -63,8 +63,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: ArenaTypography.size.md,
-    fontFamily: ArenaTypography.fontFamily.semibold,
     color: ArenaColors.text.inverse,
   },
   chevronContainer: {
@@ -75,9 +73,6 @@ export const styles = StyleSheet.create({
     paddingBottom: ArenaSpacing.md,
   },
   contentText: {
-    fontSize: ArenaTypography.size.md,
-    fontFamily: ArenaTypography.fontFamily.regular,
     color: ArenaColors.text.inverse,
-    lineHeight: ArenaTypography.size.md * 1.5,
   },
 });

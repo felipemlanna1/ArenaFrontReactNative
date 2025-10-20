@@ -1,10 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
@@ -32,8 +27,6 @@ export const styles = StyleSheet.create<Styles>({
   },
   text: {
     color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.sm,
-    fontWeight: ArenaTypography.weight.semibold,
     minWidth: ArenaSpacing['4xl'],
     textAlign: 'right',
   },

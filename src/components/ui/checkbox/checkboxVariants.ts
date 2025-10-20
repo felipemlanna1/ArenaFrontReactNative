@@ -4,6 +4,7 @@ import {
   ArenaTypography,
   ArenaBorders,
   ArenaShadows,
+  ArenaOpacity,
 } from '@/constants';
 import {
   CheckboxSizeConfig,
@@ -94,7 +95,7 @@ export const checkboxCardVariant: CheckboxCardVariantConfig = {
     boxShadow: ArenaShadows.elevated,
   },
   disabled: {
-    opacity: 0.5,
+    opacity: ArenaOpacity.medium,
     backgroundColor: ArenaColors.disabled.surface,
     borderColor: ArenaColors.disabled.border,
     textColor: ArenaColors.disabled.text,

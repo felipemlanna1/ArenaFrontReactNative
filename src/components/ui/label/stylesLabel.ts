@@ -25,12 +25,12 @@ export const VARIANT_CONFIG: Record<LabelVariant, VariantConfig> = {
     size: 'sm',
     fontWeight: ArenaTypography.weight.regular,
     color: ArenaColors.neutral.light,
-    marginBottom: 0,
+    marginBottom: ArenaSpacing.none,
   },
   helper: {
     size: 'xs',
     fontWeight: ArenaTypography.weight.regular,
     color: ArenaColors.neutral.medium,
-    marginBottom: 0,
+    marginBottom: ArenaSpacing.none,
   },
 };

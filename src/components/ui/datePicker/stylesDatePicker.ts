@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 import {
   ArenaColors,
   ArenaSpacing,
-  ArenaTypography,
   ArenaBorders,
+  ArenaOpacity,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -14,41 +14,33 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderWidth: 1.5,
-    borderColor: `${ArenaColors.brand.primary}66`,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderWidth: ArenaBorders.width.thin,
+    borderColor: `${ArenaColors.neutral.medium}4D`,
     borderRadius: ArenaBorders.radius.md,
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
-    minHeight: 48,
-  },
-  inputContainerFilled: {
-    backgroundColor: ArenaColors.neutral.darkIntermediate,
+    minHeight: ArenaSpacing['5xl'],
   },
   inputContainerFocused: {
     borderColor: ArenaColors.brand.primary,
-    borderWidth: 2,
-    backgroundColor: ArenaColors.neutral.darkest,
+    borderWidth: ArenaBorders.width.medium,
   },
   inputContainerDisabled: {
-    opacity: 0.5,
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderColor: `${ArenaColors.neutral.medium}66`,
+    backgroundColor: ArenaColors.disabled.surface,
+    borderColor: ArenaColors.disabled.border,
+    opacity: ArenaOpacity.strong,
   },
   inputContainerError: {
     borderColor: ArenaColors.semantic.error,
-    borderWidth: 2,
+    borderWidth: ArenaBorders.width.medium,
   },
   value: {
-    fontSize: ArenaTypography.size.md,
     color: ArenaColors.neutral.light,
-    fontWeight: ArenaTypography.weight.regular,
     flex: 1,
   },
   placeholder: {
-    fontSize: ArenaTypography.size.md,
     color: ArenaColors.neutral.medium,
-    fontWeight: ArenaTypography.weight.regular,
     flex: 1,
   },
   icon: {
@@ -58,12 +50,10 @@ export const styles = StyleSheet.create({
     marginLeft: ArenaSpacing.sm,
   },
   error: {
-    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.semantic.error,
     marginTop: ArenaSpacing.xs,
   },
   helperText: {
-    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.neutral.medium,
     marginTop: ArenaSpacing.xs,
   },

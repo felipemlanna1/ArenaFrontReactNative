@@ -20,7 +20,8 @@ export const useSwitch = ({
   );
 
   const thumbColor = useMemo(
-    () => (value ? variantConfig.thumbColorTrue : variantConfig.thumbColorFalse),
+    () =>
+      value ? variantConfig.thumbColorTrue : variantConfig.thumbColorFalse,
     [value, variantConfig]
   );
 
@@ -39,6 +40,13 @@ export const useSwitch = ({
     [sizeConfig]
   );
 
+  const switchStyle = useMemo(
+    () => ({
+      transform: sizeConfig.transform,
+    }),
+    [sizeConfig]
+  );
+
   return {
     variantConfig,
     sizeConfig,
@@ -46,5 +54,6 @@ export const useSwitch = ({
     thumbColor,
     containerStyle,
     labelStyle,
+    switchStyle,
   };
 };

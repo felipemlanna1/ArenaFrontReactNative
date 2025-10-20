@@ -2,13 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 import { Label } from '@/components/ui/label';
 import { ShowcaseItem } from '../showcaseItem';
-import { ArenaSpacing } from '@/constants';
+import { styles } from './stylesComponents';
 
 export const LabelSection: React.FC = () => {
   return (
     <>
       <ShowcaseItem label="Form Label (Padrão para campos)">
-        <View style={{ gap: ArenaSpacing.lg }}>
+        <View style={styles.gapLg}>
           <Label variant="form">Nome completo</Label>
           <Label variant="form" required>
             Email (obrigatório)
@@ -20,7 +20,7 @@ export const LabelSection: React.FC = () => {
       </ShowcaseItem>
 
       <ShowcaseItem label="Section Label (Headings de seção)">
-        <View style={{ gap: ArenaSpacing.lg }}>
+        <View style={styles.gapLg}>
           <Label variant="section">Informações básicas</Label>
           <Label variant="section" required>
             Dados obrigatórios
@@ -29,7 +29,7 @@ export const LabelSection: React.FC = () => {
       </ShowcaseItem>
 
       <ShowcaseItem label="Inline Label (Switch, Checkbox)">
-        <View style={{ gap: ArenaSpacing.lg }}>
+        <View style={styles.gapLg}>
           <Label variant="inline">Notificações ativas</Label>
           <Label variant="inline">Lembrar de mim</Label>
           <Label variant="inline" disabled>
@@ -39,17 +39,15 @@ export const LabelSection: React.FC = () => {
       </ShowcaseItem>
 
       <ShowcaseItem label="Helper Label (Texto auxiliar)">
-        <View style={{ gap: ArenaSpacing.lg }}>
+        <View style={styles.gapLg}>
           <Label variant="helper">Mínimo 8 caracteres</Label>
           <Label variant="helper">Escolha uma opção da lista</Label>
-          <Label variant="helper">
-            Este campo é opcional mas recomendado
-          </Label>
+          <Label variant="helper">Este campo é opcional mas recomendado</Label>
         </View>
       </ShowcaseItem>
 
       <ShowcaseItem label="Size Override (Tamanhos customizados)">
-        <View style={{ gap: ArenaSpacing.lg }}>
+        <View style={styles.gapLg}>
           <Label variant="form" size="xs">
             Extra pequeno (xs)
           </Label>

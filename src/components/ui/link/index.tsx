@@ -1,5 +1,6 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
+import { Text } from '../text';
 import { LinkProps } from './typesLink';
 import { useLink } from './useLink';
 import { styles } from './stylesLink';
@@ -30,7 +31,12 @@ export const Link: React.FC<LinkProps> = ({
       style={styles.pressable}
     >
       {({ pressed }) => (
-        <Text style={[linkLogic.getTextStyle(pressed), style]}>{children}</Text>
+        <Text
+          variant={variant}
+          style={[linkLogic.getTextStyle(pressed), style || {}]}
+        >
+          {children}
+        </Text>
       )}
     </Pressable>
   );

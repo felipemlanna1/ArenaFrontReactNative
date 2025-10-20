@@ -109,7 +109,11 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
         </View>
 
         <View style={styles.progressContainer}>
-          <Stepper currentStep={currentStep} totalSteps={TOTAL_STEPS} variant="dots" />
+          <Stepper
+            currentStep={currentStep}
+            totalSteps={TOTAL_STEPS}
+            variant="dots"
+          />
         </View>
 
         <View style={styles.content}>{renderStepContent()}</View>
@@ -117,7 +121,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
         <View style={styles.footer}>
           <View style={styles.buttonRow}>
             {!isFirstStep && (
-              <View style={{ flex: 1 }}>
+              <View style={styles.flex1}>
                 <Button
                   variant="secondary"
                   onPress={handlePrevious}
@@ -129,7 +133,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
               </View>
             )}
 
-            <View style={{ flex: 1 }}>
+            <View style={styles.flex1}>
               <Button
                 variant="primary"
                 onPress={handleButtonPress}

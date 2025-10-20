@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaTypography,
-  ArenaBorders,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,9 +12,6 @@ export const styles = StyleSheet.create({
     borderLeftColor: ArenaColors.semantic.error,
   },
   errorText: {
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.semantic.error,
-    fontWeight: ArenaTypography.weight.medium,
-    lineHeight: ArenaTypography.lineHeight.sm,
   },
 });

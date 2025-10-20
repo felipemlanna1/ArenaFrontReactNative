@@ -1,10 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
@@ -64,14 +59,10 @@ export const styles = StyleSheet.create<Styles>({
   },
   addressText: {
     flex: 1,
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.text.inverse,
-    fontWeight: ArenaTypography.weight.semibold,
   },
   slotsText: {
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.text.inverse,
-    fontWeight: ArenaTypography.weight.semibold,
   },
   dateTimeRow: {
     flexDirection: 'row',
@@ -86,9 +77,7 @@ export const styles = StyleSheet.create<Styles>({
     flex: 1,
   },
   dateTimeText: {
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.text.inverse,
-    fontWeight: ArenaTypography.weight.semibold,
   },
   progressContainer: {
     marginTop: ArenaSpacing.md,
@@ -114,8 +103,6 @@ export const styles = StyleSheet.create<Styles>({
   },
   actionButtonText: {
     color: ArenaColors.brand.primary,
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
   },
   outlineButton: {
     borderColor: ArenaColors.neutral.medium,
@@ -143,7 +130,5 @@ export const styles = StyleSheet.create<Styles>({
   },
   viewButtonText: {
     color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
   },
 });

@@ -1,7 +1,7 @@
 import {
   CreateEventFormData,
   CreateEventFormErrors,
-} from '../../typesCreateEventScreen';
+} from '@/screens/createEventScreen/typesCreateEventScreen';
 
 export interface ReviewStepProps {
   formData: CreateEventFormData;

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,13 +7,6 @@ export const styles = StyleSheet.create({
   },
   labelContainer: {
     marginBottom: ArenaSpacing.sm,
-  },
-  label: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.medium,
-    fontSize: ArenaTypography.size.md,
-    color: ArenaColors.neutral.light,
-    includeFontPadding: false,
   },
   optionsContainer: {
     flexDirection: 'row',
@@ -23,19 +16,11 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.md,
   },
   helperText: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.regular,
-    fontSize: ArenaTypography.size.sm,
     color: `${ArenaColors.neutral.medium}CC`,
-    includeFontPadding: false,
     marginTop: ArenaSpacing.sm,
   },
   errorText: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.regular,
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.semantic.error,
-    includeFontPadding: false,
     marginTop: ArenaSpacing.sm,
   },
   requiredAsterisk: {

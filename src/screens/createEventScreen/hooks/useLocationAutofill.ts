@@ -57,7 +57,7 @@ export const useLocationAutofill = (): UseLocationAutofillReturn => {
           state: data.uf || '',
           country: 'Brasil',
         };
-      } catch (error) {
+      } catch {
         setCepError('Erro ao buscar endereço. Tente novamente.');
         return null;
       } finally {

@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
   },
   section: {
     gap: ArenaSpacing.sm,
+    marginHorizontal: ArenaSpacing.md,
   },
   sectionLabel: {
     marginBottom: ArenaSpacing.xs,
@@ -32,5 +33,13 @@ export const styles = StyleSheet.create({
     marginTop: ArenaSpacing.md,
     marginBottom: ArenaSpacing.xl,
     marginHorizontal: ArenaSpacing.md,
+  },
+  orderButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.sm,
+  },
+  orderButtonText: {
+    color: ArenaColors.neutral.light,
   },
 });

@@ -22,9 +22,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, onCopy }) => {
         </View>
       </View>
       <View style={styles.codeContainer}>
-        <Text variant="captionMuted" style={styles.codeText}>
-          {code}
-        </Text>
+        <Text variant="bodyPrimary">{code}</Text>
       </View>
     </View>
   );

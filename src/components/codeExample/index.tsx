@@ -26,9 +26,7 @@ export const CodeExample: React.FC<CodeExampleProps> = ({
         )}
       </View>
       <View style={styles.codeContainer}>
-        <Text variant="captionSecondary" style={styles.codeText}>
-          {code}
-        </Text>
+        <Text variant="bodyPrimary">{code}</Text>
       </View>
     </View>
   );

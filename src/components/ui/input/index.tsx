@@ -15,11 +15,7 @@ import { Label } from '../label';
 import { ArenaColors } from '@/constants';
 import { InputProps, ClearButtonProps } from './typesInput';
 import { useInput, useInputAccessibility } from './useInput';
-import {
-  getInputSize,
-  getInputVariant,
-  getInputTypeConfig,
-} from './inputVariants';
+import { getInputTypeConfig } from './inputVariants';
 import { styles } from './stylesInput';
 
 const LOADING_SPINNER_SIZE: SportsLoadingSize = 'xs';

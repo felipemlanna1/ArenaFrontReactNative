@@ -1,12 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@/components/ui/text';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaTypography,
-  ArenaBorders,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface DividerProps {
   text?: string;
@@ -26,9 +21,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginHorizontal: ArenaSpacing.md,
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.neutral.medium,
-    fontWeight: ArenaTypography.weight.medium,
   },
 });
 

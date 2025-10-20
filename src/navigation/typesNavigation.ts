@@ -7,6 +7,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   FilterScreen: undefined;
   CreateEvent: undefined;
+  EventDetails: { eventId: string };
 };
 
 export type TabParamList = {

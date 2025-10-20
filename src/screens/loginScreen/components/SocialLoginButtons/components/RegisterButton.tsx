@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaTypography, ArenaColors } from '@/constants';
+import { ArenaSpacing, ArenaColors } from '@/constants';
 
 interface RegisterButtonProps {
   isLoading: boolean;
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     marginTop: ArenaSpacing.lg,
   },
   text: {
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.neutral.medium,
     marginRight: ArenaSpacing.xs,
   },

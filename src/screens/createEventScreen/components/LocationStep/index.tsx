@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { useLocationAutofill } from '../../hooks/useLocationAutofill';
+import { useLocationAutofill } from '@/screens/createEventScreen/hooks/useLocationAutofill';
 import { LocationStepProps } from './typesLocationStep';
 import { styles } from './stylesLocationStep';
 
@@ -36,7 +37,10 @@ export const LocationStep: React.FC<LocationStepProps> = ({
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.section}>
         <Input
           label="CEP"
@@ -56,7 +60,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
       </View>
 
       <View style={styles.row}>
-        <View style={{ flex: 2 }}>
+        <View style={styles.flex2}>
           <Input
             label="Rua"
             placeholder="Nome da rua"
@@ -69,7 +73,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
             error={errors.street}
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={styles.flex1}>
           <Input
             label="Número"
             placeholder="123"
@@ -99,7 +103,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
       </View>
 
       <View style={styles.row}>
-        <View style={{ flex: 2 }}>
+        <View style={styles.flex2}>
           <Input
             label="Cidade"
             placeholder="Cidade"
@@ -112,7 +116,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
             error={errors.city}
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={styles.flex1}>
           <Input
             label="UF"
             placeholder="SP"
@@ -160,7 +164,7 @@ export const LocationStep: React.FC<LocationStepProps> = ({
           error={errors.price}
           keyboardType="numeric"
         />
-        <Text style={styles.helpText}>
+        <Text variant="captionMuted" style={styles.helpText}>
           Deixe em R$ 0,00 para evento gratuito
         </Text>
       </View>

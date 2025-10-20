@@ -20,7 +20,11 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
 
   const buildEventDto = useCallback(
     (formData: CreateEventFormData): CreateEventDto => {
-      const endDate = new Date(formData.startDate!);
+      if (!formData.startDate) {
+        throw new Error('Start date is required');
+      }
+
+      const endDate = new Date(formData.startDate);
       endDate.setMinutes(endDate.getMinutes() + formData.duration);
 
       return {
@@ -28,7 +32,7 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
         description: formData.description || undefined,
         eventType: EventType.ONE_TIME,
         sportId: formData.sportId,
-        startDate: formData.startDate!.toISOString(),
+        startDate: formData.startDate.toISOString(),
         endDate: endDate.toISOString(),
         location: {
           zipCode: formData.location.zipCode,
@@ -51,8 +55,14 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
             : undefined,
         skillLevel: formData.skillLevel,
         ageRestriction: formData.ageRestriction,
-        rules: formData.rules && formData.rules.trim().length > 0 ? formData.rules : undefined,
-        requirements: formData.requirements && formData.requirements.trim().length > 0 ? formData.requirements : undefined,
+        rules:
+          formData.rules && formData.rules.trim().length > 0
+            ? formData.rules
+            : undefined,
+        requirements:
+          formData.requirements && formData.requirements.trim().length > 0
+            ? formData.requirements
+            : undefined,
       };
     },
     []
@@ -69,8 +79,6 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
 
         return createdEvent;
       } catch (error) {
-        console.error('Error creating event:', error);
-
         let errorMessage = 'Erro ao criar evento. Tente novamente.';
 
         if (error instanceof Error) {

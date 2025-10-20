@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors, ArenaTypography } from '@/constants';
+import { ArenaSpacing, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   errorText: {
-    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.semantic.error,
     marginTop: ArenaSpacing.xs,
   },

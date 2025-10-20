@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -26,8 +21,6 @@ export const styles = StyleSheet.create({
     padding: ArenaSpacing.sm,
   },
   headerTitle: {
-    fontSize: ArenaTypography.size['4xl'],
-    fontWeight: ArenaTypography.weight.bold,
     color: ArenaColors.neutral.light,
   },
   placeholder: {
@@ -60,5 +53,8 @@ export const styles = StyleSheet.create({
   loadingText: {
     color: ArenaColors.neutral.medium,
     marginTop: ArenaSpacing.sm,
+  },
+  flex1: {
+    flex: 1,
   },
 });
