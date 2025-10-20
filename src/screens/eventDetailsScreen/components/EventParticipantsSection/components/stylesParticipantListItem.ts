@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
   },
   name: {
     color: ArenaColors.neutral.light,
-    letterSpacing: -0.3,
   },
   username: {
     color: ArenaColors.neutral.medium,

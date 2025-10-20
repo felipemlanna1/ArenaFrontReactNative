@@ -85,7 +85,8 @@ Participe pelo app Arena! 🔥`;
         }
       }
     } catch (error) {
-      if (__DEV__ && error) {
+      if (__DEV__) {
+        throw error;
       }
     }
   }, [event, buildShareMessage, onSuccess]);

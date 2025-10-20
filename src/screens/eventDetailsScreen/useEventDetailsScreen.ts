@@ -48,7 +48,6 @@ export const useEventDetailsScreen = ({
       };
     }
 
-
     if (status.showCheckIn) {
       return {
         type: 'check-in',
@@ -134,7 +133,7 @@ export const useEventDetailsScreen = ({
       loading: false,
       onPress: () => {},
     };
-  }, [status, isPerformingAction, userActions, managementActions]);
+  }, [status, isPerformingAction, userActions]);
 
   return {
     event,

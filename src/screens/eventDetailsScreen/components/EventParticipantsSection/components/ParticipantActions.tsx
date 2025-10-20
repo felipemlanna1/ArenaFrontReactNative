@@ -24,7 +24,6 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
   onRemove,
   isManaging = false,
 }) => {
-  // Não mostra ações se não for owner ou se for o organizador
   if (!isOwner || isOrganizer) return null;
 
   return (

@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { Accordion } from '@/components/ui/accordion';
 import { Text } from '@/components/ui/text';
 import { Event } from '@/services/events/typesEvents';
 import { ParticipantListItem } from './components/ParticipantListItem';
-import { useEventManagement } from '../../hooks/useEventManagement';
+import { useEventManagement } from '@/screens/eventDetailsScreen/hooks/useEventManagement';
 import { styles } from './stylesEventParticipantsSection';
 
 interface EventParticipantsSectionProps {
@@ -19,29 +19,18 @@ export const EventParticipantsSection: React.FC<
   const participantCount = event.currentParticipants || 0;
   const participants = event.participants || [];
 
-  // Hook de gestão
-  const {
-    isManaging,
-    handleApprove,
-    handleReject,
-    handleRemove,
-  } = useEventManagement({
-    eventId: event.id,
-    onSuccess: onRefresh,
-  });
+  const { isManaging, handleApprove, handleReject, handleRemove } =
+    useEventManagement({
+      eventId: event.id,
+      onSuccess: onRefresh,
+    });
 
-  // Filtrar participantes por status
   const confirmedParticipants = participants.filter(
     p => p.status === 'CONFIRMED'
   );
-  const pendingParticipants = participants.filter(
-    p => p.status === 'PENDING'
-  );
-  const invitedParticipants = participants.filter(
-    p => p.status === 'INVITED'
-  );
+  const pendingParticipants = participants.filter(p => p.status === 'PENDING');
+  const invitedParticipants = participants.filter(p => p.status === 'INVITED');
 
-  // Ordenar organizador primeiro
   const sortParticipants = (participants: typeof confirmedParticipants) => {
     return [...participants].sort((a, b) => {
       if (a.userId === event.organizerId) return -1;
@@ -50,9 +39,12 @@ export const EventParticipantsSection: React.FC<
     });
   };
 
-  // Combinar todos os participantes para mostrar com status diferentes
   const allParticipants = isOwner
-    ? [...pendingParticipants, ...sortParticipants(confirmedParticipants), ...invitedParticipants]
+    ? [
+        ...pendingParticipants,
+        ...sortParticipants(confirmedParticipants),
+        ...invitedParticipants,
+      ]
     : sortParticipants(confirmedParticipants);
 
   const items = [

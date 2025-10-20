@@ -111,7 +111,7 @@ export const useHomeScreen = (
         clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [memoizedApiFilters, searchTerm, events.loadEvents]);
+  }, [memoizedApiFilters, searchTerm, events]);
 
   const handleSortPress = useCallback(() => {
     setShowSortModal(true);

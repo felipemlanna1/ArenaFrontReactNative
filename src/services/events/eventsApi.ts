@@ -110,28 +110,35 @@ export class EventsApi {
     return response;
   }
 
-  // Métodos de Gestão de Participantes
-  async approveParticipant(eventId: string, participantId: string): Promise<void> {
+  async approveParticipant(
+    eventId: string,
+    participantId: string
+  ): Promise<void> {
     await httpService.post(
       `${this.basePath}/${eventId}/participants/${participantId}/approve`,
       {}
     );
   }
 
-  async rejectParticipant(eventId: string, participantId: string): Promise<void> {
+  async rejectParticipant(
+    eventId: string,
+    participantId: string
+  ): Promise<void> {
     await httpService.post(
       `${this.basePath}/${eventId}/participants/${participantId}/reject`,
       {}
     );
   }
 
-  async removeParticipant(eventId: string, participantId: string): Promise<void> {
+  async removeParticipant(
+    eventId: string,
+    participantId: string
+  ): Promise<void> {
     await httpService.delete(
       `${this.basePath}/${eventId}/participants/${participantId}`
     );
   }
 
-  // Métodos de Gestão de Owners
   async addOwner(eventId: string, ownerId: string): Promise<void> {
     await httpService.post(`${this.basePath}/${eventId}/owners`, {
       userId: ownerId,
@@ -142,7 +149,6 @@ export class EventsApi {
     await httpService.delete(`${this.basePath}/${eventId}/owners/${ownerId}`);
   }
 
-  // Método para enviar convites
   async sendInvitations(
     eventId: string,
     userIds: string[],
@@ -154,8 +160,10 @@ export class EventsApi {
     });
   }
 
-  // Método para atualizar evento
-  async updateEvent(eventId: string, dto: Partial<CreateEventDto>): Promise<Event> {
+  async updateEvent(
+    eventId: string,
+    dto: Partial<CreateEventDto>
+  ): Promise<Event> {
     const response = await httpService.patch<Event>(
       `${this.basePath}/${eventId}`,
       dto
@@ -163,12 +171,10 @@ export class EventsApi {
     return response;
   }
 
-  // Método para deletar evento
   async deleteEvent(eventId: string): Promise<void> {
     await httpService.delete(`${this.basePath}/${eventId}`);
   }
 
-  // Método para buscar participantes com status
   async getEventParticipants(
     eventId: string,
     status?: 'confirmed' | 'pending' | 'invited'

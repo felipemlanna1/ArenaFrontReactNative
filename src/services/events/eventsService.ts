@@ -34,7 +34,6 @@ class EventsService {
   createEvent = (...args: Parameters<EventsApi['createEvent']>) =>
     this.api.createEvent(...args);
 
-  // Métodos de Gestão de Participantes
   approveParticipant = (...args: Parameters<EventsApi['approveParticipant']>) =>
     this.api.approveParticipant(...args);
 
@@ -44,28 +43,24 @@ class EventsService {
   removeParticipant = (...args: Parameters<EventsApi['removeParticipant']>) =>
     this.api.removeParticipant(...args);
 
-  // Métodos de Gestão de Owners
   addOwner = (...args: Parameters<EventsApi['addOwner']>) =>
     this.api.addOwner(...args);
 
   removeOwner = (...args: Parameters<EventsApi['removeOwner']>) =>
     this.api.removeOwner(...args);
 
-  // Método para enviar convites
   sendInvitations = (...args: Parameters<EventsApi['sendInvitations']>) =>
     this.api.sendInvitations(...args);
 
-  // Método para atualizar evento
   updateEvent = (...args: Parameters<EventsApi['updateEvent']>) =>
     this.api.updateEvent(...args);
 
-  // Método para deletar evento
   deleteEvent = (...args: Parameters<EventsApi['deleteEvent']>) =>
     this.api.deleteEvent(...args);
 
-  // Método para buscar participantes com status
-  getEventParticipants = (...args: Parameters<EventsApi['getEventParticipants']>) =>
-    this.api.getEventParticipants(...args);
+  getEventParticipants = (
+    ...args: Parameters<EventsApi['getEventParticipants']>
+  ) => this.api.getEventParticipants(...args);
 }
 
 export const eventsService = new EventsService();

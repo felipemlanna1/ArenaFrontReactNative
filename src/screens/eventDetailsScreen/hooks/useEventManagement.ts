@@ -10,21 +10,15 @@ interface UseEventManagementProps {
 interface UseEventManagementReturn {
   isManaging: boolean;
   managementError: Error | null;
-
-  // Ações de participantes
   handleApprove: (participantId: string) => Promise<void>;
   handleReject: (participantId: string) => Promise<void>;
   handleRemove: (participantId: string) => Promise<void>;
-
-  // Ações de owners
   handleAddOwner: (userId: string) => Promise<void>;
   handleRemoveOwner: (ownerId: string) => Promise<void>;
-
-  // Convites
   handleSendInvitations: (userIds: string[], message?: string) => Promise<void>;
-
-  // Ações do evento
-  handleUpdateEvent: (data: Parameters<typeof eventsService.updateEvent>[1]) => Promise<void>;
+  handleUpdateEvent: (
+    data: Parameters<typeof eventsService.updateEvent>[1]
+  ) => Promise<void>;
   handleDeleteEvent: () => Promise<void>;
 }
 

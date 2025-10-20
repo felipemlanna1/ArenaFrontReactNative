@@ -144,7 +144,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
             navigation.navigate('CreateEvent', {
               mode: 'edit',
               eventId: event.id,
-              eventData: event
+              eventData: event,
             });
           }}
           testID="edit-event-fab"

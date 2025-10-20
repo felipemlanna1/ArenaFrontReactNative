@@ -72,7 +72,10 @@ export const ParticipantListItem: React.FC<ParticipantListItemProps> = ({
           </Text>
           {isOrganizer && (
             <View style={styles.organizerBadge}>
-              <Text variant="captionSecondary" style={styles.organizerBadgeText}>
+              <Text
+                variant="captionSecondary"
+                style={styles.organizerBadgeText}
+              >
                 ORGANIZADOR
               </Text>
             </View>

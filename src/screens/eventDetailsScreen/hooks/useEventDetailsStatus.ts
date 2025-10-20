@@ -33,7 +33,9 @@ export const useEventDetailsStatus = ({
     const userEventStatus =
       event.userEventStatus || ('NONE' as UserEventStatus);
 
-    const isOwner = userEventStatus === 'ORGANIZER' || userEventStatus === 'ADMIN' ||
+    const isOwner =
+      userEventStatus === 'ORGANIZER' ||
+      userEventStatus === 'ADMIN' ||
       (currentUserId !== undefined && currentUserId === event.organizerId);
     const isOrganizer = isOwner;
     const isParticipant = userEventStatus === 'PARTICIPANT';
