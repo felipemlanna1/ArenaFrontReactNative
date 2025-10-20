@@ -164,9 +164,19 @@ export class EventsApi {
     eventId: string,
     dto: Partial<CreateEventDto>
   ): Promise<Event> {
+    const sanitizedDto = { ...dto };
+    delete (sanitizedDto as unknown as { isFree?: boolean }).isFree;
+    delete (sanitizedDto as unknown as { availableSpots?: number })
+      .availableSpots;
+    delete (sanitizedDto as unknown as { distanceKm?: number }).distanceKm;
+    delete (sanitizedDto as unknown as { isFull?: boolean }).isFull;
+    delete (sanitizedDto as unknown as { canJoin?: boolean }).canJoin;
+    delete (sanitizedDto as unknown as { userEventStatus?: string })
+      .userEventStatus;
+
     const response = await httpService.patch<Event>(
       `${this.basePath}/${eventId}`,
-      dto
+      sanitizedDto
     );
     return response;
   }
