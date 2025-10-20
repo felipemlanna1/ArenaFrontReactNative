@@ -26,12 +26,6 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
   const { eventId } = route.params;
   const { user } = useAuth();
 
-  console.log('EventDetailsScreen - Auth User:', {
-    userId: user?.id,
-    userName: user?.firstName,
-    hasUser: !!user,
-  });
-
   const {
     event,
     isLoading,
@@ -45,12 +39,6 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
     eventId,
     navigation,
     currentUserId: user?.id,
-  });
-
-  console.log('EventDetailsScreen - Status:', {
-    isOwner: status.isOwner,
-    isOrganizer: status.isOrganizer,
-    userEventStatus: status.userEventStatus,
   });
 
   if (isLoading && !event) {
