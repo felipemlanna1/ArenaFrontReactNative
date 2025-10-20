@@ -109,4 +109,90 @@ export class EventsApi {
     const response = await httpService.post<Event>(this.basePath, dto);
     return response;
   }
+
+  async approveParticipant(
+    eventId: string,
+    participantId: string
+  ): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/participants/${participantId}/approve`,
+      {}
+    );
+  }
+
+  async rejectParticipant(
+    eventId: string,
+    participantId: string
+  ): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/participants/${participantId}/reject`,
+      {}
+    );
+  }
+
+  async removeParticipant(
+    eventId: string,
+    participantId: string
+  ): Promise<void> {
+    await httpService.delete(
+      `${this.basePath}/${eventId}/participants/${participantId}`
+    );
+  }
+
+  async addOwner(eventId: string, ownerId: string): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/owners`, {
+      userId: ownerId,
+    });
+  }
+
+  async removeOwner(eventId: string, ownerId: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/${eventId}/owners/${ownerId}`);
+  }
+
+  async sendInvitations(
+    eventId: string,
+    userIds: string[],
+    message?: string
+  ): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/send-invitations`, {
+      userIds,
+      message,
+    });
+  }
+
+  async updateEvent(
+    eventId: string,
+    dto: Partial<CreateEventDto>
+  ): Promise<Event> {
+    const sanitizedDto = { ...dto };
+    delete (sanitizedDto as unknown as { isFree?: boolean }).isFree;
+    delete (sanitizedDto as unknown as { availableSpots?: number })
+      .availableSpots;
+    delete (sanitizedDto as unknown as { distanceKm?: number }).distanceKm;
+    delete (sanitizedDto as unknown as { isFull?: boolean }).isFull;
+    delete (sanitizedDto as unknown as { canJoin?: boolean }).canJoin;
+    delete (sanitizedDto as unknown as { userEventStatus?: string })
+      .userEventStatus;
+
+    const response = await httpService.patch<Event>(
+      `${this.basePath}/${eventId}`,
+      sanitizedDto
+    );
+    return response;
+  }
+
+  async deleteEvent(eventId: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/${eventId}`);
+  }
+
+  async getEventParticipants(
+    eventId: string,
+    status?: 'confirmed' | 'pending' | 'invited'
+  ): Promise<Event['participants']> {
+    const queryParams = status ? `?status=${status}` : '';
+    const response = await httpService.get<Event['participants']>(
+      `${this.basePath}/${eventId}/participants${queryParams}`
+    );
+    return response;
+  }
 }

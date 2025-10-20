@@ -28,6 +28,12 @@ export interface EventLocation {
   latitude: number;
   longitude: number;
   placeId?: string;
+  zipCode?: string;
+  street?: string;
+  number?: string;
+  complement?: string;
+  district?: string;
+  formattedAddress?: string;
 }
 
 export interface EventSport {

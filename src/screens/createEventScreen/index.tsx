@@ -25,7 +25,11 @@ import { ArenaColors } from '@/constants';
 
 export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
   navigation,
+  route,
 }) => {
+  const isEditMode = route?.params?.mode === 'edit';
+  const eventToEdit = route?.params?.eventData;
+
   const {
     formData,
     errors,
@@ -38,7 +42,11 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
     handleCancel,
     isFirstStep,
     isLastStep,
-  } = useCreateEventScreen({ navigation });
+  } = useCreateEventScreen({
+    navigation,
+    isEditMode,
+    eventToEdit,
+  });
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -48,6 +56,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
             formData={formData}
             errors={errors}
             onUpdate={updateFormData}
+            isEditMode={isEditMode}
           />
         );
       case FormStep.LOCATION:
@@ -72,7 +81,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
   };
 
   const getButtonText = () => {
-    if (isLastStep) return 'Criar Evento';
+    if (isLastStep) return isEditMode ? 'Salvar Alterações' : 'Criar Evento';
     return 'Próximo';
   };
 
@@ -101,7 +110,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
             </TouchableOpacity>
 
             <Text variant="headingPrimary" style={styles.headerTitle}>
-              Criar Evento
+              {isEditMode ? 'Editar Evento' : 'Criar Evento'}
             </Text>
 
             <View style={styles.placeholder} />
@@ -149,7 +158,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
             <View style={styles.loadingContainer}>
               <SportsLoading size="sm" />
               <Text variant="captionSecondary" style={styles.loadingText}>
-                Criando evento...
+                {isEditMode ? 'Salvando alterações...' : 'Criando evento...'}
               </Text>
             </View>
           )}

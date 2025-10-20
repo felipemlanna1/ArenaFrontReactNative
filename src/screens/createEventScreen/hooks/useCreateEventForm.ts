@@ -17,9 +17,14 @@ interface UseCreateEventFormReturn {
   resetForm: () => void;
 }
 
-export const useCreateEventForm = (): UseCreateEventFormReturn => {
-  const [formData, setFormData] =
-    useState<CreateEventFormData>(DEFAULT_EVENT_VALUES);
+export const useCreateEventForm = (
+  initialData?: Partial<CreateEventFormData>
+): UseCreateEventFormReturn => {
+  const [formData, setFormData] = useState<CreateEventFormData>(
+    initialData
+      ? { ...DEFAULT_EVENT_VALUES, ...initialData }
+      : DEFAULT_EVENT_VALUES
+  );
   const [errors, setErrors] = useState<CreateEventFormErrors>({});
   const [currentStep, setCurrentStep] = useState<FormStep>(FormStep.BASIC_INFO);
 

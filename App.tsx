@@ -7,6 +7,7 @@ import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
 import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
+import { ToastProvider } from './src/contexts/ToastContext';
 import { ArenaColors } from './src/constants';
 import { SportsLoading } from './src/components/ui/sportsLoading';
 
@@ -63,9 +64,11 @@ export default function App() {
     <SafeAreaProvider>
       <AuthProvider>
         <AlertProvider>
-          <HomeFiltersProvider>
-            <AppNavigator />
-          </HomeFiltersProvider>
+          <ToastProvider>
+            <HomeFiltersProvider>
+              <AppNavigator />
+            </HomeFiltersProvider>
+          </ToastProvider>
         </AlertProvider>
       </AuthProvider>
     </SafeAreaProvider>

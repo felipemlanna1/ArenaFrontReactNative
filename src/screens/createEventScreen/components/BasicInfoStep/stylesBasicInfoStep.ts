@@ -28,4 +28,8 @@ export const styles = StyleSheet.create({
     color: ArenaColors.semantic.error,
     marginTop: ArenaSpacing.xs,
   },
+  editModeText: {
+    marginTop: ArenaSpacing.sm,
+    textAlign: 'center',
+  },
 });

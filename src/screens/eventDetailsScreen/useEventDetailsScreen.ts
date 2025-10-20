@@ -48,17 +48,6 @@ export const useEventDetailsScreen = ({
       };
     }
 
-    if (status.isOwner || status.isOrganizer) {
-      return {
-        type: 'manage',
-        label: 'Gerenciar Evento',
-        variant: 'secondary',
-        disabled: false,
-        loading: isPerformingAction,
-        onPress: managementActions?.onManage || (() => {}),
-      };
-    }
-
     if (status.showCheckIn) {
       return {
         type: 'check-in',
@@ -144,7 +133,7 @@ export const useEventDetailsScreen = ({
       loading: false,
       onPress: () => {},
     };
-  }, [status, isPerformingAction, userActions, managementActions]);
+  }, [status, isPerformingAction, userActions]);
 
   return {
     event,

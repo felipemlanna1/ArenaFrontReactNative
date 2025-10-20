@@ -65,7 +65,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     [navigation]
   );
 
-  const handleManagePress = useCallback((_eventId: string) => {}, []);
+  const handleManagePress = useCallback(
+    (eventId: string) => {
+      navigation.navigate('EventDetails', { eventId });
+    },
+    [navigation]
+  );
 
   const renderItem = useCallback(
     ({ item }: { item: Event }) => (

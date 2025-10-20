@@ -1,10 +1,10 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Alert } from 'react-native';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { ApiError } from '@/services/auth';
 import { storageService } from '@/utils/storage';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAlert } from '@/contexts/AlertContext';
 import {
   UseLoginScreenReturn,
   LoginFormData,
@@ -33,6 +33,7 @@ export const useLoginScreen = (
   navigation: LoginNavigationProp
 ): UseLoginScreenReturn => {
   const { signIn } = useAuth();
+  const { showInfo } = useAlert();
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
@@ -159,12 +160,8 @@ export const useLoginScreen = (
   }, [formData.email, formData.password, rememberMe, signIn]);
 
   const handleForgotPassword = useCallback(() => {
-    Alert.alert(
-      'Esqueci minha senha',
-      'Funcionalidade será implementada em breve.',
-      [{ text: 'OK' }]
-    );
-  }, []);
+    showInfo('Funcionalidade será implementada em breve.');
+  }, [showInfo]);
 
   const handleRegister = useCallback(() => {
     navigation.navigate('Register');
@@ -175,11 +172,7 @@ export const useLoginScreen = (
     setErrors({});
 
     try {
-      Alert.alert(
-        'Login Google',
-        'Funcionalidade será implementada em breve.',
-        [{ text: 'OK' }]
-      );
+      showInfo('Funcionalidade será implementada em breve.');
     } catch {
       setErrors({
         general: 'Erro ao fazer login com Google. Tente novamente.',
@@ -187,16 +180,14 @@ export const useLoginScreen = (
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [showInfo]);
 
   const handleAppleLogin = useCallback(async () => {
     setIsLoading(true);
     setErrors({});
 
     try {
-      Alert.alert('Login Apple', 'Funcionalidade será implementada em breve.', [
-        { text: 'OK' },
-      ]);
+      showInfo('Funcionalidade será implementada em breve.');
     } catch {
       setErrors({
         general: 'Erro ao fazer login com Apple. Tente novamente.',
@@ -204,7 +195,7 @@ export const useLoginScreen = (
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [showInfo]);
 
   return {
     formData,

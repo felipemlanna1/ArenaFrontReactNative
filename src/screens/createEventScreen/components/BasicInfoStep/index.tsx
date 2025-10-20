@@ -15,6 +15,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   formData,
   errors,
   onUpdate,
+  isEditMode = false,
 }) => {
   const {
     sports,
@@ -51,6 +52,25 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           <Text variant="captionError" style={styles.errorText}>
             {sportsError}
           </Text>
+        ) : isEditMode && formData.sportId ? (
+          <View style={styles.sportsGrid}>
+            {sports
+              .filter(sport => sport.id === formData.sportId)
+              .map(sport => (
+                <Checkbox
+                  key={sport.id}
+                  variant="card"
+                  label={sport.name}
+                  checked={true}
+                  disabled={true}
+                  onPress={() => {}}
+                  testID={`sport-${sport.id}`}
+                />
+              ))}
+            <Text variant="captionSecondary" style={styles.editModeText}>
+              Esporte não pode ser alterado após criação
+            </Text>
+          </View>
         ) : (
           <View style={styles.sportsGrid}>
             {sports.map(sport => (

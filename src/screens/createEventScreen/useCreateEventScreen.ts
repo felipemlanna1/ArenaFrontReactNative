@@ -1,17 +1,67 @@
-import { useCallback } from 'react';
-import { Alert } from 'react-native';
+import { useCallback, useMemo } from 'react';
 import { useCreateEventForm } from './hooks/useCreateEventForm';
 import { useCreateEventApi } from './hooks/useCreateEventApi';
-import { FormStep, TOTAL_STEPS } from './typesCreateEventScreen';
+import {
+  FormStep,
+  TOTAL_STEPS,
+  CreateEventFormData,
+} from './typesCreateEventScreen';
 import { CreateEventScreenNavigationProp } from './typesCreateEventScreen';
+import { eventsService } from '@/services/events/eventsService';
+import { useAlert } from '@/contexts/AlertContext';
+import { Event } from '@/services/events/typesEvents';
 
 interface UseCreateEventScreenParams {
   navigation: CreateEventScreenNavigationProp;
+  isEditMode?: boolean;
+  eventToEdit?: Event;
 }
 
 export const useCreateEventScreen = ({
   navigation,
+  isEditMode = false,
+  eventToEdit,
 }: UseCreateEventScreenParams) => {
+  const { showError, showConfirm } = useAlert();
+
+  const initialData = useMemo(() => {
+    if (!isEditMode || !eventToEdit) return undefined;
+
+    const startDate = new Date(eventToEdit.startDate);
+    const endDate = eventToEdit.endDate
+      ? new Date(eventToEdit.endDate)
+      : startDate;
+    const duration =
+      Math.round((endDate.getTime() - startDate.getTime()) / 60000) || 60;
+
+    const initialFormData: Partial<CreateEventFormData> = {
+      title: eventToEdit.title,
+      description: eventToEdit.description || '',
+      sportId: eventToEdit.sport?.id || '',
+      startDate,
+      duration,
+      location: {
+        zipCode: eventToEdit.location?.zipCode || '',
+        street: eventToEdit.location?.street || '',
+        number: eventToEdit.location?.number || '',
+        complement: eventToEdit.location?.complement || '',
+        district: eventToEdit.location?.district || '',
+        city: eventToEdit.location?.city || '',
+        state: eventToEdit.location?.state || '',
+        country: eventToEdit.location?.country || 'Brasil',
+        latitude: eventToEdit.location?.latitude || 0,
+        longitude: eventToEdit.location?.longitude || 0,
+        formattedAddress: eventToEdit.location?.formattedAddress || '',
+      },
+      privacy: eventToEdit.privacy || 'PUBLIC',
+      maxParticipants: eventToEdit.maxParticipants || null,
+      isFree: eventToEdit.isFree ?? true,
+      price: typeof eventToEdit.price === 'number' ? eventToEdit.price : 0,
+      coverImage: eventToEdit.coverImage,
+    };
+    return initialFormData;
+  }, [isEditMode, eventToEdit]);
+
   const {
     formData,
     errors,
@@ -20,7 +70,7 @@ export const useCreateEventScreen = ({
     updateFormData,
     validateStep,
     resetForm,
-  } = useCreateEventForm();
+  } = useCreateEventForm(initialData);
 
   const { isCreating, createEvent } = useCreateEventApi();
 
@@ -46,34 +96,72 @@ export const useCreateEventScreen = ({
     ].every(step => validateStep(step));
 
     if (!allStepsValid) {
-      Alert.alert(
-        'Erro',
-        'Por favor, corrija os erros antes de criar o evento.'
+      showError(
+        `Por favor, corrija os erros antes de ${isEditMode ? 'salvar' : 'criar'} o evento.`
       );
       return;
     }
 
-    const createdEvent = await createEvent(formData);
+    try {
+      let result;
 
-    if (createdEvent) {
-      resetForm();
-      Alert.alert('Sucesso!', 'Evento criado com sucesso!', [
-        {
-          text: 'Ver Evento',
-          onPress: () => {
-            navigation.navigate('EventDetails', { eventId: createdEvent.id });
+      if (isEditMode && eventToEdit?.id) {
+        const updateDto = {
+          title: formData.title,
+          description: formData.description,
+          sportId: formData.sportId,
+          startDate: formData.startDate?.toISOString(),
+          endDate: formData.startDate
+            ? new Date(
+                formData.startDate.getTime() + formData.duration * 60000
+              ).toISOString()
+            : undefined,
+          location: formData.location,
+          price: formData.price || 0,
+          maxParticipants: formData.maxParticipants || undefined,
+          privacy: formData.privacy || 'PUBLIC',
+          isFree: formData.isFree ?? (!formData.price || formData.price === 0),
+        };
+        result = await eventsService.updateEvent(eventToEdit.id, updateDto);
+      } else {
+        result = await createEvent(formData);
+      }
+
+      if (result) {
+        resetForm();
+        showConfirm({
+          title: 'Sucesso!',
+          message: isEditMode
+            ? 'Evento atualizado com sucesso!'
+            : 'Evento criado com sucesso!',
+          confirmText: 'Ver Evento',
+          cancelText: 'Voltar à Home',
+          onConfirm: () => {
+            navigation.navigate('EventDetails', {
+              eventId: result.id || eventToEdit?.id || '',
+            });
           },
-        },
-        {
-          text: 'Voltar à Home',
-          onPress: () => {
+          onCancel: () => {
             navigation.navigate('MainTabs');
           },
-          style: 'cancel',
-        },
-      ]);
+        });
+      }
+    } catch {
+      showError(
+        isEditMode ? 'Erro ao atualizar o evento.' : 'Erro ao criar o evento.'
+      );
     }
-  }, [formData, validateStep, createEvent, navigation, resetForm]);
+  }, [
+    formData,
+    validateStep,
+    createEvent,
+    navigation,
+    resetForm,
+    isEditMode,
+    eventToEdit,
+    showError,
+    showConfirm,
+  ]);
 
   const handleCancel = useCallback(() => {
     const hasChanges = !!(
@@ -83,25 +171,22 @@ export const useCreateEventScreen = ({
     );
 
     if (hasChanges) {
-      Alert.alert(
-        'Cancelar criação?',
-        'As informações preenchidas serão perdidas.',
-        [
-          { text: 'Continuar editando', style: 'cancel' },
-          {
-            text: 'Descartar',
-            style: 'destructive',
-            onPress: () => {
-              resetForm();
-              navigation.goBack();
-            },
-          },
-        ]
-      );
+      showConfirm({
+        title: 'Cancelar criação?',
+        message: 'As informações preenchidas serão perdidas.',
+        confirmText: 'Descartar',
+        cancelText: 'Continuar editando',
+        variant: 'warning',
+        onConfirm: () => {
+          resetForm();
+          navigation.goBack();
+        },
+        onCancel: () => {},
+      });
     } else {
       navigation.goBack();
     }
-  }, [formData, navigation, resetForm]);
+  }, [formData, navigation, resetForm, showConfirm]);
 
   const progress = ((currentStep + 1) / TOTAL_STEPS) * 100;
 

@@ -1,3 +1,5 @@
+import { Event } from '@/services/events/typesEvents';
+
 export type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
@@ -6,7 +8,9 @@ export type RootStackParamList = {
   OnboardingSports: undefined;
   MainTabs: undefined;
   FilterScreen: undefined;
-  CreateEvent: undefined;
+  CreateEvent:
+    | { mode?: 'create' | 'edit'; eventId?: string; eventData?: Event }
+    | undefined;
   EventDetails: { eventId: string };
 };
 

@@ -343,7 +343,7 @@ Participe pelo app Arena! 🔥`;
         }
       } catch (error) {
         if (__DEV__) {
-          console.log('Share cancelled or error:', error);
+          throw error;
         }
       }
     },

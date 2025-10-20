@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
-import { Alert } from 'react-native';
 import { UseHeaderProps, UseHeaderReturn } from './typesHeader';
 import { DropdownItem } from '@/components/ui/dropdown/typesDropdown';
 import { LogoutIcon } from './utils/LogoutIcon';
+import { useAlert } from '@/contexts/AlertContext';
 
 export const useHeader = ({ onLogout }: UseHeaderProps): UseHeaderReturn => {
+  const { showInfo } = useAlert();
+
   const getDefaultMenuItems = useCallback((): DropdownItem[] => {
     return [
       {
@@ -22,12 +24,8 @@ export const useHeader = ({ onLogout }: UseHeaderProps): UseHeaderReturn => {
   }, [onLogout]);
 
   const handleNotificationsPress = useCallback(() => {
-    Alert.alert(
-      'Notificações',
-      'A funcionalidade de notificações ainda não está implementada.',
-      [{ text: 'OK' }]
-    );
-  }, []);
+    showInfo('A funcionalidade de notificações ainda não está implementada.');
+  }, [showInfo]);
 
   return {
     getDefaultMenuItems,

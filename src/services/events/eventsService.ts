@@ -33,6 +33,34 @@ class EventsService {
 
   createEvent = (...args: Parameters<EventsApi['createEvent']>) =>
     this.api.createEvent(...args);
+
+  approveParticipant = (...args: Parameters<EventsApi['approveParticipant']>) =>
+    this.api.approveParticipant(...args);
+
+  rejectParticipant = (...args: Parameters<EventsApi['rejectParticipant']>) =>
+    this.api.rejectParticipant(...args);
+
+  removeParticipant = (...args: Parameters<EventsApi['removeParticipant']>) =>
+    this.api.removeParticipant(...args);
+
+  addOwner = (...args: Parameters<EventsApi['addOwner']>) =>
+    this.api.addOwner(...args);
+
+  removeOwner = (...args: Parameters<EventsApi['removeOwner']>) =>
+    this.api.removeOwner(...args);
+
+  sendInvitations = (...args: Parameters<EventsApi['sendInvitations']>) =>
+    this.api.sendInvitations(...args);
+
+  updateEvent = (...args: Parameters<EventsApi['updateEvent']>) =>
+    this.api.updateEvent(...args);
+
+  deleteEvent = (...args: Parameters<EventsApi['deleteEvent']>) =>
+    this.api.deleteEvent(...args);
+
+  getEventParticipants = (
+    ...args: Parameters<EventsApi['getEventParticipants']>
+  ) => this.api.getEventParticipants(...args);
 }
 
 export const eventsService = new EventsService();

@@ -64,9 +64,9 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         <View style={styles.previewRow}>
           <Text variant="bodySecondary">💰</Text>
           <Text variant="labelPrimary">
-            {formData.price === 0
+            {!formData.price || formData.price === 0
               ? 'Gratuito'
-              : `R$ ${formData.price.toFixed(2)}`}
+              : `R$ ${Number(formData.price).toFixed(2)}`}
           </Text>
         </View>
       </View>

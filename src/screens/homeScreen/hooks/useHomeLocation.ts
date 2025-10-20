@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { getUserLocation, LocationCoordinates } from '@/services/location';
+import { useAlert } from '@/contexts/AlertContext';
 
 interface UseHomeLocationReturn {
   userLocation: LocationCoordinates | null;
@@ -11,6 +11,7 @@ interface UseHomeLocationReturn {
 }
 
 export const useHomeLocation = (): UseHomeLocationReturn => {
+  const { showError } = useAlert();
   const [userLocation, setUserLocation] = useState<LocationCoordinates | null>(
     null
   );
@@ -25,10 +26,8 @@ export const useHomeLocation = (): UseHomeLocationReturn => {
       const location = await getUserLocation();
 
       if (!location) {
-        Alert.alert(
-          'Localização não disponível',
-          'Não foi possível obter sua localização. Verifique as permissões do aplicativo.',
-          [{ text: 'OK' }]
+        showError(
+          'Não foi possível obter sua localização. Verifique as permissões do aplicativo.'
         );
         return;
       }
@@ -39,7 +38,7 @@ export const useHomeLocation = (): UseHomeLocationReturn => {
     } finally {
       setIsLoadingLocation(false);
     }
-  }, []);
+  }, [showError]);
 
   useEffect(() => {
     requestLocation();
