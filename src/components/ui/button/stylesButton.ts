@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaTypography, ArenaShadows } from '@/constants';
+import { ArenaSpacing, ArenaShadows, ArenaOpacity } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -10,14 +10,12 @@ export const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   containerDisabled: {
-    opacity: 0.5,
+    opacity: ArenaOpacity.medium,
   },
   buttonDisabled: {
-    opacity: 0.5,
+    opacity: ArenaOpacity.medium,
   },
   text: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.medium,
     textAlign: 'center',
     includeFontPadding: false,
   },
@@ -44,8 +42,6 @@ export const styles = StyleSheet.create({
     marginRight: ArenaSpacing.sm,
   },
   loadingText: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.medium,
     textAlign: 'center',
     includeFontPadding: false,
   },
@@ -113,24 +109,9 @@ export const styles = StyleSheet.create({
     minHeight: ArenaSpacing['5xl'] + ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing['3xl'],
   },
-  xsText: {
-    fontSize: ArenaTypography.size.xs,
-    lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.tight,
-  },
-  smText: {
-    fontSize: ArenaTypography.size.sm,
-    lineHeight: ArenaTypography.size.sm * ArenaTypography.lineHeight.tight,
-  },
-  mdText: {
-    fontSize: ArenaTypography.size.md,
-    lineHeight: ArenaTypography.size.md * ArenaTypography.lineHeight.tight,
-  },
-  lgText: {
-    fontSize: ArenaTypography.size.lg,
-    lineHeight: ArenaTypography.size.lg * ArenaTypography.lineHeight.tight,
-  },
-  xlText: {
-    fontSize: ArenaTypography.size.xl,
-    lineHeight: ArenaTypography.size.xl * ArenaTypography.lineHeight.tight,
-  },
+  xsText: {},
+  smText: {},
+  mdText: {},
+  lgText: {},
+  xlText: {},
 });

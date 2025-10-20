@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Checkbox } from '../checkbox';
 import { CheckboxGroupProps } from './typesCheckboxGroup';
 import { useCheckboxGroup } from './useCheckboxGroup';
@@ -60,9 +61,14 @@ export const CheckboxGroup = <T extends string | number>({
     <View style={[styles.container, style]} testID={testID}>
       {label && (
         <View style={styles.labelContainer}>
-          <Text style={styles.label}>
+          <Text variant="labelPrimary">
             {label}
-            {required && <Text style={styles.requiredAsterisk}> *</Text>}
+            {required && (
+              <Text variant="labelError" style={styles.requiredAsterisk}>
+                {' '}
+                *
+              </Text>
+            )}
           </Text>
         </View>
       )}
@@ -84,10 +90,16 @@ export const CheckboxGroup = <T extends string | number>({
       </View>
 
       {helperText && !errorMessage && (
-        <Text style={styles.helperText}>{helperText}</Text>
+        <Text variant="captionMuted" style={styles.helperText}>
+          {helperText}
+        </Text>
       )}
 
-      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+      {errorMessage && (
+        <Text variant="captionError" style={styles.errorText}>
+          {errorMessage}
+        </Text>
+      )}
     </View>
   );
 };

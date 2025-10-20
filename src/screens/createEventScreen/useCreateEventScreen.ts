@@ -56,13 +56,20 @@ export const useCreateEventScreen = ({
     const createdEvent = await createEvent(formData);
 
     if (createdEvent) {
+      resetForm();
       Alert.alert('Sucesso!', 'Evento criado com sucesso!', [
         {
           text: 'Ver Evento',
           onPress: () => {
-            resetForm();
+            navigation.navigate('EventDetails', { eventId: createdEvent.id });
+          },
+        },
+        {
+          text: 'Voltar à Home',
+          onPress: () => {
             navigation.navigate('MainTabs');
           },
+          style: 'cancel',
         },
       ]);
     }

@@ -75,7 +75,6 @@ export const styles = StyleSheet.create({
     boxShadow: ArenaShadows.subtle,
   },
   text: {
-    fontWeight: ArenaTypography.weight.medium,
     paddingRight: ArenaSpacing.xs,
   },
   removeButton: {

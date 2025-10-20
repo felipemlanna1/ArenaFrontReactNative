@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     marginTop: ArenaSpacing.sm,
@@ -35,11 +30,5 @@ export const styles = StyleSheet.create({
   },
   codeContainer: {
     padding: ArenaSpacing.md,
-  },
-  codeText: {
-    fontFamily: ArenaTypography.family.mono,
-    fontSize: ArenaTypography.size.xs,
-    lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.tight,
-    color: ArenaColors.neutral.light,
   },
 });

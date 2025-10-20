@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,25 +11,25 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: ArenaSpacing.sm,
+    height: ArenaSpacing.sm,
+    borderRadius: ArenaSpacing.xs,
     backgroundColor: ArenaColors.neutral.medium,
     marginHorizontal: ArenaSpacing.xs,
   },
   dotActive: {
     backgroundColor: ArenaColors.brand.primary,
-    width: 24,
+    width: ArenaSpacing['2xl'],
   },
   dotCompleted: {
     backgroundColor: ArenaColors.brand.primary,
   },
   numberContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: ArenaSpacing['3xl'],
+    height: ArenaSpacing['3xl'],
+    borderRadius: ArenaSpacing.lg,
     backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.micro,
     borderColor: ArenaColors.neutral.medium,
     alignItems: 'center',
     justifyContent: 'center',
@@ -44,8 +44,6 @@ export const styles = StyleSheet.create({
     borderColor: ArenaColors.brand.primary,
   },
   numberText: {
-    fontSize: ArenaTypography.size.sm,
-    fontWeight: ArenaTypography.weight.semibold,
     color: ArenaColors.neutral.medium,
   },
   numberTextActive: {
@@ -55,8 +53,8 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.darkest,
   },
   connector: {
-    width: 24,
-    height: 2,
+    width: ArenaSpacing['2xl'],
+    height: ArenaSpacing.micro,
     backgroundColor: ArenaColors.neutral.medium,
     marginHorizontal: ArenaSpacing.xs,
   },
@@ -64,14 +62,12 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.brand.primary,
   },
   label: {
-    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.neutral.medium,
     marginTop: ArenaSpacing.xs,
     textAlign: 'center',
   },
   labelActive: {
     color: ArenaColors.brand.primary,
-    fontWeight: ArenaTypography.weight.semibold,
   },
   labelCompleted: {
     color: ArenaColors.neutral.light,

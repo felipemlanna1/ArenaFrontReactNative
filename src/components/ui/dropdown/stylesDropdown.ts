@@ -3,7 +3,7 @@ import {
   ArenaColors,
   ArenaSpacing,
   ArenaBorders,
-  ArenaTypography,
+  ArenaOpacity,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     zIndex: 1,
   },
   triggerDisabled: {
-    opacity: 0.5,
+    opacity: ArenaOpacity.medium,
   },
   overlay: {
     position: 'absolute',
@@ -50,15 +50,13 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.interaction.pressed.surface,
   },
   menuItemDisabled: {
-    opacity: 0.5,
+    opacity: ArenaOpacity.medium,
   },
   menuItemIconContainer: {
     marginRight: ArenaSpacing.md,
   },
   menuItemLabel: {
     flex: 1,
-    fontSize: ArenaTypography.size.md,
-    fontFamily: ArenaTypography.fontFamily.regular,
     color: ArenaColors.text.inverse,
   },
   menuItemLabelDestructive: {
@@ -66,7 +64,6 @@ export const styles = StyleSheet.create({
   },
   menuItemLabelSubtle: {
     color: ArenaColors.neutral.medium,
-    fontWeight: ArenaTypography.weight.semibold,
   },
   separator: {
     height: ArenaBorders.width.thin,

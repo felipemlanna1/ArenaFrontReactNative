@@ -23,7 +23,7 @@ export const useBasicInfoStep = (): UseBasicInfoStepReturn => {
         setSportsError(null);
         const allSports = await sportsService.getAllSports();
         setSports(allSports);
-      } catch (error) {
+      } catch {
         setSportsError('Erro ao carregar esportes');
       } finally {
         setIsLoadingSports(false);

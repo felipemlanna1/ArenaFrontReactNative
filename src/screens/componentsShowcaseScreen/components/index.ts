@@ -1,7 +1,9 @@
 export { AccordionSection } from './AccordionSection';
+export { AlertSection } from './AlertSection';
 export { BadgeSection } from './BadgeSection';
 export { BrandSection } from './BrandSection';
 export { ButtonSection } from './ButtonSection';
+export { CardCheckboxSection } from './CardCheckboxSection';
 export { CardSection } from './CardSection';
 export { CheckboxSection } from './CheckboxSection';
 export { DatePickerSection } from './DatePickerSection';
@@ -11,6 +13,8 @@ export { InputSection } from './InputSection';
 export { LabelSection } from './LabelSection';
 export { LinkSection } from './LinkSection';
 export { LoadingSection } from './LoadingSection';
+export { OptimizedImageSection } from './OptimizedImageSection';
 export { ProgressBarSection } from './ProgressBarSection';
+export { RadioButtonSection } from './RadioButtonSection';
 export { StepperSection } from './StepperSection';
 export { SwitchSection } from './SwitchSection';

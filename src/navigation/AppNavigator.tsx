@@ -10,6 +10,7 @@ import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
 import { FilterScreen } from '../screens/filterScreen';
 import { CreateEventScreen } from '../screens/createEventScreen';
+import { EventDetailsScreen } from '../screens/eventDetailsScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
@@ -72,6 +73,14 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen
               name="CreateEvent"
               component={CreateEventScreen}
+              options={{
+                presentation: 'card',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="EventDetails"
+              component={EventDetailsScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,

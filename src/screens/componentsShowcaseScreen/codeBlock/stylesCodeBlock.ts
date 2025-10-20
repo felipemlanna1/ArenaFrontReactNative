@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     marginTop: ArenaSpacing.md,
@@ -30,16 +25,8 @@ export const styles = StyleSheet.create({
   },
   copyButtonText: {
     color: ArenaColors.neutral.light,
-    fontSize: ArenaTypography.size.xs,
   },
   codeContainer: {
     padding: ArenaSpacing.md,
-  },
-  codeText: {
-    fontFamily: ArenaTypography.family.mono,
-    fontSize: ArenaTypography.size.xs,
-    lineHeight:
-      ArenaTypography.size.xs * ArenaTypography.lineHeight.comfortable,
-    color: ArenaColors.neutral.light,
   },
 });

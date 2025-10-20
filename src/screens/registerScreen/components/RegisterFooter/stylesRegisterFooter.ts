@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaTypography } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loginText: {
-    fontSize: ArenaTypography.size.sm,
     color: ArenaColors.neutral.medium,
   },
 });

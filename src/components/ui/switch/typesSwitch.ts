@@ -6,7 +6,8 @@ export type SwitchSize = 'sm' | 'md' | 'lg';
 
 export type SwitchLabelPosition = 'left' | 'right';
 
-export interface SwitchProps extends Omit<RNSwitchProps, 'trackColor' | 'thumbColor'> {
+export interface SwitchProps
+  extends Omit<RNSwitchProps, 'trackColor' | 'thumbColor'> {
   variant?: SwitchVariant;
   size?: SwitchSize;
   label?: string;
@@ -24,7 +25,7 @@ export interface SwitchVariantConfig {
 }
 
 export interface SwitchSizeConfig {
-  transform: Array<{ scaleX: number } | { scaleY: number }>;
+  transform: ({ scaleX: number } | { scaleY: number })[];
   labelFontSize: number;
   gap: number;
 }
@@ -46,4 +47,5 @@ export interface UseSwitchReturn {
   thumbColor: string;
   containerStyle: object;
   labelStyle: object;
+  switchStyle: object;
 }

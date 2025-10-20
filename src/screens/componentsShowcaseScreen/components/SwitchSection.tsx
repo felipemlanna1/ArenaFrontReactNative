@@ -9,9 +9,7 @@ interface SwitchSectionProps {
   onCopyCode: (code: string) => void;
 }
 
-export const SwitchSection: React.FC<SwitchSectionProps> = ({
-  onCopyCode,
-}) => {
+export const SwitchSection: React.FC<SwitchSectionProps> = ({ onCopyCode }) => {
   const [brandSwitch, setBrandSwitch] = useState(false);
   const [defaultSwitch, setDefaultSwitch] = useState(false);
   const [withLabel, setWithLabel] = useState(true);

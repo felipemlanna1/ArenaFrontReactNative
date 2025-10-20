@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 import {
   ArenaColors,
   ArenaSpacing,
-  ArenaTypography,
   ArenaBorders,
   ArenaShadows,
+  ArenaOpacity,
 } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
   inputContainerDisabled: {
     backgroundColor: ArenaColors.disabled.surface,
     borderColor: ArenaColors.disabled.border,
-    opacity: 0.6,
+    opacity: ArenaOpacity.strong,
   },
 
   inputContainerReadonly: {
@@ -59,8 +59,6 @@ export const styles = StyleSheet.create({
 
   input: {
     flex: 1,
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.regular,
     color: ArenaColors.neutral.light,
     includeFontPadding: false,
     textAlignVertical: 'center',
@@ -82,8 +80,6 @@ export const styles = StyleSheet.create({
   },
 
   label: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.medium,
     color: ArenaColors.neutral.light,
     includeFontPadding: false,
     position: 'absolute',
@@ -124,8 +120,6 @@ export const styles = StyleSheet.create({
   },
 
   helperText: {
-    fontFamily: ArenaTypography.family.ui,
-    fontWeight: ArenaTypography.weight.regular,
     color: `${ArenaColors.neutral.medium}CC`,
     includeFontPadding: false,
   },
@@ -230,93 +224,49 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  xsInput: {
-    fontSize: ArenaTypography.size.xs,
-    lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.tight,
-  },
-
-  smInput: {
-    fontSize: ArenaTypography.size.sm,
-    lineHeight: ArenaTypography.size.sm * ArenaTypography.lineHeight.tight,
-  },
-
-  mdInput: {
-    fontSize: ArenaTypography.size.md,
-    lineHeight: ArenaTypography.size.md * ArenaTypography.lineHeight.tight,
-  },
-
-  lgInput: {
-    fontSize: ArenaTypography.size.lg,
-    lineHeight: ArenaTypography.size.lg * ArenaTypography.lineHeight.tight,
-  },
-
-  xlInput: {
-    fontSize: ArenaTypography.size.xl,
-    lineHeight: ArenaTypography.size.xl * ArenaTypography.lineHeight.tight,
-  },
+  xsInput: {},
+  smInput: {},
+  mdInput: {},
+  lgInput: {},
+  xlInput: {},
 
   xsLabel: {
-    fontSize: ArenaTypography.size.xs * 0.85,
-    lineHeight: ArenaTypography.size.xs * ArenaTypography.lineHeight.tight,
     marginBottom: ArenaSpacing.xs,
   },
 
   smLabel: {
-    fontSize: ArenaTypography.size.sm * 0.85,
-    lineHeight: ArenaTypography.size.sm * ArenaTypography.lineHeight.tight,
     marginBottom: ArenaSpacing.xs,
   },
 
   mdLabel: {
-    fontSize: ArenaTypography.size.md * 0.85,
-    lineHeight: ArenaTypography.size.md * ArenaTypography.lineHeight.tight,
     marginBottom: ArenaSpacing.sm,
   },
 
   lgLabel: {
-    fontSize: ArenaTypography.size.lg * 0.85,
-    lineHeight: ArenaTypography.size.lg * ArenaTypography.lineHeight.tight,
     marginBottom: ArenaSpacing.sm,
   },
 
   xlLabel: {
-    fontSize: ArenaTypography.size.xl * 0.85,
-    lineHeight: ArenaTypography.size.xl * ArenaTypography.lineHeight.tight,
     marginBottom: ArenaSpacing.md,
   },
 
   xsHelperText: {
-    fontSize: ArenaTypography.size.xs * 0.9,
-    lineHeight:
-      ArenaTypography.size.xs * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.xs,
   },
 
   smHelperText: {
-    fontSize: ArenaTypography.size.sm * 0.9,
-    lineHeight:
-      ArenaTypography.size.sm * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.xs,
   },
 
   mdHelperText: {
-    fontSize: ArenaTypography.size.md * 0.9,
-    lineHeight:
-      ArenaTypography.size.md * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.sm,
   },
 
   lgHelperText: {
-    fontSize: ArenaTypography.size.lg * 0.9,
-    lineHeight:
-      ArenaTypography.size.lg * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.sm,
   },
 
   xlHelperText: {
-    fontSize: ArenaTypography.size.xl * 0.9,
-    lineHeight:
-      ArenaTypography.size.xl * ArenaTypography.lineHeight.comfortable,
     marginTop: ArenaSpacing.md,
   },
 

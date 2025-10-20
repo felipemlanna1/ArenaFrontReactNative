@@ -3,7 +3,6 @@ import {
   ArenaColors,
   ArenaSpacing,
   ArenaBorders,
-  ArenaTypography,
   ArenaShadows,
 } from '@/constants';
 import {
@@ -50,7 +49,6 @@ export const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'center',
-    fontSize: ArenaTypography.size.xs,
     color: ArenaColors.neutral.light,
   },
   labelUnselected: {
@@ -58,6 +56,5 @@ export const styles = StyleSheet.create({
   },
   labelSelected: {
     color: ArenaColors.brand.primary,
-    fontWeight: ArenaTypography.weight.semibold,
   },
 });

@@ -1,5 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, TextStyle } from 'react-native';
+import { Text } from '../text';
 import { SportsLoading } from '../sportsLoading';
 import type { SportsLoadingSize } from '../sportsLoading/typesSportsLoading';
 import { ButtonProps } from './typesButton';
@@ -70,11 +71,14 @@ export const Button: React.FC<ButtonProps> = ({
           </View>
         )}
         <Text
-          style={[
-            buttonLogic.computedStyles.text,
-            LeftIcon && buttonStyles.textWithLeftIcon,
-            RightIcon && buttonStyles.textWithRightIcon,
-          ]}
+          variant="bodyBold"
+          style={
+            [
+              buttonLogic.computedStyles.text,
+              LeftIcon && buttonStyles.textWithLeftIcon,
+              RightIcon && buttonStyles.textWithRightIcon,
+            ].filter(Boolean) as TextStyle[]
+          }
         >
           {children}
         </Text>

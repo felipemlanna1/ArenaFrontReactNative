@@ -2,7 +2,12 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { ArenaColors } from '@/constants';
+import {
+  ArenaColors,
+  ArenaBorders,
+  ArenaSpacing,
+  ArenaTypography,
+} from '@/constants';
 import { HomeScreen } from '@/screens/homeScreen';
 import { ExploreScreen } from '@/screens/exploreScreen';
 import { MyEventsScreen } from '@/screens/myEventsScreen';
@@ -78,14 +83,14 @@ export const BottomTabNavigator: React.FC = () => {
         tabBarStyle: {
           backgroundColor: ArenaColors.neutral.darkest,
           borderTopColor: ArenaColors.neutral.dark,
-          borderTopWidth: 1,
-          height: 70,
-          paddingBottom: 16,
-          paddingTop: 8,
+          borderTopWidth: ArenaBorders.width.thin,
+          height: ArenaSpacing['7xl'],
+          paddingBottom: ArenaSpacing.lg,
+          paddingTop: ArenaSpacing.sm,
         },
         tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: '500',
+          fontSize: ArenaTypography.size.xs,
+          fontWeight: ArenaTypography.weight.medium,
         },
       }}
     >

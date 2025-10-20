@@ -1,6 +1,9 @@
 import { useState, useCallback, useRef } from 'react';
+import { Share } from 'react-native';
 import { Event, EventsFilter } from '@/services/events/typesEvents';
 import { eventsService } from '@/services/events/eventsService';
+import { useAlert } from '@/contexts/AlertContext';
+import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 
 interface UseHomeEventsParams {
   apiFilters: EventsFilter | null;
@@ -33,6 +36,11 @@ export const useHomeEvents = ({
 
   const isLoadingRef = useRef(false);
   const apiFiltersRef = useRef(apiFilters);
+  const hasShownNoCityEventsAlertRef = useRef(false);
+  const lastCheckedCityRef = useRef<string | undefined>(undefined);
+  const isHandlingNoCityEventsRef = useRef(false);
+  const { showConfirm } = useAlert();
+  const { clearCityFilter } = useHomeFilters();
 
   apiFiltersRef.current = apiFilters;
 
@@ -53,6 +61,12 @@ export const useHomeEvents = ({
 
     if (!filters) {
       return;
+    }
+
+    if (filters.city !== lastCheckedCityRef.current) {
+      hasShownNoCityEventsAlertRef.current = false;
+      lastCheckedCityRef.current = filters.city;
+      isHandlingNoCityEventsRef.current = false;
     }
 
     try {
@@ -84,9 +98,49 @@ export const useHomeEvents = ({
 
       const futureEvents = filterFutureEvents(response.data);
 
-      setEvents(futureEvents);
-      setCurrentPage(1);
-      setHasMore(response.pagination.hasMore);
+      if (
+        futureEvents.length === 0 &&
+        filters.city &&
+        !hasShownNoCityEventsAlertRef.current &&
+        !isHandlingNoCityEventsRef.current
+      ) {
+        hasShownNoCityEventsAlertRef.current = true;
+        isHandlingNoCityEventsRef.current = true;
+        setEvents([]);
+        setCurrentPage(1);
+        setHasMore(false);
+
+        showConfirm({
+          title: 'Nenhum evento encontrado',
+          message: `Não encontramos eventos em ${filters.city}. Deseja buscar em outras cidades?`,
+          confirmText: 'Buscar em Todas',
+          cancelText: 'Manter Filtro',
+          onConfirm: async () => {
+            try {
+              clearCityFilter();
+              hasShownNoCityEventsAlertRef.current = false;
+              isHandlingNoCityEventsRef.current = false;
+            } catch (error) {
+              isHandlingNoCityEventsRef.current = false;
+              setError(
+                error instanceof Error
+                  ? error
+                  : new Error('Erro ao buscar eventos')
+              );
+            }
+          },
+          onCancel: () => {
+            isHandlingNoCityEventsRef.current = false;
+            setEvents([]);
+            setCurrentPage(1);
+            setHasMore(false);
+          },
+        });
+      } else {
+        setEvents(futureEvents);
+        setCurrentPage(1);
+        setHasMore(response.pagination.hasMore);
+      }
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Erro ao carregar eventos')
@@ -95,7 +149,7 @@ export const useHomeEvents = ({
       setIsLoading(false);
       isLoadingRef.current = false;
     }
-  }, [filterFutureEvents]);
+  }, [filterFutureEvents, showConfirm, clearCityFilter]);
 
   const loadMoreEvents = useCallback(async () => {
     if (isLoadingMore || !hasMore || isLoadingRef.current) return;
@@ -197,9 +251,65 @@ export const useHomeEvents = ({
     }
   }, [filterFutureEvents]);
 
-  const handleShare = useCallback((eventId: string) => {
-    void eventId;
-  }, []);
+  const handleShare = useCallback(
+    async (eventId: string) => {
+      const event = events.find(e => e.id === eventId);
+      if (!event) return;
+
+      try {
+        const eventDate = new Date(event.startDate);
+        const day = eventDate.getDate().toString().padStart(2, '0');
+        const month = eventDate.getMonth() + 1;
+        const monthNames = [
+          'janeiro',
+          'fevereiro',
+          'março',
+          'abril',
+          'maio',
+          'junho',
+          'julho',
+          'agosto',
+          'setembro',
+          'outubro',
+          'novembro',
+          'dezembro',
+        ];
+        const hours = eventDate.getHours().toString().padStart(2, '0');
+        const minutes = eventDate.getMinutes().toString().padStart(2, '0');
+        const formattedDate = `${day} de ${monthNames[month - 1]} às ${hours}:${minutes}`;
+
+        const price = event.isFree
+          ? 'Gratuito'
+          : `R$ ${
+              typeof event.price === 'number'
+                ? event.price.toFixed(2)
+                : event.price
+            }`;
+
+        const location = `${event.location.city}, ${event.location.state}`;
+
+        const message = `🏃 ${event.sport.name}: ${event.title}
+
+📅 ${formattedDate}
+📍 ${location}
+💰 ${price}
+👥 ${event.currentParticipants}/${event.maxParticipants} participantes
+
+${event.description ? `\n${event.description}\n` : ''}
+Participe pelo app Arena! 🔥`;
+
+        await Share.share({
+          message,
+          title: `Arena - ${event.title}`,
+        });
+      } catch (error) {
+        if (__DEV__) {
+          console.log('Share cancelled or error:', error);
+        }
+      }
+    },
+    [events]
+  );
 
   return {
     events,

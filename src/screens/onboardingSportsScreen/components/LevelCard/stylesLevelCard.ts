@@ -3,7 +3,6 @@ import {
   ArenaColors,
   ArenaSpacing,
   ArenaBorders,
-  ArenaTypography,
   ArenaShadows,
 } from '@/constants';
 
@@ -40,14 +39,12 @@ export const styles = StyleSheet.create({
   label: {
     marginBottom: ArenaSpacing.xs,
   },
+  description: {},
   labelUnselected: {
     opacity: 0.3,
   },
   labelSelected: {
     color: ArenaColors.brand.primary,
-  },
-  description: {
-    fontSize: ArenaTypography.size.sm,
   },
   descriptionUnselected: {
     opacity: 0.3,

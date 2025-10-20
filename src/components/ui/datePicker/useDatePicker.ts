@@ -1,7 +1,11 @@
 import { useState, useCallback, useMemo } from 'react';
 import { Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { UseDatePickerParams, UseDatePickerReturn, DatePickerMode } from './typesDatePicker';
+import {
+  UseDatePickerParams,
+  UseDatePickerReturn,
+  DatePickerMode,
+} from './typesDatePicker';
 
 export const useDatePicker = ({
   variant,
@@ -10,6 +14,7 @@ export const useDatePicker = ({
   onChange,
 }: UseDatePickerParams): UseDatePickerReturn => {
   const [showPicker, setShowPicker] = useState(false);
+  const [tempDate, setTempDate] = useState<Date | null>(null);
 
   const mode: DatePickerMode = useMemo(() => {
     if (variant === 'datetime') return 'datetime';
@@ -53,22 +58,49 @@ export const useDatePicker = ({
     if (Platform.OS === 'ios') {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
+    setTempDate(null);
     setShowPicker(true);
   }, []);
 
   const handleChange = useCallback(
-    async (_event: unknown, selectedDate?: Date) => {
-      setShowPicker(false);
-      if (selectedDate) {
-        if (Platform.OS === 'ios') {
-          await Haptics.notificationAsync(
-            Haptics.NotificationFeedbackType.Success
-          );
+    async (event: unknown, selectedDate?: Date) => {
+      const eventType = (event as { type?: string })?.type;
+
+      if (Platform.OS === 'android') {
+        setShowPicker(false);
+        if (selectedDate && eventType !== 'dismissed') {
+          onChange(selectedDate);
         }
-        onChange(selectedDate);
+        return;
+      }
+
+      if (variant === 'datetime' && selectedDate) {
+        if (!tempDate) {
+          setTempDate(selectedDate);
+          onChange(selectedDate);
+        } else {
+          setShowPicker(false);
+          if (Platform.OS === 'ios') {
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Success
+            );
+          }
+          onChange(selectedDate);
+          setTempDate(null);
+        }
+      } else {
+        setShowPicker(false);
+        if (selectedDate) {
+          if (Platform.OS === 'ios') {
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Success
+            );
+          }
+          onChange(selectedDate);
+        }
       }
     },
-    [onChange]
+    [onChange, variant, tempDate]
   );
 
   return {

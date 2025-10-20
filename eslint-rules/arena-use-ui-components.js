@@ -25,8 +25,9 @@ module.exports = {
   create(context) {
     const filename = context.getFilename();
     const isInComponentsFolder = filename.includes('/src/components/');
+    const isShowcaseFile = filename.includes('componentsShowcaseScreen/components/');
 
-    if (isInComponentsFolder) {
+    if (isInComponentsFolder || isShowcaseFile) {
       return {};
     }
 

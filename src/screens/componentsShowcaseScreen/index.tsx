@@ -9,9 +9,11 @@ import { ShowcaseHeader } from './showcaseHeader';
 import { TextComponentsSection } from './textComponentsSection';
 import {
   AccordionSection,
+  AlertSection,
   BadgeSection,
   BrandSection,
   ButtonSection,
+  CardCheckboxSection,
   CardSection,
   CheckboxSection,
   DatePickerSection,
@@ -21,7 +23,9 @@ import {
   LabelSection,
   LinkSection,
   LoadingSection,
+  OptimizedImageSection,
   ProgressBarSection,
+  RadioButtonSection,
   StepperSection,
   SwitchSection,
 } from './components';
@@ -37,6 +41,11 @@ export const ComponentsShowcaseScreen: React.FC<
       id: 'accordion',
       title: 'Accordion',
       content: <AccordionSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'alert',
+      title: 'Alert',
+      content: <AlertSection onCopyCode={actions.handleCopyCode} />,
     },
     {
       id: 'badge',
@@ -57,6 +66,11 @@ export const ComponentsShowcaseScreen: React.FC<
       id: 'card',
       title: 'Card',
       content: <CardSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'cardcheckbox',
+      title: 'CardCheckbox',
+      content: <CardCheckboxSection onCopyCode={actions.handleCopyCode} />,
     },
     {
       id: 'checkbox',
@@ -99,9 +113,19 @@ export const ComponentsShowcaseScreen: React.FC<
       content: <LoadingSection onCopyCode={actions.handleCopyCode} />,
     },
     {
+      id: 'optimizedimage',
+      title: 'OptimizedImage',
+      content: <OptimizedImageSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
       id: 'progressbar',
       title: 'ProgressBar',
       content: <ProgressBarSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'radiobutton',
+      title: 'RadioButton',
+      content: <RadioButtonSection onCopyCode={actions.handleCopyCode} />,
     },
     {
       id: 'stepper',

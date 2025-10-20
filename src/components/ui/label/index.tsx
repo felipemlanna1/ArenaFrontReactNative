@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from '../text';
 import { LabelProps } from './typesLabel';
 import { useLabel } from './useLabel';
+import './stylesLabel';
 
 export const Label: React.FC<LabelProps> = ({
   children,
@@ -29,7 +30,12 @@ export const Label: React.FC<LabelProps> = ({
       testID={testID}
     >
       {children}
-      {required && <Text variant="captionSecondary" style={requiredStyle}> *</Text>}
+      {required && (
+        <Text variant="captionSecondary" style={requiredStyle}>
+          {' '}
+          *
+        </Text>
+      )}
     </Text>
   );
 };

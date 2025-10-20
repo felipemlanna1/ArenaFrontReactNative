@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { ReviewStepProps } from './typesReviewStep';
 import { styles } from './stylesReviewStep';
@@ -28,33 +29,32 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.previewCard}>
-        <Text style={styles.previewTitle}>
-          {formData.title || 'Sem título'}
-        </Text>
+        <Text variant="headingPrimary">{formData.title || 'Sem título'}</Text>
         <View style={styles.divider} />
 
         <View style={styles.previewRow}>
-          <Text style={styles.previewLabel}>📅</Text>
-          <Text style={styles.previewValue}>
-            {formatDate(formData.startDate)}
-          </Text>
+          <Text variant="bodySecondary">📅</Text>
+          <Text variant="labelPrimary">{formatDate(formData.startDate)}</Text>
         </View>
 
         <View style={styles.previewRow}>
-          <Text style={styles.previewLabel}>⏱️</Text>
-          <Text style={styles.previewValue}>{formData.duration} minutos</Text>
+          <Text variant="bodySecondary">⏱️</Text>
+          <Text variant="labelPrimary">{formData.duration} minutos</Text>
         </View>
 
         <View style={styles.previewRow}>
-          <Text style={styles.previewLabel}>📍</Text>
-          <Text style={styles.previewValue}>{formatLocation()}</Text>
+          <Text variant="bodySecondary">📍</Text>
+          <Text variant="labelPrimary">{formatLocation()}</Text>
         </View>
 
         <View style={styles.previewRow}>
-          <Text style={styles.previewLabel}>👥</Text>
-          <Text style={styles.previewValue}>
+          <Text variant="bodySecondary">👥</Text>
+          <Text variant="labelPrimary">
             {formData.maxParticipants
               ? `Até ${formData.maxParticipants} pessoas`
               : 'Sem limite'}
@@ -62,8 +62,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </View>
 
         <View style={styles.previewRow}>
-          <Text style={styles.previewLabel}>💰</Text>
-          <Text style={styles.previewValue}>
+          <Text variant="bodySecondary">💰</Text>
+          <Text variant="labelPrimary">
             {formData.price === 0
               ? 'Gratuito'
               : `R$ ${formData.price.toFixed(2)}`}
@@ -76,14 +76,14 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           style={styles.accordionHeader}
           onPress={() => setShowAdvanced(!showAdvanced)}
         >
-          <Text style={styles.accordionTitle}>Opções Avançadas (Opcional)</Text>
-          <Text style={styles.previewValue}>{showAdvanced ? '▲' : '▼'}</Text>
+          <Text variant="titleSecondary">Opções Avançadas (Opcional)</Text>
+          <Text variant="labelPrimary">{showAdvanced ? '▲' : '▼'}</Text>
         </TouchableOpacity>
 
         {showAdvanced && (
           <View style={styles.accordionContent}>
-            <View style={{ flexDirection: 'row', gap: 12 }}>
-              <View style={{ flex: 1 }}>
+            <View style={styles.row}>
+              <View style={styles.flex1}>
                 <Input
                   label="Idade Mínima"
                   placeholder="Ex: 18"
@@ -100,7 +100,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                   error={errors.ageMin}
                 />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={styles.flex1}>
                 <Input
                   label="Idade Máxima"
                   placeholder="Ex: 60"

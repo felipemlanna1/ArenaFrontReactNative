@@ -1,10 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
@@ -72,8 +67,5 @@ export const styles = StyleSheet.create<Styles>({
   },
   filterBadgeText: {
     color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
-    lineHeight: ArenaTypography.size.xs * 1.5,
   },
 });

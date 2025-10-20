@@ -12,13 +12,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    fontFamily: 'Inter-Regular',
     includeFontPadding: false,
   },
   checkIcon: {
     alignItems: 'center',
     justifyContent: 'center',
-    fontWeight: 'bold',
   },
   cardContainer: {
     paddingVertical: ArenaSpacing.md,
@@ -30,6 +28,5 @@ export const styles = StyleSheet.create({
   cardLabel: {
     textAlign: 'center',
     includeFontPadding: false,
-    fontFamily: 'Inter-Regular',
   },
 });

@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaSpacing,
-  ArenaColors,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -22,13 +17,7 @@ export const styles = StyleSheet.create({
     borderColor: ArenaColors.brand.primary,
     backgroundColor: ArenaColors.brand.primarySubtle,
   },
-  icon: {
-    fontSize: ArenaTypography.size.xl,
-    textAlign: 'center',
-  },
   label: {
-    fontSize: ArenaTypography.size.sm,
-    fontWeight: ArenaTypography.weight.medium,
     color: ArenaColors.neutral.light,
     textAlign: 'center',
   },

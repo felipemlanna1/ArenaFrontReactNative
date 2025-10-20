@@ -60,19 +60,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const handleDetailsPress = useCallback(
     (eventId: string) => {
-      // TODO: Navigate to event details screen
-      console.log('View details for event:', eventId);
+      navigation.navigate('EventDetails', { eventId });
     },
-    []
+    [navigation]
   );
 
-  const handleManagePress = useCallback(
-    (eventId: string) => {
-      // TODO: Navigate to event management screen
-      console.log('Manage event:', eventId);
-    },
-    []
-  );
+  const handleManagePress = useCallback((_eventId: string) => {}, []);
 
   const renderItem = useCallback(
     ({ item }: { item: Event }) => (
@@ -174,10 +167,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         onApply={handleApplySort}
       />
 
-      {/* FAB - Create Event */}
       <Fab
         onPress={() => navigation.navigate('CreateEvent')}
-        icon={<Ionicons name="add" size={24} color={ArenaColors.neutral.light} />}
+        icon={
+          <Ionicons name="add" size={24} color={ArenaColors.neutral.light} />
+        }
         testID="create-event-fab"
       />
     </AppLayout>

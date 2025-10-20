@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { ViewStyle, TextStyle } from 'react-native';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaOpacity } from '@/constants';
 import { UseCheckboxParams, UseCheckboxReturn } from './typesCheckbox';
 import {
   checkboxSizes,
@@ -57,7 +57,7 @@ export const useCheckbox = (params: UseCheckboxParams): UseCheckboxReturn => {
     return {
       container: {
         ...styles.container,
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? ArenaOpacity.medium : ArenaOpacity.opaque,
       },
       checkbox: {
         ...styles.checkbox,

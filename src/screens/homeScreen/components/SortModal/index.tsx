@@ -10,7 +10,6 @@ import { styles } from './stylesSortModal';
 
 const SORT_OPTIONS: SortOption[] = [
   { id: 'date', label: 'Data do evento' },
-  { id: 'distance', label: 'Distância' },
   { id: 'price', label: 'Preço' },
   { id: 'name', label: 'Nome' },
 ];
@@ -82,12 +81,25 @@ export const SortModal: React.FC<SortModalProps> = ({
                   Ordem
                 </Text>
                 <Button
-                  variant="secondary"
+                  variant={selectedOrder === 'asc' ? 'success' : 'destructive'}
                   size="md"
                   onPress={toggleOrder}
                   testID={`${testID}-order-toggle`}
                 >
-                  {selectedOrder === 'asc' ? 'Crescente ↑' : 'Decrescente ↓'}
+                  <View style={styles.orderButtonContent}>
+                    <Ionicons
+                      name={
+                        selectedOrder === 'asc'
+                          ? 'arrow-up-circle'
+                          : 'arrow-down-circle'
+                      }
+                      size={20}
+                      color={ArenaColors.neutral.light}
+                    />
+                    <Text variant="bodyPrimary" style={styles.orderButtonText}>
+                      {selectedOrder === 'asc' ? 'Crescente' : 'Decrescente'}
+                    </Text>
+                  </View>
                 </Button>
               </View>
 

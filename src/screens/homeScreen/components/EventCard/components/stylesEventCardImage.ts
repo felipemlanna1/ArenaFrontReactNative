@@ -1,10 +1,5 @@
 import { StyleSheet, ViewStyle, ImageStyle, TextStyle } from 'react-native';
-import {
-  ArenaBorders,
-  ArenaColors,
-  ArenaSpacing,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaBorders, ArenaColors, ArenaSpacing } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
@@ -62,8 +57,6 @@ export const styles = StyleSheet.create<Styles>({
   },
   priceText: {
     color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
   },
   distanceBadge: {
     position: 'absolute',
@@ -80,7 +73,5 @@ export const styles = StyleSheet.create<Styles>({
   distanceIcon: {},
   distanceText: {
     color: ArenaColors.text.inverse,
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
   },
 });

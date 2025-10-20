@@ -6,6 +6,9 @@ const arenaBestPractices = require('./arena-best-practices');
 const arenaNoComments = require('./arena-no-comments');
 const arenaUseUiComponents = require('./arena-use-ui-components');
 const arenaNoConsole = require('./arena-no-console');
+const arenaUseAlertContext = require('./arena-use-alert-context');
+const arenaNoCustomTextStyles = require('./arena-no-custom-text-styles');
+const arenaTextRequiresVariant = require('./arena-text-requires-variant');
 
 module.exports = {
   rules: {
@@ -15,6 +18,9 @@ module.exports = {
     'arena-no-comments': arenaNoComments,
     'arena-use-ui-components': arenaUseUiComponents,
     'arena-no-console': arenaNoConsole,
+    'arena-use-alert-context': arenaUseAlertContext,
+    'arena-no-custom-text-styles': arenaNoCustomTextStyles,
+    'arena-text-requires-variant': arenaTextRequiresVariant,
   },
   configs: {
     recommended: {
@@ -26,6 +32,9 @@ module.exports = {
         'arena/arena-no-comments': 'error',
         'arena/arena-use-ui-components': 'error',
         'arena/arena-no-console': 'error',
+        'arena/arena-use-alert-context': 'error',
+        'arena/arena-no-custom-text-styles': 'error',
+        'arena/arena-text-requires-variant': 'error',
       },
     },
     strict: {
@@ -37,6 +46,9 @@ module.exports = {
         'arena/arena-no-comments': 'error',
         'arena/arena-use-ui-components': 'error',
         'arena/arena-no-console': 'error',
+        'arena/arena-use-alert-context': 'error',
+        'arena/arena-no-custom-text-styles': 'error',
+        'arena/arena-text-requires-variant': 'error',
       },
     },
     development: {

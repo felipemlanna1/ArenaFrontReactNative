@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors, ArenaTypography } from '@/constants';
+import { ArenaSpacing, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,10 +17,8 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: ArenaColors.neutral.medium,
-    fontSize: ArenaTypography.size.sm,
   },
   link: {
     color: ArenaColors.brand.primary,
-    fontSize: ArenaTypography.size.sm,
   },
 });

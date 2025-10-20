@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaTypography, ArenaSpacing } from '@/constants';
+import {
+  ArenaColors,
+  ArenaTypography,
+  ArenaSpacing,
+  ArenaOpacity,
+} from '@/constants';
 import { SwitchVariantConfig, SwitchSizeConfig } from './typesSwitch';
 
 export const variantConfigs: Record<string, SwitchVariantConfig> = {
@@ -8,14 +13,14 @@ export const variantConfigs: Record<string, SwitchVariantConfig> = {
     trackColorTrue: ArenaColors.neutral.light,
     thumbColorFalse: ArenaColors.neutral.light,
     thumbColorTrue: ArenaColors.neutral.medium,
-    disabledOpacity: 0.5,
+    disabledOpacity: ArenaOpacity.medium,
   },
   brand: {
     trackColorFalse: ArenaColors.neutral.medium,
     trackColorTrue: ArenaColors.brand.primary,
     thumbColorFalse: ArenaColors.neutral.light,
     thumbColorTrue: ArenaColors.neutral.light,
-    disabledOpacity: 0.5,
+    disabledOpacity: ArenaOpacity.medium,
   },
 };
 
@@ -42,11 +47,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  disabled: {
-    opacity: 0.5,
-  },
   label: {
     color: ArenaColors.neutral.light,
-    fontWeight: ArenaTypography.weight.medium,
   },
 });

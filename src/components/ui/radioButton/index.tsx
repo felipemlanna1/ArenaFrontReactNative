@@ -1,5 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, View, TextStyle } from 'react-native';
+import { Text } from '../text';
 import { styles } from './stylesRadioButton';
 
 export interface RadioButtonProps {
@@ -25,7 +26,14 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
       <View style={styles.radioOuter}>
         {selected && <View style={styles.radioInner} />}
       </View>
-      <Text style={[styles.label, selected && styles.labelSelected]}>
+      <Text
+        variant={selected ? 'bodyBold' : 'bodyPrimary'}
+        style={
+          [styles.label, selected && styles.labelSelected].filter(
+            Boolean
+          ) as TextStyle[]
+        }
+      >
         {label}
       </Text>
     </TouchableOpacity>

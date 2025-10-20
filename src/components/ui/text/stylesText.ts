@@ -1,5 +1,5 @@
 import { StyleSheet, TextStyle } from 'react-native';
-import { ArenaColors, ArenaTypography } from '@/constants';
+import { ArenaColors } from '@/constants';
 export const styles = StyleSheet.create({
   baseText: {
     includeFontPadding: false,
@@ -33,13 +33,8 @@ export const styles = StyleSheet.create({
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
-  monoFont: {
-    fontFamily: ArenaTypography.family.mono,
-    letterSpacing: ArenaTypography.letterSpacing.normal,
-  },
   uppercase: {
     textTransform: 'uppercase',
-    letterSpacing: ArenaTypography.letterSpacing.wider,
   },
   lowercase: {
     textTransform: 'lowercase',

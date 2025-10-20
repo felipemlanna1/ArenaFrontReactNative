@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { TextStyle } from 'react-native';
+import { ArenaOpacity } from '@/constants';
 import { UseLinkParams, UseLinkReturn } from './typesLink';
 import { linkVariants } from './linkVariants';
 import { styles } from './stylesLink';
@@ -49,7 +50,7 @@ export const useLink = (params: UseLinkParams): UseLinkReturn => {
         fontWeight: ArenaTypography.weight.bold,
         fontStyle: 'italic',
         textDecorationLine: underline ? 'underline' : 'none',
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? ArenaOpacity.medium : ArenaOpacity.opaque,
       };
     },
     [disabled, variantConfig, underline]

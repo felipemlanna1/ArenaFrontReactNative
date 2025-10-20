@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { ArenaColors } from '@/constants';
 import { ProgressBarProps } from './typesProgressBar';
 import { useProgressBar } from './useProgressBar';
 import { styles } from './stylesProgressBar';

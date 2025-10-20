@@ -29,6 +29,17 @@ export const ArenaSpacing = {
   '14xl': 300,
   '15xl': 320,
 } as const;
+
+export const ArenaSizes = {
+  radioOuter: 24,
+  radioInner: 12,
+  imageShowcaseSmall: 60,
+  imageShowcaseMedium: 100,
+  imageShowcaseMediumWidth: 120,
+  imageShowcaseLarge: 150,
+  imageShowcaseLargeHeight: 120,
+  imageShowcaseExtraLarge: 200,
+} as const;
 export type ArenaSpacingKey = keyof typeof ArenaSpacing;
 export const getArenaSpacing = (size: ArenaSpacingKey) => {
   return ArenaSpacing[size];

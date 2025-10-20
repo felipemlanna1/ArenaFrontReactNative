@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
+import { ArenaOpacity } from '@/constants';
 
 export interface ButtonAnimationHooks {
   scale: { value: number };
@@ -21,7 +22,9 @@ export const useButtonAnimations = (
   disableAnimations: boolean = false
 ): ButtonAnimationHooks => {
   const scale = { value: 1 };
-  const opacity = { value: disabled ? 0.5 : 1 };
+  const opacity = {
+    value: disabled ? ArenaOpacity.medium : ArenaOpacity.opaque,
+  };
   const focusRingOpacity = { value: 0 };
 
   const triggerHaptic = useCallback(() => {

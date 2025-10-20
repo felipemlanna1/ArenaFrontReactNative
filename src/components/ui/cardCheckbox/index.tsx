@@ -21,8 +21,8 @@ export const CardCheckbox: React.FC<CardCheckboxProps> = ({
       accessibilityState={{ checked }}
       accessibilityLabel={label}
     >
-      {icon && <Text variant="bodyPrimary" style={styles.icon}>{icon}</Text>}
-      <Text variant="bodyPrimary" style={styles.label}>
+      {icon && <Text variant="headingPrimary">{icon}</Text>}
+      <Text variant="labelPrimary" style={styles.label}>
         {label}
       </Text>
     </TouchableOpacity>

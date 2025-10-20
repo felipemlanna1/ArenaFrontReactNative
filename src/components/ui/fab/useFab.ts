@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaOpacity } from '@/constants';
 import {
   UseFabParams,
   UseFabReturn,
@@ -10,19 +10,19 @@ import {
 
 const SIZE_CONFIGS: Record<string, FabSizeConfig> = {
   sm: {
-    width: 48,
-    height: 48,
-    iconSize: 20,
+    width: ArenaSpacing['5xl'],
+    height: ArenaSpacing['5xl'],
+    iconSize: ArenaSpacing.xl,
   },
   md: {
-    width: 56,
-    height: 56,
-    iconSize: 24,
+    width: ArenaSpacing['5.75xl'],
+    height: ArenaSpacing['5.75xl'],
+    iconSize: ArenaSpacing['2xl'],
   },
   lg: {
-    width: 64,
-    height: 64,
-    iconSize: 28,
+    width: ArenaSpacing['6xl'],
+    height: ArenaSpacing['6xl'],
+    iconSize: ArenaSpacing['2.5xl'],
   },
 };
 
@@ -86,7 +86,7 @@ export const useFab = ({
     [sizeConfig, variantConfig, positionConfig]
   );
 
-  const opacity = disabled ? 0.5 : 1;
+  const opacity = disabled ? ArenaOpacity.medium : ArenaOpacity.opaque;
 
   return {
     sizeConfig,

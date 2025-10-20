@@ -1,5 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { View, TouchableOpacity, Pressable, Modal, Text } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Pressable,
+  Modal,
+  TextStyle,
+} from 'react-native';
+import { Text } from '../text';
 import { ArenaColors } from '@/constants';
 import { DropdownProps } from './typesDropdown';
 import { useDropdown } from './useDropdown';
@@ -113,11 +120,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     </View>
                   )}
                   <Text
-                    style={[
-                      styles.menuItemLabel,
-                      item.destructive && styles.menuItemLabelDestructive,
-                      item.subtle && styles.menuItemLabelSubtle,
-                    ]}
+                    variant={item.subtle ? 'bodyBold' : 'bodyPrimary'}
+                    style={
+                      [
+                        styles.menuItemLabel,
+                        item.destructive && styles.menuItemLabelDestructive,
+                        item.subtle && styles.menuItemLabelSubtle,
+                      ].filter(Boolean) as TextStyle[]
+                    }
                   >
                     {item.label}
                   </Text>

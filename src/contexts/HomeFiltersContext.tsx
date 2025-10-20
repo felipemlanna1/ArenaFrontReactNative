@@ -52,6 +52,7 @@ interface HomeFiltersContextData {
   setSortOrder: (order: 'asc' | 'desc') => void;
   setSearchTerm: (term: string) => void;
   clearFilters: () => void;
+  clearCityFilter: () => void;
   buildApiFilters: () => EventsFilter | null;
 }
 
@@ -82,6 +83,7 @@ const DEFAULT_CONTEXT_VALUE: HomeFiltersContextData = {
   setSortOrder: () => {},
   setSearchTerm: () => {},
   clearFilters: () => {},
+  clearCityFilter: () => {},
   buildApiFilters: () => null,
 };
 
@@ -195,6 +197,10 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     setSearchTerm('');
   }, [favoritesSportIds, location.userCity]);
 
+  const clearCityFilter = useCallback(() => {
+    setActiveFilters(prev => ({ ...prev, city: undefined }));
+  }, []);
+
   const buildApiFilters = useMemo((): EventsFilter | null => {
     if (authLoading) {
       return null;
@@ -287,6 +293,7 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     setSortOrder,
     setSearchTerm,
     clearFilters,
+    clearCityFilter,
     buildApiFilters: () => buildApiFilters,
   };
 

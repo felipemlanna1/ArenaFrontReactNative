@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/datePicker';
-import { CardCheckbox } from '@/components/ui/cardCheckbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Label } from '@/components/ui/label';
-import { DURATION_OPTIONS } from '../../typesCreateEventScreen';
+import { DURATION_OPTIONS } from '@/screens/createEventScreen/typesCreateEventScreen';
 import { BasicInfoStepProps } from './typesBasicInfoStep';
 import { useBasicInfoStep } from './useBasicInfoStep';
 import { styles } from './stylesBasicInfoStep';
@@ -24,7 +25,10 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   } = useBasicInfoStep();
 
   return (
-    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.section}>
         <Input
           label="Título do evento"
@@ -44,12 +48,15 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
         {isLoadingSports ? (
           <SportsLoading size="sm" />
         ) : sportsError ? (
-          <Text style={styles.errorText}>{sportsError}</Text>
+          <Text variant="captionError" style={styles.errorText}>
+            {sportsError}
+          </Text>
         ) : (
           <View style={styles.sportsGrid}>
             {sports.map(sport => (
-              <CardCheckbox
+              <Checkbox
                 key={sport.id}
+                variant="card"
                 label={sport.name}
                 checked={formData.sportId === sport.id}
                 onPress={() => onUpdate({ sportId: sport.id })}
@@ -59,7 +66,9 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           </View>
         )}
         {errors.sportId && (
-          <Text style={styles.errorText}>{errors.sportId}</Text>
+          <Text variant="captionError" style={styles.errorText}>
+            {errors.sportId}
+          </Text>
         )}
       </View>
 
@@ -68,7 +77,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           label="Data e Hora"
           variant="datetime"
           value={formData.startDate}
-          onChange={(date) => onUpdate({ startDate: date })}
+          onChange={date => onUpdate({ startDate: date })}
           error={errors.startDate}
           minimumDate={new Date()}
           placeholder="Selecione data e hora do evento"
@@ -81,8 +90,9 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
         </Label>
         <View style={styles.durationContainer}>
           {DURATION_OPTIONS.map(option => (
-            <CardCheckbox
+            <Checkbox
               key={option.value}
+              variant="card"
               label={option.label}
               checked={formData.duration === option.value}
               onPress={() => onUpdate({ duration: option.value })}
@@ -91,7 +101,9 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           ))}
         </View>
         {errors.duration && (
-          <Text style={styles.errorText}>{errors.duration}</Text>
+          <Text variant="captionError" style={styles.errorText}>
+            {errors.duration}
+          </Text>
         )}
       </View>
 
@@ -112,7 +124,9 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           style={styles.toggleButton}
           onPress={() => setShowDescriptionField(true)}
         >
-          <Text style={styles.toggleText}>+ Adicionar descrição</Text>
+          <Text variant="labelPrimary" style={styles.toggleText}>
+            + Adicionar descrição
+          </Text>
         </TouchableOpacity>
       )}
     </ScrollView>
