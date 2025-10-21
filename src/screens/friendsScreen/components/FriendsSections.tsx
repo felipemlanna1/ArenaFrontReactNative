@@ -1,0 +1,168 @@
+import React from 'react';
+import { View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Text } from '@/components/ui/text';
+import { SportsLoading } from '@/components/ui/sportsLoading';
+import { UserCard } from '@/components/userCard';
+import { ArenaColors } from '@/constants';
+import { UserData } from '@/services/http';
+import { StyleSheet } from 'react-native';
+import { ArenaSpacing } from '@/constants';
+
+const styles = StyleSheet.create({
+  userList: {
+    gap: ArenaSpacing.md,
+  },
+  emptyContainer: {
+    paddingVertical: ArenaSpacing['2xl'],
+    alignItems: 'center',
+  },
+  emptyIcon: {
+    marginBottom: ArenaSpacing.md,
+  },
+  loadingContainer: {
+    paddingVertical: ArenaSpacing['2xl'],
+    alignItems: 'center',
+  },
+});
+
+const EmptyState: React.FC<{ icon: string; message: string }> = ({
+  icon,
+  message,
+}) => (
+  <View style={styles.emptyContainer}>
+    <View style={styles.emptyIcon}>
+      <Ionicons name={icon as any} size={48} color={ArenaColors.neutral.medium} />
+    </View>
+    <Text variant="bodySecondary">{message}</Text>
+  </View>
+);
+
+const LoadingState: React.FC = () => (
+  <View style={styles.loadingContainer}>
+    <SportsLoading size="md" animationSpeed="normal" />
+  </View>
+);
+
+interface FriendsSectionProps {
+  friends: UserData[];
+  isLoading: boolean;
+  loadingUserId: string | null;
+  onNavigateToProfile: (userId: string) => void;
+  onRemoveFriend: (userId: string) => void;
+}
+
+export const FriendsSection: React.FC<FriendsSectionProps> = ({
+  friends,
+  isLoading,
+  loadingUserId,
+  onNavigateToProfile,
+  onRemoveFriend,
+}) => {
+  if (isLoading) return <LoadingState />;
+  if (friends.length === 0) {
+    return (
+      <EmptyState
+        icon="people-outline"
+        message="Você ainda não tem amigos. Adicione algumas pessoas!"
+      />
+    );
+  }
+  return (
+    <View style={styles.userList}>
+      {friends.map(friend => (
+        <UserCard
+          key={friend.id}
+          user={friend}
+          variant="friend"
+          onPress={() => onNavigateToProfile(friend.id)}
+          onRemove={() => onRemoveFriend(friend.id)}
+          isLoading={loadingUserId === friend.id}
+          testID={`friend-card-${friend.id}`}
+        />
+      ))}
+    </View>
+  );
+};
+
+interface RequestsSectionProps {
+  requests: UserData[];
+  isLoading: boolean;
+  loadingUserId: string | null;
+  onAcceptRequest: (userId: string) => void;
+  onRejectRequest: (userId: string) => void;
+}
+
+export const RequestsSection: React.FC<RequestsSectionProps> = ({
+  requests,
+  isLoading,
+  loadingUserId,
+  onAcceptRequest,
+  onRejectRequest,
+}) => {
+  if (isLoading) return <LoadingState />;
+  if (requests.length === 0) {
+    return (
+      <EmptyState
+        icon="mail-outline"
+        message="Nenhuma solicitação de amizade pendente"
+      />
+    );
+  }
+  return (
+    <View style={styles.userList}>
+      {requests.map(request => (
+        <UserCard
+          key={request.id}
+          user={request}
+          variant="request"
+          onAccept={() => onAcceptRequest(request.id)}
+          onReject={() => onRejectRequest(request.id)}
+          isLoading={loadingUserId === request.id}
+          testID={`request-card-${request.id}`}
+        />
+      ))}
+    </View>
+  );
+};
+
+interface RecommendationsSectionProps {
+  recommendations: UserData[];
+  isLoading: boolean;
+  loadingUserId: string | null;
+  onNavigateToProfile: (userId: string) => void;
+  onSendRequest: (userId: string) => void;
+}
+
+export const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
+  recommendations,
+  isLoading,
+  loadingUserId,
+  onNavigateToProfile,
+  onSendRequest,
+}) => {
+  if (isLoading) return <LoadingState />;
+  if (recommendations.length === 0) {
+    return (
+      <EmptyState
+        icon="sparkles-outline"
+        message="Nenhuma recomendação disponível no momento"
+      />
+    );
+  }
+  return (
+    <View style={styles.userList}>
+      {recommendations.map(recommendation => (
+        <UserCard
+          key={recommendation.id}
+          user={recommendation}
+          variant="recommendation"
+          onPress={() => onNavigateToProfile(recommendation.id)}
+          onAddFriend={() => onSendRequest(recommendation.id)}
+          isLoading={loadingUserId === recommendation.id}
+          testID={`recommendation-card-${recommendation.id}`}
+        />
+      ))}
+    </View>
+  );
+};
