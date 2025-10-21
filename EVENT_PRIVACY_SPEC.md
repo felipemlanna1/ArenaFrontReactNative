@@ -77,14 +77,14 @@ interface Event {
 
 ### 3. APPROVAL_REQUIRED - Requer Aprovação
 
-**Descrição**: Evento onde o organizador deve aprovar cada participante individualmente.
+**Descrição**: Evento onde o organizador deve aprovar cada participante individualmente. **Visível para todos** (como PUBLIC), mas requer aprovação para participar.
 
 #### Regras de Visibilidade
 - ❌ **Usuários não autenticados** (guests): NÃO
 - ✅ **Organizador**: SIM
 - ✅ **Participantes** (qualquer status: CONFIRMED, PENDING, INVITED): SIM
-- ✅ **Membros do grupo** (se evento tiver `groupId`): SIM
-- ❌ **Outros usuários**: NÃO
+- ✅ **Usuários autenticados**: SIM ← **TODOS podem ver o evento**
+- ℹ️ **Diferença do PUBLIC**: Requer `requestJoinEvent()` ao invés de `joinEvent()`
 
 #### Regras de Ingresso
 - **Método**: `requestJoinEvent()` - Solicitação

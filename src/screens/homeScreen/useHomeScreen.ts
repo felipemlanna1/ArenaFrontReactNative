@@ -73,17 +73,12 @@ export const useHomeScreen = (
   const handleLogout = useCallback(async () => {
     try {
       setIsLoggingOut(true);
-
       await signOut();
-
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Welcome' }],
-      });
+      // AuthContext automaticamente redireciona para Welcome quando user vira null
     } catch {
       setIsLoggingOut(false);
     }
-  }, [navigation, signOut]);
+  }, [signOut]);
 
   useEffect(() => {
     if (!memoizedApiFilters) {
