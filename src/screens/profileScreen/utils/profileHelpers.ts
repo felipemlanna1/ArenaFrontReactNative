@@ -1,5 +1,6 @@
 import { UserData } from '@/services/http';
 import { ProfileDisplayData, SportBadgeData } from '../typesProfileScreen';
+import { getSportIconName, getSportColor } from '@/config/sportsConfig';
 
 export const calculateAge = (birthDate: string | undefined): number | null => {
   if (!birthDate) return null;
@@ -61,8 +62,8 @@ export const mapUserToDisplayData = (user: UserData): ProfileDisplayData => {
     user.sports?.map(sport => ({
       id: sport.sportId,
       name: sport.sportName,
-      icon: sport.sportIcon,
-      color: sport.sportColor,
+      icon: sport.sportIcon || getSportIconName(sport.sportName),
+      color: sport.sportColor || getSportColor(sport.sportName),
       isPrimary: sport.isPrimary,
       skillLevel: sport.skillLevel,
     })) || [];
