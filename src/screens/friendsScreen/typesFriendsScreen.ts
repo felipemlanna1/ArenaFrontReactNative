@@ -19,4 +19,5 @@ export interface UseFriendsScreenReturn {
   handleSendRequest: (userId: string) => Promise<void>;
   handleNavigateToProfile: (userId: string) => void;
   loadingUserId: string | null;
+  handleLogout: () => Promise<void>;
 }

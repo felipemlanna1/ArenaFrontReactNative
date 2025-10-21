@@ -2,9 +2,13 @@ import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: ArenaColors.neutral.darkest,
+  titleContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.md,
+    paddingBottom: ArenaSpacing.sm,
+  },
+  title: {
+    textAlign: 'left',
   },
   content: {
     flex: 1,

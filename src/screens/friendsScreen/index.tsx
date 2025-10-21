@@ -2,6 +2,8 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Accordion } from '@/components/ui/accordion';
 import { ArenaRefreshControl } from '@/components/ui/refreshControl';
+import { AppLayout } from '@/components/AppLayout';
+import { Text } from '@/components/ui/text';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { styles } from './stylesFriendsScreen';
@@ -27,6 +29,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleSendRequest,
     handleNavigateToProfile,
     loadingUserId,
+    handleLogout,
   } = useFriendsScreen(navigation);
 
   const accordionItems = [
@@ -72,7 +75,13 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   ];
 
   return (
-    <View style={styles.container}>
+    <AppLayout onLogout={handleLogout}>
+      <View style={styles.titleContainer}>
+        <Text variant="headingPrimary" style={styles.title}>
+          Amigos
+        </Text>
+      </View>
+
       <ScrollView
         style={styles.content}
         refreshControl={
@@ -92,6 +101,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-    </View>
+    </AppLayout>
   );
 };

@@ -1,9 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import { friendshipsApi } from '@/services/friendships';
 import { UseFriendsScreenReturn } from './typesFriendsScreen';
 import { UserData } from '@/services/http';
 
 export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
+  const { signOut } = useAuth();
+
   const [friends, setFriends] = useState<UserData[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<UserData[]>([]);
   const [recommendations, setRecommendations] = useState<UserData[]>([]);
@@ -131,6 +134,14 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     [navigation]
   );
 
+  const handleLogout = useCallback(async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
+  }, [signOut]);
+
   useEffect(() => {
     fetchFriends();
     fetchIncomingRequests();
@@ -152,5 +163,6 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     handleSendRequest,
     handleNavigateToProfile,
     loadingUserId,
+    handleLogout,
   };
 };
