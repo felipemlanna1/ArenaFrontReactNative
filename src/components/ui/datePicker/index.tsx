@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, TouchableOpacity, Platform } from 'react-native';
+import { View, TouchableOpacity, Platform, Modal } from 'react-native';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '../text';
 import { Label } from '../label';
+import { Button } from '../button';
 import { DatePickerProps } from './typesDatePicker';
 import { useDatePicker } from './useDatePicker';
 import { styles } from './stylesDatePicker';
@@ -32,6 +33,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     isFocused,
     handlePress,
     handleChange,
+    handleConfirm,
+    handleCancel,
+    tempValue,
   } = useDatePicker({
     variant,
     backgroundVariant,
@@ -103,19 +107,71 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         </Text>
       )}
 
-      {showPicker && Platform.OS !== 'web' && (
-        <RNDateTimePicker
-          value={value || new Date()}
-          mode={mode}
-          display={display}
-          onChange={handleChange}
-          minimumDate={minimumDate}
-          maximumDate={maximumDate}
-          accentColor={ArenaColors.brand.primary}
-          themeVariant="dark"
-          testID={testID ? `${testID}-picker` : undefined}
-        />
+      {showPicker && Platform.OS === 'ios' && variant === 'date' && (
+        <Modal
+          visible={showPicker}
+          transparent
+          animationType="slide"
+          onRequestClose={handleCancel}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text variant="titlePrimary" style={styles.modalTitle}>
+                  {label || 'Selecionar Data'}
+                </Text>
+              </View>
+
+              <RNDateTimePicker
+                value={tempValue || value || new Date()}
+                mode={mode}
+                display="spinner"
+                onChange={handleChange}
+                minimumDate={minimumDate}
+                maximumDate={maximumDate}
+                accentColor={ArenaColors.brand.primary}
+                themeVariant="dark"
+                testID={testID ? `${testID}-picker` : undefined}
+              />
+
+              <View style={styles.modalActions}>
+                <Button
+                  variant="ghost"
+                  size="md"
+                  onPress={handleCancel}
+                  testID={testID ? `${testID}-cancel` : undefined}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  variant="primary"
+                  size="md"
+                  onPress={handleConfirm}
+                  testID={testID ? `${testID}-confirm` : undefined}
+                >
+                  Confirmar
+                </Button>
+              </View>
+            </View>
+          </View>
+        </Modal>
       )}
+
+      {showPicker &&
+        Platform.OS !== 'web' &&
+        !(Platform.OS === 'ios' && variant === 'date') && (
+          <RNDateTimePicker
+            value={value || new Date()}
+            mode={mode}
+            display={display}
+            onChange={handleChange}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
+            accentColor={ArenaColors.brand.primary}
+            themeVariant="dark"
+            testID={testID ? `${testID}-picker` : undefined}
+          />
+        )}
     </View>
   );
 };

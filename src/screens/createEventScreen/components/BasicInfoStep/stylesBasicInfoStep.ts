@@ -8,11 +8,6 @@ export const styles = StyleSheet.create({
   section: {
     gap: ArenaSpacing.lg,
   },
-  sportsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: ArenaSpacing.sm,
-  },
   durationContainer: {
     flexDirection: 'row',
     gap: ArenaSpacing.sm,

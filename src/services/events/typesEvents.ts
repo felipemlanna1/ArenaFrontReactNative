@@ -4,7 +4,7 @@ export type SkillLevel =
   | 'BEGINNER'
   | 'INTERMEDIATE'
   | 'ADVANCED'
-  | 'PROFESSIONAL'
+  | 'EXPERT'
   | 'ALL';
 export type UserEventStatus =
   | 'ORGANIZER'

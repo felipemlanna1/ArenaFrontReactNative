@@ -15,6 +15,5 @@ export interface SportSelection {
   sportId: string;
   sportName: string;
   level: SkillLevel;
+  isPrimary?: boolean;
 }
-
-export type OnboardingStep = 'selection' | 'level';

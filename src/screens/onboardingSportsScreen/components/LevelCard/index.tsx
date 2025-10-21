@@ -20,7 +20,7 @@ const getLevelDescription = (level: SkillLevel): string => {
     [SkillLevel.BEGINNER]: 'Estou começando',
     [SkillLevel.INTERMEDIATE]: 'Já tenho experiência',
     [SkillLevel.ADVANCED]: 'Pratico regularmente',
-    [SkillLevel.EXPERT]: 'Sou profissional',
+    [SkillLevel.PROFESSIONAL]: 'Sou profissional',
   };
   return descriptions[level];
 };
@@ -30,7 +30,7 @@ const getLevelIcon = (level: SkillLevel): keyof typeof Entypo.glyphMap => {
     [SkillLevel.BEGINNER]: 'progress-empty' as const,
     [SkillLevel.INTERMEDIATE]: 'progress-one' as const,
     [SkillLevel.ADVANCED]: 'progress-two' as const,
-    [SkillLevel.EXPERT]: 'progress-full' as const,
+    [SkillLevel.PROFESSIONAL]: 'progress-full' as const,
   };
   return icons[level];
 };

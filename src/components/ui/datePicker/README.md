@@ -42,16 +42,16 @@ import { DatePicker } from '@/components/ui/datePicker';
 
 ## Props
 
-| Prop | Tipo | Padrão | Descrição |
-|------|------|--------|-----------|
-| `variant` | `'datetime' \| 'date' \| 'time'` | `'datetime'` | Modo do picker |
-| `label` | `string` | - | Label do campo |
-| `value` | `Date \| null` | - | Valor selecionado |
-| `onChange` | `(date: Date \| null) => void` | - | Callback de mudança |
-| `error` | `string` | - | Mensagem de erro |
-| `helperText` | `string` | - | Texto de ajuda |
-| `minimumDate` | `Date` | - | Data mínima permitida |
-| `maximumDate` | `Date` | - | Data máxima permitida |
-| `disabled` | `boolean` | `false` | Desabilita interação |
-| `placeholder` | `string` | `'Selecione...'` | Texto quando vazio |
-| `testID` | `string` | - | ID para testes |
+| Prop          | Tipo                             | Padrão           | Descrição             |
+| ------------- | -------------------------------- | ---------------- | --------------------- |
+| `variant`     | `'datetime' \| 'date' \| 'time'` | `'datetime'`     | Modo do picker        |
+| `label`       | `string`                         | -                | Label do campo        |
+| `value`       | `Date \| null`                   | -                | Valor selecionado     |
+| `onChange`    | `(date: Date \| null) => void`   | -                | Callback de mudança   |
+| `error`       | `string`                         | -                | Mensagem de erro      |
+| `helperText`  | `string`                         | -                | Texto de ajuda        |
+| `minimumDate` | `Date`                           | -                | Data mínima permitida |
+| `maximumDate` | `Date`                           | -                | Data máxima permitida |
+| `disabled`    | `boolean`                        | `false`          | Desabilita interação  |
+| `placeholder` | `string`                         | `'Selecione...'` | Texto quando vazio    |
+| `testID`      | `string`                         | -                | ID para testes        |

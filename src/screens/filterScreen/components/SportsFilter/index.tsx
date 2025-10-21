@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Checkbox } from '@/components/ui/checkbox';
 import { SportsLoading } from '@/components/ui/sportsLoading';
+import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { SportsFilterProps } from './typesSportsFilter';
 import { useSportsFilter } from './useSportsFilter';
 import { styles } from './stylesSportsFilter';
@@ -45,19 +45,12 @@ export const SportsFilter: React.FC<SportsFilterProps> = ({
 
   return (
     <View style={styles.container} testID={testID}>
-      <View style={styles.sportsGrid}>
-        {sports.map(sport => (
-          <Checkbox
-            key={sport.id}
-            checked={selectedSportIds.includes(sport.id)}
-            onPress={() => toggleSport(sport.id)}
-            label={sport.name}
-            variant="card"
-            size="md"
-            testID={`${testID}-sport-${sport.id}`}
-          />
-        ))}
-      </View>
+      <MultiSelectSports
+        sports={sports}
+        selectedSportIds={selectedSportIds}
+        onToggleSport={toggleSport}
+        testID={testID}
+      />
     </View>
   );
 };

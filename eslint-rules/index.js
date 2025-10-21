@@ -9,6 +9,8 @@ const arenaNoConsole = require('./arena-no-console');
 const arenaUseAlertContext = require('./arena-use-alert-context');
 const arenaNoCustomTextStyles = require('./arena-no-custom-text-styles');
 const arenaTextRequiresVariant = require('./arena-text-requires-variant');
+const arenaNoEmojiIcons = require('./arena-no-emoji-icons');
+const arenaUseSportsContext = require('./arena-use-sports-context');
 
 module.exports = {
   rules: {
@@ -21,6 +23,8 @@ module.exports = {
     'arena-use-alert-context': arenaUseAlertContext,
     'arena-no-custom-text-styles': arenaNoCustomTextStyles,
     'arena-text-requires-variant': arenaTextRequiresVariant,
+    'arena-no-emoji-icons': arenaNoEmojiIcons,
+    'arena-use-sports-context': arenaUseSportsContext,
   },
   configs: {
     recommended: {
@@ -35,6 +39,8 @@ module.exports = {
         'arena/arena-use-alert-context': 'error',
         'arena/arena-no-custom-text-styles': 'error',
         'arena/arena-text-requires-variant': 'error',
+        'arena/arena-no-emoji-icons': 'error',
+        'arena/arena-use-sports-context': 'error',
       },
     },
     strict: {
@@ -49,6 +55,8 @@ module.exports = {
         'arena/arena-use-alert-context': 'error',
         'arena/arena-no-custom-text-styles': 'error',
         'arena/arena-text-requires-variant': 'error',
+        'arena/arena-no-emoji-icons': 'error',
+        'arena/arena-use-sports-context': 'error',
       },
     },
     development: {

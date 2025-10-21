@@ -57,4 +57,30 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.medium,
     marginTop: ArenaSpacing.xs,
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: `${ArenaColors.neutral.darkest}CC`,
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: ArenaColors.neutral.dark,
+    borderTopLeftRadius: ArenaBorders.radius.lg,
+    borderTopRightRadius: ArenaBorders.radius.lg,
+    paddingBottom: ArenaSpacing['2xl'],
+  },
+  modalHeader: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+    borderBottomWidth: ArenaBorders.width.thin,
+    borderBottomColor: `${ArenaColors.neutral.medium}33`,
+  },
+  modalTitle: {
+    textAlign: 'center',
+  },
+  modalActions: {
+    flexDirection: 'row',
+    gap: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.md,
+  },
 });
