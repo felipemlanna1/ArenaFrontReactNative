@@ -22,7 +22,7 @@ export const useCreateEventScreen = ({
   isEditMode = false,
   eventToEdit,
 }: UseCreateEventScreenParams) => {
-  const { showError, showConfirm } = useAlert();
+  const { showError, showSuccess, showConfirm } = useAlert();
 
   const initialData = useMemo(() => {
     if (!isEditMode || !eventToEdit) return undefined;
@@ -130,22 +130,12 @@ export const useCreateEventScreen = ({
 
       if (result) {
         resetForm();
-        showConfirm({
-          title: 'Sucesso!',
-          message: isEditMode
+        navigation.navigate('MainTabs', { screen: 'HomeTab' });
+        showSuccess(
+          isEditMode
             ? 'Evento atualizado com sucesso!'
-            : 'Evento criado com sucesso!',
-          confirmText: 'Ver Evento',
-          cancelText: 'Voltar à Home',
-          onConfirm: () => {
-            navigation.navigate('EventDetails', {
-              eventId: result.id || eventToEdit?.id || '',
-            });
-          },
-          onCancel: () => {
-            navigation.navigate('MainTabs');
-          },
-        });
+            : 'Evento criado com sucesso!'
+        );
       }
     } catch {
       showError(
@@ -161,7 +151,7 @@ export const useCreateEventScreen = ({
     isEditMode,
     eventToEdit,
     showError,
-    showConfirm,
+    showSuccess,
   ]);
 
   const handleCancel = useCallback(() => {
