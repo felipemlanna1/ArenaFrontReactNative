@@ -39,7 +39,7 @@ export const useEventDetailsStatus = ({
       (currentUserId !== undefined && currentUserId === event.organizerId);
     const isOrganizer = isOwner;
     const isParticipant = userEventStatus === 'PARTICIPANT';
-    const isPending = userEventStatus === 'REQUESTED';
+    const isPending = userEventStatus === 'PENDING_REQUEST';
     const isInvited = userEventStatus === 'INVITED';
 
     const availableSpots =

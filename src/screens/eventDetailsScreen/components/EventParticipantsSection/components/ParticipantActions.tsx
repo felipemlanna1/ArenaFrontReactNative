@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 import { StyleSheet } from 'react-native';
+import { ParticipantStatus } from '@/services/events/typesEvents';
 
 interface ParticipantActionsProps {
-  status: 'CONFIRMED' | 'PENDING' | 'INVITED' | 'DECLINED';
+  status: ParticipantStatus;
   isOwner: boolean;
   isOrganizer: boolean;
   onApprove?: () => void;

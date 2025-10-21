@@ -50,8 +50,10 @@ export const ParticipantListItem: React.FC<ParticipantListItemProps> = ({
         return 'Pendente';
       case 'INVITED':
         return 'Convidado';
-      case 'DECLINED':
-        return 'Recusou';
+      case 'REJECTED':
+        return 'Rejeitado';
+      case 'CANCELLED':
+        return 'Cancelou';
       case 'CONFIRMED':
       default:
         return null;

@@ -3,9 +3,10 @@ import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
+import { PrivacyBadge } from '@/components/ui/privacyBadge';
 import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
-import { EventSport } from '@/services/events/typesEvents';
+import { EventSport, EventPrivacy, EventGroup } from '@/services/events/typesEvents';
 import { styles } from './stylesEventCardImage';
 
 interface EventCardImageProps {
@@ -14,6 +15,8 @@ interface EventCardImageProps {
   price: number | string;
   isFree: boolean;
   distance?: number;
+  privacy: EventPrivacy;
+  group?: EventGroup;
   formatPrice: (price: number | string, isFree: boolean) => string;
   formatDistance: (distance: number) => string;
   testID?: string;
@@ -25,6 +28,8 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
   price,
   isFree,
   distance,
+  privacy,
+  group,
   formatPrice,
   formatDistance,
   testID = 'event-card-image',
@@ -60,6 +65,17 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
     </View>
   );
 
+  const privacyBadge = (
+    <View style={styles.privacyBadge}>
+      <PrivacyBadge
+        privacy={privacy}
+        groupName={group?.name}
+        size="sm"
+        testID={`${testID}-privacy`}
+      />
+    </View>
+  );
+
   if (coverImage) {
     return (
       <View style={styles.container} testID={testID}>
@@ -72,6 +88,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
         />
         {priceBadge}
         {distanceBadge}
+        {privacyBadge}
       </View>
     );
   }
@@ -90,6 +107,7 @@ export const EventCardImage: React.FC<EventCardImageProps> = ({
       />
       {priceBadge}
       {distanceBadge}
+      {privacyBadge}
     </View>
   );
 };

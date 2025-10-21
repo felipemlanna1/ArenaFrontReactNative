@@ -13,6 +13,7 @@ interface Styles {
   distanceBadge: ViewStyle;
   distanceIcon: ViewStyle;
   distanceText: TextStyle;
+  privacyBadge: ViewStyle;
 }
 
 export const styles = StyleSheet.create<Styles>({
@@ -73,5 +74,10 @@ export const styles = StyleSheet.create<Styles>({
   distanceIcon: {},
   distanceText: {
     color: ArenaColors.text.inverse,
+  },
+  privacyBadge: {
+    position: 'absolute',
+    bottom: ArenaSpacing.sm,
+    right: ArenaSpacing.sm,
   },
 });
