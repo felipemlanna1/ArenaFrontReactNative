@@ -2,6 +2,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { SkillLevel } from '@/types/sport';
+import { EventPrivacy } from '@/services/events/typesEvents';
 
 export type CreateEventScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -23,19 +24,14 @@ export enum EventType {
   RECURRING = 'RECURRING',
 }
 
-export enum EventPrivacy {
-  PUBLIC = 'PUBLIC',
-  PRIVATE = 'PRIVATE',
-  FRIENDS_ONLY = 'FRIENDS_ONLY',
-}
-
 export enum FormStep {
   BASIC_INFO = 0,
-  LOCATION = 1,
-  REVIEW = 2,
+  PRIVACY = 1,
+  LOCATION = 2,
+  REVIEW = 3,
 }
 
-export const TOTAL_STEPS = 3;
+export const TOTAL_STEPS = 4;
 
 export interface EventLocation {
   zipCode: string;
@@ -46,8 +42,8 @@ export interface EventLocation {
   city: string;
   state: string;
   country: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number; // Opcional - obtido via geocoding
+  longitude?: number; // Opcional - obtido via geocoding
   formattedAddress?: string;
 }
 
@@ -76,11 +72,13 @@ export interface CreateEventFormData {
   duration: number;
   description?: string;
 
+  privacy: EventPrivacy;
+  groupId?: string;
+
   location: EventLocation;
   maxParticipants: number | null;
   price: number;
   isFree?: boolean;
-  privacy?: string;
   coverImage?: string;
 
   skillLevel?: SkillLevel;
@@ -95,6 +93,8 @@ export interface CreateEventFormErrors {
   startDate?: string;
   duration?: string;
   description?: string;
+  privacy?: string;
+  groupId?: string;
   zipCode?: string;
   street?: string;
   number?: string;
@@ -117,6 +117,8 @@ export const DEFAULT_EVENT_VALUES: CreateEventFormData = {
   startDate: null,
   duration: 60,
   description: undefined,
+  privacy: 'PUBLIC' as EventPrivacy,
+  groupId: undefined,
   location: {
     zipCode: '',
     street: '',
@@ -126,8 +128,8 @@ export const DEFAULT_EVENT_VALUES: CreateEventFormData = {
     city: '',
     state: '',
     country: 'Brasil',
-    latitude: 0,
-    longitude: 0,
+    latitude: undefined, // Será obtido via geocoding se disponível
+    longitude: undefined, // Será obtido via geocoding se disponível
     formattedAddress: '',
   },
   maxParticipants: null,
@@ -145,6 +147,8 @@ export interface CreateEventDto {
   sportId: string;
   startDate: string;
   endDate: string;
+  privacy: EventPrivacy;
+  groupId?: string;
   location: {
     zipCode: string;
     street: string;
@@ -154,8 +158,8 @@ export interface CreateEventDto {
     city: string;
     state: string;
     country: string;
-    latitude: number;
-    longitude: number;
+    latitude?: number; // Opcional - obtido via geocoding
+    longitude?: number; // Opcional - obtido via geocoding
     formattedAddress?: string;
   };
   price: number;

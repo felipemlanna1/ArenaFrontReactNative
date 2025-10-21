@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { Text } from '@/components/ui/text';
+import { PrivacyBadge } from '@/components/ui/privacyBadge';
 import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
 import { EventHeroSectionProps } from './typesEventHeroSection';
@@ -101,13 +102,25 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
         </View>
       </View>
 
-      {event.sport && (
-        <View style={styles.sportBadgeContainer}>
-          <Text variant="labelPrimary" style={styles.sportBadgeText}>
-            {event.sport.icon} {event.sport.name}
-          </Text>
-        </View>
-      )}
+      <View style={styles.badgesContainer}>
+        {event.sport && (
+          <View style={styles.sportBadgeContainer}>
+            <Text variant="labelPrimary" style={styles.sportBadgeText}>
+              {event.sport.icon} {event.sport.name}
+            </Text>
+          </View>
+        )}
+
+        {event.privacy && (
+          <View style={styles.privacyBadgeContainer}>
+            <PrivacyBadge
+              privacy={event.privacy}
+              groupName={event.group?.name}
+              size="sm"
+            />
+          </View>
+        )}
+      </View>
     </View>
   );
 };

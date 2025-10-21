@@ -1,12 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Button } from '@/components/ui/button';
-import { Ionicons } from '@expo/vector-icons';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from '@/components/ui/text';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 import { StyleSheet } from 'react-native';
+import { ParticipantStatus } from '@/services/events/typesEvents';
 
 interface ParticipantActionsProps {
-  status: 'CONFIRMED' | 'PENDING' | 'INVITED' | 'DECLINED';
+  status: ParticipantStatus;
   isOwner: boolean;
   isOrganizer: boolean;
   onApprove?: () => void;
@@ -29,50 +30,57 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
   return (
     <View style={styles.container}>
       {status === 'PENDING' && onApprove && onReject && (
-        <>
-          <Button
-            variant="ghost"
-            size="sm"
+        <View style={styles.actionsRow}>
+          <TouchableOpacity
+            style={[styles.actionButton, styles.approveButton]}
             onPress={onApprove}
             disabled={isManaging}
-            iconOnly
+            activeOpacity={0.7}
           >
             <Ionicons
-              name="checkmark-circle-outline"
+              name="checkmark-circle"
               size={20}
-              color={ArenaColors.semantic.success}
+              color={ArenaColors.neutral.light}
             />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
+            <Text variant="labelPrimary" style={styles.buttonText}>
+              Aprovar
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.actionButton, styles.rejectButton]}
             onPress={onReject}
             disabled={isManaging}
-            iconOnly
+            activeOpacity={0.7}
           >
             <Ionicons
-              name="close-circle-outline"
+              name="close-circle"
               size={20}
-              color={ArenaColors.semantic.error}
+              color={ArenaColors.neutral.light}
             />
-          </Button>
-        </>
+            <Text variant="labelPrimary" style={styles.buttonText}>
+              Recusar
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
 
       {status === 'CONFIRMED' && onRemove && (
-        <Button
-          variant="ghost"
-          size="sm"
+        <TouchableOpacity
+          style={[styles.actionButton, styles.removeButton]}
           onPress={onRemove}
           disabled={isManaging}
-          iconOnly
+          activeOpacity={0.7}
         >
           <Ionicons
             name="trash-outline"
             size={18}
-            color={ArenaColors.semantic.error}
+            color={ArenaColors.neutral.light}
           />
-        </Button>
+          <Text variant="labelPrimary" style={styles.buttonText}>
+            Remover
+          </Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -80,8 +88,34 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    marginLeft: ArenaSpacing.sm,
+  },
+  actionsRow: {
+    flexDirection: 'column',
+    gap: ArenaSpacing.sm,
+  },
+  actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: ArenaSpacing.xs,
+    paddingHorizontal: ArenaSpacing.md,
+    paddingVertical: ArenaSpacing.sm,
+    borderRadius: ArenaBorders.radius.md,
+    minWidth: 100,
+    minHeight: 40,
+  },
+  approveButton: {
+    backgroundColor: ArenaColors.semantic.success,
+  },
+  rejectButton: {
+    backgroundColor: ArenaColors.semantic.error,
+  },
+  removeButton: {
+    backgroundColor: ArenaColors.semantic.error,
+    minWidth: 100,
+  },
+  buttonText: {
+    color: ArenaColors.neutral.light,
   },
 });

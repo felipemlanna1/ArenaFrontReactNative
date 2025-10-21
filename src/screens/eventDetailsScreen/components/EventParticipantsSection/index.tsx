@@ -39,56 +39,153 @@ export const EventParticipantsSection: React.FC<
     });
   };
 
-  const allParticipants = isOwner
-    ? [
-        ...pendingParticipants,
-        ...sortParticipants(confirmedParticipants),
-        ...invitedParticipants,
-      ]
-    : sortParticipants(confirmedParticipants);
-
-  const items = [
-    {
-      id: 'participants',
-      title: `Participantes (${participantCount})`,
-      content: (
-        <View style={styles.content}>
-          {allParticipants.length === 0 ? (
-            <Text variant="bodySecondary" style={styles.emptyText}>
-              Ainda não há participantes confirmados.
-            </Text>
-          ) : (
-            <View style={styles.listContainer}>
-              {allParticipants.map(participant => (
-                <ParticipantListItem
-                  key={participant.id}
-                  participant={participant}
-                  isOrganizer={participant.userId === event.organizerId}
-                  isOwner={isOwner}
-                  isManaging={isManaging}
-                  onApprove={
-                    participant.status === 'PENDING'
-                      ? () => handleApprove(participant.userId)
-                      : undefined
-                  }
-                  onReject={
-                    participant.status === 'PENDING'
-                      ? () => handleReject(participant.userId)
-                      : undefined
-                  }
-                  onRemove={
-                    participant.status === 'CONFIRMED'
-                      ? () => handleRemove(participant.userId)
-                      : undefined
-                  }
-                />
-              ))}
-            </View>
-          )}
+  // Renderiza lista de solicitações pendentes
+  const renderPendingList = () => {
+    return (
+      <View style={styles.content}>
+        <View style={styles.listContainer}>
+          {pendingParticipants.map(participant => (
+            <ParticipantListItem
+              key={participant.id}
+              participant={participant}
+              isOrganizer={participant.userId === event.organizerId}
+              isOwner={isOwner}
+              isManaging={isManaging}
+              onApprove={() => handleApprove(participant.userId)}
+              onReject={() => handleReject(participant.userId)}
+            />
+          ))}
         </View>
-      ),
-    },
-  ];
+      </View>
+    );
+  };
 
-  return <Accordion items={items} variant="default" mode="single" />;
+  // Renderiza lista de participantes confirmados e convidados
+  const renderConfirmedList = () => {
+    const confirmedAndInvited = [
+      ...sortParticipants(confirmedParticipants),
+      ...invitedParticipants,
+    ];
+
+    return (
+      <View style={styles.content}>
+        {confirmedAndInvited.length === 0 ? (
+          <Text variant="bodySecondary" style={styles.emptyText}>
+            Ainda não há participantes confirmados.
+          </Text>
+        ) : (
+          <View style={styles.listContainer}>
+            {confirmedAndInvited.map(participant => (
+              <ParticipantListItem
+                key={participant.id}
+                participant={participant}
+                isOrganizer={participant.userId === event.organizerId}
+                isOwner={isOwner}
+                isManaging={isManaging}
+                onRemove={
+                  participant.status === 'CONFIRMED'
+                    ? () => handleRemove(participant.userId)
+                    : undefined
+                }
+              />
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  // Renderiza lista completa (comportamento original para casos padrão)
+  const renderAllParticipants = () => {
+    const allParticipants = isOwner
+      ? [
+          ...pendingParticipants,
+          ...sortParticipants(confirmedParticipants),
+          ...invitedParticipants,
+        ]
+      : sortParticipants(confirmedParticipants);
+
+    return (
+      <View style={styles.content}>
+        {allParticipants.length === 0 ? (
+          <Text variant="bodySecondary" style={styles.emptyText}>
+            Ainda não há participantes confirmados.
+          </Text>
+        ) : (
+          <View style={styles.listContainer}>
+            {allParticipants.map(participant => (
+              <ParticipantListItem
+                key={participant.id}
+                participant={participant}
+                isOrganizer={participant.userId === event.organizerId}
+                isOwner={isOwner}
+                isManaging={isManaging}
+                onApprove={
+                  participant.status === 'PENDING'
+                    ? () => handleApprove(participant.userId)
+                    : undefined
+                }
+                onReject={
+                  participant.status === 'PENDING'
+                    ? () => handleReject(participant.userId)
+                    : undefined
+                }
+                onRemove={
+                  participant.status === 'CONFIRMED'
+                    ? () => handleRemove(participant.userId)
+                    : undefined
+                }
+              />
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  // Constrói items do accordion baseado nas condições
+  const buildAccordionItems = () => {
+    const pendingCount = pendingParticipants.length;
+    const confirmedCount = confirmedParticipants.length + invitedParticipants.length;
+
+    // Para eventos APPROVAL_REQUIRED com solicitações pendentes (owner)
+    if (event.privacy === 'APPROVAL_REQUIRED' && isOwner && pendingCount > 0) {
+      return [
+        {
+          id: 'pending-requests',
+          title: `Solicitações Pendentes (${pendingCount})`,
+          content: renderPendingList(),
+        },
+        {
+          id: 'participants',
+          title: `Participantes (${confirmedCount})`,
+          content: renderConfirmedList(),
+        },
+      ];
+    }
+
+    // Caso padrão - comportamento original
+    return [
+      {
+        id: 'participants',
+        title: `Participantes (${participantCount})`,
+        content: renderAllParticipants(),
+      },
+    ];
+  };
+
+  const items = buildAccordionItems();
+  const hasPendingRequests =
+    event.privacy === 'APPROVAL_REQUIRED' &&
+    isOwner &&
+    pendingParticipants.length > 0;
+
+  return (
+    <Accordion
+      items={items}
+      variant="default"
+      mode="multiple"
+      defaultExpandedIds={hasPendingRequests ? ['pending-requests'] : undefined}
+    />
+  );
 };

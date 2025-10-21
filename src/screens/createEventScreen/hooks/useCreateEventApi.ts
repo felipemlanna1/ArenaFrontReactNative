@@ -28,6 +28,13 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
       const endDate = new Date(formData.startDate);
       endDate.setMinutes(endDate.getMinutes() + formData.duration);
 
+      // Validar coordenadas: só enviar se válidas (não undefined e não 0)
+      const hasValidCoordinates =
+        formData.location.latitude !== undefined &&
+        formData.location.latitude !== 0 &&
+        formData.location.longitude !== undefined &&
+        formData.location.longitude !== 0;
+
       return {
         title: formData.title,
         description: formData.description || undefined,
@@ -44,8 +51,10 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
           city: formData.location.city,
           state: formData.location.state,
           country: formData.location.country,
-          latitude: formData.location.latitude || 0,
-          longitude: formData.location.longitude || 0,
+          ...(hasValidCoordinates && {
+            latitude: formData.location.latitude,
+            longitude: formData.location.longitude,
+          }),
           formattedAddress: formData.location.formattedAddress || undefined,
         },
         price: formData.price,
@@ -54,8 +63,11 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
           formData.maxParticipants !== null
             ? Math.floor(formData.maxParticipants)
             : undefined,
-        skillLevel: formData.skillLevel,
-        ageRestriction: formData.ageRestriction,
+        skillLevel: formData.skillLevel || undefined,
+        ageRestriction:
+          formData.ageRestriction?.min || formData.ageRestriction?.max
+            ? formData.ageRestriction
+            : undefined,
         rules:
           formData.rules && formData.rules.trim().length > 0
             ? formData.rules
@@ -64,6 +76,8 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
           formData.requirements && formData.requirements.trim().length > 0
             ? formData.requirements
             : undefined,
+        privacy: formData.privacy,
+        groupId: formData.groupId || undefined,
       };
     },
     []

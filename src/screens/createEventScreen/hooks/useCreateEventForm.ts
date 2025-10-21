@@ -112,6 +112,16 @@ export const useCreateEventForm = (
           }
           break;
 
+        case FormStep.PRIVACY:
+          if (!formData.privacy) {
+            newErrors.privacy = 'Selecione o tipo de privacidade';
+          }
+
+          if (formData.privacy === 'GROUP_ONLY' && !formData.groupId) {
+            newErrors.groupId = 'Selecione um grupo para eventos de grupo';
+          }
+          break;
+
         case FormStep.REVIEW:
           if (formData.ageRestriction) {
             const { min, max } = formData.ageRestriction;
