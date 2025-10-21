@@ -42,8 +42,8 @@ export interface EventLocation {
   city: string;
   state: string;
   country: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number; // Opcional - obtido via geocoding
+  longitude?: number; // Opcional - obtido via geocoding
   formattedAddress?: string;
 }
 
@@ -128,8 +128,8 @@ export const DEFAULT_EVENT_VALUES: CreateEventFormData = {
     city: '',
     state: '',
     country: 'Brasil',
-    latitude: 0,
-    longitude: 0,
+    latitude: undefined, // Será obtido via geocoding se disponível
+    longitude: undefined, // Será obtido via geocoding se disponível
     formattedAddress: '',
   },
   maxParticipants: null,
@@ -158,8 +158,8 @@ export interface CreateEventDto {
     city: string;
     state: string;
     country: string;
-    latitude: number;
-    longitude: number;
+    latitude?: number; // Opcional - obtido via geocoding
+    longitude?: number; // Opcional - obtido via geocoding
     formattedAddress?: string;
   };
   price: number;
