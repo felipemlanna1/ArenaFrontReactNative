@@ -195,4 +195,24 @@ export class EventsApi {
     );
     return response;
   }
+
+  async getInvitableUsers(
+    eventId: string,
+    query?: string,
+    limit?: number
+  ): Promise<{ friends: Array<unknown>; others: Array<unknown> }> {
+    const params: Record<string, unknown> = {};
+    if (query) params.query = query;
+    if (limit) params.limit = limit;
+
+    const queryString = Object.keys(params).length > 0
+      ? `?${prepareParams(params).toString()}`
+      : '';
+
+    const response = await httpService.get<{
+      data: { friends: Array<unknown>; others: Array<unknown> };
+    }>(`${this.basePath}/${eventId}/invitable-users${queryString}`);
+
+    return response.data;
+  }
 }
