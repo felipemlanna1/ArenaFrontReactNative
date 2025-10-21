@@ -91,6 +91,7 @@ export const useCreateEventScreen = ({
   const handleSubmit = useCallback(async () => {
     const allStepsValid = [
       FormStep.BASIC_INFO,
+      FormStep.PRIVACY,
       FormStep.LOCATION,
       FormStep.REVIEW,
     ].every(step => validateStep(step));

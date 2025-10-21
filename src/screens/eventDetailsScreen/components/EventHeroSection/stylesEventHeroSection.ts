@@ -54,10 +54,16 @@ export const styles = StyleSheet.create({
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.lightSubtle15,
   },
-  sportBadgeContainer: {
+  badgesContainer: {
     position: 'absolute',
     bottom: ArenaSpacing.lg,
     left: ArenaSpacing.lg,
+    right: ArenaSpacing.lg,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: ArenaSpacing.sm,
+  },
+  sportBadgeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: ArenaColors.neutral.darkPressed,
@@ -71,5 +77,9 @@ export const styles = StyleSheet.create({
   sportBadgeText: {
     color: ArenaColors.neutral.light,
     textTransform: 'uppercase',
+  },
+  privacyBadgeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

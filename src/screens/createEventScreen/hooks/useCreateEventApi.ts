@@ -64,6 +64,8 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
           formData.requirements && formData.requirements.trim().length > 0
             ? formData.requirements
             : undefined,
+        privacy: formData.privacy,
+        groupId: formData.groupId || undefined,
       };
     },
     []

@@ -12,6 +12,7 @@ import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Stepper } from '@/components/ui/stepper';
 import { BasicInfoStep } from './components/BasicInfoStep';
+import { PrivacyStep } from './components/PrivacyStep';
 import { LocationStep } from './components/LocationStep';
 import { ReviewStep } from './components/ReviewStep';
 import {
@@ -57,6 +58,14 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
             errors={errors}
             onUpdate={updateFormData}
             isEditMode={isEditMode}
+          />
+        );
+      case FormStep.PRIVACY:
+        return (
+          <PrivacyStep
+            formData={formData}
+            errors={errors}
+            onUpdate={updateFormData}
           />
         );
       case FormStep.LOCATION:

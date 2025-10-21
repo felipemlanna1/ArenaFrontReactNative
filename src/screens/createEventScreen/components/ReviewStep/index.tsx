@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
+import { PrivacyBadge } from '@/components/ui/privacyBadge';
+import { ArenaColors } from '@/constants';
 import { ReviewStepProps } from './typesReviewStep';
 import { styles } from './stylesReviewStep';
 
@@ -38,22 +41,46 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         <View style={styles.divider} />
 
         <View style={styles.previewRow}>
-          <Text variant="bodySecondary">📅</Text>
+          <Ionicons
+            name="calendar-outline"
+            size={20}
+            color={ArenaColors.neutral.medium}
+          />
           <Text variant="labelPrimary">{formatDate(formData.startDate)}</Text>
         </View>
 
         <View style={styles.previewRow}>
-          <Text variant="bodySecondary">⏱️</Text>
+          <Ionicons
+            name="time-outline"
+            size={20}
+            color={ArenaColors.neutral.medium}
+          />
           <Text variant="labelPrimary">{formData.duration} minutos</Text>
         </View>
 
         <View style={styles.previewRow}>
-          <Text variant="bodySecondary">📍</Text>
+          <Ionicons
+            name="location-outline"
+            size={20}
+            color={ArenaColors.neutral.medium}
+          />
           <Text variant="labelPrimary">{formatLocation()}</Text>
         </View>
 
         <View style={styles.previewRow}>
-          <Text variant="bodySecondary">👥</Text>
+          <PrivacyBadge
+            privacy={formData.privacy}
+            groupName={formData.groupId ? 'Grupo Selecionado' : undefined}
+            size="sm"
+          />
+        </View>
+
+        <View style={styles.previewRow}>
+          <Ionicons
+            name="people-outline"
+            size={20}
+            color={ArenaColors.neutral.medium}
+          />
           <Text variant="labelPrimary">
             {formData.maxParticipants
               ? `Até ${formData.maxParticipants} pessoas`
@@ -62,7 +89,11 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </View>
 
         <View style={styles.previewRow}>
-          <Text variant="bodySecondary">💰</Text>
+          <Ionicons
+            name="cash-outline"
+            size={20}
+            color={ArenaColors.neutral.medium}
+          />
           <Text variant="labelPrimary">
             {!formData.price || formData.price === 0
               ? 'Gratuito'
