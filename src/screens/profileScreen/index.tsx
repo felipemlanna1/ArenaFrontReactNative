@@ -25,10 +25,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   route,
   testID = 'profile-screen',
 }) => {
-  const userId = route?.params?.userId;
-
   const {
     user,
+    userId,
     isLoading,
     isRefreshing,
     error,
@@ -36,7 +35,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     refetch,
     handleEditPress,
     handleBackPress,
-  } = useProfileScreen({ userId });
+  } = useProfileScreen({ userId: route?.params?.userId });
 
   const { stats, isLoading: isLoadingStats } = useProfileStats(userId || '');
 

@@ -75,6 +75,7 @@ export const useProfileScreen = (
 
   return {
     user,
+    userId: targetUserId,
     isLoading,
     isRefreshing,
     error,

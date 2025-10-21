@@ -15,6 +15,7 @@ export interface UseProfileScreenParams {
 
 export interface UseProfileScreenReturn {
   user: UserData | null;
+  userId: string | undefined;
   isLoading: boolean;
   isRefreshing: boolean;
   error: Error | null;
