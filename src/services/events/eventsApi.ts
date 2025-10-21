@@ -81,7 +81,7 @@ export class EventsApi {
   }
 
   async requestJoin(eventId: string): Promise<void> {
-    await httpService.post(`${this.basePath}/${eventId}/request`, {});
+    await httpService.post(`${this.basePath}/${eventId}/request-join`, {});
   }
 
   async leaveEvent(eventId: string): Promise<void> {
@@ -89,7 +89,7 @@ export class EventsApi {
   }
 
   async cancelRequest(eventId: string): Promise<void> {
-    await httpService.delete(`${this.basePath}/${eventId}/request`);
+    await httpService.delete(`${this.basePath}/${eventId}/request-join`);
   }
 
   async acceptInvitation(eventId: string, invitationId: string): Promise<void> {

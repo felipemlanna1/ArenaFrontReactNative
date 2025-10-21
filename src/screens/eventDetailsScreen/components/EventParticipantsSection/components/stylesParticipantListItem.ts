@@ -4,8 +4,9 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: ArenaSpacing.sm,
+    alignItems: 'flex-start',
+    paddingVertical: ArenaSpacing.md,
+    gap: ArenaSpacing.md,
   },
   touchableContent: {
     flex: 1,
