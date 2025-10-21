@@ -14,11 +14,6 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.semantic.errorSubtle,
     borderRadius: ArenaBorders.radius.sm,
   },
-  sportsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: ArenaSpacing.sm,
-  },
   emptyText: {
     textAlign: 'center',
     padding: ArenaSpacing.md,

@@ -5,8 +5,13 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
+  },
+  touchableContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.md,
   },
   avatar: {
     width: ArenaSpacing['4.5xl'],
@@ -36,6 +41,9 @@ export const styles = StyleSheet.create({
   },
   name: {
     color: ArenaColors.neutral.light,
+  },
+  chevronIcon: {
+    marginLeft: ArenaSpacing.micro,
   },
   username: {
     color: ArenaColors.neutral.medium,

@@ -74,6 +74,11 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     boxShadow: ArenaShadows.subtle,
   },
+  icon: {
+    width: ArenaTypography.size.md,
+    height: ArenaTypography.size.md,
+    marginRight: ArenaSpacing.xs,
+  },
   text: {
     paddingRight: ArenaSpacing.xs,
   },

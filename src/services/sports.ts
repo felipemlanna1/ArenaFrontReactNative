@@ -75,3 +75,11 @@ class SportsService {
 }
 
 export const sportsService = new SportsService();
+
+export const getSports = () => sportsService.getAllSports();
+export const getUserSports = (userId: string) =>
+  sportsService.getUserSports(userId);
+export const updateUserSports = (
+  userId: string,
+  data: UpdateUserSportsRequest
+) => sportsService.updateUserSports(userId, data);

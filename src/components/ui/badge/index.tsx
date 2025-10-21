@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '../text';
+import { OptimizedImage } from '../optimizedImage';
 import { ArenaSpacing } from '@/constants';
 import { BadgeProps } from './typesBadge';
 import { useBadge } from './useBadge';
@@ -13,6 +14,7 @@ export const Badge: React.FC<BadgeProps> = ({
   removable = false,
   onRemove,
   children,
+  icon,
   testID,
   ...restProps
 }) => {
@@ -36,6 +38,14 @@ export const Badge: React.FC<BadgeProps> = ({
       testID={testID}
       {...restProps}
     >
+      {icon && (
+        <OptimizedImage
+          source={icon}
+          style={styles.icon}
+          contentFit="contain"
+          priority="high"
+        />
+      )}
       <Text variant="bodyPrimary" style={[styles.text, textStyle]}>
         {children}
       </Text>

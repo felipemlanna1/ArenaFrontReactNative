@@ -15,6 +15,7 @@ export const useDatePicker = ({
 }: UseDatePickerParams): UseDatePickerReturn => {
   const [showPicker, setShowPicker] = useState(false);
   const [tempDate, setTempDate] = useState<Date | null>(null);
+  const [tempValue, setTempValue] = useState<Date | null>(null);
 
   const mode: DatePickerMode = useMemo(() => {
     if (variant === 'datetime') return 'datetime';
@@ -59,8 +60,9 @@ export const useDatePicker = ({
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     setTempDate(null);
+    setTempValue(value || new Date());
     setShowPicker(true);
-  }, []);
+  }, [value]);
 
   const handleChange = useCallback(
     async (event: unknown, selectedDate?: Date) => {
@@ -71,6 +73,11 @@ export const useDatePicker = ({
         if (selectedDate && eventType !== 'dismissed') {
           onChange(selectedDate);
         }
+        return;
+      }
+
+      if (Platform.OS === 'ios' && variant === 'date' && selectedDate) {
+        setTempValue(selectedDate);
         return;
       }
 
@@ -88,20 +95,39 @@ export const useDatePicker = ({
           onChange(selectedDate);
           setTempDate(null);
         }
-      } else {
+      } else if (variant === 'time' && selectedDate) {
         setShowPicker(false);
-        if (selectedDate) {
-          if (Platform.OS === 'ios') {
-            await Haptics.notificationAsync(
-              Haptics.NotificationFeedbackType.Success
-            );
-          }
-          onChange(selectedDate);
+        if (Platform.OS === 'ios') {
+          await Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Success
+          );
         }
+        onChange(selectedDate);
       }
     },
     [onChange, variant, tempDate]
   );
+
+  const handleConfirm = useCallback(async () => {
+    if (tempValue) {
+      if (Platform.OS === 'ios') {
+        await Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Success
+        );
+      }
+      onChange(tempValue);
+    }
+    setShowPicker(false);
+    setTempValue(null);
+  }, [tempValue, onChange]);
+
+  const handleCancel = useCallback(async () => {
+    if (Platform.OS === 'ios') {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    setShowPicker(false);
+    setTempValue(null);
+  }, []);
 
   return {
     showPicker,
@@ -111,5 +137,8 @@ export const useDatePicker = ({
     isFocused,
     handlePress,
     handleChange,
+    handleConfirm,
+    handleCancel,
+    tempValue,
   };
 };

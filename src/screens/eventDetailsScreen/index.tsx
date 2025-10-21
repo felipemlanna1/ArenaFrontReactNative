@@ -111,7 +111,12 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
           <EventOrganizerCard
             event={event}
             isOwner={status.isOwner}
-            onPress={() => {}}
+            onPress={() => {
+              const organizerId = event.organizerId || event.organizer?.id;
+              if (organizerId) {
+                navigation.navigate('Profile', { userId: organizerId });
+              }
+            }}
           />
 
           {event.description && (

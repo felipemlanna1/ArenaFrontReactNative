@@ -4,7 +4,7 @@ import { useUserSports } from '@/hooks/useUserSports';
 import { sportsService } from '@/services/sports';
 import { SkillLevel } from '@/types/sport';
 import { toUserSportData, toApiSportData } from '@/utils/mappers/sportMappers';
-import { SportSelection, OnboardingStep } from './typesOnboardingSportsScreen';
+import { SportSelection } from './typesOnboardingSportsScreen';
 
 export const useOnboardingSportsScreen = () => {
   const { updateUserSports, signOut, user } = useAuth();
@@ -15,9 +15,11 @@ export const useOnboardingSportsScreen = () => {
   } = useUserSports();
 
   const [selectedSports, setSelectedSports] = useState<SportSelection[]>([]);
-  const [currentStep, setCurrentStep] = useState<OnboardingStep>('selection');
+  const [modalVisible, setModalVisible] = useState(false);
   const [currentSportId, setCurrentSportId] = useState<string | null>(null);
   const [currentLevel, setCurrentLevel] = useState<SkillLevel | null>(null);
+  const [currentIsPrimary, setCurrentIsPrimary] = useState(false);
+  const [primarySportId, setPrimarySportId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,41 +31,65 @@ export const useOnboardingSportsScreen = () => {
     (sportId: string) => {
       const sport = availableSports.find(s => s.id === sportId);
       if (sport) {
+        const existingSport = selectedSports.find(s => s.sportId === sportId);
         setCurrentSportId(sportId);
-        setCurrentStep('level');
-        setCurrentLevel(null);
+        setCurrentLevel(existingSport?.level || null);
+        setCurrentIsPrimary(existingSport?.isPrimary || false);
+        setModalVisible(true);
       }
     },
-    [availableSports]
+    [availableSports, selectedSports]
   );
 
-  const handleSelectLevel = useCallback((level: SkillLevel) => {
-    setCurrentLevel(level);
+  const handleSelectLevel = useCallback(
+    (level: SkillLevel) => {
+      if (!currentSport) return;
+
+      const newSelection: SportSelection = {
+        sportId: currentSport.id,
+        sportName: currentSport.name,
+        level: level,
+        isPrimary: currentIsPrimary,
+      };
+
+      setSelectedSports(prev => {
+        const filtered = prev.filter(s => s.sportId !== currentSport.id);
+        return [...filtered, newSelection];
+      });
+
+      if (currentIsPrimary) {
+        setPrimarySportId(currentSport.id);
+      }
+
+      setModalVisible(false);
+      setCurrentSportId(null);
+      setCurrentLevel(null);
+      setCurrentIsPrimary(false);
+    },
+    [currentSport, currentIsPrimary]
+  );
+
+  const handleTogglePrimary = useCallback((isPrimary: boolean) => {
+    setCurrentIsPrimary(isPrimary);
   }, []);
 
-  const handleNext = useCallback(() => {
-    if (!currentSport || !currentLevel) return;
-
-    const newSelection: SportSelection = {
-      sportId: currentSport.id,
-      sportName: currentSport.name,
-      level: currentLevel,
-    };
-
-    setSelectedSports(prev => [...prev, newSelection]);
-    setCurrentStep('selection');
+  const handleCloseModal = useCallback(() => {
+    setModalVisible(false);
     setCurrentSportId(null);
     setCurrentLevel(null);
-  }, [currentSport, currentLevel]);
-
-  const handleBack = useCallback(() => {
-    setCurrentStep('selection');
-    setCurrentLevel(null);
+    setCurrentIsPrimary(false);
   }, []);
 
-  const handleRemoveSport = useCallback((sportId: string) => {
-    setSelectedSports(prev => prev.filter(s => s.sportId !== sportId));
-  }, []);
+  const handleRemoveSport = useCallback(
+    (sportId: string) => {
+      setSelectedSports(prev => prev.filter(s => s.sportId !== sportId));
+
+      if (sportId === primarySportId) {
+        setPrimarySportId(null);
+      }
+    },
+    [primarySportId]
+  );
 
   const handleFinish = useCallback(async () => {
     if (!user?.id) {
@@ -81,11 +107,11 @@ export const useOnboardingSportsScreen = () => {
 
     try {
       const apiData = {
-        sports: selectedSports.map((s, index) =>
+        sports: selectedSports.map(s =>
           toApiSportData({
             sportId: s.sportId,
             skillLevel: s.level,
-            isPrimary: index === 0,
+            isPrimary: s.sportId === primarySportId,
             yearsOfExperience: 0,
           })
         ),
@@ -93,13 +119,13 @@ export const useOnboardingSportsScreen = () => {
 
       await sportsService.updateUserSports(user.id, apiData);
 
-      const userSports = selectedSports.map((selection, index) => {
+      const userSports = selectedSports.map(selection => {
         const sport = availableSports.find(as => as.id === selection.sportId);
         return toUserSportData({
           selection,
           sportIcon: sport?.icon || '',
           sportColor: sport?.color || '',
-          isPrimary: index === 0,
+          isPrimary: selection.sportId === primarySportId,
         });
       });
 
@@ -109,7 +135,7 @@ export const useOnboardingSportsScreen = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedSports, user, updateUserSports, availableSports]);
+  }, [selectedSports, primarySportId, user, updateUserSports, availableSports]);
 
   const handleSkip = useCallback(() => {
     updateUserSports([]);
@@ -121,16 +147,18 @@ export const useOnboardingSportsScreen = () => {
 
   return {
     selectedSports,
-    currentStep,
+    modalVisible,
     currentSport,
     currentLevel,
+    currentIsPrimary,
+    primarySportId,
     availableSports,
     isLoading: isLoading || sportsLoading,
     error: error || sportsError,
     handleSelectSport,
     handleSelectLevel,
-    handleNext,
-    handleBack,
+    handleTogglePrimary,
+    handleCloseModal,
     handleFinish,
     handleSkip,
     handleExit,

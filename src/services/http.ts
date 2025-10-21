@@ -27,6 +27,7 @@ export interface UserData {
   email: string;
   phone?: string;
   birthDate?: string;
+  dateOfBirth?: string;
   gender?: 'male' | 'female' | 'other';
   bio?: string;
   profilePicture?: string;

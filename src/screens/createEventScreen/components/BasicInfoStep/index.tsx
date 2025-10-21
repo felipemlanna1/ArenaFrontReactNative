@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
@@ -6,6 +6,7 @@ import { DatePicker } from '@/components/ui/datePicker';
 import { Checkbox } from '@/components/ui/checkbox';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Label } from '@/components/ui/label';
+import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { DURATION_OPTIONS } from '@/screens/createEventScreen/typesCreateEventScreen';
 import { BasicInfoStepProps } from './typesBasicInfoStep';
 import { useBasicInfoStep } from './useBasicInfoStep';
@@ -24,6 +25,13 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
     showDescriptionField,
     setShowDescriptionField,
   } = useBasicInfoStep();
+
+  const handleSportToggle = useCallback(
+    (sportId: string) => {
+      onUpdate({ sportId });
+    },
+    [onUpdate]
+  );
 
   return (
     <ScrollView
@@ -53,37 +61,24 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
             {sportsError}
           </Text>
         ) : isEditMode && formData.sportId ? (
-          <View style={styles.sportsGrid}>
-            {sports
-              .filter(sport => sport.id === formData.sportId)
-              .map(sport => (
-                <Checkbox
-                  key={sport.id}
-                  variant="card"
-                  label={sport.name}
-                  checked={true}
-                  disabled={true}
-                  onPress={() => {}}
-                  testID={`sport-${sport.id}`}
-                />
-              ))}
+          <View>
+            <MultiSelectSports
+              sports={sports.filter(sport => sport.id === formData.sportId)}
+              selectedSportIds={[formData.sportId]}
+              onToggleSport={() => {}}
+              testID="basic-info-sports-disabled"
+            />
             <Text variant="captionSecondary" style={styles.editModeText}>
               Esporte não pode ser alterado após criação
             </Text>
           </View>
         ) : (
-          <View style={styles.sportsGrid}>
-            {sports.map(sport => (
-              <Checkbox
-                key={sport.id}
-                variant="card"
-                label={sport.name}
-                checked={formData.sportId === sport.id}
-                onPress={() => onUpdate({ sportId: sport.id })}
-                testID={`sport-${sport.id}`}
-              />
-            ))}
-          </View>
+          <MultiSelectSports
+            sports={sports}
+            selectedSportIds={formData.sportId ? [formData.sportId] : []}
+            onToggleSport={handleSportToggle}
+            testID="basic-info-sports"
+          />
         )}
         {errors.sportId && (
           <Text variant="captionError" style={styles.errorText}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
 import { SportsLoading } from '@/components/ui/sportsLoading';
@@ -7,6 +8,7 @@ import { SportCard } from '@/screens/onboardingSportsScreen/components/SportCard
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
 import { translateSkillLevel } from '@/utils/i18n/skillLevels';
+import { ArenaColors } from '@/constants';
 import { styles } from './stylesSportsSelection';
 
 interface SportsSelectionProps {
@@ -14,6 +16,7 @@ interface SportsSelectionProps {
   selectedSports: SportSelectionType[];
   onSelectSport: (sportId: string) => void;
   onRemoveSport: (sportId: string) => void;
+  primarySportId?: string | null;
   isLoading: boolean;
 }
 
@@ -22,6 +25,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
   selectedSports,
   onSelectSport,
   onRemoveSport,
+  primarySportId,
   isLoading,
 }) => {
   const selectedIds = selectedSports.map(s => s.sportId);
@@ -75,17 +79,29 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
             Selecionados ({selectedSports.length})
           </Text>
           <View style={styles.chipContainer}>
-            {selectedSports.map(sport => (
-              <Badge
-                key={sport.sportId}
-                variant="primary"
-                removable
-                onRemove={() => onRemoveSport(sport.sportId)}
-                testID={`badge-${sport.sportId}`}
-              >
-                {`${sport.sportName} - ${translateSkillLevel(sport.level)}`}
-              </Badge>
-            ))}
+            {selectedSports.map(sport => {
+              const isPrimary = sport.sportId === primarySportId;
+              return (
+                <View key={sport.sportId} style={styles.badgeWrapper}>
+                  {isPrimary && (
+                    <Ionicons
+                      name="star"
+                      size={12}
+                      color={ArenaColors.brand.primary}
+                      style={styles.starIcon}
+                    />
+                  )}
+                  <Badge
+                    variant="primary"
+                    removable
+                    onRemove={() => onRemoveSport(sport.sportId)}
+                    testID={`badge-${sport.sportId}`}
+                  >
+                    {`${sport.sportName} - ${translateSkillLevel(sport.level)}`}
+                  </Badge>
+                </View>
+              );
+            })}
           </View>
         </View>
       )}

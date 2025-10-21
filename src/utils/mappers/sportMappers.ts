@@ -7,7 +7,7 @@ export const skillLevelToBackend = (level: SkillLevel): string => {
     [SkillLevel.BEGINNER]: 'BEGINNER',
     [SkillLevel.INTERMEDIATE]: 'INTERMEDIATE',
     [SkillLevel.ADVANCED]: 'ADVANCED',
-    [SkillLevel.EXPERT]: 'PROFESSIONAL',
+    [SkillLevel.PROFESSIONAL]: 'PROFESSIONAL',
   };
   return mapping[level] || 'BEGINNER';
 };

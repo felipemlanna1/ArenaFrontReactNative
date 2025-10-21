@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '@/navigation/typesNavigation';
+import { SkillLevel } from '@/types/sport';
 
 export type CreateEventScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -26,13 +27,6 @@ export enum EventPrivacy {
   PUBLIC = 'PUBLIC',
   PRIVATE = 'PRIVATE',
   FRIENDS_ONLY = 'FRIENDS_ONLY',
-}
-
-export enum SkillLevel {
-  BEGINNER = 'BEGINNER',
-  INTERMEDIATE = 'INTERMEDIATE',
-  ADVANCED = 'ADVANCED',
-  PROFESSIONAL = 'PROFESSIONAL',
 }
 
 export enum FormStep {

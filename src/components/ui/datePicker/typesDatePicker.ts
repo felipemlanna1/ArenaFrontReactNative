@@ -35,4 +35,7 @@ export interface UseDatePickerReturn {
   isFocused: boolean;
   handlePress: () => void;
   handleChange: (event: unknown, selectedDate?: Date) => void;
+  handleConfirm: () => void;
+  handleCancel: () => void;
+  tempValue: Date | null;
 }

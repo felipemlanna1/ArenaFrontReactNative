@@ -10,8 +10,7 @@ const mapSkillLevel = (level: string): SkillLevel => {
     case 'ADVANCED':
       return SkillLevel.ADVANCED;
     case 'PROFESSIONAL':
-    case 'EXPERT':
-      return SkillLevel.EXPERT;
+      return SkillLevel.PROFESSIONAL;
     default:
       return SkillLevel.BEGINNER;
   }
@@ -37,7 +36,7 @@ export const convertUserSportToUserSportData = (
     [SkillLevel.BEGINNER]: 'BEGINNER',
     [SkillLevel.INTERMEDIATE]: 'INTERMEDIATE',
     [SkillLevel.ADVANCED]: 'ADVANCED',
-    [SkillLevel.EXPERT]: 'PROFESSIONAL',
+    [SkillLevel.PROFESSIONAL]: 'PROFESSIONAL',
   };
 
   return {

@@ -36,6 +36,14 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: ArenaSpacing.sm,
   },
+  badgeWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+  },
+  starIcon: {
+    marginRight: -ArenaSpacing.xs,
+  },
   loading: {
     paddingVertical: ArenaSpacing.xl,
     alignItems: 'center',

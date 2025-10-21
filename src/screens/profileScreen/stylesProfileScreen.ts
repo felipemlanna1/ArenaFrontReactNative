@@ -1,30 +1,72 @@
-import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { StyleSheet } from 'react-native';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
-interface Styles {
-  container: ViewStyle;
-  content: ViewStyle;
-  title: TextStyle;
-  subtitle: TextStyle;
-}
+const FAB_SIZE = 56;
+const FAB_POSITION = 24;
+const BACK_BUTTON_SIZE = 40;
+const BACK_BUTTON_TOP = 48;
+const CONTENT_BOTTOM_PADDING = 100;
+const SHADOW_OFFSET_HEIGHT = 4;
+const SHADOW_RADIUS = 8;
+const SHADOW_OPACITY = 0.3;
 
-export const styles = StyleSheet.create<Styles>({
+export const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: ArenaColors.neutral.darkest,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+  },
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: ArenaSpacing['2xl'],
+    backgroundColor: ArenaColors.neutral.darkest,
   },
-  content: {
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.lg,
+    backgroundColor: ArenaColors.neutral.darkest,
+    gap: ArenaSpacing.lg,
   },
-  title: {
-    color: ArenaColors.neutral.light,
+  errorText: {
     textAlign: 'center',
   },
-  subtitle: {
-    color: ArenaColors.neutral.medium,
-    textAlign: 'center',
+  contentContainer: {
+    paddingBottom: CONTENT_BOTTOM_PADDING,
+  },
+  backButton: {
+    position: 'absolute',
+    top: BACK_BUTTON_TOP,
+    left: ArenaSpacing.lg,
+    width: BACK_BUTTON_SIZE,
+    height: BACK_BUTTON_SIZE,
+    borderRadius: ArenaBorders.radius['3xl'],
+    backgroundColor: ArenaColors.neutral.darkMedium,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  fab: {
+    position: 'absolute',
+    right: FAB_POSITION,
+    bottom: FAB_POSITION,
+    width: FAB_SIZE,
+    height: FAB_SIZE,
+    borderRadius: ArenaBorders.radius.circle,
+    backgroundColor: ArenaColors.brand.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: ArenaColors.neutral.darkest,
+    shadowOffset: {
+      width: 0,
+      height: SHADOW_OFFSET_HEIGHT,
+    },
+    shadowOpacity: SHADOW_OPACITY,
+    shadowRadius: SHADOW_RADIUS,
   },
 });

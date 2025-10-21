@@ -12,6 +12,8 @@ export type RootStackParamList = {
     | { mode?: 'create' | 'edit'; eventId?: string; eventData?: Event }
     | undefined;
   EventDetails: { eventId: string };
+  Profile: { userId?: string } | undefined;
+  EditProfile: undefined;
 };
 
 export type TabParamList = {
@@ -39,5 +41,5 @@ export type NotificationsStackParamList = {
 };
 
 export type ProfileStackParamList = {
-  Profile: undefined;
+  Profile: { userId?: string } | undefined;
 };

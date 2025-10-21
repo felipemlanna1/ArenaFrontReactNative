@@ -1,4 +1,4 @@
-import { ViewProps } from 'react-native';
+import { ViewProps, ImageSourcePropType } from 'react-native';
 
 export type BadgeVariant =
   | 'default'
@@ -15,6 +15,7 @@ export interface BadgeProps extends Omit<ViewProps, 'style'> {
   removable?: boolean;
   onRemove?: () => void;
   children: string;
+  icon?: ImageSourcePropType;
   testID?: string;
 }
 

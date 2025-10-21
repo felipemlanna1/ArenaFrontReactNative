@@ -185,6 +185,30 @@ A regra `arena/arena-text-requires-variant` garante que todo `<Text>` tenha `var
 - **Neutra Média**: `ArenaColors.neutral.medium` (#B8B8B8)
 - **Neutra Clara**: `ArenaColors.neutral.light` (#FFFFFF)
 
+### 🎨 Ícones - SEMPRE Use @expo/vector-icons
+
+**REGRA CRÍTICA**: NUNCA use emojis (🏆, ✓, 👥, ⭐, etc.) como ícones. SEMPRE use componentes da biblioteca `@expo/vector-icons`.
+
+```tsx
+// ❌ ERRADO - Emojis como ícones
+<Text>🏆</Text>
+const icon = '⭐';
+
+// ✅ CORRETO - Ionicons da biblioteca
+import Ionicons from '@expo/vector-icons/Ionicons';
+<Ionicons name="trophy" size={20} color={ArenaColors.brand.primary} />
+<Ionicons name="star" size={24} color={ArenaColors.semantic.warning} />
+```
+
+**Bibliotecas Disponíveis**:
+- `Ionicons` (preferencial - mais completa)
+- `MaterialIcons`
+- `FontAwesome`
+- `FontAwesome5`
+- `Feather`
+
+**Regra ESLint**: `arena/arena-no-emoji-icons` bloqueia uso de emojis em props de ícones.
+
 ## 🚀 Padrões de Implementação
 
 ### Componentes
