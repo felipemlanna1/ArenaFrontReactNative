@@ -48,28 +48,24 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
       label: 'Eventos',
       value: stats.totalEvents.toString(),
       iconName: 'trophy',
-      color: ArenaColors.brand.primary,
     },
     {
       id: 'created',
       label: 'Criados',
       value: stats.createdEvents.toString(),
-      iconName: 'star',
-      color: ArenaColors.semantic.warning,
+      iconName: 'calendar',
     },
     {
       id: 'groups',
       label: 'Grupos',
       value: stats.totalGroups.toString(),
       iconName: 'people',
-      color: ArenaColors.neutral.light,
     },
     {
       id: 'friends',
       label: 'Amigos',
       value: stats.totalFriends.toString(),
-      iconName: 'person-add',
-      color: ArenaColors.brand.secondary,
+      iconName: 'people-outline',
     },
   ];
 
@@ -85,13 +81,13 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
               <Ionicons
                 name={card.iconName as keyof typeof Ionicons.glyphMap}
                 size={20}
-                color={card.color}
+                color={ArenaColors.neutral.medium}
               />
               <Text variant="captionSecondary" style={styles.statLabel}>
                 {card.label}
               </Text>
             </View>
-            <Text variant="headingPrimary" style={styles.statValue}>
+            <Text variant="titlePrimary" style={styles.statValue}>
               {card.value}
             </Text>
           </View>

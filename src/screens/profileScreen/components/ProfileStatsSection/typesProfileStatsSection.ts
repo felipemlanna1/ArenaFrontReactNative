@@ -19,5 +19,4 @@ export interface StatCardData {
   label: string;
   value: string;
   iconName: string;
-  color: string;
 }
