@@ -52,6 +52,9 @@ export const useEditProfileScreen = ({
     selectedSports: [],
     sportLevels: {},
     primarySportId: null,
+    state: '',
+    city: '',
+    isProfilePrivate: false,
   });
 
   const [errors, setErrors] = useState<EditProfileFormErrors>({});
@@ -87,6 +90,9 @@ export const useEditProfileScreen = ({
             selectedSports: userSportIds,
             sportLevels,
             primarySportId,
+            state: user.state || '',
+            city: user.city || '',
+            isProfilePrivate: user.isProfilePrivate || false,
           });
         }
       } catch {
@@ -193,6 +199,9 @@ export const useEditProfileScreen = ({
         bio: formData.bio.trim() || undefined,
         dateOfBirth: formData.birthDate?.toISOString() || undefined,
         gender: formData.gender || undefined,
+        state: formData.state || undefined,
+        city: formData.city || undefined,
+        isProfilePrivate: formData.isProfilePrivate,
       });
 
       if (formData.selectedSports.length > 0) {

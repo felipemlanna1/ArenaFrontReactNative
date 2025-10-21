@@ -18,6 +18,9 @@ export interface EditProfileFormData {
   selectedSports: string[];
   sportLevels: { [sportId: string]: SkillLevel };
   primarySportId: string | null;
+  state: string;
+  city: string;
+  isProfilePrivate: boolean;
 }
 
 export interface EditProfileFormErrors {
@@ -28,6 +31,8 @@ export interface EditProfileFormErrors {
   gender?: string;
   profilePicture?: string;
   coverPhoto?: string;
+  state?: string;
+  city?: string;
 }
 
 export interface ImagePickerResult {
