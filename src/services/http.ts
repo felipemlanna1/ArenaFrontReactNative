@@ -31,6 +31,9 @@ export interface UserData {
   gender?: 'male' | 'female' | 'other';
   bio?: string;
   profilePicture?: string;
+  city?: string;
+  state?: string;
+  isProfilePrivate: boolean;
   isActive: boolean;
   isEmailVerified: boolean;
   lastLoginAt?: string;
