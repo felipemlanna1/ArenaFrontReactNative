@@ -143,6 +143,7 @@ module.exports = [
       'eslint-rules/',
       'jest.setup.js',
       'jest.config.js',
+      'src/screens/componentsShowcaseScreen/**',
     ],
   },
 ];
