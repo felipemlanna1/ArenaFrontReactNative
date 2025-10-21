@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { EventTypeFilterProps, FilterOption } from './typesEventTypeFilter';
 import { useEventTypeFilter } from './useEventTypeFilter';
@@ -21,11 +21,7 @@ export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
 
   return (
     <View style={styles.container} testID={testID}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
+      <View style={styles.filtersRow}>
         {FILTER_OPTIONS.map(option => {
           const isActive = value === option.value;
           return (
@@ -44,7 +40,7 @@ export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
             </TouchableOpacity>
           );
         })}
-      </ScrollView>
+      </View>
     </View>
   );
 };

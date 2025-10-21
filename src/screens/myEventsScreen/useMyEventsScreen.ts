@@ -32,7 +32,7 @@ export const useMyEventsScreen = (): UseMyEventsScreenReturn => {
 
   useEffect(() => {
     loadEvents();
-  }, [loadEvents]);
+  }, [eventFilter, loadEvents]);
 
   const groupedEvents = useMemo(() => {
     return groupEventsByTime(events);

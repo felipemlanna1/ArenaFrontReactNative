@@ -5,20 +5,23 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
     paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.lg,
     borderBottomWidth: 1,
     borderBottomColor: ArenaColors.neutral.darkest,
   },
-  scrollContent: {
-    paddingHorizontal: ArenaSpacing.lg,
+  filtersRow: {
+    flexDirection: 'row',
     gap: ArenaSpacing.sm,
   },
   filterButton: {
-    paddingHorizontal: ArenaSpacing.md,
+    flex: 1,
     paddingVertical: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.pill,
     borderWidth: 1,
     borderColor: ArenaColors.neutral.medium,
     backgroundColor: ArenaColors.neutral.darkest,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   filterButtonActive: {
     backgroundColor: ArenaColors.brand.primary,
