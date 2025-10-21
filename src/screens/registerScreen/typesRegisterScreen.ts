@@ -12,6 +12,8 @@ export interface RegisterFormData {
   email: string;
   password: string;
   confirmPassword: string;
+  state: string;
+  city: string;
 }
 
 export interface RegisterErrors {
@@ -21,6 +23,8 @@ export interface RegisterErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  state?: string;
+  city?: string;
   general?: string;
 }
 
@@ -35,6 +39,8 @@ export interface UseRegisterScreenReturn {
   handleEmailChange: (text: string) => void;
   handlePasswordChange: (text: string) => void;
   handleConfirmPasswordChange: (text: string) => void;
+  handleStateChange: (state: string) => void;
+  handleCityChange: (city: string) => void;
   handleSubmit: () => Promise<void>;
   handleLoginPress: () => void;
 }

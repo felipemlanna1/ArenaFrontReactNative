@@ -63,6 +63,8 @@ export const useRegisterScreen = (
     email: '',
     password: '',
     confirmPassword: '',
+    state: '',
+    city: '',
   });
 
   const [errors, setErrors] = useState<RegisterErrors>({});
@@ -147,6 +149,26 @@ export const useRegisterScreen = (
       }
     },
     [errors.confirmPassword]
+  );
+
+  const handleStateChange = useCallback(
+    (state: string) => {
+      setFormData(prev => ({ ...prev, state, city: '' }));
+      if (errors.state) {
+        setErrors(prev => ({ ...prev, state: undefined }));
+      }
+    },
+    [errors.state]
+  );
+
+  const handleCityChange = useCallback(
+    (city: string) => {
+      setFormData(prev => ({ ...prev, city }));
+      if (errors.city) {
+        setErrors(prev => ({ ...prev, city: undefined }));
+      }
+    },
+    [errors.city]
   );
 
   const handleSubmit = useCallback(async () => {
@@ -239,6 +261,8 @@ export const useRegisterScreen = (
     handleEmailChange,
     handlePasswordChange,
     handleConfirmPasswordChange,
+    handleStateChange,
+    handleCityChange,
     handleSubmit,
     handleLoginPress,
   };
