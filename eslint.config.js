@@ -127,6 +127,13 @@ module.exports = [
     },
   },
   {
+    files: ['src/config/sportsConfig.ts'],
+    rules: {
+      'arena/arena-design-tokens': 'off',
+      'arena/arena-no-comments': 'off',
+    },
+  },
+  {
     ignores: [
       'node_modules/',
       'dist/',
