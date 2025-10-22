@@ -20,11 +20,23 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const [refreshing, setRefreshing] = useState(false);
   const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
 
+  // Filters state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedSportId, setSelectedSportId] = useState<string | undefined>(
+    undefined
+  );
+
   const fetchFriends = useCallback(async () => {
     try {
       setIsLoadingFriends(true);
       const response = await friendshipsApi.getFriends({
         status: FriendshipStatus.ACCEPTED,
+        query: searchQuery || undefined,
+        city: selectedCity || undefined,
+        state: selectedState || undefined,
+        sportId: selectedSportId,
       });
       setFriends(response.data);
     } catch (error) {
@@ -33,7 +45,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     } finally {
       setIsLoadingFriends(false);
     }
-  }, []);
+  }, [searchQuery, selectedCity, selectedState, selectedSportId]);
 
   const fetchIncomingRequests = useCallback(async () => {
     try {
@@ -173,6 +185,19 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     }
   }, [signOut]);
 
+  const handleClearFilters = useCallback(() => {
+    setSearchQuery('');
+    setSelectedCity('');
+    setSelectedState('');
+    setSelectedSportId(undefined);
+  }, []);
+
+  const hasActiveFilters =
+    searchQuery !== '' ||
+    selectedCity !== '' ||
+    selectedState !== '' ||
+    selectedSportId !== undefined;
+
   useEffect(() => {
     fetchFriends();
     fetchIncomingRequests();
@@ -195,5 +220,16 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     handleNavigateToProfile,
     loadingUserId,
     handleLogout,
+    // Filters
+    searchQuery,
+    setSearchQuery,
+    selectedCity,
+    setSelectedCity,
+    selectedState,
+    setSelectedState,
+    selectedSportId,
+    setSelectedSportId,
+    handleClearFilters,
+    hasActiveFilters,
   };
 };

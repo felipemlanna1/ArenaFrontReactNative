@@ -12,6 +12,7 @@ import {
   RequestsSection,
   RecommendationsSection,
 } from './components/FriendsSections';
+import { FriendsFilterBar } from './components/FriendsFilterBar';
 
 export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const {
@@ -30,6 +31,17 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleNavigateToProfile,
     loadingUserId,
     handleLogout,
+    // Filters
+    searchQuery,
+    setSearchQuery,
+    selectedCity,
+    setSelectedCity,
+    selectedState,
+    setSelectedState,
+    selectedSportId,
+    setSelectedSportId,
+    handleClearFilters,
+    hasActiveFilters,
   } = useFriendsScreen(navigation);
 
   const accordionItems = [
@@ -81,6 +93,19 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
           Amigos
         </Text>
       </View>
+
+      <FriendsFilterBar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        selectedCity={selectedCity}
+        onCityChange={setSelectedCity}
+        selectedState={selectedState}
+        onStateChange={setSelectedState}
+        selectedSportId={selectedSportId}
+        onSportChange={setSelectedSportId}
+        onClearFilters={handleClearFilters}
+        hasActiveFilters={hasActiveFilters}
+      />
 
       <ScrollView
         style={styles.content}

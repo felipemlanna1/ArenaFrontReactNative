@@ -20,4 +20,15 @@ export interface UseFriendsScreenReturn {
   handleNavigateToProfile: (userId: string) => void;
   loadingUserId: string | null;
   handleLogout: () => Promise<void>;
+  // Filters
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  selectedCity: string;
+  setSelectedCity: (city: string) => void;
+  selectedState: string;
+  setSelectedState: (state: string) => void;
+  selectedSportId: string | undefined;
+  setSelectedSportId: (sportId: string | undefined) => void;
+  handleClearFilters: () => void;
+  hasActiveFilters: boolean;
 }
