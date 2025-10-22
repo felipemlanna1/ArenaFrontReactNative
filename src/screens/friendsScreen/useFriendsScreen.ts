@@ -160,7 +160,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
 
   const handleNavigateToProfile = useCallback(
     (userId: string) => {
-      navigation.navigate('UserProfile', { userId });
+      navigation.navigate('Profile', { userId });
     },
     [navigation]
   );
