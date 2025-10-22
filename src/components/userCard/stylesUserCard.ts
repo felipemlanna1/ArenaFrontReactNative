@@ -3,41 +3,53 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   card: {
-    backgroundColor: ArenaColors.neutral.dark,
-    borderRadius: ArenaBorders.radius.lg,
-    borderWidth: 1,
-    borderColor: ArenaColors.neutral.medium,
-    padding: ArenaSpacing.md,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: ArenaSpacing.md,
+    gap: ArenaSpacing.md,
   },
   cardPressed: {
     opacity: 0.7,
   },
-  contentContainer: {
+  touchableContent: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: ArenaSpacing.md,
   },
   avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: ArenaColors.neutral.darker,
+    width: ArenaSpacing['4.5xl'],
+    height: ArenaSpacing['4.5xl'],
+    borderRadius: ArenaBorders.radius.circle,
+  },
+  avatarFallback: {
+    width: ArenaSpacing['4.5xl'],
+    height: ArenaSpacing['4.5xl'],
+    borderRadius: ArenaBorders.radius.circle,
+    backgroundColor: ArenaColors.brand.primarySubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarImage: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: ArenaSpacing['4.5xl'],
+    height: ArenaSpacing['4.5xl'],
+    borderRadius: ArenaBorders.radius.circle,
+  },
+  initialsText: {
+    color: ArenaColors.brand.primary,
   },
   infoContainer: {
     flex: 1,
-    gap: ArenaSpacing.xs,
+    gap: ArenaSpacing.micro,
   },
   nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.xs,
+    gap: ArenaSpacing.sm,
+    flexWrap: 'wrap',
+  },
+  chevronIcon: {
+    marginLeft: ArenaSpacing.micro,
   },
   locationRow: {
     flexDirection: 'row',
@@ -52,10 +64,13 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: ArenaSpacing.xs,
   },
+  username: {
+    color: ArenaColors.neutral.medium,
+  },
   actionsContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: ArenaSpacing.sm,
-    marginTop: ArenaSpacing.md,
+    minWidth: 100,
   },
   actionButton: {
     flex: 1,

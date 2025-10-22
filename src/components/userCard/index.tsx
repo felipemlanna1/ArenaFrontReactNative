@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable } from 'react-native';
+import { View, Pressable, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
@@ -41,43 +41,59 @@ export const UserCard: React.FC<UserCardProps> = ({
     isLoading,
   });
 
+  const getInitials = () => {
+    const names = displayName.split(' ');
+    if (names.length >= 2) {
+      return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+    }
+    return displayName.slice(0, 2).toUpperCase();
+  };
+
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={!onPress}
-      style={({ pressed }) => [
-        styles.card,
-        pressed && onPress && styles.cardPressed,
-      ]}
-      testID={testID}
-      accessibilityRole={onPress ? 'button' : 'none'}
-      accessibilityLabel={`${displayName}, ${displayLocation || 'sem localização'}`}
-    >
-      <View style={styles.contentContainer}>
-        <View style={styles.avatar}>
-          {user.profilePicture ? (
-            <OptimizedImage
-              source={{ uri: user.profilePicture }}
-              style={styles.avatarImage}
-              contentFit="cover"
-              priority="normal"
-            />
-          ) : (
-            <Ionicons
-              name="person"
-              size={28}
-              color={ArenaColors.neutral.medium}
-            />
-          )}
-        </View>
+    <View style={styles.card} testID={testID}>
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={!onPress}
+        style={styles.touchableContent}
+        activeOpacity={0.7}
+        accessibilityRole={onPress ? 'button' : 'none'}
+        accessibilityLabel={`${displayName}, ${displayLocation || 'sem localização'}`}
+      >
+        {user.profilePicture ? (
+          <OptimizedImage
+            source={{ uri: user.profilePicture }}
+            style={styles.avatarImage}
+            contentFit="cover"
+            priority="normal"
+          />
+        ) : (
+          <View style={styles.avatarFallback}>
+            <Text variant="bodyPrimary" style={styles.initialsText}>
+              {getInitials()}
+            </Text>
+          </View>
+        )}
 
         <View style={styles.infoContainer}>
           <View style={styles.nameRow}>
-            <Text variant="bodyPrimary">{displayName}</Text>
-            {user.username && (
-              <Text variant="captionSecondary">@{user.username}</Text>
+            <Text variant="bodyPrimary" numberOfLines={1}>
+              {displayName}
+            </Text>
+            {onPress && (
+              <Ionicons
+                name="chevron-forward"
+                size={16}
+                color={ArenaColors.neutral.medium}
+                style={styles.chevronIcon}
+              />
             )}
           </View>
+
+          {user.username && (
+            <Text variant="captionSecondary" style={styles.username}>
+              @{user.username}
+            </Text>
+          )}
 
           {displayLocation && (
             <View style={styles.locationRow}>
@@ -87,26 +103,28 @@ export const UserCard: React.FC<UserCardProps> = ({
                 color={ArenaColors.neutral.medium}
                 style={styles.locationIcon}
               />
-              <Text variant="captionSecondary">{displayLocation}</Text>
+              <Text variant="captionSecondary" numberOfLines={1}>
+                {displayLocation}
+              </Text>
             </View>
           )}
 
           {displaySports.length > 0 && (
             <View style={styles.sportsContainer}>
               {displaySports.map((sportName, index) => (
-                <Badge key={index} variant="secondary" size="sm">
+                <Badge key={index} variant="outlined" size="sm">
                   {sportName}
                 </Badge>
               ))}
               {user.sports && user.sports.length > 3 && (
-                <Badge variant="secondary" size="sm">
-                  +{user.sports.length - 3}
+                <Badge variant="outlined" size="sm">
+                  {"+" + (user.sports.length - 3).toString()}
                 </Badge>
               )}
             </View>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
 
       {hasActions && (
         <View style={styles.actionsContainer}>
@@ -116,7 +134,6 @@ export const UserCard: React.FC<UserCardProps> = ({
               size="sm"
               onPress={handleSecondaryAction}
               disabled={isLoading}
-              style={styles.actionButton}
               testID={testID ? `${testID}-secondary` : undefined}
             >
               {secondaryActionLabel}
@@ -128,14 +145,13 @@ export const UserCard: React.FC<UserCardProps> = ({
             onPress={handlePrimaryAction}
             loading={isLoading}
             disabled={isLoading}
-            style={styles.actionButton}
             testID={testID ? `${testID}-primary` : undefined}
           >
             {primaryActionLabel}
           </Button>
         </View>
       )}
-    </Pressable>
+    </View>
   );
 };
 
