@@ -24,6 +24,7 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
   username,
   age,
   gender,
+  city,
   sports,
   isEmailVerified,
   memberSince,
@@ -51,7 +52,7 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
         Membro desde {memberSince}
       </Text>
 
-      {(age !== null || gender !== null) && (
+      {(age !== null || gender !== null || city !== null) && (
         <View style={styles.detailsRow}>
           {age !== null && (
             <View style={styles.detailItem}>
@@ -72,6 +73,17 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
                 color={ArenaColors.neutral.medium}
               />
               <Text variant="captionSecondary">{gender}</Text>
+            </View>
+          )}
+
+          {city !== null && (
+            <View style={styles.detailItem}>
+              <Ionicons
+                name="location-outline"
+                size={16}
+                color={ArenaColors.neutral.medium}
+              />
+              <Text variant="captionSecondary">{city}</Text>
             </View>
           )}
         </View>

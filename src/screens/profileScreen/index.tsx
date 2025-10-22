@@ -102,6 +102,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             username={displayData.username}
             age={displayData.age}
             gender={displayData.gender}
+            city={displayData.city}
             sports={displayData.sports}
             isEmailVerified={user.isEmailVerified}
             memberSince={formatMemberSince(user.createdAt)}

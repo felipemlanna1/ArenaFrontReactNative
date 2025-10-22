@@ -32,6 +32,7 @@ export interface ProfileDisplayData {
   username: string;
   age: number | null;
   gender: string | null;
+  city: string | null;
   bio: string | null;
   avatarUrl: string | null;
   sports: SportBadgeData[];

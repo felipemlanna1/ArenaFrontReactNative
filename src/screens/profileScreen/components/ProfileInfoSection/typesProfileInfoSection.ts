@@ -5,6 +5,7 @@ export interface ProfileInfoSectionProps {
   username: string;
   age: number | null;
   gender: string | null;
+  city: string | null;
   sports: SportBadgeData[];
   isEmailVerified: boolean;
   memberSince: string;
