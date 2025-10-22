@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { friendshipsApi } from '@/services/friendships';
+import { FriendshipStatus } from '@/services/friendships/typesFriendships';
 import { UseFriendsScreenReturn } from './typesFriendsScreen';
 import { UserData } from '@/services/http';
 
@@ -10,6 +11,8 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const [friends, setFriends] = useState<UserData[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<UserData[]>([]);
   const [recommendations, setRecommendations] = useState<UserData[]>([]);
+  // Internal map to track friendshipId for each incoming request userId
+  const [requestsMap, setRequestsMap] = useState<Map<string, string>>(new Map());
 
   const [isLoadingFriends, setIsLoadingFriends] = useState(true);
   const [isLoadingRequests, setIsLoadingRequests] = useState(true);
@@ -20,7 +23,9 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const fetchFriends = useCallback(async () => {
     try {
       setIsLoadingFriends(true);
-      const response = await friendshipsApi.getFriends({ status: 'ACCEPTED' });
+      const response = await friendshipsApi.getFriends({
+        status: FriendshipStatus.ACCEPTED,
+      });
       setFriends(response.data);
     } catch (error) {
       console.error('Failed to fetch friends:', error);
@@ -33,11 +38,24 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const fetchIncomingRequests = useCallback(async () => {
     try {
       setIsLoadingRequests(true);
-      const response = await friendshipsApi.getIncomingRequests();
-      setIncomingRequests(response.data);
+      const friendships = await friendshipsApi.getIncomingRequests();
+      // Extract requester user data from each friendship (we are the addressee)
+      const users = friendships
+        .map(f => f.requester)
+        .filter((user): user is UserData => user !== undefined);
+      // Build map of userId -> friendshipId for later use
+      const newMap = new Map<string, string>();
+      friendships.forEach(f => {
+        if (f.requester?.id) {
+          newMap.set(f.requester.id, f.id);
+        }
+      });
+      setRequestsMap(newMap);
+      setIncomingRequests(users);
     } catch (error) {
       console.error('Failed to fetch requests:', error);
       setIncomingRequests([]);
+      setRequestsMap(new Map());
     } finally {
       setIsLoadingRequests(false);
     }
@@ -85,10 +103,15 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     async (userId: string) => {
       try {
         setLoadingUserId(userId);
-        const friendship = await friendshipsApi.getFriendshipStatus(userId);
-        if (friendship) {
-          await friendshipsApi.acceptFriendRequest(friendship.id);
+        const friendshipId = requestsMap.get(userId);
+        if (friendshipId) {
+          await friendshipsApi.acceptFriendRequest(friendshipId);
           setIncomingRequests(prev => prev.filter(r => r.id !== userId));
+          setRequestsMap(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(userId);
+            return newMap;
+          });
           await fetchFriends();
         }
       } catch (error) {
@@ -97,23 +120,31 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
         setLoadingUserId(null);
       }
     },
-    [fetchFriends]
+    [requestsMap, fetchFriends]
   );
 
-  const handleRejectRequest = useCallback(async (userId: string) => {
-    try {
-      setLoadingUserId(userId);
-      const friendship = await friendshipsApi.getFriendshipStatus(userId);
-      if (friendship) {
-        await friendshipsApi.rejectFriendRequest(friendship.id);
-        setIncomingRequests(prev => prev.filter(r => r.id !== userId));
+  const handleRejectRequest = useCallback(
+    async (userId: string) => {
+      try {
+        setLoadingUserId(userId);
+        const friendshipId = requestsMap.get(userId);
+        if (friendshipId) {
+          await friendshipsApi.rejectFriendRequest(friendshipId);
+          setIncomingRequests(prev => prev.filter(r => r.id !== userId));
+          setRequestsMap(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(userId);
+            return newMap;
+          });
+        }
+      } catch (error) {
+        console.error('Failed to reject request:', error);
+      } finally {
+        setLoadingUserId(null);
       }
-    } catch (error) {
-      console.error('Failed to reject request:', error);
-    } finally {
-      setLoadingUserId(null);
-    }
-  }, []);
+    },
+    [requestsMap]
+  );
 
   const handleSendRequest = useCallback(async (userId: string) => {
     try {
