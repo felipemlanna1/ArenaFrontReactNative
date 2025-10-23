@@ -1,9 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Card } from '@/components/ui/card';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { getSportIcon } from '@/config/sportIcons';
+import { ArenaColors } from '@/constants';
 import { styles } from './stylesSportCard';
 
 interface SportCardProps {
@@ -11,12 +13,13 @@ interface SportCardProps {
   sportName: string;
   sportIcon: string;
   isSelected: boolean;
+  isPrimary?: boolean;
   onPress: () => void;
   disabled?: boolean;
 }
 
 export const SportCard: React.FC<SportCardProps> = React.memo(
-  ({ sportName, sportIcon, isSelected, onPress, disabled = false }) => {
+  ({ sportName, sportIcon, isSelected, isPrimary = false, onPress, disabled = false }) => {
     const iconSource = getSportIcon(sportIcon);
 
     return (
@@ -28,9 +31,18 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
         onPress={onPress}
         disabled={disabled}
         accessibilityRole="button"
-        accessibilityLabel={`${sportName}${isSelected ? ', selecionado' : ''}`}
+        accessibilityLabel={`${sportName}${isSelected ? ', selecionado' : ''}${isPrimary ? ', favorito' : ''}`}
         accessibilityState={{ selected: isSelected }}
       >
+        {isPrimary && (
+          <View style={styles.primaryBadge}>
+            <Ionicons
+              name="star"
+              size={16}
+              color={ArenaColors.semantic.warning}
+            />
+          </View>
+        )}
         <View
           style={[
             styles.iconContainer,

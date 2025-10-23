@@ -68,6 +68,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
             sportName={sport.name}
             sportIcon={sport.icon}
             isSelected={selectedIds.includes(sport.id)}
+            isPrimary={sport.id === primarySportId}
             onPress={() => handleToggleSport(sport.id)}
           />
         ))}

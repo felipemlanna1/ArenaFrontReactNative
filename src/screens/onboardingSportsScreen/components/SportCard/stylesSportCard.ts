@@ -27,6 +27,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: ArenaSpacing.md,
     boxShadow: ArenaShadows.soft,
+    position: 'relative',
+  },
+  primaryBadge: {
+    position: 'absolute',
+    top: ArenaSpacing.xs,
+    right: ArenaSpacing.xs,
+    zIndex: 1,
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,

@@ -51,21 +51,19 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
   onClose,
   testID = 'skill-level-modal',
 }) => {
+  const [tempLevel, setTempLevel] = useState<SkillLevel | null>(currentLevel);
   const [tempIsPrimary, setTempIsPrimary] = useState(isPrimary);
 
   useEffect(() => {
+    setTempLevel(currentLevel);
     setTempIsPrimary(isPrimary);
-  }, [isPrimary, visible]);
+  }, [currentLevel, isPrimary, visible]);
 
   const handleSelectLevel = useCallback(
     (level: SkillLevel) => {
-      onSelectLevel(level);
-      if (onTogglePrimary) {
-        onTogglePrimary(tempIsPrimary);
-      }
-      onClose();
+      setTempLevel(level);
     },
-    [onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]
+    []
   );
 
   const handleTogglePrimary = useCallback(() => {
@@ -74,13 +72,13 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
 
   const handleConfirm = useCallback(() => {
     // Only allow confirm if a level has been selected
-    if (!currentLevel) {
+    if (!tempLevel) {
       onClose();
       return;
     }
 
-    // Call onSelectLevel with current level
-    onSelectLevel(currentLevel);
+    // Call onSelectLevel with selected level
+    onSelectLevel(tempLevel);
 
     // Update isPrimary state if changed
     if (onTogglePrimary) {
@@ -88,7 +86,7 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
     }
 
     onClose();
-  }, [currentLevel, onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]);
+  }, [tempLevel, onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]);
 
   return (
     <Modal
@@ -119,7 +117,7 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
               showsVerticalScrollIndicator={false}
             >
               {SKILL_LEVELS.map(option => {
-                const isSelected = option.level === currentLevel;
+                const isSelected = option.level === tempLevel;
                 return (
                   <TouchableOpacity
                     key={option.level}
