@@ -212,6 +212,8 @@ export const useRegisterScreen = (
         email: formData.email.trim(),
         password: formData.password,
         confirmPassword: formData.confirmPassword,
+        state: formData.state || undefined,
+        city: formData.city || undefined,
       });
     } catch (error: unknown) {
       if (error instanceof ApiError) {
