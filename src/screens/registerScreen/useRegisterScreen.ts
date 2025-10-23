@@ -204,17 +204,21 @@ export const useRegisterScreen = (
     setIsLoading(true);
     setErrors({});
 
+    const registerPayload = {
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      username: formData.username.trim(),
+      email: formData.email.trim(),
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+      state: formData.state?.trim() || undefined,
+      city: formData.city?.trim() || undefined,
+    };
+
+    console.log('[DEBUG Register] Sending payload:', JSON.stringify(registerPayload, null, 2));
+
     try {
-      await signUp({
-        firstName: formData.firstName.trim(),
-        lastName: formData.lastName.trim(),
-        username: formData.username.trim(),
-        email: formData.email.trim(),
-        password: formData.password,
-        confirmPassword: formData.confirmPassword,
-        state: formData.state || undefined,
-        city: formData.city || undefined,
-      });
+      await signUp(registerPayload);
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {
