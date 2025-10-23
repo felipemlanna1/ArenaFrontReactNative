@@ -66,15 +66,17 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
 
           return (
             <View key={sport.id} style={styles.sportCardWrapper}>
-              <SportCard
-                sportId={sport.id}
-                sportName={sport.name}
-                sportIcon={sport.icon}
-                skillLevel={selectedSport?.level}
-                isSelected={selectedIds.includes(sport.id)}
-                isPrimary={sport.id === primarySportId}
-                onPress={() => handleToggleSport(sport.id)}
-              />
+              <View style={styles.sportCardInner}>
+                <SportCard
+                  sportId={sport.id}
+                  sportName={sport.name}
+                  sportIcon={sport.icon}
+                  skillLevel={selectedSport?.level}
+                  isSelected={selectedIds.includes(sport.id)}
+                  isPrimary={sport.id === primarySportId}
+                  onPress={() => handleToggleSport(sport.id)}
+                />
+              </View>
             </View>
           );
         })}

@@ -84,6 +84,7 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
             styles.card,
             isSelected && styles.cardSelected,
             isPrimary && styles.cardPrimary,
+            { width: '100%', height: '100%' },
           ]}
           onPress={onPress}
           disabled={disabled}

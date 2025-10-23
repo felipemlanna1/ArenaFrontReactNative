@@ -3,12 +3,12 @@ import { ArenaSpacing, ArenaBorders, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   card: {
-    flex: 1,
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
     paddingVertical: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.md,
     gap: ArenaSpacing.sm,
+    minWidth: ArenaSpacing['2xl'] * 5,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.darkSubtleBorder,
   },

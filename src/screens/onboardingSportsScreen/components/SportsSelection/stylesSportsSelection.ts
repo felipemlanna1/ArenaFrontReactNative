@@ -31,6 +31,10 @@ export const styles = StyleSheet.create({
     width: CARD_WIDTH,
     aspectRatio: 1,
   },
+  sportCardInner: {
+    width: '100%',
+    height: '100%',
+  },
   selectedList: {
     marginTop: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.md,
