@@ -1,19 +1,16 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { Accordion } from '@/components/ui/accordion';
 import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
 import { Text } from '@/components/ui/text';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { styles } from './stylesFriendsScreen';
-import {
-  FriendsSection,
-  RequestsSection,
-  OutgoingRequestsSection,
-  RecommendationsSection,
-} from './components/FriendsSections';
 import { FriendsFilterBar } from './components/FriendsFilterBar';
+import { FriendsAccordionSection } from './components/FriendsAccordionSection';
+import { IncomingRequestsAccordionSection } from './components/IncomingRequestsAccordionSection';
+import { OutgoingRequestsAccordionSection } from './components/OutgoingRequestsAccordionSection';
+import { RecommendationsAccordionSection } from './components/RecommendationsAccordionSection';
 
 export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const {
@@ -46,62 +43,20 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     setSelectedSportId,
     handleClearFilters,
     hasActiveFilters,
+    // Pagination
+    hasMoreFriends,
+    hasMoreIncoming,
+    hasMoreOutgoing,
+    hasMoreRecommendations,
+    isLoadingMoreFriends,
+    isLoadingMoreIncoming,
+    isLoadingMoreOutgoing,
+    isLoadingMoreRecommendations,
+    handleLoadMoreFriends,
+    handleLoadMoreIncoming,
+    handleLoadMoreOutgoing,
+    handleLoadMoreRecommendations,
   } = useFriendsScreen(navigation);
-
-  const accordionItems = [
-    {
-      id: 'friends',
-      title: `Meus Amigos (${friends.length})`,
-      content: (
-        <FriendsSection
-          friends={friends}
-          isLoading={isLoadingFriends}
-          loadingUserId={loadingUserId}
-          onNavigateToProfile={handleNavigateToProfile}
-          onRemoveFriend={handleRemoveFriend}
-        />
-      ),
-    },
-    {
-      id: 'requests',
-      title: `Solicitações (${incomingRequests.length})`,
-      content: (
-        <RequestsSection
-          requests={incomingRequests}
-          isLoading={isLoadingRequests}
-          loadingUserId={loadingUserId}
-          onAcceptRequest={handleAcceptRequest}
-          onRejectRequest={handleRejectRequest}
-        />
-      ),
-    },
-    {
-      id: 'outgoing',
-      title: `Solicitados (${outgoingRequests.length})`,
-      content: (
-        <OutgoingRequestsSection
-          requests={outgoingRequests}
-          isLoading={isLoadingOutgoing}
-          loadingUserId={loadingUserId}
-          onNavigateToProfile={handleNavigateToProfile}
-          onCancelRequest={handleCancelRequest}
-        />
-      ),
-    },
-    {
-      id: 'recommendations',
-      title: `Recomendações (${recommendations.length})`,
-      content: (
-        <RecommendationsSection
-          recommendations={recommendations}
-          isLoading={isLoadingRecommendations}
-          loadingUserId={loadingUserId}
-          onNavigateToProfile={handleNavigateToProfile}
-          onSendRequest={handleSendRequest}
-        />
-      ),
-    },
-  ];
 
   return (
     <AppLayout onLogout={handleLogout}>
@@ -135,11 +90,48 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
         testID="friends-screen-scroll"
       >
         <View style={styles.accordionsContainer}>
-          <Accordion
-            variant="default"
-            mode="multiple"
-            items={accordionItems}
-            testID="friends-accordion"
+          <FriendsAccordionSection
+            friends={friends}
+            isLoading={isLoadingFriends}
+            isLoadingMore={isLoadingMoreFriends}
+            hasMore={hasMoreFriends}
+            loadingUserId={loadingUserId}
+            onNavigateToProfile={handleNavigateToProfile}
+            onRemoveFriend={handleRemoveFriend}
+            onLoadMore={handleLoadMoreFriends}
+          />
+
+          <IncomingRequestsAccordionSection
+            requests={incomingRequests}
+            isLoading={isLoadingRequests}
+            isLoadingMore={isLoadingMoreIncoming}
+            hasMore={hasMoreIncoming}
+            loadingUserId={loadingUserId}
+            onAcceptRequest={handleAcceptRequest}
+            onRejectRequest={handleRejectRequest}
+            onLoadMore={handleLoadMoreIncoming}
+          />
+
+          <OutgoingRequestsAccordionSection
+            requests={outgoingRequests}
+            isLoading={isLoadingOutgoing}
+            isLoadingMore={isLoadingMoreOutgoing}
+            hasMore={hasMoreOutgoing}
+            loadingUserId={loadingUserId}
+            onNavigateToProfile={handleNavigateToProfile}
+            onCancelRequest={handleCancelRequest}
+            onLoadMore={handleLoadMoreOutgoing}
+          />
+
+          <RecommendationsAccordionSection
+            recommendations={recommendations}
+            isLoading={isLoadingRecommendations}
+            isLoadingMore={isLoadingMoreRecommendations}
+            hasMore={hasMoreRecommendations}
+            loadingUserId={loadingUserId}
+            onNavigateToProfile={handleNavigateToProfile}
+            onSendRequest={handleSendRequest}
+            onLoadMore={handleLoadMoreRecommendations}
           />
         </View>
       </ScrollView>

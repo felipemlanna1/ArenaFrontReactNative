@@ -34,4 +34,17 @@ export interface UseFriendsScreenReturn {
   setSelectedSportId: (sportId: string | undefined) => void;
   handleClearFilters: () => void;
   hasActiveFilters: boolean;
+  // Pagination
+  hasMoreFriends: boolean;
+  hasMoreIncoming: boolean;
+  hasMoreOutgoing: boolean;
+  hasMoreRecommendations: boolean;
+  isLoadingMoreFriends: boolean;
+  isLoadingMoreIncoming: boolean;
+  isLoadingMoreOutgoing: boolean;
+  isLoadingMoreRecommendations: boolean;
+  handleLoadMoreFriends: () => void;
+  handleLoadMoreIncoming: () => void;
+  handleLoadMoreOutgoing: () => void;
+  handleLoadMoreRecommendations: () => void;
 }
