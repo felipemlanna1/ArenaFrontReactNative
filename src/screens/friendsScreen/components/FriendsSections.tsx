@@ -126,6 +126,47 @@ export const RequestsSection: React.FC<RequestsSectionProps> = ({
   );
 };
 
+interface OutgoingRequestsSectionProps {
+  requests: UserData[];
+  isLoading: boolean;
+  loadingUserId: string | null;
+  onNavigateToProfile: (userId: string) => void;
+  onCancelRequest: (userId: string) => void;
+}
+
+export const OutgoingRequestsSection: React.FC<OutgoingRequestsSectionProps> = ({
+  requests,
+  isLoading,
+  loadingUserId,
+  onNavigateToProfile,
+  onCancelRequest,
+}) => {
+  if (isLoading) return <LoadingState />;
+  if (requests.length === 0) {
+    return (
+      <EmptyState
+        icon="paper-plane-outline"
+        message="Nenhuma solicitação enviada"
+      />
+    );
+  }
+  return (
+    <View style={styles.userList}>
+      {requests.map(request => (
+        <UserCard
+          key={request.id}
+          user={request}
+          variant="outgoing"
+          onPress={() => onNavigateToProfile(request.id)}
+          onCancel={() => onCancelRequest(request.id)}
+          isLoading={loadingUserId === request.id}
+          testID={`outgoing-card-${request.id}`}
+        />
+      ))}
+    </View>
+  );
+};
+
 interface RecommendationsSectionProps {
   recommendations: UserData[];
   isLoading: boolean;

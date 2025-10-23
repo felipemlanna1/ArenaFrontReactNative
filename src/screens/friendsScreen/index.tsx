@@ -10,6 +10,7 @@ import { styles } from './stylesFriendsScreen';
 import {
   FriendsSection,
   RequestsSection,
+  OutgoingRequestsSection,
   RecommendationsSection,
 } from './components/FriendsSections';
 import { FriendsFilterBar } from './components/FriendsFilterBar';
@@ -18,15 +19,18 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const {
     friends,
     incomingRequests,
+    outgoingRequests,
     recommendations,
     isLoadingFriends,
     isLoadingRequests,
+    isLoadingOutgoing,
     isLoadingRecommendations,
     refreshing,
     handleRefresh,
     handleRemoveFriend,
     handleAcceptRequest,
     handleRejectRequest,
+    handleCancelRequest,
     handleSendRequest,
     handleNavigateToProfile,
     loadingUserId,
@@ -68,6 +72,19 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
           loadingUserId={loadingUserId}
           onAcceptRequest={handleAcceptRequest}
           onRejectRequest={handleRejectRequest}
+        />
+      ),
+    },
+    {
+      id: 'outgoing',
+      title: `Solicitados (${outgoingRequests.length})`,
+      content: (
+        <OutgoingRequestsSection
+          requests={outgoingRequests}
+          isLoading={isLoadingOutgoing}
+          loadingUserId={loadingUserId}
+          onNavigateToProfile={handleNavigateToProfile}
+          onCancelRequest={handleCancelRequest}
         />
       ),
     },

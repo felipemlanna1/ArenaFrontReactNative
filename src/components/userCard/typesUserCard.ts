@@ -1,6 +1,6 @@
 import { UserData } from '@/services/http';
 
-export type UserCardVariant = 'friend' | 'request' | 'recommendation';
+export type UserCardVariant = 'friend' | 'request' | 'outgoing' | 'recommendation';
 
 export interface UserCardProps {
   user: UserData;
@@ -8,6 +8,7 @@ export interface UserCardProps {
   onPress?: () => void;
   onAccept?: () => void;
   onReject?: () => void;
+  onCancel?: () => void;
   onRemove?: () => void;
   onAddFriend?: () => void;
   isLoading?: boolean;
@@ -19,6 +20,7 @@ export interface UseUserCardProps {
   variant: UserCardVariant;
   onAccept?: () => void;
   onReject?: () => void;
+  onCancel?: () => void;
   onRemove?: () => void;
   onAddFriend?: () => void;
   isLoading?: boolean;

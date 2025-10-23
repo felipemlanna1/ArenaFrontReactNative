@@ -6,6 +6,7 @@ export const useUserCard = ({
   variant,
   onAccept,
   onReject,
+  onCancel,
   onRemove,
   onAddFriend,
 }: UseUserCardProps): UseUserCardReturn => {
@@ -53,6 +54,13 @@ export const useUserCard = ({
           secondaryLabel: 'Recusar',
           isPrimaryDestructive: false,
         };
+      case 'outgoing':
+        return {
+          hasActions: true,
+          primaryAction: onCancel,
+          primaryLabel: 'Cancelar',
+          isPrimaryDestructive: true,
+        };
       case 'recommendation':
         return {
           hasActions: true,
@@ -67,7 +75,7 @@ export const useUserCard = ({
           isPrimaryDestructive: false,
         };
     }
-  }, [variant, onAccept, onReject, onRemove, onAddFriend]);
+  }, [variant, onAccept, onReject, onCancel, onRemove, onAddFriend]);
 
   return {
     displayName,

@@ -10,12 +10,15 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
 
   const [friends, setFriends] = useState<UserData[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<UserData[]>([]);
+  const [outgoingRequests, setOutgoingRequests] = useState<UserData[]>([]);
   const [allRecommendations, setAllRecommendations] = useState<UserData[]>([]);
-  // Internal map to track friendshipId for each incoming request userId
+  // Internal map to track friendshipId for each request userId
   const [requestsMap, setRequestsMap] = useState<Map<string, string>>(new Map());
+  const [outgoingMap, setOutgoingMap] = useState<Map<string, string>>(new Map());
 
   const [isLoadingFriends, setIsLoadingFriends] = useState(true);
   const [isLoadingRequests, setIsLoadingRequests] = useState(true);
+  const [isLoadingOutgoing, setIsLoadingOutgoing] = useState(true);
   const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
@@ -83,6 +86,32 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     }
   }, []);
 
+  const fetchOutgoingRequests = useCallback(async () => {
+    try {
+      setIsLoadingOutgoing(true);
+      const friendships = await friendshipsApi.getOutgoingRequests();
+      // Extract addressee user data from each friendship (we are the requester)
+      const users = friendships
+        .map(f => f.addressee)
+        .filter((user): user is UserData => user !== undefined);
+      // Build map of userId -> friendshipId for cancel action
+      const newMap = new Map<string, string>();
+      friendships.forEach(f => {
+        if (f.addressee?.id) {
+          newMap.set(f.addressee.id, f.id);
+        }
+      });
+      setOutgoingMap(newMap);
+      setOutgoingRequests(users);
+    } catch (error) {
+      console.error('Failed to fetch outgoing requests:', error);
+      setOutgoingRequests([]);
+      setOutgoingMap(new Map());
+    } finally {
+      setIsLoadingOutgoing(false);
+    }
+  }, []);
+
   const fetchRecommendations = useCallback(async () => {
     try {
       setIsLoadingRecommendations(true);
@@ -101,10 +130,11 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     await Promise.all([
       fetchFriends(),
       fetchIncomingRequests(),
+      fetchOutgoingRequests(),
       fetchRecommendations(),
     ]);
     setRefreshing(false);
-  }, [fetchFriends, fetchIncomingRequests, fetchRecommendations]);
+  }, [fetchFriends, fetchIncomingRequests, fetchOutgoingRequests, fetchRecommendations]);
 
   const handleRemoveFriend = useCallback(
     async (userId: string) => {
@@ -166,6 +196,29 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
       }
     },
     [requestsMap]
+  );
+
+  const handleCancelRequest = useCallback(
+    async (userId: string) => {
+      try {
+        setLoadingUserId(userId);
+        const friendshipId = outgoingMap.get(userId);
+        if (friendshipId) {
+          await friendshipsApi.cancelFriendRequest(friendshipId);
+          setOutgoingRequests(prev => prev.filter(r => r.id !== userId));
+          setOutgoingMap(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(userId);
+            return newMap;
+          });
+        }
+      } catch (error) {
+        console.error('Failed to cancel request:', error);
+      } finally {
+        setLoadingUserId(null);
+      }
+    },
+    [outgoingMap]
   );
 
   const handleSendRequest = useCallback(async (userId: string) => {
@@ -257,8 +310,9 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   // Initial load
   useEffect(() => {
     fetchIncomingRequests();
+    fetchOutgoingRequests();
     fetchRecommendations();
-  }, [fetchIncomingRequests, fetchRecommendations]);
+  }, [fetchIncomingRequests, fetchOutgoingRequests, fetchRecommendations]);
 
   // Refetch friends when filters change
   useEffect(() => {
@@ -268,15 +322,18 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   return {
     friends,
     incomingRequests,
+    outgoingRequests,
     recommendations,
     isLoadingFriends,
     isLoadingRequests,
+    isLoadingOutgoing,
     isLoadingRecommendations,
     refreshing,
     handleRefresh,
     handleRemoveFriend,
     handleAcceptRequest,
     handleRejectRequest,
+    handleCancelRequest,
     handleSendRequest,
     handleNavigateToProfile,
     loadingUserId,
