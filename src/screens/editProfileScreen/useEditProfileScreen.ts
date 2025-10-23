@@ -65,6 +65,8 @@ export const useEditProfileScreen = ({
     const loadData = async () => {
       try {
         if (user && !sportsLoading) {
+          console.log('[DEBUG EditProfile] User data:', JSON.stringify(user, null, 2));
+
           const userSportIds = user.sports?.map(s => s.sportId) || [];
 
           const sportLevels: { [sportId: string]: SkillLevel } = {};
@@ -79,7 +81,7 @@ export const useEditProfileScreen = ({
 
           const dateOfBirthValue = user.dateOfBirth || user.birthDate || null;
 
-          setFormData({
+          const loadedFormData = {
             firstName: user.firstName || '',
             lastName: user.lastName || '',
             bio: user.bio || '',
@@ -93,9 +95,14 @@ export const useEditProfileScreen = ({
             state: user.state || '',
             city: user.city || '',
             isProfilePrivate: user.isProfilePrivate || false,
-          });
+          };
+
+          console.log('[DEBUG EditProfile] Form data to load:', JSON.stringify(loadedFormData, null, 2));
+
+          setFormData(loadedFormData);
         }
-      } catch {
+      } catch (error) {
+        console.error('[ERROR EditProfile] Failed to load data:', error);
         showError('Erro ao carregar dados');
       } finally {
         setIsLoading(false);

@@ -58,16 +58,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       ]);
 
       if (isAuthenticated && storedUser) {
-        const userWithSports: UserData = {
-          ...storedUser,
-          hasSports: Boolean(
-            storedUser.hasSports ||
-              (storedUser.sports && storedUser.sports.length > 0)
-          ),
-        };
-        setUser(userWithSports);
+        console.log('[DEBUG Auth] Stored user data:', JSON.stringify(storedUser, null, 2));
+
+        // Fetch fresh data from backend to ensure all fields are up-to-date
+        try {
+          const freshUserData = await httpService.get<UserData>(`/users/${storedUser.id}`);
+          console.log('[DEBUG Auth] Fresh user data from backend:', JSON.stringify(freshUserData, null, 2));
+
+          const userWithSports: UserData = {
+            ...freshUserData,
+            hasSports: Boolean(
+              freshUserData.hasSports ||
+                (freshUserData.sports && freshUserData.sports.length > 0)
+            ),
+          };
+
+          setUser(userWithSports);
+          await httpService.saveUserData(userWithSports);
+        } catch (fetchError) {
+          console.warn('[WARN Auth] Failed to fetch fresh data, using stored:', fetchError);
+
+          // Fallback to stored data with migration
+          const userWithSports: UserData = {
+            ...storedUser,
+            hasSports: Boolean(
+              storedUser.hasSports ||
+                (storedUser.sports && storedUser.sports.length > 0)
+            ),
+            isProfilePrivate: storedUser.isProfilePrivate ?? false,
+          };
+
+          setUser(userWithSports);
+        }
       }
-    } catch {
+    } catch (error) {
+      console.error('[ERROR Auth] Failed to load stored auth:', error);
       await httpService.clearAuthData();
     } finally {
       setIsLoading(false);
