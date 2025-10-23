@@ -58,6 +58,7 @@ export interface LoginUserData {
   isEmailVerified: boolean;
   sports?: UserSportData[];
   hasSports?: boolean;
+  isProfilePrivate?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

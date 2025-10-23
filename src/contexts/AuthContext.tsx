@@ -111,6 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         ...response.user,
         sports: response.user.sports || [],
         hasSports: response.user.hasSports || false,
+        isProfilePrivate: response.user.isProfilePrivate ?? false,
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
@@ -136,18 +137,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signUp = useCallback(async (data: RegisterData) => {
     try {
+      console.log('[DEBUG Auth] SignUp starting...');
       const response = await authService.register(data);
+      console.log('[DEBUG Auth] SignUp response received');
 
       const userData: UserData = {
         ...response.user,
         sports: response.user.sports || [],
+        isProfilePrivate: response.user.isProfilePrivate ?? false,
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
 
       setUser(userData);
-    } catch {
-      throw new Error('Falha no cadastro');
+      console.log('[DEBUG Auth] User set successfully');
+    } catch (error) {
+      console.error('[ERROR Auth] SignUp failed:', error);
+      throw error; // Re-throw the original error instead of generic message
     }
   }, []);
 
