@@ -219,7 +219,10 @@ export const useRegisterScreen = (
 
     try {
       await signUp(registerPayload);
+      console.log('[DEBUG Register] SignUp successful');
     } catch (error: unknown) {
+      console.error('[ERROR Register] SignUp failed:', error);
+
       if (error instanceof ApiError) {
         switch (error.status) {
           case 400:

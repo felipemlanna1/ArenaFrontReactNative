@@ -36,12 +36,6 @@ export const styles = StyleSheet.create({
     top: ArenaSpacing.xs,
     right: ArenaSpacing.xs,
     zIndex: 10,
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderRadius: 12,
-    width: 24,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,

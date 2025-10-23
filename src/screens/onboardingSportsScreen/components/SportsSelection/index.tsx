@@ -30,14 +30,6 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
 }) => {
   const selectedIds = selectedSports.map(s => s.sportId);
 
-  // Debug log
-  console.log('[SportsSelection] primarySportId:', primarySportId);
-  console.log('[SportsSelection] selectedSports:', selectedSports.map(s => ({
-    name: s.sportName,
-    id: s.sportId,
-    isPrimary: s.isPrimary
-  })));
-
   const handleToggleSport = (sportId: string) => {
     if (selectedIds.includes(sportId)) {
       onRemoveSport(sportId);
