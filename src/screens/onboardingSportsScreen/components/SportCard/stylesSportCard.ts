@@ -15,6 +15,10 @@ const cardWidth =
   (width - ArenaSpacing.lg * 2 - ArenaSpacing.md * 2) / CARDS_PER_ROW;
 const iconSize = cardWidth * ICON_SIZE_RATIO;
 export const styles = StyleSheet.create({
+  wrapper: {
+    position: 'relative',
+    marginBottom: ArenaSpacing.md,
+  },
   container: {
     width: cardWidth,
     aspectRatio: 1,
@@ -25,15 +29,19 @@ export const styles = StyleSheet.create({
     padding: ArenaSpacing.sm,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: ArenaSpacing.md,
     boxShadow: ArenaShadows.soft,
-    position: 'relative',
   },
   primaryBadge: {
     position: 'absolute',
     top: ArenaSpacing.xs,
     right: ArenaSpacing.xs,
-    zIndex: 1,
+    zIndex: 10,
+    backgroundColor: ArenaColors.neutral.darkest,
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   selectedContainer: {
     borderColor: ArenaColors.brand.primary,

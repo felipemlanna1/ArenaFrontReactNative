@@ -23,18 +23,8 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
     const iconSource = getSportIcon(sportIcon);
 
     return (
-      <Card
-        style={[
-          styles.container,
-          ...(isSelected ? [styles.selectedContainer] : []),
-        ]}
-        onPress={onPress}
-        disabled={disabled}
-        accessibilityRole="button"
-        accessibilityLabel={`${sportName}${isSelected ? ', selecionado' : ''}${isPrimary ? ', favorito' : ''}`}
-        accessibilityState={{ selected: isSelected }}
-      >
-        {isPrimary && (
+      <View style={styles.wrapper}>
+        {isPrimary && isSelected && (
           <View style={styles.primaryBadge}>
             <Ionicons
               name="star"
@@ -43,31 +33,43 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
             />
           </View>
         )}
-        <View
+        <Card
           style={[
-            styles.iconContainer,
-            ...(!isSelected ? [styles.iconUnselected] : []),
+            styles.container,
+            ...(isSelected ? [styles.selectedContainer] : []),
           ]}
+          onPress={onPress}
+          disabled={disabled}
+          accessibilityRole="button"
+          accessibilityLabel={`${sportName}${isSelected ? ', selecionado' : ''}${isPrimary ? ', favorito' : ''}`}
+          accessibilityState={{ selected: isSelected }}
         >
-          <OptimizedImage
-            source={iconSource}
-            style={styles.icon}
-            contentFit="contain"
-            priority="high"
-            showLoading={false}
-          />
-        </View>
-        <Text
-          variant="bodyPrimary"
-          style={[
-            styles.label,
-            ...(isSelected ? [styles.labelSelected] : [styles.labelUnselected]),
-          ]}
-          numberOfLines={2}
-        >
-          {sportName}
-        </Text>
-      </Card>
+          <View
+            style={[
+              styles.iconContainer,
+              ...(!isSelected ? [styles.iconUnselected] : []),
+            ]}
+          >
+            <OptimizedImage
+              source={iconSource}
+              style={styles.icon}
+              contentFit="contain"
+              priority="high"
+              showLoading={false}
+            />
+          </View>
+          <Text
+            variant="bodyPrimary"
+            style={[
+              styles.label,
+              ...(isSelected ? [styles.labelSelected] : [styles.labelUnselected]),
+            ]}
+            numberOfLines={2}
+          >
+            {sportName}
+          </Text>
+        </Card>
+      </View>
     );
   }
 );

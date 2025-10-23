@@ -57,8 +57,13 @@ export const useOnboardingSportsScreen = () => {
         return [...filtered, newSelection];
       });
 
+      // Update primary sport ID based on currentIsPrimary
       if (currentIsPrimary) {
+        // Set this sport as primary
         setPrimarySportId(currentSport.id);
+      } else if (primarySportId === currentSport.id) {
+        // If this sport was primary and now is not, clear primary
+        setPrimarySportId(null);
       }
 
       setModalVisible(false);
@@ -66,7 +71,7 @@ export const useOnboardingSportsScreen = () => {
       setCurrentLevel(null);
       setCurrentIsPrimary(false);
     },
-    [currentSport, currentIsPrimary]
+    [currentSport, currentIsPrimary, primarySportId]
   );
 
   const handleTogglePrimary = useCallback((isPrimary: boolean) => {
