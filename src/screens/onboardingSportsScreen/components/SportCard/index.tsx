@@ -28,7 +28,7 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
           <Ionicons
             name="star"
             size={20}
-            color={ArenaColors.semantic.warning}
+            color={ArenaColors.brand.primary}
             style={styles.primaryBadge}
           />
         )}
