@@ -80,7 +80,11 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
     if (onPress && !disabled) {
       return (
         <TouchableOpacity
-          style={[styles.card, isPrimary && styles.cardPrimary]}
+          style={[
+            styles.card,
+            isSelected && styles.cardSelected,
+            isPrimary && styles.cardPrimary,
+          ]}
           onPress={onPress}
           disabled={disabled}
           activeOpacity={0.7}

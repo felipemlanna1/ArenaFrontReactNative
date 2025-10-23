@@ -1,5 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
+
+const { width } = Dimensions.get('window');
+const GRID_COLUMNS = 3;
+const GRID_GAP = ArenaSpacing.md;
+const HORIZONTAL_PADDING = ArenaSpacing.lg;
+const CARD_WIDTH = (width - HORIZONTAL_PADDING * 2 - GRID_GAP * (GRID_COLUMNS - 1)) / GRID_COLUMNS;
 
 export const styles = StyleSheet.create({
   container: {
@@ -19,7 +25,11 @@ export const styles = StyleSheet.create({
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    gap: GRID_GAP,
+  },
+  sportCardWrapper: {
+    width: CARD_WIDTH,
+    aspectRatio: 1,
   },
   selectedList: {
     marginTop: ArenaSpacing.lg,

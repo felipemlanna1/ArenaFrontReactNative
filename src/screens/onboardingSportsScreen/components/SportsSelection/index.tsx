@@ -61,17 +61,23 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
       </View>
 
       <View style={styles.gridContainer}>
-        {availableSports.map(sport => (
-          <SportCard
-            key={sport.id}
-            sportId={sport.id}
-            sportName={sport.name}
-            sportIcon={sport.icon}
-            isSelected={selectedIds.includes(sport.id)}
-            isPrimary={sport.id === primarySportId}
-            onPress={() => handleToggleSport(sport.id)}
-          />
-        ))}
+        {availableSports.map(sport => {
+          const selectedSport = selectedSports.find(s => s.sportId === sport.id);
+
+          return (
+            <View key={sport.id} style={styles.sportCardWrapper}>
+              <SportCard
+                sportId={sport.id}
+                sportName={sport.name}
+                sportIcon={sport.icon}
+                skillLevel={selectedSport?.level}
+                isSelected={selectedIds.includes(sport.id)}
+                isPrimary={sport.id === primarySportId}
+                onPress={() => handleToggleSport(sport.id)}
+              />
+            </View>
+          );
+        })}
       </View>
 
       {selectedSports.length > 0 && (
