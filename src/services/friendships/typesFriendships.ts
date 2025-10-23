@@ -27,6 +27,13 @@ export interface UpdateFriendshipDto {
   status: FriendshipStatus.ACCEPTED | FriendshipStatus.REJECTED | FriendshipStatus.BLOCKED;
 }
 
+export enum FriendshipType {
+  FRIENDS = 'friends',
+  INCOMING = 'incoming',
+  OUTGOING = 'outgoing',
+  RECOMMENDATIONS = 'recommendations',
+}
+
 export interface FriendshipFilter {
   status?: FriendshipStatus;
   query?: string;
@@ -35,6 +42,24 @@ export interface FriendshipFilter {
   sportId?: string;
   page?: number;
   limit?: number;
+}
+
+export interface UnifiedFriendshipFilter {
+  type: FriendshipType;
+  query?: string;
+  city?: string;
+  state?: string;
+  sportId?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface PaginatedUsersResponse {
+  data: UserData[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
 }
 
 export interface FriendsListResponse {

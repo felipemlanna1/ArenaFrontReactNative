@@ -4,11 +4,44 @@ import {
   SendFriendRequestDto,
   UpdateFriendshipDto,
   FriendshipFilter,
+  FriendshipType,
+  UnifiedFriendshipFilter,
+  PaginatedUsersResponse,
   FriendsListResponse,
 } from './typesFriendships';
 
 class FriendshipsApi {
   private basePath = '/friendships';
+
+  /**
+   * Unified method to get users by type with pagination
+   */
+  async getUsers(
+    type: FriendshipType,
+    filters: Omit<UnifiedFriendshipFilter, 'type'> = {},
+    page: number = 1,
+    limit: number = 20
+  ): Promise<PaginatedUsersResponse> {
+    const params: Record<string, string> = {
+      type,
+      page: page.toString(),
+      limit: limit.toString(),
+    };
+
+    // Only add filters if NOT outgoing (as per specification)
+    if (type !== FriendshipType.OUTGOING) {
+      if (filters.query) params.query = filters.query;
+      if (filters.city) params.city = filters.city;
+      if (filters.state) params.state = filters.state;
+      if (filters.sportId) params.sportId = filters.sportId;
+    }
+
+    const queryString = new URLSearchParams(params).toString();
+    const url = `${this.basePath}?${queryString}`;
+
+    const response = await httpService.get<PaginatedUsersResponse>(url);
+    return response;
+  }
 
   async sendFriendRequest(dto: SendFriendRequestDto): Promise<Friendship> {
     const response = await httpService.post<Friendship>(
@@ -45,6 +78,9 @@ class FriendshipsApi {
     return response;
   }
 
+  /**
+   * @deprecated Use getUsers(FriendshipType.FRIENDS, filters, page, limit) instead
+   */
   async getFriends(filters: FriendshipFilter = {}): Promise<FriendsListResponse> {
     const params: Record<string, string> = {};
 
@@ -62,6 +98,9 @@ class FriendshipsApi {
     return response;
   }
 
+  /**
+   * @deprecated Use getUsers(FriendshipType.INCOMING, {}, page, limit) instead
+   */
   async getIncomingRequests(): Promise<Friendship[]> {
     const response = await httpService.get<Friendship[]>(
       `${this.basePath}/requests/incoming`
@@ -69,6 +108,9 @@ class FriendshipsApi {
     return response;
   }
 
+  /**
+   * @deprecated Use getUsers(FriendshipType.OUTGOING, {}, page, limit) instead
+   */
   async getOutgoingRequests(): Promise<Friendship[]> {
     const response = await httpService.get<Friendship[]>(
       `${this.basePath}/requests/outgoing`
@@ -103,6 +145,9 @@ class FriendshipsApi {
     return response;
   }
 
+  /**
+   * @deprecated Use getUsers(FriendshipType.RECOMMENDATIONS, filters, page, limit) instead
+   */
   async getRecommendations(
     filters: FriendshipFilter = {},
     limit: number = 20
