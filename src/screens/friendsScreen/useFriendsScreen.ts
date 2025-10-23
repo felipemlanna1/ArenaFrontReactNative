@@ -119,13 +119,16 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
         20
       );
       console.log('[DEBUG] Incoming response:', response);
+      console.log('[DEBUG] Incoming response.data.length:', response.data?.length);
+      console.log('[DEBUG] Incoming response.total:', response.total);
+      console.log('[DEBUG] Incoming response.hasMore:', response.hasMore);
 
       // For incoming, we still need to get friendships to build the map
       // But the new API returns users directly, so we need to fetch friendships separately
       // For now, we'll use the old API for mapping
       if (page === 1) {
         const friendships = await friendshipsApi.getIncomingRequests();
-        console.log('[DEBUG] Incoming friendships for map:', friendships.length);
+        console.log('[DEBUG] Incoming friendships for map (old API):', friendships.length);
         const newMap = new Map<string, string>();
         friendships.forEach(f => {
           if (f.requester?.id) {
@@ -133,6 +136,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
           }
         });
         setRequestsMap(newMap);
+        console.log('[DEBUG] Setting incoming requests to:', response.data.length, 'users');
         setIncomingRequests(response.data);
       } else {
         setIncomingRequests(prev => [...prev, ...response.data]);
