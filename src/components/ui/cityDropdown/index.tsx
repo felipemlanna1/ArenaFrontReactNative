@@ -152,7 +152,7 @@ export const CityDropdown: React.FC<CityDropdownProps> = ({
         accessibilityState={{ disabled: isDisabled }}
       >
         <Text
-          variant={value ? 'bodyPrimary' : 'placeholderPrimary'}
+          variant={value ? 'bodyPrimary' : 'bodyMuted'}
           style={styles.placeholder}
         >
           {value || effectivePlaceholder}
@@ -171,7 +171,7 @@ export const CityDropdown: React.FC<CityDropdownProps> = ({
       </TouchableOpacity>
 
       {error && typeof error === 'string' && (
-        <Text variant="errorSecondary" style={styles.errorText}>
+        <Text variant="bodyError" style={styles.errorText}>
           {error}
         </Text>
       )}

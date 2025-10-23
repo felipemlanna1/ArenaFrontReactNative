@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   inputContainerDisabled: {
     opacity: 0.5,
-    backgroundColor: ArenaColors.neutral.darker,
+    backgroundColor: ArenaColors.neutral.dark,
   },
   placeholder: {
     flex: 1,
@@ -74,10 +74,10 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.md,
   },
   cityItemPressed: {
-    backgroundColor: ArenaColors.neutral.darker,
+    backgroundColor: ArenaColors.neutral.dark,
   },
   cityItemSelected: {
-    backgroundColor: ArenaColors.brand.primaryDark,
+    backgroundColor: ArenaColors.brand.primary,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],

@@ -58,7 +58,7 @@ export const StateDropdown: React.FC<StateDropdownProps> = ({
         accessibilityState={{ disabled }}
       >
         <Text
-          variant={selectedState ? 'bodyPrimary' : 'placeholderPrimary'}
+          variant={selectedState ? 'bodyPrimary' : 'bodyMuted'}
           style={styles.placeholder}
         >
           {selectedState ? `${selectedState.name} - ${selectedState.uf}` : placeholder}
@@ -73,7 +73,7 @@ export const StateDropdown: React.FC<StateDropdownProps> = ({
       </TouchableOpacity>
 
       {error && typeof error === 'string' && (
-        <Text variant="errorSecondary" style={styles.errorText}>
+        <Text variant="bodyError" style={styles.errorText}>
           {error}
         </Text>
       )}
