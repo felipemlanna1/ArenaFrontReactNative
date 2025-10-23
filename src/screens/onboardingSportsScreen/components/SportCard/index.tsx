@@ -22,6 +22,11 @@ export const SportCard: React.FC<SportCardProps> = React.memo(
   ({ sportName, sportIcon, isSelected, isPrimary = false, onPress, disabled = false }) => {
     const iconSource = getSportIcon(sportIcon);
 
+    // Debug log
+    if (sportName === 'Musculação') {
+      console.log(`[SportCard ${sportName}] isSelected:`, isSelected, 'isPrimary:', isPrimary);
+    }
+
     return (
       <View style={styles.wrapper}>
         {isPrimary && isSelected && (

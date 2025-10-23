@@ -77,16 +77,12 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
       return;
     }
 
-    // Call onSelectLevel with selected level
-    onSelectLevel(tempLevel);
-
-    // Update isPrimary state if changed
-    if (onTogglePrimary) {
-      onTogglePrimary(tempIsPrimary);
-    }
+    // Call onSelectLevel with selected level AND isPrimary value
+    // Pass tempIsPrimary directly to avoid React state batching issues
+    onSelectLevel(tempLevel, tempIsPrimary);
 
     onClose();
-  }, [tempLevel, onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]);
+  }, [tempLevel, tempIsPrimary, onSelectLevel, onClose]);
 
   return (
     <Modal
