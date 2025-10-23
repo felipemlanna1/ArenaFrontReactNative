@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { friendshipsApi } from '@/services/friendships';
 import { FriendshipStatus } from '@/services/friendships/typesFriendships';
@@ -11,7 +11,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const [friends, setFriends] = useState<UserData[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<UserData[]>([]);
   const [outgoingRequests, setOutgoingRequests] = useState<UserData[]>([]);
-  const [allRecommendations, setAllRecommendations] = useState<UserData[]>([]);
+  const [recommendations, setRecommendations] = useState<UserData[]>([]);
   // Internal map to track friendshipId for each request userId
   const [requestsMap, setRequestsMap] = useState<Map<string, string>>(new Map());
   const [outgoingMap, setOutgoingMap] = useState<Map<string, string>>(new Map());
@@ -115,15 +115,20 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const fetchRecommendations = useCallback(async () => {
     try {
       setIsLoadingRecommendations(true);
-      const users = await friendshipsApi.getRecommendations(50);
-      setAllRecommendations(users);
+      const users = await friendshipsApi.getRecommendations({
+        query: debouncedSearchQuery || undefined,
+        city: selectedCity || undefined,
+        state: selectedState || undefined,
+        sportId: selectedSportId,
+      }, 50);
+      setRecommendations(users);
     } catch (error) {
       console.error('Failed to fetch recommendations:', error);
-      setAllRecommendations([]);
+      setRecommendations([]);
     } finally {
       setIsLoadingRecommendations(false);
     }
-  }, []);
+  }, [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]);
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -225,7 +230,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     try {
       setLoadingUserId(userId);
       await friendshipsApi.sendFriendRequest({ addresseeId: userId });
-      setAllRecommendations((prev: UserData[]) =>
+      setRecommendations((prev: UserData[]) =>
         prev.filter((r: UserData) => r.id !== userId)
       );
     } catch (error) {
@@ -263,61 +268,17 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     selectedState !== '' ||
     selectedSportId !== undefined;
 
-  // Filter recommendations client-side
-  const recommendations = useMemo(() => {
-    let filtered = allRecommendations;
-
-    // Filter by search query
-    if (debouncedSearchQuery) {
-      const query = debouncedSearchQuery.toLowerCase();
-      filtered = filtered.filter((user: UserData) => {
-        const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
-        const username = user.username?.toLowerCase() || '';
-        return fullName.includes(query) || username.includes(query);
-      });
-    }
-
-    // Filter by city
-    if (selectedCity) {
-      filtered = filtered.filter(
-        (user: UserData) => user.city === selectedCity
-      );
-    }
-
-    // Filter by state
-    if (selectedState) {
-      filtered = filtered.filter(
-        (user: UserData) => user.state === selectedState
-      );
-    }
-
-    // Filter by sport
-    if (selectedSportId) {
-      filtered = filtered.filter((user: UserData) =>
-        user.sports?.some(sport => sport.sportId === selectedSportId)
-      );
-    }
-
-    return filtered;
-  }, [
-    allRecommendations,
-    debouncedSearchQuery,
-    selectedCity,
-    selectedState,
-    selectedSportId,
-  ]);
-
   // Initial load
   useEffect(() => {
     fetchIncomingRequests();
     fetchOutgoingRequests();
-    fetchRecommendations();
-  }, [fetchIncomingRequests, fetchOutgoingRequests, fetchRecommendations]);
+  }, [fetchIncomingRequests, fetchOutgoingRequests]);
 
-  // Refetch friends when filters change
+  // Refetch data when filters change
   useEffect(() => {
     fetchFriends();
-  }, [fetchFriends]);
+    fetchRecommendations();
+  }, [fetchFriends, fetchRecommendations]);
 
   return {
     friends,

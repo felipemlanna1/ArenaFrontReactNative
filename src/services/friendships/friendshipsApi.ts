@@ -103,10 +103,21 @@ class FriendshipsApi {
     return response;
   }
 
-  async getRecommendations(limit: number = 20): Promise<UserData[]> {
-    const response = await httpService.get<UserData[]>(
-      `${this.basePath}/recommendations?limit=${limit}`
-    );
+  async getRecommendations(
+    filters: FriendshipFilter = {},
+    limit: number = 20
+  ): Promise<UserData[]> {
+    const params: Record<string, string> = { limit: limit.toString() };
+
+    if (filters.query) params.query = filters.query;
+    if (filters.city) params.city = filters.city;
+    if (filters.state) params.state = filters.state;
+    if (filters.sportId) params.sportId = filters.sportId;
+
+    const queryString = new URLSearchParams(params).toString();
+    const url = `${this.basePath}/recommendations?${queryString}`;
+
+    const response = await httpService.get<UserData[]>(url);
     return response;
   }
 }
