@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { SportCard } from '@/screens/onboardingSportsScreen/components/SportCard';
+import { SportCard } from '@/components/ui/sportCard';
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
 import { translateSkillLevel } from '@/utils/i18n/skillLevels';
