@@ -197,7 +197,7 @@ export const useEditProfileScreen = ({
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
         bio: formData.bio.trim() || undefined,
-        dateOfBirth: formData.birthDate?.toISOString() || undefined,
+        birthDate: formData.birthDate?.toISOString() || undefined,
         gender: formData.gender || undefined,
         state: formData.state || undefined,
         city: formData.city || undefined,

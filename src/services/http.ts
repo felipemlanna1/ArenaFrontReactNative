@@ -56,11 +56,7 @@ export interface LoginUserData {
   email: string;
   isActive: boolean;
   isEmailVerified: boolean;
-  sports?: {
-    id: string;
-    name: string;
-    color: string;
-  }[];
+  sports?: UserSportData[];
   hasSports?: boolean;
   createdAt?: string;
   updatedAt?: string;

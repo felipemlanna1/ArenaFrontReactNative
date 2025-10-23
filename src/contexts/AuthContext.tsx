@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData: UserData = {
         ...response.user,
-        sports: response.user.sports as unknown as UserSportData[],
+        sports: response.user.sports || [],
         hasSports: response.user.hasSports || false,
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
@@ -115,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData: UserData = {
         ...response.user,
-        sports: response.user.sports as unknown as UserSportData[],
+        sports: response.user.sports || [],
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
