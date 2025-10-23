@@ -22,18 +22,28 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
 
   // Filters state
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedSportId, setSelectedSportId] = useState<string | undefined>(
     undefined
   );
 
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const fetchFriends = useCallback(async () => {
     try {
       setIsLoadingFriends(true);
       const response = await friendshipsApi.getFriends({
         status: FriendshipStatus.ACCEPTED,
-        query: searchQuery || undefined,
+        query: debouncedSearchQuery || undefined,
         city: selectedCity || undefined,
         state: selectedState || undefined,
         sportId: selectedSportId,
@@ -45,7 +55,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     } finally {
       setIsLoadingFriends(false);
     }
-  }, [searchQuery, selectedCity, selectedState, selectedSportId]);
+  }, [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]);
 
   const fetchIncomingRequests = useCallback(async () => {
     try {
@@ -198,11 +208,16 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     selectedState !== '' ||
     selectedSportId !== undefined;
 
+  // Initial load
   useEffect(() => {
-    fetchFriends();
     fetchIncomingRequests();
     fetchRecommendations();
-  }, [fetchFriends, fetchIncomingRequests, fetchRecommendations]);
+  }, [fetchIncomingRequests, fetchRecommendations]);
+
+  // Refetch friends when filters change
+  useEffect(() => {
+    fetchFriends();
+  }, [fetchFriends]);
 
   return {
     friends,
