@@ -106,6 +106,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
         setIsLoadingMoreIncoming(true);
       }
 
+      console.log('[DEBUG] Fetching incoming requests, page:', page);
       const response = await friendshipsApi.getUsers(
         FriendshipType.INCOMING,
         {
@@ -117,12 +118,14 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
         page,
         20
       );
+      console.log('[DEBUG] Incoming response:', response);
 
       // For incoming, we still need to get friendships to build the map
       // But the new API returns users directly, so we need to fetch friendships separately
       // For now, we'll use the old API for mapping
       if (page === 1) {
         const friendships = await friendshipsApi.getIncomingRequests();
+        console.log('[DEBUG] Incoming friendships for map:', friendships.length);
         const newMap = new Map<string, string>();
         friendships.forEach(f => {
           if (f.requester?.id) {
@@ -138,7 +141,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
       setIncomingPage(page);
       setHasMoreIncoming(response.hasMore);
     } catch (error) {
-      console.error('Failed to fetch requests:', error);
+      console.error('[ERROR] Failed to fetch incoming requests:', error);
       if (page === 1) {
         setIncomingRequests([]);
         setRequestsMap(new Map());
@@ -158,16 +161,19 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
         setIsLoadingMoreOutgoing(true);
       }
 
+      console.log('[DEBUG] Fetching outgoing requests, page:', page);
       const response = await friendshipsApi.getUsers(
         FriendshipType.OUTGOING,
         {}, // No filters for outgoing
         page,
         20
       );
+      console.log('[DEBUG] Outgoing response:', response);
 
       // Build map for cancel action (only on first page)
       if (page === 1) {
         const friendships = await friendshipsApi.getOutgoingRequests();
+        console.log('[DEBUG] Outgoing friendships for map:', friendships.length);
         const newMap = new Map<string, string>();
         friendships.forEach(f => {
           if (f.addressee?.id) {
@@ -183,7 +189,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
       setOutgoingPage(page);
       setHasMoreOutgoing(response.hasMore);
     } catch (error) {
-      console.error('Failed to fetch outgoing requests:', error);
+      console.error('[ERROR] Failed to fetch outgoing requests:', error);
       if (page === 1) {
         setOutgoingRequests([]);
         setOutgoingMap(new Map());
