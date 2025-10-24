@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { eventsApi } from '@/services/events/eventsApi';
 import { UserData } from '@/services/http';
 import { useAlert } from '@/contexts/AlertContext';
@@ -23,6 +23,7 @@ export const useEventInviteModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchInvitableUsers = useCallback(async () => {
     try {
@@ -87,14 +88,48 @@ export const useEventInviteModal = ({
 
   const canSendInvites = selectedUserIds.size > 0 && !isSending;
 
+  const filterUsers = useCallback(
+    (users: UserData[], query: string): UserData[] => {
+      if (!query.trim()) {
+        return users;
+      }
+
+      const lowerQuery = query.toLowerCase().trim();
+      return users.filter(user => {
+        const fullName =
+          `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase();
+        const username = (user.username || '').toLowerCase();
+        return fullName.includes(lowerQuery) || username.includes(lowerQuery);
+      });
+    },
+    []
+  );
+
+  const filteredFriends = useMemo(
+    () => filterUsers(friends, searchQuery),
+    [friends, searchQuery, filterUsers]
+  );
+
+  const filteredOthers = useMemo(
+    () => filterUsers(others, searchQuery),
+    [others, searchQuery, filterUsers]
+  );
+
+  const filteredInvited = useMemo(
+    () => filterUsers(invited, searchQuery),
+    [invited, searchQuery, filterUsers]
+  );
+
   return {
-    friends,
-    others,
-    invited,
+    friends: filteredFriends,
+    others: filteredOthers,
+    invited: filteredInvited,
     selectedUserIds,
     isLoading,
     isSending,
     error,
+    searchQuery,
+    setSearchQuery,
     toggleSelection,
     sendInvites,
     canSendInvites,

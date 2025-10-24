@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { View, TextStyle } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { ArenaColors } from '@/constants';
@@ -91,7 +91,8 @@ export const PrivacyBadge: React.FC<PrivacyBadgeProps> = ({
   ];
 
   const labelStyles = useMemo(
-    () => [{ color: config.textColor }, textStyle],
+    () =>
+      [{ color: config.textColor }, textStyle].filter(Boolean) as TextStyle[],
     [config.textColor, textStyle]
   );
 

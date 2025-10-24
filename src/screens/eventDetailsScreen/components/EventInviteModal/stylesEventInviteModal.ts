@@ -25,6 +25,11 @@ export const styles = StyleSheet.create({
   closeButton: {
     padding: ArenaSpacing.xs,
   },
+  searchContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.md,
+    paddingBottom: ArenaSpacing.sm,
+  },
   content: {
     padding: ArenaSpacing.lg,
   },

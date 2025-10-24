@@ -3,6 +3,7 @@ import { View, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { ArenaColors } from '@/constants';
@@ -106,6 +107,8 @@ export const EventInviteModal: React.FC<EventInviteModalProps> = ({
     isLoading,
     isSending,
     error,
+    searchQuery,
+    setSearchQuery,
     toggleSelection,
     sendInvites,
     canSendInvites,
@@ -146,6 +149,19 @@ export const EventInviteModal: React.FC<EventInviteModalProps> = ({
                 color={ArenaColors.neutral.light}
               />
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.searchContainer}>
+            <Input
+              type="search"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Buscar por nome ou username..."
+              clearable
+              showSearchIcon
+              size="md"
+              testID="event-invite-search-input"
+            />
           </View>
 
           <ScrollView style={styles.content}>

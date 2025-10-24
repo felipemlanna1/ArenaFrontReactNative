@@ -21,6 +21,8 @@ export interface UseEventInviteModalReturn {
   isLoading: boolean;
   isSending: boolean;
   error: string | null;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   toggleSelection: (userId: string) => void;
   sendInvites: () => Promise<void>;
   canSendInvites: boolean;
