@@ -130,7 +130,7 @@ export const useCreateEventScreen = ({
 
       if (result) {
         resetForm();
-        navigation.navigate('MainTabs', { screen: 'HomeTab' });
+        navigation.navigate('MainTabs');
         showSuccess(
           isEditMode
             ? 'Evento atualizado com sucesso!'

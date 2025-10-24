@@ -6,7 +6,11 @@ import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { PrivacyBadge } from '@/components/ui/privacyBadge';
 import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
-import { EventSport, EventPrivacy, EventGroup } from '@/services/events/typesEvents';
+import {
+  EventSport,
+  EventPrivacy,
+  EventGroup,
+} from '@/services/events/typesEvents';
 import { styles } from './stylesEventCardImage';
 
 interface EventCardImageProps {

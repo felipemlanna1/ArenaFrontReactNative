@@ -5,7 +5,9 @@ const { width } = Dimensions.get('window');
 const GRID_COLUMNS = 3;
 const GRID_GAP = ArenaSpacing.md;
 const HORIZONTAL_PADDING = ArenaSpacing.lg;
-const CARD_WIDTH = (width - HORIZONTAL_PADDING * 2 - GRID_GAP * (GRID_COLUMNS - 1)) / GRID_COLUMNS;
+const CARD_WIDTH =
+  (width - HORIZONTAL_PADDING * 2 - GRID_GAP * (GRID_COLUMNS - 1)) /
+  GRID_COLUMNS;
 
 export const styles = StyleSheet.create({
   container: {

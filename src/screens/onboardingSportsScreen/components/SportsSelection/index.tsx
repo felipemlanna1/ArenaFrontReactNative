@@ -62,7 +62,9 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
 
       <View style={styles.gridContainer}>
         {availableSports.map(sport => {
-          const selectedSport = selectedSports.find(s => s.sportId === sport.id);
+          const selectedSport = selectedSports.find(
+            s => s.sportId === sport.id
+          );
 
           return (
             <View key={sport.id} style={styles.sportCardWrapper}>

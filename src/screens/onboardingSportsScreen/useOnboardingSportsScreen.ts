@@ -45,8 +45,8 @@ export const useOnboardingSportsScreen = () => {
     (level: SkillLevel, isPrimaryOverride?: boolean) => {
       if (!currentSport) return;
 
-      // Use override if provided (from modal), otherwise use currentIsPrimary
-      const isPrimary = isPrimaryOverride !== undefined ? isPrimaryOverride : currentIsPrimary;
+      const isPrimary =
+        isPrimaryOverride !== undefined ? isPrimaryOverride : currentIsPrimary;
 
       const newSelection: SportSelection = {
         sportId: currentSport.id,
@@ -60,12 +60,9 @@ export const useOnboardingSportsScreen = () => {
         return [...filtered, newSelection];
       });
 
-      // Update primary sport ID based on isPrimary
       if (isPrimary) {
-        // Set this sport as primary
         setPrimarySportId(currentSport.id);
       } else if (primarySportId === currentSport.id) {
-        // If this sport was primary and now is not, clear primary
         setPrimarySportId(null);
       }
 
