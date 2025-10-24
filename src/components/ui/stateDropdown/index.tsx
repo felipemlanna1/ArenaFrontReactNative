@@ -1,16 +1,11 @@
-import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import React, { useCallback } from 'react';
+import { View, TouchableOpacity, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '../text';
 import { Label } from '../label';
+import { SelectionModal } from '../selectionModal';
 import { ArenaColors } from '@/constants';
-import { StateDropdownProps } from './typesStateDropdown';
+import { StateDropdownProps, BrazilianState } from './typesStateDropdown';
 import { useStateDropdown } from './useStateDropdown';
 import { styles } from './stylesStateDropdown';
 
@@ -25,8 +20,51 @@ export const StateDropdown: React.FC<StateDropdownProps> = ({
   testID,
   containerStyle,
 }) => {
-  const { isOpen, selectedState, states, openModal, closeModal, selectState } =
-    useStateDropdown({ value, onChange, disabled });
+  const {
+    isOpen,
+    selectedState,
+    filteredStates,
+    searchQuery,
+    setSearchQuery,
+    openModal,
+    closeModal,
+    selectState,
+  } = useStateDropdown({ value, onChange, disabled });
+
+  const renderStateItem = useCallback(
+    (state: BrazilianState) => {
+      const isSelected = state.uf === value;
+      return (
+        <Pressable
+          onPress={() => selectState(state.uf)}
+          style={({ pressed }) => [
+            styles.stateItem,
+            pressed && styles.stateItemPressed,
+            isSelected && styles.stateItemSelected,
+          ]}
+          testID={testID ? `${testID}-state-${state.uf}` : undefined}
+          accessibilityRole="radio"
+          accessibilityLabel={`${state.name} - ${state.uf}`}
+          accessibilityState={{ selected: isSelected }}
+        >
+          <View style={styles.stateInfo}>
+            <Text variant="bodyPrimary">{state.name}</Text>
+            <Text variant="captionSecondary">{state.uf}</Text>
+          </View>
+          {isSelected && (
+            <View style={styles.checkIcon}>
+              <Ionicons
+                name="checkmark-circle"
+                size={20}
+                color={ArenaColors.brand.primary}
+              />
+            </View>
+          )}
+        </Pressable>
+      );
+    },
+    [value, selectState, testID]
+  );
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>
@@ -61,7 +99,9 @@ export const StateDropdown: React.FC<StateDropdownProps> = ({
           variant={selectedState ? 'bodyPrimary' : 'bodyMuted'}
           style={styles.placeholder}
         >
-          {selectedState ? `${selectedState.name} - ${selectedState.uf}` : placeholder}
+          {selectedState
+            ? `${selectedState.name} - ${selectedState.uf}`
+            : placeholder}
         </Text>
         <View style={styles.iconContainer}>
           <Ionicons
@@ -78,70 +118,19 @@ export const StateDropdown: React.FC<StateDropdownProps> = ({
         </Text>
       )}
 
-      <Modal
-        visible={isOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={closeModal}
-        testID={testID ? `${testID}-modal` : undefined}
-      >
-        <View style={styles.modalOverlay}>
-          <Pressable style={styles.modalOverlay} onPress={closeModal}>
-            <Pressable style={styles.modalContent} onPress={e => e.stopPropagation()}>
-              <View style={styles.modalHeader}>
-                <Text variant="titlePrimary">Selecione o Estado</Text>
-                <TouchableOpacity
-                  onPress={closeModal}
-                  style={styles.closeButton}
-                  testID={testID ? `${testID}-close` : undefined}
-                  hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
-                >
-                  <Ionicons
-                    name="close"
-                    size={24}
-                    color={ArenaColors.neutral.light}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <ScrollView style={styles.statesList}>
-                {states.map(state => {
-                  const isSelected = state.uf === value;
-                  return (
-                    <Pressable
-                      key={state.uf}
-                      onPress={() => selectState(state.uf)}
-                      style={({ pressed }) => [
-                        styles.stateItem,
-                        pressed && styles.stateItemPressed,
-                        isSelected && styles.stateItemSelected,
-                      ]}
-                      testID={testID ? `${testID}-state-${state.uf}` : undefined}
-                      accessibilityRole="radio"
-                      accessibilityLabel={`${state.name} - ${state.uf}`}
-                      accessibilityState={{ selected: isSelected }}
-                    >
-                      <View style={styles.stateInfo}>
-                        <Text variant="bodyPrimary">{state.name}</Text>
-                        <Text variant="captionSecondary">{state.uf}</Text>
-                      </View>
-                      {isSelected && (
-                        <View style={styles.checkIcon}>
-                          <Ionicons
-                            name="checkmark-circle"
-                            size={20}
-                            color={ArenaColors.brand.primary}
-                          />
-                        </View>
-                      )}
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
-            </Pressable>
-          </Pressable>
-        </View>
-      </Modal>
+      <SelectionModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        title="Selecione o Estado"
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Buscar estado..."
+        items={filteredStates}
+        renderItem={renderStateItem}
+        keyExtractor={state => state.uf}
+        emptyMessage="Nenhum estado encontrado"
+        testID={testID}
+      />
     </View>
   );
 };

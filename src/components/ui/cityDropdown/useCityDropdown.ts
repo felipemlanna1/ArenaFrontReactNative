@@ -5,7 +5,8 @@ import {
   UseCityDropdownReturn,
 } from './typesCityDropdown';
 
-const IBGE_API_BASE = 'https://servicodados.ibge.gov.br/api/v1/localidades/estados';
+const IBGE_API_BASE =
+  'https://servicodados.ibge.gov.br/api/v1/localidades/estados';
 
 export const useCityDropdown = ({
   stateUF,
@@ -34,7 +35,8 @@ export const useCityDropdown = ({
       const cityNames = data.map(city => city.nome).sort();
       setCities(cityNames);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro ao carregar cidades';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Erro ao carregar cidades';
       setLoadError(errorMessage);
       setCities([]);
     } finally {
@@ -77,9 +79,7 @@ export const useCityDropdown = ({
     }
 
     const query = searchQuery.toLowerCase().trim();
-    return cities.filter(city =>
-      city.toLowerCase().includes(query)
-    );
+    return cities.filter(city => city.toLowerCase().includes(query));
   }, [cities, searchQuery]);
 
   return {

@@ -41,20 +41,36 @@ export const useStateDropdown = ({
   disabled = false,
 }: UseStateDropdownProps): UseStateDropdownReturn => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const selectedState = useMemo(
     () => BRAZILIAN_STATES.find(state => state.uf === value),
     [value]
   );
 
+  const filteredStates = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return BRAZILIAN_STATES;
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    return BRAZILIAN_STATES.filter(
+      state =>
+        state.name.toLowerCase().includes(query) ||
+        state.uf.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
+
   const openModal = useCallback(() => {
     if (!disabled) {
       setIsOpen(true);
+      setSearchQuery('');
     }
   }, [disabled]);
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
+    setSearchQuery('');
   }, []);
 
   const selectState = useCallback(
@@ -69,6 +85,9 @@ export const useStateDropdown = ({
     isOpen,
     selectedState,
     states: BRAZILIAN_STATES,
+    filteredStates,
+    searchQuery,
+    setSearchQuery,
     openModal,
     closeModal,
     selectState,

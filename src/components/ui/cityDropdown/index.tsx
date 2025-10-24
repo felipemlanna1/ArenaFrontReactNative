@@ -1,95 +1,14 @@
-import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import React, { useCallback } from 'react';
+import { View, TouchableOpacity, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '../text';
 import { Label } from '../label';
-import { Input } from '../input';
 import { SportsLoading } from '../sportsLoading';
+import { SelectionModal } from '../selectionModal';
 import { ArenaColors } from '@/constants';
 import { CityDropdownProps } from './typesCityDropdown';
 import { useCityDropdown } from './useCityDropdown';
 import { styles } from './stylesCityDropdown';
-
-interface EmptyStateProps {
-  error?: string | null;
-  searchQuery: string;
-}
-
-const EmptyState: React.FC<EmptyStateProps> = ({ error, searchQuery }) => {
-  if (error) {
-    return (
-      <View style={styles.emptyContainer}>
-        <View style={styles.emptyIcon}>
-          <Ionicons
-            name="alert-circle-outline"
-            size={48}
-            color={ArenaColors.semantic.error}
-          />
-        </View>
-        <Text variant="bodySecondary">{error}</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View style={styles.emptyContainer}>
-      <View style={styles.emptyIcon}>
-        <Ionicons
-          name="search-outline"
-          size={48}
-          color={ArenaColors.neutral.medium}
-        />
-      </View>
-      <Text variant="bodySecondary">
-        {searchQuery ? 'Nenhuma cidade encontrada' : 'Nenhuma cidade disponível'}
-      </Text>
-    </View>
-  );
-};
-
-interface ModalHeaderProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  closeModal: () => void;
-  testID?: string;
-}
-
-const ModalHeader: React.FC<ModalHeaderProps> = ({
-  searchQuery,
-  setSearchQuery,
-  closeModal,
-  testID,
-}) => (
-  <View style={styles.modalHeader}>
-    <View style={styles.headerTop}>
-      <Text variant="titlePrimary">Selecione a Cidade</Text>
-      <TouchableOpacity
-        onPress={closeModal}
-        style={styles.closeButton}
-        testID={testID ? `${testID}-close` : undefined}
-        hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
-      >
-        <Ionicons name="close" size={24} color={ArenaColors.neutral.light} />
-      </TouchableOpacity>
-    </View>
-    <View style={styles.searchContainer}>
-      <Input
-        type="search"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholder="Buscar cidade..."
-        autoFocus
-        testID={testID ? `${testID}-search` : undefined}
-      />
-    </View>
-  </View>
-);
 
 export const CityDropdown: React.FC<CityDropdownProps> = ({
   stateUF,
@@ -117,10 +36,32 @@ export const CityDropdown: React.FC<CityDropdownProps> = ({
 
   const isDisabled = disabled || !stateUF || isLoading;
 
-  const displayValue = value || placeholder;
   const effectivePlaceholder = !stateUF
     ? 'Selecione um estado primeiro'
     : placeholder;
+
+  const renderCityItem = useCallback(
+    (city: string) => {
+      const isSelected = city === value;
+      return (
+        <Pressable
+          onPress={() => selectCity(city)}
+          style={({ pressed }) => [
+            styles.cityItem,
+            pressed && styles.cityItemPressed,
+            isSelected && styles.cityItemSelected,
+          ]}
+          testID={testID ? `${testID}-city-${city}` : undefined}
+          accessibilityRole="radio"
+          accessibilityLabel={city}
+          accessibilityState={{ selected: isSelected }}
+        >
+          <Text variant="bodyPrimary">{city}</Text>
+        </Pressable>
+      );
+    },
+    [value, selectCity, testID]
+  );
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>
@@ -176,56 +117,21 @@ export const CityDropdown: React.FC<CityDropdownProps> = ({
         </Text>
       )}
 
-      <Modal
-        visible={isOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={closeModal}
-        testID={testID ? `${testID}-modal` : undefined}
-      >
-        <View style={styles.modalOverlay}>
-          <Pressable style={styles.modalOverlay} onPress={closeModal}>
-            <Pressable
-              style={styles.modalContent}
-              onPress={e => e.stopPropagation()}
-            >
-              <ModalHeader
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                closeModal={closeModal}
-                testID={testID}
-              />
-
-              {loadError || filteredCities.length === 0 ? (
-                <EmptyState error={loadError} searchQuery={searchQuery} />
-              ) : (
-                <ScrollView style={styles.citiesList}>
-                  {filteredCities.map(city => {
-                    const isSelected = city === value;
-                    return (
-                      <Pressable
-                        key={city}
-                        onPress={() => selectCity(city)}
-                        style={({ pressed }) => [
-                          styles.cityItem,
-                          pressed && styles.cityItemPressed,
-                          isSelected && styles.cityItemSelected,
-                        ]}
-                        testID={testID ? `${testID}-city-${city}` : undefined}
-                        accessibilityRole="radio"
-                        accessibilityLabel={city}
-                        accessibilityState={{ selected: isSelected }}
-                      >
-                        <Text variant="bodyPrimary">{city}</Text>
-                      </Pressable>
-                    );
-                  })}
-                </ScrollView>
-              )}
-            </Pressable>
-          </Pressable>
-        </View>
-      </Modal>
+      <SelectionModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        title="Selecione a Cidade"
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Buscar cidade..."
+        items={filteredCities}
+        renderItem={renderCityItem}
+        keyExtractor={city => city}
+        emptyMessage="Nenhuma cidade encontrada"
+        errorMessage={loadError}
+        isLoading={false}
+        testID={testID}
+      />
     </View>
   );
 };

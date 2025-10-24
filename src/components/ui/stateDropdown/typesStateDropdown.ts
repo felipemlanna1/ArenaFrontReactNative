@@ -27,6 +27,9 @@ export interface UseStateDropdownReturn {
   isOpen: boolean;
   selectedState: BrazilianState | undefined;
   states: BrazilianState[];
+  filteredStates: BrazilianState[];
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   openModal: () => void;
   closeModal: () => void;
   selectState: (uf: string) => void;
