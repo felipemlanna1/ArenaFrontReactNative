@@ -32,7 +32,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleNavigateToProfile,
     loadingUserId,
     handleLogout,
-    // Filters
     searchQuery,
     setSearchQuery,
     selectedCity,
@@ -43,7 +42,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     setSelectedSportId,
     handleClearFilters,
     hasActiveFilters,
-    // Pagination
     hasMoreFriends,
     hasMoreIncoming,
     hasMoreOutgoing,

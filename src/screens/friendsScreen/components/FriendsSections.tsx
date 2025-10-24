@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const EmptyState: React.FC<{ icon: string; message: string }> = ({
-  icon,
-  message,
-}) => (
+const EmptyState: React.FC<{
+  icon: keyof typeof Ionicons.glyphMap;
+  message: string;
+}> = ({ icon, message }) => (
   <View style={styles.emptyContainer}>
     <View style={styles.emptyIcon}>
-      <Ionicons name={icon as any} size={48} color={ArenaColors.neutral.medium} />
+      <Ionicons name={icon} size={48} color={ArenaColors.neutral.medium} />
     </View>
     <Text variant="bodySecondary">{message}</Text>
   </View>
@@ -134,7 +134,9 @@ interface OutgoingRequestsSectionProps {
   onCancelRequest: (userId: string) => void;
 }
 
-export const OutgoingRequestsSection: React.FC<OutgoingRequestsSectionProps> = ({
+export const OutgoingRequestsSection: React.FC<
+  OutgoingRequestsSectionProps
+> = ({
   requests,
   isLoading,
   loadingUserId,

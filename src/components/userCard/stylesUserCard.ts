@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   locationIcon: {
-    marginTop: 2,
+    marginTop: ArenaSpacing.micro,
   },
   sportsContainer: {
     flexDirection: 'row',
@@ -70,7 +70,6 @@ export const styles = StyleSheet.create({
   actionsContainer: {
     flexDirection: 'column',
     gap: ArenaSpacing.sm,
-    minWidth: 100,
   },
   actionButton: {
     flex: 1,

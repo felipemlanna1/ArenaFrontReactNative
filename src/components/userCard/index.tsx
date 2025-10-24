@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
@@ -120,7 +120,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               ))}
               {user.sports && user.sports.length > 3 && (
                 <Badge variant="outlined" size="sm">
-                  {"+" + (user.sports.length - 3).toString()}
+                  {'+' + (user.sports.length - 3).toString()}
                 </Badge>
               )}
             </View>

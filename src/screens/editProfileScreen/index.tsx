@@ -287,7 +287,9 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
 
           <Switch
             value={formData.isProfilePrivate}
-            onValueChange={value => handleFieldChange('isProfilePrivate', value)}
+            onValueChange={value =>
+              handleFieldChange('isProfilePrivate', value)
+            }
             label="Perfil Privado"
             variant="brand"
             testID="switch-private-profile"

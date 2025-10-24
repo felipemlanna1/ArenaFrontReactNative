@@ -59,26 +59,20 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
     setTempIsPrimary(isPrimary);
   }, [currentLevel, isPrimary, visible]);
 
-  const handleSelectLevel = useCallback(
-    (level: SkillLevel) => {
-      setTempLevel(level);
-    },
-    []
-  );
+  const handleSelectLevel = useCallback((level: SkillLevel) => {
+    setTempLevel(level);
+  }, []);
 
   const handleTogglePrimary = useCallback(() => {
     setTempIsPrimary(prev => !prev);
   }, []);
 
   const handleConfirm = useCallback(() => {
-    // Only allow confirm if a level has been selected
     if (!tempLevel) {
       onClose();
       return;
     }
 
-    // Call onSelectLevel with selected level AND isPrimary value
-    // Pass tempIsPrimary directly to avoid React state batching issues
     onSelectLevel(tempLevel, tempIsPrimary);
 
     onClose();

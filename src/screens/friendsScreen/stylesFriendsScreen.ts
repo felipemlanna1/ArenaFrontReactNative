@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   titleContainer: {

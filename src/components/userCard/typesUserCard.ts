@@ -1,6 +1,10 @@
 import { UserData } from '@/services/http';
 
-export type UserCardVariant = 'friend' | 'request' | 'outgoing' | 'recommendation';
+export type UserCardVariant =
+  | 'friend'
+  | 'request'
+  | 'outgoing'
+  | 'recommendation';
 
 export interface UserCardProps {
   user: UserData;
