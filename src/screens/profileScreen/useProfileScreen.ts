@@ -1,8 +1,10 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
 import { usersApi } from '@/services/users';
+import { friendshipsApi } from '@/services/friendships';
 import { UserData } from '@/services/http';
+import { FriendshipStatus } from '@/services/friendships/typesFriendships';
 import {
   UseProfileScreenParams,
   UseProfileScreenReturn,
@@ -17,10 +19,26 @@ export const useProfileScreen = (
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [friendshipStatus, setFriendshipStatus] =
+    useState<FriendshipStatus | null>(null);
 
   const targetUserId = params?.userId || currentUser?.id;
   const currentUserId = currentUser?.id || null;
   const isOwnProfile = targetUserId === currentUserId;
+
+  const fetchFriendshipStatus = useCallback(async () => {
+    if (!targetUserId || isOwnProfile) {
+      setFriendshipStatus(null);
+      return;
+    }
+
+    try {
+      const { status } = await friendshipsApi.getFriendshipStatus(targetUserId);
+      setFriendshipStatus(status as FriendshipStatus);
+    } catch {
+      setFriendshipStatus(null);
+    }
+  }, [targetUserId, isOwnProfile]);
 
   const fetchUserProfile = useCallback(async () => {
     if (!targetUserId) {
@@ -45,15 +63,25 @@ export const useProfileScreen = (
 
   useEffect(() => {
     fetchUserProfile();
-  }, [fetchUserProfile]);
+    fetchFriendshipStatus();
+  }, [fetchUserProfile, fetchFriendshipStatus]);
 
   useFocusEffect(
     useCallback(() => {
       if (isOwnProfile) {
         fetchUserProfile();
+      } else {
+        fetchFriendshipStatus();
       }
-    }, [fetchUserProfile, isOwnProfile])
+    }, [fetchUserProfile, fetchFriendshipStatus, isOwnProfile])
   );
+
+  const canViewFullProfile = useMemo(() => {
+    if (isOwnProfile) return true;
+    if (!user?.isProfilePrivate) return true;
+    if (friendshipStatus === FriendshipStatus.ACCEPTED) return true;
+    return false;
+  }, [isOwnProfile, user?.isProfilePrivate, friendshipStatus]);
 
   const refetch = useCallback(async () => {
     setIsRefreshing(true);
@@ -73,6 +101,19 @@ export const useProfileScreen = (
     signOut();
   }, [signOut]);
 
+  const handleSendFriendRequest = useCallback(async () => {
+    if (!targetUserId) return;
+
+    try {
+      await friendshipsApi.sendFriendRequest({ addresseeId: targetUserId });
+      setFriendshipStatus(FriendshipStatus.PENDING);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error('Failed to send friend request')
+      );
+    }
+  }, [targetUserId]);
+
   return {
     user,
     userId: targetUserId,
@@ -81,9 +122,12 @@ export const useProfileScreen = (
     error,
     isOwnProfile,
     currentUserId,
+    friendshipStatus,
+    canViewFullProfile,
     refetch,
     handleEditPress,
     handleBackPress,
     handleLogout,
+    handleSendFriendRequest,
   };
 };

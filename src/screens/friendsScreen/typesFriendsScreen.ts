@@ -1,7 +1,8 @@
 import { UserData } from '@/services/http';
+import { NavigationProp } from '@react-navigation/native';
 
 export interface FriendsScreenProps {
-  navigation: any;
+  navigation: NavigationProp<Record<string, object | undefined>>;
 }
 
 export interface UseFriendsScreenReturn {
@@ -23,7 +24,6 @@ export interface UseFriendsScreenReturn {
   handleNavigateToProfile: (userId: string) => void;
   loadingUserId: string | null;
   handleLogout: () => Promise<void>;
-  // Filters
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   selectedCity: string;
@@ -34,7 +34,6 @@ export interface UseFriendsScreenReturn {
   setSelectedSportId: (sportId: string | undefined) => void;
   handleClearFilters: () => void;
   hasActiveFilters: boolean;
-  // Pagination
   hasMoreFriends: boolean;
   hasMoreIncoming: boolean;
   hasMoreOutgoing: boolean;

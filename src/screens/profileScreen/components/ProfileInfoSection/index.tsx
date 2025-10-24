@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { SportCard } from '@/components/ui/sportCard';
 import { ArenaColors } from '@/constants';
+import { SkillLevel } from '@/types/sport';
 import { ProfileInfoSectionProps } from './typesProfileInfoSection';
 import { styles } from './stylesProfileInfoSection';
 
@@ -13,8 +14,9 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
   age,
   gender,
   city,
-  sports,
-  isEmailVerified,
+  state,
+  sports = [],
+  isEmailVerified = false,
   memberSince,
 }) => {
   return (
@@ -36,11 +38,13 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
         @{username}
       </Text>
 
-      <Text variant="captionSecondary" style={styles.memberSinceText}>
-        Membro desde {memberSince}
-      </Text>
+      {memberSince && (
+        <Text variant="captionSecondary" style={styles.memberSinceText}>
+          Membro desde {memberSince}
+        </Text>
+      )}
 
-      {(age !== null || gender !== null || city !== null) && (
+      {(age !== null || gender !== null || (city && state)) && (
         <View style={styles.detailsRow}>
           {age !== null && (
             <View style={styles.detailItem}>
@@ -64,25 +68,27 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
             </View>
           )}
 
-          {city !== null && (
+          {city && state && (
             <View style={styles.detailItem}>
               <Ionicons
                 name="location-outline"
                 size={16}
                 color={ArenaColors.neutral.medium}
               />
-              <Text variant="captionSecondary">{city}</Text>
+              <Text variant="captionSecondary">
+                {city}, {state}
+              </Text>
             </View>
           )}
         </View>
       )}
 
-      <View style={styles.sportsSection}>
-        <Text variant="titlePrimary" style={styles.sportsTitle}>
-          Esportes Praticados
-        </Text>
+      {sports.length > 0 && (
+        <View style={styles.sportsSection}>
+          <Text variant="titlePrimary" style={styles.sportsTitle}>
+            Esportes Praticados
+          </Text>
 
-        {sports.length > 0 ? (
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -95,29 +101,15 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
                 sportId={sport.id}
                 sportName={sport.name}
                 sportIcon={sport.icon}
-                skillLevel={sport.skillLevel as any}
+                skillLevel={sport.skillLevel as SkillLevel}
                 isPrimary={sport.isPrimary}
                 isSelected={true}
                 testID={`sport-card-${sport.id}`}
               />
             ))}
           </ScrollView>
-        ) : (
-          <View style={styles.emptyState}>
-            <Ionicons
-              name="basketball-outline"
-              size={32}
-              color={ArenaColors.neutral.medium}
-            />
-            <Text variant="bodySecondary" style={styles.emptyText}>
-              Nenhum esporte adicionado
-            </Text>
-            <Text variant="captionSecondary" style={styles.emptyHint}>
-              Adicione seus esportes favoritos para conectar com outros atletas
-            </Text>
-          </View>
-        )}
-      </View>
+        </View>
+      )}
     </View>
   );
 };
