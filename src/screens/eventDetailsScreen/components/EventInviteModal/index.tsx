@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Modal,
-  ScrollView,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import { View, Modal, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -21,22 +15,30 @@ interface UserItemProps {
   user: UserData;
   selected: boolean;
   onToggle: () => void;
+  disabled?: boolean;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ user, selected, onToggle }) => (
-  <Pressable
-    onPress={onToggle}
-    style={({ pressed }) => [
+const UserItem: React.FC<UserItemProps> = ({
+  user,
+  selected,
+  onToggle,
+  disabled = false,
+}) => (
+  <TouchableOpacity
+    onPress={disabled ? undefined : onToggle}
+    disabled={disabled}
+    activeOpacity={disabled ? 1 : 0.7}
+    style={[
       styles.userItem,
       selected && styles.userItemSelected,
-      { opacity: pressed ? 0.7 : 1 },
+      disabled && styles.userItemDisabled,
     ]}
   >
     <View style={styles.userAvatar}>
       {user.profilePicture ? (
         <OptimizedImage
           source={{ uri: user.profilePicture }}
-          style={{ width: 40, height: 40, borderRadius: 20 }}
+          style={styles.avatarImage}
           contentFit="cover"
           priority="normal"
         />
@@ -58,18 +60,33 @@ const UserItem: React.FC<UserItemProps> = ({ user, selected, onToggle }) => (
       )}
     </View>
 
-    <Ionicons
-      name={selected ? 'checkbox' : 'square-outline'}
-      size={24}
-      color={selected ? ArenaColors.brand.primary : ArenaColors.neutral.medium}
-    />
-  </Pressable>
+    {disabled ? (
+      <Ionicons
+        name="lock-closed"
+        size={20}
+        color={ArenaColors.neutral.medium}
+        style={styles.lockIcon}
+      />
+    ) : (
+      <Ionicons
+        name={selected ? 'checkbox' : 'square-outline'}
+        size={24}
+        color={
+          selected ? ArenaColors.brand.primary : ArenaColors.neutral.medium
+        }
+      />
+    )}
+  </TouchableOpacity>
 );
 
 const EmptyState: React.FC<{ message: string }> = ({ message }) => (
   <View style={styles.emptyContainer}>
     <View style={styles.emptyIcon}>
-      <Ionicons name="people-outline" size={48} color={ArenaColors.neutral.medium} />
+      <Ionicons
+        name="people-outline"
+        size={48}
+        color={ArenaColors.neutral.medium}
+      />
     </View>
     <Text variant="bodySecondary">{message}</Text>
   </View>
@@ -84,6 +101,7 @@ export const EventInviteModal: React.FC<EventInviteModalProps> = ({
   const {
     friends,
     others,
+    invited,
     selectedUserIds,
     isLoading,
     isSending,
@@ -99,91 +117,128 @@ export const EventInviteModal: React.FC<EventInviteModalProps> = ({
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <View style={styles.overlay}>
-        <Pressable style={styles.overlay} onPress={onClose}>
-          <Pressable style={styles.modalContent} onPress={e => e.stopPropagation()}>
-            <View style={styles.header}>
-              <Text variant="titlePrimary">Convidar para o Evento</Text>
-              <TouchableOpacity
-                onPress={onClose}
-                style={styles.closeButton}
-                hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
-              >
-                <Ionicons name="close" size={24} color={ArenaColors.neutral.light} />
-              </TouchableOpacity>
-            </View>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}
+    >
+      <TouchableOpacity
+        style={styles.overlay}
+        onPress={onClose}
+        activeOpacity={1}
+      >
+        <TouchableOpacity
+          style={styles.modalContent}
+          activeOpacity={1}
+          onPress={e => e.stopPropagation()}
+        >
+          <View style={styles.header}>
+            <Text variant="titlePrimary">Convidar para o Evento</Text>
+            <TouchableOpacity
+              onPress={onClose}
+              style={styles.closeButton}
+              hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
+            >
+              <Ionicons
+                name="close"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            </TouchableOpacity>
+          </View>
 
-            <ScrollView style={styles.content}>
-              {isLoading ? (
-                <View style={styles.loadingContainer}>
-                  <SportsLoading size="md" animationSpeed="normal" />
-                </View>
-              ) : error ? (
-                <EmptyState message={error} />
-              ) : (
-                <>
-                  {friends.length > 0 && (
-                    <View style={styles.section}>
-                      <Text variant="titleSecondary" style={{ marginBottom: 12 }}>
-                        Amigos ({friends.length})
-                      </Text>
-                      <View style={styles.userList}>
-                        {friends.map(user => (
-                          <UserItem
-                            key={user.id}
-                            user={user}
-                            selected={selectedUserIds.has(user.id)}
-                            onToggle={() => toggleSelection(user.id)}
-                          />
-                        ))}
-                      </View>
+          <ScrollView style={styles.content}>
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <SportsLoading size="md" animationSpeed="normal" />
+              </View>
+            ) : error ? (
+              <EmptyState message={error} />
+            ) : (
+              <>
+                {invited.length > 0 && (
+                  <View style={styles.section}>
+                    <Text variant="titleSecondary" style={styles.sectionTitle}>
+                      Convidados ({invited.length})
+                    </Text>
+                    <View style={styles.userList}>
+                      {invited.map(user => (
+                        <UserItem
+                          key={user.id}
+                          user={user}
+                          selected={false}
+                          onToggle={() => {}}
+                          disabled
+                        />
+                      ))}
                     </View>
-                  )}
+                  </View>
+                )}
 
-                  {others.length > 0 && (
-                    <View style={styles.section}>
-                      <Text variant="titleSecondary" style={{ marginBottom: 12 }}>
-                        Outras Pessoas ({others.length})
-                      </Text>
-                      <View style={styles.userList}>
-                        {others.map(user => (
-                          <UserItem
-                            key={user.id}
-                            user={user}
-                            selected={selectedUserIds.has(user.id)}
-                            onToggle={() => toggleSelection(user.id)}
-                          />
-                        ))}
-                      </View>
+                {friends.length > 0 && (
+                  <View style={styles.section}>
+                    <Text variant="titleSecondary" style={styles.sectionTitle}>
+                      Amigos ({friends.length})
+                    </Text>
+                    <View style={styles.userList}>
+                      {friends.map(user => (
+                        <UserItem
+                          key={user.id}
+                          user={user}
+                          selected={selectedUserIds.has(user.id)}
+                          onToggle={() => toggleSelection(user.id)}
+                        />
+                      ))}
                     </View>
-                  )}
+                  </View>
+                )}
 
-                  {friends.length === 0 && others.length === 0 && (
+                {others.length > 0 && (
+                  <View style={styles.section}>
+                    <Text variant="titleSecondary" style={styles.sectionTitle}>
+                      Outras Pessoas ({others.length})
+                    </Text>
+                    <View style={styles.userList}>
+                      {others.map(user => (
+                        <UserItem
+                          key={user.id}
+                          user={user}
+                          selected={selectedUserIds.has(user.id)}
+                          onToggle={() => toggleSelection(user.id)}
+                          disabled={user.isProfilePrivate}
+                        />
+                      ))}
+                    </View>
+                  </View>
+                )}
+
+                {friends.length === 0 &&
+                  others.length === 0 &&
+                  invited.length === 0 && (
                     <EmptyState message="Nenhum usuário disponível para convite" />
                   )}
-                </>
-              )}
-            </ScrollView>
+              </>
+            )}
+          </ScrollView>
 
-            <View style={styles.footer}>
-              {selectedUserIds.size > 0 && (
-                <Text variant="captionSecondary" style={styles.selectedCount}>
-                  {selectedUserIds.size} pessoa(s) selecionada(s)
-                </Text>
-              )}
-              <Button
-                variant="primary"
-                onPress={handleSendInvites}
-                disabled={!canSendInvites}
-                loading={isSending}
-              >
-                Enviar Convites
-              </Button>
-            </View>
-          </Pressable>
-        </Pressable>
-      </View>
+          <View style={styles.footer}>
+            {selectedUserIds.size > 0 && (
+              <Text variant="captionSecondary" style={styles.selectedCount}>
+                {selectedUserIds.size} pessoa(s) selecionada(s)
+              </Text>
+            )}
+            <Button
+              variant="primary"
+              onPress={handleSendInvites}
+              disabled={!canSendInvites}
+              loading={isSending}
+            >
+              Enviar Convites
+            </Button>
+          </View>
+        </TouchableOpacity>
+      </TouchableOpacity>
     </Modal>
   );
 };

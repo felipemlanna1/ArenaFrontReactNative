@@ -90,6 +90,11 @@ export const PrivacyBadge: React.FC<PrivacyBadgeProps> = ({
     style,
   ];
 
+  const labelStyles = useMemo(
+    () => [{ color: config.textColor }, textStyle],
+    [config.textColor, textStyle]
+  );
+
   return (
     <View style={containerStyles} testID={testID}>
       {showIcon && (
@@ -100,10 +105,7 @@ export const PrivacyBadge: React.FC<PrivacyBadgeProps> = ({
         />
       )}
       {showLabel && (
-        <Text
-          variant="captionSecondary"
-          style={{ color: config.textColor, ...(textStyle || {}) }}
-        >
+        <Text variant="captionSecondary" style={labelStyles}>
           {config.label}
         </Text>
       )}
