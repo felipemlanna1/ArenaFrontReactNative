@@ -16,6 +16,7 @@ export interface UseEventInviteModalProps {
 export interface UseEventInviteModalReturn {
   friends: UserData[];
   others: UserData[];
+  invited: UserData[];
   selectedUserIds: Set<string>;
   isLoading: boolean;
   isSending: boolean;

@@ -16,7 +16,10 @@ export const useEventInviteModal = ({
 
   const [friends, setFriends] = useState<UserData[]>([]);
   const [others, setOthers] = useState<UserData[]>([]);
-  const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
+  const [invited, setInvited] = useState<UserData[]>([]);
+  const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(
+    new Set()
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,13 +32,14 @@ export const useEventInviteModal = ({
       const data = await eventsApi.getInvitableUsers(eventId);
       setFriends((data.friends as UserData[]) || []);
       setOthers((data.others as UserData[]) || []);
+      setInvited((data.invited as UserData[]) || []);
     } catch (err) {
-      const errorMessage = err instanceof Error
-        ? err.message
-        : 'Erro ao carregar usuários';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Erro ao carregar usuários';
       setError(errorMessage);
       setFriends([]);
       setOthers([]);
+      setInvited([]);
     } finally {
       setIsLoading(false);
     }
@@ -75,11 +79,7 @@ export const useEventInviteModal = ({
       setSelectedUserIds(new Set());
       onInvitesSent();
     } catch (err) {
-      showError(
-        err instanceof Error
-          ? err.message
-          : 'Erro ao enviar convites'
-      );
+      showError(err instanceof Error ? err.message : 'Erro ao enviar convites');
     } finally {
       setIsSending(false);
     }
@@ -90,6 +90,7 @@ export const useEventInviteModal = ({
   return {
     friends,
     others,
+    invited,
     selectedUserIds,
     isLoading,
     isSending,
