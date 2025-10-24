@@ -14,6 +14,7 @@ import { ProfileHeroSection } from './components/ProfileHeroSection';
 import { ProfileInfoSection } from './components/ProfileInfoSection';
 import { ProfileBioSection } from './components/ProfileBioSection';
 import { ProfileStatsSection } from './components/ProfileStatsSection';
+import { PrivateProfileBanner } from './components/PrivateProfileBanner';
 import {
   mapUserToDisplayData,
   getInitials,
@@ -32,9 +33,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     isRefreshing,
     error,
     isOwnProfile,
+    friendshipStatus,
+    canViewFullProfile,
     refetch,
     handleEditPress,
     handleBackPress,
+    handleSendFriendRequest,
   } = useProfileScreen({ userId: route?.params?.userId });
 
   const { stats, isLoading: isLoadingStats } = useProfileStats(userId || '');
@@ -100,17 +104,33 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <ProfileInfoSection
             fullName={displayData.fullName}
             username={displayData.username}
-            age={displayData.age}
-            gender={displayData.gender}
-            city={displayData.city}
-            sports={displayData.sports}
-            isEmailVerified={user.isEmailVerified}
-            memberSince={formatMemberSince(user.createdAt)}
+            age={canViewFullProfile ? displayData.age : undefined}
+            gender={canViewFullProfile ? displayData.gender : undefined}
+            city={canViewFullProfile ? displayData.city : undefined}
+            state={canViewFullProfile ? displayData.state : undefined}
+            sports={canViewFullProfile ? displayData.sports : []}
+            isEmailVerified={canViewFullProfile ? user.isEmailVerified : false}
+            memberSince={
+              canViewFullProfile ? formatMemberSince(user.createdAt) : undefined
+            }
           />
 
-          <ProfileBioSection bio={displayData.bio} />
+          {!canViewFullProfile && (
+            <PrivateProfileBanner
+              userId={user.id}
+              userName={displayData.fullName}
+              friendshipStatus={friendshipStatus}
+              onSendRequest={handleSendFriendRequest}
+              onBack={handleBackPress}
+            />
+          )}
 
-          <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
+          {canViewFullProfile && (
+            <>
+              <ProfileBioSection bio={displayData.bio} />
+              <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
+            </>
+          )}
         </View>
       </ScrollView>
 

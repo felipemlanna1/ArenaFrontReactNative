@@ -74,6 +74,7 @@ export const mapUserToDisplayData = (user: UserData): ProfileDisplayData => {
     age: calculateAge(user.birthDate),
     gender: formatGender(user.gender),
     city: user.city || null,
+    state: user.state || null,
     bio: user.bio || null,
     avatarUrl: user.profilePicture || user.avatar || null,
     sports,

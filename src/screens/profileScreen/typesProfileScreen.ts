@@ -1,6 +1,7 @@
 import { UserData } from '@/services/http';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
+import { FriendshipStatus } from '@/services/friendships/typesFriendships';
 
 export type ProfileScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -21,10 +22,13 @@ export interface UseProfileScreenReturn {
   error: Error | null;
   isOwnProfile: boolean;
   currentUserId: string | null;
+  friendshipStatus: FriendshipStatus | null;
+  canViewFullProfile: boolean;
   refetch: () => Promise<void>;
   handleEditPress: () => void;
   handleBackPress: () => void;
   handleLogout: () => void;
+  handleSendFriendRequest: () => Promise<void>;
 }
 
 export interface ProfileDisplayData {
@@ -33,6 +37,7 @@ export interface ProfileDisplayData {
   age: number | null;
   gender: string | null;
   city: string | null;
+  state: string | null;
   bio: string | null;
   avatarUrl: string | null;
   sports: SportBadgeData[];
