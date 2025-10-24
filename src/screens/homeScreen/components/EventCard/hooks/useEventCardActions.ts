@@ -9,7 +9,7 @@ interface UseEventCardActionsProps {
   isLoading?: boolean;
   currentActionEventId?: string | null;
   eventId: string;
-  isGroupMember?: boolean; // For GROUP_ONLY events
+  isGroupMember?: boolean;
 }
 
 export interface ActionButton {
@@ -186,47 +186,36 @@ export const useEventCardActions = ({
   );
 
   const actionButton = useMemo((): ActionButton | null => {
-    // ORGANIZER/ADMIN always see "GERENCIAR" regardless of privacy
     if (isOrganizerOrAdmin(userEventStatus)) {
       return createManageButton(false, false);
     }
 
-    // PARTICIPANT always see "CANCELAR" (leave event)
     if (isParticipant(userEventStatus)) {
       return createCancelButton(isThisEventLoading, isThisEventLoading);
     }
 
-    // INVITED see "ACEITAR" (accept invitation)
     if (isInvited(userEventStatus)) {
       return createAcceptButton(isThisEventLoading, isThisEventLoading);
     }
 
-    // PENDING_REQUEST see "DESFAZER" (undo request)
     if (isRequested(userEventStatus)) {
       return createUndoButton(isThisEventLoading, isThisEventLoading);
     }
 
-    // NONE status - action depends on privacy type
     if (hasNoStatus(userEventStatus)) {
       if (isEventFull) return null;
 
       switch (privacy) {
         case 'PUBLIC':
-          // PUBLIC: Direct join
           return createJoinButton(isThisEventLoading, isThisEventLoading);
 
         case 'GROUP_ONLY':
-          // GROUP_ONLY: Only group members can join
-          // TODO: In future, could show disabled button with "Apenas membros" message
-          // For now, hide button if not group member
           return null;
 
         case 'APPROVAL_REQUIRED':
-          // APPROVAL_REQUIRED: Request to join
           return createRequestButton(isThisEventLoading, isThisEventLoading);
 
         case 'INVITE_ONLY':
-          // INVITE_ONLY: No button for non-invited users
           return null;
 
         default:

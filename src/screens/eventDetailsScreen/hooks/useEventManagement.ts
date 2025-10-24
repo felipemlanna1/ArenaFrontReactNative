@@ -13,6 +13,7 @@ interface UseEventManagementReturn {
   handleApprove: (participantId: string) => Promise<void>;
   handleReject: (participantId: string) => Promise<void>;
   handleRemove: (participantId: string) => Promise<void>;
+  handleCancelInvitation: (participantId: string) => Promise<void>;
   handleAddOwner: (userId: string) => Promise<void>;
   handleRemoveOwner: (ownerId: string) => Promise<void>;
   handleSendInvitations: (userIds: string[], message?: string) => Promise<void>;
@@ -87,6 +88,17 @@ export const useEventManagement = ({
     [eventId, handleManagementAction]
   );
 
+  const handleCancelInvitation = useCallback(
+    async (participantId: string) => {
+      await handleManagementAction(
+        () => eventsService.removeParticipant(eventId, participantId),
+        'Convite cancelado',
+        'Erro ao cancelar convite'
+      );
+    },
+    [eventId, handleManagementAction]
+  );
+
   const handleAddOwner = useCallback(
     async (userId: string) => {
       await handleManagementAction(
@@ -147,6 +159,7 @@ export const useEventManagement = ({
     handleApprove,
     handleReject,
     handleRemove,
+    handleCancelInvitation,
     handleAddOwner,
     handleRemoveOwner,
     handleSendInvitations,

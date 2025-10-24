@@ -26,6 +26,8 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = React.memo(
       onEmailChange: registerHook.handleEmailChange,
       onPasswordChange: registerHook.handlePasswordChange,
       onConfirmPasswordChange: registerHook.handleConfirmPasswordChange,
+      onStateChange: registerHook.handleStateChange,
+      onCityChange: registerHook.handleCityChange,
     };
 
     const actionProps = {

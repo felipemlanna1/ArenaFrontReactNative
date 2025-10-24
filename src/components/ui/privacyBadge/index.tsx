@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { View, TextStyle } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { ArenaColors } from '@/constants';
@@ -90,6 +90,12 @@ export const PrivacyBadge: React.FC<PrivacyBadgeProps> = ({
     style,
   ];
 
+  const labelStyles = useMemo(
+    () =>
+      [{ color: config.textColor }, textStyle].filter(Boolean) as TextStyle[],
+    [config.textColor, textStyle]
+  );
+
   return (
     <View style={containerStyles} testID={testID}>
       {showIcon && (
@@ -100,10 +106,7 @@ export const PrivacyBadge: React.FC<PrivacyBadgeProps> = ({
         />
       )}
       {showLabel && (
-        <Text
-          variant="captionSecondary"
-          style={{ color: config.textColor, ...(textStyle || {}) }}
-        >
+        <Text variant="captionSecondary" style={labelStyles}>
           {config.label}
         </Text>
       )}

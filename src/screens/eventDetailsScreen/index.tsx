@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ import { EventOrganizerCard } from './components/EventOrganizerCard';
 import { EventDescriptionSection } from './components/EventDescriptionSection';
 import { EventParticipantsSection } from './components/EventParticipantsSection';
 import { EventActionButton } from './components/EventActionButton';
+import { EventInviteModal } from './components/EventInviteModal';
 import { useEventDetailsScreen } from './useEventDetailsScreen';
 import { EventDetailsScreenProps } from './typesEventDetailsScreen';
 import { styles } from './stylesEventDetailsScreen';
@@ -25,6 +26,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
 }) => {
   const { eventId } = route.params;
   const { user } = useAuth();
+  const [showInviteModal, setShowInviteModal] = useState(false);
 
   const {
     event,
@@ -134,27 +136,52 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
       {!status.isOwner && <EventActionButton state={actionButtonState} />}
 
       {status.isOwner && (
-        <Fab
-          variant="primary"
-          size="md"
-          position="bottom-right"
-          icon={
-            <Ionicons
-              name="create-outline"
-              size={24}
-              color={ArenaColors.neutral.light}
-            />
-          }
-          onPress={() => {
-            navigation.navigate('CreateEvent', {
-              mode: 'edit',
-              eventId: event.id,
-              eventData: event,
-            });
-          }}
-          testID="edit-event-fab"
-        />
+        <>
+          <Fab
+            variant="secondary"
+            size="md"
+            position="bottom-left"
+            icon={
+              <Ionicons
+                name="person-add-outline"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
+            onPress={() => setShowInviteModal(true)}
+            testID="invite-friends-fab"
+          />
+          <Fab
+            variant="primary"
+            size="md"
+            position="bottom-right"
+            icon={
+              <Ionicons
+                name="create-outline"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
+            onPress={() => {
+              navigation.navigate('CreateEvent', {
+                mode: 'edit',
+                eventId: event.id,
+                eventData: event,
+              });
+            }}
+            testID="edit-event-fab"
+          />
+        </>
       )}
+
+      <EventInviteModal
+        visible={showInviteModal}
+        eventId={eventId}
+        onClose={() => setShowInviteModal(false)}
+        onInvitesSent={() => {
+          refresh();
+        }}
+      />
     </View>
   );
 };

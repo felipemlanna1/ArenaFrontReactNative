@@ -77,7 +77,7 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
       </View>
 
       <View style={styles.optionsGrid}>
-        {PRIVACY_OPTIONS.map((option) => {
+        {PRIVACY_OPTIONS.map(option => {
           const isSelected = formData.privacy === option.value;
 
           return (
@@ -111,9 +111,7 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
                 >
                   {option.label}
                 </Text>
-                <Text variant="captionSecondary" style={styles.privacyOptionDescription}>
-                  {option.description}
-                </Text>
+                <Text variant="captionSecondary">{option.description}</Text>
               </View>
             </TouchableOpacity>
           );

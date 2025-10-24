@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { SportCard } from '@/screens/onboardingSportsScreen/components/SportCard';
+import { SportCard } from '@/components/ui/sportCard';
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
 import { translateSkillLevel } from '@/utils/i18n/skillLevels';
@@ -61,16 +61,27 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
       </View>
 
       <View style={styles.gridContainer}>
-        {availableSports.map(sport => (
-          <SportCard
-            key={sport.id}
-            sportId={sport.id}
-            sportName={sport.name}
-            sportIcon={sport.icon}
-            isSelected={selectedIds.includes(sport.id)}
-            onPress={() => handleToggleSport(sport.id)}
-          />
-        ))}
+        {availableSports.map(sport => {
+          const selectedSport = selectedSports.find(
+            s => s.sportId === sport.id
+          );
+
+          return (
+            <View key={sport.id} style={styles.sportCardWrapper}>
+              <View style={styles.sportCardInner}>
+                <SportCard
+                  sportId={sport.id}
+                  sportName={sport.name}
+                  sportIcon={sport.icon}
+                  skillLevel={selectedSport?.level}
+                  isSelected={selectedIds.includes(sport.id)}
+                  isPrimary={sport.id === primarySportId}
+                  onPress={() => handleToggleSport(sport.id)}
+                />
+              </View>
+            </View>
+          );
+        })}
       </View>
 
       {selectedSports.length > 0 && (

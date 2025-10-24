@@ -28,7 +28,6 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
       const endDate = new Date(formData.startDate);
       endDate.setMinutes(endDate.getMinutes() + formData.duration);
 
-      // Validar coordenadas: só enviar se válidas (não undefined e não 0)
       const hasValidCoordinates =
         formData.location.latitude !== undefined &&
         formData.location.latitude !== 0 &&

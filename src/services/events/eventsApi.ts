@@ -154,7 +154,7 @@ export class EventsApi {
     userIds: string[],
     message?: string
   ): Promise<void> {
-    await httpService.post(`${this.basePath}/${eventId}/send-invitations`, {
+    await httpService.post(`${this.basePath}/${eventId}/invitations`, {
       userIds,
       message,
     });
@@ -195,4 +195,33 @@ export class EventsApi {
     );
     return response;
   }
+
+  async getInvitableUsers(
+    eventId: string,
+    query?: string,
+    limit?: number
+  ): Promise<{
+    friends: unknown[];
+    others: unknown[];
+    invited: unknown[];
+  }> {
+    const params: Record<string, unknown> = {};
+    if (query) params.query = query;
+    if (limit) params.limit = limit;
+
+    const queryString =
+      Object.keys(params).length > 0
+        ? `?${prepareParams(params).toString()}`
+        : '';
+
+    const response = await httpService.get<{
+      friends: unknown[];
+      others: unknown[];
+      invited: unknown[];
+    }>(`${this.basePath}/${eventId}/invitable-users${queryString}`);
+
+    return response;
+  }
 }
+
+export const eventsApi = new EventsApi();

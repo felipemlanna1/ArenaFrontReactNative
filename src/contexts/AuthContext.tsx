@@ -58,14 +58,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       ]);
 
       if (isAuthenticated && storedUser) {
-        const userWithSports: UserData = {
-          ...storedUser,
-          hasSports: Boolean(
-            storedUser.hasSports ||
-              (storedUser.sports && storedUser.sports.length > 0)
-          ),
-        };
-        setUser(userWithSports);
+        try {
+          const freshUserData = await httpService.get<UserData>(
+            `/users/${storedUser.id}`
+          );
+
+          const userWithSports: UserData = {
+            ...freshUserData,
+            hasSports: Boolean(
+              freshUserData.hasSports ||
+                (freshUserData.sports && freshUserData.sports.length > 0)
+            ),
+          };
+
+          setUser(userWithSports);
+          await httpService.saveUserData(userWithSports);
+        } catch {
+          const userWithSports: UserData = {
+            ...storedUser,
+            hasSports: Boolean(
+              storedUser.hasSports ||
+                (storedUser.sports && storedUser.sports.length > 0)
+            ),
+            isProfilePrivate: storedUser.isProfilePrivate ?? false,
+          };
+
+          setUser(userWithSports);
+        }
       }
     } catch {
       await httpService.clearAuthData();
@@ -84,8 +103,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData: UserData = {
         ...response.user,
-        sports: response.user.sports as unknown as UserSportData[],
+        sports: response.user.sports || [],
         hasSports: response.user.hasSports || false,
+        isProfilePrivate: response.user.isProfilePrivate ?? false,
         createdAt: response.user.createdAt || new Date().toISOString(),
         updatedAt: response.user.updatedAt || new Date().toISOString(),
       };
@@ -110,20 +130,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(async (data: RegisterData) => {
-    try {
-      const response = await authService.register(data);
+    const response = await authService.register(data);
 
-      const userData: UserData = {
-        ...response.user,
-        sports: response.user.sports as unknown as UserSportData[],
-        createdAt: response.user.createdAt || new Date().toISOString(),
-        updatedAt: response.user.updatedAt || new Date().toISOString(),
-      };
+    const userData: UserData = {
+      ...response.user,
+      sports: response.user.sports || [],
+      isProfilePrivate: response.user.isProfilePrivate ?? false,
+      createdAt: response.user.createdAt || new Date().toISOString(),
+      updatedAt: response.user.updatedAt || new Date().toISOString(),
+    };
 
-      setUser(userData);
-    } catch {
-      throw new Error('Falha no cadastro');
-    }
+    setUser(userData);
   }, []);
 
   const updateUser = useCallback(async (updatedUser: UserData) => {

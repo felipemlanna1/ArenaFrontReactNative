@@ -19,7 +19,7 @@ interface UseEditProfileScreenReturn {
   availableSports: Sport[];
   handleFieldChange: (
     field: keyof EditProfileFormData,
-    value: string | Date | null
+    value: string | Date | null | boolean
   ) => void;
   handleToggleSport: (sportId: string) => void;
   handleTogglePrimary: (sportId: string) => void;
@@ -52,6 +52,9 @@ export const useEditProfileScreen = ({
     selectedSports: [],
     sportLevels: {},
     primarySportId: null,
+    state: '',
+    city: '',
+    isProfilePrivate: false,
   });
 
   const [errors, setErrors] = useState<EditProfileFormErrors>({});
@@ -76,7 +79,7 @@ export const useEditProfileScreen = ({
 
           const dateOfBirthValue = user.dateOfBirth || user.birthDate || null;
 
-          setFormData({
+          const loadedFormData = {
             firstName: user.firstName || '',
             lastName: user.lastName || '',
             bio: user.bio || '',
@@ -87,7 +90,12 @@ export const useEditProfileScreen = ({
             selectedSports: userSportIds,
             sportLevels,
             primarySportId,
-          });
+            state: user.state || '',
+            city: user.city || '',
+            isProfilePrivate: user.isProfilePrivate || false,
+          };
+
+          setFormData(loadedFormData);
         }
       } catch {
         showError('Erro ao carregar dados');
@@ -119,7 +127,10 @@ export const useEditProfileScreen = ({
   }, [formData]);
 
   const handleFieldChange = useCallback(
-    (field: keyof EditProfileFormData, value: string | Date | null) => {
+    (
+      field: keyof EditProfileFormData,
+      value: string | Date | null | boolean
+    ) => {
       setFormData(prev => ({ ...prev, [field]: value }));
       setErrors(prev => ({ ...prev, [field]: undefined }));
     },
@@ -191,8 +202,11 @@ export const useEditProfileScreen = ({
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
         bio: formData.bio.trim() || undefined,
-        dateOfBirth: formData.birthDate?.toISOString() || undefined,
+        birthDate: formData.birthDate?.toISOString() || undefined,
         gender: formData.gender || undefined,
+        state: formData.state || undefined,
+        city: formData.city || undefined,
+        isProfilePrivate: formData.isProfilePrivate,
       });
 
       if (formData.selectedSports.length > 0) {

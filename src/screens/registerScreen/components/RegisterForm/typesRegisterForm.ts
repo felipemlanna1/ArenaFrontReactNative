@@ -13,4 +13,6 @@ export interface RegisterFormProps {
   onEmailChange: (text: string) => void;
   onPasswordChange: (text: string) => void;
   onConfirmPasswordChange: (text: string) => void;
+  onStateChange: (state: string) => void;
+  onCityChange: (city: string) => void;
 }

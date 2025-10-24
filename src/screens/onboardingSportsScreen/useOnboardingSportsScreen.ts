@@ -42,14 +42,17 @@ export const useOnboardingSportsScreen = () => {
   );
 
   const handleSelectLevel = useCallback(
-    (level: SkillLevel) => {
+    (level: SkillLevel, isPrimaryOverride?: boolean) => {
       if (!currentSport) return;
+
+      const isPrimary =
+        isPrimaryOverride !== undefined ? isPrimaryOverride : currentIsPrimary;
 
       const newSelection: SportSelection = {
         sportId: currentSport.id,
         sportName: currentSport.name,
         level: level,
-        isPrimary: currentIsPrimary,
+        isPrimary: isPrimary,
       };
 
       setSelectedSports(prev => {
@@ -57,8 +60,10 @@ export const useOnboardingSportsScreen = () => {
         return [...filtered, newSelection];
       });
 
-      if (currentIsPrimary) {
+      if (isPrimary) {
         setPrimarySportId(currentSport.id);
+      } else if (primarySportId === currentSport.id) {
+        setPrimarySportId(null);
       }
 
       setModalVisible(false);
@@ -66,7 +71,7 @@ export const useOnboardingSportsScreen = () => {
       setCurrentLevel(null);
       setCurrentIsPrimary(false);
     },
-    [currentSport, currentIsPrimary]
+    [currentSport, currentIsPrimary, primarySportId]
   );
 
   const handleTogglePrimary = useCallback((isPrimary: boolean) => {

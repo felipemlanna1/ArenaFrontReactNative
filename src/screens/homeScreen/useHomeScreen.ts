@@ -74,7 +74,6 @@ export const useHomeScreen = (
     try {
       setIsLoggingOut(true);
       await signOut();
-      // AuthContext automaticamente redireciona para Welcome quando user vira null
     } catch {
       setIsLoggingOut(false);
     }

@@ -18,7 +18,7 @@ export type RootStackParamList = {
 
 export type TabParamList = {
   HomeTab: undefined;
-  ExploreTab: undefined;
+  FriendsTab: undefined;
   MyEventsTab: undefined;
   NotificationsTab: undefined;
   ProfileTab: undefined;
@@ -28,8 +28,8 @@ export type HomeStackParamList = {
   Home: undefined;
 };
 
-export type ExploreStackParamList = {
-  Explore: undefined;
+export type FriendsStackParamList = {
+  Friends: undefined;
 };
 
 export type MyEventsStackParamList = {

@@ -9,14 +9,14 @@ import {
   ArenaTypography,
 } from '@/constants';
 import { HomeScreen } from '@/screens/homeScreen';
-import { ExploreScreen } from '@/screens/exploreScreen';
+import { FriendsScreen } from '@/screens/friendsScreen';
 import { MyEventsScreen } from '@/screens/myEventsScreen';
 import { NotificationsScreen } from '@/screens/notificationsScreen';
 import { ProfileScreen } from '@/screens/profileScreen';
 import {
   TabParamList,
   HomeStackParamList,
-  ExploreStackParamList,
+  FriendsStackParamList,
   MyEventsStackParamList,
   NotificationsStackParamList,
   ProfileStackParamList,
@@ -24,7 +24,7 @@ import {
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
-const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
+const FriendsStack = createNativeStackNavigator<FriendsStackParamList>();
 const MyEventsStack = createNativeStackNavigator<MyEventsStackParamList>();
 const NotificationsStack =
   createNativeStackNavigator<NotificationsStackParamList>();
@@ -38,11 +38,11 @@ const HomeStackScreen: React.FC = () => {
   );
 };
 
-const ExploreStackScreen: React.FC = () => {
+const FriendsStackScreen: React.FC = () => {
   return (
-    <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
-      <ExploreStack.Screen name="Explore" component={ExploreScreen} />
-    </ExploreStack.Navigator>
+    <FriendsStack.Navigator screenOptions={{ headerShown: false }}>
+      <FriendsStack.Screen name="Friends" component={FriendsScreen} />
+    </FriendsStack.Navigator>
   );
 };
 
@@ -109,13 +109,13 @@ export const BottomTabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="ExploreTab"
-        component={ExploreStackScreen}
+        name="FriendsTab"
+        component={FriendsStackScreen}
         options={{
-          tabBarLabel: 'Explorar',
+          tabBarLabel: 'Amigos',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? 'search' : 'search-outline'}
+              name={focused ? 'people' : 'people-outline'}
               size={24}
               color={color}
             />

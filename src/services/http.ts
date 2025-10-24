@@ -31,6 +31,9 @@ export interface UserData {
   gender?: 'male' | 'female' | 'other';
   bio?: string;
   profilePicture?: string;
+  city?: string;
+  state?: string;
+  isProfilePrivate: boolean;
   isActive: boolean;
   isEmailVerified: boolean;
   lastLoginAt?: string;
@@ -53,12 +56,9 @@ export interface LoginUserData {
   email: string;
   isActive: boolean;
   isEmailVerified: boolean;
-  sports?: {
-    id: string;
-    name: string;
-    color: string;
-  }[];
+  sports?: UserSportData[];
   hasSports?: boolean;
+  isProfilePrivate?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

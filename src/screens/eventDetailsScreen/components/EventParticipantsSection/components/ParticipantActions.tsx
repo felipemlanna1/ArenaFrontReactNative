@@ -65,7 +65,7 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
         </View>
       )}
 
-      {status === 'CONFIRMED' && onRemove && (
+      {(status === 'CONFIRMED' || status === 'INVITED') && onRemove && (
         <TouchableOpacity
           style={[styles.actionButton, styles.removeButton]}
           onPress={onRemove}
@@ -78,7 +78,7 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
             color={ArenaColors.neutral.light}
           />
           <Text variant="labelPrimary" style={styles.buttonText}>
-            Remover
+            {status === 'INVITED' ? 'Cancelar Convite' : 'Remover'}
           </Text>
         </TouchableOpacity>
       )}
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.md,
-    minWidth: 100,
-    minHeight: 40,
+    minWidth: ArenaSpacing['8xl'],
+    minHeight: ArenaSpacing['4xl'],
   },
   approveButton: {
     backgroundColor: ArenaColors.semantic.success,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     backgroundColor: ArenaColors.semantic.error,
-    minWidth: 100,
+    minWidth: ArenaSpacing['8xl'],
   },
   buttonText: {
     color: ArenaColors.neutral.light,

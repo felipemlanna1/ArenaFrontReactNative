@@ -63,6 +63,8 @@ export const useRegisterScreen = (
     email: '',
     password: '',
     confirmPassword: '',
+    state: '',
+    city: '',
   });
 
   const [errors, setErrors] = useState<RegisterErrors>({});
@@ -149,6 +151,26 @@ export const useRegisterScreen = (
     [errors.confirmPassword]
   );
 
+  const handleStateChange = useCallback(
+    (state: string) => {
+      setFormData(prev => ({ ...prev, state, city: '' }));
+      if (errors.state) {
+        setErrors(prev => ({ ...prev, state: undefined }));
+      }
+    },
+    [errors.state]
+  );
+
+  const handleCityChange = useCallback(
+    (city: string) => {
+      setFormData(prev => ({ ...prev, city }));
+      if (errors.city) {
+        setErrors(prev => ({ ...prev, city: undefined }));
+      }
+    },
+    [errors.city]
+  );
+
   const handleSubmit = useCallback(async () => {
     const firstNameError = validateName(formData.firstName, 'Nome');
     const lastNameError = validateName(formData.lastName, 'Sobrenome');
@@ -182,15 +204,19 @@ export const useRegisterScreen = (
     setIsLoading(true);
     setErrors({});
 
+    const registerPayload = {
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      username: formData.username.trim(),
+      email: formData.email.trim(),
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+      state: formData.state?.trim() || undefined,
+      city: formData.city?.trim() || undefined,
+    };
+
     try {
-      await signUp({
-        firstName: formData.firstName.trim(),
-        lastName: formData.lastName.trim(),
-        username: formData.username.trim(),
-        email: formData.email.trim(),
-        password: formData.password,
-        confirmPassword: formData.confirmPassword,
-      });
+      await signUp(registerPayload);
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {
@@ -239,6 +265,8 @@ export const useRegisterScreen = (
     handleEmailChange,
     handlePasswordChange,
     handleConfirmPasswordChange,
+    handleStateChange,
+    handleCityChange,
     handleSubmit,
     handleLoginPress,
   };
