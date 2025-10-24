@@ -1,13 +1,10 @@
-import React from 'react';
-import { View, Modal, TouchableOpacity, ScrollView } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
+import { View } from 'react-native';
+import { FilterModal } from '@/components/ui/filterModal';
 import { StateDropdown } from '@/components/ui/stateDropdown';
 import { CityDropdown } from '@/components/ui/cityDropdown';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import { ArenaSpacing } from '@/constants';
 import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface CityFilterModalProps {
   visible: boolean;
@@ -26,121 +23,71 @@ export const CityFilterModal: React.FC<CityFilterModalProps> = ({
   onCityChange,
   onStateChange,
 }) => {
+  const [tempSelectedState, setTempSelectedState] = useState(selectedState);
+  const [tempSelectedCity, setTempSelectedCity] = useState(selectedCity);
+
+  useEffect(() => {
+    if (visible) {
+      setTempSelectedState(selectedState);
+      setTempSelectedCity(selectedCity);
+    }
+  }, [visible, selectedState, selectedCity]);
+
+  const handleStateChange = (state: string) => {
+    setTempSelectedState(state);
+    if (!state) {
+      setTempSelectedCity('');
+    }
+  };
+
+  const handleCityChange = (city: string) => {
+    setTempSelectedCity(city);
+  };
+
   const handleApply = () => {
+    onStateChange(tempSelectedState);
+    onCityChange(tempSelectedCity);
     onClose();
   };
 
-  const handleClear = () => {
-    onCityChange('');
-    onStateChange('');
+  const handleCancel = () => {
+    setTempSelectedState(selectedState);
+    setTempSelectedCity(selectedCity);
     onClose();
   };
-
-  const hasCityFilter = selectedCity !== '' || selectedState !== '';
 
   return (
-    <Modal
+    <FilterModal
       visible={visible}
-      animationType="slide"
-      transparent
-      onRequestClose={onClose}
+      onClose={onClose}
+      onApply={handleApply}
+      onCancel={handleCancel}
+      title="Filtrar por Localização"
+      height="85%"
+      testID="city-filter-modal"
     >
-      <SafeAreaView style={styles.overlay} edges={['bottom']}>
-        <TouchableOpacity
-          style={styles.backdrop}
-          activeOpacity={1}
-          onPress={onClose}
+      <View style={styles.dropdownsContainer}>
+        <StateDropdown
+          value={tempSelectedState}
+          onChange={handleStateChange}
+          label="Estado"
         />
-        <View style={styles.modalContainer}>
-          {/* Header */}
-          <View style={styles.header}>
-            <Text variant="titlePrimary">Filtrar por Localização</Text>
-            <TouchableOpacity onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-              <Ionicons
-                name="close"
-                size={24}
-                color={ArenaColors.neutral.light}
-              />
-            </TouchableOpacity>
-          </View>
 
-          {/* Content */}
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
-          >
-            <View style={styles.dropdownsContainer}>
-              <StateDropdown
-                value={selectedState}
-                onChange={onStateChange}
-                label="Estado"
-              />
-
-              {selectedState && (
-                <CityDropdown
-                  value={selectedCity}
-                  onChange={onCityChange}
-                  stateUF={selectedState}
-                  label="Cidade"
-                />
-              )}
-            </View>
-          </ScrollView>
-
-          {/* Footer Actions */}
-          <View style={styles.footer}>
-            {hasCityFilter && (
-              <Button variant="secondary" onPress={handleClear} size="md">
-                Limpar filtro
-              </Button>
-            )}
-            <Button variant="primary" onPress={handleApply} size="md">
-              Aplicar
-            </Button>
-          </View>
-        </View>
-      </SafeAreaView>
-    </Modal>
+        {tempSelectedState && (
+          <CityDropdown
+            value={tempSelectedCity}
+            onChange={handleCityChange}
+            stateUF={tempSelectedState}
+            label="Cidade"
+          />
+        )}
+      </View>
+    </FilterModal>
   );
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  backdrop: {
-    flex: 1,
-  },
-  modalContainer: {
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderTopLeftRadius: ArenaBorders.radius.xl,
-    borderTopRightRadius: ArenaBorders.radius.xl,
-    maxHeight: '80%',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: ArenaColors.neutral.darkSubtleBorder,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: ArenaSpacing.lg,
-  },
   dropdownsContainer: {
     gap: ArenaSpacing.lg,
-  },
-  footer: {
-    padding: ArenaSpacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: ArenaColors.neutral.darkSubtleBorder,
-    gap: ArenaSpacing.sm,
   },
 });

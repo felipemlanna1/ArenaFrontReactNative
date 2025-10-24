@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, Modal, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { Button } from '@/components/ui/button';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import { FilterModal } from '@/components/ui/filterModal';
+import { MultiSelectSports } from '@/components/ui/multiSelectSports';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Sport {
   id: string;
@@ -20,7 +20,19 @@ interface SportsFilterModalProps {
   selectedSportId: string | undefined;
   onSelectSport: (sportId: string | undefined) => void;
   sports: Sport[];
+  isLoading?: boolean;
 }
+
+const EmptyState: React.FC = () => (
+  <View style={styles.emptyContainer}>
+    <Ionicons
+      name="basketball-outline"
+      size={48}
+      color={ArenaColors.neutral.medium}
+    />
+    <Text variant="bodySecondary">Nenhum esporte disponível</Text>
+  </View>
+);
 
 export const SportsFilterModal: React.FC<SportsFilterModalProps> = ({
   visible,
@@ -28,140 +40,63 @@ export const SportsFilterModal: React.FC<SportsFilterModalProps> = ({
   selectedSportId,
   onSelectSport,
   sports,
+  isLoading = false,
 }) => {
-  const handleSelectSport = (sportId: string) => {
-    onSelectSport(sportId);
+  const [tempSelectedSportId, setTempSelectedSportId] = useState<
+    string | undefined
+  >(selectedSportId);
+
+  useEffect(() => {
+    if (visible) {
+      setTempSelectedSportId(selectedSportId);
+    }
+  }, [visible, selectedSportId]);
+
+  const handleToggleSport = (sportId: string) => {
+    setTempSelectedSportId(prev => (prev === sportId ? undefined : sportId));
+  };
+
+  const handleApply = () => {
+    onSelectSport(tempSelectedSportId);
     onClose();
   };
 
-  const handleClear = () => {
-    onSelectSport(undefined);
+  const handleCancel = () => {
+    setTempSelectedSportId(selectedSportId);
     onClose();
   };
 
   return (
-    <Modal
+    <FilterModal
       visible={visible}
-      animationType="slide"
-      transparent
-      onRequestClose={onClose}
+      onClose={onClose}
+      onApply={handleApply}
+      onCancel={handleCancel}
+      title="Filtrar por Esporte"
+      height="85%"
+      isLoading={isLoading}
+      testID="sports-filter-modal"
     >
-      <SafeAreaView style={styles.overlay} edges={['bottom']}>
-        <TouchableOpacity
-          style={styles.backdrop}
-          activeOpacity={1}
-          onPress={onClose}
+      {sports.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <MultiSelectSports
+          sports={sports}
+          selectedSportIds={tempSelectedSportId ? [tempSelectedSportId] : []}
+          onToggleSport={handleToggleSport}
+          testID="sports-filter-modal-sports"
         />
-        <View style={styles.modalContainer}>
-          {/* Header */}
-          <View style={styles.header}>
-            <Text variant="titlePrimary">Filtrar por Esporte</Text>
-            <TouchableOpacity onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-              <Ionicons
-                name="close"
-                size={24}
-                color={ArenaColors.neutral.light}
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Sports List */}
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
-          >
-            {sports.map(sport => (
-              <TouchableOpacity
-                key={sport.id}
-                style={[
-                  styles.sportItem,
-                  selectedSportId === sport.id && styles.sportItemSelected,
-                ]}
-                onPress={() => handleSelectSport(sport.id)}
-              >
-                <View style={styles.sportInfo}>
-                  <Text variant="bodyPrimary">{sport.icon}</Text>
-                  <Text variant="bodyPrimary">{sport.name}</Text>
-                </View>
-                {selectedSportId === sport.id && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={24}
-                    color={ArenaColors.brand.primary}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-
-          {/* Footer Actions */}
-          <View style={styles.footer}>
-            {selectedSportId && (
-              <Button variant="secondary" onPress={handleClear} size="md">
-                Limpar filtro
-              </Button>
-            )}
-          </View>
-        </View>
-      </SafeAreaView>
-    </Modal>
+      )}
+    </FilterModal>
   );
 };
 
 const styles = StyleSheet.create({
-  overlay: {
+  emptyContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  backdrop: {
-    flex: 1,
-  },
-  modalContainer: {
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderTopLeftRadius: ArenaBorders.radius.xl,
-    borderTopRightRadius: ArenaBorders.radius.xl,
-    maxHeight: '80%',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: ArenaColors.neutral.darkSubtleBorder,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: ArenaSpacing.md,
-    gap: ArenaSpacing.sm,
-  },
-  sportItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: ArenaSpacing.md,
-    paddingHorizontal: ArenaSpacing.lg,
-    borderRadius: ArenaBorders.radius.md,
-    backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: 1,
-    borderColor: ArenaColors.neutral.darkSubtleBorder,
-  },
-  sportItemSelected: {
-    borderColor: ArenaColors.brand.primary,
-    backgroundColor: ArenaColors.brand.primarySubtle,
-  },
-  sportInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingVertical: ArenaSpacing['2xl'],
     gap: ArenaSpacing.md,
-  },
-  footer: {
-    padding: ArenaSpacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: ArenaColors.neutral.darkSubtleBorder,
   },
 });
