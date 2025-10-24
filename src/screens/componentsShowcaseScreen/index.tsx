@@ -19,6 +19,7 @@ import {
   DatePickerSection,
   DropdownSection,
   FabSection,
+  FilterModalSection,
   InputSection,
   LabelSection,
   LinkSection,
@@ -26,6 +27,7 @@ import {
   OptimizedImageSection,
   ProgressBarSection,
   RadioButtonSection,
+  SelectionModalSection,
   StepperSection,
   SwitchSection,
 } from './components';
@@ -93,6 +95,11 @@ export const ComponentsShowcaseScreen: React.FC<
       content: <FabSection onCopyCode={actions.handleCopyCode} />,
     },
     {
+      id: 'filtermodal',
+      title: 'FilterModal',
+      content: <FilterModalSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
       id: 'input',
       title: 'Input',
       content: <InputSection onCopyCode={actions.handleCopyCode} />,
@@ -126,6 +133,11 @@ export const ComponentsShowcaseScreen: React.FC<
       id: 'radiobutton',
       title: 'RadioButton',
       content: <RadioButtonSection onCopyCode={actions.handleCopyCode} />,
+    },
+    {
+      id: 'selectionmodal',
+      title: 'SelectionModal',
+      content: <SelectionModalSection onCopyCode={actions.handleCopyCode} />,
     },
     {
       id: 'stepper',
