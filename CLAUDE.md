@@ -459,6 +459,8 @@ import { RefreshControl } from 'react-native';
 | `<ActivityIndicator>` | `<SportsLoading>` | `@/components/ui/sportsLoading` |
 | `<RefreshControl>` | `<ArenaRefreshControl>` | `@/components/ui/refreshControl` |
 | `<Image>` | `<OptimizedImage>` | `@/components/ui/optimizedImage` |
+| `<Modal>` (para seleção direta) | `<SelectionModal>` | `@/components/ui/selectionModal` |
+| `<Modal>` (para filtros com confirmação) | `<FilterModal>` | `@/components/ui/filterModal` |
 | `<TouchableOpacity>` (botão) | `<Button>` | `@/components/ui/button` |
 | `<TouchableOpacity>` (card) | `<Card>` | `@/components/ui/card` |
 | `@react-native-community/datetimepicker` | `<DatePicker>` | `@/components/ui/datePicker` |
@@ -582,7 +584,123 @@ import { Stepper } from '@/components/ui/stepper';
   totalSteps={5}
   variant="dots"
 />
+
+// SelectionModal (modal de seleção)
+import { SelectionModal } from '@/components/ui/selectionModal';
+
+// ✅ CORRETO - Usar SelectionModal para modais de seleção
+<SelectionModal
+  isOpen={isOpen}
+  onClose={closeModal}
+  title="Selecione uma opção"
+  searchValue={searchQuery}
+  onSearchChange={setSearchQuery}
+  searchPlaceholder="Buscar..."
+  items={items}
+  renderItem={(item) => (
+    <Pressable onPress={() => selectItem(item)}>
+      <Text variant="bodyPrimary">{item.name}</Text>
+    </Pressable>
+  )}
+  keyExtractor={(item) => item.id}
+  emptyMessage="Nenhum item encontrado"
+  errorMessage={loadError}
+  isLoading={isLoading}
+/>
+
+// ❌ ERRADO - Nunca usar Modal do React Native para seleção
+import { Modal } from 'react-native';
+<Modal visible={isOpen}>{/* ... */}</Modal>
+
+// FilterModal (modal de filtro com confirmação)
+import { FilterModal } from '@/components/ui/filterModal';
+
+// ✅ CORRETO - Usar FilterModal para filtros com botões Cancelar/Aplicar
+<FilterModal
+  visible={visible}
+  onClose={() => setVisible(false)}
+  onApply={handleApply}
+  onCancel={handleCancel}
+  title="Filtrar por Esporte"
+  height="85%"
+  isLoading={isLoading}
+>
+  <MultiSelectSports
+    sports={sports}
+    selectedSportIds={selectedSportIds}
+    onToggleSport={handleToggle}
+  />
+</FilterModal>
+
+// ❌ ERRADO - Nunca usar Modal do React Native para filtros
+import { Modal } from 'react-native';
+<Modal visible={visible}>{/* ... */}</Modal>
 ```
+
+### 🆚 FilterModal vs SelectionModal - Quando usar?
+
+**REGRA CRÍTICA**: NUNCA use `<Modal>` do React Native diretamente. Use FilterModal ou SelectionModal.
+
+#### FilterModal
+✅ **Use FilterModal quando:**
+- Modal precisa de botões "Cancelar" e "Aplicar"
+- Filtros que exigem confirmação antes de aplicar
+- Formulários dentro de modais
+- Conteúdo customizável (children)
+- Seleções que precisam de múltiplas etapas
+
+**Props principais:**
+```tsx
+interface FilterModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onApply: () => void;           // Chamado ao clicar "Aplicar"
+  onCancel?: () => void;          // Chamado ao clicar "Cancelar" (padrão: onClose)
+  title: string;
+  children: ReactNode;            // Conteúdo customizável
+  height?: '80%' | '85%' | '90%'; // Altura do modal (padrão: 85%)
+  isLoading?: boolean;
+  applyButtonLabel?: string;
+  cancelButtonLabel?: string;
+  applyButtonDisabled?: boolean;
+}
+```
+
+**Exemplos de uso:**
+- ✅ Filtro de esportes
+- ✅ Filtro de localização (Estado + Cidade)
+- ✅ Filtro de data/preço
+- ✅ Formulários de edição
+
+#### SelectionModal
+✅ **Use SelectionModal quando:**
+- Seleção direta de items (sem confirmação)
+- Listas com busca integrada
+- Fechamento automático ao selecionar item
+- Lista de items renderizável
+
+**Props principais:**
+```tsx
+interface SelectionModalProps<T> {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
+  items: T[];                     // Lista de items
+  renderItem: (item: T) => React.ReactElement;
+  keyExtractor: (item: T) => string;
+  isLoading?: boolean;
+  errorMessage?: string | null;
+}
+```
+
+**Exemplos de uso:**
+- ✅ Seleção de estado/cidade (seleciona e fecha)
+- ✅ Seleção de categoria única
+- ✅ Busca de usuários
+
+**Regra ESLint:** `arena/arena-use-filter-modal` - Bloqueia uso de `<Modal>` fora de componentes UI
 
 #### **Feedback & Status**
 ```tsx
