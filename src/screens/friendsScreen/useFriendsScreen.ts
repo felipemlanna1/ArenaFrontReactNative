@@ -1,29 +1,35 @@
 import { useState, useCallback, useEffect } from 'react';
+import { NavigationProp } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
 import { friendshipsApi } from '@/services/friendships';
-import { FriendshipStatus, FriendshipType } from '@/services/friendships/typesFriendships';
+import { FriendshipType } from '@/services/friendships/typesFriendships';
 import { UseFriendsScreenReturn } from './typesFriendsScreen';
 import { UserData } from '@/services/http';
 
-export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
+export const useFriendsScreen = (
+  navigation: NavigationProp<Record<string, object | undefined>>
+): UseFriendsScreenReturn => {
   const { signOut } = useAuth();
 
   const [friends, setFriends] = useState<UserData[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<UserData[]>([]);
   const [outgoingRequests, setOutgoingRequests] = useState<UserData[]>([]);
   const [recommendations, setRecommendations] = useState<UserData[]>([]);
-  // Internal map to track friendshipId for each request userId
-  const [requestsMap, setRequestsMap] = useState<Map<string, string>>(new Map());
-  const [outgoingMap, setOutgoingMap] = useState<Map<string, string>>(new Map());
+  const [requestsMap, setRequestsMap] = useState<Map<string, string>>(
+    new Map()
+  );
+  const [outgoingMap, setOutgoingMap] = useState<Map<string, string>>(
+    new Map()
+  );
 
   const [isLoadingFriends, setIsLoadingFriends] = useState(true);
   const [isLoadingRequests, setIsLoadingRequests] = useState(true);
   const [isLoadingOutgoing, setIsLoadingOutgoing] = useState(true);
-  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(true);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] =
+    useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
 
-  // Pagination state
   const [friendsPage, setFriendsPage] = useState(1);
   const [incomingPage, setIncomingPage] = useState(1);
   const [outgoingPage, setOutgoingPage] = useState(1);
@@ -37,9 +43,9 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const [isLoadingMoreFriends, setIsLoadingMoreFriends] = useState(false);
   const [isLoadingMoreIncoming, setIsLoadingMoreIncoming] = useState(false);
   const [isLoadingMoreOutgoing, setIsLoadingMoreOutgoing] = useState(false);
-  const [isLoadingMoreRecommendations, setIsLoadingMoreRecommendations] = useState(false);
+  const [isLoadingMoreRecommendations, setIsLoadingMoreRecommendations] =
+    useState(false);
 
-  // Filters state
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
@@ -48,113 +54,105 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     undefined
   );
 
-  // Debounce search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
-    }, 500); // 500ms delay
-
+    }, 500);
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const fetchFriends = useCallback(async (page: number = 1) => {
-    try {
-      if (page === 1) {
-        setIsLoadingFriends(true);
-        setFriendsPage(1);
-      } else {
-        setIsLoadingMoreFriends(true);
+  const fetchFriends = useCallback(
+    async (page: number = 1) => {
+      try {
+        if (page === 1) {
+          setIsLoadingFriends(true);
+          setFriendsPage(1);
+        } else {
+          setIsLoadingMoreFriends(true);
+        }
+
+        const response = await friendshipsApi.getUsers(
+          FriendshipType.FRIENDS,
+          {
+            query: debouncedSearchQuery || undefined,
+            city: selectedCity || undefined,
+            state: selectedState || undefined,
+            sportId: selectedSportId,
+          },
+          page,
+          20
+        );
+
+        if (page === 1) {
+          setFriends(response.data);
+        } else {
+          setFriends(prev => [...prev, ...response.data]);
+        }
+
+        setFriendsPage(page);
+        setHasMoreFriends(response.hasMore);
+      } catch {
+        if (page === 1) {
+          setFriends([]);
+        }
+      } finally {
+        setIsLoadingFriends(false);
+        setIsLoadingMoreFriends(false);
       }
+    },
+    [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]
+  );
 
-      const response = await friendshipsApi.getUsers(
-        FriendshipType.FRIENDS,
-        {
-          query: debouncedSearchQuery || undefined,
-          city: selectedCity || undefined,
-          state: selectedState || undefined,
-          sportId: selectedSportId,
-        },
-        page,
-        20
-      );
+  const fetchIncomingRequests = useCallback(
+    async (page: number = 1) => {
+      try {
+        if (page === 1) {
+          setIsLoadingRequests(true);
+          setIncomingPage(1);
+        } else {
+          setIsLoadingMoreIncoming(true);
+        }
 
-      if (page === 1) {
-        setFriends(response.data);
-      } else {
-        setFriends(prev => [...prev, ...response.data]);
+        const response = await friendshipsApi.getUsers(
+          FriendshipType.INCOMING,
+          {
+            query: debouncedSearchQuery || undefined,
+            city: selectedCity || undefined,
+            state: selectedState || undefined,
+            sportId: selectedSportId,
+          },
+          page,
+          20
+        );
+
+        if (page === 1) {
+          const friendships = await friendshipsApi.getIncomingRequests();
+          const newMap = new Map<string, string>();
+          friendships.forEach(f => {
+            if (f.requester?.id) {
+              newMap.set(f.requester.id, f.id);
+            }
+          });
+          setRequestsMap(newMap);
+          setIncomingRequests(response.data);
+        } else {
+          setIncomingRequests(prev => [...prev, ...response.data]);
+        }
+
+        setIncomingPage(page);
+        setHasMoreIncoming(response.hasMore);
+      } catch {
+        if (page === 1) {
+          setIncomingRequests([]);
+          setRequestsMap(new Map());
+        }
+      } finally {
+        setIsLoadingRequests(false);
+        setIsLoadingMoreIncoming(false);
       }
-
-      setFriendsPage(page);
-      setHasMoreFriends(response.hasMore);
-    } catch (error) {
-      console.error('Failed to fetch friends:', error);
-      if (page === 1) {
-        setFriends([]);
-      }
-    } finally {
-      setIsLoadingFriends(false);
-      setIsLoadingMoreFriends(false);
-    }
-  }, [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]);
-
-  const fetchIncomingRequests = useCallback(async (page: number = 1) => {
-    try {
-      if (page === 1) {
-        setIsLoadingRequests(true);
-        setIncomingPage(1);
-      } else {
-        setIsLoadingMoreIncoming(true);
-      }
-
-      console.log('[DEBUG] Fetching incoming requests, page:', page);
-      const response = await friendshipsApi.getUsers(
-        FriendshipType.INCOMING,
-        {
-          query: debouncedSearchQuery || undefined,
-          city: selectedCity || undefined,
-          state: selectedState || undefined,
-          sportId: selectedSportId,
-        },
-        page,
-        20
-      );
-      console.log('[DEBUG] Incoming response:', response);
-      console.log('[DEBUG] Incoming response.data.length:', response.data?.length);
-      console.log('[DEBUG] Incoming response.total:', response.total);
-      console.log('[DEBUG] Incoming response.hasMore:', response.hasMore);
-
-      // For incoming, we still need to get friendships to build the map
-      // But the new API returns users directly, so we need to fetch friendships separately
-      // For now, we'll use the old API for mapping
-      if (page === 1) {
-        const friendships = await friendshipsApi.getIncomingRequests();
-        console.log('[DEBUG] Incoming friendships for map (old API):', friendships.length);
-        const newMap = new Map<string, string>();
-        friendships.forEach(f => {
-          if (f.requester?.id) {
-            newMap.set(f.requester.id, f.id);
-          }
-        });
-        setRequestsMap(newMap);
-        console.log('[DEBUG] Setting incoming requests to:', response.data.length, 'users');
-        setIncomingRequests(response.data);
-      } else {
-        setIncomingRequests(prev => [...prev, ...response.data]);
-      }
-
-      setIncomingPage(page);
-      setHasMoreIncoming(response.hasMore);
-    } catch (error) {
-      console.error('[ERROR] Failed to fetch incoming requests:', error);
-      if (page === 1) {
-        setIncomingRequests([]);
-        setRequestsMap(new Map());
-      }
-    } finally {
-      setIsLoadingRequests(false);
-      setIsLoadingMoreIncoming(false);
-    }
-  }, [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]);
+    },
+    [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]
+  );
 
   const fetchOutgoingRequests = useCallback(async (page: number = 1) => {
     try {
@@ -165,19 +163,15 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
         setIsLoadingMoreOutgoing(true);
       }
 
-      console.log('[DEBUG] Fetching outgoing requests, page:', page);
       const response = await friendshipsApi.getUsers(
         FriendshipType.OUTGOING,
-        {}, // No filters for outgoing
+        {},
         page,
         20
       );
-      console.log('[DEBUG] Outgoing response:', response);
 
-      // Build map for cancel action (only on first page)
       if (page === 1) {
         const friendships = await friendshipsApi.getOutgoingRequests();
-        console.log('[DEBUG] Outgoing friendships for map:', friendships.length);
         const newMap = new Map<string, string>();
         friendships.forEach(f => {
           if (f.addressee?.id) {
@@ -192,8 +186,7 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
 
       setOutgoingPage(page);
       setHasMoreOutgoing(response.hasMore);
-    } catch (error) {
-      console.error('[ERROR] Failed to fetch outgoing requests:', error);
+    } catch {
       if (page === 1) {
         setOutgoingRequests([]);
         setOutgoingMap(new Map());
@@ -204,45 +197,47 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     }
   }, []);
 
-  const fetchRecommendations = useCallback(async (page: number = 1) => {
-    try {
-      if (page === 1) {
-        setIsLoadingRecommendations(true);
-        setRecommendationsPage(1);
-      } else {
-        setIsLoadingMoreRecommendations(true);
-      }
+  const fetchRecommendations = useCallback(
+    async (page: number = 1) => {
+      try {
+        if (page === 1) {
+          setIsLoadingRecommendations(true);
+          setRecommendationsPage(1);
+        } else {
+          setIsLoadingMoreRecommendations(true);
+        }
 
-      const response = await friendshipsApi.getUsers(
-        FriendshipType.RECOMMENDATIONS,
-        {
-          query: debouncedSearchQuery || undefined,
-          city: selectedCity || undefined,
-          state: selectedState || undefined,
-          sportId: selectedSportId,
-        },
-        page,
-        20
-      );
+        const response = await friendshipsApi.getUsers(
+          FriendshipType.RECOMMENDATIONS,
+          {
+            query: debouncedSearchQuery || undefined,
+            city: selectedCity || undefined,
+            state: selectedState || undefined,
+            sportId: selectedSportId,
+          },
+          page,
+          20
+        );
 
-      if (page === 1) {
-        setRecommendations(response.data);
-      } else {
-        setRecommendations(prev => [...prev, ...response.data]);
-      }
+        if (page === 1) {
+          setRecommendations(response.data);
+        } else {
+          setRecommendations(prev => [...prev, ...response.data]);
+        }
 
-      setRecommendationsPage(page);
-      setHasMoreRecommendations(response.hasMore);
-    } catch (error) {
-      console.error('Failed to fetch recommendations:', error);
-      if (page === 1) {
-        setRecommendations([]);
+        setRecommendationsPage(page);
+        setHasMoreRecommendations(response.hasMore);
+      } catch {
+        if (page === 1) {
+          setRecommendations([]);
+        }
+      } finally {
+        setIsLoadingRecommendations(false);
+        setIsLoadingMoreRecommendations(false);
       }
-    } finally {
-      setIsLoadingRecommendations(false);
-      setIsLoadingMoreRecommendations(false);
-    }
-  }, [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]);
+    },
+    [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]
+  );
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -253,22 +248,24 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
       fetchRecommendations(),
     ]);
     setRefreshing(false);
-  }, [fetchFriends, fetchIncomingRequests, fetchOutgoingRequests, fetchRecommendations]);
+  }, [
+    fetchFriends,
+    fetchIncomingRequests,
+    fetchOutgoingRequests,
+    fetchRecommendations,
+  ]);
 
-  const handleRemoveFriend = useCallback(
-    async (userId: string) => {
-      try {
-        setLoadingUserId(userId);
-        await friendshipsApi.removeFriend(userId);
-        setFriends(prev => prev.filter(f => f.id !== userId));
-      } catch (error) {
-        console.error('Failed to remove friend:', error);
-      } finally {
-        setLoadingUserId(null);
-      }
-    },
-    []
-  );
+  const handleRemoveFriend = useCallback(async (userId: string) => {
+    try {
+      setLoadingUserId(userId);
+      await friendshipsApi.removeFriend(userId);
+      setFriends(prev => prev.filter(f => f.id !== userId));
+    } catch {
+      void 0;
+    } finally {
+      setLoadingUserId(null);
+    }
+  }, []);
 
   const handleAcceptRequest = useCallback(
     async (userId: string) => {
@@ -285,8 +282,8 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
           });
           await fetchFriends();
         }
-      } catch (error) {
-        console.error('Failed to accept request:', error);
+      } catch {
+        void 0;
       } finally {
         setLoadingUserId(null);
       }
@@ -308,8 +305,8 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
             return newMap;
           });
         }
-      } catch (error) {
-        console.error('Failed to reject request:', error);
+      } catch {
+        void 0;
       } finally {
         setLoadingUserId(null);
       }
@@ -331,8 +328,8 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
             return newMap;
           });
         }
-      } catch (error) {
-        console.error('Failed to cancel request:', error);
+      } catch {
+        void 0;
       } finally {
         setLoadingUserId(null);
       }
@@ -347,8 +344,8 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
       setRecommendations((prev: UserData[]) =>
         prev.filter((r: UserData) => r.id !== userId)
       );
-    } catch (error) {
-      console.error('Failed to send request:', error);
+    } catch {
+      void 0;
     } finally {
       setLoadingUserId(null);
     }
@@ -364,8 +361,8 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
   const handleLogout = useCallback(async () => {
     try {
       await signOut();
-    } catch (error) {
-      console.error('Failed to logout:', error);
+    } catch {
+      void 0;
     }
   }, [signOut]);
 
@@ -382,7 +379,6 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     selectedState !== '' ||
     selectedSportId !== undefined;
 
-  // Load more handlers
   const handleLoadMoreFriends = useCallback(() => {
     if (!isLoadingMoreFriends && hasMoreFriends) {
       fetchFriends(friendsPage + 1);
@@ -393,13 +389,23 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     if (!isLoadingMoreIncoming && hasMoreIncoming) {
       fetchIncomingRequests(incomingPage + 1);
     }
-  }, [isLoadingMoreIncoming, hasMoreIncoming, incomingPage, fetchIncomingRequests]);
+  }, [
+    isLoadingMoreIncoming,
+    hasMoreIncoming,
+    incomingPage,
+    fetchIncomingRequests,
+  ]);
 
   const handleLoadMoreOutgoing = useCallback(() => {
     if (!isLoadingMoreOutgoing && hasMoreOutgoing) {
       fetchOutgoingRequests(outgoingPage + 1);
     }
-  }, [isLoadingMoreOutgoing, hasMoreOutgoing, outgoingPage, fetchOutgoingRequests]);
+  }, [
+    isLoadingMoreOutgoing,
+    hasMoreOutgoing,
+    outgoingPage,
+    fetchOutgoingRequests,
+  ]);
 
   const handleLoadMoreRecommendations = useCallback(() => {
     if (!isLoadingMoreRecommendations && hasMoreRecommendations) {
@@ -412,13 +418,11 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     fetchRecommendations,
   ]);
 
-  // Initial load
   useEffect(() => {
     fetchIncomingRequests();
     fetchOutgoingRequests();
   }, [fetchIncomingRequests, fetchOutgoingRequests]);
 
-  // Refetch data when filters change
   useEffect(() => {
     fetchFriends();
     fetchRecommendations();
@@ -443,7 +447,6 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     handleNavigateToProfile,
     loadingUserId,
     handleLogout,
-    // Filters
     searchQuery,
     setSearchQuery,
     selectedCity,
@@ -454,7 +457,6 @@ export const useFriendsScreen = (navigation: any): UseFriendsScreenReturn => {
     setSelectedSportId,
     handleClearFilters,
     hasActiveFilters,
-    // Pagination
     hasMoreFriends,
     hasMoreIncoming,
     hasMoreOutgoing,

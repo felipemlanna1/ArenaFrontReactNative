@@ -58,12 +58,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       ]);
 
       if (isAuthenticated && storedUser) {
-        console.log('[DEBUG Auth] Stored user data:', JSON.stringify(storedUser, null, 2));
-
-        // Fetch fresh data from backend to ensure all fields are up-to-date
         try {
-          const freshUserData = await httpService.get<UserData>(`/users/${storedUser.id}`);
-          console.log('[DEBUG Auth] Fresh user data from backend:', JSON.stringify(freshUserData, null, 2));
+          const freshUserData = await httpService.get<UserData>(
+            `/users/${storedUser.id}`
+          );
 
           const userWithSports: UserData = {
             ...freshUserData,
@@ -75,10 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
           setUser(userWithSports);
           await httpService.saveUserData(userWithSports);
-        } catch (fetchError) {
-          console.warn('[WARN Auth] Failed to fetch fresh data, using stored:', fetchError);
-
-          // Fallback to stored data with migration
+        } catch {
           const userWithSports: UserData = {
             ...storedUser,
             hasSports: Boolean(
@@ -91,8 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setUser(userWithSports);
         }
       }
-    } catch (error) {
-      console.error('[ERROR Auth] Failed to load stored auth:', error);
+    } catch {
       await httpService.clearAuthData();
     } finally {
       setIsLoading(false);
@@ -136,25 +130,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(async (data: RegisterData) => {
-    try {
-      console.log('[DEBUG Auth] SignUp starting...');
-      const response = await authService.register(data);
-      console.log('[DEBUG Auth] SignUp response received');
+    const response = await authService.register(data);
 
-      const userData: UserData = {
-        ...response.user,
-        sports: response.user.sports || [],
-        isProfilePrivate: response.user.isProfilePrivate ?? false,
-        createdAt: response.user.createdAt || new Date().toISOString(),
-        updatedAt: response.user.updatedAt || new Date().toISOString(),
-      };
+    const userData: UserData = {
+      ...response.user,
+      sports: response.user.sports || [],
+      isProfilePrivate: response.user.isProfilePrivate ?? false,
+      createdAt: response.user.createdAt || new Date().toISOString(),
+      updatedAt: response.user.updatedAt || new Date().toISOString(),
+    };
 
-      setUser(userData);
-      console.log('[DEBUG Auth] User set successfully');
-    } catch (error) {
-      console.error('[ERROR Auth] SignUp failed:', error);
-      throw error; // Re-throw the original error instead of generic message
-    }
+    setUser(userData);
   }, []);
 
   const updateUser = useCallback(async (updatedUser: UserData) => {

@@ -75,8 +75,6 @@ class AuthService {
 
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      console.log('[DEBUG AuthService] Register data:', JSON.stringify(data, null, 2));
-
       const response = await httpService.post<AuthResponse>(
         '/auth/register',
         data

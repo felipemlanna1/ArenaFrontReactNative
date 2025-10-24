@@ -19,7 +19,7 @@ interface UseEditProfileScreenReturn {
   availableSports: Sport[];
   handleFieldChange: (
     field: keyof EditProfileFormData,
-    value: string | Date | null
+    value: string | Date | null | boolean
   ) => void;
   handleToggleSport: (sportId: string) => void;
   handleTogglePrimary: (sportId: string) => void;
@@ -65,8 +65,6 @@ export const useEditProfileScreen = ({
     const loadData = async () => {
       try {
         if (user && !sportsLoading) {
-          console.log('[DEBUG EditProfile] User data:', JSON.stringify(user, null, 2));
-
           const userSportIds = user.sports?.map(s => s.sportId) || [];
 
           const sportLevels: { [sportId: string]: SkillLevel } = {};
@@ -97,12 +95,9 @@ export const useEditProfileScreen = ({
             isProfilePrivate: user.isProfilePrivate || false,
           };
 
-          console.log('[DEBUG EditProfile] Form data to load:', JSON.stringify(loadedFormData, null, 2));
-
           setFormData(loadedFormData);
         }
-      } catch (error) {
-        console.error('[ERROR EditProfile] Failed to load data:', error);
+      } catch {
         showError('Erro ao carregar dados');
       } finally {
         setIsLoading(false);
@@ -132,7 +127,10 @@ export const useEditProfileScreen = ({
   }, [formData]);
 
   const handleFieldChange = useCallback(
-    (field: keyof EditProfileFormData, value: string | Date | null) => {
+    (
+      field: keyof EditProfileFormData,
+      value: string | Date | null | boolean
+    ) => {
       setFormData(prev => ({ ...prev, [field]: value }));
       setErrors(prev => ({ ...prev, [field]: undefined }));
     },

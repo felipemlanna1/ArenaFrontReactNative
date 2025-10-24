@@ -215,14 +215,9 @@ export const useRegisterScreen = (
       city: formData.city?.trim() || undefined,
     };
 
-    console.log('[DEBUG Register] Sending payload:', JSON.stringify(registerPayload, null, 2));
-
     try {
       await signUp(registerPayload);
-      console.log('[DEBUG Register] SignUp successful');
     } catch (error: unknown) {
-      console.error('[ERROR Register] SignUp failed:', error);
-
       if (error instanceof ApiError) {
         switch (error.status) {
           case 400:
