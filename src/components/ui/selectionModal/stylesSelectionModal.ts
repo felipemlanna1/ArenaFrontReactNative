@@ -2,39 +2,6 @@ import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  labelContainer: {
-    marginBottom: ArenaSpacing.xs,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minHeight: ArenaSpacing['5xl'],
-    paddingHorizontal: ArenaSpacing.md,
-    backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: ArenaBorders.width.thin,
-    borderColor: ArenaColors.neutral.medium,
-    borderRadius: ArenaBorders.radius.md,
-  },
-  inputContainerError: {
-    borderColor: ArenaColors.semantic.error,
-  },
-  inputContainerDisabled: {
-    opacity: 0.5,
-    backgroundColor: ArenaColors.neutral.dark,
-  },
-  placeholder: {
-    flex: 1,
-  },
-  iconContainer: {
-    marginLeft: ArenaSpacing.xs,
-  },
-  errorText: {
-    marginTop: ArenaSpacing.xs,
-  },
   modalOverlay: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.overlay,
@@ -68,23 +35,9 @@ export const styles = StyleSheet.create({
   searchContainer: {
     marginTop: ArenaSpacing.sm,
   },
-  citiesList: {
+  itemsList: {
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
-  },
-  cityItem: {
-    paddingHorizontal: ArenaSpacing.md,
-    paddingVertical: ArenaSpacing.md,
-    borderRadius: ArenaBorders.radius.md,
-    marginBottom: ArenaSpacing.xs,
-  },
-  cityItemPressed: {
-    backgroundColor: ArenaColors.neutral.dark,
-  },
-  cityItemSelected: {
-    backgroundColor: ArenaColors.brand.primarySubtle,
-    borderWidth: ArenaBorders.width.thin,
-    borderColor: ArenaColors.brand.primary,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],

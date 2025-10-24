@@ -3,7 +3,7 @@ import { View, TouchableOpacity, TextStyle } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 import { StyleSheet } from 'react-native';
 import { useUserSports } from '@/hooks/useUserSports';
 import { Sport } from '@/types/sport';
@@ -35,7 +35,7 @@ export const FriendsFilterBar: React.FC<FriendsFilterBarProps> = ({
   onClearFilters,
   hasActiveFilters,
 }) => {
-  const { availableSports } = useUserSports();
+  const { availableSports, isLoading } = useUserSports();
   const [showSportsModal, setShowSportsModal] = useState(false);
   const [showCityModal, setShowCityModal] = useState(false);
 
@@ -46,16 +46,13 @@ export const FriendsFilterBar: React.FC<FriendsFilterBarProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* Search Input */}
       <Input
         value={searchQuery}
         onChangeText={onSearchChange}
         placeholder="Buscar amigos..."
       />
 
-      {/* Filter Buttons Row */}
       <View style={styles.filtersRow}>
-        {/* Sport Filter Button */}
         <TouchableOpacity
           style={[
             styles.filterButton,
@@ -99,7 +96,6 @@ export const FriendsFilterBar: React.FC<FriendsFilterBarProps> = ({
           )}
         </TouchableOpacity>
 
-        {/* City Filter Button */}
         <TouchableOpacity
           style={[
             styles.filterButton,
@@ -144,12 +140,8 @@ export const FriendsFilterBar: React.FC<FriendsFilterBarProps> = ({
           )}
         </TouchableOpacity>
 
-        {/* Clear All Filters Button */}
         {hasActiveFilters && (
-          <TouchableOpacity
-            style={styles.clearButton}
-            onPress={onClearFilters}
-          >
+          <TouchableOpacity style={styles.clearButton} onPress={onClearFilters}>
             <Text variant="bodySecondary" style={styles.clearButtonText}>
               Limpar
             </Text>
@@ -157,13 +149,13 @@ export const FriendsFilterBar: React.FC<FriendsFilterBarProps> = ({
         )}
       </View>
 
-      {/* Modals */}
       <SportsFilterModal
         visible={showSportsModal}
         onClose={() => setShowSportsModal(false)}
         selectedSportId={selectedSportId}
         onSelectSport={onSportChange}
         sports={availableSports}
+        isLoading={isLoading}
       />
 
       <CityFilterModal
@@ -196,7 +188,7 @@ const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.md,
-    borderRadius: 20,
+    borderRadius: ArenaBorders.radius['3xl'],
     borderWidth: 1,
     borderColor: ArenaColors.neutral.darkSubtleBorder,
     backgroundColor: ArenaColors.neutral.dark,
@@ -214,7 +206,7 @@ const styles = StyleSheet.create({
   clearButton: {
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.md,
-    borderRadius: 20,
+    borderRadius: ArenaBorders.radius['3xl'],
     backgroundColor: ArenaColors.semantic.errorSubtle,
   },
   clearButtonText: {

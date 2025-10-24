@@ -4,7 +4,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: ArenaColors.neutral.overlay,
     justifyContent: 'flex-end',
   },
   modalContent: {
@@ -31,6 +31,9 @@ export const styles = StyleSheet.create({
   section: {
     marginBottom: ArenaSpacing.lg,
   },
+  sectionTitle: {
+    marginBottom: ArenaSpacing.md,
+  },
   userList: {
     gap: ArenaSpacing.sm,
   },
@@ -45,16 +48,28 @@ export const styles = StyleSheet.create({
   },
   userItemSelected: {
     borderColor: ArenaColors.brand.primary,
-    backgroundColor: ArenaColors.brand.primaryDark,
+    backgroundColor: ArenaColors.brand.primarySubtle,
+  },
+  userItemDisabled: {
+    opacity: 0.5,
+    borderColor: ArenaColors.neutral.dark,
+  },
+  lockIcon: {
+    marginRight: ArenaSpacing.xs,
   },
   userAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: ArenaColors.neutral.darker,
+    width: ArenaSpacing['4xl'],
+    height: ArenaSpacing['4xl'],
+    borderRadius: ArenaBorders.radius.circle,
+    backgroundColor: ArenaColors.neutral.darkest,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: ArenaSpacing.md,
+  },
+  avatarImage: {
+    width: ArenaSpacing['4xl'],
+    height: ArenaSpacing['4xl'],
+    borderRadius: ArenaBorders.radius.circle,
   },
   userInfo: {
     flex: 1,

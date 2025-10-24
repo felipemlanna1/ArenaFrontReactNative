@@ -34,7 +34,7 @@ export const stylesFriendsAccordion = StyleSheet.create({
   },
   content: {
     padding: ArenaSpacing.md,
-    paddingTop: 0,
+    paddingTop: ArenaSpacing.none,
   },
   loadMoreContainer: {
     marginTop: ArenaSpacing.md,

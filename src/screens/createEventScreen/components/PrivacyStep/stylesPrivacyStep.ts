@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
+import {
+  ArenaSpacing,
+  ArenaColors,
+  ArenaBorders,
+  ArenaSizes,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -29,16 +34,16 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.sm,
   },
   privacyOptionIcon: {
-    width: 40,
-    height: 40,
+    width: ArenaSpacing['4xl'],
+    height: ArenaSpacing['4xl'],
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.neutral.darkIntermediate,
     justifyContent: 'center',
     alignItems: 'center',
   },
   radioOuter: {
-    width: 24,
-    height: 24,
+    width: ArenaSizes.radioOuter,
+    height: ArenaSizes.radioOuter,
     borderRadius: ArenaBorders.radius.circle,
     borderWidth: 2,
     borderColor: ArenaColors.neutral.medium,
@@ -46,8 +51,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   radioInner: {
-    width: 12,
-    height: 12,
+    width: ArenaSizes.radioInner,
+    height: ArenaSizes.radioInner,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
   },
@@ -56,9 +61,6 @@ export const styles = StyleSheet.create({
   },
   privacyOptionLabel: {
     marginBottom: ArenaSpacing.xs,
-  },
-  privacyOptionDescription: {
-    lineHeight: 18,
   },
   groupSection: {
     marginTop: ArenaSpacing.md,
