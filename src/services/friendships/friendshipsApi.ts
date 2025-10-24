@@ -13,9 +13,6 @@ import {
 class FriendshipsApi {
   private basePath = '/friendships';
 
-  /**
-   * Unified method to get users by type with pagination
-   */
   async getUsers(
     type: FriendshipType,
     filters: Omit<UnifiedFriendshipFilter, 'type'> = {},
@@ -28,7 +25,6 @@ class FriendshipsApi {
       limit: limit.toString(),
     };
 
-    // Only add filters if NOT outgoing (as per specification)
     if (type !== FriendshipType.OUTGOING) {
       if (filters.query) params.query = filters.query;
       if (filters.city) params.city = filters.city;
@@ -78,10 +74,9 @@ class FriendshipsApi {
     return response;
   }
 
-  /**
-   * @deprecated Use getUsers(FriendshipType.FRIENDS, filters, page, limit) instead
-   */
-  async getFriends(filters: FriendshipFilter = {}): Promise<FriendsListResponse> {
+  async getFriends(
+    filters: FriendshipFilter = {}
+  ): Promise<FriendsListResponse> {
     const params: Record<string, string> = {};
 
     if (filters.query) params.query = filters.query;
@@ -98,9 +93,6 @@ class FriendshipsApi {
     return response;
   }
 
-  /**
-   * @deprecated Use getUsers(FriendshipType.INCOMING, {}, page, limit) instead
-   */
   async getIncomingRequests(): Promise<Friendship[]> {
     const response = await httpService.get<Friendship[]>(
       `${this.basePath}/requests/incoming`
@@ -108,9 +100,6 @@ class FriendshipsApi {
     return response;
   }
 
-  /**
-   * @deprecated Use getUsers(FriendshipType.OUTGOING, {}, page, limit) instead
-   */
   async getOutgoingRequests(): Promise<Friendship[]> {
     const response = await httpService.get<Friendship[]>(
       `${this.basePath}/requests/outgoing`
@@ -138,16 +127,15 @@ class FriendshipsApi {
     await httpService.delete(`${this.basePath}/block/${userId}`);
   }
 
-  async getFriendshipStatus(userId: string): Promise<{ status: string | null }> {
+  async getFriendshipStatus(
+    userId: string
+  ): Promise<{ status: string | null }> {
     const response = await httpService.get<{ status: string | null }>(
       `${this.basePath}/status/${userId}`
     );
     return response;
   }
 
-  /**
-   * @deprecated Use getUsers(FriendshipType.RECOMMENDATIONS, filters, page, limit) instead
-   */
   async getRecommendations(
     filters: FriendshipFilter = {},
     limit: number = 20

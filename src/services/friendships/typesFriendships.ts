@@ -24,7 +24,10 @@ export interface SendFriendRequestDto {
 }
 
 export interface UpdateFriendshipDto {
-  status: FriendshipStatus.ACCEPTED | FriendshipStatus.REJECTED | FriendshipStatus.BLOCKED;
+  status:
+    | FriendshipStatus.ACCEPTED
+    | FriendshipStatus.REJECTED
+    | FriendshipStatus.BLOCKED;
 }
 
 export enum FriendshipType {
