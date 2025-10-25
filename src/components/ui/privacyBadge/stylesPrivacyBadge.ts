@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   containerSm: {
     paddingHorizontal: ArenaSpacing.xs,
-    paddingVertical: 2,
+    paddingVertical: ArenaSpacing.micro,
   },
   containerMd: {
     paddingHorizontal: ArenaSpacing.sm,

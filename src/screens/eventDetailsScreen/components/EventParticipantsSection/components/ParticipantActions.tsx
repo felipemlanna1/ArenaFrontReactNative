@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.md,
-    minWidth: 100,
-    minHeight: 40,
+    minWidth: ArenaSpacing['10xl'],
+    minHeight: ArenaSpacing['4xl'],
   },
   approveButton: {
     backgroundColor: ArenaColors.semantic.success,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     backgroundColor: ArenaColors.semantic.error,
-    minWidth: 100,
+    minWidth: ArenaSpacing['10xl'],
   },
   buttonText: {
     color: ArenaColors.neutral.light,

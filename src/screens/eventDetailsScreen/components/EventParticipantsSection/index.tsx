@@ -39,7 +39,6 @@ export const EventParticipantsSection: React.FC<
     });
   };
 
-  // Renderiza lista de solicitações pendentes
   const renderPendingList = () => {
     return (
       <View style={styles.content}>
@@ -60,7 +59,6 @@ export const EventParticipantsSection: React.FC<
     );
   };
 
-  // Renderiza lista de participantes confirmados e convidados
   const renderConfirmedList = () => {
     const confirmedAndInvited = [
       ...sortParticipants(confirmedParticipants),
@@ -95,7 +93,6 @@ export const EventParticipantsSection: React.FC<
     );
   };
 
-  // Renderiza lista completa (comportamento original para casos padrão)
   const renderAllParticipants = () => {
     const allParticipants = isOwner
       ? [
@@ -143,12 +140,11 @@ export const EventParticipantsSection: React.FC<
     );
   };
 
-  // Constrói items do accordion baseado nas condições
   const buildAccordionItems = () => {
     const pendingCount = pendingParticipants.length;
-    const confirmedCount = confirmedParticipants.length + invitedParticipants.length;
+    const confirmedCount =
+      confirmedParticipants.length + invitedParticipants.length;
 
-    // Para eventos APPROVAL_REQUIRED com solicitações pendentes (owner)
     if (event.privacy === 'APPROVAL_REQUIRED' && isOwner && pendingCount > 0) {
       return [
         {
@@ -164,7 +160,6 @@ export const EventParticipantsSection: React.FC<
       ];
     }
 
-    // Caso padrão - comportamento original
     return [
       {
         id: 'participants',

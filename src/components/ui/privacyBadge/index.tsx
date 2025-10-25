@@ -102,7 +102,10 @@ export const PrivacyBadge: React.FC<PrivacyBadgeProps> = ({
       {showLabel && (
         <Text
           variant="captionSecondary"
-          style={{ color: config.textColor, ...(textStyle || {}) }}
+          style={[
+            { color: config.textColor },
+            ...(textStyle ? [textStyle] : []),
+          ]}
         >
           {config.label}
         </Text>
