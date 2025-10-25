@@ -1,6 +1,6 @@
 import React from 'react';
 import { AccordionSection } from '@/components/accordionSection';
-import { GroupsSection } from './GroupsSections';
+import { MyGroupsSection } from './GroupsSections';
 import { Group } from '@/services/groups/typesGroups';
 
 interface MyGroupsAccordionSectionProps {
@@ -29,7 +29,7 @@ export const MyGroupsAccordionSection: React.FC<
       defaultExpanded={true}
       testID="my-groups-accordion"
     >
-      <GroupsSection
+      <MyGroupsSection
         groups={safeGroups}
         isLoading={isLoading}
         loadingGroupId={loadingGroupId}

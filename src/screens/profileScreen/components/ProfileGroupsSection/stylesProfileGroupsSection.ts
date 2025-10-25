@@ -26,8 +26,15 @@ export const styles = StyleSheet.create({
   groupsList: {
     gap: ArenaSpacing.sm,
   },
+  groupsScrollContainer: {
+    marginTop: ArenaSpacing.sm,
+  },
+  groupsScrollContent: {
+    gap: ArenaSpacing.sm,
+    paddingRight: ArenaSpacing.lg,
+  },
   groupCardWrapper: {
-    marginBottom: ArenaSpacing.sm,
+    marginRight: ArenaSpacing.sm,
   },
   separator: {
     height: ArenaBorders.width.thin,

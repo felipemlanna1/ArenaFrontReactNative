@@ -1,49 +1,40 @@
 import React from 'react';
 import { AccordionSection } from '@/components/accordionSection';
-import { GroupRecommendationsSection } from './GroupsSections';
+import { PendingGroupsSection } from './GroupsSections';
 import { Group } from '@/services/groups/typesGroups';
 
-interface RecommendationsAccordionSectionProps {
+interface PendingGroupsAccordionSectionProps {
   groups: Group[];
   isLoading: boolean;
-  isLoadingMore: boolean;
-  hasMore: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
-  onJoinGroup: (groupId: string) => Promise<void>;
-  onLoadMore: () => void;
+  onCancelRequest: (groupId: string) => Promise<void>;
 }
 
-export const RecommendationsAccordionSection: React.FC<
-  RecommendationsAccordionSectionProps
+export const PendingGroupsAccordionSection: React.FC<
+  PendingGroupsAccordionSectionProps
 > = ({
   groups,
   isLoading,
-  isLoadingMore,
-  hasMore,
   loadingGroupId,
   onNavigateToGroup,
-  onJoinGroup,
-  onLoadMore,
+  onCancelRequest,
 }) => {
   const safeGroups = Array.isArray(groups) ? groups : [];
 
   return (
     <AccordionSection
-      title="Recomendações"
+      title="Solicitações Pendentes"
       count={safeGroups.length}
       defaultExpanded={false}
-      hasMore={hasMore && !isLoading}
-      isLoadingMore={isLoadingMore}
-      onLoadMore={onLoadMore}
-      testID="recommendations-groups-accordion"
+      testID="pending-groups-accordion"
     >
-      <GroupRecommendationsSection
+      <PendingGroupsSection
         groups={safeGroups}
         isLoading={isLoading}
         loadingGroupId={loadingGroupId}
         onNavigateToGroup={onNavigateToGroup}
-        onJoinGroup={onJoinGroup}
+        onCancelRequest={onCancelRequest}
       />
     </AccordionSection>
   );
