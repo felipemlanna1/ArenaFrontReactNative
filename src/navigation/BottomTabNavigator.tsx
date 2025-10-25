@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {
   ArenaColors,
   ArenaBorders,
@@ -9,25 +10,27 @@ import {
   ArenaTypography,
 } from '@/constants';
 import { HomeScreen } from '@/screens/homeScreen';
-import { ExploreScreen } from '@/screens/exploreScreen';
+import { FriendsScreen } from '@/screens/friendsScreen';
 import { MyEventsScreen } from '@/screens/myEventsScreen';
-import { NotificationsScreen } from '@/screens/notificationsScreen';
+import { GroupsListScreen } from '@/screens/groupsListScreen';
+import { GroupDetailsScreen } from '@/screens/groupDetailsScreen';
+import { CreateGroupScreen } from '@/screens/createGroupScreen';
+import { GroupManagementScreen } from '@/screens/groupManagementScreen';
 import { ProfileScreen } from '@/screens/profileScreen';
 import {
   TabParamList,
   HomeStackParamList,
-  ExploreStackParamList,
+  FriendsStackParamList,
   MyEventsStackParamList,
-  NotificationsStackParamList,
+  GroupsStackParamList,
   ProfileStackParamList,
 } from './typesNavigation';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
-const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
+const FriendsStack = createNativeStackNavigator<FriendsStackParamList>();
 const MyEventsStack = createNativeStackNavigator<MyEventsStackParamList>();
-const NotificationsStack =
-  createNativeStackNavigator<NotificationsStackParamList>();
+const GroupsStack = createNativeStackNavigator<GroupsStackParamList>();
 const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 
 const HomeStackScreen: React.FC = () => {
@@ -38,11 +41,11 @@ const HomeStackScreen: React.FC = () => {
   );
 };
 
-const ExploreStackScreen: React.FC = () => {
+const FriendsStackScreen: React.FC = () => {
   return (
-    <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
-      <ExploreStack.Screen name="Explore" component={ExploreScreen} />
-    </ExploreStack.Navigator>
+    <FriendsStack.Navigator screenOptions={{ headerShown: false }}>
+      <FriendsStack.Screen name="Friends" component={FriendsScreen} />
+    </FriendsStack.Navigator>
   );
 };
 
@@ -54,14 +57,17 @@ const MyEventsStackScreen: React.FC = () => {
   );
 };
 
-const NotificationsStackScreen: React.FC = () => {
+const GroupsStackScreen: React.FC = () => {
   return (
-    <NotificationsStack.Navigator screenOptions={{ headerShown: false }}>
-      <NotificationsStack.Screen
-        name="Notifications"
-        component={NotificationsScreen}
+    <GroupsStack.Navigator screenOptions={{ headerShown: false }}>
+      <GroupsStack.Screen name="GroupsList" component={GroupsListScreen} />
+      <GroupsStack.Screen name="GroupDetails" component={GroupDetailsScreen} />
+      <GroupsStack.Screen name="CreateGroup" component={CreateGroupScreen} />
+      <GroupsStack.Screen
+        name="GroupManagement"
+        component={GroupManagementScreen}
       />
-    </NotificationsStack.Navigator>
+    </GroupsStack.Navigator>
   );
 };
 
@@ -109,13 +115,13 @@ export const BottomTabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="ExploreTab"
-        component={ExploreStackScreen}
+        name="FriendsTab"
+        component={FriendsStackScreen}
         options={{
-          tabBarLabel: 'Explorar',
+          tabBarLabel: 'Amigos',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? 'search' : 'search-outline'}
+              name={focused ? 'people' : 'people-outline'}
               size={24}
               color={color}
             />
@@ -137,13 +143,13 @@ export const BottomTabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="NotificationsTab"
-        component={NotificationsStackScreen}
+        name="GroupsTab"
+        component={GroupsStackScreen}
         options={{
-          tabBarLabel: 'Notificações',
+          tabBarLabel: 'Grupos',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'notifications' : 'notifications-outline'}
+            <MaterialCommunityIcons
+              name={focused ? 'account-group' : 'account-group-outline'}
               size={24}
               color={color}
             />

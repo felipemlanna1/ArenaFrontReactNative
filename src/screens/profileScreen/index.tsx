@@ -14,6 +14,7 @@ import { ProfileHeroSection } from './components/ProfileHeroSection';
 import { ProfileInfoSection } from './components/ProfileInfoSection';
 import { ProfileBioSection } from './components/ProfileBioSection';
 import { ProfileStatsSection } from './components/ProfileStatsSection';
+import { ProfileGroupsSection } from './components/ProfileGroupsSection';
 import {
   mapUserToDisplayData,
   getInitials,
@@ -110,6 +111,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <ProfileBioSection bio={displayData.bio} />
 
           <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
+
+          <ProfileGroupsSection userId={userId || ''} isOwnProfile={isOwnProfile} />
         </View>
       </ScrollView>
 

@@ -3,6 +3,8 @@ import { View, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Label } from '@/components/ui/label';
+import { GroupDropdown } from '@/components/ui/groupDropdown';
+import { useGroups } from '@/contexts/GroupsContext';
 import { ArenaColors } from '@/constants';
 import { EventPrivacy } from '@/services/events/typesEvents';
 import { styles } from './stylesPrivacyStep';
@@ -52,6 +54,8 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
   errors,
   onUpdate,
 }) => {
+  const { creatableGroups } = useGroups();
+
   const handlePrivacyChange = useCallback(
     (privacy: EventPrivacy) => {
       const updates: { privacy: EventPrivacy; groupId?: string } = { privacy };
@@ -61,6 +65,13 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
       }
 
       onUpdate(updates);
+    },
+    [onUpdate]
+  );
+
+  const handleGroupChange = useCallback(
+    (groupId: string) => {
+      onUpdate({ groupId });
     },
     [onUpdate]
   );
@@ -77,7 +88,7 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
       </View>
 
       <View style={styles.optionsGrid}>
-        {PRIVACY_OPTIONS.map((option) => {
+        {PRIVACY_OPTIONS.map(option => {
           const isSelected = formData.privacy === option.value;
 
           return (
@@ -111,7 +122,10 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
                 >
                   {option.label}
                 </Text>
-                <Text variant="captionSecondary" style={styles.privacyOptionDescription}>
+                <Text
+                  variant="captionSecondary"
+                  style={styles.privacyOptionDescription}
+                >
                   {option.description}
                 </Text>
               </View>
@@ -128,17 +142,15 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
 
       {formData.privacy === 'GROUP_ONLY' && (
         <View style={styles.groupSection}>
-          <Label variant="form" required>
-            Grupo
-          </Label>
-          <Text variant="bodySecondary" style={styles.helperText}>
-            Seleção de grupo será implementada em breve
-          </Text>
-          {errors.groupId && (
-            <Text variant="bodyError" style={styles.errorText}>
-              {errors.groupId}
-            </Text>
-          )}
+          <GroupDropdown
+            label="Grupo"
+            placeholder="Selecione um grupo"
+            value={formData.groupId}
+            onChange={handleGroupChange}
+            groups={creatableGroups}
+            error={errors.groupId}
+            required
+          />
         </View>
       )}
     </View>

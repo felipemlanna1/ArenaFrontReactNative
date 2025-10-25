@@ -48,7 +48,11 @@ export const useHomeEvents = ({
     const currentDate = new Date();
     return eventsList.filter(event => {
       const eventStartDate = new Date(event.startDate);
-      return eventStartDate > currentDate && event.status === 'PUBLISHED';
+      const isFutureEvent = eventStartDate > currentDate;
+      const isPublished = event.status === 'PUBLISHED';
+      const isNotGroupOnly = event.privacy !== 'GROUP_ONLY';
+
+      return isFutureEvent && isPublished && isNotGroupOnly;
     });
   }, []);
 

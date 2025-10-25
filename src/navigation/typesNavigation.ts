@@ -9,7 +9,12 @@ export type RootStackParamList = {
   MainTabs: undefined;
   FilterScreen: undefined;
   CreateEvent:
-    | { mode?: 'create' | 'edit'; eventId?: string; eventData?: Event }
+    | {
+        mode?: 'create' | 'edit';
+        eventId?: string;
+        eventData?: Event;
+        preSelectedGroupId?: string;
+      }
     | undefined;
   EventDetails: { eventId: string };
   Profile: { userId?: string } | undefined;
@@ -18,9 +23,9 @@ export type RootStackParamList = {
 
 export type TabParamList = {
   HomeTab: undefined;
-  ExploreTab: undefined;
+  FriendsTab: undefined;
   MyEventsTab: undefined;
-  NotificationsTab: undefined;
+  GroupsTab: undefined;
   ProfileTab: undefined;
 };
 
@@ -28,16 +33,19 @@ export type HomeStackParamList = {
   Home: undefined;
 };
 
-export type ExploreStackParamList = {
-  Explore: undefined;
+export type FriendsStackParamList = {
+  Friends: undefined;
 };
 
 export type MyEventsStackParamList = {
   MyEvents: undefined;
 };
 
-export type NotificationsStackParamList = {
-  Notifications: undefined;
+export type GroupsStackParamList = {
+  GroupsList: undefined;
+  GroupDetails: { groupId: string };
+  CreateGroup: undefined;
+  GroupManagement: { groupId: string };
 };
 
 export type ProfileStackParamList = {

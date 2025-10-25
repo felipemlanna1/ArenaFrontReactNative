@@ -15,16 +15,25 @@ interface UseCreateEventScreenParams {
   navigation: CreateEventScreenNavigationProp;
   isEditMode?: boolean;
   eventToEdit?: Event;
+  preSelectedGroupId?: string;
 }
 
 export const useCreateEventScreen = ({
   navigation,
   isEditMode = false,
   eventToEdit,
+  preSelectedGroupId,
 }: UseCreateEventScreenParams) => {
   const { showError, showConfirm } = useAlert();
 
   const initialData = useMemo(() => {
+    if (preSelectedGroupId && !isEditMode) {
+      return {
+        privacy: 'GROUP_ONLY' as const,
+        groupId: preSelectedGroupId,
+      };
+    }
+
     if (!isEditMode || !eventToEdit) return undefined;
 
     const startDate = new Date(eventToEdit.startDate);
@@ -60,7 +69,7 @@ export const useCreateEventScreen = ({
       coverImage: eventToEdit.coverImage,
     };
     return initialFormData;
-  }, [isEditMode, eventToEdit]);
+  }, [isEditMode, eventToEdit, preSelectedGroupId]);
 
   const {
     formData,
