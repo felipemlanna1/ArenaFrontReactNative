@@ -1,19 +1,25 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { ArenaRefreshControl } from '@/components/ui/refreshControl';
-import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { GroupMemberItem } from '@/components/ui/groupMemberItem';
 import { ConfirmationModal } from '@/components/ui/confirmationModal';
 import { GroupEventsSection } from './components/GroupEventsSection';
+import { ProfileHeroSection } from '@/screens/profileScreen/components/ProfileHeroSection';
+import { ProfileInfoSection } from '@/screens/profileScreen/components/ProfileInfoSection';
+import { ProfileStatsSection } from '@/screens/profileScreen/components/ProfileStatsSection';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaColors } from '@/constants';
+import { Event } from '@/services/events/typesEvents';
+import { groupsApi } from '@/services/groups/groupsApi';
 import { GroupDetailsScreenProps } from './typesGroupDetailsScreen';
 import { useGroupDetailsScreen } from './useGroupDetailsScreen';
+import {
+  mapGroupToHeroData,
+  mapGroupToInfoData,
+  mapGroupToStats,
+} from './utils/groupAdapters';
 import { styles } from './stylesGroupDetailsScreen';
 
 export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
@@ -39,6 +45,27 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
     showRemoveConfirmation,
     setShowRemoveConfirmation,
   } = useGroupDetailsScreen(groupId);
+
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isLoadingEvents, setIsLoadingEvents] = useState(true);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setIsLoadingEvents(true);
+        const groupEvents = await groupsApi.getGroupEvents(groupId);
+        setEvents(Array.isArray(groupEvents) ? groupEvents : []);
+      } catch {
+        setEvents([]);
+      } finally {
+        setIsLoadingEvents(false);
+      }
+    };
+
+    if (groupId) {
+      fetchEvents();
+    }
+  }, [groupId]);
 
   const handleManagePress = useCallback(() => {
     navigation.navigate('GroupManagement', { groupId });
@@ -95,113 +122,80 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
           />
         }
       >
-        {group.coverImage && (
-          <OptimizedImage
-            source={{ uri: group.coverImage }}
-            style={styles.coverImage}
-            contentFit="cover"
-            priority="high"
-          />
-        )}
+        <ProfileHeroSection
+          {...mapGroupToHeroData(group)}
+          showBackButton={false}
+          onBackPress={handleGoBack}
+        />
 
-        <View style={styles.header}>
-          <View style={styles.titleRow}>
-            <Text variant="headingPrimary">{group.name}</Text>
-            {group.currentUserRole && (
-              <Badge variant="primary" size="sm">
-                {group.currentUserRole}
-              </Badge>
-            )}
+        <View style={styles.contentContainer}>
+          <ProfileInfoSection {...mapGroupToInfoData(group)} />
+
+          <ProfileStatsSection
+            {...mapGroupToStats(group, events)}
+            isLoading={isLoadingEvents}
+          />
+
+          <View style={styles.section}>
+            <GroupEventsSection
+              groupId={groupId}
+              canCreateEvents={!!canCreateEvents}
+              onCreateEvent={handleCreateEvent}
+            />
           </View>
 
-          {group.description && (
-            <Text variant="bodySecondary">{group.description}</Text>
-          )}
-
-          {group.sports && group.sports.length > 0 && (
-            <View style={styles.sportsContainer}>
-              {group.sports.map(sport => (
-                <Badge key={sport.id} variant="default" size="sm">
-                  {sport.name}
-                </Badge>
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text variant="titlePrimary">Membros</Text>
+              {canManage && (
+                <Button variant="subtle" size="sm" onPress={handleManagePress}>
+                  Gerenciar
+                </Button>
+              )}
+            </View>
+            <View style={styles.membersList}>
+              {members.slice(0, 5).map(member => (
+                <GroupMemberItem
+                  key={member.id}
+                  member={member}
+                  showActions={canManage}
+                  onRemove={handleRemoveMember}
+                  isActionLoading={actionLoading}
+                  currentActionMemberId={currentActionMemberId}
+                  currentUserRole={group.currentUserRole}
+                />
               ))}
             </View>
+          </View>
+
+          {!isMember && (
+            <View style={styles.actions}>
+              <Button
+                variant="primary"
+                size="lg"
+                onPress={handleJoinGroup}
+                loading={actionLoading}
+                fullWidth
+              >
+                Solicitar entrada
+              </Button>
+            </View>
           )}
 
-          <View style={styles.metadata}>
-            <View style={styles.metadataItem}>
-              <Ionicons
-                name="people"
-                size={16}
-                color={ArenaColors.neutral.medium}
-              />
-              <Text variant="captionMuted">
-                {group.memberCount}{' '}
-                {group.memberCount === 1 ? 'membro' : 'membros'}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.section}>
-          <GroupEventsSection
-            groupId={groupId}
-            canCreateEvents={!!canCreateEvents}
-            onCreateEvent={handleCreateEvent}
-          />
-        </View>
-
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text variant="titlePrimary">Membros</Text>
-            {canManage && (
-              <Button variant="subtle" size="sm" onPress={handleManagePress}>
-                Gerenciar
+          {isMember && !canManage && (
+            <View style={styles.actions}>
+              <Button
+                variant="destructive"
+                size="lg"
+                onPress={handleLeaveGroup}
+                loading={actionLoading}
+                fullWidth
+              >
+                Sair do grupo
               </Button>
-            )}
-          </View>
-          <View style={styles.membersList}>
-            {members.slice(0, 5).map(member => (
-              <GroupMemberItem
-                key={member.id}
-                member={member}
-                showActions={canManage}
-                onRemove={handleRemoveMember}
-                isActionLoading={actionLoading}
-                currentActionMemberId={currentActionMemberId}
-                currentUserRole={group.currentUserRole}
-              />
-            ))}
-          </View>
+            </View>
+          )}
         </View>
-
-        {!isMember && (
-          <View style={styles.actions}>
-            <Button
-              variant="primary"
-              size="lg"
-              onPress={handleJoinGroup}
-              loading={actionLoading}
-              fullWidth
-            >
-              Solicitar entrada
-            </Button>
-          </View>
-        )}
-
-        {isMember && !canManage && (
-          <View style={styles.actions}>
-            <Button
-              variant="destructive"
-              size="lg"
-              onPress={handleLeaveGroup}
-              loading={actionLoading}
-              fullWidth
-            >
-              Sair do grupo
-            </Button>
-          </View>
-        )}
       </ScrollView>
 
       <ConfirmationModal

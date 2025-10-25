@@ -14,37 +14,11 @@ export const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: ArenaSpacing['4xl'],
   },
-  coverImage: {
-    width: '100%',
-    height: ArenaSpacing['12xl'],
-    backgroundColor: ArenaColors.neutral.darkest,
-  },
-  header: {
-    padding: ArenaSpacing.lg,
-    gap: ArenaSpacing.md,
-  },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  metadata: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: ArenaSpacing.md,
-  },
-  metadataItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: ArenaSpacing.xs,
-  },
-  sportsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: ArenaSpacing.xs,
+  contentContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
+    gap: ArenaSpacing.lg,
   },
   section: {
-    padding: ArenaSpacing.lg,
     gap: ArenaSpacing.md,
   },
   sectionHeader: {
