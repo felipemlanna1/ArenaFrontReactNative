@@ -112,7 +112,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
           <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
 
-          <ProfileGroupsSection userId={userId || ''} isOwnProfile={isOwnProfile} />
+          <ProfileGroupsSection
+            userId={userId || ''}
+            isOwnProfile={isOwnProfile}
+          />
         </View>
       </ScrollView>
 
