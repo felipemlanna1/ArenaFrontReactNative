@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: ArenaColors.neutral.darkest,
+    borderBottomWidth: ArenaBorders.width.thin,
+    borderBottomColor: ArenaColors.neutral.darkSubtleBorder,
   },
   coverImage: {
     width: '100%',
