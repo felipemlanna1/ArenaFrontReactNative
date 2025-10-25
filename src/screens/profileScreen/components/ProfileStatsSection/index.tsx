@@ -46,25 +46,25 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
     {
       id: 'events',
       label: 'Eventos',
-      value: stats.totalEvents.toString(),
+      value: (stats.totalEvents ?? 0).toString(),
       iconName: 'trophy',
     },
     {
       id: 'created',
       label: 'Criados',
-      value: stats.createdEvents.toString(),
+      value: (stats.createdEvents ?? 0).toString(),
       iconName: 'calendar',
     },
     {
       id: 'groups',
       label: 'Grupos',
-      value: stats.totalGroups.toString(),
+      value: (stats.totalGroups ?? 0).toString(),
       iconName: 'people',
     },
     {
       id: 'friends',
       label: 'Amigos',
-      value: stats.totalFriends.toString(),
+      value: (stats.totalFriends ?? 0).toString(),
       iconName: 'people-outline',
     },
   ];

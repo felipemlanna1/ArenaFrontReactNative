@@ -37,14 +37,14 @@ export const mapGroupToStats = (
   events: Event[]
 ): { stats: UserStats; isLoading: boolean } => ({
   stats: {
-    totalEvents: events.length,
-    confirmedEvents: events.length,
+    totalEvents: events?.length ?? 0,
+    confirmedEvents: events?.length ?? 0,
     attendedEvents: 0,
     attendanceRate: 0,
     totalGroups: 0,
-    totalFriends: group.memberCount,
-    totalSports: group.sports?.length || 0,
-    createdEvents: events.length,
+    totalFriends: group?.memberCount ?? 0,
+    totalSports: group?.sports?.length ?? 0,
+    createdEvents: events?.length ?? 0,
   },
   isLoading: false,
 });
