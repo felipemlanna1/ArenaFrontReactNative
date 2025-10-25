@@ -86,4 +86,9 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.md,
   },
+  backButton: {
+    paddingVertical: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.sm,
+    marginLeft: -ArenaSpacing.sm,
+  },
 });
