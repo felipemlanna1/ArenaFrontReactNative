@@ -10,6 +10,7 @@ import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
 import { GroupsListScreenProps } from './typesGroupsListScreen';
 import { useGroupsListScreen } from './useGroupsListScreen';
 import { styles } from './stylesGroupsListScreen';
+import { GroupsBackground } from './components/GroupsBackground';
 import { GroupsFilterBar } from './components/GroupsFilterBar';
 import { MyGroupsAccordionSection } from './components/MyGroupsAccordionSection';
 import { RecommendationsAccordionSection } from './components/RecommendationsAccordionSection';
@@ -78,73 +79,72 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
 
   return (
     <AppLayout>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text variant="headingPrimary" style={styles.title}>
-            Grupos
-          </Text>
-        </View>
+      <GroupsBackground>
+        <View style={styles.container}>
+          <View style={styles.titleContainer}>
+            <Text variant="headingPrimary" style={styles.title}>
+              Grupos
+            </Text>
+          </View>
 
-        <GroupsFilterBar
-          searchQuery={searchTerm}
-          onSearchChange={setSearchTerm}
-          selectedCity={activeFilters.city || ''}
-          onCityChange={handleCityChange}
-          selectedState={activeFilters.state || ''}
-          onStateChange={handleStateChange}
-          selectedSportId={selectedSportId}
-          onSportChange={handleSportChange}
-          onClearFilters={clearFilters}
-          hasActiveFilters={hasActiveFilters}
-        />
+          <GroupsFilterBar
+            searchQuery={searchTerm}
+            onSearchChange={setSearchTerm}
+            selectedCity={activeFilters.city || ''}
+            onCityChange={handleCityChange}
+            selectedState={activeFilters.state || ''}
+            onStateChange={handleStateChange}
+            selectedSportId={selectedSportId}
+            onSportChange={handleSportChange}
+            onClearFilters={clearFilters}
+            hasActiveFilters={hasActiveFilters}
+          />
 
-        <ScrollView
-          style={styles.content}
-          refreshControl={
-            <ArenaRefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-            />
-          }
-          testID="groups-screen-scroll"
-        >
-          <View style={styles.accordionsContainer}>
-            <MyGroupsAccordionSection
-              groups={myGroups}
-              isLoading={isLoadingMyGroups}
-              loadingGroupId={loadingGroupId}
-              onNavigateToGroup={handleGroupPress}
-              onLeaveGroup={handleLeaveGroup}
-            />
+          <ScrollView
+            style={styles.content}
+            contentContainerStyle={styles.scrollContent}
+            testID="groups-screen-scroll"
+          >
+            <View style={styles.accordionsContainer}>
+              <MyGroupsAccordionSection
+                groups={myGroups}
+                isLoading={isLoadingMyGroups}
+                loadingGroupId={loadingGroupId}
+                onNavigateToGroup={handleGroupPress}
+                onManageGroup={handleGroupPress}
+                onLeaveGroup={handleLeaveGroup}
+              />
 
-            <RecommendationsAccordionSection
-              groups={recommendations}
-              isLoading={isLoadingRecommendations}
-              isLoadingMore={isLoadingMoreRecommendations}
-              hasMore={hasMoreRecommendations}
-              loadingGroupId={loadingGroupId}
-              onNavigateToGroup={handleGroupPress}
-              onJoinGroup={handleJoinGroup}
-              onLoadMore={handleLoadMoreRecommendations}
+              <RecommendationsAccordionSection
+                groups={recommendations}
+                isLoading={isLoadingRecommendations}
+                isLoadingMore={isLoadingMoreRecommendations}
+                hasMore={hasMoreRecommendations}
+                loadingGroupId={loadingGroupId}
+                onNavigateToGroup={handleGroupPress}
+                onManageGroup={handleGroupPress}
+                onJoinGroup={handleJoinGroup}
+                onLoadMore={handleLoadMoreRecommendations}
+              />
+            </View>
+          </ScrollView>
+
+          <View style={styles.fab}>
+            <Fab
+              icon={
+                <Ionicons
+                  name="add"
+                  size={24}
+                  color={ArenaColors.neutral.light}
+                />
+              }
+              onPress={handleCreateGroup}
+              variant="primary"
+              size="md"
             />
           </View>
-        </ScrollView>
-
-        <View style={styles.fab}>
-          <Fab
-            icon={
-              <Ionicons
-                name="add"
-                size={24}
-                color={ArenaColors.neutral.light}
-              />
-            }
-            onPress={handleCreateGroup}
-            variant="primary"
-            size="md"
-          />
         </View>
-      </View>
+      </GroupsBackground>
     </AppLayout>
   );
 };

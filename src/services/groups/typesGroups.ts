@@ -144,3 +144,14 @@ export interface GroupStats {
   avgAge?: number;
   experienceLevel?: 'beginner' | 'intermediate' | 'advanced' | 'mixed';
 }
+
+export interface GroupStatistics {
+  eventsPerMonth: number;
+  memberGrowthRate: number;
+  participationRate: number;
+  activeSportsCount: number;
+  totalEvents: number;
+  totalMembers: number;
+  recentEvents: number;
+  newMembers: number;
+}

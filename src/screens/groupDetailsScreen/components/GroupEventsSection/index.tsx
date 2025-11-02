@@ -1,21 +1,28 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Event } from '@/services/events/typesEvents';
 import { groupsApi } from '@/services/groups/groupsApi';
+import { EventCard } from '@/screens/homeScreen/components/EventCard';
+import { useEventActions } from '@/hooks/useEventActions';
 import { GroupEventsSectionProps } from './typesGroupEventsSection';
 import { styles } from './stylesGroupEventsSection';
+
+const EVENTS_PER_PAGE = 3;
 
 export const GroupEventsSection: React.FC<GroupEventsSectionProps> = ({
   groupId,
   canCreateEvents,
   onCreateEvent,
 }) => {
+  const navigation = useNavigation();
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [displayLimit, setDisplayLimit] = useState(EVENTS_PER_PAGE);
 
   const fetchGroupEvents = useCallback(async () => {
     try {
@@ -33,9 +40,39 @@ export const GroupEventsSection: React.FC<GroupEventsSectionProps> = ({
     }
   }, [groupId]);
 
+  const eventActions = useEventActions(fetchGroupEvents);
+
   useEffect(() => {
     fetchGroupEvents();
   }, [fetchGroupEvents]);
+
+  const handleDetailsPress = useCallback(
+    (eventId: string) => {
+      // @ts-expect-error - Navigation type limitation
+      navigation.navigate('EventDetails', { eventId });
+    },
+    [navigation]
+  );
+
+  const handleManagePress = useCallback(
+    (eventId: string) => {
+      // @ts-expect-error - Navigation type limitation
+      navigation.navigate('EventManagement', { eventId });
+    },
+    [navigation]
+  );
+
+  const handleShare = useCallback(
+    async (eventId: string) => {
+      const eventData = events.find(e => e.id === eventId);
+      if (!eventData) return;
+    },
+    [events]
+  );
+
+  const handleLoadMore = useCallback(() => {
+    setDisplayLimit(prev => prev + EVENTS_PER_PAGE);
+  }, []);
 
   if (isLoading) {
     return (
@@ -65,6 +102,9 @@ export const GroupEventsSection: React.FC<GroupEventsSectionProps> = ({
     );
   }
 
+  const displayedEvents = events.slice(0, displayLimit);
+  const hasMore = events.length > displayLimit;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -88,18 +128,36 @@ export const GroupEventsSection: React.FC<GroupEventsSectionProps> = ({
         </View>
       ) : (
         <View style={styles.eventsList}>
-          {events?.slice(0, 3).map(event => (
-            <View key={event.id} style={styles.eventCard}>
-              <Text variant="bodyBoldAccent">{event.title}</Text>
-              <Text variant="captionSecondary">
-                {new Date(event.startDate).toLocaleDateString('pt-BR')}
-              </Text>
+          {displayedEvents.map(event => (
+            <View key={event.id} style={styles.eventCardWrapper}>
+              <EventCard
+                event={event}
+                onDetailsPress={handleDetailsPress}
+                onManagePress={handleManagePress}
+                onShare={handleShare}
+                onJoinEvent={eventActions.handleJoinEvent}
+                onRequestJoin={eventActions.handleRequestJoin}
+                onCancelParticipation={eventActions.handleCancelParticipation}
+                onUndoRequest={eventActions.handleUndoRequest}
+                onAcceptInvitation={eventActions.handleAcceptInvitation}
+                onRejectInvitation={eventActions.handleRejectInvitation}
+                isActionLoading={eventActions.isActionLoading}
+                currentActionEventId={eventActions.currentActionEventId}
+              />
             </View>
           ))}
-          {events && events.length > 3 && (
-            <Text variant="captionSecondary" style={styles.emptyText}>
-              +{events.length - 3} eventos
-            </Text>
+
+          {hasMore && (
+            <View style={styles.loadMoreContainer}>
+              <Button
+                variant="outline-primary"
+                size="md"
+                onPress={handleLoadMore}
+                fullWidth
+              >
+                Ver mais ({events.length - displayLimit} eventos)
+              </Button>
+            </View>
           )}
         </View>
       )}

@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ArenaColors.neutral.darkest,
   },
   titleContainer: {
     paddingHorizontal: ArenaSpacing.lg,
@@ -16,6 +15,9 @@ export const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,
   },
   accordionsContainer: {
     gap: ArenaSpacing.lg,

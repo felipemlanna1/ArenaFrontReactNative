@@ -1,37 +1,37 @@
-import { Group } from '@/services/groups/typesGroups';
+import { Group, GroupStatistics } from '@/services/groups/typesGroups';
 import { Event } from '@/services/events/typesEvents';
 import { UserStats } from '@/screens/profileScreen/components/ProfileStatsSection/typesProfileStatsSection';
 
-/**
- * Maps Group data to ProfileHeroSection format
- */
-export const mapGroupToHeroData = (group: Group) => ({
-  avatarUrl: group.avatar || null,
-  initials: getGroupInitials(group.name),
-  coverImageUrl: group.coverImage || null,
-  primarySport: group.sports?.[0] || null,
-});
+export const mapGroupToHeroData = (group: Group) => {
+  const primarySport = group.sports?.[0];
 
-/**
- * Maps Group data to ProfileInfoSection format
- */
+  return {
+    avatarUrl: group.avatar || null,
+    initials: getGroupInitials(group.name),
+    coverImageUrl: group.coverImage || null,
+    primarySport: primarySport ? { ...primarySport, isPrimary: true } : null,
+  };
+};
+
 export const mapGroupToInfoData = (group: Group) => {
   const cityState = [group.city, group.state].filter(Boolean).join(', ');
+
+  const sports = (group.sports || []).map((sport, index) => ({
+    ...sport,
+    isPrimary: index === 0,
+  }));
 
   return {
     fullName: group.name,
     username: cityState || 'Localização não definida',
     age: null,
     gender: null,
-    sports: group.sports || [],
+    sports,
     isEmailVerified: false,
     memberSince: formatGroupCreatedAt(group.createdAt),
   };
 };
 
-/**
- * Maps Group data and events to ProfileStatsSection format
- */
 export const mapGroupToStats = (
   group: Group,
   events: Event[]
@@ -49,9 +49,25 @@ export const mapGroupToStats = (
   isLoading: false,
 });
 
-/**
- * Generates initials from group name
- */
+export const mapGroupStatisticsToStats = (
+  statistics: GroupStatistics | null
+): UserStats | null => {
+  if (!statistics) return null;
+
+  return {
+    totalEvents: statistics.totalEvents,
+    confirmedEvents: statistics.recentEvents,
+    attendedEvents: Math.round(
+      (statistics.participationRate / 100) * statistics.totalEvents
+    ),
+    attendanceRate: statistics.participationRate,
+    totalGroups: statistics.activeSportsCount,
+    totalFriends: statistics.totalMembers,
+    totalSports: statistics.activeSportsCount,
+    createdEvents: Math.round(statistics.eventsPerMonth * 12),
+  };
+};
+
 export const getGroupInitials = (name: string): string => {
   const words = name.trim().split(' ');
   if (words.length >= 2) {
@@ -60,9 +76,6 @@ export const getGroupInitials = (name: string): string => {
   return name.slice(0, 2).toUpperCase();
 };
 
-/**
- * Formats group creation date for display
- */
 const formatGroupCreatedAt = (createdAt: string): string => {
   const date = new Date(createdAt);
   const month = date.toLocaleDateString('pt-BR', { month: 'long' });

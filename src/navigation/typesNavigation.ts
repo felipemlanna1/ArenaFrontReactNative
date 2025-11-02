@@ -17,6 +17,7 @@ export type RootStackParamList = {
       }
     | undefined;
   EventDetails: { eventId: string };
+  GroupDetails: { groupId: string };
   Profile: { userId?: string } | undefined;
   EditProfile: undefined;
 };
@@ -45,7 +46,6 @@ export type GroupsStackParamList = {
   GroupsList: undefined;
   GroupDetails: { groupId: string };
   CreateGroup: undefined;
-  GroupManagement: { groupId: string };
 };
 
 export type ProfileStackParamList = {

@@ -8,6 +8,7 @@ interface MyGroupsAccordionSectionProps {
   isLoading: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
+  onManageGroup: (groupId: string) => void;
   onLeaveGroup: (groupId: string) => Promise<void>;
 }
 
@@ -18,6 +19,7 @@ export const MyGroupsAccordionSection: React.FC<
   isLoading,
   loadingGroupId,
   onNavigateToGroup,
+  onManageGroup,
   onLeaveGroup,
 }) => {
   const safeGroups = Array.isArray(groups) ? groups : [];
@@ -34,6 +36,7 @@ export const MyGroupsAccordionSection: React.FC<
         isLoading={isLoading}
         loadingGroupId={loadingGroupId}
         onNavigateToGroup={onNavigateToGroup}
+        onManageGroup={onManageGroup}
         onLeaveGroup={onLeaveGroup}
       />
     </AccordionSection>

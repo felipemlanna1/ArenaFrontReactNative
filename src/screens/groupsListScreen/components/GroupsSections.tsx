@@ -4,10 +4,9 @@ import { StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { UserCard } from '@/components/userCard';
+import { GroupCard } from '@/components/ui/groupCard';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 import { Group } from '@/services/groups/typesGroups';
-import { mapGroupToUserCard } from '../utils/groupToUserAdapter';
 
 const styles = StyleSheet.create({
   groupsList: {
@@ -49,6 +48,7 @@ interface MyGroupsSectionProps {
   isLoading: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
+  onManageGroup: (groupId: string) => void;
   onLeaveGroup: (groupId: string) => Promise<void>;
 }
 
@@ -57,6 +57,7 @@ export const MyGroupsSection: React.FC<MyGroupsSectionProps> = ({
   isLoading,
   loadingGroupId,
   onNavigateToGroup,
+  onManageGroup,
   onLeaveGroup,
 }) => {
   if (isLoading) return <LoadingState />;
@@ -71,14 +72,16 @@ export const MyGroupsSection: React.FC<MyGroupsSectionProps> = ({
   return (
     <View style={styles.groupsList}>
       {groups.map(group => (
-        <UserCard
+        <GroupCard
           key={group.id}
-          user={mapGroupToUserCard(group)}
-          variant="friend"
-          onPress={() => onNavigateToGroup(group.id)}
-          onRemove={() => onLeaveGroup(group.id)}
-          isLoading={loadingGroupId === group.id}
-          testID={`group-card-${group.id}`}
+          group={group}
+          onDetailsPress={onNavigateToGroup}
+          onManagePress={onManageGroup}
+          onJoinGroup={async () => {}}
+          onLeaveGroup={onLeaveGroup}
+          isActionLoading={loadingGroupId === group.id}
+          currentActionGroupId={loadingGroupId}
+          testID={`my-group-card-${group.id}`}
         />
       ))}
     </View>
@@ -90,6 +93,7 @@ interface PendingGroupsSectionProps {
   isLoading: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
+  onManageGroup: (groupId: string) => void;
   onCancelRequest: (groupId: string) => Promise<void>;
 }
 
@@ -98,6 +102,7 @@ export const PendingGroupsSection: React.FC<PendingGroupsSectionProps> = ({
   isLoading,
   loadingGroupId,
   onNavigateToGroup,
+  onManageGroup,
   onCancelRequest,
 }) => {
   if (isLoading) return <LoadingState />;
@@ -109,13 +114,15 @@ export const PendingGroupsSection: React.FC<PendingGroupsSectionProps> = ({
   return (
     <View style={styles.groupsList}>
       {groups.map(group => (
-        <UserCard
+        <GroupCard
           key={group.id}
-          user={mapGroupToUserCard(group)}
-          variant="outgoing"
-          onPress={() => onNavigateToGroup(group.id)}
-          onCancel={() => onCancelRequest(group.id)}
-          isLoading={loadingGroupId === group.id}
+          group={group}
+          onDetailsPress={onNavigateToGroup}
+          onManagePress={onManageGroup}
+          onJoinGroup={async () => {}}
+          onLeaveGroup={onCancelRequest}
+          isActionLoading={loadingGroupId === group.id}
+          currentActionGroupId={loadingGroupId}
           testID={`pending-group-card-${group.id}`}
         />
       ))}
@@ -128,12 +135,20 @@ interface GroupRecommendationsSectionProps {
   isLoading: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
+  onManageGroup: (groupId: string) => void;
   onJoinGroup: (groupId: string) => Promise<void>;
 }
 
 export const GroupRecommendationsSection: React.FC<
   GroupRecommendationsSectionProps
-> = ({ groups, isLoading, loadingGroupId, onNavigateToGroup, onJoinGroup }) => {
+> = ({
+  groups,
+  isLoading,
+  loadingGroupId,
+  onNavigateToGroup,
+  onManageGroup,
+  onJoinGroup,
+}) => {
   if (isLoading) return <LoadingState />;
   if (groups.length === 0) {
     return (
@@ -146,13 +161,15 @@ export const GroupRecommendationsSection: React.FC<
   return (
     <View style={styles.groupsList}>
       {groups.map(group => (
-        <UserCard
+        <GroupCard
           key={group.id}
-          user={mapGroupToUserCard(group)}
-          variant="recommendation"
-          onPress={() => onNavigateToGroup(group.id)}
-          onAddFriend={() => onJoinGroup(group.id)}
-          isLoading={loadingGroupId === group.id}
+          group={group}
+          onDetailsPress={onNavigateToGroup}
+          onManagePress={onManageGroup}
+          onJoinGroup={onJoinGroup}
+          onLeaveGroup={async () => {}}
+          isActionLoading={loadingGroupId === group.id}
+          currentActionGroupId={loadingGroupId}
           testID={`recommendation-group-card-${group.id}`}
         />
       ))}

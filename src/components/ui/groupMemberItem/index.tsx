@@ -2,7 +2,8 @@ import React, { useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { Badge } from '@/components/ui/badge';
+import { RoleBadge } from '@/components/ui/roleBadge';
+import { Dropdown } from '@/components/ui/dropdown';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { ArenaColors } from '@/constants';
 import { GroupMemberItemProps } from './typesGroupMemberItem';
@@ -17,6 +18,7 @@ export const GroupMemberItem: React.FC<GroupMemberItemProps> = ({
   isActionLoading = false,
   currentActionMemberId,
   currentUserRole,
+  roleActions = [],
   testID = 'group-member-item',
 }) => {
   const memberId = member.user?.id || member.userId;
@@ -44,21 +46,6 @@ export const GroupMemberItem: React.FC<GroupMemberItemProps> = ({
     }
   }, [onRemove, memberId, isLoading]);
 
-  const getRoleBadgeVariant = (
-    role: string
-  ): 'default' | 'primary' | 'success' | 'error' | 'outlined' => {
-    switch (role) {
-      case 'OWNER':
-        return 'primary';
-      case 'ADMIN':
-        return 'success';
-      case 'MODERATOR':
-        return 'outlined';
-      default:
-        return 'default';
-    }
-  };
-
   return (
     <View style={styles.container} testID={testID}>
       <TouchableOpacity onPress={handlePress} disabled={!onPress}>
@@ -84,9 +71,11 @@ export const GroupMemberItem: React.FC<GroupMemberItemProps> = ({
         <View style={styles.header}>
           <Text variant="bodyBold">{memberName}</Text>
           {member.role && (
-            <Badge variant={getRoleBadgeVariant(member.role)} size="sm">
-              {member.role}
-            </Badge>
+            <RoleBadge
+              role={member.role as 'OWNER' | 'ADMIN' | 'MODERATOR' | 'MEMBER'}
+              size="sm"
+              showIcon
+            />
           )}
         </View>
 
@@ -105,6 +94,28 @@ export const GroupMemberItem: React.FC<GroupMemberItemProps> = ({
 
       {showActions && canManage && (
         <View style={styles.actionsContainer}>
+          {roleActions.length > 0 && (
+            <Dropdown
+              variant="default"
+              trigger={
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  disabled={isLoading}
+                >
+                  <Ionicons
+                    name="ellipsis-vertical"
+                    size={20}
+                    color={
+                      isLoading
+                        ? ArenaColors.neutral.medium
+                        : ArenaColors.neutral.light
+                    }
+                  />
+                </TouchableOpacity>
+              }
+              items={roleActions}
+            />
+          )}
           {onRemove && (
             <TouchableOpacity
               onPress={handleRemove}

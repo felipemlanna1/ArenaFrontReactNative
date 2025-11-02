@@ -1,24 +1,31 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, ScrollView } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
+import { Fab } from '@/components/ui/fab';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { ArenaRefreshControl } from '@/components/ui/refreshControl';
-import { GroupMemberItem } from '@/components/ui/groupMemberItem';
 import { ConfirmationModal } from '@/components/ui/confirmationModal';
+import { InviteUsersModal } from '@/components/ui/inviteUsersModal';
+import { ArenaColors } from '@/constants';
 import { GroupEventsSection } from './components/GroupEventsSection';
+import { GroupCapacityIndicator } from './components/GroupCapacityIndicator';
+import { GroupRulesSection } from './components/GroupRulesSection';
+import { GroupMembersSection } from './components/GroupMembersSection';
+import { RoleBadge } from '@/components/ui/roleBadge';
 import { ProfileHeroSection } from '@/screens/profileScreen/components/ProfileHeroSection';
 import { ProfileInfoSection } from '@/screens/profileScreen/components/ProfileInfoSection';
 import { ProfileStatsSection } from '@/screens/profileScreen/components/ProfileStatsSection';
 import { AppLayout } from '@/components/AppLayout';
-import { Event } from '@/services/events/typesEvents';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { GroupDetailsScreenProps } from './typesGroupDetailsScreen';
 import { useGroupDetailsScreen } from './useGroupDetailsScreen';
+import { useGroupStatistics } from './hooks/useGroupStatistics';
 import {
   mapGroupToHeroData,
   mapGroupToInfoData,
-  mapGroupToStats,
+  mapGroupStatisticsToStats,
 } from './utils/groupAdapters';
 import { styles } from './stylesGroupDetailsScreen';
 
@@ -27,18 +34,17 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
   navigation,
 }) => {
   const { groupId } = route.params;
+
   const {
     group,
     members,
     isLoading,
     isRefreshing,
     actionLoading,
-    currentActionMemberId,
     handleRefresh,
     handleJoinGroup,
     handleLeaveGroup,
     confirmLeaveGroup,
-    handleRemoveMember,
     confirmRemoveMember,
     showLeaveConfirmation,
     setShowLeaveConfirmation,
@@ -46,30 +52,10 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
     setShowRemoveConfirmation,
   } = useGroupDetailsScreen(groupId);
 
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isLoadingEvents, setIsLoadingEvents] = useState(true);
+  const [showAllMembers, setShowAllMembers] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setIsLoadingEvents(true);
-        const groupEvents = await groupsApi.getGroupEvents(groupId);
-        setEvents(Array.isArray(groupEvents) ? groupEvents : []);
-      } catch {
-        setEvents([]);
-      } finally {
-        setIsLoadingEvents(false);
-      }
-    };
-
-    if (groupId) {
-      fetchEvents();
-    }
-  }, [groupId]);
-
-  const handleManagePress = useCallback(() => {
-    navigation.navigate('GroupManagement', { groupId });
-  }, [navigation, groupId]);
+  const { statistics, isLoading: isLoadingStats } = useGroupStatistics(groupId);
 
   const handleCreateEvent = useCallback(() => {
     navigation.getParent()?.navigate('CreateEvent', {
@@ -77,6 +63,14 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
       preSelectedGroupId: groupId,
     });
   }, [navigation, groupId]);
+
+  const handleInviteUsers = useCallback(
+    async (userIds: string[], message?: string) => {
+      await groupsApi.inviteMembers(groupId, userIds, message);
+      await handleRefresh();
+    },
+    [groupId, handleRefresh]
+  );
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
@@ -115,12 +109,6 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
-        refreshControl={
-          <ArenaRefreshControl
-            refreshing={isRefreshing}
-            onRefresh={handleRefresh}
-          />
-        }
       >
         <ProfileHeroSection
           {...mapGroupToHeroData(group)}
@@ -129,12 +117,38 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
         />
 
         <View style={styles.contentContainer}>
+          {!group.isPublic && (
+            <View style={styles.privacyBadgeContainer}>
+              <View style={styles.privacyBadge}>
+                <Ionicons
+                  name="lock-closed"
+                  size={16}
+                  color={ArenaColors.neutral.light}
+                />
+                <Text variant="bodySecondary">Grupo Privado</Text>
+              </View>
+            </View>
+          )}
+
           <ProfileInfoSection {...mapGroupToInfoData(group)} />
 
-          <ProfileStatsSection
-            {...mapGroupToStats(group, events)}
-            isLoading={isLoadingEvents}
+          {group.currentUserRole && (
+            <View style={styles.roleBadgeContainer}>
+              <RoleBadge role={group.currentUserRole} size="md" />
+            </View>
+          )}
+
+          <GroupCapacityIndicator
+            currentMembers={group.memberCount ?? 0}
+            maxMembers={group.maxMembers}
           />
+
+          <ProfileStatsSection
+            stats={mapGroupStatisticsToStats(statistics)}
+            isLoading={isLoadingStats}
+          />
+
+          <GroupRulesSection rules={group.rules} />
 
           <View style={styles.section}>
             <GroupEventsSection
@@ -145,30 +159,41 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
           </View>
 
           <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text variant="titlePrimary">Membros</Text>
+            <GroupMembersSection
+              group={group}
+              members={showAllMembers ? members : members.slice(0, 5)}
+              isOwner={group.currentUserRole === 'OWNER'}
+              canManage={!!canManage}
+              onRefresh={handleRefresh}
+            />
+            <View style={styles.manageButtonContainer}>
               {canManage && (
-                <Button variant="subtle" size="sm" onPress={handleManagePress}>
-                  Gerenciar
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onPress={() => setShowInviteModal(true)}
+                  fullWidth
+                >
+                  Convidar Membros
+                </Button>
+              )}
+
+              {members.length > 5 && (
+                <Button
+                  variant="subtle"
+                  size="sm"
+                  onPress={() => setShowAllMembers(!showAllMembers)}
+                  fullWidth
+                >
+                  {showAllMembers
+                    ? 'Mostrar menos'
+                    : `Ver todos (${members.length})`}
                 </Button>
               )}
             </View>
-            <View style={styles.membersList}>
-              {members.slice(0, 5).map(member => (
-                <GroupMemberItem
-                  key={member.id}
-                  member={member}
-                  showActions={canManage}
-                  onRemove={handleRemoveMember}
-                  isActionLoading={actionLoading}
-                  currentActionMemberId={currentActionMemberId}
-                  currentUserRole={group.currentUserRole}
-                />
-              ))}
-            </View>
           </View>
 
-          {!isMember && (
+          {!isMember && group.isPublic && (
             <View style={styles.actions}>
               <Button
                 variant="primary"
@@ -177,12 +202,28 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
                 loading={actionLoading}
                 fullWidth
               >
-                Solicitar entrada
+                Entrar no grupo
               </Button>
             </View>
           )}
 
-          {isMember && !canManage && (
+          {!isMember && !group.isPublic && (
+            <View style={styles.actions}>
+              <View style={styles.privateGroupMessage}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={24}
+                  color={ArenaColors.neutral.medium}
+                />
+                <Text variant="bodySecondary" style={styles.privateGroupText}>
+                  Este é um grupo privado. Você precisa ser convidado por um
+                  administrador para participar.
+                </Text>
+              </View>
+            </View>
+          )}
+
+          {isMember && group.currentUserRole !== 'OWNER' && (
             <View style={styles.actions}>
               <Button
                 variant="destructive"
@@ -220,6 +261,43 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
         onConfirm={confirmRemoveMember}
         onCancel={() => setShowRemoveConfirmation(false)}
         isLoading={actionLoading}
+      />
+
+      {canManage && (
+        <Fab
+          variant="primary"
+          size="md"
+          position="bottom-right"
+          icon={
+            <Ionicons
+              name="create-outline"
+              size={24}
+              color={ArenaColors.neutral.light}
+            />
+          }
+          onPress={() => {
+            navigation.navigate('CreateGroup', {
+              mode: 'edit',
+              groupId: group.id,
+              groupData: group,
+            });
+          }}
+          testID="edit-group-fab"
+        />
+      )}
+
+      <InviteUsersModal
+        visible={showInviteModal}
+        onClose={() => setShowInviteModal(false)}
+        onInvite={handleInviteUsers}
+        title="Convidar para o Grupo"
+        availableSlots={
+          group.maxMembers
+            ? group.maxMembers - (group.memberCount || 0)
+            : undefined
+        }
+        entityType="group"
+        entityId={groupId}
       />
     </AppLayout>
   );

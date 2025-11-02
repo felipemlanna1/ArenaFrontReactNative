@@ -12,10 +12,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing['4xl'],
   },
   contentContainer: {
-    paddingHorizontal: ArenaSpacing.lg,
     gap: ArenaSpacing.lg,
   },
   section: {
@@ -32,5 +32,37 @@ export const styles = StyleSheet.create({
   actions: {
     padding: ArenaSpacing.lg,
     gap: ArenaSpacing.sm,
+  },
+  privacyBadgeContainer: {
+    alignItems: 'flex-start',
+    marginBottom: ArenaSpacing.sm,
+  },
+  privacyBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+    paddingVertical: ArenaSpacing.xs,
+    paddingHorizontal: ArenaSpacing.sm,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaSpacing.xs,
+  },
+  roleBadgeContainer: {
+    alignItems: 'center',
+    marginBottom: ArenaSpacing.sm,
+  },
+  privateGroupMessage: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.md,
+    padding: ArenaSpacing.md,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaSpacing.sm,
+  },
+  privateGroupText: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  manageButtonContainer: {
+    marginTop: ArenaSpacing.sm,
   },
 });

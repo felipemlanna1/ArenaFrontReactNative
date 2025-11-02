@@ -2,6 +2,15 @@ import { httpService } from '../http';
 import { EventsFilter, EventsResponse, Event } from './typesEvents';
 import { CreateEventDto } from '@/screens/createEventScreen/typesCreateEventScreen';
 
+interface InvitableUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  profileImageUrl?: string;
+  favoriteSports?: { id: string; name: string }[];
+}
+
 const prepareParams = (params: Record<string, unknown>): URLSearchParams => {
   const searchParams = new URLSearchParams();
 
@@ -149,15 +158,28 @@ export class EventsApi {
     await httpService.delete(`${this.basePath}/${eventId}/owners/${ownerId}`);
   }
 
-  async sendInvitations(
+  async inviteParticipants(
     eventId: string,
     userIds: string[],
     message?: string
   ): Promise<void> {
-    await httpService.post(`${this.basePath}/${eventId}/send-invitations`, {
+    await httpService.post(`${this.basePath}/${eventId}/invitations`, {
       userIds,
       message,
     });
+  }
+
+  async respondToInvitation(eventId: string, accept: boolean): Promise<void> {
+    await httpService.post(`${this.basePath}/${eventId}/invites/respond`, {
+      accept,
+    });
+  }
+
+  async getEventInvitations(eventId: string): Promise<unknown[]> {
+    const response = await httpService.getDirect<unknown[]>(
+      `${this.basePath}/${eventId}/invites`
+    );
+    return response;
   }
 
   async updateEvent(
@@ -195,4 +217,32 @@ export class EventsApi {
     );
     return response;
   }
+
+  async getInvitableUsers(
+    eventId: string,
+    params?: {
+      query?: string;
+      limit?: number;
+    }
+  ): Promise<{
+    data: {
+      friends: InvitableUser[];
+      others: InvitableUser[];
+      invited: InvitableUser[];
+    };
+    message: string;
+    success: boolean;
+  }> {
+    const queryParams = new URLSearchParams();
+    if (params?.query) queryParams.append('query', params.query);
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+
+    const url = `${this.basePath}/${eventId}/invitable-users${
+      queryParams.toString() ? `?${queryParams.toString()}` : ''
+    }`;
+
+    return await httpService.getDirect(url);
+  }
 }
+
+export const eventsApi = new EventsApi();

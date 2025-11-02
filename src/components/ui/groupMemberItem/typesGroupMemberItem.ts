@@ -1,5 +1,11 @@
 import { GroupMember } from '@/services/groups/typesGroups';
 
+export interface RoleAction {
+  id: string;
+  label: string;
+  onPress: () => void;
+}
+
 export interface GroupMemberItemProps {
   member: GroupMember;
   onPress?: (memberId: string) => void;
@@ -9,5 +15,6 @@ export interface GroupMemberItemProps {
   isActionLoading?: boolean;
   currentActionMemberId?: string | null;
   currentUserRole?: string;
+  roleActions?: RoleAction[];
   testID?: string;
 }

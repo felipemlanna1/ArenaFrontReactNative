@@ -8,6 +8,7 @@ interface PendingGroupsAccordionSectionProps {
   isLoading: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
+  onManageGroup: (groupId: string) => void;
   onCancelRequest: (groupId: string) => Promise<void>;
 }
 
@@ -18,6 +19,7 @@ export const PendingGroupsAccordionSection: React.FC<
   isLoading,
   loadingGroupId,
   onNavigateToGroup,
+  onManageGroup,
   onCancelRequest,
 }) => {
   const safeGroups = Array.isArray(groups) ? groups : [];
@@ -34,6 +36,7 @@ export const PendingGroupsAccordionSection: React.FC<
         isLoading={isLoading}
         loadingGroupId={loadingGroupId}
         onNavigateToGroup={onNavigateToGroup}
+        onManageGroup={onManageGroup}
         onCancelRequest={onCancelRequest}
       />
     </AccordionSection>

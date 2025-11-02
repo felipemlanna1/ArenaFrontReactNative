@@ -8,8 +8,18 @@ import {
   AddMemberDto,
   UpdateMemberRoleDto,
   GroupMember,
+  GroupStatistics,
 } from './typesGroups';
 import { Event } from '../events/typesEvents';
+
+interface InvitableUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  profileImageUrl?: string;
+  favoriteSports?: { id: string; name: string }[];
+}
 
 const prepareParams = (params: Record<string, unknown>): URLSearchParams => {
   const searchParams = new URLSearchParams();
@@ -63,7 +73,15 @@ export class GroupsApi {
         Boolean(member.group) && member.isActive
     );
 
-    const groups = filtered.map(member => member.group);
+    const groups = filtered.map(member => {
+      const groupWithRole = {
+        ...member.group,
+        currentUserRole: member.role,
+        currentUserStatus: 'MEMBER' as const,
+      };
+
+      return groupWithRole;
+    });
 
     return groups;
   }
@@ -79,6 +97,7 @@ export class GroupsApi {
     const response = await httpService.getDirect<Group>(
       `${this.basePath}/${groupId}`
     );
+
     return response;
   }
 
@@ -88,7 +107,7 @@ export class GroupsApi {
   }
 
   async updateGroup(groupId: string, dto: UpdateGroupDto): Promise<Group> {
-    const response = await httpService.patch<Group>(
+    const response = await httpService.put<Group>(
       `${this.basePath}/${groupId}`,
       dto
     );
@@ -136,6 +155,13 @@ export class GroupsApi {
   async getGroupEvents(groupId: string): Promise<Event[]> {
     const response = await httpService.getDirect<Event[]>(
       `${this.basePath}/${groupId}/events`
+    );
+    return response;
+  }
+
+  async getGroupStatistics(groupId: string): Promise<GroupStatistics> {
+    const response = await httpService.getDirect<GroupStatistics>(
+      `${this.basePath}/${groupId}/statistics`
     );
     return response;
   }
@@ -197,7 +223,72 @@ export class GroupsApi {
   }
 
   async cancelJoinRequest(groupId: string): Promise<void> {
-    await this.leaveGroup(groupId);
+    await httpService.delete(`${this.basePath}/${groupId}/requests`);
+  }
+
+  async createJoinRequest(groupId: string, message?: string): Promise<void> {
+    await httpService.post(`${this.basePath}/${groupId}/requests`, { message });
+  }
+
+  async getJoinRequests(groupId: string): Promise<unknown[]> {
+    const response = await httpService.getDirect<unknown[]>(
+      `${this.basePath}/${groupId}/requests`
+    );
+    return response;
+  }
+
+  async approveJoinRequest(groupId: string, userId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${groupId}/requests/${userId}/approve`,
+      {}
+    );
+  }
+
+  async rejectJoinRequest(groupId: string, userId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${groupId}/requests/${userId}/reject`,
+      {}
+    );
+  }
+
+  async inviteMembers(
+    groupId: string,
+    userIds: string[],
+    message?: string
+  ): Promise<void> {
+    const promises = userIds.map(userId =>
+      httpService.post(`${this.basePath}/${groupId}/members`, {
+        userId,
+        role: 'MEMBER',
+      })
+    );
+    await Promise.all(promises);
+  }
+
+  async getInvitableUsers(
+    groupId: string,
+    params?: {
+      query?: string;
+      limit?: number;
+    }
+  ): Promise<{
+    data: {
+      friends: InvitableUser[];
+      others: InvitableUser[];
+      invited: InvitableUser[];
+    };
+    message: string;
+    success: boolean;
+  }> {
+    const queryParams = new URLSearchParams();
+    if (params?.query) queryParams.append('query', params.query);
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+
+    const url = `${this.basePath}/${groupId}/invitable-users${
+      queryParams.toString() ? `?${queryParams.toString()}` : ''
+    }`;
+
+    return await httpService.getDirect(url);
   }
 }
 

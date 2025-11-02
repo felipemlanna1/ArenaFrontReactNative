@@ -262,17 +262,11 @@ export const useHomeEvents = ({
 
       try {
         if (!event.startDate || !event.sport || !event.location) {
-          console.error('Event missing required fields:', {
-            hasStartDate: !!event.startDate,
-            hasSport: !!event.sport,
-            hasLocation: !!event.location,
-          });
           return;
         }
 
         const eventDate = new Date(event.startDate);
         if (isNaN(eventDate.getTime())) {
-          console.error('Invalid event date:', event.startDate);
           return;
         }
 
@@ -321,7 +315,6 @@ Participe pelo app Arena! 🔥`;
           title: `Arena - ${event.title}`,
         });
       } catch (error) {
-        console.error('Error sharing event:', error);
         if (__DEV__) {
           throw error;
         }

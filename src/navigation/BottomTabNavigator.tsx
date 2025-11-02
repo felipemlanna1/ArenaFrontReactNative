@@ -15,7 +15,6 @@ import { MyEventsScreen } from '@/screens/myEventsScreen';
 import { GroupsListScreen } from '@/screens/groupsListScreen';
 import { GroupDetailsScreen } from '@/screens/groupDetailsScreen';
 import { CreateGroupScreen } from '@/screens/createGroupScreen';
-import { GroupManagementScreen } from '@/screens/groupManagementScreen';
 import { ProfileScreen } from '@/screens/profileScreen';
 import {
   TabParamList,
@@ -63,10 +62,6 @@ const GroupsStackScreen: React.FC = () => {
       <GroupsStack.Screen name="GroupsList" component={GroupsListScreen} />
       <GroupsStack.Screen name="GroupDetails" component={GroupDetailsScreen} />
       <GroupsStack.Screen name="CreateGroup" component={CreateGroupScreen} />
-      <GroupsStack.Screen
-        name="GroupManagement"
-        component={GroupManagementScreen}
-      />
     </GroupsStack.Navigator>
   );
 };

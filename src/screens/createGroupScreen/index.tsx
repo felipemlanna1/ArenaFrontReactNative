@@ -13,10 +13,16 @@ import { styles } from './stylesCreateGroupScreen';
 
 export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
   navigation,
+  route,
 }) => {
+  const mode = route.params?.mode || 'create';
+  const groupId = route.params?.groupId;
+  const groupData = route.params?.groupData;
+  const isEditMode = mode === 'edit';
+
   const { sports, isLoading: sportsLoading } = useSports();
   const { formData, errors, isSubmitting, updateField, handleSubmit } =
-    useCreateGroupScreen();
+    useCreateGroupScreen(isEditMode ? groupData : undefined, groupId);
 
   const handleCreate = useCallback(async () => {
     const success = await handleSubmit();
@@ -35,7 +41,9 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
       >
-        <Text variant="headingPrimary">Criar Grupo</Text>
+        <Text variant="headingPrimary">
+          {isEditMode ? 'Editar Grupo' : 'Criar Grupo'}
+        </Text>
 
         <View style={styles.section}>
           <Input
@@ -131,7 +139,7 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
             loading={isSubmitting}
             fullWidth
           >
-            Criar Grupo
+            {isEditMode ? 'Salvar Alterações' : 'Criar Grupo'}
           </Button>
           <Button
             variant="subtle"

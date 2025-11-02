@@ -10,6 +10,7 @@ interface RecommendationsAccordionSectionProps {
   hasMore: boolean;
   loadingGroupId: string | null;
   onNavigateToGroup: (groupId: string) => void;
+  onManageGroup: (groupId: string) => void;
   onJoinGroup: (groupId: string) => Promise<void>;
   onLoadMore: () => void;
 }
@@ -23,6 +24,7 @@ export const RecommendationsAccordionSection: React.FC<
   hasMore,
   loadingGroupId,
   onNavigateToGroup,
+  onManageGroup,
   onJoinGroup,
   onLoadMore,
 }) => {
@@ -43,6 +45,7 @@ export const RecommendationsAccordionSection: React.FC<
         isLoading={isLoading}
         loadingGroupId={loadingGroupId}
         onNavigateToGroup={onNavigateToGroup}
+        onManageGroup={onManageGroup}
         onJoinGroup={onJoinGroup}
       />
     </AccordionSection>

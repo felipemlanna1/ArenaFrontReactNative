@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { CreateGroupFormData } from './typesCreateGroupScreen';
+import { Group } from '@/services/groups/typesGroups';
 
 const initialFormData: CreateGroupFormData = {
   name: '',
@@ -11,13 +12,32 @@ const initialFormData: CreateGroupFormData = {
   isPublic: true,
 };
 
-export const useCreateGroupScreen = () => {
+export const useCreateGroupScreen = (
+  existingGroup?: Group,
+  groupId?: string
+) => {
+  const isEditMode = !!existingGroup && !!groupId;
+
   const [formData, setFormData] =
     useState<CreateGroupFormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<
     Partial<Record<keyof CreateGroupFormData, string>>
   >({});
+
+  useEffect(() => {
+    if (existingGroup) {
+      setFormData({
+        name: existingGroup.name || '',
+        description: existingGroup.description || '',
+        sportIds: existingGroup.sports?.map(s => s.id) || [],
+        city: existingGroup.city || '',
+        state: existingGroup.state || '',
+        isPublic: existingGroup.isPublic ?? true,
+        maxMembers: existingGroup.maxMembers,
+      });
+    }
+  }, [existingGroup]);
 
   const updateField = useCallback(
     <K extends keyof CreateGroupFormData>(
@@ -53,20 +73,32 @@ export const useCreateGroupScreen = () => {
 
     setIsSubmitting(true);
     try {
-      await groupsApi.createGroup({
-        name: formData.name,
-        description: formData.description,
-        sportIds: formData.sportIds,
-        city: formData.city || undefined,
-        state: formData.state || undefined,
-        isPublic: formData.isPublic,
-        maxMembers: formData.maxMembers,
-      });
+      if (isEditMode && groupId) {
+        await groupsApi.updateGroup(groupId, {
+          name: formData.name,
+          description: formData.description,
+          sportIds: formData.sportIds,
+          city: formData.city || undefined,
+          state: formData.state || undefined,
+          isPublic: formData.isPublic,
+          maxMembers: formData.maxMembers,
+        });
+      } else {
+        await groupsApi.createGroup({
+          name: formData.name,
+          description: formData.description,
+          sportIds: formData.sportIds,
+          city: formData.city || undefined,
+          state: formData.state || undefined,
+          isPublic: formData.isPublic,
+          maxMembers: formData.maxMembers,
+        });
+      }
       return true;
     } finally {
       setIsSubmitting(false);
     }
-  }, [formData, validate]);
+  }, [formData, validate, isEditMode, groupId]);
 
   return {
     formData,

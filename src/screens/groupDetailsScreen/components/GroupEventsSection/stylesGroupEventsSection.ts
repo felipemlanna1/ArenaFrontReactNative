@@ -27,7 +27,10 @@ export const styles = StyleSheet.create({
   eventsList: {
     gap: ArenaSpacing.md,
   },
-  eventCard: {
+  eventCardWrapper: {
     marginBottom: ArenaSpacing.md,
+  },
+  loadMoreContainer: {
+    marginTop: ArenaSpacing.sm,
   },
 });

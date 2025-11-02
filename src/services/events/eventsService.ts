@@ -49,8 +49,8 @@ class EventsService {
   removeOwner = (...args: Parameters<EventsApi['removeOwner']>) =>
     this.api.removeOwner(...args);
 
-  sendInvitations = (...args: Parameters<EventsApi['sendInvitations']>) =>
-    this.api.sendInvitations(...args);
+  inviteParticipants = (...args: Parameters<EventsApi['inviteParticipants']>) =>
+    this.api.inviteParticipants(...args);
 
   updateEvent = (...args: Parameters<EventsApi['updateEvent']>) =>
     this.api.updateEvent(...args);
