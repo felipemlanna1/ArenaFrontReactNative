@@ -10,6 +10,9 @@ import { SportsLoading } from '@/components/ui/sportsLoading';
 import { RadioButton } from '@/components/ui/radioButton';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { SkillLevelModal } from '@/components/ui/skillLevelModal';
+import { StateDropdown } from '@/components/ui/stateDropdown';
+import { CityDropdown } from '@/components/ui/cityDropdown';
+import { Switch } from '@/components/ui/switch';
 import { SkillLevel } from '@/types/sport';
 import { ArenaColors } from '@/constants';
 import { useEditProfileScreen } from './useEditProfileScreen';
@@ -258,6 +261,41 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           />
           <Text variant="captionSecondary" style={styles.bioCounter}>
             {formData.bio.length}/500 caracteres
+          </Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Localização e Privacidade
+          </Text>
+          <StateDropdown
+            value={formData.state}
+            onChange={value => handleFieldChange('state', value)}
+            label="Estado"
+            error={errors.state}
+            testID="input-state"
+          />
+
+          <CityDropdown
+            stateUF={formData.state}
+            value={formData.city}
+            onChange={value => handleFieldChange('city', value)}
+            label="Cidade"
+            error={errors.city}
+            testID="input-city"
+          />
+
+          <Switch
+            value={formData.isProfilePrivate}
+            onValueChange={value =>
+              handleFieldChange('isProfilePrivate', value)
+            }
+            label="Perfil Privado"
+            variant="brand"
+            testID="switch-private-profile"
+          />
+          <Text variant="captionSecondary" style={styles.privacyHelper}>
+            Quando ativado, seu perfil não aparecerá em recomendações de amigos
           </Text>
         </View>
 

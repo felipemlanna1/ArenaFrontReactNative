@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
@@ -38,7 +37,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const {
     events,
     isLoading,
-    isRefreshing,
     isLoadingMore,
     error,
     hasMore,
@@ -48,7 +46,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     handleSortPress,
     handleFilterPress,
     handleApplySort,
-    refreshEvents,
     loadMoreEvents,
     handleShare,
     showSortModal,
@@ -72,28 +69,36 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     [navigation]
   );
 
+  const keyExtractor = useCallback((item: Event) => {
+    return item.id;
+  }, []);
+
   const renderItem = useCallback(
-    ({ item }: { item: Event }) => (
-      <EventCard
-        event={item}
-        onDetailsPress={handleDetailsPress}
-        onManagePress={handleManagePress}
-        onShare={handleShare}
-        onJoinEvent={eventActions.handleJoinEvent}
-        onRequestJoin={eventActions.handleRequestJoin}
-        onCancelParticipation={eventActions.handleCancelParticipation}
-        onUndoRequest={eventActions.handleUndoRequest}
-        onAcceptInvitation={eventActions.handleAcceptInvitation}
-        onRejectInvitation={eventActions.handleRejectInvitation}
-        isActionLoading={eventActions.isActionLoading}
-        currentActionEventId={eventActions.currentActionEventId}
-      />
-    ),
+    ({ item, index }: { item: Event; index: number }) => {
+      return (
+        <EventCard
+          event={item}
+          onDetailsPress={handleDetailsPress}
+          onManagePress={handleManagePress}
+          onShare={handleShare}
+          onJoinEvent={eventActions.handleJoinEvent}
+          onRequestJoin={eventActions.handleRequestJoin}
+          onCancelParticipation={eventActions.handleCancelParticipation}
+          onUndoRequest={eventActions.handleUndoRequest}
+          onAcceptInvitation={eventActions.handleAcceptInvitation}
+          onRejectInvitation={eventActions.handleRejectInvitation}
+          isActionLoading={eventActions.isActionLoading}
+          currentActionEventId={eventActions.currentActionEventId}
+        />
+      );
+    },
     [handleDetailsPress, handleManagePress, handleShare, eventActions]
   );
 
   const renderEmpty = useCallback(() => {
-    if (isLoading) return null;
+    if (isLoading) {
+      return null;
+    }
 
     return (
       <View style={styles.emptyContainer}>
@@ -135,23 +140,23 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
       ) : (
-        <FlatList
-          data={events}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          style={styles.content}
-          contentContainerStyle={styles.listContainer}
-          refreshControl={
-            <ArenaRefreshControl
-              refreshing={isRefreshing}
-              onRefresh={refreshEvents}
-            />
-          }
-          onEndReached={hasMore ? loadMoreEvents : undefined}
-          onEndReachedThreshold={0.5}
-          ListEmptyComponent={renderEmpty}
-          ListFooterComponent={renderFooter}
-        />
+        <View style={styles.listWrapper}>
+          <FlatList
+            data={events}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            style={styles.list}
+            contentContainerStyle={styles.listContainer}
+            onEndReached={hasMore ? loadMoreEvents : undefined}
+            onEndReachedThreshold={0.5}
+            ListEmptyComponent={renderEmpty}
+            ListFooterComponent={renderFooter}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            windowSize={21}
+            removeClippedSubviews={false}
+          />
+        </View>
       )}
 
       {error && (

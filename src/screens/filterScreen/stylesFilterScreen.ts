@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.darkest,
   },
   scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing.xl,
   },
   section: {

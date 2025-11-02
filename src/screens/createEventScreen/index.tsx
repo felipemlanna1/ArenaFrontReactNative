@@ -30,6 +30,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
 }) => {
   const isEditMode = route?.params?.mode === 'edit';
   const eventToEdit = route?.params?.eventData;
+  const preSelectedGroupId = route?.params?.preSelectedGroupId;
 
   const {
     formData,
@@ -47,6 +48,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
     navigation,
     isEditMode,
     eventToEdit,
+    preSelectedGroupId,
   });
 
   const renderStepContent = () => {

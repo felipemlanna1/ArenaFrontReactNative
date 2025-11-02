@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { ApiError } from '@/services/auth';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAlert } from '@/contexts/AlertContext';
 import {
   UseRegisterScreenReturn,
   RegisterFormData,
@@ -51,10 +52,27 @@ const validateUsername = (username: string): string | undefined => {
   return undefined;
 };
 
+const validateCity = (city: string): string | undefined => {
+  if (!city.trim()) return 'Cidade é obrigatória';
+  if (city.trim().length < 2) return 'Cidade inválida';
+  return undefined;
+};
+
+const validateState = (state: string): string | undefined => {
+  if (!state.trim()) return 'Estado é obrigatório';
+  const stateUpper = state.trim().toUpperCase();
+  if (stateUpper.length !== 2) return 'Estado deve ter 2 letras (ex: SP)';
+  if (!/^[A-Z]{2}$/.test(stateUpper)) {
+    return 'Estado inválido (use sigla: SP, RJ, etc)';
+  }
+  return undefined;
+};
+
 export const useRegisterScreen = (
   navigation: RegisterNavigationProp
 ): UseRegisterScreenReturn => {
   const { signUp } = useAuth();
+  const { showError } = useAlert();
 
   const [formData, setFormData] = useState<RegisterFormData>({
     firstName: '',
@@ -63,6 +81,8 @@ export const useRegisterScreen = (
     email: '',
     password: '',
     confirmPassword: '',
+    city: '',
+    state: '',
   });
 
   const [errors, setErrors] = useState<RegisterErrors>({});
@@ -78,6 +98,8 @@ export const useRegisterScreen = (
       formData.password,
       formData.confirmPassword
     );
+    const cityError = validateCity(formData.city);
+    const stateError = validateState(formData.state);
 
     return (
       !firstNameError &&
@@ -85,7 +107,9 @@ export const useRegisterScreen = (
       !usernameError &&
       !emailError &&
       !passwordError &&
-      !confirmPasswordError
+      !confirmPasswordError &&
+      !cityError &&
+      !stateError
     );
   }, [formData]);
 
@@ -149,6 +173,29 @@ export const useRegisterScreen = (
     [errors.confirmPassword]
   );
 
+  const handleCityChange = useCallback(
+    (text: string) => {
+      setFormData(prev => ({ ...prev, city: text }));
+      if (errors.city) {
+        setErrors(prev => ({ ...prev, city: undefined }));
+      }
+    },
+    [errors.city]
+  );
+
+  const handleStateChange = useCallback(
+    (text: string) => {
+      setFormData(prev => ({ ...prev, state: text }));
+      if (errors.state) {
+        setErrors(prev => ({ ...prev, state: undefined }));
+      }
+      if (formData.state !== text) {
+        setFormData(prev => ({ ...prev, city: '' }));
+      }
+    },
+    [errors.state, formData.state]
+  );
+
   const handleSubmit = useCallback(async () => {
     const firstNameError = validateName(formData.firstName, 'Nome');
     const lastNameError = validateName(formData.lastName, 'Sobrenome');
@@ -159,6 +206,8 @@ export const useRegisterScreen = (
       formData.password,
       formData.confirmPassword
     );
+    const cityError = validateCity(formData.city);
+    const stateError = validateState(formData.state);
 
     if (
       firstNameError ||
@@ -166,7 +215,9 @@ export const useRegisterScreen = (
       usernameError ||
       emailError ||
       passwordError ||
-      confirmPasswordError
+      confirmPasswordError ||
+      cityError ||
+      stateError
     ) {
       setErrors({
         firstName: firstNameError,
@@ -175,6 +226,8 @@ export const useRegisterScreen = (
         email: emailError,
         password: passwordError,
         confirmPassword: confirmPasswordError,
+        city: cityError,
+        state: stateError,
       });
       return;
     }
@@ -190,39 +243,31 @@ export const useRegisterScreen = (
         email: formData.email.trim(),
         password: formData.password,
         confirmPassword: formData.confirmPassword,
+        city: formData.city.trim(),
+        state: formData.state.trim().toUpperCase(),
       });
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         switch (error.status) {
           case 400:
-            setErrors({
-              general: 'Dados inválidos. Verifique os campos.',
-            });
+            showError('Dados inválidos. Verifique os campos.');
             break;
           case 409:
-            setErrors({
-              general: 'Email ou username já cadastrado.',
-            });
+            showError('Email ou username já cadastrado.');
             break;
           case 429:
-            setErrors({
-              general: 'Muitas tentativas. Tente novamente em alguns minutos.',
-            });
+            showError('Muitas tentativas. Tente novamente em alguns minutos.');
             break;
           default:
-            setErrors({
-              general: error.message || 'Erro ao criar conta. Tente novamente.',
-            });
+            showError(error.message || 'Erro ao criar conta. Tente novamente.');
         }
       } else {
-        setErrors({
-          general: 'Erro de conexão. Verifique sua internet.',
-        });
+        showError('Erro de conexão. Verifique sua internet.');
       }
     } finally {
       setIsLoading(false);
     }
-  }, [formData, signUp]);
+  }, [formData, signUp, showError]);
 
   const handleLoginPress = useCallback(() => {
     navigation.navigate('Login');
@@ -239,6 +284,8 @@ export const useRegisterScreen = (
     handleEmailChange,
     handlePasswordChange,
     handleConfirmPasswordChange,
+    handleCityChange,
+    handleStateChange,
     handleSubmit,
     handleLoginPress,
   };

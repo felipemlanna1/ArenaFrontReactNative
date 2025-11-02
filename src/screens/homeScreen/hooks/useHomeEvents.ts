@@ -48,7 +48,11 @@ export const useHomeEvents = ({
     const currentDate = new Date();
     return eventsList.filter(event => {
       const eventStartDate = new Date(event.startDate);
-      return eventStartDate > currentDate && event.status === 'PUBLISHED';
+      const isFutureEvent = eventStartDate > currentDate;
+      const isPublished = event.status === 'PUBLISHED';
+      const isNotGroupOnly = event.privacy !== 'GROUP_ONLY';
+
+      return isFutureEvent && isPublished && isNotGroupOnly;
     });
   }, []);
 
@@ -257,7 +261,15 @@ export const useHomeEvents = ({
       if (!event) return;
 
       try {
+        if (!event.startDate || !event.sport || !event.location) {
+          return;
+        }
+
         const eventDate = new Date(event.startDate);
+        if (isNaN(eventDate.getTime())) {
+          return;
+        }
+
         const day = eventDate.getDate().toString().padStart(2, '0');
         const month = eventDate.getMonth() + 1;
         const monthNames = [

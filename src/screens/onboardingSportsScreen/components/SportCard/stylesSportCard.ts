@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: ArenaSpacing.xs,
+    position: 'relative',
   },
   iconUnselected: {
     opacity: 0.3,
@@ -46,6 +47,22 @@ export const styles = StyleSheet.create({
   icon: {
     width: iconSize,
     height: iconSize,
+  },
+  primaryBadge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: ArenaColors.neutral.darkest,
+    borderRadius: ArenaBorders.radius.circle,
+    padding: ArenaSpacing.xs / 2,
+    borderWidth: 1,
+    borderColor: ArenaColors.brand.primary,
+  },
+  labelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: ArenaSpacing.xs,
   },
   label: {
     textAlign: 'center',

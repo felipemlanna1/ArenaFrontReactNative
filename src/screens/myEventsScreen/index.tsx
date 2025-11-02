@@ -115,12 +115,6 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             contentContainerStyle={styles.listContent}
-            refreshControl={
-              <ArenaRefreshControl
-                refreshing={isRefreshing}
-                onRefresh={refetch}
-              />
-            }
             onEndReached={hasMore ? loadMoreEvents : undefined}
             onEndReachedThreshold={0.5}
             ListEmptyComponent={renderEmpty}

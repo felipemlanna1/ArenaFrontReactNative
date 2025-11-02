@@ -34,7 +34,6 @@ showSuccess({
   message: 'Operação concluída com sucesso.',
   primaryButton: {
     text: 'OK',
-    onPress: () => console.log('Success confirmed'),
   },
 });`;
 
@@ -83,7 +82,6 @@ showConfirm({
     showSuccess({ title: 'Excluído', message: 'Item removido com sucesso.' });
   },
   onCancel: () => {
-    console.log('Exclusão cancelada');
   },
   confirmText: 'Excluir',
   cancelText: 'Cancelar',

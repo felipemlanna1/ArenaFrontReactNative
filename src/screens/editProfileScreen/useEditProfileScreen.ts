@@ -19,7 +19,7 @@ interface UseEditProfileScreenReturn {
   availableSports: Sport[];
   handleFieldChange: (
     field: keyof EditProfileFormData,
-    value: string | Date | null
+    value: string | Date | boolean | null
   ) => void;
   handleToggleSport: (sportId: string) => void;
   handleTogglePrimary: (sportId: string) => void;
@@ -49,6 +49,9 @@ export const useEditProfileScreen = ({
     bio: '',
     birthDate: null,
     gender: null,
+    state: '',
+    city: '',
+    isProfilePrivate: false,
     selectedSports: [],
     sportLevels: {},
     primarySportId: null,
@@ -84,6 +87,9 @@ export const useEditProfileScreen = ({
             gender: user.gender || null,
             profilePicture: user.profilePicture || null,
             coverPhoto: null,
+            state: user.state || '',
+            city: user.city || '',
+            isProfilePrivate: user.isProfilePrivate || false,
             selectedSports: userSportIds,
             sportLevels,
             primarySportId,
@@ -119,7 +125,10 @@ export const useEditProfileScreen = ({
   }, [formData]);
 
   const handleFieldChange = useCallback(
-    (field: keyof EditProfileFormData, value: string | Date | null) => {
+    (
+      field: keyof EditProfileFormData,
+      value: string | Date | boolean | null
+    ) => {
       setFormData(prev => ({ ...prev, [field]: value }));
       setErrors(prev => ({ ...prev, [field]: undefined }));
     },
@@ -193,6 +202,9 @@ export const useEditProfileScreen = ({
         bio: formData.bio.trim() || undefined,
         dateOfBirth: formData.birthDate?.toISOString() || undefined,
         gender: formData.gender || undefined,
+        state: formData.state || undefined,
+        city: formData.city || undefined,
+        isProfilePrivate: formData.isProfilePrivate,
       });
 
       if (formData.selectedSports.length > 0) {

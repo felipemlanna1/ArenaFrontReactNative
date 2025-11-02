@@ -22,9 +22,9 @@ export const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: ArenaSpacing.lg,
   },
   scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing['4xl'] + ArenaSpacing['2xl'] + 20,
     paddingBottom: ArenaSpacing.xl,
   },

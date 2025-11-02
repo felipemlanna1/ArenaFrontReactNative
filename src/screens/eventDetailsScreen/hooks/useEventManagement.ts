@@ -112,7 +112,7 @@ export const useEventManagement = ({
   const handleSendInvitations = useCallback(
     async (userIds: string[], message?: string) => {
       await handleManagementAction(
-        () => eventsService.sendInvitations(eventId, userIds, message),
+        () => eventsService.inviteParticipants(eventId, userIds, message),
         'Convites enviados',
         'Erro ao enviar convites'
       );

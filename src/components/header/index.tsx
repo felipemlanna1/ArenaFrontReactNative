@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Symbol } from '@/components/ui/symbol';
 import { Dropdown } from '@/components/ui/dropdown';
 import { ArenaColors } from '@/constants';
@@ -19,6 +20,7 @@ const MenuIcon: React.FC<{ size: number; color: string }> = () => (
 export const Header: React.FC<HeaderProps> = ({
   menuItems,
   onLogout,
+  onBack,
   testID = 'header',
 }) => {
   const { getDefaultMenuItems, handleNotificationsPress } = useHeader({
@@ -31,16 +33,30 @@ export const Header: React.FC<HeaderProps> = ({
     <View style={styles.container} testID={testID}>
       <View style={styles.content}>
         <View style={styles.leftSection}>
-          <Dropdown
-            variant="menu"
-            trigger={
-              <View style={styles.menuButton}>
-                <MenuIcon size={20} color="" />
-              </View>
-            }
-            items={finalMenuItems}
-            testID={`${testID}-menu-dropdown`}
-          />
+          {onBack ? (
+            <TouchableOpacity
+              onPress={onBack}
+              style={styles.backButton}
+              testID={`${testID}-back-button`}
+            >
+              <Ionicons
+                name="chevron-back"
+                size={28}
+                color={ArenaColors.text.inverse}
+              />
+            </TouchableOpacity>
+          ) : (
+            <Dropdown
+              variant="menu"
+              trigger={
+                <View style={styles.menuButton}>
+                  <MenuIcon size={20} color="" />
+                </View>
+              }
+              items={finalMenuItems}
+              testID={`${testID}-menu-dropdown`}
+            />
+          )}
         </View>
 
         <View style={styles.centerSection}>

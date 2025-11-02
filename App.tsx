@@ -9,6 +9,8 @@ import { AlertProvider } from './src/contexts/AlertContext';
 import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { SportsProvider } from './src/contexts/SportsContext';
+import { GroupsProvider } from './src/contexts/GroupsContext';
+import { GroupsFiltersProvider } from './src/contexts/GroupsFiltersContext';
 import { ArenaColors } from './src/constants';
 import { SportsLoading } from './src/components/ui/sportsLoading';
 
@@ -67,9 +69,13 @@ export default function App() {
         <AuthProvider>
           <AlertProvider>
             <ToastProvider>
-              <HomeFiltersProvider>
-                <AppNavigator />
-              </HomeFiltersProvider>
+              <GroupsProvider>
+                <GroupsFiltersProvider>
+                  <HomeFiltersProvider>
+                    <AppNavigator />
+                  </HomeFiltersProvider>
+                </GroupsFiltersProvider>
+              </GroupsProvider>
             </ToastProvider>
           </AlertProvider>
         </AuthProvider>

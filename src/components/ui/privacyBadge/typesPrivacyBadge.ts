@@ -6,7 +6,7 @@ export interface PrivacyBadgeProps {
   size?: 'sm' | 'md' | 'lg';
   showIcon?: boolean;
   showLabel?: boolean;
-  groupName?: string; // For GROUP_ONLY to show group name
+  groupName?: string;
   style?: ViewStyle;
   textStyle?: TextStyle;
   testID?: string;

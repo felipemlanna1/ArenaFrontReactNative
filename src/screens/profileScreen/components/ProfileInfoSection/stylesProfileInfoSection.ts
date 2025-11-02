@@ -42,10 +42,9 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.lg,
   },
-  sportsScrollContainer: {
-    paddingHorizontal: ArenaSpacing.lg,
-  },
+  sportsScrollContainer: {},
   sportsContent: {
+    paddingHorizontal: ArenaSpacing.lg,
     gap: ArenaSpacing.md,
   },
   sportCard: {

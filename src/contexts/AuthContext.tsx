@@ -79,21 +79,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [loadStoredAuth]);
 
   const signIn = useCallback(async (credentials: LoginCredentials) => {
-    try {
-      const response = await authService.login(credentials);
+    const response = await authService.login(credentials);
 
-      const userData: UserData = {
-        ...response.user,
-        sports: response.user.sports as unknown as UserSportData[],
-        hasSports: response.user.hasSports || false,
-        createdAt: response.user.createdAt || new Date().toISOString(),
-        updatedAt: response.user.updatedAt || new Date().toISOString(),
-      };
+    const userData: UserData = {
+      ...response.user,
+      sports: response.user.sports as unknown as UserSportData[],
+      hasSports: response.user.hasSports || false,
+      createdAt: response.user.createdAt || new Date().toISOString(),
+      updatedAt: response.user.updatedAt || new Date().toISOString(),
+    };
 
-      setUser(userData);
-    } catch {
-      throw new Error('Falha no login');
-    }
+    setUser(userData);
   }, []);
 
   const signOut = useCallback(async () => {
@@ -110,20 +106,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(async (data: RegisterData) => {
-    try {
-      const response = await authService.register(data);
+    const response = await authService.register(data);
 
-      const userData: UserData = {
-        ...response.user,
-        sports: response.user.sports as unknown as UserSportData[],
-        createdAt: response.user.createdAt || new Date().toISOString(),
-        updatedAt: response.user.updatedAt || new Date().toISOString(),
-      };
+    const userData: UserData = {
+      ...response.user,
+      sports: response.user.sports as unknown as UserSportData[],
+      createdAt: response.user.createdAt || new Date().toISOString(),
+      updatedAt: response.user.updatedAt || new Date().toISOString(),
+    };
 
-      setUser(userData);
-    } catch {
-      throw new Error('Falha no cadastro');
-    }
+    setUser(userData);
   }, []);
 
   const updateUser = useCallback(async (updatedUser: UserData) => {

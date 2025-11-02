@@ -63,7 +63,6 @@ const createInitialFilters = (
   hasAvailableSpots: FILTER_DEFAULTS.FILTERS.HAS_AVAILABLE_SPOTS,
   eventFilter: 'all',
   sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
-  city: city || undefined,
 });
 
 const DEFAULT_CONTEXT_VALUE: HomeFiltersContextData = {
@@ -111,7 +110,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
 
   const initialDateRef = useRef(new Date().toISOString());
   const hasLoadedFirstTimeRef = useRef(false);
-  const previousCityRef = useRef<string | null | undefined>(location.userCity);
   const hasSportsAppliedRef = useRef(false);
 
   const favoritesSportIds = useMemo(() => {
@@ -145,24 +143,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     }
   }, [authLoading, favoritesSportIds]);
 
-  useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-
-    const cityChanged =
-      location.userCity !== previousCityRef.current &&
-      location.userCity != null;
-
-    if (cityChanged) {
-      setActiveFilters(prev => ({
-        ...prev,
-        city: location.userCity || undefined,
-      }));
-      previousCityRef.current = location.userCity;
-    }
-  }, [location.userCity, authLoading]);
-
   const updateFilter = useCallback(
     <K extends keyof ActiveFilters>(key: K, value: ActiveFilters[K]) => {
       setActiveFilters(prev => ({ ...prev, [key]: value }));
@@ -189,13 +169,11 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   );
 
   const clearFilters = useCallback(() => {
-    setActiveFilters(
-      createInitialFilters(favoritesSportIds, location.userCity)
-    );
+    setActiveFilters(createInitialFilters(favoritesSportIds));
     setSortBy('date');
     setSortOrder(FILTER_DEFAULTS.SORT.DEFAULT_SORT_ORDER);
     setSearchTerm('');
-  }, [favoritesSportIds, location.userCity]);
+  }, [favoritesSportIds]);
 
   const clearCityFilter = useCallback(() => {
     setActiveFilters(prev => ({ ...prev, city: undefined }));
@@ -206,17 +184,12 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
       return null;
     }
 
-    if (location.isLoadingLocation) {
-      return null;
-    }
-
     if (!hasLoadedFirstTimeRef.current) {
       const hasSports =
         favoritesSportIds.length === 0 ||
         (activeFilters.sportIds && activeFilters.sportIds.length > 0);
-      const hasCity = !!activeFilters.city;
 
-      if (!hasSports || !hasCity) {
+      if (!hasSports) {
         return null;
       }
 
@@ -249,7 +222,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     activeFilters,
     sortBy,
     sortOrder,
-    location.isLoadingLocation,
     favoritesSportIds,
   ]);
 
@@ -272,9 +244,7 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     return count;
   }, [activeFilters]);
 
-  const isReady =
-    !location.isLoadingLocation &&
-    (hasLoadedFirstTimeRef.current || !!location.userCity);
+  const isReady = hasLoadedFirstTimeRef.current;
 
   const value: HomeFiltersContextData = {
     activeFilters,

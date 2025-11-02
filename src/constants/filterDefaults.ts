@@ -3,7 +3,7 @@ export const FILTER_DEFAULTS = {
     DEFAULT_LIMIT: 20,
   },
   FILTERS: {
-    HAS_AVAILABLE_SPOTS: true,
+    HAS_AVAILABLE_SPOTS: undefined,
   },
   SORT: {
     DEFAULT_SORT_ORDER: 'asc' as const,

@@ -22,12 +22,10 @@ const BASIC_DROPDOWN_CODE = `import { Dropdown } from '@/components/ui/dropdown'
     {
       id: 'option1',
       label: 'Opção 1',
-      onPress: () => console.log('Opção 1'),
     },
     {
       id: 'option2',
       label: 'Opção 2',
-      onPress: () => console.log('Opção 2'),
     },
   ]}
 />`;

@@ -10,10 +10,10 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing['4xl'],
   },
   content: {
-    padding: ArenaSpacing.lg,
     gap: ArenaSpacing['2xl'],
   },
   titleSection: {
@@ -34,5 +34,9 @@ export const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: 'center',
+  },
+  inviteContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingBottom: ArenaSpacing.lg,
   },
 });

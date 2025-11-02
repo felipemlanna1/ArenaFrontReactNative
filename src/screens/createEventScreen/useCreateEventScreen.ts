@@ -15,16 +15,25 @@ interface UseCreateEventScreenParams {
   navigation: CreateEventScreenNavigationProp;
   isEditMode?: boolean;
   eventToEdit?: Event;
+  preSelectedGroupId?: string;
 }
 
 export const useCreateEventScreen = ({
   navigation,
   isEditMode = false,
   eventToEdit,
+  preSelectedGroupId,
 }: UseCreateEventScreenParams) => {
-  const { showError, showConfirm } = useAlert();
+  const { showError, showSuccess, showConfirm } = useAlert();
 
   const initialData = useMemo(() => {
+    if (preSelectedGroupId && !isEditMode) {
+      return {
+        privacy: 'GROUP_ONLY' as const,
+        groupId: preSelectedGroupId,
+      };
+    }
+
     if (!isEditMode || !eventToEdit) return undefined;
 
     const startDate = new Date(eventToEdit.startDate);
@@ -60,7 +69,7 @@ export const useCreateEventScreen = ({
       coverImage: eventToEdit.coverImage,
     };
     return initialFormData;
-  }, [isEditMode, eventToEdit]);
+  }, [isEditMode, eventToEdit, preSelectedGroupId]);
 
   const {
     formData,
@@ -130,22 +139,16 @@ export const useCreateEventScreen = ({
 
       if (result) {
         resetForm();
-        showConfirm({
-          title: 'Sucesso!',
-          message: isEditMode
+        showSuccess(
+          isEditMode
             ? 'Evento atualizado com sucesso!'
             : 'Evento criado com sucesso!',
-          confirmText: 'Ver Evento',
-          cancelText: 'Voltar à Home',
-          onConfirm: () => {
+          () => {
             navigation.navigate('EventDetails', {
               eventId: result.id || eventToEdit?.id || '',
             });
-          },
-          onCancel: () => {
-            navigation.navigate('MainTabs');
-          },
-        });
+          }
+        );
       }
     } catch {
       showError(
@@ -161,7 +164,7 @@ export const useCreateEventScreen = ({
     isEditMode,
     eventToEdit,
     showError,
-    showConfirm,
+    showSuccess,
   ]);
 
   const handleCancel = useCallback(() => {
