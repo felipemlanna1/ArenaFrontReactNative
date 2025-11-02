@@ -12,6 +12,8 @@ export const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  scrollContent: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
   },

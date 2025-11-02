@@ -83,6 +83,9 @@ export const styles = StyleSheet.create({
   genderLabel: {
     marginTop: ArenaSpacing.md,
   },
+  privacyHelper: {
+    marginTop: ArenaSpacing.xs,
+  },
   footer: {
     height: FOOTER_HEIGHT,
     paddingHorizontal: ArenaSpacing.lg,

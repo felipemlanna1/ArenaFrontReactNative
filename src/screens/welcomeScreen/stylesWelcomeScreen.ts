@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaShadows } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -35,7 +35,6 @@ export const styles = StyleSheet.create({
     width: '89%',
     height: '100%',
     resizeMode: 'contain',
-    boxShadow: ArenaShadows.backgroundImage,
   },
   backgroundOverlay: {
     position: 'absolute',

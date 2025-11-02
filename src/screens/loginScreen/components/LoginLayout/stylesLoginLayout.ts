@@ -10,10 +10,10 @@ export const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
+    paddingHorizontal: ArenaSpacing.xl,
   },
   content: {
     flex: 1,
-    paddingHorizontal: ArenaSpacing.xl,
     paddingVertical: ArenaSpacing['3xl'],
     justifyContent: 'center',
   },

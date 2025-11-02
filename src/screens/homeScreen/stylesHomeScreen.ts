@@ -4,6 +4,8 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 interface Styles {
   filterBarContainer: ViewStyle;
   content: ViewStyle;
+  listWrapper: ViewStyle;
+  list: ViewStyle;
   listContainer: ViewStyle;
   loadingContainer: ViewStyle;
   emptyContainer: ViewStyle;
@@ -21,6 +23,12 @@ export const styles = StyleSheet.create<Styles>({
     borderBottomColor: ArenaColors.neutral.dark,
   },
   content: {
+    flex: 1,
+  },
+  listWrapper: {
+    flex: 1,
+  },
+  list: {
     flex: 1,
   },
   listContainer: {
