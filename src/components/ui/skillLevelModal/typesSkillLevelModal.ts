@@ -6,7 +6,7 @@ export interface SkillLevelModalProps {
   sportName: string;
   currentLevel: SkillLevel;
   isPrimary?: boolean;
-  onSelectLevel: (level: SkillLevel) => void;
+  onSelectLevel: (level: SkillLevel, isPrimary?: boolean) => void;
   onTogglePrimary?: (isPrimary: boolean) => void;
   onClose: () => void;
   testID?: string;

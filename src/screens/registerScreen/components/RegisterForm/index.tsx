@@ -1,6 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Input } from '@/components/ui/input';
+import { StateDropdown } from '@/components/ui/stateDropdown';
+import { CityDropdown } from '@/components/ui/cityDropdown';
 import { styles } from './stylesRegisterForm';
 import { RegisterFormProps } from './typesRegisterForm';
 
@@ -15,6 +17,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
     onEmailChange,
     onPasswordChange,
     onConfirmPasswordChange,
+    onCityChange,
+    onStateChange,
   }) => {
     return (
       <View style={styles.container}>
@@ -73,6 +77,29 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           required
           testID="register-email-input"
         />
+
+        <StateDropdown
+          value={formData.state}
+          onChange={onStateChange}
+          label="Estado"
+          error={errors.state}
+          required
+          disabled={isLoading}
+          testID="register-state-dropdown"
+        />
+
+        {formData.state && (
+          <CityDropdown
+            value={formData.city}
+            onChange={onCityChange}
+            stateUF={formData.state}
+            label="Cidade"
+            error={errors.city}
+            required
+            disabled={isLoading}
+            testID="register-city-dropdown"
+          />
+        )}
 
         <Input
           type="password"

@@ -52,32 +52,30 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
   testID = 'skill-level-modal',
 }) => {
   const [tempIsPrimary, setTempIsPrimary] = useState(isPrimary);
+  const [tempLevel, setTempLevel] = useState<SkillLevel | null>(currentLevel);
 
   useEffect(() => {
     setTempIsPrimary(isPrimary);
-  }, [isPrimary, visible]);
+    setTempLevel(currentLevel);
+  }, [isPrimary, currentLevel, visible]);
 
-  const handleSelectLevel = useCallback(
-    (level: SkillLevel) => {
-      onSelectLevel(level);
-      if (onTogglePrimary) {
-        onTogglePrimary(tempIsPrimary);
-      }
-      onClose();
-    },
-    [onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]
-  );
+  const handleSelectLevel = useCallback((level: SkillLevel) => {
+    setTempLevel(level);
+  }, []);
 
   const handleTogglePrimary = useCallback(() => {
     setTempIsPrimary(prev => !prev);
   }, []);
 
   const handleConfirm = useCallback(() => {
-    if (onTogglePrimary && tempIsPrimary !== isPrimary) {
+    if (tempLevel) {
+      onSelectLevel(tempLevel, tempIsPrimary);
+    }
+    if (onTogglePrimary) {
       onTogglePrimary(tempIsPrimary);
     }
     onClose();
-  }, [onTogglePrimary, tempIsPrimary, isPrimary, onClose]);
+  }, [tempLevel, onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]);
 
   return (
     <Modal
@@ -108,7 +106,7 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
               showsVerticalScrollIndicator={false}
             >
               {SKILL_LEVELS.map(option => {
-                const isSelected = option.level === currentLevel;
+                const isSelected = option.level === tempLevel;
                 return (
                   <TouchableOpacity
                     key={option.level}
@@ -175,18 +173,17 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
               </View>
             )}
 
-            {onTogglePrimary && (
-              <View style={styles.buttonContainer}>
-                <Button
-                  variant="primary"
-                  onPress={handleConfirm}
-                  size="lg"
-                  testID={`${testID}-confirm-button`}
-                >
-                  Confirmar
-                </Button>
-              </View>
-            )}
+            <View style={styles.buttonContainer}>
+              <Button
+                variant="primary"
+                onPress={handleConfirm}
+                size="lg"
+                disabled={!tempLevel}
+                testID={`${testID}-confirm-button`}
+              >
+                Continuar
+              </Button>
+            </View>
           </View>
         </TouchableOpacity>
       </TouchableOpacity>

@@ -59,7 +59,9 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
   onNavigateToProfile,
   onRemoveFriend,
 }) => {
-  if (isLoading) return <LoadingState />;
+  if (isLoading) {
+    return <LoadingState />;
+  }
   if (friends.length === 0) {
     return (
       <EmptyState
@@ -68,19 +70,22 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
       />
     );
   }
+
   return (
     <View style={styles.userList}>
-      {friends.map(friend => (
-        <UserCard
-          key={friend.id}
-          user={friend}
-          variant="friend"
-          onPress={() => onNavigateToProfile(friend.id)}
-          onRemove={() => onRemoveFriend(friend.id)}
-          isLoading={loadingUserId === friend.id}
-          testID={`friend-card-${friend.id}`}
-        />
-      ))}
+      {friends.map((friend, index) => {
+        return (
+          <UserCard
+            key={friend.id}
+            user={friend}
+            variant="friend"
+            onPress={() => onNavigateToProfile(friend.id)}
+            onRemove={() => onRemoveFriend(friend.id)}
+            isLoading={loadingUserId === friend.id}
+            testID={`friend-card-${friend.id}`}
+          />
+        );
+      })}
     </View>
   );
 };
@@ -100,7 +105,9 @@ export const RequestsSection: React.FC<RequestsSectionProps> = ({
   onAcceptRequest,
   onRejectRequest,
 }) => {
-  if (isLoading) return <LoadingState />;
+  if (isLoading) {
+    return <LoadingState />;
+  }
   if (requests.length === 0) {
     return (
       <EmptyState
@@ -109,19 +116,22 @@ export const RequestsSection: React.FC<RequestsSectionProps> = ({
       />
     );
   }
+
   return (
     <View style={styles.userList}>
-      {requests.map(request => (
-        <UserCard
-          key={request.id}
-          user={request}
-          variant="request"
-          onAccept={() => onAcceptRequest(request.id)}
-          onReject={() => onRejectRequest(request.id)}
-          isLoading={loadingUserId === request.id}
-          testID={`request-card-${request.id}`}
-        />
-      ))}
+      {requests.map((request, index) => {
+        return (
+          <UserCard
+            key={request.id}
+            user={request}
+            variant="request"
+            onAccept={() => onAcceptRequest(request.id)}
+            onReject={() => onRejectRequest(request.id)}
+            isLoading={loadingUserId === request.id}
+            testID={`request-card-${request.id}`}
+          />
+        );
+      })}
     </View>
   );
 };
@@ -184,7 +194,9 @@ export const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
   onNavigateToProfile,
   onSendRequest,
 }) => {
-  if (isLoading) return <LoadingState />;
+  if (isLoading) {
+    return <LoadingState />;
+  }
   if (recommendations.length === 0) {
     return (
       <EmptyState
@@ -193,19 +205,22 @@ export const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
       />
     );
   }
+
   return (
     <View style={styles.userList}>
-      {recommendations.map(recommendation => (
-        <UserCard
-          key={recommendation.id}
-          user={recommendation}
-          variant="recommendation"
-          onPress={() => onNavigateToProfile(recommendation.id)}
-          onAddFriend={() => onSendRequest(recommendation.id)}
-          isLoading={loadingUserId === recommendation.id}
-          testID={`recommendation-card-${recommendation.id}`}
-        />
-      ))}
+      {recommendations.map((recommendation, index) => {
+        return (
+          <UserCard
+            key={recommendation.id}
+            user={recommendation}
+            variant="recommendation"
+            onPress={() => onNavigateToProfile(recommendation.id)}
+            onAddFriend={() => onSendRequest(recommendation.id)}
+            isLoading={loadingUserId === recommendation.id}
+            testID={`recommendation-card-${recommendation.id}`}
+          />
+        );
+      })}
     </View>
   );
 };

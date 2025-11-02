@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Label } from '@/components/ui/label';
@@ -77,7 +77,10 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.section}>
         <Label variant="section" required>
           Privacidade do Evento
@@ -153,6 +156,6 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
           />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };

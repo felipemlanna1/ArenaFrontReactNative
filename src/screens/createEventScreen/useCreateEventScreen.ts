@@ -24,7 +24,7 @@ export const useCreateEventScreen = ({
   eventToEdit,
   preSelectedGroupId,
 }: UseCreateEventScreenParams) => {
-  const { showError, showConfirm } = useAlert();
+  const { showError, showSuccess, showConfirm } = useAlert();
 
   const initialData = useMemo(() => {
     if (preSelectedGroupId && !isEditMode) {
@@ -139,22 +139,16 @@ export const useCreateEventScreen = ({
 
       if (result) {
         resetForm();
-        showConfirm({
-          title: 'Sucesso!',
-          message: isEditMode
+        showSuccess(
+          isEditMode
             ? 'Evento atualizado com sucesso!'
             : 'Evento criado com sucesso!',
-          confirmText: 'Ver Evento',
-          cancelText: 'Voltar à Home',
-          onConfirm: () => {
+          () => {
             navigation.navigate('EventDetails', {
               eventId: result.id || eventToEdit?.id || '',
             });
-          },
-          onCancel: () => {
-            navigation.navigate('MainTabs');
-          },
-        });
+          }
+        );
       }
     } catch {
       showError(
@@ -170,7 +164,7 @@ export const useCreateEventScreen = ({
     isEditMode,
     eventToEdit,
     showError,
-    showConfirm,
+    showSuccess,
   ]);
 
   const handleCancel = useCallback(() => {

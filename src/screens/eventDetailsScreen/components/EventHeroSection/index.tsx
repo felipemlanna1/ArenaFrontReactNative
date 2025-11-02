@@ -106,7 +106,7 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
         {event.sport && (
           <View style={styles.sportBadgeContainer}>
             <Text variant="labelPrimary" style={styles.sportBadgeText}>
-              {event.sport.icon} {event.sport.name}
+              {event.sport.icon}
             </Text>
           </View>
         )}

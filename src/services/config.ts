@@ -1,24 +1,41 @@
-import {
-  ANALYTICS_ENABLED,
-  ANALYTICS_KEY,
-  API_TIMEOUT,
-  API_URL,
-  AUTH_TOKEN_KEY,
-  ENVIRONMENT,
-} from '@env';
+const getEnv = (key: string, defaultValue: string = ''): string => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[key] || defaultValue;
+  }
+  return defaultValue;
+};
 
-const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const API_BASE_URL_RESOLVED = EXPO_PUBLIC_API_URL
-  ? `${EXPO_PUBLIC_API_URL}/api/v1`
-  : API_URL || 'http://localhost:3000/api/v1';
+const EXPO_PUBLIC_API_URL = getEnv(
+  'EXPO_PUBLIC_API_URL',
+  'http://localhost:3000'
+);
+const API_BASE_URL_RESOLVED = `${EXPO_PUBLIC_API_URL}/api/v1`;
+
+const EXPO_PUBLIC_API_TIMEOUT = getEnv('EXPO_PUBLIC_API_TIMEOUT', '30000');
+
+const EXPO_PUBLIC_AUTH_TOKEN_KEY = getEnv(
+  'EXPO_PUBLIC_AUTH_TOKEN_KEY',
+  '@arena:auth_token'
+);
+
+const EXPO_PUBLIC_ANALYTICS_ENABLED = getEnv(
+  'EXPO_PUBLIC_ANALYTICS_ENABLED',
+  'false'
+);
+const EXPO_PUBLIC_ANALYTICS_KEY = getEnv('EXPO_PUBLIC_ANALYTICS_KEY', '');
+
+const EXPO_PUBLIC_ENVIRONMENT = getEnv(
+  'EXPO_PUBLIC_ENVIRONMENT',
+  'development'
+);
 
 export const API_BASE_URL = API_BASE_URL_RESOLVED;
-export const API_TIMEOUT_MS = parseInt(API_TIMEOUT || '30000', 10);
+export const API_TIMEOUT_MS = parseInt(EXPO_PUBLIC_API_TIMEOUT, 10);
 
 export const Config = {
   api: {
     url: API_BASE_URL_RESOLVED,
-    timeout: parseInt(API_TIMEOUT || '30000', 10),
+    timeout: parseInt(EXPO_PUBLIC_API_TIMEOUT, 10),
     timeouts: {
       short: 10000,
       medium: 30000,
@@ -27,11 +44,11 @@ export const Config = {
     },
   },
   auth: {
-    tokenKey: AUTH_TOKEN_KEY || '@arena:auth_token',
+    tokenKey: EXPO_PUBLIC_AUTH_TOKEN_KEY,
   },
   analytics: {
-    enabled: ANALYTICS_ENABLED === 'true',
-    key: ANALYTICS_KEY || '',
+    enabled: EXPO_PUBLIC_ANALYTICS_ENABLED === 'true',
+    key: EXPO_PUBLIC_ANALYTICS_KEY,
   },
   connectivity: {
     retryAttempts: 3,
@@ -40,7 +57,7 @@ export const Config = {
     backoffFactor: 2,
     healthCheckInterval: 30000,
   },
-  environment: ENVIRONMENT || 'development',
-  isDevelopment: (ENVIRONMENT || 'development') === 'development',
-  isProduction: (ENVIRONMENT || 'development') === 'production',
+  environment: EXPO_PUBLIC_ENVIRONMENT,
+  isDevelopment: EXPO_PUBLIC_ENVIRONMENT === 'development',
+  isProduction: EXPO_PUBLIC_ENVIRONMENT === 'production',
 };

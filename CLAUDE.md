@@ -209,6 +209,76 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 **Regra ESLint**: `arena/arena-no-emoji-icons` bloqueia uso de emojis em props de ícones.
 
+### 📱 FlatList & ScrollView - SEMPRE Com Padding Horizontal
+
+**REGRA CRÍTICA**: TODOS os `<FlatList>` e `<ScrollView>` DEVEM ter padding horizontal (`ArenaSpacing.lg = 16px`) para prevenir que o conteúdo fique colado nas bordas do telefone.
+
+**PROBLEMA**: Sem padding horizontal, o conteúdo fica colado nas bordas em Android/iOS/Web, causando má experiência do usuário.
+
+```tsx
+import { FlatList, ScrollView, View } from 'react-native';
+import { ArenaSpacing } from '@/constants';
+
+// ✅ SOLUÇÃO 1 (Recomendada): contentContainerStyle com paddingHorizontal
+<FlatList
+  data={items}
+  renderItem={renderItem}
+  contentContainerStyle={styles.listContainer}  // ← OBRIGATÓRIO
+/>
+
+const styles = StyleSheet.create({
+  listContainer: {
+    paddingHorizontal: ArenaSpacing.lg,  // 16px - OBRIGATÓRIO
+    paddingVertical: ArenaSpacing.md,    // 12px (opcional)
+  },
+});
+
+// ✅ SOLUÇÃO 2: Wrapper View com padding
+<View style={styles.container}>
+  <FlatList data={items} renderItem={renderItem} />
+</View>
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: ArenaSpacing.lg,  // 16px - OBRIGATÓRIO
+  },
+});
+
+// ✅ SCROLLVIEW - Preferir contentContainerStyle
+<ScrollView
+  contentContainerStyle={styles.scrollContent}  // ← Preferencial
+>
+  {children}
+</ScrollView>
+
+const styles = StyleSheet.create({
+  scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,  // 16px - OBRIGATÓRIO
+  },
+});
+
+// ❌ ERRADO - Sem padding (conteúdo colado nas bordas)
+<FlatList
+  data={items}
+  renderItem={renderItem}
+  // ❌ FALTA contentContainerStyle com paddingHorizontal
+/>
+
+// ❌ ERRADO - Valor hardcoded
+contentContainerStyle={{ paddingHorizontal: 16 }}  // ❌ Use ArenaSpacing.lg
+```
+
+**Regra ESLint**: `arena/arena-list-padding` detecta automaticamente listas sem padding e fornece soluções detalhadas.
+
+**Por Que É Crítico**:
+- ✅ Consistência cross-platform (iOS, Android, Web)
+- ✅ Aderência ao Design System Arena
+- ✅ Melhor UX - espaço respirável nas bordas
+- ✅ Evita bugs visuais que só aparecem em produção
+
+**Token Obrigatório**: `ArenaSpacing.lg` (16px) para padding horizontal de listas.
+
 ## 🚀 Padrões de Implementação
 
 ### Componentes

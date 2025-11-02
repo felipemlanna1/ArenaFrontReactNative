@@ -11,6 +11,9 @@ export interface UpdateUserDto {
   gender?: 'male' | 'female' | 'other';
   bio?: string;
   profilePicture?: string;
+  state?: string;
+  city?: string;
+  isProfilePrivate?: boolean;
 }
 
 export interface UserProfileResponseDto extends UserData {

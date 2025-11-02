@@ -176,7 +176,6 @@ const items = [
   variant="minimal"
   items={faqItems}
   onItemToggle={(id, isExpanded) => {
-    console.log(\`Item \${id}: \${isExpanded}\`);
   }}
 />`;
 
