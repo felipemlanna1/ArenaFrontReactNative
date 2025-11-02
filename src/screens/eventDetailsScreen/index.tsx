@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,7 +6,7 @@ import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { Fab } from '@/components/ui/fab';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
+import { InviteUsersModal } from '@/components/ui/inviteUsersModal';
 import { EventHeroSection } from './components/EventHeroSection';
 import { EventInfoGrid } from './components/EventInfoGrid';
 import { EventOrganizerCard } from './components/EventOrganizerCard';
@@ -25,6 +25,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
 }) => {
   const { eventId } = route.params;
   const { user } = useAuth();
+  const [showInviteModal, setShowInviteModal] = useState(false);
 
   const {
     event,
@@ -40,6 +41,15 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
     navigation,
     currentUserId: user?.id,
   });
+
+  const handleInviteParticipants = useCallback(
+    async (userIds: string[], message?: string) => {
+      const { eventsApi } = await import('@/services/events/eventsApi');
+      await eventsApi.inviteParticipants(eventId, userIds, message);
+      refresh();
+    },
+    [eventId, refresh]
+  );
 
   if (isLoading && !event) {
     return (
@@ -95,9 +105,6 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
         style={styles.scrollContent}
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <ArenaRefreshControl refreshing={isLoading} onRefresh={refresh} />
-        }
       >
         <View style={styles.content}>
           <View style={styles.titleSection}>
@@ -128,6 +135,19 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
             isOwner={status.isOwner}
             onRefresh={refresh}
           />
+
+          {(status.isOwner || event.ownerIds?.includes(user?.id || '')) && (
+            <View style={styles.inviteContainer}>
+              <Button
+                variant="secondary"
+                size="md"
+                onPress={() => setShowInviteModal(true)}
+                fullWidth
+              >
+                Convidar Participantes
+              </Button>
+            </View>
+          )}
         </View>
       </ScrollView>
 
@@ -155,6 +175,18 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
           testID="edit-event-fab"
         />
       )}
+
+      <InviteUsersModal
+        visible={showInviteModal}
+        onClose={() => setShowInviteModal(false)}
+        onInvite={handleInviteParticipants}
+        title="Convidar para o Evento"
+        availableSlots={
+          event.maxParticipants - (event.currentParticipants || 0)
+        }
+        entityType="event"
+        entityId={eventId}
+      />
     </View>
   );
 };

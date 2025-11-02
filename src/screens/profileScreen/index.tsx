@@ -84,9 +84,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
-        refreshControl={
-          <ArenaRefreshControl refreshing={isRefreshing} onRefresh={refetch} />
-        }
       >
         <View style={styles.contentContainer}>
           <ProfileHeroSection

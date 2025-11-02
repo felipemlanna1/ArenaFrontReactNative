@@ -6,6 +6,7 @@ import { Text } from '@/components/ui/text';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { styles } from './stylesFriendsScreen';
+import { FriendsBackground } from './components/FriendsBackground';
 import { FriendsFilterBar } from './components/FriendsFilterBar';
 import { FriendsAccordionSection } from './components/FriendsAccordionSection';
 import { IncomingRequestsAccordionSection } from './components/IncomingRequestsAccordionSection';
@@ -58,81 +59,78 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
 
   return (
     <AppLayout onLogout={handleLogout}>
-      <View style={styles.titleContainer}>
-        <Text variant="headingPrimary" style={styles.title}>
-          Amigos
-        </Text>
-      </View>
-
-      <FriendsFilterBar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        selectedCity={selectedCity}
-        onCityChange={setSelectedCity}
-        selectedState={selectedState}
-        onStateChange={setSelectedState}
-        selectedSportId={selectedSportId}
-        onSportChange={setSelectedSportId}
-        onClearFilters={handleClearFilters}
-        hasActiveFilters={hasActiveFilters}
-      />
-
-      <ScrollView
-        style={styles.content}
-        refreshControl={
-          <ArenaRefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-          />
-        }
-        testID="friends-screen-scroll"
-      >
-        <View style={styles.accordionsContainer}>
-          <FriendsAccordionSection
-            friends={friends}
-            isLoading={isLoadingFriends}
-            isLoadingMore={isLoadingMoreFriends}
-            hasMore={hasMoreFriends}
-            loadingUserId={loadingUserId}
-            onNavigateToProfile={handleNavigateToProfile}
-            onRemoveFriend={handleRemoveFriend}
-            onLoadMore={handleLoadMoreFriends}
-          />
-
-          <IncomingRequestsAccordionSection
-            requests={incomingRequests}
-            isLoading={isLoadingRequests}
-            isLoadingMore={isLoadingMoreIncoming}
-            hasMore={hasMoreIncoming}
-            loadingUserId={loadingUserId}
-            onAcceptRequest={handleAcceptRequest}
-            onRejectRequest={handleRejectRequest}
-            onLoadMore={handleLoadMoreIncoming}
-          />
-
-          <OutgoingRequestsAccordionSection
-            requests={outgoingRequests}
-            isLoading={isLoadingOutgoing}
-            isLoadingMore={isLoadingMoreOutgoing}
-            hasMore={hasMoreOutgoing}
-            loadingUserId={loadingUserId}
-            onNavigateToProfile={handleNavigateToProfile}
-            onCancelRequest={handleCancelRequest}
-            onLoadMore={handleLoadMoreOutgoing}
-          />
-
-          <RecommendationsAccordionSection
-            recommendations={recommendations}
-            isLoading={isLoadingRecommendations}
-            isLoadingMore={isLoadingMoreRecommendations}
-            hasMore={hasMoreRecommendations}
-            loadingUserId={loadingUserId}
-            onNavigateToProfile={handleNavigateToProfile}
-            onSendRequest={handleSendRequest}
-            onLoadMore={handleLoadMoreRecommendations}
-          />
+      <FriendsBackground>
+        <View style={styles.titleContainer}>
+          <Text variant="headingPrimary" style={styles.title}>
+            Amigos
+          </Text>
         </View>
-      </ScrollView>
+
+        <FriendsFilterBar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          selectedCity={selectedCity}
+          onCityChange={setSelectedCity}
+          selectedState={selectedState}
+          onStateChange={setSelectedState}
+          selectedSportId={selectedSportId}
+          onSportChange={setSelectedSportId}
+          onClearFilters={handleClearFilters}
+          hasActiveFilters={hasActiveFilters}
+        />
+
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.scrollContent}
+          testID="friends-screen-scroll"
+        >
+          <View style={styles.accordionsContainer}>
+            <FriendsAccordionSection
+              friends={friends}
+              isLoading={isLoadingFriends}
+              isLoadingMore={isLoadingMoreFriends}
+              hasMore={hasMoreFriends}
+              loadingUserId={loadingUserId}
+              onNavigateToProfile={handleNavigateToProfile}
+              onRemoveFriend={handleRemoveFriend}
+              onLoadMore={handleLoadMoreFriends}
+            />
+
+            <IncomingRequestsAccordionSection
+              requests={incomingRequests}
+              isLoading={isLoadingRequests}
+              isLoadingMore={isLoadingMoreIncoming}
+              hasMore={hasMoreIncoming}
+              loadingUserId={loadingUserId}
+              onAcceptRequest={handleAcceptRequest}
+              onRejectRequest={handleRejectRequest}
+              onLoadMore={handleLoadMoreIncoming}
+            />
+
+            <OutgoingRequestsAccordionSection
+              requests={outgoingRequests}
+              isLoading={isLoadingOutgoing}
+              isLoadingMore={isLoadingMoreOutgoing}
+              hasMore={hasMoreOutgoing}
+              loadingUserId={loadingUserId}
+              onNavigateToProfile={handleNavigateToProfile}
+              onCancelRequest={handleCancelRequest}
+              onLoadMore={handleLoadMoreOutgoing}
+            />
+
+            <RecommendationsAccordionSection
+              recommendations={recommendations}
+              isLoading={isLoadingRecommendations}
+              isLoadingMore={isLoadingMoreRecommendations}
+              hasMore={hasMoreRecommendations}
+              loadingUserId={loadingUserId}
+              onNavigateToProfile={handleNavigateToProfile}
+              onSendRequest={handleSendRequest}
+              onLoadMore={handleLoadMoreRecommendations}
+            />
+          </View>
+        </ScrollView>
+      </FriendsBackground>
     </AppLayout>
   );
 };
