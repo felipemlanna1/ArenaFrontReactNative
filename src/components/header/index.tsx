@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Symbol } from '@/components/ui/symbol';
 import { Dropdown } from '@/components/ui/dropdown';
 import { ArenaColors } from '@/constants';
+import { useUnreadNotifications } from '@/hooks/useUnreadNotifications';
 import { HeaderProps } from './typesHeader';
 import { useHeader } from './useHeader';
 import { styles } from './stylesHeader';
@@ -26,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { getDefaultMenuItems, handleNotificationsPress } = useHeader({
     onLogout,
   });
+  const { unreadCount } = useUnreadNotifications();
 
   const finalMenuItems = menuItems || getDefaultMenuItems();
 
@@ -69,7 +71,11 @@ export const Header: React.FC<HeaderProps> = ({
             style={styles.notificationButton}
             testID={`${testID}-notifications`}
           >
-            <BellIcon size={24} color={ArenaColors.text.inverse} />
+            <BellIcon
+              size={24}
+              color={ArenaColors.text.inverse}
+              badgeCount={unreadCount}
+            />
           </TouchableOpacity>
         </View>
       </View>

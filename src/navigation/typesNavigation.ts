@@ -20,6 +20,7 @@ export type RootStackParamList = {
   GroupDetails: { groupId: string };
   Profile: { userId?: string } | undefined;
   EditProfile: undefined;
+  Notifications: undefined;
 };
 
 export type TabParamList = {
