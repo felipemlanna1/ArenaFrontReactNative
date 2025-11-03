@@ -1,11 +1,15 @@
 import { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UseHeaderProps, UseHeaderReturn } from './typesHeader';
 import { DropdownItem } from '@/components/ui/dropdown/typesDropdown';
 import { LogoutIcon } from './utils/LogoutIcon';
-import { useAlert } from '@/contexts/AlertContext';
+import { RootStackParamList } from '@/navigation/typesNavigation';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const useHeader = ({ onLogout }: UseHeaderProps): UseHeaderReturn => {
-  const { showInfo } = useAlert();
+  const navigation = useNavigation<NavigationProp>();
 
   const getDefaultMenuItems = useCallback((): DropdownItem[] => {
     return [
@@ -24,8 +28,8 @@ export const useHeader = ({ onLogout }: UseHeaderProps): UseHeaderReturn => {
   }, [onLogout]);
 
   const handleNotificationsPress = useCallback(() => {
-    showInfo('A funcionalidade de notificações ainda não está implementada.');
-  }, [showInfo]);
+    navigation.navigate('Notifications');
+  }, [navigation]);
 
   return {
     getDefaultMenuItems,

@@ -1,30 +1,39 @@
-import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
-interface Styles {
-  container: ViewStyle;
-  content: ViewStyle;
-  title: TextStyle;
-  subtitle: TextStyle;
-}
-
-export const styles = StyleSheet.create<Styles>({
+export const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: ArenaSpacing['2xl'],
   },
-  content: {
+  listContent: {
+    padding: ArenaSpacing.lg,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: ArenaSpacing.md,
+  },
+  footer: {
+    paddingVertical: ArenaSpacing.lg,
+    alignItems: 'center',
+  },
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: ArenaSpacing['3xl'],
     gap: ArenaSpacing.md,
   },
-  title: {
-    color: ArenaColors.neutral.light,
+  emptyTitle: {
     textAlign: 'center',
   },
-  subtitle: {
-    color: ArenaColors.neutral.medium,
+  emptySubtitle: {
     textAlign: 'center',
   },
 });

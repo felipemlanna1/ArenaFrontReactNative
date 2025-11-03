@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "arena",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -42,9 +43,27 @@
       "package": "com.arena.app",
       "permissions": [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
+        "ACCESS_FINE_LOCATION",
+        "POST_NOTIFICATIONS"
       ],
-      "usesCleartextTraffic": true
+      "usesCleartextTraffic": true,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "arena",
+              "host": "*"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro"
@@ -64,6 +83,14 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Arena precisa acessar sua localização para mostrar eventos próximos a você.",
           "locationWhenInUsePermission": "Arena precisa acessar sua localização para mostrar eventos próximos a você."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#FF5301",
+          "sounds": []
         }
       ]
     ],

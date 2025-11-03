@@ -13,6 +13,7 @@ import { CreateEventScreen } from '../screens/createEventScreen';
 import { EventDetailsScreen } from '../screens/eventDetailsScreen';
 import { ProfileScreen } from '../screens/profileScreen';
 import { EditProfileScreen } from '../screens/editProfileScreen';
+import { NotificationsScreen } from '../screens/notificationsScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
@@ -34,12 +35,25 @@ export const AppNavigator: React.FC = () => {
     },
   };
 
+  const linking = {
+    prefixes: ['arena://', 'exp://'],
+    config: {
+      screens: {
+        MainTabs: 'tabs',
+        EventDetails: 'event/:eventId',
+        GroupDetails: 'group/:groupId',
+        Profile: 'profile/:userId',
+        Notifications: 'notifications',
+      },
+    },
+  };
+
   if (isLoading) {
     return null;
   }
 
   return (
-    <NavigationContainer theme={CustomDarkTheme}>
+    <NavigationContainer theme={CustomDarkTheme} linking={linking}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!user ? (
           <>
@@ -99,6 +113,14 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen
               name="EditProfile"
               component={EditProfileScreen}
+              options={{
+                presentation: 'card',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Notifications"
+              component={NotificationsScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,

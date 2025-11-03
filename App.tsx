@@ -6,6 +6,7 @@ import { Image } from 'expo-image';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
+import { UnreadNotificationsProvider } from './src/contexts/UnreadNotificationsContext';
 import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { SportsProvider } from './src/contexts/SportsContext';
@@ -68,15 +69,17 @@ export default function App() {
       <SportsProvider>
         <AuthProvider>
           <AlertProvider>
-            <ToastProvider>
-              <GroupsProvider>
-                <GroupsFiltersProvider>
-                  <HomeFiltersProvider>
-                    <AppNavigator />
-                  </HomeFiltersProvider>
-                </GroupsFiltersProvider>
-              </GroupsProvider>
-            </ToastProvider>
+            <UnreadNotificationsProvider>
+              <ToastProvider>
+                <GroupsProvider>
+                  <GroupsFiltersProvider>
+                    <HomeFiltersProvider>
+                      <AppNavigator />
+                    </HomeFiltersProvider>
+                  </GroupsFiltersProvider>
+                </GroupsProvider>
+              </ToastProvider>
+            </UnreadNotificationsProvider>
           </AlertProvider>
         </AuthProvider>
       </SportsProvider>
