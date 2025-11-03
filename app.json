@@ -98,7 +98,7 @@
       "eas": {
         "projectId": "arena-project-id"
       },
-      "ENVIRONMENT": "production"
+      "ENVIRONMENT": "development"
     }
   }
 }
