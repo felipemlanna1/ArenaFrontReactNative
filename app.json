@@ -21,7 +21,7 @@
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true,
           "NSExceptionDomains": {
-            "backsportpulsemobile-961c.onrender.com": {
+            "backsportpulsemobile-production.up.railway.app": {
               "NSExceptionAllowsInsecureHTTPLoads": false,
               "NSIncludesSubdomains": true,
               "NSExceptionRequiresForwardSecrecy": true,
@@ -98,7 +98,7 @@
       "eas": {
         "projectId": "arena-project-id"
       },
-      "ENVIRONMENT": "development"
+      "ENVIRONMENT": "production"
     }
   }
 }
