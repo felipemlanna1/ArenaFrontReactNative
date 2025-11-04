@@ -21,7 +21,11 @@
         "resourceClass": "m-medium",
         "simulator": false
       },
-      "env": ".env.production"
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://backsportpulsemobile-production.up.railway.app",
+        "EXPO_PUBLIC_API_TIMEOUT": "30000",
+        "EXPO_PUBLIC_ENVIRONMENT": "production"
+      }
     },
     "production": {
       "distribution": "store",
@@ -31,7 +35,11 @@
       "ios": {
         "resourceClass": "m-medium"
       },
-      "env": ".env.production"
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://backsportpulsemobile-production.up.railway.app",
+        "EXPO_PUBLIC_API_TIMEOUT": "30000",
+        "EXPO_PUBLIC_ENVIRONMENT": "production"
+      }
     }
   },
   "submit": {
