@@ -48,6 +48,7 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
+      "usesCleartextTraffic": true,
       "intentFilters": [
         {
           "action": "VIEW",
@@ -73,7 +74,8 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/BebasNeue-Regular.ttf"
+            "./assets/fonts/BebasNeue-Regular.ttf",
+            "./assets/fonts/Calibri-Regular.ttf"
           ]
         }
       ],
