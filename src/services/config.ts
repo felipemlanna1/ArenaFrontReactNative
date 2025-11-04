@@ -1,7 +1,17 @@
+import Constants from 'expo-constants';
+
 const getEnv = (key: string, defaultValue: string = ''): string => {
-  if (typeof process !== 'undefined' && process.env) {
+  // Try process.env first (works in Metro bundler with EXPO_PUBLIC_ prefix)
+  if (typeof process !== 'undefined' && process.env && process.env[key]) {
     return process.env[key] || defaultValue;
   }
+
+  // Fallback to Constants.expoConfig (works in all builds)
+  const expoValue = Constants.expoConfig?.extra?.[key];
+  if (expoValue !== undefined && expoValue !== null) {
+    return String(expoValue);
+  }
+
   return defaultValue;
 };
 
@@ -10,6 +20,11 @@ const EXPO_PUBLIC_API_URL = getEnv(
   'http://localhost:3000'
 );
 const API_BASE_URL_RESOLVED = `${EXPO_PUBLIC_API_URL}/api/v1`;
+
+// Debug log for production troubleshooting
+console.log('[Arena Config] API URL:', EXPO_PUBLIC_API_URL);
+console.log('[Arena Config] Full API Base:', API_BASE_URL_RESOLVED);
+console.log('[Arena Config] Environment:', getEnv('EXPO_PUBLIC_ENVIRONMENT', 'development'));
 
 const EXPO_PUBLIC_API_TIMEOUT = getEnv('EXPO_PUBLIC_API_TIMEOUT', '30000');
 
