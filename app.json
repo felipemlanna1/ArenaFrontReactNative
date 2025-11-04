@@ -44,7 +44,9 @@
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
       ],
       "usesCleartextTraffic": true,
       "intentFilters": [
@@ -62,8 +64,7 @@
             "DEFAULT"
           ]
         }
-      ],
-      "googleServicesFile": "./google-services.json"
+      ]
     },
     "web": {
       "bundler": "metro"
@@ -95,10 +96,11 @@
       ]
     ],
     "extra": {
+      "ENVIRONMENT": "development",
       "eas": {
-        "projectId": "arena-project-id"
-      },
-      "ENVIRONMENT": "development"
-    }
+        "projectId": "ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b"
+      }
+    },
+    "owner": "felipemlanna1"
   }
 }
