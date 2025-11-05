@@ -119,7 +119,7 @@ export const useGroupsListScreen = () => {
         await groupsApi.requestJoin(groupId);
 
         await Promise.all([refetchContext(), fetchRecommendations(1)]);
-      } catch (error) {
+      } catch {
         await Promise.all([refetchContext(), fetchRecommendations(1)]);
       } finally {
         setLoadingGroupId(null);

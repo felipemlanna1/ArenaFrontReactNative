@@ -287,7 +287,7 @@ export const useFriendsScreen = (
         if (friendshipId) {
           await friendshipsApi.acceptFriendRequest(friendshipId);
         }
-      } catch (error) {
+      } catch {
         await Promise.all([fetchFriends(), fetchIncomingRequests()]);
       } finally {
         setLoadingUserId(null);
@@ -358,7 +358,7 @@ export const useFriendsScreen = (
         }
 
         await friendshipsApi.sendFriendRequest({ addresseeId: userId });
-      } catch (error) {
+      } catch {
         await Promise.all([fetchRecommendations(), fetchOutgoingRequests(1)]);
       } finally {
         setLoadingUserId(null);
@@ -447,6 +447,20 @@ export const useFriendsScreen = (
       fetchOutgoingRequests,
     ])
   );
+
+  useEffect(() => {
+    fetchFriends(1);
+    fetchIncomingRequests(1);
+    fetchRecommendations(1);
+  }, [
+    debouncedSearchQuery,
+    selectedCity,
+    selectedState,
+    selectedSportId,
+    fetchFriends,
+    fetchIncomingRequests,
+    fetchRecommendations,
+  ]);
 
   return {
     friends,

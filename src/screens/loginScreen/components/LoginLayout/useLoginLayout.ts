@@ -5,9 +5,16 @@ import { UseLoginLayoutReturn } from './typesLoginLayout';
 export const useLoginLayout = (): UseLoginLayoutReturn => {
   const isPlatformIOS = useMemo(() => Platform.OS === 'ios', []);
 
-  const keyboardBehavior = useMemo(
-    () => (isPlatformIOS ? 'padding' : 'height'),
-    [isPlatformIOS]
+  const keyboardBehavior = useMemo(() => 'padding' as const, []);
+
+  const keyboardVerticalOffset = useMemo(
+    () =>
+      Platform.select({
+        ios: 0,
+        android: 80,
+        default: 0,
+      }),
+    []
   );
 
   const scrollViewProps = useMemo(
@@ -20,6 +27,7 @@ export const useLoginLayout = (): UseLoginLayoutReturn => {
 
   return {
     keyboardBehavior,
+    keyboardVerticalOffset,
     isPlatformIOS,
     scrollViewProps,
   };

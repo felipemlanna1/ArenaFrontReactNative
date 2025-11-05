@@ -1,8 +1,6 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
+import { View } from 'react-native';
 import { AppLayout } from '@/components/AppLayout';
-import { Text } from '@/components/ui/text';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { styles } from './stylesFriendsScreen';
@@ -14,6 +12,8 @@ import { OutgoingRequestsAccordionSection } from './components/OutgoingRequestsA
 import { RecommendationsAccordionSection } from './components/RecommendationsAccordionSection';
 
 export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
+  const hookData = useFriendsScreen(navigation);
+
   const {
     friends,
     incomingRequests,
@@ -23,8 +23,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     isLoadingRequests,
     isLoadingOutgoing,
     isLoadingRecommendations,
-    refreshing,
-    handleRefresh,
     handleRemoveFriend,
     handleAcceptRequest,
     handleRejectRequest,
@@ -55,17 +53,11 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleLoadMoreIncoming,
     handleLoadMoreOutgoing,
     handleLoadMoreRecommendations,
-  } = useFriendsScreen(navigation);
+  } = hookData;
 
   return (
     <AppLayout onLogout={handleLogout}>
       <FriendsBackground>
-        <View style={styles.titleContainer}>
-          <Text variant="headingPrimary" style={styles.title}>
-            Amigos
-          </Text>
-        </View>
-
         <FriendsFilterBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -79,17 +71,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
           hasActiveFilters={hasActiveFilters}
         />
 
-        <ScrollView
-          style={styles.content}
-          contentContainerStyle={styles.scrollContent}
-          testID="friends-screen-scroll"
-          refreshControl={
-            <ArenaRefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-            />
-          }
-        >
+        <View style={[styles.content, styles.scrollContent]}>
           <View style={styles.accordionsContainer}>
             <FriendsAccordionSection
               friends={friends}
@@ -135,7 +117,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
               onLoadMore={handleLoadMoreRecommendations}
             />
           </View>
-        </ScrollView>
+        </View>
       </FriendsBackground>
     </AppLayout>
   );

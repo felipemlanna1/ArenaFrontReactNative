@@ -29,7 +29,7 @@ export const FriendsAccordionSection: React.FC<
   return (
     <AccordionSection
       title="Meus Amigos"
-      count={friends.length}
+      count={friends?.length || 0}
       defaultExpanded={false}
       hasMore={hasMore && !isLoading}
       isLoadingMore={isLoadingMore}
@@ -37,7 +37,7 @@ export const FriendsAccordionSection: React.FC<
       testID="friends-accordion"
     >
       <FriendsSection
-        friends={friends}
+        friends={friends || []}
         isLoading={isLoading}
         loadingUserId={loadingUserId}
         onNavigateToProfile={onNavigateToProfile}

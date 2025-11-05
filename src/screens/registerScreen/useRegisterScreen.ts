@@ -99,7 +99,6 @@ export const useRegisterScreen = (
       formData.confirmPassword
     );
     const stateError = validateState(formData.state);
-    // Only validate city if state is selected
     const cityError = formData.state ? validateCity(formData.city) : null;
 
     return (
@@ -186,11 +185,9 @@ export const useRegisterScreen = (
 
   const handleStateChange = useCallback(
     (text: string) => {
-      // Single setState call to avoid race conditions
       setFormData(prev => ({
         ...prev,
         state: text,
-        // Clear city when state changes
         city: prev.state !== text ? '' : prev.city,
       }));
       if (errors.state) {
