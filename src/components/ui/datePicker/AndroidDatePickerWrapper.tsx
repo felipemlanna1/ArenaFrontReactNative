@@ -38,14 +38,29 @@ export const AndroidDatePickerWrapper: React.FC<
 
       const timer = setTimeout(() => {
         try {
+          const pickerMode = mode === 'datetime' ? 'date' : mode;
           DateTimePickerAndroid.open({
             value: value || new Date(),
-            mode: mode,
+            mode: pickerMode,
             is24Hour: true,
             minimumDate,
             maximumDate,
             onChange: (event: DateTimePickerEvent, date?: Date) => {
-              onChange(event, date);
+              if (mode === 'datetime' && event.type === 'set' && date) {
+                DateTimePickerAndroid.open({
+                  value: date,
+                  mode: 'time',
+                  is24Hour: true,
+                  onChange: (
+                    timeEvent: DateTimePickerEvent,
+                    timeDate?: Date
+                  ) => {
+                    onChange(timeEvent, timeDate);
+                  },
+                });
+              } else {
+                onChange(event, date);
+              }
             },
           });
         } catch {
@@ -53,6 +68,7 @@ export const AndroidDatePickerWrapper: React.FC<
             type: 'dismissed',
             nativeEvent: {
               timestamp: Date.now(),
+              utcOffset: 0,
             },
           };
           onChange(dismissedEvent, undefined);
@@ -62,9 +78,10 @@ export const AndroidDatePickerWrapper: React.FC<
       return () => {
         clearTimeout(timer);
         try {
-          DateTimePickerAndroid.dismiss(mode);
+          const pickerMode = mode === 'datetime' ? 'date' : mode;
+          DateTimePickerAndroid.dismiss(pickerMode);
         } catch {
-          /* Ignore dismiss errors */
+          void 0;
         }
       };
     }

@@ -11,7 +11,8 @@ import { useAuth } from './AuthContext';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
   }),
@@ -40,7 +41,7 @@ interface NotificationsProviderProps {
 export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
   children,
 }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
   const [permissionStatus, setPermissionStatus] =
     useState<NotificationPermissionStatus | null>(null);
@@ -63,7 +64,7 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
         ...platformData,
       });
     } catch {
-      /* Handle error silently */
+      void 0;
     }
   }, []);
 
@@ -91,7 +92,7 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
         setBadgeCount(badge);
       }
     } catch {
-      /* Handle error silently */
+      void 0;
     } finally {
       setIsLoading(false);
     }
@@ -127,13 +128,9 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
               deepLink = 'arena://notifications';
           }
 
-          Linking.openURL(deepLink).catch(() => {
-            /* Handle error silently */
-          });
+          Linking.openURL(deepLink).catch(() => {});
         } else {
-          Linking.openURL('arena://notifications').catch(() => {
-            /* Handle error silently */
-          });
+          Linking.openURL('arena://notifications').catch(() => {});
         }
       }
     );
@@ -143,12 +140,8 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
 
   const updatePreferences = useCallback(
     async (prefs: Partial<NotificationPreferences>) => {
-      try {
-        const updated = await notificationsApi.updatePreferences(prefs);
-        setPreferences(updated);
-      } catch (error) {
-        throw error;
-      }
+      const updated = await notificationsApi.updatePreferences(prefs);
+      setPreferences(updated);
     },
     []
   );
@@ -158,16 +151,12 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
       await notificationsService.clearBadge();
       setBadgeCount(0);
     } catch {
-      /* Handle error silently */
+      void 0;
     }
   }, []);
 
   const sendTestNotification = useCallback(async () => {
-    try {
-      await notificationsApi.testPushNotification();
-    } catch (error) {
-      throw error;
-    }
+    await notificationsApi.testPushNotification();
   }, []);
 
   return (

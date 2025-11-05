@@ -144,7 +144,7 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
         setCurrentPage(nextPage);
       }
     } catch {
-      /* Handle error silently */
+      void 0;
     } finally {
       setIsLoadingMore(false);
       isLoadingRef.current = false;
@@ -166,7 +166,7 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
 
           decrementCount(1);
         } catch {
-          /* Handle error silently */
+          void 0;
         }
       }
       if (notification.entityType && notification.entityId) {
