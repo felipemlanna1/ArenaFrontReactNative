@@ -36,6 +36,9 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
         toggleSportId(value);
       } else {
         switch (key) {
+          case 'sportIds':
+            updateFilter(key, []);
+            break;
           case 'priceMin':
           case 'priceMax':
             updateFilter(key, undefined);

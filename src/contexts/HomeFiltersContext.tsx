@@ -169,11 +169,11 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   );
 
   const clearFilters = useCallback(() => {
-    setActiveFilters(createInitialFilters(favoritesSportIds));
+    setActiveFilters(createInitialFilters());
     setSortBy('date');
     setSortOrder(FILTER_DEFAULTS.SORT.DEFAULT_SORT_ORDER);
     setSearchTerm('');
-  }, [favoritesSportIds]);
+  }, []);
 
   const clearCityFilter = useCallback(() => {
     setActiveFilters(prev => ({ ...prev, city: undefined }));
