@@ -46,13 +46,17 @@ export const UnreadNotificationsProvider: React.FC<
       setIsLoading(true);
       const response = await notificationsApi.getUnreadCount();
 
-      // httpService doesn't wrap count response, check both formats
-      if (typeof response === 'number') {
+      // Handle different response formats
+      if (response === null || response === undefined) {
+        // Silently handle null/undefined responses (likely connection issues)
+        setUnreadCount(0);
+      } else if (typeof response === 'number') {
         setUnreadCount(response);
       } else if (response && typeof response.count === 'number') {
         setUnreadCount(response.count);
       } else {
-        console.warn('Unexpected response format for unread count:', response);
+        // Only warn if we got an unexpected non-null response
+        console.warn('[UnreadNotifications] Unexpected response format:', response);
         setUnreadCount(0);
       }
     } catch (error) {

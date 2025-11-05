@@ -4,6 +4,8 @@ import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { StateDropdown } from '@/components/ui/stateDropdown';
+import { CityDropdown } from '@/components/ui/cityDropdown';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { AppLayout } from '@/components/AppLayout';
 import { useSports } from '@/contexts/SportsContext';
@@ -86,29 +88,33 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
 
         <View style={styles.section}>
           <Text variant="titleSecondary">Localização</Text>
-          <View style={styles.row}>
-            <View style={styles.flex1}>
-              <Input
-                label="Cidade"
-                placeholder="São Paulo"
-                value={formData.city}
-                onChangeText={value => updateField('city', value)}
-                error={errors.city}
-              />
-            </View>
-            <View style={styles.flex1}>
-              <Input
-                label="Estado"
-                placeholder="SP"
-                value={formData.state}
-                onChangeText={value =>
-                  updateField('state', value.toUpperCase())
-                }
-                error={errors.state}
-                maxLength={2}
-              />
-            </View>
-          </View>
+
+          <StateDropdown
+            value={formData.state}
+            onChange={value => {
+              updateField('state', value);
+              // Clear city when state changes
+              if (formData.state && formData.state !== value) {
+                updateField('city', '');
+              }
+            }}
+            label="Estado"
+            error={errors.state}
+            required
+            disabled={isSubmitting}
+          />
+
+          {formData.state && (
+            <CityDropdown
+              value={formData.city}
+              onChange={value => updateField('city', value)}
+              stateUF={formData.state}
+              label="Cidade"
+              error={errors.city}
+              required
+              disabled={isSubmitting}
+            />
+          )}
         </View>
 
         <View style={styles.section}>

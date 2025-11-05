@@ -32,16 +32,19 @@ export const notificationsService = {
 
   async getExpoPushToken(): Promise<string | null> {
     if (!Device.isDevice) {
+      console.log('[Push Notifications] Not a physical device, skipping token generation');
       return null;
     }
 
     try {
+      // Using the correct projectId from app.json
       const token = await Notifications.getExpoPushTokenAsync({
-        projectId: 'YOUR_PROJECT_ID',
+        projectId: 'ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b',
       });
+      console.log('[Push Notifications] Token generated successfully:', token.data);
       return token.data;
     } catch (error) {
-      console.error('Error getting push token:', error);
+      console.error('[Push Notifications] Error getting push token:', error);
       return null;
     }
   },
