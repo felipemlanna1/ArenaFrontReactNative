@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
@@ -69,7 +70,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const primarySport = displayData.sports.find(s => s.isPrimary) || null;
 
   return (
-    <View style={styles.container} testID={testID}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']} testID={testID}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={handleBackPress}
@@ -129,6 +130,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           />
         </TouchableOpacity>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
