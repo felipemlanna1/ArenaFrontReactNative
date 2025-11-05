@@ -71,7 +71,16 @@ export const useDatePicker = ({
       if (Platform.OS === 'android') {
         setShowPicker(false);
         if (selectedDate && eventType !== 'dismissed') {
-          onChange(selectedDate);
+          try {
+            // Validate date before calling onChange
+            if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) {
+              onChange(selectedDate);
+            } else {
+              console.warn('DatePicker: Invalid date selected on Android', selectedDate);
+            }
+          } catch (error) {
+            console.error('DatePicker: Error handling date change on Android', error);
+          }
         }
         return;
       }
@@ -84,7 +93,11 @@ export const useDatePicker = ({
       if (variant === 'datetime' && selectedDate) {
         if (!tempDate) {
           setTempDate(selectedDate);
-          onChange(selectedDate);
+          try {
+            onChange(selectedDate);
+          } catch (error) {
+            console.error('DatePicker: Error handling datetime change', error);
+          }
         } else {
           setShowPicker(false);
           if (Platform.OS === 'ios') {
@@ -92,7 +105,11 @@ export const useDatePicker = ({
               Haptics.NotificationFeedbackType.Success
             );
           }
-          onChange(selectedDate);
+          try {
+            onChange(selectedDate);
+          } catch (error) {
+            console.error('DatePicker: Error handling datetime change', error);
+          }
           setTempDate(null);
         }
       } else if (variant === 'time' && selectedDate) {
@@ -102,7 +119,11 @@ export const useDatePicker = ({
             Haptics.NotificationFeedbackType.Success
           );
         }
-        onChange(selectedDate);
+        try {
+          onChange(selectedDate);
+        } catch (error) {
+          console.error('DatePicker: Error handling time change', error);
+        }
       }
     },
     [onChange, variant, tempDate]
@@ -115,7 +136,16 @@ export const useDatePicker = ({
           Haptics.NotificationFeedbackType.Success
         );
       }
-      onChange(tempValue);
+      try {
+        // Validate date before calling onChange
+        if (tempValue instanceof Date && !isNaN(tempValue.getTime())) {
+          onChange(tempValue);
+        } else {
+          console.warn('DatePicker: Invalid date on confirm', tempValue);
+        }
+      } catch (error) {
+        console.error('DatePicker: Error handling confirm', error);
+      }
     }
     setShowPicker(false);
     setTempValue(null);
