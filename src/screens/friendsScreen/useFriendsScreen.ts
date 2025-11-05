@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
 import { friendshipsApi } from '@/services/friendships';
 import { FriendshipType } from '@/services/friendships/typesFriendships';
@@ -271,24 +271,30 @@ export const useFriendsScreen = (
     async (userId: string) => {
       try {
         setLoadingUserId(userId);
-        const friendshipId = requestsMap.get(userId);
-        if (friendshipId) {
-          await friendshipsApi.acceptFriendRequest(friendshipId);
+
+        const acceptedUser = incomingRequests.find(r => r.id === userId);
+        if (acceptedUser) {
           setIncomingRequests(prev => prev.filter(r => r.id !== userId));
+          setFriends(prev => [acceptedUser, ...prev]);
           setRequestsMap(prev => {
             const newMap = new Map(prev);
             newMap.delete(userId);
             return newMap;
           });
-          await fetchFriends();
         }
-      } catch {
-        void 0;
+
+        const friendshipId = requestsMap.get(userId);
+        if (friendshipId) {
+          await friendshipsApi.acceptFriendRequest(friendshipId);
+
+        }
+      } catch (error) {
+        await Promise.all([fetchFriends(), fetchIncomingRequests()]);
       } finally {
         setLoadingUserId(null);
       }
     },
-    [requestsMap, fetchFriends]
+    [requestsMap, incomingRequests, fetchFriends, fetchIncomingRequests]
   );
 
   const handleRejectRequest = useCallback(
@@ -340,18 +346,23 @@ export const useFriendsScreen = (
   const handleSendRequest = useCallback(async (userId: string) => {
     try {
       setLoadingUserId(userId);
+
+      const userToAdd = recommendations.find((r: UserData) => r.id === userId);
+      if (userToAdd) {
+        setRecommendations((prev: UserData[]) =>
+          prev.filter((r: UserData) => r.id !== userId)
+        );
+        setOutgoingRequests(prev => [userToAdd, ...prev]);
+      }
+
       await friendshipsApi.sendFriendRequest({ addresseeId: userId });
-      setRecommendations((prev: UserData[]) =>
-        prev.filter((r: UserData) => r.id !== userId)
-      );
-      // Refetch outgoing requests to show the new request
-      await fetchOutgoingRequests(1);
-    } catch {
-      void 0;
+
+    } catch (error) {
+      await Promise.all([fetchRecommendations(), fetchOutgoingRequests(1)]);
     } finally {
       setLoadingUserId(null);
     }
-  }, [fetchOutgoingRequests]);
+  }, [recommendations, fetchOutgoingRequests, fetchRecommendations]);
 
   const handleNavigateToProfile = useCallback(
     (userId: string) => {
@@ -420,15 +431,14 @@ export const useFriendsScreen = (
     fetchRecommendations,
   ]);
 
-  useEffect(() => {
-    fetchIncomingRequests();
-    fetchOutgoingRequests();
-  }, [fetchIncomingRequests, fetchOutgoingRequests]);
-
-  useEffect(() => {
-    fetchFriends();
-    fetchRecommendations();
-  }, [fetchFriends, fetchRecommendations]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchFriends();
+      fetchRecommendations();
+      fetchIncomingRequests();
+      fetchOutgoingRequests();
+    }, [fetchFriends, fetchRecommendations, fetchIncomingRequests, fetchOutgoingRequests])
+  );
 
   return {
     friends,

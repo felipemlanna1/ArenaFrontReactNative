@@ -83,6 +83,12 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
           style={styles.content}
           contentContainerStyle={styles.scrollContent}
           testID="friends-screen-scroll"
+          refreshControl={
+            <ArenaRefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+            />
+          }
         >
           <View style={styles.accordionsContainer}>
             <FriendsAccordionSection

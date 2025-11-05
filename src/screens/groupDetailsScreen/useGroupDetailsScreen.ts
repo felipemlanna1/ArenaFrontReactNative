@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { Group, GroupMember } from '@/services/groups/typesGroups';
 
@@ -28,9 +29,11 @@ export const useGroupDetailsScreen = (groupId: string) => {
     }
   }, [groupId]);
 
-  useEffect(() => {
-    fetchGroupDetails();
-  }, [fetchGroupDetails]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchGroupDetails();
+    }, [fetchGroupDetails])
+  );
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);

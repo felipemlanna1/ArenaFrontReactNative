@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { useGroups } from '@/contexts/GroupsContext';
 import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
 import { groupsApi } from '@/services/groups/groupsApi';
@@ -54,6 +55,7 @@ export const useGroupsListScreen = () => {
         const response = await groupsApi.getRecommendations({
           search: debouncedSearchTerm || undefined,
           city: activeFilters.city,
+          state: activeFilters.state,
           sportId: activeFilters.sportIds?.[0],
           page,
           limit: 20,
@@ -79,9 +81,14 @@ export const useGroupsListScreen = () => {
     [debouncedSearchTerm, activeFilters]
   );
 
-  useEffect(() => {
-    fetchRecommendations();
-  }, [fetchRecommendations]);
+  useFocusEffect(
+    useCallback(() => {
+      Promise.all([
+        refetchContext(),
+        fetchRecommendations(1)
+      ]);
+    }, [refetchContext, fetchRecommendations])
+  );
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -105,14 +112,23 @@ export const useGroupsListScreen = () => {
   const handleJoinGroup = useCallback(
     async (groupId: string) => {
       setLoadingGroupId(groupId);
+
       try {
+        const joinedGroup = recommendations.find(g => g.id === groupId);
+        if (joinedGroup) {
+          setRecommendations(prev => prev.filter(g => g.id !== groupId));
+        }
+
         await groupsApi.requestJoin(groupId);
+
+        await Promise.all([refetchContext(), fetchRecommendations(1)]);
+      } catch (error) {
         await Promise.all([refetchContext(), fetchRecommendations(1)]);
       } finally {
         setLoadingGroupId(null);
       }
     },
-    [refetchContext, fetchRecommendations]
+    [recommendations, refetchContext, fetchRecommendations]
   );
 
   const handleLeaveGroup = useCallback(
