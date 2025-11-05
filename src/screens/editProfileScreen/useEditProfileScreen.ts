@@ -129,8 +129,24 @@ export const useEditProfileScreen = ({
       field: keyof EditProfileFormData,
       value: string | Date | boolean | null
     ) => {
-      setFormData(prev => ({ ...prev, [field]: value }));
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setFormData(prev => {
+        // Special handling for state change: clear city
+        if (field === 'state' && prev.state !== value) {
+          return {
+            ...prev,
+            state: value as string,
+            city: '',  // Clear city when state changes
+          };
+        }
+        return { ...prev, [field]: value };
+      });
+
+      // Clear errors for both state and city when state changes
+      if (field === 'state') {
+        setErrors(prev => ({ ...prev, state: undefined, city: undefined }));
+      } else {
+        setErrors(prev => ({ ...prev, [field]: undefined }));
+      }
     },
     []
   );
