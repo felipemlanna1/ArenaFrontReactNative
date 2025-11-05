@@ -3,7 +3,6 @@ import { View, FlatList, ListRenderItem } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { EventCard } from '@/screens/homeScreen/components/EventCard';
@@ -26,12 +25,10 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
   const {
     groupedEvents,
     isLoading,
-    isRefreshing,
     isLoadingMore,
     hasMore,
     eventFilter,
     setEventFilter,
-    refetch,
     loadMoreEvents,
     handleDetailsPress,
     handleManagePress,

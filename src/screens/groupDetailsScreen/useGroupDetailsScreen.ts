@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { Group, GroupMember } from '@/services/groups/typesGroups';

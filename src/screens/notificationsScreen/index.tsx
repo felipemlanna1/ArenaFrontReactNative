@@ -22,7 +22,6 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
     isLoading,
     isRefreshing,
     isLoadingMore,
-    hasMore,
     unreadCount,
     handleRefresh,
     handleLoadMore,
