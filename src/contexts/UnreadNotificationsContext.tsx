@@ -5,8 +5,10 @@ import React, {
   useCallback,
   useEffect,
   ReactNode,
+  useRef,
 } from 'react';
 import { notificationsApi } from '@/services/notifications/notificationsApi';
+import { useAuth } from './AuthContext';
 
 interface UnreadNotificationsContextValue {
   unreadCount: number;
@@ -29,8 +31,17 @@ export const UnreadNotificationsProvider: React.FC<
 > = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+  const shouldStopPollingRef = useRef(false);
 
   const fetchUnreadCount = useCallback(async () => {
+    // Don't fetch if not authenticated or polling is stopped
+    if (!isAuthenticated || shouldStopPollingRef.current) {
+      setUnreadCount(0);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await notificationsApi.getUnreadCount();
@@ -45,12 +56,23 @@ export const UnreadNotificationsProvider: React.FC<
         setUnreadCount(0);
       }
     } catch (error) {
-      console.error('Error fetching unread count:', error);
-      setUnreadCount(0);
+      // Stop polling if unauthorized (401)
+      const isUnauthorized = error &&
+        (error as any)?.response?.status === 401 ||
+        (error as any)?.status === 401 ||
+        (error as Error)?.message?.includes('Unauthorized');
+
+      if (isUnauthorized) {
+        shouldStopPollingRef.current = true;
+        setUnreadCount(0);
+      } else {
+        console.error('Error fetching unread count:', error);
+        setUnreadCount(0);
+      }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const decrementCount = useCallback((amount: number = 1) => {
     setUnreadCount((prev) => Math.max(0, prev - amount));
@@ -60,19 +82,32 @@ export const UnreadNotificationsProvider: React.FC<
     setUnreadCount(0);
   }, []);
 
+  // Reset polling flag when authentication changes
+  useEffect(() => {
+    if (isAuthenticated) {
+      shouldStopPollingRef.current = false;
+    }
+  }, [isAuthenticated]);
+
   // Initial fetch
   useEffect(() => {
-    fetchUnreadCount();
-  }, [fetchUnreadCount]);
+    if (isAuthenticated) {
+      fetchUnreadCount();
+    }
+  }, [fetchUnreadCount, isAuthenticated]);
 
-  // Poll every 30 seconds
+  // Poll every 30 seconds (only when authenticated)
   useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
     const interval = setInterval(() => {
       fetchUnreadCount();
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [fetchUnreadCount]);
+  }, [fetchUnreadCount, isAuthenticated]);
 
   const value: UnreadNotificationsContextValue = {
     unreadCount,
