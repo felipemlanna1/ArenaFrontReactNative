@@ -94,7 +94,7 @@ export const useDatePicker = ({
                 }, 100);
               }
             } catch {
-              /* Handle error silently */
+              void 0;
             }
           }
           return;
@@ -115,7 +115,7 @@ export const useDatePicker = ({
           try {
             onChange(selectedDate);
           } catch {
-            /* Handle error silently */
+            void 0;
           }
         } else {
           setShowPicker(false);
@@ -127,7 +127,7 @@ export const useDatePicker = ({
           try {
             onChange(selectedDate);
           } catch {
-            /* Handle error silently */
+            void 0;
           }
           setTempDate(null);
         }
@@ -141,7 +141,7 @@ export const useDatePicker = ({
         try {
           onChange(selectedDate);
         } catch {
-          /* Handle error silently */
+          void 0;
         }
       }
     },
@@ -160,7 +160,7 @@ export const useDatePicker = ({
           onChange(tempValue);
         }
       } catch {
-        /* Handle error silently */
+        void 0;
       }
     }
     setShowPicker(false);

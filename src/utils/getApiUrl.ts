@@ -16,7 +16,8 @@ export const getApiUrl = (defaultUrl: string): string => {
   }
 
   if (Platform.OS === 'android' && !Device.isDevice) {
-    return defaultUrl.replace('localhost', '10.0.2.2');
+    const androidUrl = defaultUrl.replace('localhost', '10.0.2.2');
+    return androidUrl;
   }
 
   if (Device.isDevice) {
@@ -24,7 +25,8 @@ export const getApiUrl = (defaultUrl: string): string => {
     if (debuggerHost) {
       const hostname = debuggerHost.split(':')[0];
       if (hostname && hostname !== 'localhost') {
-        return defaultUrl.replace('localhost', hostname);
+        const physicalUrl = defaultUrl.replace('localhost', hostname);
+        return physicalUrl;
       }
     }
 

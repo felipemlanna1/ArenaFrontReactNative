@@ -111,11 +111,9 @@ const AnimatedBall: React.FC<{ ball: SportBall }> = ({ ball }) => {
 
   useEffect(() => {
     const startAnimation = () => {
-      // Reset values
       translateY.setValue(height + 100);
       rotate.setValue(0);
 
-      // Start animation after delay
       setTimeout(() => {
         Animated.parallel([
           Animated.loop(
@@ -152,13 +150,17 @@ const AnimatedBall: React.FC<{ ball: SportBall }> = ({ ball }) => {
       style={[
         styles.ball,
         {
-          left: ball.left,
+          left: ball.left as `${number}%`,
           transform: [{ translateY }, { rotate: rotateInterpolate }],
           opacity: ball.opacity,
         },
       ]}
     >
-      <IconComponent name={ball.icon as any} size={ball.size} color="#FF5301" />
+      <IconComponent
+        name={ball.icon as never}
+        size={ball.size}
+        color="#FF5301"
+      />
     </Animated.View>
   );
 };
@@ -170,7 +172,6 @@ export const AnimatedSplashScreen: React.FC<AnimatedSplashScreenProps> = ({
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   useEffect(() => {
-    // Animate logo entrance
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -185,7 +186,6 @@ export const AnimatedSplashScreen: React.FC<AnimatedSplashScreenProps> = ({
       }),
     ]).start();
 
-    // Call completion after delay
     if (onAnimationComplete) {
       setTimeout(onAnimationComplete, 3000);
     }
@@ -193,12 +193,10 @@ export const AnimatedSplashScreen: React.FC<AnimatedSplashScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* Animated Balls Background */}
       {SPORT_BALLS.map(ball => (
         <AnimatedBall key={ball.id} ball={ball} />
       ))}
 
-      {/* Logo */}
       <Animated.View
         style={[
           styles.logoContainer,
