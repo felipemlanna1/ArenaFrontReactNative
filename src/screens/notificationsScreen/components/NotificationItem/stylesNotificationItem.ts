@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   iconContainer: {
     width: 40,
     height: 40,
-    borderRadius: ArenaBorders.radius.full,
+    borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary + '20',
     alignItems: 'center',
     justifyContent: 'center',
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   unreadDot: {
     width: 8,
     height: 8,
-    borderRadius: ArenaBorders.radius.full,
+    borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
     marginTop: 6,
   },
