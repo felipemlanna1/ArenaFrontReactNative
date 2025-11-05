@@ -70,6 +70,8 @@ export const useHomeScreen = (
     apiFilters: memoizedApiFilters,
   });
 
+  const { loadEvents } = events;
+
   const handleLogout = useCallback(async () => {
     try {
       setIsLoggingOut(true);
@@ -94,10 +96,10 @@ export const useHomeScreen = (
 
     if (searchTerm) {
       searchTimeoutRef.current = setTimeout(() => {
-        events.loadEvents();
+        loadEvents();
       }, 500);
     } else {
-      events.loadEvents();
+      loadEvents();
     }
 
     return () => {
@@ -105,8 +107,7 @@ export const useHomeScreen = (
         clearTimeout(searchTimeoutRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [memoizedApiFilters, searchTerm]);
+  }, [memoizedApiFilters, searchTerm, loadEvents]);
 
   const handleSortPress = useCallback(() => {
     setShowSortModal(true);
