@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { StateDropdown } from '@/components/ui/stateDropdown';
 import { CityDropdown } from '@/components/ui/cityDropdown';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
+import { KeyboardAwareLayout } from '@/components/ui/keyboardAwareLayout';
 import { AppLayout } from '@/components/AppLayout';
 import { useSports } from '@/contexts/SportsContext';
 import { CreateGroupScreenProps } from './typesCreateGroupScreen';
@@ -39,9 +40,11 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
 
   return (
     <AppLayout onBack={handleGoBack}>
-      <ScrollView
-        style={styles.container}
+      <KeyboardAwareLayout
         contentContainerStyle={styles.scrollContent}
+        scrollViewProps={{
+          style: styles.container,
+        }}
       >
         <Text variant="headingPrimary">
           {isEditMode ? 'Editar Grupo' : 'Criar Grupo'}
@@ -93,7 +96,6 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
             value={formData.state}
             onChange={value => {
               updateField('state', value);
-              // Clear city when state changes
               if (formData.state && formData.state !== value) {
                 updateField('city', '');
               }
@@ -157,7 +159,7 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
             Cancelar
           </Button>
         </View>
-      </ScrollView>
+      </KeyboardAwareLayout>
     </AppLayout>
   );
 };

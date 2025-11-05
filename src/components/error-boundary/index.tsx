@@ -15,7 +15,6 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-// eslint-disable-next-line arena/arena-best-practices
 export class ErrorBoundary extends Component<
   ErrorBoundaryProps,
   ErrorBoundaryState

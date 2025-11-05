@@ -108,7 +108,8 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 80}
       >
         <View style={styles.header}>
           <View style={styles.headerRow}>

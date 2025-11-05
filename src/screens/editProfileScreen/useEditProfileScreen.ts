@@ -130,18 +130,16 @@ export const useEditProfileScreen = ({
       value: string | Date | boolean | null
     ) => {
       setFormData(prev => {
-        // Special handling for state change: clear city
         if (field === 'state' && prev.state !== value) {
           return {
             ...prev,
             state: value as string,
-            city: '', // Clear city when state changes
+            city: '',
           };
         }
         return { ...prev, [field]: value };
       });
 
-      // Clear errors for both state and city when state changes
       if (field === 'state') {
         setErrors(prev => ({ ...prev, state: undefined, city: undefined }));
       } else {

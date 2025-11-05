@@ -31,9 +31,7 @@ const [splashVisible, setSplashVisible] = useState(true);
 
 if (splashVisible) {
   return (
-    <AnimatedSplashScreen
-      onAnimationComplete={() => setSplashVisible(false)}
-    />
+    <AnimatedSplashScreen onAnimationComplete={() => setSplashVisible(false)} />
   );
 }
 ```
@@ -41,6 +39,7 @@ if (splashVisible) {
 ## 🎮 Animações
 
 ### Bolas de Esportes
+
 - **Movimento**: Translação vertical de baixo para cima
 - **Rotação**: 360 graus durante o movimento
 - **Duração**: Entre 18-25 segundos (variável por bola)
@@ -48,6 +47,7 @@ if (splashVisible) {
 - **Opacidade**: 0.11 - 0.15 para efeito sutil
 
 ### Logo
+
 - **Fade In**: 1 segundo
 - **Scale**: De 0.8 para 1 com spring animation
 - **Posição**: Centralizado na tela

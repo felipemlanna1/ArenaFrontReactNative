@@ -131,8 +131,8 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
 
       <KeyboardAvoidingView
         style={styles.scrollContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 80}
       >
         <ScrollView
           style={styles.scrollContainer}
