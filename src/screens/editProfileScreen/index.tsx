@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
@@ -122,11 +122,16 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
         </TouchableOpacity>
       </View>
 
-      <ScrollView
+      <KeyboardAvoidingView
         style={styles.scrollContainer}
-        contentContainerStyle={styles.contentContainer}
-        keyboardShouldPersistTaps="handled"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
       >
+        <ScrollView
+          style={styles.scrollContainer}
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+        >
         <View style={styles.section}>
           <Text variant="titleSecondary" style={styles.sectionTitle}>
             Fotos
@@ -315,6 +320,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           />
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.footer}>
         <Button
