@@ -56,32 +56,57 @@ export const useDatePicker = ({
   }, [value, variant]);
 
   const handlePress = useCallback(async () => {
+    // Prevent opening if already open (Android safety)
+    if (showPicker) {
+      return;
+    }
+
     if (Platform.OS === 'ios') {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     setTempDate(null);
     setTempValue(value || new Date());
-    setShowPicker(true);
-  }, [value]);
+
+    // Add small delay for Android to prevent race conditions
+    if (Platform.OS === 'android') {
+      setTimeout(() => {
+        setShowPicker(true);
+      }, 50);
+    } else {
+      setShowPicker(true);
+    }
+  }, [value, showPicker]);
 
   const handleChange = useCallback(
     async (event: unknown, selectedDate?: Date) => {
-      const eventType = (event as { type?: string })?.type;
+      try {
+        const eventType = (event as { type?: string })?.type;
 
-      if (Platform.OS === 'android') {
-        setShowPicker(false);
-        if (selectedDate && eventType !== 'dismissed') {
-          try {
-            // Validate date before calling onChange
-            if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) {
-              onChange(selectedDate);
-            } else {
-              console.warn('DatePicker: Invalid date selected on Android', selectedDate);
+        if (Platform.OS === 'android') {
+          // Immediately close picker to prevent dismiss errors
+          setShowPicker(false);
+
+          // Only process if user didn't dismiss and we have a valid date
+          if (eventType === 'set' && selectedDate) {
+            try {
+              // Validate date before calling onChange
+              if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) {
+                // Small delay to ensure picker is fully closed
+                setTimeout(() => {
+                  onChange(selectedDate);
+                }, 100);
+              } else {
+                console.warn('DatePicker: Invalid date selected on Android', selectedDate);
+              }
+            } catch (error) {
+              console.error('DatePicker: Error handling date change on Android', error);
             }
-          } catch (error) {
-            console.error('DatePicker: Error handling date change on Android', error);
           }
+          return;
         }
+      } catch (error) {
+        console.error('DatePicker: Unexpected error in handleChange', error);
+        setShowPicker(false);
         return;
       }
 
