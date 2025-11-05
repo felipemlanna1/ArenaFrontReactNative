@@ -98,8 +98,9 @@ export const useRegisterScreen = (
       formData.password,
       formData.confirmPassword
     );
-    const cityError = validateCity(formData.city);
     const stateError = validateState(formData.state);
+    // Only validate city if state is selected
+    const cityError = formData.state ? validateCity(formData.city) : null;
 
     return (
       !firstNameError &&
@@ -108,8 +109,8 @@ export const useRegisterScreen = (
       !emailError &&
       !passwordError &&
       !confirmPasswordError &&
-      !cityError &&
-      !stateError
+      !stateError &&
+      !cityError
     );
   }, [formData]);
 
@@ -185,15 +186,18 @@ export const useRegisterScreen = (
 
   const handleStateChange = useCallback(
     (text: string) => {
-      setFormData(prev => ({ ...prev, state: text }));
+      // Single setState call to avoid race conditions
+      setFormData(prev => ({
+        ...prev,
+        state: text,
+        // Clear city when state changes
+        city: prev.state !== text ? '' : prev.city,
+      }));
       if (errors.state) {
-        setErrors(prev => ({ ...prev, state: undefined }));
-      }
-      if (formData.state !== text) {
-        setFormData(prev => ({ ...prev, city: '' }));
+        setErrors(prev => ({ ...prev, state: undefined, city: undefined }));
       }
     },
-    [errors.state, formData.state]
+    [errors.state]
   );
 
   const handleSubmit = useCallback(async () => {
