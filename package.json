@@ -28,7 +28,7 @@
     "axios": "^1.12.2",
     "babel-preset-expo": "^54.0.3",
     "date-fns": "^4.1.0",
-    "expo": "~54.0.10",
+    "expo": "54.0.22",
     "expo-apple-authentication": "^8.0.7",
     "expo-auth-session": "^7.0.8",
     "expo-clipboard": "^8.0.7",
@@ -59,7 +59,6 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@eslint/eslintrc": "^3.3.1",
-    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
