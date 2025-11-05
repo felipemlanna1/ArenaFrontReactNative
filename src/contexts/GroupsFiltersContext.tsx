@@ -145,6 +145,11 @@ export const GroupsFiltersProvider: React.FC<GroupsFiltersProviderProps> = ({
       value: GroupsActiveFilters[K]
     ) => {
       setActiveFilters(prev => ({ ...prev, [key]: value }));
+      // Reset the ref when user manually changes sportIds
+      // This allows favorites to be re-applied later if needed
+      if (key === 'sportIds') {
+        hasSportsAppliedRef.current = false;
+      }
     },
     []
   );
@@ -158,6 +163,8 @@ export const GroupsFiltersProvider: React.FC<GroupsFiltersProviderProps> = ({
 
       return { ...prev, sportIds: newSportIds };
     });
+    // Reset ref to allow favorites to be re-applied later
+    hasSportsAppliedRef.current = false;
   }, []);
 
   const clearFilters = useCallback(() => {
