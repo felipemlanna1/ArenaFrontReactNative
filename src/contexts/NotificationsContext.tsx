@@ -11,7 +11,8 @@ import { useAuth } from './AuthContext';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
   }),
@@ -40,13 +41,12 @@ interface NotificationsProviderProps {
 export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
   children,
 }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
   const [permissionStatus, setPermissionStatus] =
     useState<NotificationPermissionStatus | null>(null);
-  const [preferences, setPreferences] = useState<NotificationPreferences | null>(
-    null
-  );
+  const [preferences, setPreferences] =
+    useState<NotificationPreferences | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [badgeCount, setBadgeCount] = useState(0);
 
@@ -56,20 +56,17 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
     return status.granted;
   }, []);
 
-  const registerPushToken = useCallback(
-    async (token: string) => {
-      try {
-        const platformData = await notificationsService.getPlatformData();
-        await notificationsApi.registerPushToken({
-          token,
-          ...platformData,
-        });
-      } catch (error) {
-        console.error('Error registering push token:', error);
-      }
-    },
-    []
-  );
+  const registerPushToken = useCallback(async (token: string) => {
+    try {
+      const platformData = await notificationsService.getPlatformData();
+      await notificationsApi.registerPushToken({
+        token,
+        ...platformData,
+      });
+    } catch {
+      void 0;
+    }
+  }, []);
 
   const initializeNotifications = useCallback(async () => {
     if (!isAuthenticated) {
@@ -94,8 +91,8 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
         const badge = await notificationsService.getBadgeCount();
         setBadgeCount(badge);
       }
-    } catch (error) {
-      console.error('Error initializing notifications:', error);
+    } catch {
+      void 0;
     } finally {
       setIsLoading(false);
     }
@@ -105,15 +102,12 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
     initializeNotifications();
   }, [initializeNotifications]);
 
-  // Handle notification response (when user taps notification)
   useEffect(() => {
     const subscription = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
+      response => {
         const data = response.notification.request.content.data;
         const entityType = data.entityType as string | undefined;
         const entityId = data.entityId as string | undefined;
-
-        // Navigate based on entityType and entityId
         if (entityType && entityId) {
           let deepLink = '';
 
@@ -128,22 +122,15 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
               deepLink = `arena://profile/${entityId}`;
               break;
             case 'message':
-              // TODO: Navigate to messages screen when implemented
               deepLink = 'arena://notifications';
               break;
             default:
               deepLink = 'arena://notifications';
           }
 
-          // Open deep link
-          Linking.openURL(deepLink).catch((err) =>
-            console.error('Error opening deep link:', err)
-          );
+          Linking.openURL(deepLink).catch(() => {});
         } else {
-          // If no entityType/entityId, just open notifications screen
-          Linking.openURL('arena://notifications').catch((err) =>
-            console.error('Error opening notifications screen:', err)
-          );
+          Linking.openURL('arena://notifications').catch(() => {});
         }
       }
     );
@@ -153,13 +140,8 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
 
   const updatePreferences = useCallback(
     async (prefs: Partial<NotificationPreferences>) => {
-      try {
-        const updated = await notificationsApi.updatePreferences(prefs);
-        setPreferences(updated);
-      } catch (error) {
-        console.error('Error updating preferences:', error);
-        throw error;
-      }
+      const updated = await notificationsApi.updatePreferences(prefs);
+      setPreferences(updated);
     },
     []
   );
@@ -168,18 +150,13 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
     try {
       await notificationsService.clearBadge();
       setBadgeCount(0);
-    } catch (error) {
-      console.error('Error clearing badge:', error);
+    } catch {
+      void 0;
     }
   }, []);
 
   const sendTestNotification = useCallback(async () => {
-    try {
-      await notificationsApi.testPushNotification();
-    } catch (error) {
-      console.error('Error sending test notification:', error);
-      throw error;
-    }
+    await notificationsApi.testPushNotification();
   }, []);
 
   return (

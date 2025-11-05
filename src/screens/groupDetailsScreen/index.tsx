@@ -5,7 +5,6 @@ import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { Fab } from '@/components/ui/fab';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { ConfirmationModal } from '@/components/ui/confirmationModal';
 import { InviteUsersModal } from '@/components/ui/inviteUsersModal';
 import { ArenaColors } from '@/constants';
@@ -39,7 +38,6 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
     group,
     members,
     isLoading,
-    isRefreshing,
     actionLoading,
     handleRefresh,
     handleJoinGroup,

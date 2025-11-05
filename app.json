@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1B1D29"
     },
     "ios": {
       "supportsTablet": true,
@@ -36,11 +36,12 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#FFFFFF"
       },
       "edgeToEdgeEnabled": true,
       "jsEngine": "hermes",
       "package": "com.arena.app",
+      "softwareKeyboardLayoutMode": "resize",
       "permissions": [
         "INTERNET",
         "ACCESS_COARSE_LOCATION",
@@ -77,7 +78,11 @@
         {
           "fonts": [
             "./assets/fonts/BebasNeue-Regular.ttf",
-            "./assets/fonts/Calibri-Regular.ttf"
+            "./assets/fonts/Calibri-Regular.ttf",
+            "./assets/fonts/Inter-Regular.ttf",
+            "./assets/fonts/Inter-Medium.ttf",
+            "./assets/fonts/Inter-SemiBold.ttf",
+            "./assets/fonts/Inter-Bold.ttf"
           ]
         }
       ],

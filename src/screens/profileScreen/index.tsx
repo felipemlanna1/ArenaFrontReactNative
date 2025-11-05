@@ -6,7 +6,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { ArenaColors } from '@/constants';
 import { useProfileScreen } from './useProfileScreen';
 import { ProfileScreenProps } from './typesProfileScreen';
@@ -31,7 +30,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     user,
     userId,
     isLoading,
-    isRefreshing,
     error,
     isOwnProfile,
     refetch,
@@ -70,7 +68,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const primarySport = displayData.sports.find(s => s.isPrimary) || null;
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']} testID={testID}>
+    <SafeAreaView
+      style={styles.container}
+      edges={['top', 'bottom', 'left', 'right']}
+      testID={testID}
+    >
       <TouchableOpacity
         style={styles.backButton}
         onPress={handleBackPress}
@@ -83,9 +85,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         />
       </TouchableOpacity>
 
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-      >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
           <ProfileHeroSection
             avatarUrl={displayData.avatarUrl}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { View, StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import { Image } from 'expo-image';
 import { AppNavigator } from './src/navigation/AppNavigator';
@@ -12,20 +11,11 @@ import { ToastProvider } from './src/contexts/ToastContext';
 import { SportsProvider } from './src/contexts/SportsContext';
 import { GroupsProvider } from './src/contexts/GroupsContext';
 import { GroupsFiltersProvider } from './src/contexts/GroupsFiltersContext';
-import { ArenaColors } from './src/constants';
-import { SportsLoading } from './src/components/ui/sportsLoading';
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: ArenaColors.neutral.darkest,
-  },
-});
+import { AnimatedSplashScreen } from './src/components/animatedSplashScreen';
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     async function loadAssets() {
@@ -56,11 +46,11 @@ export default function App() {
     loadAssets();
   }, []);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || showSplash) {
     return (
-      <View style={styles.loadingContainer}>
-        <SportsLoading size="xl" animationSpeed="normal" />
-      </View>
+      <AnimatedSplashScreen
+        onAnimationComplete={() => setShowSplash(false)}
+      />
     );
   }
 

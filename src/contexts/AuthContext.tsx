@@ -89,12 +89,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       updatedAt: response.user.updatedAt || new Date().toISOString(),
     };
 
-    console.log('🔐 [Auth] User logged in:', {
-      userId: userData.id,
-      username: userData.username,
-      email: userData.email,
-    });
-
     setUser(userData);
   }, []);
 

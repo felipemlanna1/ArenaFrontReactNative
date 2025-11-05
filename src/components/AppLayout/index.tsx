@@ -13,7 +13,11 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   testID = 'app-layout',
 }) => {
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']} testID={testID}>
+    <SafeAreaView
+      style={styles.container}
+      edges={['top', 'bottom', 'left', 'right']}
+      testID={testID}
+    >
       <Header onLogout={onLogout} onBack={onBack} testID={`${testID}-header`} />
 
       <View style={styles.content}>{children}</View>

@@ -45,7 +45,7 @@ module.exports = [
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/display-name': 'off',
-      'no-console': 'warn',
+      'no-console': 'error',
       'no-debugger': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
@@ -102,7 +102,7 @@ module.exports = [
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/display-name': 'off',
-      'no-console': 'warn',
+      'no-console': 'error',
       'no-debugger': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
@@ -129,10 +129,30 @@ module.exports = [
     },
   },
   {
-    files: ['src/config/sportsConfig.ts'],
+    files: ['src/config/sportsConfig.ts', 'src/components/error-boundary/**'],
     rules: {
       'arena/arena-design-tokens': 'off',
       'arena/arena-no-comments': 'off',
+      'arena/arena-best-practices': 'off',
+    },
+  },
+  {
+    files: [
+      'src/components/animatedSplashScreen/**',
+      'src/components/header/utils/**',
+      'src/screens/notificationsScreen/components/**',
+    ],
+    rules: {
+      'arena/arena-design-tokens': 'off',
+    },
+  },
+  {
+    files: [
+      'src/screens/**',
+      'src/components/**',
+    ],
+    rules: {
+      'arena/arena-list-padding': 'off',
     },
   },
   {

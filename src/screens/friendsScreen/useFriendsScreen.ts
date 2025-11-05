@@ -286,9 +286,8 @@ export const useFriendsScreen = (
         const friendshipId = requestsMap.get(userId);
         if (friendshipId) {
           await friendshipsApi.acceptFriendRequest(friendshipId);
-
         }
-      } catch (error) {
+      } catch {
         await Promise.all([fetchFriends(), fetchIncomingRequests()]);
       } finally {
         setLoadingUserId(null);
@@ -343,26 +342,30 @@ export const useFriendsScreen = (
     [outgoingMap]
   );
 
-  const handleSendRequest = useCallback(async (userId: string) => {
-    try {
-      setLoadingUserId(userId);
+  const handleSendRequest = useCallback(
+    async (userId: string) => {
+      try {
+        setLoadingUserId(userId);
 
-      const userToAdd = recommendations.find((r: UserData) => r.id === userId);
-      if (userToAdd) {
-        setRecommendations((prev: UserData[]) =>
-          prev.filter((r: UserData) => r.id !== userId)
+        const userToAdd = recommendations.find(
+          (r: UserData) => r.id === userId
         );
-        setOutgoingRequests(prev => [userToAdd, ...prev]);
+        if (userToAdd) {
+          setRecommendations((prev: UserData[]) =>
+            prev.filter((r: UserData) => r.id !== userId)
+          );
+          setOutgoingRequests(prev => [userToAdd, ...prev]);
+        }
+
+        await friendshipsApi.sendFriendRequest({ addresseeId: userId });
+      } catch {
+        await Promise.all([fetchRecommendations(), fetchOutgoingRequests(1)]);
+      } finally {
+        setLoadingUserId(null);
       }
-
-      await friendshipsApi.sendFriendRequest({ addresseeId: userId });
-
-    } catch (error) {
-      await Promise.all([fetchRecommendations(), fetchOutgoingRequests(1)]);
-    } finally {
-      setLoadingUserId(null);
-    }
-  }, [recommendations, fetchOutgoingRequests, fetchRecommendations]);
+    },
+    [recommendations, fetchOutgoingRequests, fetchRecommendations]
+  );
 
   const handleNavigateToProfile = useCallback(
     (userId: string) => {
@@ -437,8 +440,27 @@ export const useFriendsScreen = (
       fetchRecommendations();
       fetchIncomingRequests();
       fetchOutgoingRequests();
-    }, [fetchFriends, fetchRecommendations, fetchIncomingRequests, fetchOutgoingRequests])
+    }, [
+      fetchFriends,
+      fetchRecommendations,
+      fetchIncomingRequests,
+      fetchOutgoingRequests,
+    ])
   );
+
+  useEffect(() => {
+    fetchFriends(1);
+    fetchIncomingRequests(1);
+    fetchRecommendations(1);
+  }, [
+    debouncedSearchQuery,
+    selectedCity,
+    selectedState,
+    selectedSportId,
+    fetchFriends,
+    fetchIncomingRequests,
+    fetchRecommendations,
+  ]);
 
   return {
     friends,

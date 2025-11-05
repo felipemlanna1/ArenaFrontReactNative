@@ -62,6 +62,7 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
   if (isLoading) {
     return <LoadingState />;
   }
+
   if (friends.length === 0) {
     return (
       <EmptyState
@@ -73,19 +74,17 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
 
   return (
     <View style={styles.userList}>
-      {friends.map((friend, index) => {
-        return (
-          <UserCard
-            key={friend.id}
-            user={friend}
-            variant="friend"
-            onPress={() => onNavigateToProfile(friend.id)}
-            onRemove={() => onRemoveFriend(friend.id)}
-            isLoading={loadingUserId === friend.id}
-            testID={`friend-card-${friend.id}`}
-          />
-        );
-      })}
+      {friends.map(friend => (
+        <UserCard
+          key={friend.id}
+          user={friend}
+          variant="friend"
+          onPress={() => onNavigateToProfile(friend.id)}
+          onRemove={() => onRemoveFriend(friend.id)}
+          isLoading={loadingUserId === friend.id}
+          testID={`friend-card-${friend.id}`}
+        />
+      ))}
     </View>
   );
 };

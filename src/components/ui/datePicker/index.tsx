@@ -160,33 +160,32 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
       {showPicker &&
         Platform.OS !== 'web' &&
-        !(Platform.OS === 'ios' && variant === 'date') && (
-          Platform.OS === 'android' ? (
-            <AndroidDatePickerWrapper
-              value={value || new Date()}
-              mode={mode}
-              display={display}
-              onChange={handleChange}
-              minimumDate={minimumDate}
-              maximumDate={maximumDate}
-              accentColor={ArenaColors.brand.primary}
-              themeVariant="dark"
-              testID={testID ? `${testID}-picker` : undefined}
-            />
-          ) : (
-            <RNDateTimePicker
-              value={tempValue || value || new Date()}
-              mode={mode}
-              display={display}
-              onChange={handleChange}
-              minimumDate={minimumDate}
-              maximumDate={maximumDate}
-              accentColor={ArenaColors.brand.primary}
-              themeVariant="dark"
-              testID={testID ? `${testID}-picker` : undefined}
-            />
-          )
-        )}
+        !(Platform.OS === 'ios' && variant === 'date') &&
+        (Platform.OS === 'android' ? (
+          <AndroidDatePickerWrapper
+            value={value || new Date()}
+            mode={mode}
+            display={display}
+            onChange={handleChange}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
+            accentColor={ArenaColors.brand.primary}
+            themeVariant="dark"
+            testID={testID ? `${testID}-picker` : undefined}
+          />
+        ) : (
+          <RNDateTimePicker
+            value={tempValue || value || new Date()}
+            mode={mode}
+            display={display}
+            onChange={handleChange}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
+            accentColor={ArenaColors.brand.primary}
+            themeVariant="dark"
+            testID={testID ? `${testID}-picker` : undefined}
+          />
+        ))}
     </View>
   );
 };

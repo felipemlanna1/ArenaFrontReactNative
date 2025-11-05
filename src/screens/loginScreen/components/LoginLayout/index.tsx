@@ -7,7 +7,8 @@ import { styles } from './stylesLoginLayout';
 
 export const LoginLayout: React.FC<LoginLayoutProps> = React.memo(
   ({ children, verticalAlign = 'center' }) => {
-    const { keyboardBehavior, scrollViewProps } = useLoginLayout();
+    const { keyboardBehavior, keyboardVerticalOffset, scrollViewProps } =
+      useLoginLayout();
 
     const contentStyle = [
       styles.content,
@@ -18,6 +19,7 @@ export const LoginLayout: React.FC<LoginLayoutProps> = React.memo(
       <SafeAreaView style={styles.container} testID="login-layout">
         <KeyboardAvoidingView
           behavior={keyboardBehavior}
+          keyboardVerticalOffset={keyboardVerticalOffset}
           style={styles.keyboardView}
           testID="login-layout-keyboard-view"
         >

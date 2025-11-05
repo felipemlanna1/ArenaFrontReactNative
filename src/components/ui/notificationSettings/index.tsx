@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useAlert } from '@/contexts/AlertContext';
+import { NotificationPreferences } from '@/services/notifications/typesNotifications';
 import { styles } from './stylesNotificationSettings';
 import { NotificationSettingsProps } from './typesNotificationSettings';
 
@@ -21,61 +22,37 @@ export const NotificationSettings: React.FC<NotificationSettingsProps> = ({
     sendTestNotification,
   } = useNotifications();
 
-  const { showAlert } = useAlert();
+  const { showSuccess, showError, showWarning } = useAlert();
 
   const handleToggle = useCallback(
-    async (key: keyof typeof preferences, value: boolean) => {
+    async (key: keyof NotificationPreferences, value: boolean) => {
       try {
         await updatePreferences({ [key]: value });
-        showAlert({
-          type: 'success',
-          title: 'Preferências atualizadas',
-          message: 'Suas preferências de notificação foram salvas.',
-        });
-      } catch (error) {
-        showAlert({
-          type: 'error',
-          title: 'Erro',
-          message: 'Não foi possível atualizar suas preferências.',
-        });
+        showSuccess('Suas preferências de notificação foram salvas.');
+      } catch {
+        showError('Não foi possível atualizar suas preferências.');
       }
     },
-    [updatePreferences, showAlert]
+    [updatePreferences, showSuccess, showError]
   );
 
   const handleRequestPermissions = useCallback(async () => {
     const granted = await requestPermissions();
     if (granted) {
-      showAlert({
-        type: 'success',
-        title: 'Permissão concedida',
-        message: 'Você receberá notificações do Arena.',
-      });
+      showSuccess('Você receberá notificações do Arena.');
     } else {
-      showAlert({
-        type: 'warning',
-        title: 'Permissão negada',
-        message: 'Habilite notificações nas configurações do dispositivo.',
-      });
+      showWarning('Habilite notificações nas configurações do dispositivo.');
     }
-  }, [requestPermissions, showAlert]);
+  }, [requestPermissions, showSuccess, showWarning]);
 
   const handleTestNotification = useCallback(async () => {
     try {
       await sendTestNotification();
-      showAlert({
-        type: 'success',
-        title: 'Notificação enviada',
-        message: 'Você deve receber uma notificação de teste em breve.',
-      });
-    } catch (error) {
-      showAlert({
-        type: 'error',
-        title: 'Erro',
-        message: 'Não foi possível enviar a notificação de teste.',
-      });
+      showSuccess('Você deve receber uma notificação de teste em breve.');
+    } catch {
+      showError('Não foi possível enviar a notificação de teste.');
     }
-  }, [sendTestNotification, showAlert]);
+  }, [sendTestNotification, showSuccess, showError]);
 
   if (isLoading) {
     return (

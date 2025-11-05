@@ -4,7 +4,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
-    paddingTop: ArenaSpacing['4xl'] + 10,
+    paddingTop: ArenaSpacing.xl,
     paddingBottom: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,

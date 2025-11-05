@@ -3,7 +3,6 @@ import { View, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
@@ -32,8 +31,6 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     recommendations,
     isLoadingMyGroups,
     isLoadingRecommendations,
-    refreshing,
-    handleRefresh,
     loadingGroupId,
     hasMoreRecommendations,
     isLoadingMoreRecommendations,
