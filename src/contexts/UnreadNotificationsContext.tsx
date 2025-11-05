@@ -35,7 +35,6 @@ export const UnreadNotificationsProvider: React.FC<
   const shouldStopPollingRef = useRef(false);
 
   const fetchUnreadCount = useCallback(async () => {
-    // Don't fetch if not authenticated or polling is stopped
     if (!isAuthenticated || shouldStopPollingRef.current) {
       setUnreadCount(0);
       setIsLoading(false);
@@ -45,32 +44,27 @@ export const UnreadNotificationsProvider: React.FC<
     try {
       setIsLoading(true);
       const response = await notificationsApi.getUnreadCount();
-
-      // Handle different response formats
       if (response === null || response === undefined) {
-        // Silently handle null/undefined responses (likely connection issues)
         setUnreadCount(0);
       } else if (typeof response === 'number') {
         setUnreadCount(response);
       } else if (response && typeof response.count === 'number') {
         setUnreadCount(response.count);
       } else {
-        // Only warn if we got an unexpected non-null response
-        console.warn('[UnreadNotifications] Unexpected response format:', response);
         setUnreadCount(0);
       }
     } catch (error) {
-      // Stop polling if unauthorized (401)
-      const isUnauthorized = error &&
-        (error as any)?.response?.status === 401 ||
-        (error as any)?.status === 401 ||
+      const isUnauthorized =
+        (error &&
+          (error as unknown as { response?: { status?: number } })?.response
+            ?.status === 401) ||
+        (error as unknown as { status?: number })?.status === 401 ||
         (error as Error)?.message?.includes('Unauthorized');
 
       if (isUnauthorized) {
         shouldStopPollingRef.current = true;
         setUnreadCount(0);
       } else {
-        console.error('Error fetching unread count:', error);
         setUnreadCount(0);
       }
     } finally {
@@ -79,28 +73,25 @@ export const UnreadNotificationsProvider: React.FC<
   }, [isAuthenticated]);
 
   const decrementCount = useCallback((amount: number = 1) => {
-    setUnreadCount((prev) => Math.max(0, prev - amount));
+    setUnreadCount(prev => Math.max(0, prev - amount));
   }, []);
 
   const resetCount = useCallback(() => {
     setUnreadCount(0);
   }, []);
 
-  // Reset polling flag when authentication changes
   useEffect(() => {
     if (isAuthenticated) {
       shouldStopPollingRef.current = false;
     }
   }, [isAuthenticated]);
 
-  // Initial fetch
   useEffect(() => {
     if (isAuthenticated) {
       fetchUnreadCount();
     }
   }, [fetchUnreadCount, isAuthenticated]);
 
-  // Poll every 30 seconds (only when authenticated)
   useEffect(() => {
     if (!isAuthenticated) {
       return;
@@ -128,13 +119,13 @@ export const UnreadNotificationsProvider: React.FC<
   );
 };
 
-export const useUnreadNotificationsContext = ():
-  | UnreadNotificationsContextValue => {
-  const context = useContext(UnreadNotificationsContext);
-  if (!context) {
-    throw new Error(
-      'useUnreadNotificationsContext must be used within UnreadNotificationsProvider'
-    );
-  }
-  return context;
-};
+export const useUnreadNotificationsContext =
+  (): UnreadNotificationsContextValue => {
+    const context = useContext(UnreadNotificationsContext);
+    if (!context) {
+      throw new Error(
+        'useUnreadNotificationsContext must be used within UnreadNotificationsProvider'
+      );
+    }
+    return context;
+  };

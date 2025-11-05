@@ -56,7 +56,6 @@ export const useDatePicker = ({
   }, [value, variant]);
 
   const handlePress = useCallback(async () => {
-    // Prevent opening if already open (Android safety)
     if (showPicker) {
       return;
     }
@@ -67,7 +66,6 @@ export const useDatePicker = ({
     setTempDate(null);
     setTempValue(value || new Date());
 
-    // Add small delay for Android to prevent race conditions
     if (Platform.OS === 'android') {
       setTimeout(() => {
         setShowPicker(true);
@@ -83,29 +81,25 @@ export const useDatePicker = ({
         const eventType = (event as { type?: string })?.type;
 
         if (Platform.OS === 'android') {
-          // Immediately close picker to prevent dismiss errors
           setShowPicker(false);
 
-          // Only process if user didn't dismiss and we have a valid date
           if (eventType === 'set' && selectedDate) {
             try {
-              // Validate date before calling onChange
-              if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) {
-                // Small delay to ensure picker is fully closed
+              if (
+                selectedDate instanceof Date &&
+                !isNaN(selectedDate.getTime())
+              ) {
                 setTimeout(() => {
                   onChange(selectedDate);
                 }, 100);
-              } else {
-                console.warn('DatePicker: Invalid date selected on Android', selectedDate);
               }
-            } catch (error) {
-              console.error('DatePicker: Error handling date change on Android', error);
+            } catch {
+              /* Handle error silently */
             }
           }
           return;
         }
-      } catch (error) {
-        console.error('DatePicker: Unexpected error in handleChange', error);
+      } catch {
         setShowPicker(false);
         return;
       }
@@ -120,8 +114,8 @@ export const useDatePicker = ({
           setTempDate(selectedDate);
           try {
             onChange(selectedDate);
-          } catch (error) {
-            console.error('DatePicker: Error handling datetime change', error);
+          } catch {
+            /* Handle error silently */
           }
         } else {
           setShowPicker(false);
@@ -132,8 +126,8 @@ export const useDatePicker = ({
           }
           try {
             onChange(selectedDate);
-          } catch (error) {
-            console.error('DatePicker: Error handling datetime change', error);
+          } catch {
+            /* Handle error silently */
           }
           setTempDate(null);
         }
@@ -146,8 +140,8 @@ export const useDatePicker = ({
         }
         try {
           onChange(selectedDate);
-        } catch (error) {
-          console.error('DatePicker: Error handling time change', error);
+        } catch {
+          /* Handle error silently */
         }
       }
     },
@@ -162,14 +156,11 @@ export const useDatePicker = ({
         );
       }
       try {
-        // Validate date before calling onChange
         if (tempValue instanceof Date && !isNaN(tempValue.getTime())) {
           onChange(tempValue);
-        } else {
-          console.warn('DatePicker: Invalid date on confirm', tempValue);
         }
-      } catch (error) {
-        console.error('DatePicker: Error handling confirm', error);
+      } catch {
+        /* Handle error silently */
       }
     }
     setShowPicker(false);

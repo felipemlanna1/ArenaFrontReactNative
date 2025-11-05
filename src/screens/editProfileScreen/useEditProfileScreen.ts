@@ -135,7 +135,7 @@ export const useEditProfileScreen = ({
           return {
             ...prev,
             state: value as string,
-            city: '',  // Clear city when state changes
+            city: '', // Clear city when state changes
           };
         }
         return { ...prev, [field]: value };

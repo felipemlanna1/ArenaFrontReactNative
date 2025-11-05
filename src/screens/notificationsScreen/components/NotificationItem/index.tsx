@@ -13,26 +13,29 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   onPress,
   testID = 'notification-item',
 }) => {
-  const getIconName = useCallback((type: string): keyof typeof Ionicons.glyphMap => {
-    switch (type) {
-      case 'event_invitation':
-      case 'event_request_approved':
-        return 'calendar';
-      case 'group_invitation':
-      case 'group_request_approved':
-        return 'people';
-      case 'friend_request':
-      case 'friend_accepted':
-        return 'person-add';
-      case 'event_reminder':
-        return 'alarm';
-      case 'event_cancelled':
-      case 'event_updated':
-        return 'alert-circle';
-      default:
-        return 'notifications';
-    }
-  }, []);
+  const getIconName = useCallback(
+    (type: string): keyof typeof Ionicons.glyphMap => {
+      switch (type) {
+        case 'event_invitation':
+        case 'event_request_approved':
+          return 'calendar';
+        case 'group_invitation':
+        case 'group_request_approved':
+          return 'people';
+        case 'friend_request':
+        case 'friend_accepted':
+          return 'person-add';
+        case 'event_reminder':
+          return 'alarm';
+        case 'event_cancelled':
+        case 'event_updated':
+          return 'alert-circle';
+        default:
+          return 'notifications';
+      }
+    },
+    []
+  );
 
   const timeAgo = useMemo(() => {
     try {

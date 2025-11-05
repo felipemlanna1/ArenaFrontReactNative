@@ -83,10 +83,7 @@ export const useGroupsListScreen = () => {
 
   useFocusEffect(
     useCallback(() => {
-      Promise.all([
-        refetchContext(),
-        fetchRecommendations(1)
-      ]);
+      Promise.all([refetchContext(), fetchRecommendations(1)]);
     }, [refetchContext, fetchRecommendations])
   );
 

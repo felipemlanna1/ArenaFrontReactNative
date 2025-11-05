@@ -70,7 +70,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const primarySport = displayData.sports.find(s => s.isPrimary) || null;
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']} testID={testID}>
+    <SafeAreaView
+      style={styles.container}
+      edges={['top', 'bottom', 'left', 'right']}
+      testID={testID}
+    >
       <TouchableOpacity
         style={styles.backButton}
         onPress={handleBackPress}
@@ -83,9 +87,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         />
       </TouchableOpacity>
 
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-      >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentContainer}>
           <ProfileHeroSection
             avatarUrl={displayData.avatarUrl}

@@ -1,13 +1,11 @@
 import Constants from 'expo-constants';
-import { getApiUrl, getDeviceInfo } from '@/utils/getApiUrl';
+import { getApiUrl } from '@/utils/getApiUrl';
 
 const getEnv = (key: string, defaultValue: string = ''): string => {
-  // Try process.env first (works in Metro bundler with EXPO_PUBLIC_ prefix)
   if (typeof process !== 'undefined' && process.env && process.env[key]) {
     return process.env[key] || defaultValue;
   }
 
-  // Fallback to Constants.expoConfig (works in all builds)
   const expoValue = Constants.expoConfig?.extra?.[key];
   if (expoValue !== undefined && expoValue !== null) {
     return String(expoValue);
@@ -16,24 +14,14 @@ const getEnv = (key: string, defaultValue: string = ''): string => {
   return defaultValue;
 };
 
-// Pega a URL configurada no .env
 const CONFIGURED_API_URL = getEnv(
   'EXPO_PUBLIC_API_URL',
   'http://localhost:3000'
 );
 
-// Aplica detecção inteligente de plataforma/dispositivo
 const EXPO_PUBLIC_API_URL = getApiUrl(CONFIGURED_API_URL);
 
 const API_BASE_URL_RESOLVED = `${EXPO_PUBLIC_API_URL}/api/v1`;
-
-// Debug log for production troubleshooting
-const deviceInfo = getDeviceInfo();
-console.log('[Arena Config] Device Info:', deviceInfo);
-console.log('[Arena Config] Configured URL:', CONFIGURED_API_URL);
-console.log('[Arena Config] Resolved API URL:', EXPO_PUBLIC_API_URL);
-console.log('[Arena Config] Full API Base:', API_BASE_URL_RESOLVED);
-console.log('[Arena Config] Environment:', getEnv('EXPO_PUBLIC_ENVIRONMENT', 'development'));
 
 const EXPO_PUBLIC_API_TIMEOUT = getEnv('EXPO_PUBLIC_API_TIMEOUT', '30000');
 

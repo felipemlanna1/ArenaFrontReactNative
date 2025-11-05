@@ -36,10 +36,7 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
 
   const renderItem: ListRenderItem<Notification> = useCallback(
     ({ item }) => (
-      <NotificationItem
-        notification={item}
-        onPress={handleNotificationPress}
-      />
+      <NotificationItem notification={item} onPress={handleNotificationPress} />
     ),
     [handleNotificationPress]
   );
@@ -112,7 +109,7 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
         <FlatList
           data={notifications}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={renderHeader}
           ListEmptyComponent={renderEmptyState}

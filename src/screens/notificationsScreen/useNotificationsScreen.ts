@@ -41,34 +41,31 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
         notificationsApi.getUnreadCount(),
       ]);
 
-      // httpService extracts .data automatically, so notificationsResponse is already the array
       if (Array.isArray(notificationsResponse)) {
         setNotifications(notificationsResponse);
-        setHasMore(false); // Will be set correctly when we get totalPages from response metadata
+        setHasMore(false);
         setCurrentPage(1);
-      } else if (notificationsResponse && Array.isArray(notificationsResponse.data)) {
-        // Fallback for wrapped response
+      } else if (
+        notificationsResponse &&
+        Array.isArray(notificationsResponse.data)
+      ) {
         setNotifications(notificationsResponse.data);
         setHasMore(1 < (notificationsResponse.totalPages || 0));
         setCurrentPage(1);
       } else {
-        console.warn('Unexpected notifications response:', notificationsResponse);
         setNotifications([]);
         setHasMore(false);
       }
 
-      // For count, httpService doesn't wrap it, so we check both formats
       if (typeof countResponse === 'number') {
         setUnreadCount(countResponse);
       } else if (countResponse && typeof countResponse.count === 'number') {
         setUnreadCount(countResponse.count);
       } else {
-        console.warn('Unexpected count response:', countResponse);
         setUnreadCount(0);
       }
-    } catch (error) {
+    } catch {
       showError('Erro ao carregar notificações');
-      console.error('Error loading notifications:', error);
       setNotifications([]);
       setUnreadCount(0);
     } finally {
@@ -91,12 +88,14 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
         notificationsApi.getUnreadCount(),
       ]);
 
-      // httpService extracts .data automatically
       if (Array.isArray(notificationsResponse)) {
         setNotifications(notificationsResponse);
         setHasMore(false);
         setCurrentPage(1);
-      } else if (notificationsResponse && Array.isArray(notificationsResponse.data)) {
+      } else if (
+        notificationsResponse &&
+        Array.isArray(notificationsResponse.data)
+      ) {
         setNotifications(notificationsResponse.data);
         setHasMore(1 < (notificationsResponse.totalPages || 0));
         setCurrentPage(1);
@@ -112,9 +111,8 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
       } else {
         setUnreadCount(0);
       }
-    } catch (error) {
+    } catch {
       showError('Erro ao carregar notificações');
-      console.error('Error refreshing notifications:', error);
     } finally {
       setIsRefreshing(false);
       isLoadingRef.current = false;
@@ -136,18 +134,17 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
         PAGE_SIZE
       );
 
-      // httpService extracts .data automatically
       if (Array.isArray(response)) {
-        setNotifications((prev) => [...prev, ...response]);
+        setNotifications(prev => [...prev, ...response]);
         setHasMore(false);
         setCurrentPage(nextPage);
       } else if (response && Array.isArray(response.data)) {
-        setNotifications((prev) => [...prev, ...response.data]);
+        setNotifications(prev => [...prev, ...response.data]);
         setHasMore(nextPage < (response.totalPages || 0));
         setCurrentPage(nextPage);
       }
-    } catch (error) {
-      console.error('Error loading more notifications:', error);
+    } catch {
+      /* Handle error silently */
     } finally {
       setIsLoadingMore(false);
       isLoadingRef.current = false;
@@ -156,27 +153,22 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
 
   const handleNotificationPress = useCallback(
     async (notification: Notification) => {
-      // Mark as read if unread
       if (!notification.isRead) {
         try {
           await notificationsApi.markAsRead(notification.id);
 
-          // Update local state
-          setNotifications((prev) =>
-            prev.map((n) =>
+          setNotifications(prev =>
+            prev.map(n =>
               n.id === notification.id ? { ...n, isRead: true } : n
             )
           );
-          setUnreadCount((prev) => Math.max(0, prev - 1));
+          setUnreadCount(prev => Math.max(0, prev - 1));
 
-          // Update global badge count
           decrementCount(1);
-        } catch (error) {
-          console.error('Error marking notification as read:', error);
+        } catch {
+          /* Handle error silently */
         }
       }
-
-      // Navigate based on entityType
       if (notification.entityType && notification.entityId) {
         switch (notification.entityType) {
           case 'event':
@@ -195,7 +187,6 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
             });
             break;
           case 'message':
-            // Stay on notifications screen
             break;
           default:
             break;
@@ -209,15 +200,12 @@ export const useNotificationsScreen = (): UseNotificationsScreenReturn => {
     try {
       await notificationsApi.markAllAsRead();
 
-      // Update local state
-      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
       setUnreadCount(0);
 
-      // Update global badge count
       resetCount();
-    } catch (error) {
+    } catch {
       showError('Erro ao marcar todas como lidas');
-      console.error('Error marking all as read:', error);
     }
   }, [showError, resetCount]);
 
