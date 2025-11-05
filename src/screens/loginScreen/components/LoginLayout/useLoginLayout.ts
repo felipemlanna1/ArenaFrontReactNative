@@ -6,7 +6,7 @@ export const useLoginLayout = (): UseLoginLayoutReturn => {
   const isPlatformIOS = useMemo(() => Platform.OS === 'ios', []);
 
   const keyboardBehavior = useMemo(
-    () => (isPlatformIOS ? 'padding' : undefined),
+    () => (isPlatformIOS ? 'padding' : 'height'),
     [isPlatformIOS]
   );
 
