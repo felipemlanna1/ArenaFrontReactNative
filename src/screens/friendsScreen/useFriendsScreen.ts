@@ -344,12 +344,14 @@ export const useFriendsScreen = (
       setRecommendations((prev: UserData[]) =>
         prev.filter((r: UserData) => r.id !== userId)
       );
+      // Refetch outgoing requests to show the new request
+      await fetchOutgoingRequests(1);
     } catch {
       void 0;
     } finally {
       setLoadingUserId(null);
     }
-  }, []);
+  }, [fetchOutgoingRequests]);
 
   const handleNavigateToProfile = useCallback(
     (userId: string) => {
