@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { SchedulableTriggerInputTypes } from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import {
@@ -71,7 +72,7 @@ export const notificationsService = {
         data,
         sound: true,
       },
-      trigger: { seconds },
+      trigger: { type: SchedulableTriggerInputTypes.TIME_INTERVAL, seconds },
     });
   },
 
