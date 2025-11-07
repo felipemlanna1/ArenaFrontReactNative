@@ -2,7 +2,7 @@
   "expo": {
     "name": "Arena",
     "slug": "arena-app",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.arena.app",
-      "buildNumber": "2",
+      "buildNumber": "3",
       "jsEngine": "hermes",
       "infoPlist": {
         "NSAppTransportSecurity": {
@@ -39,7 +39,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 2,
+      "versionCode": 3,
       "edgeToEdgeEnabled": true,
       "jsEngine": "hermes",
       "package": "com.arena.app",
