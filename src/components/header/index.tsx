@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Symbol } from '@/components/ui/symbol';
 import { Dropdown } from '@/components/ui/dropdown';
+import { BugReportModal } from '@/components/ui/bugReportModal';
 import { ArenaColors } from '@/constants';
 import { useUnreadNotifications } from '@/hooks/useUnreadNotifications';
 import { HeaderProps } from './typesHeader';
@@ -28,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
     onLogout,
   });
   const { unreadCount } = useUnreadNotifications();
+  const [isBugReportModalVisible, setIsBugReportModalVisible] = useState(false);
 
   const finalMenuItems = menuItems || getDefaultMenuItems();
 
@@ -67,6 +69,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         <View style={styles.rightSection}>
           <TouchableOpacity
+            onPress={() => setIsBugReportModalVisible(true)}
+            style={styles.notificationButton}
+            testID={`${testID}-bug-report`}
+          >
+            <Ionicons
+              name="bug-outline"
+              size={24}
+              color={ArenaColors.text.inverse}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={handleNotificationsPress}
             style={styles.notificationButton}
             testID={`${testID}-notifications`}
@@ -79,6 +93,11 @@ export const Header: React.FC<HeaderProps> = ({
           </TouchableOpacity>
         </View>
       </View>
+
+      <BugReportModal
+        visible={isBugReportModalVisible}
+        onClose={() => setIsBugReportModalVisible(false)}
+      />
     </View>
   );
 };
