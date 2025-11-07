@@ -17,7 +17,6 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingHorizontal: ArenaSpacing.lg,
   },
   loadingContainer: {
     flex: 1,
@@ -37,6 +36,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: CONTENT_BOTTOM_PADDING,
   },
   backButton: {

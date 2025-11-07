@@ -9,6 +9,7 @@ import {
   ArenaSpacing,
   ArenaTypography,
 } from '@/constants';
+import { withAndroidScreenWrapper } from '@/components/wrappers/AndroidScreenWrapper/withAndroidScreenWrapper';
 import { HomeScreen } from '@/screens/homeScreen';
 import { FriendsScreen } from '@/screens/friendsScreen';
 import { MyEventsScreen } from '@/screens/myEventsScreen';
@@ -32,10 +33,22 @@ const MyEventsStack = createNativeStackNavigator<MyEventsStackParamList>();
 const GroupsStack = createNativeStackNavigator<GroupsStackParamList>();
 const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 
+const WrappedHomeScreen = withAndroidScreenWrapper(HomeScreen, {
+  enableScroll: false,
+});
+const WrappedFriendsScreen = withAndroidScreenWrapper(FriendsScreen);
+const WrappedMyEventsScreen = withAndroidScreenWrapper(MyEventsScreen, {
+  enableScroll: false,
+});
+const WrappedGroupsListScreen = withAndroidScreenWrapper(GroupsListScreen);
+const WrappedGroupDetailsScreen = withAndroidScreenWrapper(GroupDetailsScreen);
+const WrappedCreateGroupScreen = withAndroidScreenWrapper(CreateGroupScreen);
+const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen);
+
 const HomeStackScreen: React.FC = () => {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Home" component={WrappedHomeScreen} />
     </HomeStack.Navigator>
   );
 };
@@ -43,7 +56,7 @@ const HomeStackScreen: React.FC = () => {
 const FriendsStackScreen: React.FC = () => {
   return (
     <FriendsStack.Navigator screenOptions={{ headerShown: false }}>
-      <FriendsStack.Screen name="Friends" component={FriendsScreen} />
+      <FriendsStack.Screen name="Friends" component={WrappedFriendsScreen} />
     </FriendsStack.Navigator>
   );
 };
@@ -51,7 +64,7 @@ const FriendsStackScreen: React.FC = () => {
 const MyEventsStackScreen: React.FC = () => {
   return (
     <MyEventsStack.Navigator screenOptions={{ headerShown: false }}>
-      <MyEventsStack.Screen name="MyEvents" component={MyEventsScreen} />
+      <MyEventsStack.Screen name="MyEvents" component={WrappedMyEventsScreen} />
     </MyEventsStack.Navigator>
   );
 };
@@ -59,9 +72,18 @@ const MyEventsStackScreen: React.FC = () => {
 const GroupsStackScreen: React.FC = () => {
   return (
     <GroupsStack.Navigator screenOptions={{ headerShown: false }}>
-      <GroupsStack.Screen name="GroupsList" component={GroupsListScreen} />
-      <GroupsStack.Screen name="GroupDetails" component={GroupDetailsScreen} />
-      <GroupsStack.Screen name="CreateGroup" component={CreateGroupScreen} />
+      <GroupsStack.Screen
+        name="GroupsList"
+        component={WrappedGroupsListScreen}
+      />
+      <GroupsStack.Screen
+        name="GroupDetails"
+        component={WrappedGroupDetailsScreen}
+      />
+      <GroupsStack.Screen
+        name="CreateGroup"
+        component={WrappedCreateGroupScreen}
+      />
     </GroupsStack.Navigator>
   );
 };
@@ -69,7 +91,7 @@ const GroupsStackScreen: React.FC = () => {
 const ProfileStackScreen: React.FC = () => {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-      <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+      <ProfileStack.Screen name="Profile" component={WrappedProfileScreen} />
     </ProfileStack.Navigator>
   );
 };
@@ -79,13 +101,14 @@ export const BottomTabNavigator: React.FC = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: ArenaColors.brand.primary,
         tabBarInactiveTintColor: ArenaColors.neutral.medium,
         tabBarStyle: {
           backgroundColor: ArenaColors.neutral.darkest,
           borderTopColor: ArenaColors.neutral.dark,
           borderTopWidth: ArenaBorders.width.thin,
-          height: ArenaSpacing['7xl'],
+          height: ArenaSpacing['6xl'],
           paddingBottom: ArenaSpacing.lg,
           paddingTop: ArenaSpacing.sm,
         },

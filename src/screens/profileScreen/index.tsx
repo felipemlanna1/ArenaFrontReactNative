@@ -70,7 +70,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   return (
     <SafeAreaView
       style={styles.container}
-      edges={['top', 'bottom', 'left', 'right']}
+      edges={['bottom', 'left', 'right']}
       testID={testID}
     >
       <TouchableOpacity
@@ -86,16 +86,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       </TouchableOpacity>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.contentContainer}>
-          <ProfileHeroSection
-            avatarUrl={displayData.avatarUrl}
-            initials={initials}
-            showBackButton={false}
-            onBackPress={handleBackPress}
-            coverImageUrl={null}
-            primarySport={primarySport}
-          />
+        <ProfileHeroSection
+          avatarUrl={displayData.avatarUrl}
+          initials={initials}
+          showBackButton={false}
+          onBackPress={handleBackPress}
+          coverImageUrl={null}
+          primarySport={primarySport}
+        />
 
+        <View style={styles.contentContainer}>
           <ProfileInfoSection
             fullName={displayData.fullName}
             username={displayData.username}

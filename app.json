@@ -44,6 +44,11 @@
       "jsEngine": "hermes",
       "package": "com.arena.app",
       "softwareKeyboardLayoutMode": "resize",
+      "navigationBar": {
+        "visible": "sticky-immersive",
+        "backgroundColor": "#1B1D29",
+        "barStyle": "light-content"
+      },
       "permissions": [
         "INTERNET",
         "ACCESS_COARSE_LOCATION",
