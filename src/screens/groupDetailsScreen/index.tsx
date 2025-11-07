@@ -56,11 +56,13 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
   const { statistics, isLoading: isLoadingStats } = useGroupStatistics(groupId);
 
   const handleCreateEvent = useCallback(() => {
+    const defaultSportId = group?.sports?.[0]?.id;
     navigation.getParent()?.navigate('CreateEvent', {
       mode: 'create',
       preSelectedGroupId: groupId,
+      preSelectedSportId: defaultSportId,
     });
-  }, [navigation, groupId]);
+  }, [navigation, groupId, group]);
 
   const handleInviteUsers = useCallback(
     async (userIds: string[], message?: string) => {

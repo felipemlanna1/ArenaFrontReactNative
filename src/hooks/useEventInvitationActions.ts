@@ -1,6 +1,10 @@
 import { useState, useCallback } from 'react';
 import { eventsService } from '@/services/events/eventsService';
 import { useAlert } from '@/contexts/AlertContext';
+import {
+  getInvitationAcceptErrorMessage,
+  getInvitationRejectErrorMessage,
+} from '@/utils/inviteErrors';
 
 export interface UseEventInvitationActionsReturn {
   isInvitationLoading: boolean;
@@ -18,7 +22,7 @@ export interface UseEventInvitationActionsReturn {
 export const useEventInvitationActions = (
   onRefreshEvents?: () => void
 ): UseEventInvitationActionsReturn => {
-  const { showConfirm } = useAlert();
+  const { showConfirm, showError, showSuccess } = useAlert();
   const [isInvitationLoading, setIsInvitationLoading] = useState(false);
   const [currentInvitationEventId, setCurrentInvitationEventId] = useState<
     string | null
@@ -26,30 +30,30 @@ export const useEventInvitationActions = (
 
   const handleAcceptInvitation = useCallback(
     async (eventId: string, invitationId?: string) => {
-      if (!invitationId) {
-        return;
-      }
-
       setIsInvitationLoading(true);
       setCurrentInvitationEventId(eventId);
 
       try {
-        await eventsService.acceptInvitation(eventId, invitationId);
+        if (invitationId) {
+          await eventsService.acceptInvitation(eventId, invitationId);
+        } else {
+          await eventsService.acceptInvitationByEventId(eventId);
+        }
+        showSuccess('Convite aceito com sucesso!');
         onRefreshEvents?.();
+      } catch (error) {
+        const errorMessage = getInvitationAcceptErrorMessage(error);
+        showError(errorMessage);
       } finally {
         setIsInvitationLoading(false);
         setCurrentInvitationEventId(null);
       }
     },
-    [onRefreshEvents]
+    [onRefreshEvents, showSuccess, showError]
   );
 
   const handleRejectInvitation = useCallback(
     async (eventId: string, invitationId?: string) => {
-      if (!invitationId) {
-        return;
-      }
-
       showConfirm({
         title: 'Recusar Convite',
         message: 'Tem certeza que deseja recusar este convite?',
@@ -62,8 +66,16 @@ export const useEventInvitationActions = (
           setCurrentInvitationEventId(eventId);
 
           try {
-            await eventsService.rejectInvitation(eventId, invitationId);
+            if (invitationId) {
+              await eventsService.rejectInvitation(eventId, invitationId);
+            } else {
+              await eventsService.rejectInvitationByEventId(eventId);
+            }
+            showSuccess('Convite recusado.');
             onRefreshEvents?.();
+          } catch (error) {
+            const errorMessage = getInvitationRejectErrorMessage(error);
+            showError(errorMessage);
           } finally {
             setIsInvitationLoading(false);
             setCurrentInvitationEventId(null);
@@ -72,7 +84,7 @@ export const useEventInvitationActions = (
         onCancel: () => {},
       });
     },
-    [onRefreshEvents, showConfirm]
+    [onRefreshEvents, showConfirm, showSuccess, showError]
   );
 
   return {

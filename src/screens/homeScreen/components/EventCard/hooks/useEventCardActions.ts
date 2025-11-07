@@ -10,6 +10,7 @@ interface UseEventCardActionsProps {
   currentActionEventId?: string | null;
   eventId: string;
   isGroupMember?: boolean;
+  invitationId?: string;
 }
 
 export interface ActionButton {
@@ -50,8 +51,11 @@ const isParticipant = (status?: UserEventStatus): boolean => {
   return status === 'PARTICIPANT';
 };
 
-const isInvited = (status?: UserEventStatus): boolean => {
-  return status === 'INVITED';
+const isInvited = (
+  status?: UserEventStatus,
+  invitationId?: string
+): boolean => {
+  return status === 'INVITED' || !!invitationId;
 };
 
 const isRequested = (status?: UserEventStatus): boolean => {
@@ -161,6 +165,7 @@ export const useEventCardActions = ({
   isLoading = false,
   currentActionEventId,
   eventId,
+  invitationId,
 }: UseEventCardActionsProps): UseEventCardActionsReturn => {
   const isEventFull = useMemo(
     () => currentParticipants >= maxParticipants,
@@ -194,7 +199,7 @@ export const useEventCardActions = ({
       return createCancelButton(isThisEventLoading, isThisEventLoading);
     }
 
-    if (isInvited(userEventStatus)) {
+    if (isInvited(userEventStatus, invitationId)) {
       return createAcceptButton(isThisEventLoading, isThisEventLoading);
     }
 
@@ -224,15 +229,15 @@ export const useEventCardActions = ({
     }
 
     return null;
-  }, [userEventStatus, privacy, isEventFull, isThisEventLoading]);
+  }, [userEventStatus, privacy, isEventFull, isThisEventLoading, invitationId]);
 
   const secondaryActionButton = useMemo((): ActionButton | null => {
-    if (isInvited(userEventStatus)) {
+    if (isInvited(userEventStatus, invitationId)) {
       return createRejectButton(false, isThisEventLoading);
     }
 
     return null;
-  }, [userEventStatus, isThisEventLoading]);
+  }, [userEventStatus, isThisEventLoading, invitationId]);
 
   return {
     viewButton,

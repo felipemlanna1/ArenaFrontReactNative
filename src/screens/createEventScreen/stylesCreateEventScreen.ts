@@ -38,7 +38,8 @@ export const styles = StyleSheet.create({
   },
   footer: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
+    paddingTop: ArenaSpacing.md,
+    paddingBottom: ArenaSpacing.lg + 4,
     borderTopWidth: 1,
     borderTopColor: ArenaColors.neutral.dark,
   },

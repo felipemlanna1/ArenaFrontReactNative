@@ -28,8 +28,16 @@ class EventsService {
   acceptInvitation = (...args: Parameters<EventsApi['acceptInvitation']>) =>
     this.api.acceptInvitation(...args);
 
+  acceptInvitationByEventId = (
+    ...args: Parameters<EventsApi['acceptInvitationByEventId']>
+  ) => this.api.acceptInvitationByEventId(...args);
+
   rejectInvitation = (...args: Parameters<EventsApi['rejectInvitation']>) =>
     this.api.rejectInvitation(...args);
+
+  rejectInvitationByEventId = (
+    ...args: Parameters<EventsApi['rejectInvitationByEventId']>
+  ) => this.api.rejectInvitationByEventId(...args);
 
   createEvent = (...args: Parameters<EventsApi['createEvent']>) =>
     this.api.createEvent(...args);

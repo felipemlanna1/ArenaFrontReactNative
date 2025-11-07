@@ -38,6 +38,7 @@ export const EventCard: React.FC<EventCardProps> = ({
       isLoading: isActionLoading,
       currentActionEventId,
       eventId: event.id,
+      invitationId: event.invitationId,
     });
 
   const getButtonVariant = (

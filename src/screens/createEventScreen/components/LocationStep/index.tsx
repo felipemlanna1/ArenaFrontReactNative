@@ -4,7 +4,13 @@ import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { useLocationAutofill } from '@/screens/createEventScreen/hooks/useLocationAutofill';
-import { applyCepMask, removeMask, isCepComplete } from '@/utils/masks';
+import {
+  applyCepMask,
+  removeMask,
+  isCepComplete,
+  applyCurrencyMask,
+  parseCurrency,
+} from '@/utils/masks';
 import { LocationStepProps } from './typesLocationStep';
 import { styles } from './stylesLocationStep';
 
@@ -16,6 +22,9 @@ export const LocationStep: React.FC<LocationStepProps> = ({
   const { isLoadingCep, cepError, fetchAddressByCep } = useLocationAutofill();
   const [hasMaxParticipants, setHasMaxParticipants] = useState(
     formData.maxParticipants !== null
+  );
+  const [priceDisplay, setPriceDisplay] = useState(
+    applyCurrencyMask((formData.price * 100).toString())
   );
   const lastFetchedCepRef = useRef<string>('');
 
@@ -61,6 +70,12 @@ export const LocationStep: React.FC<LocationStepProps> = ({
   const handleMaxParticipantsToggle = (value: boolean) => {
     setHasMaxParticipants(value);
     onUpdate({ maxParticipants: value ? 10 : null });
+  };
+
+  const handlePriceChange = (value: string) => {
+    const masked = applyCurrencyMask(value);
+    setPriceDisplay(masked);
+    onUpdate({ price: parseCurrency(masked) });
   };
 
   return (
@@ -179,10 +194,10 @@ export const LocationStep: React.FC<LocationStepProps> = ({
 
       <View style={styles.section}>
         <Input
-          label="Preço por pessoa (R$)"
-          placeholder="0,00"
-          value={formData.price.toString()}
-          onChangeText={value => onUpdate({ price: parseFloat(value) || 0 })}
+          label="Preço por pessoa"
+          placeholder="R$ 0,00"
+          value={priceDisplay}
+          onChangeText={handlePriceChange}
           error={errors.price}
           keyboardType="numeric"
         />

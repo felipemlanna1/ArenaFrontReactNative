@@ -123,6 +123,13 @@ export const useRegisterScreen = (
     [errors.firstName]
   );
 
+  const handleFirstNameBlur = useCallback(() => {
+    const error = validateName(formData.firstName, 'Nome');
+    if (error) {
+      setErrors(prev => ({ ...prev, firstName: error }));
+    }
+  }, [formData.firstName]);
+
   const handleLastNameChange = useCallback(
     (text: string) => {
       setFormData(prev => ({ ...prev, lastName: text }));
@@ -132,6 +139,13 @@ export const useRegisterScreen = (
     },
     [errors.lastName]
   );
+
+  const handleLastNameBlur = useCallback(() => {
+    const error = validateName(formData.lastName, 'Sobrenome');
+    if (error) {
+      setErrors(prev => ({ ...prev, lastName: error }));
+    }
+  }, [formData.lastName]);
 
   const handleUsernameChange = useCallback(
     (text: string) => {
@@ -143,6 +157,13 @@ export const useRegisterScreen = (
     [errors.username]
   );
 
+  const handleUsernameBlur = useCallback(() => {
+    const error = validateUsername(formData.username);
+    if (error) {
+      setErrors(prev => ({ ...prev, username: error }));
+    }
+  }, [formData.username]);
+
   const handleEmailChange = useCallback(
     (text: string) => {
       setFormData(prev => ({ ...prev, email: text }));
@@ -152,6 +173,13 @@ export const useRegisterScreen = (
     },
     [errors.email]
   );
+
+  const handleEmailBlur = useCallback(() => {
+    const error = validateEmail(formData.email);
+    if (error) {
+      setErrors(prev => ({ ...prev, email: error }));
+    }
+  }, [formData.email]);
 
   const handlePasswordChange = useCallback(
     (text: string) => {
@@ -163,6 +191,13 @@ export const useRegisterScreen = (
     [errors.password]
   );
 
+  const handlePasswordBlur = useCallback(() => {
+    const error = validatePassword(formData.password);
+    if (error) {
+      setErrors(prev => ({ ...prev, password: error }));
+    }
+  }, [formData.password]);
+
   const handleConfirmPasswordChange = useCallback(
     (text: string) => {
       setFormData(prev => ({ ...prev, confirmPassword: text }));
@@ -172,6 +207,16 @@ export const useRegisterScreen = (
     },
     [errors.confirmPassword]
   );
+
+  const handleConfirmPasswordBlur = useCallback(() => {
+    const error = validateConfirmPassword(
+      formData.password,
+      formData.confirmPassword
+    );
+    if (error) {
+      setErrors(prev => ({ ...prev, confirmPassword: error }));
+    }
+  }, [formData.password, formData.confirmPassword]);
 
   const handleCityChange = useCallback(
     (text: string) => {
@@ -280,11 +325,17 @@ export const useRegisterScreen = (
     isLoading,
     isFormValid,
     handleFirstNameChange,
+    handleFirstNameBlur,
     handleLastNameChange,
+    handleLastNameBlur,
     handleUsernameChange,
+    handleUsernameBlur,
     handleEmailChange,
+    handleEmailBlur,
     handlePasswordChange,
+    handlePasswordBlur,
     handleConfirmPasswordChange,
+    handleConfirmPasswordBlur,
     handleCityChange,
     handleStateChange,
     handleSubmit,

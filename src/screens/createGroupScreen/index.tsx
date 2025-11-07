@@ -10,6 +10,7 @@ import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { KeyboardAwareLayout } from '@/components/ui/keyboardAwareLayout';
 import { AppLayout } from '@/components/AppLayout';
 import { useSports } from '@/contexts/SportsContext';
+import { useGroups } from '@/contexts/GroupsContext';
 import { CreateGroupScreenProps } from './typesCreateGroupScreen';
 import { useCreateGroupScreen } from './useCreateGroupScreen';
 import { styles } from './stylesCreateGroupScreen';
@@ -24,15 +25,17 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
   const isEditMode = mode === 'edit';
 
   const { sports, isLoading: sportsLoading } = useSports();
+  const { refetch: refetchGroups } = useGroups();
   const { formData, errors, isSubmitting, updateField, handleSubmit } =
     useCreateGroupScreen(isEditMode ? groupData : undefined, groupId);
 
   const handleCreate = useCallback(async () => {
     const success = await handleSubmit();
     if (success) {
+      await refetchGroups();
       navigation.goBack();
     }
-  }, [handleSubmit, navigation]);
+  }, [handleSubmit, refetchGroups, navigation]);
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();

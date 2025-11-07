@@ -5,6 +5,7 @@ import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { AppLayout } from '@/components/AppLayout';
+import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
 import { SortModal } from './components/SortModal';
@@ -53,6 +54,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     sortBy,
     sortOrder,
     eventActions,
+    isRefreshing,
+    refreshEvents,
   } = useHomeScreen(navigation as never);
 
   const handleDetailsPress = useCallback(
@@ -155,6 +158,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             maxToRenderPerBatch={10}
             windowSize={21}
             removeClippedSubviews={false}
+            refreshControl={
+              <ArenaRefreshControl
+                refreshing={isRefreshing}
+                onRefresh={refreshEvents}
+              />
+            }
           />
         </View>
       )}

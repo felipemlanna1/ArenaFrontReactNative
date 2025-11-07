@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as Font from 'expo-font';
-import { Image } from 'expo-image';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
@@ -12,41 +10,27 @@ import { SportsProvider } from './src/contexts/SportsContext';
 import { GroupsProvider } from './src/contexts/GroupsContext';
 import { GroupsFiltersProvider } from './src/contexts/GroupsFiltersContext';
 import { AnimatedSplashScreen } from './src/components/animatedSplashScreen';
+import { usePreloadAssets } from './src/hooks/usePreloadAssets';
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const { preloadAssets } = usePreloadAssets();
 
   useEffect(() => {
     async function loadAssets() {
       try {
-        await Promise.all([
-          Font.loadAsync({
-            'BebasNeue-Regular': require('./assets/fonts/BebasNeue-Regular.ttf'),
-            'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
-            'Inter-Medium': require('./assets/fonts/Inter-Medium.ttf'),
-            'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
-            'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
-          }),
-          Image.prefetch([
-            require('./src/assets/iconSports/futebol.webp'),
-            require('./src/assets/iconSports/basquete.webp'),
-            require('./src/assets/iconSports/voleibol.webp'),
-            require('./src/assets/iconSports/tenis.webp'),
-            require('./src/assets/iconSports/corrida.webp'),
-            require('./src/assets/players/jogadorDeTenis.webp'),
-          ]),
-        ]);
-        setFontsLoaded(true);
+        await preloadAssets();
+        setAssetsLoaded(true);
       } catch {
-        setFontsLoaded(true);
+        setAssetsLoaded(true);
       }
     }
 
     loadAssets();
-  }, []);
+  }, [preloadAssets]);
 
-  if (!fontsLoaded || showSplash) {
+  if (!assetsLoaded || showSplash) {
     return (
       <AnimatedSplashScreen
         onAnimationComplete={() => setShowSplash(false)}

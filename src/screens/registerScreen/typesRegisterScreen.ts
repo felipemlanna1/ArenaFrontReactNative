@@ -34,11 +34,17 @@ export interface UseRegisterScreenReturn {
   isLoading: boolean;
   isFormValid: boolean;
   handleFirstNameChange: (text: string) => void;
+  handleFirstNameBlur: () => void;
   handleLastNameChange: (text: string) => void;
+  handleLastNameBlur: () => void;
   handleUsernameChange: (text: string) => void;
+  handleUsernameBlur: () => void;
   handleEmailChange: (text: string) => void;
+  handleEmailBlur: () => void;
   handlePasswordChange: (text: string) => void;
+  handlePasswordBlur: () => void;
   handleConfirmPasswordChange: (text: string) => void;
+  handleConfirmPasswordBlur: () => void;
   handleCityChange: (text: string) => void;
   handleStateChange: (text: string) => void;
   handleSubmit: () => Promise<void>;

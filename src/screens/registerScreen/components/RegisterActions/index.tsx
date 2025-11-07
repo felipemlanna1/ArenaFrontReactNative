@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { styles } from './stylesRegisterActions';
 import { RegisterActionsProps } from './typesRegisterActions';
 
@@ -26,6 +27,11 @@ export const RegisterActions: React.FC<RegisterActionsProps> = ({
       >
         Criar conta
       </Button>
+      {!isFormValid && !isLoading && (
+        <Text variant="captionSecondary" style={styles.helperText}>
+          Preencha todos os campos obrigatórios para continuar
+        </Text>
+      )}
     </View>
   );
 };

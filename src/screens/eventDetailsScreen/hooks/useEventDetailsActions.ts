@@ -142,13 +142,17 @@ export const useEventDetailsActions = ({
   }, [event, onRefresh, showSuccess, showError]);
 
   const onAcceptInvite = useCallback(async () => {
-    if (!event || !event.invitationId) return;
+    if (!event) return;
 
     try {
       setIsPerformingAction(true);
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-      await eventsService.acceptInvitation(event.id, event.invitationId);
+      if (event.invitationId) {
+        await eventsService.acceptInvitation(event.id, event.invitationId);
+      } else {
+        await eventsService.acceptInvitationByEventId(event.id);
+      }
 
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       showSuccess('Você agora está participando do evento.');
@@ -167,13 +171,17 @@ export const useEventDetailsActions = ({
   }, [event, onRefresh, showSuccess, showError]);
 
   const onRejectInvite = useCallback(async () => {
-    if (!event || !event.invitationId) return;
+    if (!event) return;
 
     try {
       setIsPerformingAction(true);
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-      await eventsService.rejectInvitation(event.id, event.invitationId);
+      if (event.invitationId) {
+        await eventsService.rejectInvitation(event.id, event.invitationId);
+      } else {
+        await eventsService.rejectInvitationByEventId(event.id);
+      }
 
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       showSuccess('O convite foi recusado.');

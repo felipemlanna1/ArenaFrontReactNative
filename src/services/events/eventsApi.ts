@@ -108,9 +108,23 @@ export class EventsApi {
     );
   }
 
+  async acceptInvitationByEventId(eventId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/invitations/accept`,
+      {}
+    );
+  }
+
   async rejectInvitation(eventId: string, invitationId: string): Promise<void> {
     await httpService.delete(
       `${this.basePath}/${eventId}/invitations/${invitationId}/reject`
+    );
+  }
+
+  async rejectInvitationByEventId(eventId: string): Promise<void> {
+    await httpService.post(
+      `${this.basePath}/${eventId}/invitations/reject`,
+      {}
     );
   }
 
@@ -166,12 +180,6 @@ export class EventsApi {
     await httpService.post(`${this.basePath}/${eventId}/invitations`, {
       userIds,
       message,
-    });
-  }
-
-  async respondToInvitation(eventId: string, accept: boolean): Promise<void> {
-    await httpService.post(`${this.basePath}/${eventId}/invites/respond`, {
-      accept,
     });
   }
 

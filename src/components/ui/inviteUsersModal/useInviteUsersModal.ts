@@ -3,6 +3,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { eventsApi } from '@/services/events/eventsApi';
 import { useAlert } from '@/contexts/AlertContext';
+import { getLoadInvitableUsersErrorMessage } from '@/utils/inviteErrors';
 
 interface User {
   id: string;
@@ -75,8 +76,8 @@ export const useInviteUsersModal = ({
         setHasMoreFriends(false);
         setHasMoreRecommendations(false);
       }
-    } catch {
-      showError('Não foi possível carregar os usuários');
+    } catch (error) {
+      showError(getLoadInvitableUsersErrorMessage(error));
     } finally {
       setIsLoadingFriends(false);
       setIsLoadingRecommendations(false);

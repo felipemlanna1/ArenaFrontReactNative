@@ -12,11 +12,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
     errors,
     isLoading,
     onFirstNameChange,
+    onFirstNameBlur,
     onLastNameChange,
+    onLastNameBlur,
     onUsernameChange,
+    onUsernameBlur,
     onEmailChange,
+    onEmailBlur,
     onPasswordChange,
+    onPasswordBlur,
     onConfirmPasswordChange,
+    onConfirmPasswordBlur,
     onCityChange,
     onStateChange,
   }) => {
@@ -25,6 +31,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
         <Input
           value={formData.firstName}
           onChangeText={onFirstNameChange}
+          onBlur={onFirstNameBlur}
           placeholder="Nome"
           label="Nome"
           variant="default"
@@ -39,6 +46,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
         <Input
           value={formData.lastName}
           onChangeText={onLastNameChange}
+          onBlur={onLastNameBlur}
           placeholder="Sobrenome"
           label="Sobrenome"
           variant="default"
@@ -54,6 +62,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           type="username"
           value={formData.username}
           onChangeText={onUsernameChange}
+          onBlur={onUsernameBlur}
           placeholder="username"
           label="Username"
           variant="default"
@@ -68,6 +77,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           type="email"
           value={formData.email}
           onChangeText={onEmailChange}
+          onBlur={onEmailBlur}
           placeholder="seu@email.com"
           label="Email"
           variant="default"
@@ -105,6 +115,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           type="password"
           value={formData.password}
           onChangeText={onPasswordChange}
+          onBlur={onPasswordBlur}
           placeholder="Mínimo 8 caracteres"
           label="Senha"
           variant="default"
@@ -119,6 +130,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           type="password"
           value={formData.confirmPassword}
           onChangeText={onConfirmPasswordChange}
+          onBlur={onConfirmPasswordBlur}
           placeholder="Digite a senha novamente"
           label="Confirmar senha"
           variant="default"

@@ -20,7 +20,9 @@ const getDateForShortcut = (
       break;
     case 'this-week': {
       const dayOfWeek = today.getDay();
-      from.setDate(today.getDate() - dayOfWeek);
+      const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+      from.setDate(today.getDate() - daysFromMonday);
+      from.setHours(0, 0, 0, 0);
       to.setDate(from.getDate() + 6);
       to.setHours(23, 59, 59, 999);
       break;

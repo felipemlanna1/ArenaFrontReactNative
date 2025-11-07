@@ -14,6 +14,7 @@ export type RootStackParamList = {
         eventId?: string;
         eventData?: Event;
         preSelectedGroupId?: string;
+        preSelectedSportId?: string;
       }
     | undefined;
   EventDetails: { eventId: string };

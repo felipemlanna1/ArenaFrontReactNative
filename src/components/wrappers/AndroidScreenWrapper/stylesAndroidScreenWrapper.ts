@@ -3,11 +3,10 @@ import { ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    marginTop: ArenaSpacing.md,
+    flex: 1,
   },
-  helperText: {
-    marginTop: ArenaSpacing.xs,
-    textAlign: 'center',
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: ArenaSpacing['2xl'],
   },
 });

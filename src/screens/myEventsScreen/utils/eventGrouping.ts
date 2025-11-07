@@ -34,11 +34,24 @@ const isTomorrow = (date: Date): boolean => {
 
 const isThisWeek = (date: Date): boolean => {
   const today = new Date();
-  const nextWeek = new Date();
-  nextWeek.setDate(today.getDate() + 7);
+  today.setHours(0, 0, 0, 0);
+
+  const dayOfWeek = today.getDay();
+  const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - daysFromMonday);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
 
   return (
-    date > today && date <= nextWeek && !isToday(date) && !isTomorrow(date)
+    date >= startOfWeek &&
+    date <= endOfWeek &&
+    !isToday(date) &&
+    !isTomorrow(date)
   );
 };
 

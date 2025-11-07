@@ -20,6 +20,7 @@ import { InviteUsersModalProps } from './typesInviteUsersModal';
 import { useInviteUsersModal } from './useInviteUsersModal';
 import { eventsApi } from '@/services/events/eventsApi';
 import { groupsApi } from '@/services/groups/groupsApi';
+import { getInviteErrorMessage } from '@/utils/inviteErrors';
 
 export const InviteUsersModal: React.FC<InviteUsersModalProps> = ({
   visible,
@@ -103,8 +104,8 @@ export const InviteUsersModal: React.FC<InviteUsersModalProps> = ({
       }
 
       onClose();
-    } catch {
-      showError('Não foi possível enviar os convites');
+    } catch (error) {
+      showError(getInviteErrorMessage(error));
     } finally {
       setIsInviting(false);
     }

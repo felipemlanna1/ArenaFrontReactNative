@@ -16,6 +16,7 @@ interface UseCreateEventScreenParams {
   isEditMode?: boolean;
   eventToEdit?: Event;
   preSelectedGroupId?: string;
+  preSelectedSportId?: string;
 }
 
 export const useCreateEventScreen = ({
@@ -23,6 +24,7 @@ export const useCreateEventScreen = ({
   isEditMode = false,
   eventToEdit,
   preSelectedGroupId,
+  preSelectedSportId,
 }: UseCreateEventScreenParams) => {
   const { showError, showSuccess, showConfirm } = useAlert();
 
@@ -31,6 +33,7 @@ export const useCreateEventScreen = ({
       return {
         privacy: 'GROUP_ONLY' as const,
         groupId: preSelectedGroupId,
+        sportId: preSelectedSportId || '',
       };
     }
 
@@ -69,7 +72,7 @@ export const useCreateEventScreen = ({
       coverImage: eventToEdit.coverImage,
     };
     return initialFormData;
-  }, [isEditMode, eventToEdit, preSelectedGroupId]);
+  }, [isEditMode, eventToEdit, preSelectedGroupId, preSelectedSportId]);
 
   const {
     formData,

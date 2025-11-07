@@ -3,6 +3,7 @@ import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ArenaColors } from '../constants';
 import { useAuth } from '../contexts/AuthContext';
+import { withAndroidScreenWrapper } from '../components/wrappers/AndroidScreenWrapper/withAndroidScreenWrapper';
 import { WelcomeScreen } from '../screens/welcomeScreen';
 import { LoginScreen } from '../screens/loginScreen';
 import { RegisterScreen } from '../screens/registerScreen';
@@ -18,6 +19,40 @@ import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const WrappedWelcomeScreen = withAndroidScreenWrapper(WelcomeScreen, {
+  enableScroll: false,
+});
+const WrappedLoginScreen = withAndroidScreenWrapper(LoginScreen, {
+  enableScroll: false,
+});
+const WrappedRegisterScreen = withAndroidScreenWrapper(RegisterScreen, {
+  enableScroll: false,
+});
+const WrappedComponentsShowcaseScreen = withAndroidScreenWrapper(
+  ComponentsShowcaseScreen,
+  { enableScroll: false }
+);
+const WrappedOnboardingSportsScreen = withAndroidScreenWrapper(
+  OnboardingSportsScreen
+);
+const WrappedFilterScreen = withAndroidScreenWrapper(FilterScreen, {
+  enableScroll: false,
+});
+const WrappedCreateEventScreen = withAndroidScreenWrapper(CreateEventScreen, {
+  enableScroll: false,
+});
+const WrappedEventDetailsScreen = withAndroidScreenWrapper(EventDetailsScreen, {
+  enableScroll: false,
+});
+const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen);
+const WrappedEditProfileScreen = withAndroidScreenWrapper(EditProfileScreen, {
+  enableScroll: false,
+});
+const WrappedNotificationsScreen = withAndroidScreenWrapper(
+  NotificationsScreen,
+  { enableScroll: false }
+);
 
 export const AppNavigator: React.FC = () => {
   const { user, isLoading } = useAuth();
@@ -57,25 +92,25 @@ export const AppNavigator: React.FC = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!user ? (
           <>
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="Welcome" component={WrappedWelcomeScreen} />
+            <Stack.Screen name="Login" component={WrappedLoginScreen} />
+            <Stack.Screen name="Register" component={WrappedRegisterScreen} />
             <Stack.Screen
               name="ComponentsShowcase"
-              component={ComponentsShowcaseScreen}
+              component={WrappedComponentsShowcaseScreen}
             />
           </>
         ) : !user.hasSports ? (
           <Stack.Screen
             name="OnboardingSports"
-            component={OnboardingSportsScreen}
+            component={WrappedOnboardingSportsScreen}
           />
         ) : (
           <>
             <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
             <Stack.Screen
               name="FilterScreen"
-              component={FilterScreen}
+              component={WrappedFilterScreen}
               options={{
                 presentation: 'modal',
                 headerShown: true,
@@ -88,7 +123,7 @@ export const AppNavigator: React.FC = () => {
             />
             <Stack.Screen
               name="CreateEvent"
-              component={CreateEventScreen}
+              component={WrappedCreateEventScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
@@ -96,7 +131,7 @@ export const AppNavigator: React.FC = () => {
             />
             <Stack.Screen
               name="EventDetails"
-              component={EventDetailsScreen}
+              component={WrappedEventDetailsScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
@@ -104,7 +139,7 @@ export const AppNavigator: React.FC = () => {
             />
             <Stack.Screen
               name="Profile"
-              component={ProfileScreen}
+              component={WrappedProfileScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
@@ -112,7 +147,7 @@ export const AppNavigator: React.FC = () => {
             />
             <Stack.Screen
               name="EditProfile"
-              component={EditProfileScreen}
+              component={WrappedEditProfileScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
@@ -120,7 +155,7 @@ export const AppNavigator: React.FC = () => {
             />
             <Stack.Screen
               name="Notifications"
-              component={NotificationsScreen}
+              component={WrappedNotificationsScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
