@@ -16,9 +16,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.arena.app",
-      "buildNumber": "3",
       "jsEngine": "hermes",
       "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true,
           "NSExceptionDomains": {
@@ -115,6 +115,12 @@
         "projectId": "ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b"
       }
     },
-    "owner": "felipemlanna1"
+    "owner": "felipemlanna1",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b"
+    }
   }
 }

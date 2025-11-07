@@ -16,7 +16,11 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "clean": "rm -rf node_modules .expo .expo-shared dist build && npm install"
+    "clean": "rm -rf node_modules .expo .expo-shared dist build && npm install",
+    "publish:prod": "EXPO_PUBLIC_API_URL=https://backsportpulsemobile-production.up.railway.app EXPO_PUBLIC_API_TIMEOUT=30000 EXPO_PUBLIC_ENVIRONMENT=production npx eas update --branch main",
+    "publish:dev": "EXPO_PUBLIC_API_URL=http://localhost:3000 EXPO_PUBLIC_API_TIMEOUT=30000 EXPO_PUBLIC_ENVIRONMENT=development npx eas update --branch main",
+    "channel:list": "npx eas channel:list",
+    "channel:view": "npx eas channel:view production"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
