@@ -14,6 +14,7 @@ import {
   getLineHeight,
   getLetterSpacing,
   getTextColor,
+  shouldRemoveFontWeight,
 } from './textUtils';
 export const useText = (input: UseTextInput): UseTextReturn => {
   const preset = TEXT_VARIANT_PRESETS[input.variant];
@@ -35,7 +36,6 @@ export const useText = (input: UseTextInput): UseTextReturn => {
   const computedStyle: ComputedTextStyle = useMemo(() => {
     const baseStyle: ComputedTextStyle = {
       fontSize: getFontSize(resolvedSize),
-      fontWeight: getFontWeight(resolvedWeight),
       fontFamily: getFontFamily(resolvedFamily, resolvedWeight),
       lineHeight: getFontSize(resolvedSize) * getLineHeight(resolvedLineHeight),
       letterSpacing: getLetterSpacing(resolvedLetterSpacing),
@@ -45,6 +45,11 @@ export const useText = (input: UseTextInput): UseTextReturn => {
       includeFontPadding: false,
       textAlignVertical: 'center',
     };
+
+    if (!shouldRemoveFontWeight(resolvedFamily)) {
+      baseStyle.fontWeight = getFontWeight(resolvedWeight);
+    }
+
     return baseStyle;
   }, [
     resolvedSize,

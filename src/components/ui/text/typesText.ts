@@ -122,7 +122,7 @@ export interface UseTextInput {
 }
 export interface ComputedTextStyle extends TextStyle {
   fontSize: number;
-  fontWeight: TextStyle['fontWeight'];
+  fontWeight?: TextStyle['fontWeight'];
   fontFamily: string;
   lineHeight: number;
   letterSpacing: number;
