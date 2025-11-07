@@ -89,3 +89,7 @@ export const isHeadingVariant = (variant: TextVariant): boolean => {
 export const getAvailableColors = (): TextColor[] => {
   return Object.keys(COLOR_MAP) as TextColor[];
 };
+
+export const shouldRemoveFontWeight = (family: TextFamily): boolean => {
+  return family === 'heading';
+};

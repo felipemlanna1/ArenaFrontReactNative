@@ -11,7 +11,7 @@ export const useLoginLayout = (): UseLoginLayoutReturn => {
     () =>
       Platform.select({
         ios: 0,
-        android: 80,
+        android: 0,
         default: 0,
       }),
     []
