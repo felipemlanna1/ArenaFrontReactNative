@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
@@ -74,135 +74,146 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
         onRemoveFilter={handleRemoveFilter}
       />
 
-      <ScrollView
+      <KeyboardAvoidingView
         style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
-        <View style={styles.section}>
-          <FilterSection
-            title="Tipo de Evento"
-            count={activeFilters.eventFilter !== 'all' ? 1 : 0}
-            testID="filter-event-type"
-          >
-            <EventFilterSection
-              value={activeFilters.eventFilter || 'all'}
-              onChange={setEventFilter}
-            />
-          </FilterSection>
-        </View>
-
-        <View style={styles.section}>
-          <FilterSection
-            title="Esportes"
-            count={activeFilters.sportIds?.length || 0}
-            defaultExpanded
-            testID="filter-sports"
-          >
-            <SportsFilter
-              selectedSportIds={activeFilters.sportIds || []}
-              onSportsChange={value => updateFilter('sportIds', value)}
-            />
-          </FilterSection>
-        </View>
-
-        <View style={styles.section}>
-          <FilterSection
-            title="Preço"
-            count={
-              activeFilters.priceMin !== undefined ||
-              activeFilters.priceMax !== undefined ||
-              activeFilters.isFree
-                ? 1
-                : 0
-            }
-            testID="filter-price"
-          >
-            <PriceRangeFilter
-              priceMin={activeFilters.priceMin ?? null}
-              priceMax={activeFilters.priceMax ?? null}
-              isFree={activeFilters.isFree ?? false}
-              onPriceMinChange={value =>
-                updateFilter('priceMin', value ?? undefined)
-              }
-              onPriceMaxChange={value =>
-                updateFilter('priceMax', value ?? undefined)
-              }
-              onIsFreeChange={value => updateFilter('isFree', value)}
-            />
-          </FilterSection>
-        </View>
-
-        <View style={styles.section}>
-          <FilterSection
-            title="Data"
-            count={
-              activeFilters.startDateFrom || activeFilters.startDateTo ? 1 : 0
-            }
-            testID="filter-date"
-          >
-            <DateRangeFilter
-              startDateFrom={
-                activeFilters.startDateFrom
-                  ? new Date(activeFilters.startDateFrom)
-                  : null
-              }
-              startDateTo={
-                activeFilters.startDateTo
-                  ? new Date(activeFilters.startDateTo)
-                  : null
-              }
-              onStartDateFromChange={value =>
-                updateFilter('startDateFrom', value?.toISOString() ?? undefined)
-              }
-              onStartDateToChange={value =>
-                updateFilter('startDateTo', value?.toISOString() ?? undefined)
-              }
-            />
-          </FilterSection>
-        </View>
-
-        <View style={styles.section}>
-          <FilterSection
-            title="Localização"
-            count={activeFilters.city ? 1 : 0}
-            testID="filter-location"
-          >
-            <View style={styles.locationInputs}>
-              <Input
-                label="Cidade"
-                value={activeFilters.city ?? ''}
-                onChangeText={value => updateFilter('city', value || undefined)}
-                placeholder="Digite a cidade"
-                testID="filter-city-input"
-                fullWidth
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.section}>
+            <FilterSection
+              title="Tipo de Evento"
+              count={activeFilters.eventFilter !== 'all' ? 1 : 0}
+              testID="filter-event-type"
+            >
+              <EventFilterSection
+                value={activeFilters.eventFilter || 'all'}
+                onChange={setEventFilter}
               />
-            </View>
-          </FilterSection>
-        </View>
+            </FilterSection>
+          </View>
 
-        <View style={styles.section}>
-          <FilterSection
-            title="Disponibilidade"
-            count={activeFilters.hasAvailableSpots ? 1 : 0}
-            testID="filter-availability"
-          >
-            <View style={styles.checkboxContainer}>
-              <Checkbox
-                checked={activeFilters.hasAvailableSpots || false}
-                onPress={() =>
+          <View style={styles.section}>
+            <FilterSection
+              title="Esportes"
+              count={activeFilters.sportIds?.length || 0}
+              defaultExpanded
+              testID="filter-sports"
+            >
+              <SportsFilter
+                selectedSportIds={activeFilters.sportIds || []}
+                onSportsChange={value => updateFilter('sportIds', value)}
+              />
+            </FilterSection>
+          </View>
+
+          <View style={styles.section}>
+            <FilterSection
+              title="Preço"
+              count={
+                activeFilters.priceMin !== undefined ||
+                activeFilters.priceMax !== undefined ||
+                activeFilters.isFree
+                  ? 1
+                  : 0
+              }
+              testID="filter-price"
+            >
+              <PriceRangeFilter
+                priceMin={activeFilters.priceMin ?? null}
+                priceMax={activeFilters.priceMax ?? null}
+                isFree={activeFilters.isFree ?? false}
+                onPriceMinChange={value =>
+                  updateFilter('priceMin', value ?? undefined)
+                }
+                onPriceMaxChange={value =>
+                  updateFilter('priceMax', value ?? undefined)
+                }
+                onIsFreeChange={value => updateFilter('isFree', value)}
+              />
+            </FilterSection>
+          </View>
+
+          <View style={styles.section}>
+            <FilterSection
+              title="Data"
+              count={
+                activeFilters.startDateFrom || activeFilters.startDateTo ? 1 : 0
+              }
+              testID="filter-date"
+            >
+              <DateRangeFilter
+                startDateFrom={
+                  activeFilters.startDateFrom
+                    ? new Date(activeFilters.startDateFrom)
+                    : null
+                }
+                startDateTo={
+                  activeFilters.startDateTo
+                    ? new Date(activeFilters.startDateTo)
+                    : null
+                }
+                onStartDateFromChange={value =>
                   updateFilter(
-                    'hasAvailableSpots',
-                    !activeFilters.hasAvailableSpots
+                    'startDateFrom',
+                    value?.toISOString() ?? undefined
                   )
                 }
-                label="Apenas eventos com vagas disponíveis"
-                testID="filter-has-spots-checkbox"
+                onStartDateToChange={value =>
+                  updateFilter('startDateTo', value?.toISOString() ?? undefined)
+                }
               />
-            </View>
-          </FilterSection>
-        </View>
-      </ScrollView>
+            </FilterSection>
+          </View>
+
+          <View style={styles.section}>
+            <FilterSection
+              title="Localização"
+              count={activeFilters.city ? 1 : 0}
+              testID="filter-location"
+            >
+              <View style={styles.locationInputs}>
+                <Input
+                  label="Cidade"
+                  value={activeFilters.city ?? ''}
+                  onChangeText={value =>
+                    updateFilter('city', value || undefined)
+                  }
+                  placeholder="Digite a cidade"
+                  testID="filter-city-input"
+                  fullWidth
+                />
+              </View>
+            </FilterSection>
+          </View>
+
+          <View style={styles.section}>
+            <FilterSection
+              title="Disponibilidade"
+              count={activeFilters.hasAvailableSpots ? 1 : 0}
+              testID="filter-availability"
+            >
+              <View style={styles.checkboxContainer}>
+                <Checkbox
+                  checked={activeFilters.hasAvailableSpots || false}
+                  onPress={() =>
+                    updateFilter(
+                      'hasAvailableSpots',
+                      !activeFilters.hasAvailableSpots
+                    )
+                  }
+                  label="Apenas eventos com vagas disponíveis"
+                  testID="filter-has-spots-checkbox"
+                />
+              </View>
+            </FilterSection>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.footer}>
         <Button
