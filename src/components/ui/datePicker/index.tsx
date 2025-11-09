@@ -108,59 +108,67 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         </Text>
       )}
 
-      {showPicker && Platform.OS === 'ios' && variant === 'date' && (
-        <Modal
-          visible={showPicker}
-          transparent
-          animationType="slide"
-          onRequestClose={handleCancel}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              <View style={styles.modalHeader}>
-                <Text variant="titlePrimary" style={styles.modalTitle}>
-                  {label || 'Selecionar Data'}
-                </Text>
-              </View>
+      {showPicker &&
+        Platform.OS === 'ios' &&
+        (variant === 'date' || variant === 'datetime') && (
+          <Modal
+            visible={showPicker}
+            transparent
+            animationType="slide"
+            onRequestClose={handleCancel}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <View style={styles.modalHeader}>
+                  <Text variant="titlePrimary" style={styles.modalTitle}>
+                    {label ||
+                      (variant === 'datetime'
+                        ? 'Selecionar Data e Hora'
+                        : 'Selecionar Data')}
+                  </Text>
+                </View>
 
-              <RNDateTimePicker
-                value={tempValue || value || new Date()}
-                mode={mode}
-                display="spinner"
-                onChange={handleChange}
-                minimumDate={minimumDate}
-                maximumDate={maximumDate}
-                accentColor={ArenaColors.brand.primary}
-                themeVariant="dark"
-                testID={testID ? `${testID}-picker` : undefined}
-              />
+                <RNDateTimePicker
+                  value={tempValue || value || new Date()}
+                  mode={mode}
+                  display="spinner"
+                  onChange={handleChange}
+                  minimumDate={minimumDate}
+                  maximumDate={maximumDate}
+                  accentColor={ArenaColors.brand.primary}
+                  themeVariant="dark"
+                  testID={testID ? `${testID}-picker` : undefined}
+                />
 
-              <View style={styles.modalActions}>
-                <Button
-                  variant="ghost"
-                  size="md"
-                  onPress={handleCancel}
-                  testID={testID ? `${testID}-cancel` : undefined}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  variant="primary"
-                  size="md"
-                  onPress={handleConfirm}
-                  testID={testID ? `${testID}-confirm` : undefined}
-                >
-                  Confirmar
-                </Button>
+                <View style={styles.modalActions}>
+                  <Button
+                    variant="ghost"
+                    size="md"
+                    onPress={handleCancel}
+                    testID={testID ? `${testID}-cancel` : undefined}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onPress={handleConfirm}
+                    testID={testID ? `${testID}-confirm` : undefined}
+                  >
+                    Confirmar
+                  </Button>
+                </View>
               </View>
             </View>
-          </View>
-        </Modal>
-      )}
+          </Modal>
+        )}
 
       {showPicker &&
         Platform.OS !== 'web' &&
-        !(Platform.OS === 'ios' && variant === 'date') &&
+        !(
+          Platform.OS === 'ios' &&
+          (variant === 'date' || variant === 'datetime')
+        ) &&
         (Platform.OS === 'android' ? (
           <AndroidDatePickerWrapper
             value={value || new Date()}

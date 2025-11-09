@@ -101,12 +101,17 @@ export const useCreateEventScreen = ({
   }, [currentStep, setCurrentStep]);
 
   const handleSubmit = useCallback(async () => {
-    const allStepsValid = [
+    const stepsToValidate = [
       FormStep.BASIC_INFO,
       FormStep.PRIVACY,
       FormStep.LOCATION,
       FormStep.REVIEW,
-    ].every(step => validateStep(step));
+    ];
+
+    const validationResults = stepsToValidate.map((step, index) =>
+      validateStep(step, index > 0)
+    );
+    const allStepsValid = validationResults.every(isValid => isValid);
 
     if (!allStepsValid) {
       showError(
@@ -142,15 +147,13 @@ export const useCreateEventScreen = ({
 
       if (result) {
         resetForm();
+        navigation.navigate('EventDetails', {
+          eventId: result.id || eventToEdit?.id || '',
+        });
         showSuccess(
           isEditMode
             ? 'Evento atualizado com sucesso!'
-            : 'Evento criado com sucesso!',
-          () => {
-            navigation.navigate('EventDetails', {
-              eventId: result.id || eventToEdit?.id || '',
-            });
-          }
+            : 'Evento criado com sucesso!'
         );
       }
     } catch {

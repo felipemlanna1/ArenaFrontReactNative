@@ -104,34 +104,16 @@ export const useDatePicker = ({
         return;
       }
 
-      if (Platform.OS === 'ios' && variant === 'date' && selectedDate) {
+      if (
+        Platform.OS === 'ios' &&
+        (variant === 'date' || variant === 'datetime') &&
+        selectedDate
+      ) {
         setTempValue(selectedDate);
         return;
       }
 
-      if (variant === 'datetime' && selectedDate) {
-        if (!tempDate) {
-          setTempDate(selectedDate);
-          try {
-            onChange(selectedDate);
-          } catch {
-            return;
-          }
-        } else {
-          setShowPicker(false);
-          if (Platform.OS === 'ios') {
-            await Haptics.notificationAsync(
-              Haptics.NotificationFeedbackType.Success
-            );
-          }
-          try {
-            onChange(selectedDate);
-          } catch {
-            return;
-          }
-          setTempDate(null);
-        }
-      } else if (variant === 'time' && selectedDate) {
+      if (variant === 'time' && selectedDate) {
         setShowPicker(false);
         if (Platform.OS === 'ios') {
           await Haptics.notificationAsync(

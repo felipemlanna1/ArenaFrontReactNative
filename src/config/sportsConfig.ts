@@ -9,7 +9,7 @@ export interface SportConfig {
 export const SPORTS_CONFIG: Record<string, SportConfig> = {
   Futebol: {
     name: 'Futebol',
-    icon: 'futbol',
+    icon: 'futebol',
     color: '#018749',
     category: 'TEAM',
     popularity: 100,

@@ -38,15 +38,18 @@ export const styles = StyleSheet.create({
   itemsList: {
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
+    height: ArenaSpacing['22xl'],
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
     alignItems: 'center',
+    height: ArenaSpacing['22xl'],
   },
   emptyContainer: {
     paddingVertical: ArenaSpacing['2xl'],
     paddingHorizontal: ArenaSpacing.lg,
     alignItems: 'center',
+    height: ArenaSpacing['22xl'],
   },
   emptyIcon: {
     marginBottom: ArenaSpacing.md,

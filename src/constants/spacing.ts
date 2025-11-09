@@ -28,6 +28,13 @@ export const ArenaSpacing = {
   '13xl': 280,
   '14xl': 300,
   '15xl': 320,
+  '16xl': 360,
+  '17xl': 400,
+  '18xl': 440,
+  '19xl': 480,
+  '20xl': 520,
+  '21xl': 560,
+  '22xl': 600,
 } as const;
 
 export const ArenaSizes = {
