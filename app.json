@@ -17,6 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.arena.app",
       "jsEngine": "hermes",
+      "associatedDomains": ["applinks:backsportpulsemobile-production.up.railway.app"],
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSAppTransportSecurity": {
@@ -67,6 +68,28 @@
             {
               "scheme": "arena",
               "host": "*"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        },
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "backsportpulsemobile-production.up.railway.app",
+              "pathPrefix": "/event"
+            },
+            {
+              "scheme": "https",
+              "host": "backsportpulsemobile-production.up.railway.app",
+              "pathPrefix": "/group"
+            },
+            {
+              "scheme": "https",
+              "host": "backsportpulsemobile-production.up.railway.app",
+              "pathPrefix": "/profile"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
