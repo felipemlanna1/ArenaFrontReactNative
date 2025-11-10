@@ -42,6 +42,16 @@
       }
     }
   },
+  "update": {
+    "production": {
+      "channel": "production",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://backsportpulsemobile-production.up.railway.app",
+        "EXPO_PUBLIC_API_TIMEOUT": "30000",
+        "EXPO_PUBLIC_ENVIRONMENT": "production"
+      }
+    }
+  },
   "submit": {
     "production": {}
   }
