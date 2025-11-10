@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { ArenaColors } from '@/constants';
 import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
 import { GroupsListScreenProps } from './typesGroupsListScreen';
@@ -38,8 +37,6 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     handleLoadMoreRecommendations,
     handleJoinGroup,
     handleLeaveGroup,
-    refreshing,
-    handleRefresh,
   } = useGroupsListScreen();
 
   const handleGroupPress = useCallback(
@@ -104,12 +101,6 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
             style={styles.content}
             contentContainerStyle={styles.scrollContent}
             testID="groups-screen-scroll"
-            refreshControl={
-              <ArenaRefreshControl
-                refreshing={refreshing}
-                onRefresh={handleRefresh}
-              />
-            }
           >
             <View style={styles.accordionsContainer}>
               <MyGroupsAccordionSection

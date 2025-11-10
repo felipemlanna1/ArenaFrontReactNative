@@ -1,13 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
@@ -129,206 +123,200 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
         </TouchableOpacity>
       </View>
 
-      <KeyboardAvoidingView
-        style={styles.scrollContainer}
-        behavior="padding"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 80}
+      <ArenaKeyboardAwareScrollView
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        bottomOffset={100}
       >
-        <ScrollView
-          style={styles.scrollContainer}
-          contentContainerStyle={styles.contentContainer}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.section}>
-            <Text variant="titleSecondary" style={styles.sectionTitle}>
-              Fotos
-            </Text>
-            <TouchableOpacity
-              onPress={handlePickProfilePicture}
-              testID="pick-profile-picture"
-            >
-              <View>
-                {formData.profilePicture ? (
-                  <Image
-                    source={{ uri: formData.profilePicture }}
-                    style={styles.profilePictureImage}
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Fotos
+          </Text>
+          <TouchableOpacity
+            onPress={handlePickProfilePicture}
+            testID="pick-profile-picture"
+          >
+            <View>
+              {formData.profilePicture ? (
+                <Image
+                  source={{ uri: formData.profilePicture }}
+                  style={styles.profilePictureImage}
+                />
+              ) : (
+                <View style={styles.profilePictureContainer}>
+                  <Ionicons
+                    name="camera"
+                    size={32}
+                    color={ArenaColors.neutral.medium}
                   />
-                ) : (
-                  <View style={styles.profilePictureContainer}>
-                    <Ionicons
-                      name="camera"
-                      size={32}
-                      color={ArenaColors.neutral.medium}
-                    />
-                  </View>
-                )}
-                <Text variant="captionSecondary" style={styles.photoLabel}>
-                  Foto de Perfil
-                </Text>
-              </View>
-            </TouchableOpacity>
+                </View>
+              )}
+              <Text variant="captionSecondary" style={styles.photoLabel}>
+                Foto de Perfil
+              </Text>
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={handlePickCoverPhoto}
-              testID="pick-cover-photo"
-              style={styles.coverPhotoButton}
-            >
-              <View>
-                {formData.coverPhoto ? (
-                  <Image
-                    source={{ uri: formData.coverPhoto }}
-                    style={styles.coverPhotoImage}
+          <TouchableOpacity
+            onPress={handlePickCoverPhoto}
+            testID="pick-cover-photo"
+            style={styles.coverPhotoButton}
+          >
+            <View>
+              {formData.coverPhoto ? (
+                <Image
+                  source={{ uri: formData.coverPhoto }}
+                  style={styles.coverPhotoImage}
+                />
+              ) : (
+                <View style={styles.coverPhotoContainer}>
+                  <Ionicons
+                    name="image"
+                    size={32}
+                    color={ArenaColors.neutral.medium}
                   />
-                ) : (
-                  <View style={styles.coverPhotoContainer}>
-                    <Ionicons
-                      name="image"
-                      size={32}
-                      color={ArenaColors.neutral.medium}
-                    />
-                  </View>
-                )}
-                <Text variant="captionSecondary" style={styles.photoLabel}>
-                  Foto de Capa
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+                </View>
+              )}
+              <Text variant="captionSecondary" style={styles.photoLabel}>
+                Foto de Capa
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-          <View style={styles.section}>
-            <Text variant="titleSecondary" style={styles.sectionTitle}>
-              Informações Básicas
-            </Text>
-            <Input
-              label="Nome"
-              value={formData.firstName}
-              onChangeText={value => handleFieldChange('firstName', value)}
-              error={errors.firstName}
-              placeholder="Digite seu nome"
-              autoCapitalize="words"
-              testID="input-first-name"
-            />
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Informações Básicas
+          </Text>
+          <Input
+            label="Nome"
+            value={formData.firstName}
+            onChangeText={value => handleFieldChange('firstName', value)}
+            error={errors.firstName}
+            placeholder="Digite seu nome"
+            autoCapitalize="words"
+            testID="input-first-name"
+          />
 
-            <Input
-              label="Sobrenome"
-              value={formData.lastName}
-              onChangeText={value => handleFieldChange('lastName', value)}
-              error={errors.lastName}
-              placeholder="Digite seu sobrenome"
-              autoCapitalize="words"
-              testID="input-last-name"
-            />
-          </View>
+          <Input
+            label="Sobrenome"
+            value={formData.lastName}
+            onChangeText={value => handleFieldChange('lastName', value)}
+            error={errors.lastName}
+            placeholder="Digite seu sobrenome"
+            autoCapitalize="words"
+            testID="input-last-name"
+          />
+        </View>
 
-          <View style={styles.section}>
-            <Text variant="titleSecondary" style={styles.sectionTitle}>
-              Detalhes Pessoais
-            </Text>
-            <DatePicker
-              label="Data de Nascimento"
-              variant="date"
-              value={formData.birthDate}
-              onChange={date => handleFieldChange('birthDate', date)}
-              error={errors.birthDate}
-              testID="input-birth-date"
-            />
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Detalhes Pessoais
+          </Text>
+          <DatePicker
+            label="Data de Nascimento"
+            variant="date"
+            value={formData.birthDate}
+            onChange={date => handleFieldChange('birthDate', date)}
+            error={errors.birthDate}
+            testID="input-birth-date"
+          />
 
-            <Text variant="labelPrimary" style={styles.genderLabel}>
-              Gênero
-            </Text>
-            <RadioButton
-              label="Masculino"
-              selected={formData.gender === 'male'}
-              onPress={() => handleFieldChange('gender', 'male')}
-              testID="radio-male"
-            />
-            <RadioButton
-              label="Feminino"
-              selected={formData.gender === 'female'}
-              onPress={() => handleFieldChange('gender', 'female')}
-              testID="radio-female"
-            />
-            <RadioButton
-              label="Outro"
-              selected={formData.gender === 'other'}
-              onPress={() => handleFieldChange('gender', 'other')}
-              testID="radio-other"
-            />
-          </View>
+          <Text variant="labelPrimary" style={styles.genderLabel}>
+            Gênero
+          </Text>
+          <RadioButton
+            label="Masculino"
+            selected={formData.gender === 'male'}
+            onPress={() => handleFieldChange('gender', 'male')}
+            testID="radio-male"
+          />
+          <RadioButton
+            label="Feminino"
+            selected={formData.gender === 'female'}
+            onPress={() => handleFieldChange('gender', 'female')}
+            testID="radio-female"
+          />
+          <RadioButton
+            label="Outro"
+            selected={formData.gender === 'other'}
+            onPress={() => handleFieldChange('gender', 'other')}
+            testID="radio-other"
+          />
+        </View>
 
-          <View style={styles.section}>
-            <Text variant="titleSecondary" style={styles.sectionTitle}>
-              Sobre Mim
-            </Text>
-            <Input
-              label="Bio"
-              value={formData.bio}
-              onChangeText={value => handleFieldChange('bio', value)}
-              error={errors.bio}
-              placeholder="Conte um pouco sobre você"
-              multiline
-              numberOfLines={4}
-              maxLength={500}
-              testID="input-bio"
-            />
-            <Text variant="captionSecondary" style={styles.bioCounter}>
-              {formData.bio.length}/500 caracteres
-            </Text>
-          </View>
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Sobre Mim
+          </Text>
+          <Input
+            label="Bio"
+            value={formData.bio}
+            onChangeText={value => handleFieldChange('bio', value)}
+            error={errors.bio}
+            placeholder="Conte um pouco sobre você"
+            multiline
+            numberOfLines={4}
+            maxLength={500}
+            testID="input-bio"
+          />
+          <Text variant="captionSecondary" style={styles.bioCounter}>
+            {formData.bio.length}/500 caracteres
+          </Text>
+        </View>
 
-          <View style={styles.section}>
-            <Text variant="titleSecondary" style={styles.sectionTitle}>
-              Localização e Privacidade
-            </Text>
-            <StateDropdown
-              value={formData.state}
-              onChange={value => handleFieldChange('state', value)}
-              label="Estado"
-              error={errors.state}
-              testID="input-state"
-            />
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Localização e Privacidade
+          </Text>
+          <StateDropdown
+            value={formData.state}
+            onChange={value => handleFieldChange('state', value)}
+            label="Estado"
+            error={errors.state}
+            testID="input-state"
+          />
 
-            <CityDropdown
-              stateUF={formData.state}
-              value={formData.city}
-              onChange={value => handleFieldChange('city', value)}
-              label="Cidade"
-              error={errors.city}
-              testID="input-city"
-            />
+          <CityDropdown
+            stateUF={formData.state}
+            value={formData.city}
+            onChange={value => handleFieldChange('city', value)}
+            label="Cidade"
+            error={errors.city}
+            testID="input-city"
+          />
 
-            <Switch
-              value={formData.isProfilePrivate}
-              onValueChange={value =>
-                handleFieldChange('isProfilePrivate', value)
-              }
-              label="Perfil Privado"
-              variant="brand"
-              testID="switch-private-profile"
-            />
-            <Text variant="captionSecondary" style={styles.privacyHelper}>
-              Quando ativado, seu perfil não aparecerá em recomendações de
-              amigos
-            </Text>
-          </View>
+          <Switch
+            value={formData.isProfilePrivate}
+            onValueChange={value =>
+              handleFieldChange('isProfilePrivate', value)
+            }
+            label="Perfil Privado"
+            variant="brand"
+            testID="switch-private-profile"
+          />
+          <Text variant="captionSecondary" style={styles.privacyHelper}>
+            Quando ativado, seu perfil não aparecerá em recomendações de amigos
+          </Text>
+        </View>
 
-          <View style={styles.section}>
-            <Text variant="titleSecondary" style={styles.sectionTitle}>
-              Esportes
-            </Text>
-            <MultiSelectSports
-              sports={availableSports}
-              selectedSportIds={formData.selectedSports}
-              onToggleSport={handleToggleSport}
-              sportLevels={formData.sportLevels}
-              primarySportId={formData.primarySportId}
-              onEditLevel={handleEditLevel}
-              onTogglePrimary={handleTogglePrimary}
-              testID="edit-profile-sports"
-            />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        <View style={styles.section}>
+          <Text variant="titleSecondary" style={styles.sectionTitle}>
+            Esportes
+          </Text>
+          <MultiSelectSports
+            sports={availableSports}
+            selectedSportIds={formData.selectedSports}
+            onToggleSport={handleToggleSport}
+            sportLevels={formData.sportLevels}
+            primarySportId={formData.primarySportId}
+            onEditLevel={handleEditLevel}
+            onTogglePrimary={handleTogglePrimary}
+            testID="edit-profile-sports"
+          />
+        </View>
+      </ArenaKeyboardAwareScrollView>
 
       <View style={styles.footer}>
         <Button

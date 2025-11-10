@@ -1,76 +1,21 @@
-// Arena ESLint Plugin - Plugin principal que agrega todas as regras Arena
-
-const arenaDesignTokens = require('./arena-design-tokens');
-const arenaFileStructure = require('./arena-file-structure');
-const arenaBestPractices = require('./arena-best-practices');
-const arenaNoComments = require('./arena-no-comments');
-const arenaUseUiComponents = require('./arena-use-ui-components');
-const arenaNoConsole = require('./arena-no-console');
-const arenaUseAlertContext = require('./arena-use-alert-context');
-const arenaNoCustomTextStyles = require('./arena-no-custom-text-styles');
-const arenaTextRequiresVariant = require('./arena-text-requires-variant');
-const arenaNoEmojiIcons = require('./arena-no-emoji-icons');
-const arenaUseSportsContext = require('./arena-use-sports-context');
-const arenaListPadding = require('./arena-list-padding');
+/**
+ * Custom ESLint rules for Arena project
+ */
 
 module.exports = {
   rules: {
-    'arena-design-tokens': arenaDesignTokens,
-    'arena-file-structure': arenaFileStructure,
-    'arena-best-practices': arenaBestPractices,
-    'arena-no-comments': arenaNoComments,
-    'arena-use-ui-components': arenaUseUiComponents,
-    'arena-no-console': arenaNoConsole,
-    'arena-use-alert-context': arenaUseAlertContext,
-    'arena-no-custom-text-styles': arenaNoCustomTextStyles,
-    'arena-text-requires-variant': arenaTextRequiresVariant,
-    'arena-no-emoji-icons': arenaNoEmojiIcons,
-    'arena-use-sports-context': arenaUseSportsContext,
-    'arena-list-padding': arenaListPadding,
-  },
-  configs: {
-    recommended: {
-      plugins: ['arena'],
-      rules: {
-        'arena/arena-design-tokens': 'error',
-        'arena/arena-file-structure': 'warn',
-        'arena/arena-best-practices': 'warn',
-        'arena/arena-no-comments': 'error',
-        'arena/arena-use-ui-components': 'error',
-        'arena/arena-no-console': 'error',
-        'arena/arena-use-alert-context': 'error',
-        'arena/arena-no-custom-text-styles': 'error',
-        'arena/arena-text-requires-variant': 'error',
-        'arena/arena-no-emoji-icons': 'error',
-        'arena/arena-use-sports-context': 'error',
-        'arena/arena-list-padding': 'error',
-      },
-    },
-    strict: {
-      plugins: ['arena'],
-      rules: {
-        'arena/arena-design-tokens': 'error',
-        'arena/arena-file-structure': 'error',
-        'arena/arena-best-practices': 'error',
-        'arena/arena-no-comments': 'error',
-        'arena/arena-use-ui-components': 'error',
-        'arena/arena-no-console': 'error',
-        'arena/arena-use-alert-context': 'error',
-        'arena/arena-no-custom-text-styles': 'error',
-        'arena/arena-text-requires-variant': 'error',
-        'arena/arena-no-emoji-icons': 'error',
-        'arena/arena-use-sports-context': 'error',
-        'arena/arena-list-padding': 'error',
-      },
-    },
-    development: {
-      plugins: ['arena'],
-      rules: {
-        'arena/arena-design-tokens': 'warn',
-        'arena/arena-file-structure': 'warn',
-        'arena/arena-best-practices': 'off',
-        'arena/arena-use-ui-components': 'warn',
-      },
-    },
+    'arena-best-practices': require('./arena-best-practices'),
+    'arena-design-tokens': require('./arena-design-tokens'),
+    'arena-file-structure': require('./arena-file-structure'),
+    'arena-list-padding': require('./arena-list-padding'),
+    'arena-no-comments': require('./arena-no-comments'),
+    'arena-no-console': require('./arena-no-console'),
+    'arena-no-custom-text-styles': require('./arena-no-custom-text-styles'),
+    'arena-no-emoji-icons': require('./arena-no-emoji-icons'),
+    'arena-text-requires-variant': require('./arena-text-requires-variant'),
+    'arena-use-alert-context': require('./arena-use-alert-context'),
+    'arena-use-sports-context': require('./arena-use-sports-context'),
+    'arena-use-ui-components': require('./arena-use-ui-components'),
+    'keyboard-aware-with-inputs': require('./keyboard-aware-with-inputs'),
   },
 };

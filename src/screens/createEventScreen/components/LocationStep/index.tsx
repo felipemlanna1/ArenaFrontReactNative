@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -79,9 +80,11 @@ export const LocationStep: React.FC<LocationStepProps> = ({
   };
 
   return (
-    <ScrollView
+    <ArenaKeyboardAwareScrollView
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={60}
     >
       <View style={styles.section}>
         <Input
@@ -205,6 +208,6 @@ export const LocationStep: React.FC<LocationStepProps> = ({
           Deixe em R$ 0,00 para evento gratuito
         </Text>
       </View>
-    </ScrollView>
+    </ArenaKeyboardAwareScrollView>
   );
 };

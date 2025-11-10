@@ -299,6 +299,8 @@ export const InviteUsersModal: React.FC<InviteUsersModalProps> = ({
               keyExtractor={item => item.id}
               contentContainerStyle={styles.usersListContent}
               showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
               onEndReached={
                 selectedTab === 'invited'
                   ? undefined

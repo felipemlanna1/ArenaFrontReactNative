@@ -4,6 +4,7 @@ import { Event, EventsFilter } from '@/services/events/typesEvents';
 import { eventsService } from '@/services/events/eventsService';
 import { useAlert } from '@/contexts/AlertContext';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
+import { deepLinksService } from '@/services/deepLinks';
 
 interface UseHomeEventsParams {
   apiFilters: EventsFilter | null;
@@ -299,6 +300,7 @@ export const useHomeEvents = ({
             }`;
 
         const location = `${event.location.city}, ${event.location.state}`;
+        const eventLink = deepLinksService.generateEventLink(event.id);
 
         const message = `🏃 ${event.sport.name}: ${event.title}
 
@@ -307,7 +309,8 @@ export const useHomeEvents = ({
 💰 ${price}
 👥 ${event.currentParticipants}/${event.maxParticipants} participantes
 
-${event.description ? `\n${event.description}\n` : ''}
+${event.description ? `${event.description}\n\n` : ''}🔗 Acesse o evento: ${eventLink}
+
 Participe pelo app Arena! 🔥`;
 
         await Share.share({

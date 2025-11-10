@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,6 @@ import { Switch } from '@/components/ui/switch';
 import { StateDropdown } from '@/components/ui/stateDropdown';
 import { CityDropdown } from '@/components/ui/cityDropdown';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
-import { KeyboardAwareLayout } from '@/components/ui/keyboardAwareLayout';
 import { AppLayout } from '@/components/AppLayout';
 import { useSports } from '@/contexts/SportsContext';
 import { useGroups } from '@/contexts/GroupsContext';
@@ -43,11 +43,12 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
 
   return (
     <AppLayout onBack={handleGoBack}>
-      <KeyboardAwareLayout
+      <ArenaKeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}
-        scrollViewProps={{
-          style: styles.container,
-        }}
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        bottomOffset={60}
       >
         <Text variant="headingPrimary">
           {isEditMode ? 'Editar Grupo' : 'Criar Grupo'}
@@ -162,7 +163,7 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
             Cancelar
           </Button>
         </View>
-      </KeyboardAwareLayout>
+      </ArenaKeyboardAwareScrollView>
     </AppLayout>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { styles } from './stylesFriendsScreen';
@@ -54,8 +53,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleLoadMoreIncoming,
     handleLoadMoreOutgoing,
     handleLoadMoreRecommendations,
-    refreshing,
-    handleRefresh,
   } = hookData;
 
   return (
@@ -77,12 +74,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
         <ScrollView
           style={styles.content}
           contentContainerStyle={styles.scrollContent}
-          refreshControl={
-            <ArenaRefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-            />
-          }
         >
           <View style={styles.accordionsContainer}>
             <FriendsAccordionSection

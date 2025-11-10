@@ -37,6 +37,7 @@ export const useEventShare = ({
         }`;
 
     const location = `${eventData.location.city}, ${eventData.location.state}`;
+    const eventLink = `arena://event/${eventData.id}`;
 
     return `🏃 ${eventData.sport.name}: ${eventData.title}
 
@@ -45,7 +46,9 @@ export const useEventShare = ({
 💰 ${price}
 👥 ${eventData.currentParticipants}/${eventData.maxParticipants} participantes
 
-${eventData.description ? `\n${eventData.description}\n` : ''}
+${eventData.description ? `${eventData.description}\n\n` : ''}
+🔗 Acesse o evento: ${eventLink}
+
 Participe pelo app Arena! 🔥`;
   }, []);
 

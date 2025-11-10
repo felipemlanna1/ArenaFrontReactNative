@@ -106,6 +106,7 @@ npx eas channel:edit production --branch nome-da-outra-branch
 ### eas.json
 
 O projeto já possui o `eas.json` configurado com 3 profiles:
+
 - **development**: Build de desenvolvimento
 - **preview**: Build preview (APK) com backend de produção
 - **production**: Build de produção (store)
@@ -141,12 +142,12 @@ Distribuir o link da build para os testadores instalarem.
 
 ## 📦 Quando Usar Cada Método
 
-| Método | Uso | Vantagens | Limitações |
-|--------|-----|-----------|-----------|
-| **EAS Update** | Atualizações de código JS | Instantâneo, sem rebuild | Só código JS/assets |
-| **Expo Go** | Testes rápidos | Gratuito, sem build | Bibliotecas limitadas |
-| **Development Build** | Código nativo customizado | Funcionalidades completas | Precisa fazer build |
-| **TestFlight** | Testes oficiais iOS | Distribuição oficial Apple | Requer conta Developer ($99/ano) |
+| Método                | Uso                       | Vantagens                  | Limitações                       |
+| --------------------- | ------------------------- | -------------------------- | -------------------------------- |
+| **EAS Update**        | Atualizações de código JS | Instantâneo, sem rebuild   | Só código JS/assets              |
+| **Expo Go**           | Testes rápidos            | Gratuito, sem build        | Bibliotecas limitadas            |
+| **Development Build** | Código nativo customizado | Funcionalidades completas  | Precisa fazer build              |
+| **TestFlight**        | Testes oficiais iOS       | Distribuição oficial Apple | Requer conta Developer ($99/ano) |
 
 ## 🔄 Fluxo de Trabalho Recomendado
 
@@ -178,16 +179,19 @@ Distribuir o link da build para os testadores instalarem.
 Para facilitar, use este template ao publicar updates:
 
 **Fix/Correção**:
+
 ```bash
 npx eas update --branch main --message "fix: correção no carregamento de eventos"
 ```
 
 **Feature/Funcionalidade**:
+
 ```bash
 npx eas update --branch main --message "feat: adicionar filtro de esportes"
 ```
 
 **Performance**:
+
 ```bash
 npx eas update --branch main --message "perf: otimização no FlatList de eventos"
 ```
@@ -210,6 +214,7 @@ Use a branch main e gere uma mensagem de commit apropriada.
 ```
 
 A IA executará automaticamente:
+
 ```bash
 EXPO_PUBLIC_API_URL=https://backsportpulsemobile-production.up.railway.app \
 EXPO_PUBLIC_API_TIMEOUT=30000 \

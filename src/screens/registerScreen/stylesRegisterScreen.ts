@@ -12,4 +12,9 @@ export const styles = StyleSheet.create({
     left: ArenaSpacing.lg,
     zIndex: 10,
   },
+  scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing['4xl'],
+    paddingBottom: ArenaSpacing.md,
+  },
 });

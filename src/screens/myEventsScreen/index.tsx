@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { ArenaColors } from '@/constants';
 import { EventCard } from '@/screens/homeScreen/components/EventCard';
 import { EventTypeFilter } from './components/EventTypeFilter';
@@ -35,8 +34,6 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
     handleManagePress,
     handleShare,
     eventActions,
-    isRefreshing,
-    refetch,
   } = useMyEventsScreen();
 
   const renderItem: ListRenderItem<GroupedEventItem> = useCallback(
@@ -120,12 +117,6 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
             ListEmptyComponent={renderEmpty}
             ListFooterComponent={renderFooter}
             showsVerticalScrollIndicator={false}
-            refreshControl={
-              <ArenaRefreshControl
-                refreshing={isRefreshing}
-                onRefresh={refetch}
-              />
-            }
           />
         )}
       </View>

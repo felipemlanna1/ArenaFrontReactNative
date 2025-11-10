@@ -5,7 +5,6 @@ import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
 import { SortModal } from './components/SortModal';
@@ -54,8 +53,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     sortBy,
     sortOrder,
     eventActions,
-    isRefreshing,
-    refreshEvents,
   } = useHomeScreen(navigation as never);
 
   const handleDetailsPress = useCallback(
@@ -77,7 +74,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   }, []);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: Event; index: number }) => {
+    ({ item }: { item: Event; index: number }) => {
       return (
         <EventCard
           event={item}
@@ -98,25 +95,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     [handleDetailsPress, handleManagePress, handleShare, eventActions]
   );
 
-  const renderEmpty = useCallback(() => {
-    if (isLoading) {
-      return null;
-    }
-
-    return (
-      <View style={styles.emptyContainer}>
-        <Text variant="headingPrimary" style={styles.emptyTitle}>
-          Nenhum evento encontrado
-        </Text>
-        <Text variant="bodySecondary" style={styles.emptyText}>
-          {searchTerm
-            ? 'Tente buscar por outro termo'
-            : 'Não há eventos disponíveis no momento'}
-        </Text>
-      </View>
-    );
-  }, [isLoading, searchTerm]);
-
   const renderFooter = useCallback(() => {
     if (!isLoadingMore) return null;
 
@@ -127,72 +105,81 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     );
   }, [isLoadingMore]);
 
+  const shouldShowLoading = isLoading && events.length === 0;
+  const shouldShowEmptyState = !isLoading && events.length === 0;
+
   return (
     <AppLayout onLogout={handleLogout}>
-      <View style={styles.filterBarContainer}>
-        <FilterBar
-          searchValue={searchTerm}
-          onSearchChange={setSearchTerm}
-          onSortPress={handleSortPress}
-          onFilterPress={handleFilterPress}
-        />
-      </View>
-
-      {isLoading && events.length === 0 ? (
-        <View style={styles.loadingContainer}>
-          <SportsLoading size="lg" animationSpeed="normal" />
-        </View>
-      ) : (
-        <View style={styles.listWrapper}>
-          <FlatList
-            data={events}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            style={styles.list}
-            contentContainerStyle={styles.listContainer}
-            onEndReached={hasMore ? loadMoreEvents : undefined}
-            onEndReachedThreshold={0.5}
-            ListEmptyComponent={renderEmpty}
-            ListFooterComponent={renderFooter}
-            initialNumToRender={10}
-            maxToRenderPerBatch={10}
-            windowSize={21}
-            removeClippedSubviews={false}
-            refreshControl={
-              <ArenaRefreshControl
-                refreshing={isRefreshing}
-                onRefresh={refreshEvents}
-              />
-            }
+      <View style={styles.content}>
+        <View style={styles.filterBarContainer}>
+          <FilterBar
+            searchValue={searchTerm}
+            onSearchChange={setSearchTerm}
+            onSortPress={handleSortPress}
+            onFilterPress={handleFilterPress}
           />
         </View>
-      )}
 
-      {error && (
-        <View style={styles.errorContainer}>
-          <Text variant="bodyPrimary" style={styles.errorText}>
-            {error.message}
-          </Text>
-        </View>
-      )}
+        {shouldShowLoading ? (
+          <View style={styles.loadingContainer}>
+            <SportsLoading size="lg" animationSpeed="normal" />
+          </View>
+        ) : shouldShowEmptyState ? (
+          <View style={styles.emptyContainer}>
+            <Text variant="headingPrimary" style={styles.emptyTitle}>
+              Nenhum evento encontrado
+            </Text>
+            <Text variant="bodySecondary" style={styles.emptyText}>
+              {searchTerm
+                ? 'Tente buscar por outro termo'
+                : 'Não há eventos disponíveis no momento'}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.listWrapper}>
+            <FlatList
+              data={events}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              style={styles.list}
+              contentContainerStyle={styles.listContainer}
+              onEndReached={hasMore ? loadMoreEvents : undefined}
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={renderFooter}
+              initialNumToRender={10}
+              maxToRenderPerBatch={10}
+              windowSize={21}
+              removeClippedSubviews={false}
+            />
+          </View>
+        )}
 
-      <SortModal
-        visible={showSortModal}
-        currentSort={{
-          sortBy,
-          sortOrder,
-        }}
-        onClose={() => setShowSortModal(false)}
-        onApply={handleApplySort}
-      />
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text variant="bodyPrimary" style={styles.errorText}>
+              {error.message}
+            </Text>
+          </View>
+        )}
 
-      <Fab
-        onPress={() => navigation.navigate('CreateEvent')}
-        icon={
-          <Ionicons name="add" size={24} color={ArenaColors.neutral.light} />
-        }
-        testID="create-event-fab"
-      />
+        <SortModal
+          visible={showSortModal}
+          currentSort={{
+            sortBy,
+            sortOrder,
+          }}
+          onClose={() => setShowSortModal(false)}
+          onApply={handleApplySort}
+        />
+
+        <Fab
+          onPress={() => navigation.navigate('CreateEvent')}
+          icon={
+            <Ionicons name="add" size={24} color={ArenaColors.neutral.light} />
+          }
+          testID="create-event-fab"
+        />
+      </View>
     </AppLayout>
   );
 };

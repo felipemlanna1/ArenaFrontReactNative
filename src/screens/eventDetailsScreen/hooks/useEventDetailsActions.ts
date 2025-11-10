@@ -4,6 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { eventsService } from '@/services/events/eventsService';
 import { Event } from '@/services/events/typesEvents';
 import { useAlert } from '@/contexts/AlertContext';
+import { deepLinksService } from '@/services/deepLinks';
 import {
   UseEventDetailsActionsReturn,
   EventDetailsStatus,
@@ -325,6 +326,7 @@ export const useEventDetailsActions = ({
             }`;
 
         const location = `${event.location.city}, ${event.location.state}`;
+        const eventLink = deepLinksService.generateEventLink(event.id);
 
         const message = `🏃 ${event.sport.name}: ${event.title}
 
@@ -333,7 +335,8 @@ export const useEventDetailsActions = ({
 💰 ${price}
 👥 ${event.currentParticipants}/${event.maxParticipants} participantes
 
-${event.description ? `\n${event.description}\n` : ''}
+${event.description ? `${event.description}\n\n` : ''}🔗 Acesse o evento: ${eventLink}
+
 Participe pelo app Arena! 🔥`;
 
         const result = await Share.share({

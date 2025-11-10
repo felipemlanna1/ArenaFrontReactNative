@@ -69,10 +69,7 @@ module.exports = {
             node.value.type === 'JSXExpressionContainer' &&
             node.value.expression.type === 'Literal'
           ) {
-            checkForEmoji(
-              node.value.expression,
-              node.value.expression.value
-            );
+            checkForEmoji(node.value.expression, node.value.expression.value);
           }
         }
       },

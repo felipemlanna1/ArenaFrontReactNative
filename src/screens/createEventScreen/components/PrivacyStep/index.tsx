@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { View, TouchableOpacity, ScrollView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Label } from '@/components/ui/label';
@@ -77,9 +78,11 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
   );
 
   return (
-    <ScrollView
+    <ArenaKeyboardAwareScrollView
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={60}
     >
       <View style={styles.section}>
         <Label variant="section" required>
@@ -156,6 +159,6 @@ export const PrivacyStep: React.FC<PrivacyStepProps> = ({
           />
         </View>
       )}
-    </ScrollView>
+    </ArenaKeyboardAwareScrollView>
   );
 };

@@ -147,10 +147,7 @@ module.exports = [
     },
   },
   {
-    files: [
-      'src/screens/**',
-      'src/components/**',
-    ],
+    files: ['src/screens/**', 'src/components/**'],
     rules: {
       'arena/arena-list-padding': 'off',
     },

@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useNotificationsScreen } from './useNotificationsScreen';
@@ -20,10 +19,8 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   const {
     notifications,
     isLoading,
-    isRefreshing,
     isLoadingMore,
     unreadCount,
-    handleRefresh,
     handleLoadMore,
     handleNotificationPress,
     handleMarkAllAsRead,
@@ -115,12 +112,6 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
           ListFooterComponent={renderFooter}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
-          refreshControl={
-            <ArenaRefreshControl
-              refreshing={isRefreshing}
-              onRefresh={handleRefresh}
-            />
-          }
           showsVerticalScrollIndicator={false}
         />
       </View>

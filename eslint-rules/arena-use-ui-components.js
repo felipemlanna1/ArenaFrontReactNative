@@ -25,7 +25,9 @@ module.exports = {
   create(context) {
     const filename = context.getFilename();
     const isInComponentsFolder = filename.includes('/src/components/');
-    const isShowcaseFile = filename.includes('componentsShowcaseScreen/components/');
+    const isShowcaseFile = filename.includes(
+      'componentsShowcaseScreen/components/'
+    );
 
     if (isInComponentsFolder || isShowcaseFile) {
       return {};
@@ -51,14 +53,14 @@ module.exports = {
       Collapsible: '@/components/ui/accordion (Accordion)',
       Expandable: '@/components/ui/accordion (Accordion)',
       ActivityIndicator: '@/components/ui/sportsLoading (SportsLoading)',
-      RefreshControl: '@/components/ui/refreshControl (ArenaRefreshControl)',
     };
 
     const externalLibraryMapping = {
       '@react-native-community/datetimepicker': {
         components: ['DateTimePicker', 'default'],
         replacement: '@/components/ui/datePicker (DatePicker)',
-        message: 'Use @/components/ui/datePicker (DatePicker) instead of @react-native-community/datetimepicker directly',
+        message:
+          'Use @/components/ui/datePicker (DatePicker) instead of @react-native-community/datetimepicker directly',
       },
     };
 

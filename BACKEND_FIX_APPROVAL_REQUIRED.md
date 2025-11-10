@@ -5,10 +5,12 @@
 Eventos com `privacy: APPROVAL_REQUIRED` estão **visíveis apenas para participantes e membros de grupo**, quando deveriam ser **visíveis para TODOS os usuários autenticados**.
 
 ### Comportamento Atual (ERRADO)
+
 - ❌ Usuários autenticados não participantes → **NÃO veem o evento**
 - ✅ Apenas participantes e membros de grupo → veem o evento
 
 ### Comportamento Esperado (CORRETO)
+
 - ✅ **TODOS os usuários autenticados** → veem o evento
 - ℹ️ Diferença do PUBLIC: usa `requestJoinEvent()` ao invés de `joinEvent()`
 
@@ -25,6 +27,7 @@ Eventos com `privacy: APPROVAL_REQUIRED` estão **visíveis apenas para particip
 **Localização**: Linha ~944
 
 ### Código Atual (ERRADO)
+
 ```typescript
 private buildApprovalRequiredCondition(): string {
   return `(
@@ -43,6 +46,7 @@ private buildApprovalRequiredCondition(): string {
 **Problema**: Filtra apenas participantes e membros de grupo.
 
 ### Código Corrigido
+
 ```typescript
 private buildApprovalRequiredCondition(): string {
   // APPROVAL_REQUIRED é visível para todos (como PUBLIC)
@@ -58,6 +62,7 @@ private buildApprovalRequiredCondition(): string {
 **Localização**: Linha ~1027
 
 ### Código Atual (ERRADO)
+
 ```typescript
 private async checkApprovalRequiredAccess(
   event: Event,
@@ -83,6 +88,7 @@ private async checkApprovalRequiredAccess(
 **Problema**: Retorna `false` para usuários que não são participantes nem membros de grupo.
 
 ### Código Corrigido
+
 ```typescript
 private async checkApprovalRequiredAccess(
   event: Event,
@@ -99,18 +105,19 @@ private async checkApprovalRequiredAccess(
 
 ## 📊 Comparação de Privacidade
 
-| Privacy Type | Visibilidade | Método de Ingresso | Validação |
-|--------------|--------------|-------------------|-----------|
-| **PUBLIC** | Todos usuários autenticados | `joinEvent()` | Imediato (CONFIRMED) |
+| Privacy Type          | Visibilidade                | Método de Ingresso   | Validação                   |
+| --------------------- | --------------------------- | -------------------- | --------------------------- |
+| **PUBLIC**            | Todos usuários autenticados | `joinEvent()`        | Imediato (CONFIRMED)        |
 | **APPROVAL_REQUIRED** | Todos usuários autenticados | `requestJoinEvent()` | Aguarda aprovação (PENDING) |
-| **GROUP_ONLY** | Apenas membros do grupo | `joinEvent()` | Imediato (CONFIRMED) |
-| **INVITE_ONLY** | Apenas convidados | `acceptInvite()` | Aceitar convite |
+| **GROUP_ONLY**        | Apenas membros do grupo     | `joinEvent()`        | Imediato (CONFIRMED)        |
+| **INVITE_ONLY**       | Apenas convidados           | `acceptInvite()`     | Aceitar convite             |
 
 ---
 
 ## ✅ Resultado Esperado Após Correção
 
 ### Antes (ERRADO)
+
 ```
 GET /api/v1/events (user A)
 → Retorna apenas: PUBLIC + GROUP_ONLY (se membro) + eventos que A participa
@@ -120,6 +127,7 @@ GET /api/v1/events/:id (user A, evento APPROVAL_REQUIRED criado por B)
 ```
 
 ### Depois (CORRETO)
+
 ```
 GET /api/v1/events (user A)
 → Retorna: PUBLIC + APPROVAL_REQUIRED + GROUP_ONLY (se membro) + eventos que A participa

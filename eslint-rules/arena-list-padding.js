@@ -81,9 +81,11 @@ module.exports = {
       return styleObj.properties.some(prop => {
         if (prop.key && prop.key.name) {
           const propName = prop.key.name;
-          return propName === 'paddingHorizontal' ||
-                 propName === 'padding' ||
-                 propName === 'marginHorizontal';
+          return (
+            propName === 'paddingHorizontal' ||
+            propName === 'padding' ||
+            propName === 'marginHorizontal'
+          );
         }
         return false;
       });
@@ -125,7 +127,10 @@ module.exports = {
           node.specifiers.forEach(specifier => {
             if (specifier.type === 'ImportSpecifier') {
               const componentName = specifier.imported.name;
-              if (componentName === 'FlatList' || componentName === 'ScrollView') {
+              if (
+                componentName === 'FlatList' ||
+                componentName === 'ScrollView'
+              ) {
                 importedListComponents.add(specifier.local.name);
               }
             }
@@ -169,11 +174,14 @@ module.exports = {
 
         // NOVA VERIFICAÇÃO: Detecta RefreshControl + contentContainerStyle
         const refreshControlAttr = attributes.find(
-          attr => attr.type === 'JSXAttribute' && attr.name.name === 'refreshControl'
+          attr =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'refreshControl'
         );
 
         const contentContainerStyleAttr = attributes.find(
-          attr => attr.type === 'JSXAttribute' && attr.name.name === 'contentContainerStyle'
+          attr =>
+            attr.type === 'JSXAttribute' &&
+            attr.name.name === 'contentContainerStyle'
         );
 
         // ❌ ERRO CRÍTICO: RefreshControl + contentContainerStyle juntos
@@ -187,17 +195,16 @@ module.exports = {
 
         // Ignora ScrollView horizontal
         const horizontalAttr = attributes.find(
-          attr => attr.type === 'JSXAttribute' && attr.name.name === 'horizontal'
+          attr =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'horizontal'
         );
 
         const isHorizontalScrollView =
           componentName === 'ScrollView' &&
           horizontalAttr &&
-          (
-            (horizontalAttr.value === null) ||
+          (horizontalAttr.value === null ||
             (horizontalAttr.value?.type === 'JSXExpressionContainer' &&
-             horizontalAttr.value.expression.value === true)
-          );
+              horizontalAttr.value.expression.value === true));
 
         if (isHorizontalScrollView) {
           return;

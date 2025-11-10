@@ -1,5 +1,6 @@
 import { Share } from 'react-native';
 import { Event } from '@/services/events/typesEvents';
+import { deepLinksService } from '@/services/deepLinks';
 
 export const shareEvent = async (event: Event): Promise<void> => {
   try {
@@ -31,6 +32,7 @@ export const shareEvent = async (event: Event): Promise<void> => {
         }`;
 
     const location = `${event.location.city}, ${event.location.state}`;
+    const eventLink = deepLinksService.generateEventLink(event.id);
 
     const message = `🏃 ${event.sport.name}: ${event.title}
 
@@ -39,7 +41,8 @@ export const shareEvent = async (event: Event): Promise<void> => {
 💰 ${price}
 👥 ${event.currentParticipants}/${event.maxParticipants} participantes
 
-${event.description ? `\n${event.description}\n` : ''}
+${event.description ? `${event.description}\n\n` : ''}🔗 Acesse o evento: ${eventLink}
+
 Participe pelo app Arena! 🔥`;
 
     await Share.share({

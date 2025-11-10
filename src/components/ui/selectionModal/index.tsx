@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import { View, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '../text';
 import { Input } from '../input';
@@ -170,13 +165,17 @@ export const SelectionModal = <T,>({
               emptyMessage={emptyMessage}
             />
           ) : (
-            <ScrollView style={styles.itemsList}>
+            <ArenaKeyboardAwareScrollView
+              style={styles.itemsList}
+              keyboardShouldPersistTaps="handled"
+              bottomOffset={60}
+            >
               {items.map(item => (
                 <React.Fragment key={keyExtractor(item)}>
                   {renderItem(item)}
                 </React.Fragment>
               ))}
-            </ScrollView>
+            </ArenaKeyboardAwareScrollView>
           )}
         </Pressable>
       </Pressable>

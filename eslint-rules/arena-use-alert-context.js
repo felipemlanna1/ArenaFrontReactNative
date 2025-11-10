@@ -13,7 +13,7 @@ module.exports = {
       noAlertImport:
         "Import de Alert do 'react-native' é proibido. Use useAlert() do AlertContext.",
       noBrowserAlert:
-        "Uso de alert() do browser é proibido. Use o hook useAlert() do AlertContext.",
+        'Uso de alert() do browser é proibido. Use o hook useAlert() do AlertContext.',
     },
     fixable: null,
     schema: [],
@@ -60,10 +60,7 @@ module.exports = {
       },
 
       CallExpression(node) {
-        if (
-          node.callee.type === 'Identifier' &&
-          node.callee.name === 'alert'
-        ) {
+        if (node.callee.type === 'Identifier' && node.callee.name === 'alert') {
           context.report({
             node,
             messageId: 'noBrowserAlert',

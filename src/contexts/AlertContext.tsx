@@ -54,6 +54,17 @@ interface AlertProviderProps {
 
 const MAX_ALERTS = 3;
 
+const areAlertsDuplicate = (
+  alert1: AlertConfig,
+  alert2: AlertConfig
+): boolean => {
+  return (
+    alert1.variant === alert2.variant &&
+    alert1.title === alert2.title &&
+    alert1.message === alert2.message
+  );
+};
+
 export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
   const [alerts, setAlerts] = useState<AlertConfig[]>([]);
 
@@ -74,6 +85,16 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
     });
 
     setAlerts(currentAlerts => {
+      const duplicateIndex = currentAlerts.findIndex(existingAlert =>
+        areAlertsDuplicate(existingAlert, newAlert)
+      );
+
+      if (duplicateIndex !== -1) {
+        const updatedAlerts = [...currentAlerts];
+        updatedAlerts.splice(duplicateIndex, 1, newAlert);
+        return updatedAlerts;
+      }
+
       if (currentAlerts.length >= MAX_ALERTS) {
         return [...currentAlerts.slice(1), newAlert];
       }

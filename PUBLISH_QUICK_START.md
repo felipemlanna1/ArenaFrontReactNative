@@ -26,6 +26,7 @@ npm run channel:view
 ```
 
 O script vai:
+
 - ✅ Verificar se você está logado
 - ✅ Confirmar antes de publicar
 - ✅ Mostrar link para testadores
@@ -67,17 +68,18 @@ Para documentação detalhada, troubleshooting e workflows avançados:
 
 ## ⚡ Resumo de Comandos
 
-| Comando | O Que Faz |
-|---------|-----------|
-| `npm run publish:prod -- --message "msg"` | Publica update em produção |
-| `npm run publish:dev -- --message "msg"` | Publica update em dev |
-| `./publish-update.sh "msg"` | Script interativo |
-| `npm run channel:list` | Lista channels |
-| `npm run channel:view` | Detalhes do channel production |
+| Comando                                   | O Que Faz                      |
+| ----------------------------------------- | ------------------------------ |
+| `npm run publish:prod -- --message "msg"` | Publica update em produção     |
+| `npm run publish:dev -- --message "msg"`  | Publica update em dev          |
+| `./publish-update.sh "msg"`               | Script interativo              |
+| `npm run channel:list`                    | Lista channels                 |
+| `npm run channel:view`                    | Detalhes do channel production |
 
 ---
 
 💡 **Dica**: Use prefixos nas mensagens:
+
 - `feat:` para novas funcionalidades
 - `fix:` para correções de bugs
 - `perf:` para melhorias de performance

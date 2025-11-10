@@ -9,6 +9,7 @@ Este é um template de codebase React Native/Expo pronto para produção, desenv
 ## ✨ Features Principais
 
 ### 🔐 Autenticação Completa
+
 - Login e Registro com validação
 - Context API para gerenciamento de estado global
 - Persistência de token com AsyncStorage
@@ -16,12 +17,14 @@ Este é um template de codebase React Native/Expo pronto para produção, desenv
 - Logout funcional
 
 ### 🎨 Sistema de Design Arena
+
 - **Tokens de Design**: Cores, espaçamentos, tipografia, bordas e sombras
 - **Shadow System**: CSS boxShadow com fonte de luz consistente
 - **Componentes UI**: Badge, Button, Card, Checkbox, CheckboxGroup, Input, Link, Text
 - **Código auto-documentado**: Zero comentários, nomes semânticos
 
 ### 🧩 Componentes UI Prontos
+
 - **Button**: 6 variantes (primary, secondary, subtle, destructive, success, ghost)
 - **Input**: Estados focus/error, máscaras, validação
 - **Card**: 3 variantes (default, outlined, elevated)
@@ -34,6 +37,7 @@ Este é um template de codebase React Native/Expo pronto para produção, desenv
 ### 🛠️ Ferramentas e Qualidade
 
 #### ESLint Customizado
+
 - `arena/arena-design-tokens`: Força uso de tokens Arena
 - `arena/arena-use-ui-components`: Força uso de componentes UI Arena
 - `arena/arena-no-comments`: Proíbe comentários (código auto-documentado)
@@ -41,11 +45,13 @@ Este é um template de codebase React Native/Expo pronto para produção, desenv
 - `arena/arena-no-console`: Proíbe console.log em produção
 
 #### TypeScript Strict
+
 - 100% tipado com modo strict
 - Interfaces completas para todas props e estados
 - Zero uso de `any`
 
 #### Prettier
+
 - Configuração padronizada
 - Formatação automática
 
@@ -108,6 +114,7 @@ cp .env.development .env
 ```
 
 Edite `.env` com suas configurações:
+
 ```
 API_URL=http://seu-backend.com/api/v1
 EXPO_PUBLIC_API_URL=http://seu-backend.com
@@ -196,6 +203,7 @@ const styles = StyleSheet.create({
 ## 🎯 Regras Obrigatórias
 
 ### NUNCA FAZER
+
 - ❌ Usar `any` no TypeScript
 - ❌ Componentes com mais de 150 linhas
 - ❌ Estilos inline
@@ -205,6 +213,7 @@ const styles = StyleSheet.create({
 - ❌ Componentes React Native nativos (usar UI Arena)
 
 ### SEMPRE FAZER
+
 - ✅ Tipar todas props, estados e retornos
 - ✅ Separar lógica em hooks
 - ✅ Usar tokens Arena
@@ -216,18 +225,23 @@ const styles = StyleSheet.create({
 ## 📊 Validação de Qualidade
 
 ### TypeScript
+
 ```bash
 npx tsc --noEmit
 ```
+
 Deve retornar: **0 erros**
 
 ### ESLint
+
 ```bash
 npx eslint . --ext .ts,.tsx
 ```
+
 Deve retornar: **0 erros, 0 warnings**
 
 ### Prettier
+
 ```bash
 npx prettier --write "src/**/*.{ts,tsx}"
 ```
@@ -245,11 +259,14 @@ npx prettier --write "src/**/*.{ts,tsx}"
 ## 📚 Documentação
 
 ### Componentes UI
+
 Cada componente possui README detalhado:
+
 - [Button](src/components/ui/button/README.md)
 - [CheckboxGroup](src/components/ui/checkboxGroup/README.md)
 
 ### Design System
+
 - [Shadow Guide](SHADOW_GUIDE.md)
 
 ## 🤝 Como Contribuir para Novos Projetos

@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Symbol } from '@/components/ui/symbol';
 import { RegisterBackground } from './components/RegisterBackground';
-import { LoginLayout } from '../loginScreen/components/LoginLayout';
 import { RegisterHeader } from './components/RegisterHeader';
 import { RegisterForm } from './components/RegisterForm';
 import { RegisterActions } from './components/RegisterActions';
@@ -47,20 +48,25 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = React.memo(
     };
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
         <View style={styles.topSymbol}>
           <Symbol size="md" variant="variant1" testID="register-arena-symbol" />
         </View>
         <RegisterBackground>
-          <LoginLayout verticalAlign="top">
+          <ArenaKeyboardAwareScrollView
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            bottomOffset={60}
+          >
             <RegisterHeader />
             <RegisterForm {...formProps} />
             <RegisterTerms />
             <RegisterActions {...actionProps} />
             <RegisterFooter {...footerProps} />
-          </LoginLayout>
+          </ArenaKeyboardAwareScrollView>
         </RegisterBackground>
-      </View>
+      </SafeAreaView>
     );
   }
 );

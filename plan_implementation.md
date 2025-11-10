@@ -1,6 +1,7 @@
 # PLANO DE IMPLEMENTAÇÃO - Pronto para revisão
 
 ## ✅ COMPLETADO
+
 1. Login/Register usando AuthContext
 2. useUserSports hook criado
 3. Estrutura de pastas do onboarding criada
@@ -18,11 +19,13 @@ Por favor, confirme se deseja que eu continue com a implementação completa do 
 7. **AppNavigator** - Lógica condicional Auth/Onboarding/Main
 
 ## ⏱️ Estimativa
+
 - Tempo restante: ~2-3 horas
 - Arquivos a criar: ~15 arquivos
 - Linhas de código: ~800-1000 linhas
 
 ## 💡 Alternativa
+
 Posso criar um **COMMIT** com o que já foi feito (Login/Register atualizados + useUserSports) e continuar o onboarding em uma nova sessão para ter contexto limpo.
 
 O que prefere?

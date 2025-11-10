@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   modalContent: {
     width: '100%',
-    maxHeight: '85%',
+    height: '80%',
     backgroundColor: ArenaColors.neutral.darkest,
     borderTopLeftRadius: ArenaBorders.radius.xl,
     borderTopRightRadius: ArenaBorders.radius.xl,
@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     marginTop: ArenaSpacing.sm,
   },
   itemsList: {
+    flex: 1,
     paddingVertical: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
     height: ArenaSpacing['22xl'],

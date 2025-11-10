@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Modal, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '../text';
 import { Button } from '../button';
@@ -77,17 +78,19 @@ export const FilterModal: React.FC<FilterModalProps> = ({
               />
             </View>
           ) : (
-            <ScrollView
+            <ArenaKeyboardAwareScrollView
               style={styles.scrollView}
               contentContainerStyle={[
                 styles.scrollContent,
                 contentContainerStyle,
               ]}
               showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              bottomOffset={100}
               testID={testID ? `${testID}-scroll` : undefined}
             >
               {children}
-            </ScrollView>
+            </ArenaKeyboardAwareScrollView>
           )}
 
           <View style={styles.footer}>

@@ -14,14 +14,31 @@ export const KeyboardAwareLayout: React.FC<KeyboardAwareLayoutProps> = ({
   testID = 'keyboard-aware-layout',
   withScrollView = true,
   keyboardShouldPersistTaps = 'handled',
+  extraScrollHeight = 20,
 }) => {
-  const { keyboardBehavior, keyboardOffset, shouldEnableAvoid } =
-    useKeyboardAwareLayout(enableKeyboardAvoid, verticalOffset);
+  const {
+    keyboardBehavior,
+    keyboardOffset,
+    shouldEnableAvoid,
+    keyboardPadding,
+  } = useKeyboardAwareLayout(
+    enableKeyboardAvoid,
+    verticalOffset,
+    extraScrollHeight
+  );
 
   const content = withScrollView ? (
     <ScrollView
       style={styles.scrollView}
-      contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
+      contentContainerStyle={[
+        styles.scrollContent,
+        contentContainerStyle,
+        {
+          paddingBottom:
+            ((contentContainerStyle?.paddingBottom as number) || 0) +
+            keyboardPadding,
+        },
+      ]}
       keyboardShouldPersistTaps={keyboardShouldPersistTaps}
       scrollEnabled={scrollEnabled}
       showsVerticalScrollIndicator={false}

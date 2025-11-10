@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
 });
 
 // No componente
-<Text variant="titlePrimary" style={styles.title}>Título</Text>
+<Text variant="titlePrimary" style={styles.title}>
+  Título
+</Text>;
 
 // ❌ ERRADO - Propriedades tipográficas em styles
 const styles = StyleSheet.create({
@@ -151,26 +153,28 @@ A regra `arena/arena-text-requires-variant` garante que todo `<Text>` tenha `var
 
 **Variantes Disponíveis (25 total)**:
 
-| Categoria | Variantes | Uso |
-|-----------|-----------|-----|
-| **Display/Headings** | `displayPrimary`, `headingPrimary`, `headingSecondary` | Títulos grandes e principais |
-| **Titles** | `titlePrimary`, `titleSecondary` | Títulos de seções e cards |
-| **Subtitles** | `subtitlePrimary`, `subtitleSecondary` | Subtítulos |
-| **Body** | `bodyPrimary`, `bodySecondary` | Texto de corpo/parágrafos |
-| **Captions** | `captionPrimary`, `captionSecondary` | Legendas e textos pequenos |
-| **Labels** | `labelPrimary`, `labelSecondary` | Labels de formulários |
-| **Links** | `linkPrimary`, `linkSecondary` | Links clicáveis |
-| **Buttons** | `buttonPrimary`, `buttonSecondary` | Texto dentro de botões |
-| **Inputs** | `inputPrimary`, `inputSecondary`, `placeholderPrimary` | Inputs de formulário |
-| **States** | `errorPrimary`, `errorSecondary`, `successPrimary`, `warningPrimary`, `infoPrimary`, `disabledPrimary` | Estados de UI |
+| Categoria            | Variantes                                                                                              | Uso                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------- |
+| **Display/Headings** | `displayPrimary`, `headingPrimary`, `headingSecondary`                                                 | Títulos grandes e principais |
+| **Titles**           | `titlePrimary`, `titleSecondary`                                                                       | Títulos de seções e cards    |
+| **Subtitles**        | `subtitlePrimary`, `subtitleSecondary`                                                                 | Subtítulos                   |
+| **Body**             | `bodyPrimary`, `bodySecondary`                                                                         | Texto de corpo/parágrafos    |
+| **Captions**         | `captionPrimary`, `captionSecondary`                                                                   | Legendas e textos pequenos   |
+| **Labels**           | `labelPrimary`, `labelSecondary`                                                                       | Labels de formulários        |
+| **Links**            | `linkPrimary`, `linkSecondary`                                                                         | Links clicáveis              |
+| **Buttons**          | `buttonPrimary`, `buttonSecondary`                                                                     | Texto dentro de botões       |
+| **Inputs**           | `inputPrimary`, `inputSecondary`, `placeholderPrimary`                                                 | Inputs de formulário         |
+| **States**           | `errorPrimary`, `errorSecondary`, `successPrimary`, `warningPrimary`, `infoPrimary`, `disabledPrimary` | Estados de UI                |
 
 **Propriedades Permitidas em Styles**:
+
 - ✅ Layout: `textAlign`, `textDecorationLine`, `textTransform`
 - ✅ Espaçamento: `margin*`, `padding*`
 - ✅ Posicionamento: `position`, `top`, `left`, `right`, `bottom`
 - ✅ Outros: `opacity`, `backgroundColor` (para highlight)
 
 **Propriedades PROIBIDAS em Styles** (use variantes):
+
 - ❌ `fontSize` → Use variant apropriada
 - ❌ `fontWeight` → Use variant apropriada
 - ❌ `fontFamily` → Use variant apropriada
@@ -201,6 +205,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 ```
 
 **Bibliotecas Disponíveis**:
+
 - `Ionicons` (preferencial - mais completa)
 - `MaterialIcons`
 - `FontAwesome`
@@ -272,6 +277,7 @@ contentContainerStyle={{ paddingHorizontal: 16 }}  // ❌ Use ArenaSpacing.lg
 **Regra ESLint**: `arena/arena-list-padding` detecta automaticamente listas sem padding e fornece soluções detalhadas.
 
 **Por Que É Crítico**:
+
 - ✅ Consistência cross-platform (iOS, Android, Web)
 - ✅ Aderência ao Design System Arena
 - ✅ Melhor UX - espaço respirável nas bordas
@@ -446,25 +452,25 @@ import { Label } from '@/components/ui/label';
 
 ### Variants do Label
 
-| Variant | Uso | Size | Weight | Color |
-|---------|-----|------|--------|-------|
-| **form** | Campos de formulário (Input, DatePicker) | sm (13px) | medium (500) | light |
-| **section** | Section headings (Esporte, Duração) | md (15px) | semibold (600) | light |
-| **inline** | Labels inline (Switch, Checkbox) | sm (13px) | regular (400) | light |
-| **helper** | Helper text/descrição | xs (11px) | regular (400) | medium |
+| Variant     | Uso                                      | Size      | Weight         | Color  |
+| ----------- | ---------------------------------------- | --------- | -------------- | ------ |
+| **form**    | Campos de formulário (Input, DatePicker) | sm (13px) | medium (500)   | light  |
+| **section** | Section headings (Esporte, Duração)      | md (15px) | semibold (600) | light  |
+| **inline**  | Labels inline (Switch, Checkbox)         | sm (13px) | regular (400)  | light  |
+| **helper**  | Helper text/descrição                    | xs (11px) | regular (400)  | medium |
 
 ### Props do Label
 
 ```typescript
 interface LabelProps {
-  children: string;           // Texto do label
-  variant?: LabelVariant;     // 'form' | 'section' | 'inline' | 'helper'
-  size?: LabelSize;           // Override de size (xs, sm, md, lg)
-  required?: boolean;         // Exibe asterisco vermelho (*)
-  disabled?: boolean;         // Estado disabled
-  htmlFor?: string;           // ID para acessibilidade
-  style?: TextStyle;          // Estilos customizados
-  testID?: string;            // ID para testes
+  children: string; // Texto do label
+  variant?: LabelVariant; // 'form' | 'section' | 'inline' | 'helper'
+  size?: LabelSize; // Override de size (xs, sm, md, lg)
+  required?: boolean; // Exibe asterisco vermelho (*)
+  disabled?: boolean; // Estado disabled
+  htmlFor?: string; // ID para acessibilidade
+  style?: TextStyle; // Estilos customizados
+  testID?: string; // ID para testes
 }
 ```
 
@@ -491,29 +497,6 @@ import { SportsLoading } from '@/components/ui/sportsLoading';
 <ActivityIndicator size="large" />
 ```
 
-### Componente ArenaRefreshControl
-
-**REGRA**: Para pull-to-refresh, usar `ArenaRefreshControl` ao invés do `RefreshControl` padrão.
-
-```tsx
-import { ArenaRefreshControl } from '@/components/ui/refreshControl';
-
-// ✅ CORRETO - RefreshControl Arena
-<FlatList
-  data={items}
-  refreshControl={
-    <ArenaRefreshControl
-      refreshing={isRefreshing}
-      onRefresh={handleRefresh}
-    />
-  }
-/>
-
-// ❌ ERRADO - RefreshControl padrão
-import { RefreshControl } from 'react-native';
-<RefreshControl refreshing={...} />
-```
-
 ---
 
 ## 🧩 Componentes UI Arena - OBRIGATÓRIOS
@@ -522,25 +505,25 @@ import { RefreshControl } from 'react-native';
 
 ### ❌ NUNCA Usar Diretamente
 
-| Primitivo React Native | ✅ Usar Componente Arena | Localização |
-|------------------------|--------------------------|-------------|
-| `<Switch>` | `<Switch>` | `@/components/ui/switch` |
-| `<Text>` | `<Text>` | `@/components/ui/text` |
-| `<ActivityIndicator>` | `<SportsLoading>` | `@/components/ui/sportsLoading` |
-| `<RefreshControl>` | `<ArenaRefreshControl>` | `@/components/ui/refreshControl` |
-| `<Image>` | `<OptimizedImage>` | `@/components/ui/optimizedImage` |
-| `<TouchableOpacity>` (botão) | `<Button>` | `@/components/ui/button` |
-| `<TouchableOpacity>` (card) | `<Card>` | `@/components/ui/card` |
-| `@react-native-community/datetimepicker` | `<DatePicker>` | `@/components/ui/datePicker` |
-| Chips customizados | `<Badge>` ou `<CardCheckbox>` | `@/components/ui/badge` ou `cardCheckbox` |
+| Primitivo React Native                   | ✅ Usar Componente Arena      | Localização                               |
+| ---------------------------------------- | ----------------------------- | ----------------------------------------- |
+| `<Switch>`                               | `<Switch>`                    | `@/components/ui/switch`                  |
+| `<Text>`                                 | `<Text>`                      | `@/components/ui/text`                    |
+| `<ActivityIndicator>`                    | `<SportsLoading>`             | `@/components/ui/sportsLoading`           |
+| `<Image>`                                | `<OptimizedImage>`            | `@/components/ui/optimizedImage`          |
+| `<TouchableOpacity>` (botão)             | `<Button>`                    | `@/components/ui/button`                  |
+| `<TouchableOpacity>` (card)              | `<Card>`                      | `@/components/ui/card`                    |
+| `@react-native-community/datetimepicker` | `<DatePicker>`                | `@/components/ui/datePicker`              |
+| Chips customizados                       | `<Badge>` ou `<CardCheckbox>` | `@/components/ui/badge` ou `cardCheckbox` |
 
 ### ✅ Componentes UI Disponíveis
 
 #### **Inputs & Forms**
+
 ```tsx
 // Input de texto
 import { Input } from '@/components/ui/input';
-<Input label="Nome" value={name} onChangeText={setName} error={errors.name} />
+<Input label="Nome" value={name} onChangeText={setName} error={errors.name} />;
 
 // Switch/Toggle
 import { Switch } from '@/components/ui/switch';
@@ -549,7 +532,7 @@ import { Switch } from '@/components/ui/switch';
   onValueChange={setIsEnabled}
   label="Notificações"
   variant="brand"
-/>
+/>;
 
 // DatePicker
 import { DatePicker } from '@/components/ui/datePicker';
@@ -559,7 +542,7 @@ import { DatePicker } from '@/components/ui/datePicker';
   value={birthDate}
   onChange={setBirthDate}
   error={errors.birthDate}
-/>
+/>;
 
 // Checkbox
 import { Checkbox } from '@/components/ui/checkbox';
@@ -567,7 +550,7 @@ import { Checkbox } from '@/components/ui/checkbox';
   checked={agreed}
   onPress={() => setAgreed(!agreed)}
   label="Aceito os termos"
-/>
+/>;
 
 // CardCheckbox (para seleção em grid)
 import { CardCheckbox } from '@/components/ui/cardCheckbox';
@@ -576,7 +559,7 @@ import { CardCheckbox } from '@/components/ui/cardCheckbox';
   icon="⚽"
   checked={selectedSport === 'football'}
   onPress={() => setSelectedSport('football')}
-/>
+/>;
 
 // CheckboxGroup
 import { CheckboxGroup } from '@/components/ui/checkboxGroup';
@@ -584,25 +567,19 @@ import { CheckboxGroup } from '@/components/ui/checkboxGroup';
   options={sports}
   selectedValues={selectedSports}
   onChange={setSelectedSports}
-/>
+/>;
 
 // Dropdown
 import { Dropdown } from '@/components/ui/dropdown';
-<Dropdown
-  trigger={<Button>Opções</Button>}
-  items={menuItems}
-/>
+<Dropdown trigger={<Button>Opções</Button>} items={menuItems} />;
 
 // RadioButton
 import { RadioButton } from '@/components/ui/radioButton';
-<RadioButton
-  checked={selected}
-  onPress={handleSelect}
-  label="Opção 1"
-/>
+<RadioButton checked={selected} onPress={handleSelect} label="Opção 1" />;
 ```
 
 #### **Layout & Navigation**
+
 ```tsx
 // Button - NUNCA use <Text> dentro de <Button>
 import { Button } from '@/components/ui/button';
@@ -655,6 +632,7 @@ import { Stepper } from '@/components/ui/stepper';
 ```
 
 #### **Feedback & Status**
+
 ```tsx
 // Badge
 import { Badge } from '@/components/ui/badge';
@@ -672,18 +650,19 @@ import { Text } from '@/components/ui/text';
 ```
 
 #### **Brand & Media**
+
 ```tsx
 // Logo
 import { Logo } from '@/components/ui/logo';
-<Logo variant="full" size="lg" />
+<Logo variant="full" size="lg" />;
 
 // Symbol
 import { Symbol } from '@/components/ui/symbol';
-<Symbol size="md" variant="primary" />
+<Symbol size="md" variant="primary" />;
 
 // AppIcon
 import { AppIcon } from '@/components/ui/appIcon';
-<AppIcon size="lg" />
+<AppIcon size="lg" />;
 
 // OptimizedImage
 import { OptimizedImage } from '@/components/ui/optimizedImage';
@@ -692,7 +671,7 @@ import { OptimizedImage } from '@/components/ui/optimizedImage';
   style={styles.image}
   contentFit="cover"
   priority="high"
-/>
+/>;
 ```
 
 ### 📐 Guia de Espaçamento Arena
@@ -701,27 +680,28 @@ import { OptimizedImage } from '@/components/ui/optimizedImage';
 
 ```tsx
 // 1. Entre Telas/Screens
-paddingVertical: ArenaSpacing['2xl']  // 24px
+paddingVertical: ArenaSpacing['2xl']; // 24px
 
 // 2. Entre Sections
-gap: ArenaSpacing.lg                  // 16px
-marginBottom: ArenaSpacing.lg         // 16px
+gap: ArenaSpacing.lg; // 16px
+marginBottom: ArenaSpacing.lg; // 16px
 
 // 3. Entre Inputs/Components
-gap: ArenaSpacing.md                  // 12px
+gap: ArenaSpacing.md; // 12px
 
 // 4. Entre Cards em Grid
-gap: ArenaSpacing.sm                  // 8px
+gap: ArenaSpacing.sm; // 8px
 
 // 5. Entre Label e Input
-marginBottom: ArenaSpacing.xs         // 4px
+marginBottom: ArenaSpacing.xs; // 4px
 
 // Padding de Container
-paddingHorizontal: ArenaSpacing.lg    // 16px
-paddingVertical: ArenaSpacing.md      // 12px
+paddingHorizontal: ArenaSpacing.lg; // 16px
+paddingVertical: ArenaSpacing.md; // 12px
 ```
 
 **Exemplo Prático**:
+
 ```tsx
 const styles = StyleSheet.create({
   screen: {
@@ -749,15 +729,16 @@ const styles = StyleSheet.create({
 
 ```tsx
 // ❌ ERRADO
-fontSize: 16
-fontWeight: '600'
+fontSize: 16;
+fontWeight: '600';
 
 // ✅ CORRETO
-fontSize: ArenaTypography.size.md
-fontWeight: ArenaTypography.weight.semibold
+fontSize: ArenaTypography.size.md;
+fontWeight: ArenaTypography.weight.semibold;
 ```
 
 **Mapeamento Completo**:
+
 ```tsx
 // Font Sizes
 11 → ArenaTypography.size.xs
@@ -781,6 +762,7 @@ fontWeight: ArenaTypography.weight.semibold
 ### 🔒 Regras de Seleção de Componentes
 
 **Para Seleção de Itens**:
+
 - ❌ NUNCA criar "Chip" component
 - ✅ Seleção única em grid → `<CardCheckbox>` com `icon` prop
 - ✅ Seleção múltipla em grid → `<CardCheckbox>` com `icon` prop
@@ -788,6 +770,7 @@ fontWeight: ArenaTypography.weight.semibold
 - ✅ Seleção em lista → `<Checkbox>` ou `<RadioButton>`
 
 **Para Navegação/Ação**:
+
 - ❌ NUNCA usar `<TouchableOpacity>` diretamente para botões
 - ✅ Botão primário/secundário → `<Button variant="primary|secondary">`
 - ✅ Card clicável → `<Card onPress={...}>`
@@ -795,14 +778,17 @@ fontWeight: ArenaTypography.weight.semibold
 - ✅ FAB (floating) → `<Button variant="fab" iconOnly>`
 
 **Para Datas**:
+
 - ❌ NUNCA usar `@react-native-community/datetimepicker` diretamente
 - ✅ SEMPRE usar `<DatePicker variant="datetime|date|time">`
 
 **Para Loading**:
+
 - ❌ NUNCA usar `<ActivityIndicator>`
 - ✅ SEMPRE usar `<SportsLoading size="xs|sm|md|lg">`
 
 **Para Imagens**:
+
 - ❌ NUNCA usar `<Image>` do React Native
 - ✅ SEMPRE usar `<OptimizedImage>` com `priority` e `contentFit`
 
@@ -831,6 +817,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 Alguns componentes já gerenciam seu próprio texto internamente. **NUNCA** passe `<Text>` como children:
 
 #### ❌ Button
+
 ```tsx
 // ❌ ERRADO - Nunca use <Text> dentro
 <Button variant="primary">
@@ -842,6 +829,7 @@ Alguns componentes já gerenciam seu próprio texto internamente. **NUNCA** pass
 ```
 
 #### ❌ Badge
+
 ```tsx
 // ❌ ERRADO
 <Badge variant="primary">
@@ -853,6 +841,7 @@ Alguns componentes já gerenciam seu próprio texto internamente. **NUNCA** pass
 ```
 
 #### ❌ Input, Label, RadioButton, Checkbox
+
 Esses componentes recebem texto via **prop `label`**, NÃO como children:
 
 ```tsx
@@ -873,6 +862,7 @@ Esses componentes recebem texto via **prop `label`**, NÃO como children:
 Apenas use `<Text>` dentro destes componentes quando necessário:
 
 #### ✅ Card, View, ScrollView
+
 ```tsx
 // ✅ Permitido - Containers genéricos
 <Card variant="outlined">
@@ -886,6 +876,7 @@ Apenas use `<Text>` dentro destes componentes quando necessário:
 ```
 
 #### ✅ Link
+
 ```tsx
 // ✅ Link pode conter Text (mas precisa de variant)
 <Link href="/terms">
@@ -895,18 +886,123 @@ Apenas use `<Text>` dentro destes componentes quando necessário:
 
 ### Resumo: Quando Usar `<Text>`
 
-| Situação | Usar `<Text>` | Como Passar Texto |
-|----------|---------------|-------------------|
+| Situação                           | Usar `<Text>`         | Como Passar Texto                          |
+| ---------------------------------- | --------------------- | ------------------------------------------ |
 | **Dentro de View/Card/ScrollView** | ✅ Sim, com `variant` | `<Text variant="bodyPrimary">Texto</Text>` |
-| **Dentro de Button** | ❌ Nunca | String direta: `<Button>Enviar</Button>` |
-| **Dentro de Badge** | ❌ Nunca | String direta: `<Badge>Novo</Badge>` |
-| **Input/Label/Checkbox/Radio** | ❌ Nunca | Via prop: `label="Nome"` |
-| **Textos livres na UI** | ✅ Sempre | `<Text variant="bodyPrimary">Texto</Text>` |
+| **Dentro de Button**               | ❌ Nunca              | String direta: `<Button>Enviar</Button>`   |
+| **Dentro de Badge**                | ❌ Nunca              | String direta: `<Badge>Novo</Badge>`       |
+| **Input/Label/Checkbox/Radio**     | ❌ Nunca              | Via prop: `label="Nome"`                   |
+| **Textos livres na UI**            | ✅ Sempre             | `<Text variant="bodyPrimary">Texto</Text>` |
 
 ### ESLint Rules que Validam
 
 - `arena/arena-text-requires-variant` - Garante que `<Text>` sempre tenha `variant`
 - `arena/arena-use-ui-components` - Bloqueia uso de componentes primitivos do React Native
+
+---
+
+## ⌨️ Keyboard Handling - ArenaKeyboardAwareScrollView
+
+### 🚨 REGRA CRÍTICA: Gerenciamento de Teclado
+
+**NUNCA** use `KeyboardAwareScrollView` diretamente da lib `react-native-keyboard-controller`. **SEMPRE** use o wrapper customizado `ArenaKeyboardAwareScrollView`.
+
+### Por que usar ArenaKeyboardAwareScrollView?
+
+O componente `ArenaKeyboardAwareScrollView` é um wrapper que resolve problemas de plataforma:
+
+- **iOS**: Usa `ScrollView` nativo com `automaticallyAdjustKeyboardInsets={true}` (solução estável sem bugs)
+- **Android**: Usa `KeyboardAwareScrollView` da lib `react-native-keyboard-controller` (funciona perfeitamente)
+
+### Problema com KeyboardAwareScrollView no iOS
+
+A lib `react-native-keyboard-controller` tem um **bug conhecido (Issue #338)** onde o `KeyboardAwareScrollView` não funciona no primeiro launch após instalação no iOS. Funciona apenas após reload do app.
+
+### ✅ Uso Correto
+
+```tsx
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
+
+// ✅ CORRETO - Wrapper Arena
+<ArenaKeyboardAwareScrollView
+  contentContainerStyle={styles.scrollContent}
+  showsVerticalScrollIndicator={false}
+  keyboardShouldPersistTaps="handled"
+  bottomOffset={60}
+>
+  <Input label="Nome" value={name} onChangeText={setName} />
+  <Input label="Email" value={email} onChangeText={setEmail} />
+</ArenaKeyboardAwareScrollView>;
+
+// ❌ ERRADO - Lib direta
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+<KeyboardAwareScrollView>...</KeyboardAwareScrollView>;
+```
+
+### Props do ArenaKeyboardAwareScrollView
+
+| Prop                           | Tipo                               | Default     | Descrição                                     |
+| ------------------------------ | ---------------------------------- | ----------- | --------------------------------------------- |
+| `children`                     | `ReactNode`                        | -           | Conteúdo do scroll                            |
+| `contentContainerStyle`        | `StyleProp<ViewStyle>`             | -           | Estilos do container de conteúdo              |
+| `showsVerticalScrollIndicator` | `boolean`                          | `false`     | Exibir indicador de scroll                    |
+| `keyboardShouldPersistTaps`    | `'always' \| 'never' \| 'handled'` | `'handled'` | Comportamento de toque com teclado aberto     |
+| `bottomOffset`                 | `number`                           | `60`        | Espaço entre input e teclado (apenas Android) |
+| `testID`                       | `string`                           | -           | ID para testes                                |
+
+### bottomOffset - Valores Recomendados
+
+- **60px**: Telas sem footer fixo (RegisterScreen, LoginScreen, CreateEventScreen steps)
+- **100px**: Telas com footer fixo (EditProfileScreen, FilterScreen, FilterModal)
+- **120px**: Modais complexos com múltiplos botões (SelectionModal)
+
+**Nota**: No iOS, `bottomOffset` é ignorado pois `automaticallyAdjustKeyboardInsets` calcula automaticamente o espaço necessário.
+
+### Implementação Interna
+
+```tsx
+// iOS - ScrollView nativo
+if (Platform.OS === 'ios') {
+  return (
+    <ScrollView
+      automaticallyAdjustKeyboardInsets={true}
+      keyboardDismissMode="interactive"
+      keyboardShouldPersistTaps="handled"
+      {...props}
+    >
+      {children}
+    </ScrollView>
+  );
+}
+
+// Android - KeyboardAwareScrollView da lib
+return (
+  <KeyboardAwareScrollView
+    disableScrollOnKeyboardHide={false}
+    bottomOffset={bottomOffset}
+    keyboardShouldPersistTaps="handled"
+    {...props}
+  >
+    {children}
+  </KeyboardAwareScrollView>
+);
+```
+
+### 🔒 Regras Obrigatórias
+
+1. **NUNCA** importe `KeyboardAwareScrollView` diretamente de `react-native-keyboard-controller`
+2. **SEMPRE** use `ArenaKeyboardAwareScrollView` para telas com inputs
+3. **SEMPRE** defina `keyboardShouldPersistTaps="handled"`
+4. Use `bottomOffset` apropriado para o tipo de tela (60/100/120)
+5. NO iOS, confie no `automaticallyAdjustKeyboardInsets` - não tente ajustar manualmente
+
+### Benefícios
+
+- ✅ **Cross-platform**: Comportamento idêntico em iOS e Android
+- ✅ **iOS estável**: Usa solução nativa sem bugs conhecidos
+- ✅ **Android otimizado**: Usa lib testada e funcional
+- ✅ **Simples**: API única para ambas plataformas
+- ✅ **Mantível**: Centraliza lógica de plataforma em um componente
 
 ---
 

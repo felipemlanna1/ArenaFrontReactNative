@@ -29,7 +29,8 @@ module.exports = {
       recommended: true,
     },
     messages: {
-      missingVariant: 'Text component from "@/components/ui/text" must have a "variant" prop. Available variants: displayPrimary, displayAccent, headingPrimary, headingAccent, titlePrimary, titleSecondary, titleAccent, titleAccentBold, bodyPrimary, bodySecondary, bodyBold, bodyBoldAccent, bodyMuted, bodyError, bodySuccess, bodyAccent, captionSecondary, captionMuted, captionError, labelPrimary, labelSecondary, labelError.',
+      missingVariant:
+        'Text component from "@/components/ui/text" must have a "variant" prop. Available variants: displayPrimary, displayAccent, headingPrimary, headingAccent, titlePrimary, titleSecondary, titleAccent, titleAccentBold, bodyPrimary, bodySecondary, bodyBold, bodyBoldAccent, bodyMuted, bodyError, bodySuccess, bodyAccent, captionSecondary, captionMuted, captionError, labelPrimary, labelSecondary, labelError.',
     },
     fixable: null,
     schema: [],
@@ -49,7 +50,8 @@ module.exports = {
 
           // Find the Text import specifier
           const textSpecifier = node.specifiers.find(
-            spec => spec.type === 'ImportSpecifier' && spec.imported.name === 'Text'
+            spec =>
+              spec.type === 'ImportSpecifier' && spec.imported.name === 'Text'
           );
 
           if (textSpecifier) {

@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Symbol } from '@/components/ui/symbol';
 import { LoginBackground } from './components/LoginBackground';
-import { LoginLayout } from './components/LoginLayout';
 import { LoginHeader } from './components/LoginHeader';
 import { LoginForm } from './components/LoginForm';
 import { LoginActions } from './components/LoginActions';
@@ -42,19 +43,24 @@ export const LoginScreen: React.FC<LoginScreenProps> = React.memo(
     };
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
         <View style={styles.topSymbol}>
           <Symbol size="md" variant="variant1" testID="login-arena-symbol" />
         </View>
         <LoginBackground>
-          <LoginLayout>
+          <ArenaKeyboardAwareScrollView
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            bottomOffset={60}
+          >
             <LoginHeader />
             <LoginForm {...formProps} />
             <LoginActions {...actionProps} />
             <SocialLoginButtons {...socialProps} />
-          </LoginLayout>
+          </ArenaKeyboardAwareScrollView>
         </LoginBackground>
-      </View>
+      </SafeAreaView>
     );
   }
 );

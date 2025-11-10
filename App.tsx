@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
@@ -40,23 +41,25 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <SportsProvider>
-        <AuthProvider>
-          <AlertProvider>
-            <UnreadNotificationsProvider>
-              <ToastProvider>
-                <GroupsProvider>
-                  <GroupsFiltersProvider>
-                    <HomeFiltersProvider>
-                      <AppNavigator />
-                    </HomeFiltersProvider>
-                  </GroupsFiltersProvider>
-                </GroupsProvider>
-              </ToastProvider>
-            </UnreadNotificationsProvider>
-          </AlertProvider>
-        </AuthProvider>
-      </SportsProvider>
+      <KeyboardProvider>
+        <SportsProvider>
+          <AuthProvider>
+            <AlertProvider>
+              <UnreadNotificationsProvider>
+                <ToastProvider>
+                  <GroupsProvider>
+                    <GroupsFiltersProvider>
+                      <HomeFiltersProvider>
+                        <AppNavigator />
+                      </HomeFiltersProvider>
+                    </GroupsFiltersProvider>
+                  </GroupsProvider>
+                </ToastProvider>
+              </UnreadNotificationsProvider>
+            </AlertProvider>
+          </AuthProvider>
+        </SportsProvider>
+      </KeyboardProvider>
     </SafeAreaProvider>
   );
 }

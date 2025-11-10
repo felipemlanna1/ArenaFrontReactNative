@@ -15,11 +15,7 @@ module.exports = {
   },
 
   create(context) {
-    const allowedFiles = [
-      'SportsContext.tsx',
-      'sports.ts',
-      'sportsService.ts',
-    ];
+    const allowedFiles = ['SportsContext.tsx', 'sports.ts', 'sportsService.ts'];
 
     const filename = context.getFilename();
     const isAllowedFile = allowedFiles.some(allowed =>
