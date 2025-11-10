@@ -36,7 +36,7 @@ export const LoginInputs: React.FC<LoginInputsProps> = React.memo(
           value={password}
           onChangeText={onPasswordChange}
           error={errors.password}
-          secureTextEntry={true}
+          type="password"
           fullWidth
           disableAnimations
           testID="password-input"

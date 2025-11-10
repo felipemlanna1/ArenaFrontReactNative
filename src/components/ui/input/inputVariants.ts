@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import {
   ArenaColors,
   ArenaSpacing,
@@ -242,8 +243,12 @@ export const getInputTypeConfig = (
       keyboardType: 'default',
       autoCapitalize: 'none',
       secureTextEntry: true,
-      autoComplete: 'current-password',
-      textContentType: 'password',
+      autoComplete: Platform.select({
+        ios: 'off',
+        android: 'current-password',
+        default: 'off',
+      }),
+      textContentType: 'none',
     },
     phone: {
       keyboardType: 'phone-pad',
