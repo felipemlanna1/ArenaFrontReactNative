@@ -249,6 +249,7 @@ export const getInputTypeConfig = (
         default: 'off',
       }),
       textContentType: 'none',
+      passwordRules: '',
     },
     phone: {
       keyboardType: 'phone-pad',
