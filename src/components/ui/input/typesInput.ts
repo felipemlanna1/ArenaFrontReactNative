@@ -114,6 +114,7 @@ export interface InputTypeConfig {
   secureTextEntry?: boolean;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   multiline?: boolean;
+  passwordRules?: string;
 }
 
 export interface InputVariantConfig {

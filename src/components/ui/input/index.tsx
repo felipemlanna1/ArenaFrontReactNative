@@ -240,6 +240,7 @@ export const Input = React.memo<InputProps>(
             autoComplete={typeConfig.autoComplete}
             textContentType={typeConfig.textContentType}
             secureTextEntry={effectiveSecureTextEntry}
+            passwordRules={typeConfig.passwordRules}
             multiline={typeConfig.multiline}
             numberOfLines={typeConfig.multiline ? rows : 1}
             maxLength={
