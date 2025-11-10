@@ -32,6 +32,6 @@ export const styles = StyleSheet.create({
     marginVertical: ArenaSpacing.sm,
   },
   locationInputs: {
-    gap: ArenaSpacing.sm,
+    gap: ArenaSpacing.md,
   },
 });

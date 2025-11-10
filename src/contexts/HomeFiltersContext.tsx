@@ -16,6 +16,7 @@ import { FILTER_DEFAULTS } from '@/constants/filterDefaults';
 export interface ActiveFilters {
   sportIds?: string[];
   hasAvailableSpots?: boolean;
+  state?: string;
   city?: string;
   priceMin?: number;
   priceMax?: number;
@@ -176,7 +177,7 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   }, []);
 
   const clearCityFilter = useCallback(() => {
-    setActiveFilters(prev => ({ ...prev, city: undefined }));
+    setActiveFilters(prev => ({ ...prev, state: undefined, city: undefined }));
   }, []);
 
   const buildApiFilters = useMemo((): EventsFilter | null => {
@@ -229,7 +230,7 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     let count = 0;
 
     if (activeFilters.sportIds && activeFilters.sportIds.length > 0) count++;
-    if (activeFilters.city) count++;
+    if (activeFilters.state || activeFilters.city) count++;
     if (
       activeFilters.priceMin !== undefined ||
       activeFilters.priceMax !== undefined ||

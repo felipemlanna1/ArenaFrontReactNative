@@ -5,8 +5,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { StateDropdown } from '@/components/ui/stateDropdown';
+import { CityDropdown } from '@/components/ui/cityDropdown';
 import { FilterSection } from './components/FilterSection';
 import { EventFilterSection } from './components/EventFilterSection';
 import { SportsFilter } from './components/SportsFilter';
@@ -47,8 +48,12 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
           case 'startDateTo':
             updateFilter(key, undefined);
             break;
+          case 'state':
+            updateFilter('state', undefined);
+            updateFilter('city', undefined);
+            break;
           case 'city':
-            updateFilter(key, '');
+            updateFilter(key, undefined);
             break;
           case 'isFree':
           case 'hasAvailableSpots':
@@ -173,20 +178,31 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
           <View style={styles.section}>
             <FilterSection
               title="Localização"
-              count={activeFilters.city ? 1 : 0}
+              count={activeFilters.state || activeFilters.city ? 1 : 0}
               testID="filter-location"
             >
               <View style={styles.locationInputs}>
-                <Input
-                  label="Cidade"
-                  value={activeFilters.city ?? ''}
-                  onChangeText={value =>
-                    updateFilter('city', value || undefined)
-                  }
-                  placeholder="Digite a cidade"
-                  testID="filter-city-input"
-                  fullWidth
+                <StateDropdown
+                  value={activeFilters.state ?? ''}
+                  onChange={value => {
+                    updateFilter('state', value || undefined);
+                    if (activeFilters.state && activeFilters.state !== value) {
+                      updateFilter('city', undefined);
+                    }
+                  }}
+                  label="Estado"
+                  testID="filter-state-dropdown"
                 />
+
+                {activeFilters.state && (
+                  <CityDropdown
+                    value={activeFilters.city ?? ''}
+                    onChange={value => updateFilter('city', value || undefined)}
+                    stateUF={activeFilters.state}
+                    label="Cidade"
+                    testID="filter-city-dropdown"
+                  />
+                )}
               </View>
             </FilterSection>
           </View>
