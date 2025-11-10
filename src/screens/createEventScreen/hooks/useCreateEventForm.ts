@@ -12,7 +12,7 @@ interface UseCreateEventFormReturn {
   currentStep: FormStep;
   setCurrentStep: (step: FormStep) => void;
   updateFormData: (data: Partial<CreateEventFormData>) => void;
-  validateStep: (step: FormStep) => boolean;
+  validateStep: (step: FormStep, preserveOtherErrors?: boolean) => boolean;
   clearErrors: () => void;
   resetForm: () => void;
 }
@@ -44,8 +44,10 @@ export const useCreateEventForm = (
   }, []);
 
   const validateStep = useCallback(
-    (step: FormStep): boolean => {
-      const newErrors: CreateEventFormErrors = {};
+    (step: FormStep, preserveOtherErrors = false): boolean => {
+      const newErrors: CreateEventFormErrors = preserveOtherErrors
+        ? { ...errors }
+        : {};
 
       switch (step) {
         case FormStep.BASIC_INFO:
@@ -149,7 +151,7 @@ export const useCreateEventForm = (
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
     },
-    [formData]
+    [formData, errors]
   );
 
   return {

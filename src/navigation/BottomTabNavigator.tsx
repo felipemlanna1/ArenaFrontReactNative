@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {
@@ -97,6 +98,8 @@ const ProfileStackScreen: React.FC = () => {
 };
 
 export const BottomTabNavigator: React.FC = () => {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -108,8 +111,8 @@ export const BottomTabNavigator: React.FC = () => {
           backgroundColor: ArenaColors.neutral.darkest,
           borderTopColor: ArenaColors.neutral.dark,
           borderTopWidth: ArenaBorders.width.thin,
-          height: ArenaSpacing['6xl'],
-          paddingBottom: ArenaSpacing.lg,
+          height: ArenaSpacing['6xl'] + insets.bottom,
+          paddingBottom: insets.bottom > 0 ? insets.bottom : ArenaSpacing.lg,
           paddingTop: ArenaSpacing.sm,
         },
         tabBarLabelStyle: {
