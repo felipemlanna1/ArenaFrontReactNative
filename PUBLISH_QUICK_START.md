@@ -57,7 +57,7 @@ A IA executará automaticamente o comando correto.
 Após publicar, compartilhe este link:
 
 ```
-exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=production&runtime-version=1.0.2
+exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=production&runtime-version=1.0.3
 ```
 
 ## 📖 Guia Completo

@@ -45,6 +45,7 @@ export interface EventLocation {
   latitude?: number;
   longitude?: number;
   formattedAddress?: string;
+  referencePoint?: string;
 }
 
 export interface AgeRestriction {
@@ -131,6 +132,7 @@ export const DEFAULT_EVENT_VALUES: CreateEventFormData = {
     latitude: undefined,
     longitude: undefined,
     formattedAddress: '',
+    referencePoint: '',
   },
   maxParticipants: null,
   price: 0,
@@ -161,6 +163,7 @@ export interface CreateEventDto {
     latitude?: number;
     longitude?: number;
     formattedAddress?: string;
+    referencePoint?: string;
   };
   price: number;
   currency: string;

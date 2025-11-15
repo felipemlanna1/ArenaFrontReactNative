@@ -37,7 +37,7 @@ npx eas update --branch main --message "Versão de testes"
 ### Link Direto (mais fácil)
 
 ```
-exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=production&runtime-version=1.0.2
+exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=production&runtime-version=1.0.3
 ```
 
 ### Instruções para Testadores
@@ -82,7 +82,7 @@ npx eas channel:edit production --branch nome-da-outra-branch
 
 - **Channel**: `production`
 - **Branch**: `main` (referência principal)
-- **Runtime Version**: `1.0.2` (vinculada à versão no app.json)
+- **Runtime Version**: `1.0.3` (vinculada à versão no app.json)
 - **Backend**: `https://backsportpulsemobile-production.up.railway.app`
 
 ## ⚙️ Configurações Importantes
@@ -92,7 +92,7 @@ npx eas channel:edit production --branch nome-da-outra-branch
 ```json
 {
   "expo": {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "runtimeVersion": {
       "policy": "appVersion"
     },
@@ -224,6 +224,6 @@ npx eas update --branch main --message "[mensagem gerada]"
 
 ---
 
-**Última Atualização**: 2025-11-07
-**Versão Atual**: 1.0.2
+**Última Atualização**: 2025-11-10
+**Versão Atual**: 1.0.3
 **Maintainer**: @felipemlanna1
