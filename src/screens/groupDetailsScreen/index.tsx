@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -52,6 +52,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
 
   const [showAllMembers, setShowAllMembers] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showFab, setShowFab] = useState(true);
 
   const { statistics, isLoading: isLoadingStats } = useGroupStatistics(groupId);
 
@@ -75,6 +76,14 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const scrollY = event.nativeEvent.contentOffset.y;
+      setShowFab(scrollY <= 100);
+    },
+    []
+  );
 
   const isMember = group?.currentUserStatus === 'MEMBER';
   const canManage =
@@ -109,6 +118,8 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
       >
         <ProfileHeroSection
           {...mapGroupToHeroData(group)}
@@ -263,7 +274,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
         isLoading={actionLoading}
       />
 
-      {canManage && (
+      {canManage && showFab && (
         <Fab
           variant="primary"
           size="md"
