@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { friendshipsApi } from '@/services/friendships/friendshipsApi';
 import { useAuth } from '@/contexts/AuthContext';
-import { useNotification } from '@/contexts/NotificationContext';
+import { useToast } from '@/contexts/ToastContext';
 import { FriendshipData, FriendshipActionType } from './typesFriendshipActions';
 
 interface UseFriendshipActionsReturn {
@@ -19,7 +19,7 @@ export const useFriendshipActions = (
   onStatusChange?: () => void
 ): UseFriendshipActionsReturn => {
   const { user: currentUser } = useAuth();
-  const { showSuccess, showError } = useNotification();
+  const { showToast } = useToast();
   const [friendshipData, setFriendshipData] = useState<FriendshipData | null>(
     null
   );
@@ -63,29 +63,29 @@ export const useFriendshipActions = (
     try {
       setIsLoading(true);
       await friendshipsApi.sendFriendRequest({ addresseeId: userId });
-      showSuccess('Solicitação enviada com sucesso');
+      showToast('Solicitação enviada com sucesso', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
     } catch (error) {
-      showError('Erro ao enviar solicitação de amizade');
+      showToast('Erro ao enviar solicitação de amizade', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [userId, fetchFriendshipStatus, onStatusChange, showSuccess, showError]);
+  }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleCancelRequest = useCallback(async () => {
     try {
       setIsLoading(true);
       await friendshipsApi.cancelFriendRequest(userId);
-      showSuccess('Solicitação cancelada');
+      showToast('Solicitação cancelada', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
     } catch (error) {
-      showError('Erro ao cancelar solicitação');
+      showToast('Erro ao cancelar solicitação', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [userId, fetchFriendshipStatus, onStatusChange, showSuccess, showError]);
+  }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleAcceptRequest = useCallback(async () => {
     if (!friendshipData) return;
@@ -93,50 +93,43 @@ export const useFriendshipActions = (
     try {
       setIsLoading(true);
       await friendshipsApi.acceptFriendRequest(userId);
-      showSuccess('Solicitação aceita');
+      showToast('Solicitação aceita', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
     } catch (error) {
-      showError('Erro ao aceitar solicitação');
+      showToast('Erro ao aceitar solicitação', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [
-    userId,
-    friendshipData,
-    fetchFriendshipStatus,
-    onStatusChange,
-    showSuccess,
-    showError,
-  ]);
+  }, [userId, friendshipData, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleRejectRequest = useCallback(async () => {
     try {
       setIsLoading(true);
       await friendshipsApi.rejectFriendRequest(userId);
-      showSuccess('Solicitação recusada');
+      showToast('Solicitação recusada', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
     } catch (error) {
-      showError('Erro ao recusar solicitação');
+      showToast('Erro ao recusar solicitação', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [userId, fetchFriendshipStatus, onStatusChange, showSuccess, showError]);
+  }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleRemoveFriend = useCallback(async () => {
     try {
       setIsLoading(true);
       await friendshipsApi.removeFriend(userId);
-      showSuccess('Amizade removida');
+      showToast('Amizade removida', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
     } catch (error) {
-      showError('Erro ao remover amizade');
+      showToast('Erro ao remover amizade', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [userId, fetchFriendshipStatus, onStatusChange, showSuccess, showError]);
+  }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
 
   return {
     actionType: getActionType(),

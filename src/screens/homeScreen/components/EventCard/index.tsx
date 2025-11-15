@@ -87,22 +87,22 @@ export const EventCard: React.FC<EventCardProps> = ({
 
     switch (actionButton.type) {
       case 'manage':
-        onManagePress(event.id);
+        onManagePress?.(event.id);
         break;
       case 'join':
-        await onJoinEvent(event.id);
+        await onJoinEvent?.(event.id);
         break;
       case 'request':
-        await onRequestJoin(event.id);
+        await onRequestJoin?.(event.id);
         break;
       case 'cancel':
-        await onCancelParticipation(event.id);
+        await onCancelParticipation?.(event.id);
         break;
       case 'undo':
-        await onUndoRequest(event.id);
+        await onUndoRequest?.(event.id);
         break;
       case 'accept':
-        await onAcceptInvitation(event.id, event.invitationId);
+        await onAcceptInvitation?.(event.id, event.invitationId);
         break;
     }
   };
@@ -111,7 +111,7 @@ export const EventCard: React.FC<EventCardProps> = ({
     if (!secondaryActionButton) return;
 
     if (secondaryActionButton.type === 'reject') {
-      await onRejectInvitation(event.id, event.invitationId);
+      await onRejectInvitation?.(event.id, event.invitationId);
     }
   };
 

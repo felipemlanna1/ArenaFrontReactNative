@@ -11,7 +11,6 @@ import { styles } from './stylesSortModal';
 const SORT_OPTIONS: SortOption[] = [
   { id: 'date', label: 'Data do evento' },
   { id: 'price', label: 'Preço' },
-  { id: 'name', label: 'Nome' },
 ];
 
 export const SortModal: React.FC<SortModalProps> = ({

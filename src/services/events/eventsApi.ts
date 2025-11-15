@@ -33,6 +33,21 @@ const prepareParams = (params: Record<string, unknown>): URLSearchParams => {
 export class EventsApi {
   private readonly basePath = '/events';
 
+  private mapSortByToBackend(
+    sortBy?: 'date' | 'distance' | 'price' | 'name'
+  ): string | undefined {
+    if (!sortBy) return undefined;
+
+    const mapping: Record<string, string> = {
+      date: 'startDate',
+      distance: 'distance',
+      price: 'price',
+      name: 'startDate',
+    };
+
+    return mapping[sortBy] || 'startDate';
+  }
+
   async getFeedEvents(
     page: number = 1,
     filters: EventsFilter = {}
@@ -68,7 +83,7 @@ export class EventsApi {
     if (filters.userEventStatus && filters.userEventStatus.length > 0) {
       params.userEventStatus = filters.userEventStatus;
     }
-    if (filters.sortBy) params.sortBy = filters.sortBy;
+    if (filters.sortBy) params.sortBy = this.mapSortByToBackend(filters.sortBy);
     if (filters.sortOrder) params.sortOrder = filters.sortOrder;
 
     const queryString = prepareParams(params).toString();
