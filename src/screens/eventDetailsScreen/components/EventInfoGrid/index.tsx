@@ -68,6 +68,11 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
             <Text variant="bodyPrimary" style={styles.value} numberOfLines={2}>
               {location}
             </Text>
+            {event.location.referencePoint && (
+              <Text variant="captionSecondary" style={styles.valueSecondary}>
+                {event.location.referencePoint}
+              </Text>
+            )}
           </View>
         </View>
       </View>

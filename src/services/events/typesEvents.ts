@@ -45,6 +45,7 @@ export interface EventLocation {
   complement?: string;
   district?: string;
   formattedAddress?: string;
+  referencePoint?: string;
 }
 
 export interface EventSport {

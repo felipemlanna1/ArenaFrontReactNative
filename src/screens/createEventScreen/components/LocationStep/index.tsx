@@ -142,6 +142,23 @@ export const LocationStep: React.FC<LocationStepProps> = ({
         />
       </View>
 
+      <View style={styles.section}>
+        <Input
+          label="Ponto de referência"
+          placeholder="Ex: Quadra da prefeitura"
+          value={formData.location.referencePoint || ''}
+          onChangeText={referencePoint =>
+            onUpdate({
+              location: { ...formData.location, referencePoint },
+            })
+          }
+          maxLength={100}
+        />
+        <Text variant="captionMuted" style={styles.helpText}>
+          Opcional - ajuda a identificar o local
+        </Text>
+      </View>
+
       <View style={styles.row}>
         <View style={styles.flex2}>
           <Input
