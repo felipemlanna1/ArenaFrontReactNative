@@ -168,32 +168,24 @@ export class GroupsApi {
 
   async getUserGroups(userId: string): Promise<Group[]> {
     try {
-      const response = await httpService.getDirect<GroupMember[] | Group[]>(
-        `/users/${userId}/groups`
+      const response = await httpService.getDirect<GroupMember[]>(
+        `${this.basePath}/user/${userId}`
       );
 
-      if (!response) {
+      if (!response || !Array.isArray(response)) {
         return [];
       }
 
-      if (!Array.isArray(response)) {
-        return [];
-      }
+      const filtered = response.filter(
+        (member): member is GroupMember & { group: Group } =>
+          Boolean(member.group) && member.isActive
+      );
 
-      if (response.length === 0) {
-        return [];
-      }
-
-      const firstItem = response[0];
-      if ('group' in firstItem && firstItem.group) {
-        const filtered = (response as GroupMember[]).filter(
-          (member): member is GroupMember & { group: Group } =>
-            Boolean(member.group) && member.isActive
-        );
-        return filtered.map(member => member.group);
-      }
-
-      return response as Group[];
+      return filtered.map(member => ({
+        ...member.group,
+        currentUserRole: member.role,
+        currentUserStatus: 'MEMBER' as const,
+      }));
     } catch {
       return [];
     }
