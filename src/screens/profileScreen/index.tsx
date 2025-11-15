@@ -15,6 +15,7 @@ import { ProfileInfoSection } from './components/ProfileInfoSection';
 import { ProfileBioSection } from './components/ProfileBioSection';
 import { ProfileStatsSection } from './components/ProfileStatsSection';
 import { ProfileGroupsSection } from './components/ProfileGroupsSection';
+import { FriendshipActions } from './components/FriendshipActions';
 import {
   mapUserToDisplayData,
   getInitials,
@@ -105,6 +106,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             isEmailVerified={user.isEmailVerified}
             memberSince={formatMemberSince(user.createdAt)}
           />
+
+          {!isOwnProfile && userId && (
+            <FriendshipActions userId={userId} onStatusChange={refetch} />
+          )}
 
           <ProfileBioSection bio={displayData.bio} />
 
