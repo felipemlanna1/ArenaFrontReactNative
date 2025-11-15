@@ -1,5 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { View, ScrollView, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import {
+  View,
+  ScrollView,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
