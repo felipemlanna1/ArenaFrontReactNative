@@ -77,6 +77,19 @@ export const categorizeEvent = (event: Event): TimeCategory => {
 };
 
 export const groupEventsByTime = (events: Event[]): GroupedEventItem[] => {
+  const currentDate = new Date();
+  const futureEvents: Event[] = [];
+  const pastEvents: Event[] = [];
+
+  events.forEach(event => {
+    const eventDate = new Date(event.startDate);
+    if (eventDate > currentDate) {
+      futureEvents.push(event);
+    } else {
+      pastEvents.push(event);
+    }
+  });
+
   const grouped: Record<TimeCategory, Event[]> = {
     today: [],
     tomorrow: [],
@@ -85,7 +98,7 @@ export const groupEventsByTime = (events: Event[]): GroupedEventItem[] => {
     upcoming: [],
   };
 
-  events.forEach(event => {
+  futureEvents.forEach(event => {
     const category = categorizeEvent(event);
     grouped[category].push(event);
   });
@@ -111,6 +124,14 @@ export const groupEventsByTime = (events: Event[]): GroupedEventItem[] => {
   });
 
   return result;
+};
+
+export const getPastEvents = (events: Event[]): Event[] => {
+  const currentDate = new Date();
+  return events.filter(event => {
+    const eventDate = new Date(event.startDate);
+    return eventDate <= currentDate;
+  });
 };
 
 export const getCategoryLabel = (category: TimeCategory): string => {

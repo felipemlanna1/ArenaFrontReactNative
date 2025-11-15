@@ -39,6 +39,7 @@ export interface MyEventsScreenProps {
 export interface UseMyEventsScreenReturn {
   events: Event[];
   groupedEvents: GroupedEventItem[];
+  pastEvents: Event[];
   isLoading: boolean;
   isRefreshing: boolean;
   isLoadingMore: boolean;
