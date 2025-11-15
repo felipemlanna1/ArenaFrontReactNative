@@ -1,0 +1,21 @@
+appId: com.arena.app
+---
+# Helper: Login rápido para reusar em outros testes
+# Uso: runFlow: ../shared/login-helper.yaml
+# Pré-condição: App na tela de login
+
+- tapOn:
+    id: "email-input"
+- inputText: ${TEST_USER_EMAIL}
+
+- tapOn:
+    id: "password-input"
+- inputText: ${TEST_USER_PASSWORD}
+
+- tapOn:
+    id: "submit-button"
+
+# Aguardar sucesso (home screen)
+- assertVisible:
+    id: "home-screen"
+    timeout: 10000

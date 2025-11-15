@@ -1,0 +1,37 @@
+appId: com.arena.app
+---
+# Teste E2E: Login com Email/Senha
+# Autor: Claude Code (AI-generated)
+# Status: ✅ Stable
+# Duração estimada: ~15 segundos
+
+# Pré-condição: App instalado, usuário test@arena.com existe no backend
+
+- launchApp
+
+# Validar tela inicial de login
+- assertVisible:
+    text: "Login"
+
+# Preencher email
+- tapOn:
+    id: "email-input"
+- inputText: ${TEST_USER_EMAIL}
+
+# Preencher senha
+- tapOn:
+    id: "password-input"
+- inputText: ${TEST_USER_PASSWORD}
+
+# Submeter formulário
+- tapOn:
+    id: "submit-button"
+
+# Validar sucesso - chegou na home
+- assertVisible:
+    id: "home-screen"
+    timeout: 10000
+
+# Validar FAB de criar evento está presente
+- assertVisible:
+    id: "create-event-fab"
