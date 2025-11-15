@@ -7,7 +7,7 @@ import {
   EventFilterType,
 } from './typesMyEventsScreen';
 import { useMyEvents } from './hooks/useMyEvents';
-import { groupEventsByTime } from './utils/eventGrouping';
+import { groupEventsByTime, getPastEvents } from './utils/eventGrouping';
 import { useEventActions } from '@/hooks/useEventActions';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -38,6 +38,10 @@ export const useMyEventsScreen = (): UseMyEventsScreenReturn => {
     return groupEventsByTime(events);
   }, [events]);
 
+  const pastEvents = useMemo(() => {
+    return getPastEvents(events);
+  }, [events]);
+
   const eventActions = useEventActions(refreshEvents);
 
   const handleFilterChange = useCallback((filter: EventFilterType) => {
@@ -65,6 +69,7 @@ export const useMyEventsScreen = (): UseMyEventsScreenReturn => {
   return {
     events,
     groupedEvents,
+    pastEvents,
     isLoading,
     isRefreshing,
     isLoadingMore,

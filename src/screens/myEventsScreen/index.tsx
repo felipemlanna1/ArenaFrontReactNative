@@ -3,6 +3,7 @@ import { View, FlatList, ListRenderItem } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
+import { AccordionSection } from '@/components/accordionSection';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { EventCard } from '@/screens/homeScreen/components/EventCard';
@@ -24,6 +25,7 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
 }) => {
   const {
     groupedEvents,
+    pastEvents,
     isLoading,
     isLoadingMore,
     hasMore,
@@ -81,14 +83,42 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
   }, [isLoading, eventFilter]);
 
   const renderFooter = useCallback(() => {
-    if (!isLoadingMore) return null;
-
     return (
-      <View style={styles.loadingFooter}>
-        <SportsLoading size="sm" animationSpeed="fast" />
-      </View>
+      <>
+        {isLoadingMore && (
+          <View style={styles.loadingFooter}>
+            <SportsLoading size="sm" animationSpeed="fast" />
+          </View>
+        )}
+        {pastEvents.length > 0 && (
+          <AccordionSection
+            title="Eventos Passados"
+            count={pastEvents.length}
+            defaultExpanded={false}
+          >
+            {pastEvents.map(event => (
+              <View key={event.id} style={styles.eventCardContainer}>
+                <EventCard
+                  event={event}
+                  onDetailsPress={handleDetailsPress}
+                  onManagePress={undefined}
+                  onShare={handleShare}
+                  onJoinEvent={undefined}
+                  onRequestJoin={undefined}
+                  onCancelParticipation={undefined}
+                  onUndoRequest={undefined}
+                  onAcceptInvitation={undefined}
+                  onRejectInvitation={undefined}
+                  isActionLoading={false}
+                  currentActionEventId={null}
+                />
+              </View>
+            ))}
+          </AccordionSection>
+        )}
+      </>
     );
-  }, [isLoadingMore]);
+  }, [isLoadingMore, pastEvents, handleDetailsPress, handleShare]);
 
   const keyExtractor = useCallback((item: GroupedEventItem, index: number) => {
     if (item.type === 'header') {
