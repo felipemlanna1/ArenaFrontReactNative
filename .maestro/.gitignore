@@ -1,0 +1,12 @@
+# Maestro artifacts
+*.png
+*.mp4
+*.log
+maestro-report.xml
+
+# Environment secrets (usar .env.example)
+.env
+maestro.env
+
+# OS files
+.DS_Store
