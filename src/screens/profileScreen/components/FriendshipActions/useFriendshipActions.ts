@@ -33,7 +33,7 @@ export const useFriendshipActions = (
       setIsInitialLoading(true);
       const response = await friendshipsApi.getFriendshipStatus(userId);
       setFriendshipData(response as FriendshipData);
-    } catch (error) {
+    } catch {
       setFriendshipData({ status: null });
     } finally {
       setIsInitialLoading(false);
@@ -66,7 +66,7 @@ export const useFriendshipActions = (
       showToast('Solicitação enviada com sucesso', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
-    } catch (error) {
+    } catch {
       showToast('Erro ao enviar solicitação de amizade', 'error');
     } finally {
       setIsLoading(false);
@@ -80,7 +80,7 @@ export const useFriendshipActions = (
       showToast('Solicitação cancelada', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
-    } catch (error) {
+    } catch {
       showToast('Erro ao cancelar solicitação', 'error');
     } finally {
       setIsLoading(false);
@@ -96,12 +96,18 @@ export const useFriendshipActions = (
       showToast('Solicitação aceita', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
-    } catch (error) {
+    } catch {
       showToast('Erro ao aceitar solicitação', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [userId, friendshipData, fetchFriendshipStatus, onStatusChange, showToast]);
+  }, [
+    userId,
+    friendshipData,
+    fetchFriendshipStatus,
+    onStatusChange,
+    showToast,
+  ]);
 
   const handleRejectRequest = useCallback(async () => {
     try {
@@ -110,7 +116,7 @@ export const useFriendshipActions = (
       showToast('Solicitação recusada', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
-    } catch (error) {
+    } catch {
       showToast('Erro ao recusar solicitação', 'error');
     } finally {
       setIsLoading(false);
@@ -124,7 +130,7 @@ export const useFriendshipActions = (
       showToast('Amizade removida', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
-    } catch (error) {
+    } catch {
       showToast('Erro ao remover amizade', 'error');
     } finally {
       setIsLoading(false);

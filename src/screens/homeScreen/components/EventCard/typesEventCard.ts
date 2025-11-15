@@ -9,8 +9,14 @@ export interface EventCardProps {
   onRequestJoin?: (eventId: string) => Promise<void>;
   onCancelParticipation?: (eventId: string) => Promise<void>;
   onUndoRequest?: (eventId: string) => Promise<void>;
-  onAcceptInvitation?: (eventId: string, invitationId?: string) => Promise<void>;
-  onRejectInvitation?: (eventId: string, invitationId?: string) => Promise<void>;
+  onAcceptInvitation?: (
+    eventId: string,
+    invitationId?: string
+  ) => Promise<void>;
+  onRejectInvitation?: (
+    eventId: string,
+    invitationId?: string
+  ) => Promise<void>;
   isActionLoading?: boolean;
   currentActionEventId?: string | null;
   testID?: string;
