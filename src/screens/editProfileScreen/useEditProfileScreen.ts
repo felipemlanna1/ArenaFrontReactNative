@@ -164,6 +164,7 @@ export const useEditProfileScreen = ({
             prev.primarySportId === sportId ? null : prev.primarySportId,
         };
       } else {
+        const isFirstSport = prev.selectedSports.length === 0;
         return {
           ...prev,
           selectedSports: [...prev.selectedSports, sportId],
@@ -171,6 +172,7 @@ export const useEditProfileScreen = ({
             ...prev.sportLevels,
             [sportId]: SkillLevel.INTERMEDIATE,
           },
+          primarySportId: isFirstSport ? sportId : prev.primarySportId,
         };
       }
     });
