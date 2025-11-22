@@ -12,6 +12,7 @@ import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
 import { FilterScreen } from '../screens/filterScreen';
 import { CreateEventScreen } from '../screens/createEventScreen';
 import { EventDetailsScreen } from '../screens/eventDetailsScreen';
+import { GroupDetailsScreen } from '../screens/groupDetailsScreen';
 import { ProfileScreen } from '../screens/profileScreen';
 import { EditProfileScreen } from '../screens/editProfileScreen';
 import { NotificationsScreen } from '../screens/notificationsScreen';
@@ -43,6 +44,9 @@ const WrappedCreateEventScreen = withAndroidScreenWrapper(CreateEventScreen, {
   enableScroll: false,
 });
 const WrappedEventDetailsScreen = withAndroidScreenWrapper(EventDetailsScreen, {
+  enableScroll: false,
+});
+const WrappedGroupDetailsScreen = withAndroidScreenWrapper(GroupDetailsScreen, {
   enableScroll: false,
 });
 const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen);
@@ -132,6 +136,14 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen
               name="EventDetails"
               component={WrappedEventDetailsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="GroupDetails"
+              component={WrappedGroupDetailsScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
