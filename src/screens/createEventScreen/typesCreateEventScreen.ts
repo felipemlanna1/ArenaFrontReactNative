@@ -168,6 +168,7 @@ export interface CreateEventDto {
   price: number;
   currency: string;
   maxParticipants?: number;
+  coverImage?: string;
   skillLevel?: SkillLevel;
   ageRestriction?: {
     min?: number;

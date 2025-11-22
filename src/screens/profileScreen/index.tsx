@@ -92,7 +92,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           initials={initials}
           showBackButton={false}
           onBackPress={handleBackPress}
-          coverImageUrl={null}
+          coverImageUrl={displayData.coverImageUrl}
           primarySport={primarySport}
         />
 
@@ -107,10 +107,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             memberSince={formatMemberSince(user.createdAt)}
           />
 
-          {!isOwnProfile && userId && (
-            <FriendshipActions userId={userId} onStatusChange={refetch} />
-          )}
-
           <ProfileBioSection bio={displayData.bio} />
 
           <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
@@ -121,6 +117,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           />
         </View>
       </ScrollView>
+
+      {!isOwnProfile && userId && (
+        <View style={styles.friendshipActionsContainer}>
+          <FriendshipActions userId={userId} onStatusChange={refetch} />
+        </View>
+      )}
 
       {isOwnProfile && (
         <TouchableOpacity

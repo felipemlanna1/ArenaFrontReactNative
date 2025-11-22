@@ -31,6 +31,7 @@ export interface UserData {
   gender?: 'male' | 'female' | 'other';
   bio?: string;
   profilePicture?: string;
+  coverImage?: string;
   city?: string;
   state?: string;
   isProfilePrivate?: boolean;

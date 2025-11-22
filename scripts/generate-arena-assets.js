@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable */
 
 /**
  * Script para gerar assets do Arena (ícones e splash screens)

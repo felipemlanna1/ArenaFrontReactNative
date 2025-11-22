@@ -137,6 +137,7 @@ export const useCreateEventScreen = ({
           location: formData.location,
           price: formData.price || 0,
           maxParticipants: formData.maxParticipants || undefined,
+          coverImage: formData.coverImage,
           privacy: formData.privacy || 'PUBLIC',
           isFree: formData.isFree ?? (!formData.price || formData.price === 0),
         };

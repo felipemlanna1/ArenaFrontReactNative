@@ -33,9 +33,7 @@ export default function App() {
 
   if (!assetsLoaded || showSplash) {
     return (
-      <AnimatedSplashScreen
-        onAnimationComplete={() => setShowSplash(false)}
-      />
+      <AnimatedSplashScreen onAnimationComplete={() => setShowSplash(false)} />
     );
   }
 

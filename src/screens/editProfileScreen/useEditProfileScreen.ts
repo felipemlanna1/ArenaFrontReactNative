@@ -1,11 +1,11 @@
-import { useState, useCallback, useEffect } from 'react';
-import * as ImagePicker from 'expo-image-picker';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAlert } from '@/contexts/AlertContext';
 import { useSports } from '@/contexts/SportsContext';
 import { usersApi } from '@/services/users/api';
 import { updateUserSports } from '@/services/sports';
 import { SkillLevel, Sport } from '@/types/sport';
+import { useImageUpload } from '@/hooks/useImageUpload';
 import {
   EditProfileFormData,
   EditProfileFormErrors,
@@ -17,6 +17,10 @@ interface UseEditProfileScreenReturn {
   isLoading: boolean;
   isSaving: boolean;
   availableSports: Sport[];
+  isUploadingAvatar: boolean;
+  isUploadingCover: boolean;
+  avatarUploadProgress: number;
+  coverUploadProgress: number;
   handleFieldChange: (
     field: keyof EditProfileFormData,
     value: string | Date | boolean | null
@@ -43,6 +47,18 @@ export const useEditProfileScreen = ({
   const { showSuccess, showError, showConfirm } = useAlert();
   const { sports: availableSports, isLoading: sportsLoading } = useSports();
 
+  const avatarUpload = useImageUpload({
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 0.8,
+  });
+
+  const coverUpload = useImageUpload({
+    allowsEditing: true,
+    aspect: [16, 9],
+    quality: 0.8,
+  });
+
   const [formData, setFormData] = useState<EditProfileFormData>({
     firstName: '',
     lastName: '',
@@ -60,11 +76,12 @@ export const useEditProfileScreen = ({
   const [errors, setErrors] = useState<EditProfileFormErrors>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        if (user && !sportsLoading) {
+        if (!isInitializedRef.current && user && !sportsLoading) {
           const userSportIds = user.sports?.map(s => s.sportId) || [];
 
           const sportLevels: { [sportId: string]: SkillLevel } = {};
@@ -79,32 +96,33 @@ export const useEditProfileScreen = ({
 
           const dateOfBirthValue = user.dateOfBirth || user.birthDate || null;
 
-          setFormData({
+          setFormData(prev => ({
             firstName: user.firstName || '',
             lastName: user.lastName || '',
             bio: user.bio || '',
             birthDate: dateOfBirthValue ? new Date(dateOfBirthValue) : null,
             gender: user.gender || null,
-            profilePicture: user.profilePicture || null,
-            coverPhoto: null,
+            profilePicture: prev.profilePicture || user.profilePicture || null,
+            coverPhoto: prev.coverPhoto || user.coverImage || null,
             state: user.state || '',
             city: user.city || '',
             isProfilePrivate: user.isProfilePrivate || false,
             selectedSports: userSportIds,
             sportLevels,
             primarySportId,
-          });
+          }));
+
+          isInitializedRef.current = true;
+          setIsLoading(false);
         }
       } catch {
         showError('Erro ao carregar dados');
-      } finally {
         setIsLoading(false);
       }
     };
 
     loadData();
   }, [user, sportsLoading, showError]);
-
   const validateForm = useCallback((): boolean => {
     const newErrors: EditProfileFormErrors = {};
 
@@ -221,6 +239,8 @@ export const useEditProfileScreen = ({
         state: formData.state || undefined,
         city: formData.city || undefined,
         isProfilePrivate: formData.isProfilePrivate,
+        profilePicture: formData.profilePicture || undefined,
+        coverImage: formData.coverPhoto || undefined,
       });
 
       if (formData.selectedSports.length > 0) {
@@ -234,7 +254,7 @@ export const useEditProfileScreen = ({
           sports: sportsData,
         });
 
-        await updateUser({
+        const finalUser = {
           ...updatedUser,
           hasSports: true,
           sports: updatedSports.map(userSport => ({
@@ -245,13 +265,15 @@ export const useEditProfileScreen = ({
             isPrimary: userSport.isPrimary,
             skillLevel: userSport.skillLevel,
           })),
-        });
+        };
+        await updateUser(finalUser);
       } else {
-        await updateUser({
+        const finalUser = {
           ...updatedUser,
           hasSports: false,
           sports: [],
-        });
+        };
+        await updateUser(finalUser);
       }
 
       showSuccess('Perfil atualizado com sucesso', () => navigation.goBack());
@@ -275,50 +297,64 @@ export const useEditProfileScreen = ({
   ]);
 
   const handlePickProfilePicture = useCallback(async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!user?.id) return;
 
-    if (status !== 'granted') {
-      showError('Precisamos de permissão para acessar suas fotos');
-      return;
+    try {
+      const selectedImage = await avatarUpload.pickImage();
+
+      if (selectedImage) {
+        const url = await avatarUpload.uploadImage({
+          image: selectedImage,
+          folder: `/users/${user.id}/avatar`,
+          fileName: `avatar_${Date.now()}.jpg`,
+          tags: ['avatar', 'profile'],
+        });
+
+        if (url) {
+          setFormData(prev => ({
+            ...prev,
+            profilePicture: url,
+          }));
+          showSuccess('Foto de perfil atualizada');
+        }
+      }
+    } catch (error) {
+      showError(
+        error instanceof Error ? error.message : 'Erro ao fazer upload da foto'
+      );
     }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.8,
-    });
-
-    if (!result.canceled && result.assets[0]) {
-      setFormData(prev => ({
-        ...prev,
-        profilePicture: result.assets[0].uri,
-      }));
-    }
-  }, [showError]);
+  }, [user?.id, avatarUpload, showSuccess, showError]);
 
   const handlePickCoverPhoto = useCallback(async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!user?.id) return;
 
-    if (status !== 'granted') {
-      showError('Precisamos de permissão para acessar suas fotos');
-      return;
+    try {
+      const selectedImage = await coverUpload.pickImage();
+
+      if (selectedImage) {
+        const url = await coverUpload.uploadImage({
+          image: selectedImage,
+          folder: `/users/${user.id}/cover`,
+          fileName: `cover_${Date.now()}.jpg`,
+          tags: ['cover', 'profile'],
+        });
+
+        if (url) {
+          setFormData(prev => ({
+            ...prev,
+            coverPhoto: url,
+          }));
+          showSuccess('Foto de capa atualizada');
+        }
+      }
+    } catch (error) {
+      showError(
+        error instanceof Error
+          ? error.message
+          : 'Erro ao fazer upload da foto de capa'
+      );
     }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.8,
-    });
-
-    if (!result.canceled && result.assets[0]) {
-      setFormData(prev => ({
-        ...prev,
-        coverPhoto: result.assets[0].uri,
-      }));
-    }
-  }, [showError]);
+  }, [user?.id, coverUpload, showSuccess, showError]);
 
   const handleCancel = useCallback(() => {
     showConfirm({
@@ -336,6 +372,10 @@ export const useEditProfileScreen = ({
     isLoading,
     isSaving,
     availableSports,
+    isUploadingAvatar: avatarUpload.isUploading,
+    isUploadingCover: coverUpload.isUploading,
+    avatarUploadProgress: avatarUpload.uploadProgress,
+    coverUploadProgress: coverUpload.uploadProgress,
     handleFieldChange,
     handleToggleSport,
     handleTogglePrimary,

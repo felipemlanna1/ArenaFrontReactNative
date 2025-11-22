@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
@@ -8,9 +9,14 @@ import { Switch } from '@/components/ui/switch';
 import { StateDropdown } from '@/components/ui/stateDropdown';
 import { CityDropdown } from '@/components/ui/cityDropdown';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
+import { Label } from '@/components/ui/label';
 import { AppLayout } from '@/components/AppLayout';
 import { useSports } from '@/contexts/SportsContext';
 import { useGroups } from '@/contexts/GroupsContext';
+import { useImageUpload } from '@/hooks/useImageUpload';
+import { useAlert } from '@/contexts/AlertContext';
+import { ArenaColors } from '@/constants';
 import { CreateGroupScreenProps } from './typesCreateGroupScreen';
 import { useCreateGroupScreen } from './useCreateGroupScreen';
 import { styles } from './stylesCreateGroupScreen';
@@ -29,6 +35,13 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
   const { formData, errors, isSubmitting, updateField, handleSubmit } =
     useCreateGroupScreen(isEditMode ? groupData : undefined, groupId);
 
+  const coverUpload = useImageUpload({
+    allowsEditing: true,
+    aspect: [16, 9],
+    quality: 0.8,
+  });
+  const { showSuccess, showError } = useAlert();
+
   const handleCreate = useCallback(async () => {
     const success = await handleSubmit();
     if (success) {
@@ -40,6 +53,32 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+
+  const handlePickGroupCover = useCallback(async () => {
+    try {
+      const selectedImage = await coverUpload.pickImage();
+
+      if (selectedImage) {
+        const url = await coverUpload.uploadImage({
+          image: selectedImage,
+          folder: `/groups`,
+          fileName: `group_cover_${Date.now()}.jpg`,
+          tags: ['group', 'cover'],
+        });
+
+        if (url) {
+          updateField('coverImage', url);
+          showSuccess('Imagem de capa adicionada');
+        }
+      }
+    } catch (error) {
+      showError(
+        error instanceof Error
+          ? error.message
+          : 'Erro ao fazer upload da imagem'
+      );
+    }
+  }, [coverUpload, updateField, showSuccess, showError]);
 
   return (
     <AppLayout onBack={handleGoBack}>
@@ -73,6 +112,41 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
             multiline
             numberOfLines={4}
           />
+        </View>
+
+        <View style={styles.section}>
+          <Label variant="form">Imagem de Capa (Opcional)</Label>
+          <TouchableOpacity
+            onPress={handlePickGroupCover}
+            disabled={coverUpload.isUploading || isSubmitting}
+            style={styles.coverSection}
+          >
+            <View>
+              {formData.coverImage ? (
+                <OptimizedImage
+                  source={{ uri: formData.coverImage }}
+                  style={styles.coverPreview}
+                  contentFit="cover"
+                  priority="normal"
+                />
+              ) : (
+                <View style={styles.coverPlaceholder}>
+                  <Ionicons
+                    name="image"
+                    size={32}
+                    color={ArenaColors.neutral.medium}
+                  />
+                </View>
+              )}
+              <Text variant="captionSecondary" style={styles.coverText}>
+                {coverUpload.isUploading
+                  ? `Fazendo upload... ${Math.round(coverUpload.uploadProgress)}%`
+                  : formData.coverImage
+                    ? 'Toque para alterar'
+                    : 'Toque para adicionar'}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.section}>

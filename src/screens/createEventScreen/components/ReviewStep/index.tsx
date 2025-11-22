@@ -4,7 +4,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { PrivacyBadge } from '@/components/ui/privacyBadge';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
+import { Label } from '@/components/ui/label';
 import { ArenaColors } from '@/constants';
+import { useImageUpload } from '@/hooks/useImageUpload';
+import { useAlert } from '@/contexts/AlertContext';
 import { ReviewStepProps } from './typesReviewStep';
 import { styles } from './stylesReviewStep';
 
@@ -14,6 +18,12 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   onUpdate,
 }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const coverUpload = useImageUpload({
+    allowsEditing: true,
+    aspect: [16, 9],
+    quality: 0.8,
+  });
+  const { showSuccess, showError } = useAlert();
 
   const formatDate = (date: Date | null) => {
     if (!date) return '-';
@@ -29,6 +39,32 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   const formatLocation = () => {
     const { street, number, district, city, state } = formData.location;
     return `${street}${number ? `, ${number}` : ''} - ${district}, ${city}/${state}`;
+  };
+
+  const handlePickEventCover = async () => {
+    try {
+      const selectedImage = await coverUpload.pickImage();
+
+      if (selectedImage) {
+        const url = await coverUpload.uploadImage({
+          image: selectedImage,
+          folder: `/events`,
+          fileName: `event_cover_${Date.now()}.jpg`,
+          tags: ['event', 'cover'],
+        });
+
+        if (url) {
+          onUpdate({ coverImage: url });
+          showSuccess('Imagem de capa adicionada');
+        }
+      }
+    } catch (error) {
+      showError(
+        error instanceof Error
+          ? error.message
+          : 'Erro ao fazer upload da imagem'
+      );
+    }
   };
 
   return (
@@ -171,6 +207,41 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               maxLength={1000}
               error={errors.requirements}
             />
+
+            <View style={styles.coverSection}>
+              <Label variant="form">Imagem de Capa (Opcional)</Label>
+              <TouchableOpacity
+                onPress={handlePickEventCover}
+                disabled={coverUpload.isUploading}
+                style={styles.coverButton}
+              >
+                <View>
+                  {formData.coverImage ? (
+                    <OptimizedImage
+                      source={{ uri: formData.coverImage }}
+                      style={styles.coverPreview}
+                      contentFit="cover"
+                      priority="normal"
+                    />
+                  ) : (
+                    <View style={styles.coverPlaceholder}>
+                      <Ionicons
+                        name="image"
+                        size={32}
+                        color={ArenaColors.neutral.medium}
+                      />
+                    </View>
+                  )}
+                  <Text variant="captionSecondary" style={styles.coverText}>
+                    {coverUpload.isUploading
+                      ? `Fazendo upload... ${Math.round(coverUpload.uploadProgress)}%`
+                      : formData.coverImage
+                        ? 'Toque para alterar'
+                        : 'Toque para adicionar'}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       </View>
