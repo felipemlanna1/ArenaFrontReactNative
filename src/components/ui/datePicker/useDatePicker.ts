@@ -14,7 +14,6 @@ export const useDatePicker = ({
   onChange,
 }: UseDatePickerParams): UseDatePickerReturn => {
   const [showPicker, setShowPicker] = useState(false);
-  const [tempDate, setTempDate] = useState<Date | null>(null);
   const [tempValue, setTempValue] = useState<Date | null>(null);
 
   const mode: DatePickerMode = useMemo(() => {
@@ -63,7 +62,6 @@ export const useDatePicker = ({
     if (Platform.OS === 'ios') {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-    setTempDate(null);
     setTempValue(value || new Date());
 
     if (Platform.OS === 'android') {
@@ -127,7 +125,7 @@ export const useDatePicker = ({
         }
       }
     },
-    [onChange, variant, tempDate]
+    [onChange, variant]
   );
 
   const handleConfirm = useCallback(async () => {

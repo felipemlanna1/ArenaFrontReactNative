@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -14,6 +14,7 @@ import { SkillLevelModal } from '@/components/ui/skillLevelModal';
 import { StateDropdown } from '@/components/ui/stateDropdown';
 import { CityDropdown } from '@/components/ui/cityDropdown';
 import { Switch } from '@/components/ui/switch';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { SkillLevel } from '@/types/sport';
 import { ArenaColors } from '@/constants';
 import { useEditProfileScreen } from './useEditProfileScreen';
@@ -139,9 +140,11 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           >
             <View>
               {formData.profilePicture ? (
-                <Image
+                <OptimizedImage
                   source={{ uri: formData.profilePicture }}
                   style={styles.profilePictureImage}
+                  contentFit="cover"
+                  priority="high"
                 />
               ) : (
                 <View style={styles.profilePictureContainer}>
@@ -165,9 +168,11 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           >
             <View>
               {formData.coverPhoto ? (
-                <Image
+                <OptimizedImage
                   source={{ uri: formData.coverPhoto }}
                   style={styles.coverPhotoImage}
+                  contentFit="cover"
+                  priority="normal"
                 />
               ) : (
                 <View style={styles.coverPhotoContainer}>

@@ -35,6 +35,7 @@ export const useCreateGroupScreen = (
         state: existingGroup.state || '',
         isPublic: existingGroup.isPublic ?? true,
         maxMembers: existingGroup.maxMembers,
+        coverImage: existingGroup.coverImage,
       });
     }
   }, [existingGroup]);
@@ -82,6 +83,7 @@ export const useCreateGroupScreen = (
           state: formData.state || undefined,
           isPublic: formData.isPublic,
           maxMembers: formData.maxMembers,
+          coverImage: formData.coverImage,
         });
       } else {
         await groupsApi.createGroup({
@@ -92,6 +94,7 @@ export const useCreateGroupScreen = (
           state: formData.state || undefined,
           isPublic: formData.isPublic,
           maxMembers: formData.maxMembers,
+          coverImage: formData.coverImage,
         });
       }
       return true;

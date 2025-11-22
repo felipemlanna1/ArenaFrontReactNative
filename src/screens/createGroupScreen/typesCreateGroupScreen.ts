@@ -14,4 +14,5 @@ export interface CreateGroupFormData {
   state: string;
   isPublic: boolean;
   maxMembers?: number;
+  coverImage?: string;
 }

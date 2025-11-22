@@ -11,6 +11,7 @@ export interface UpdateUserDto {
   gender?: 'male' | 'female' | 'other';
   bio?: string;
   profilePicture?: string;
+  coverImage?: string;
   state?: string;
   city?: string;
   isProfilePrivate?: boolean;
@@ -79,6 +80,21 @@ class UsersApi {
     const response = await httpService.get<UserStatsResponseDto>(
       `${this.basePath}/${userId}/stats`
     );
+    return response;
+  }
+
+  async updateProfilePicture(profilePicture: string): Promise<UserData> {
+    const response = await httpService.patch<UserData>(
+      '/auth/me/profile-picture',
+      { profilePicture }
+    );
+    return response;
+  }
+
+  async updateCoverImage(coverImage: string): Promise<UserData> {
+    const response = await httpService.patch<UserData>('/auth/me/cover-image', {
+      coverImage,
+    });
     return response;
   }
 }

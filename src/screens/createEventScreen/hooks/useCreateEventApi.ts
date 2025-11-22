@@ -62,6 +62,7 @@ export const useCreateEventApi = (): UseCreateEventApiReturn => {
           formData.maxParticipants !== null
             ? Math.floor(formData.maxParticipants)
             : undefined,
+        coverImage: formData.coverImage || undefined,
         skillLevel: formData.skillLevel || undefined,
         ageRestriction:
           formData.ageRestriction?.min || formData.ageRestriction?.max

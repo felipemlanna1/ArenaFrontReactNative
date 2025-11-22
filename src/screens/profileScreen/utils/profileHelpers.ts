@@ -75,6 +75,7 @@ export const mapUserToDisplayData = (user: UserData): ProfileDisplayData => {
     gender: formatGender(user.gender),
     bio: user.bio || null,
     avatarUrl: user.profilePicture || user.avatar || null,
+    coverImageUrl: user.coverImage || null,
     sports,
   };
 };

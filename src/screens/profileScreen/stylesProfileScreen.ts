@@ -70,4 +70,15 @@ export const styles = StyleSheet.create({
     shadowOpacity: SHADOW_OPACITY,
     shadowRadius: SHADOW_RADIUS,
   },
+  friendshipActionsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+    backgroundColor: ArenaColors.neutral.darkest,
+    borderTopWidth: 1,
+    borderTopColor: ArenaColors.neutral.dark,
+  },
 });

@@ -59,7 +59,7 @@ export const FriendshipActions: React.FC<FriendshipActionsProps> = ({
     return (
       <View style={styles.container}>
         <View style={styles.buttonsRow}>
-          <View style={{ flex: 1 }}>
+          <View style={styles.buttonContainer}>
             <Button
               variant="primary"
               size="lg"
@@ -70,7 +70,7 @@ export const FriendshipActions: React.FC<FriendshipActionsProps> = ({
               Aceitar
             </Button>
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={styles.buttonContainer}>
             <Button
               variant="subtle"
               size="lg"

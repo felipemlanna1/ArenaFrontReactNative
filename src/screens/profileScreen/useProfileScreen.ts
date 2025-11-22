@@ -31,6 +31,14 @@ export const useProfileScreen = (
 
     try {
       setError(null);
+
+      if (isOwnProfile && currentUser) {
+        setUser(currentUser);
+        setIsLoading(false);
+        setIsRefreshing(false);
+        return;
+      }
+
       const userData = await usersApi.getUserProfile(targetUserId);
       setUser(userData);
     } catch (err) {
@@ -41,7 +49,7 @@ export const useProfileScreen = (
       setIsLoading(false);
       setIsRefreshing(false);
     }
-  }, [targetUserId]);
+  }, [targetUserId, isOwnProfile, currentUser]);
 
   useEffect(() => {
     fetchUserProfile();

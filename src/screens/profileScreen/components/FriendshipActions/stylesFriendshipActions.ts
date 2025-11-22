@@ -9,4 +9,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
   },
+  buttonContainer: {
+    flex: 1,
+  },
 });
