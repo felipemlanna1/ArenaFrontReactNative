@@ -34,13 +34,19 @@ npx eas update --branch main --message "Versão de testes"
 
 ## 📱 Informações para Testadores
 
-### Link Direto (mais fácil)
+### iOS - Link Expo Go (mais fácil)
 
 ```
-exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=production&runtime-version=1.0.3
+exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=main&runtime-version=1.0.4
 ```
 
-### Instruções para Testadores
+### Android - Link APK (Download Direto)
+
+```
+https://expo.dev/artifacts/eas/q5jNPm57DLcEdxLjP6EdaB.apk
+```
+
+### Instruções para Testadores iOS
 
 1. Instalar **Expo Go** da App Store: https://apps.apple.com/app/expo-go/id982107779
 2. Abrir o link acima no Safari do iPhone
@@ -51,6 +57,12 @@ exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=production&ru
 1. Abrir o Expo Go
 2. Fazer login com: `felipemlanna1`
 3. Tocar no projeto "Arena"
+
+### Instruções para Testadores Android
+
+1. Baixar o APK usando o link acima
+2. Permitir instalação de fontes desconhecidas (se solicitado)
+3. Instalar e abrir o app
 
 ## 🔧 Comandos Úteis
 
@@ -80,9 +92,9 @@ npx eas channel:edit production --branch nome-da-outra-branch
 
 ## 📊 Estrutura Atual
 
-- **Channel**: `production`
+- **Channel**: `main`
 - **Branch**: `main` (referência principal)
-- **Runtime Version**: `1.0.3` (vinculada à versão no app.json)
+- **Runtime Version**: `1.0.4` (vinculada à versão no app.json)
 - **Backend**: `https://backsportpulsemobile-production.up.railway.app`
 
 ## ⚙️ Configurações Importantes
@@ -92,7 +104,7 @@ npx eas channel:edit production --branch nome-da-outra-branch
 ```json
 {
   "expo": {
-    "version": "1.0.3",
+    "version": "1.0.4",
     "runtimeVersion": {
       "policy": "appVersion"
     },
@@ -167,9 +179,13 @@ Distribuir o link da build para os testadores instalarem.
 ### Para Mudanças Nativas (bibliotecas, configs, etc.)
 
 1. Fazer as alterações
-2. Atualizar versão no `app.json`: `"version": "1.0.3"`
+2. Atualizar versão no `app.json`: `"version": "1.0.4"`
 3. Criar nova build:
    ```bash
+   # Android APK
+   npx eas build --platform android --profile production
+
+   # iOS (requer conta developer)
    npx eas build --platform ios --profile preview
    ```
 4. Distribuir novo link de instalação
@@ -224,6 +240,25 @@ npx eas update --branch main --message "[mensagem gerada]"
 
 ---
 
-**Última Atualização**: 2025-11-10
-**Versão Atual**: 1.0.3
+**Última Atualização**: 2025-11-22
+**Versão Atual**: 1.0.4
 **Maintainer**: @felipemlanna1
+
+## 📦 Builds Disponíveis - v1.0.4
+
+### Android APK
+- **Link**: https://expo.dev/artifacts/eas/q5jNPm57DLcEdxLjP6EdaB.apk
+- **Build ID**: c2f5e4ac-59b8-4d8e-8ccb-5767ace4a0fd
+- **Data**: 2025-11-22
+
+### iOS Expo Go
+- **Link**: exp://u.expo.dev/ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b?channel-name=main&runtime-version=1.0.4
+- **Update ID**: d94c2862-9a34-44f9-83b2-af2dbee21253
+- **Data**: 2025-11-22
+
+### Changelog v1.0.4
+- ✅ Fix: Navegação para GroupDetails de notificações e deep links
+- ✅ Feature: Sistema completo de push notifications
+- ✅ Feature: Firebase FCM v1 integrado (Android)
+- ✅ Fix: Android 13+ notification channel timing
+- ✅ Fix: Deep linking quando app está em estado "killed"
