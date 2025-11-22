@@ -6,8 +6,23 @@ import {
   NotificationPermissionStatus,
   PushTokenData,
 } from './typesNotifications';
+import { ArenaColors } from '@/constants';
 
 export const notificationsService = {
+  async createDefaultChannel(): Promise<void> {
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'Default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: ArenaColors.brand.primary,
+        sound: 'default',
+        enableVibrate: true,
+        showBadge: true,
+      });
+    }
+  },
+
   async requestPermissions(): Promise<NotificationPermissionStatus> {
     if (!Device.isDevice) {
       return {
@@ -16,6 +31,8 @@ export const notificationsService = {
         status: 'denied',
       };
     }
+
+    await this.createDefaultChannel();
 
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();

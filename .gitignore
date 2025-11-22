@@ -48,3 +48,9 @@ yarn-error.*
 !.env.development
 !.env.development.device
 !.env.production
+
+# Firebase credentials (for push notifications)
+google-services.json
+*-firebase-adminsdk-*.json
+firebase-adminsdk*.json
+GoogleService-Info.plist

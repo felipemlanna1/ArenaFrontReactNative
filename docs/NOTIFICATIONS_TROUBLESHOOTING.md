@@ -1,3 +1,15 @@
+# ⚠️ DOCUMENTO OUTDATED - REFERÊNCIA HISTÓRICA APENAS
+
+> **ATENÇÃO**: Este documento descreve a antiga abordagem de integração direta com FCM e APNs.
+>
+> **IMPLEMENTAÇÃO ATUAL**: O projeto agora usa **Expo Push Service** que gerencia FCM e APNs automaticamente.
+>
+> **Consulte**: `NOTIFICATIONS_GUIDE.md` para a documentação atualizada.
+>
+> **Data desta nota**: 2025-01-21
+
+---
+
 # 🔧 Diagnóstico Completo: Por que as Notificações não Funcionam
 
 ## 📊 Status da Análise

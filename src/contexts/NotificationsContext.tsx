@@ -138,6 +138,48 @@ export const NotificationsProvider: React.FC<NotificationsProviderProps> = ({
     return () => subscription.remove();
   }, []);
 
+  useEffect(() => {
+    const handleInitialNotification = async () => {
+      const response = await Notifications.getLastNotificationResponseAsync();
+      if (response) {
+        const data = response.notification.request.content.data;
+        const entityType = data.entityType as string | undefined;
+        const entityId = data.entityId as string | undefined;
+
+        if (entityType && entityId) {
+          let deepLink = '';
+
+          switch (entityType) {
+            case 'event':
+              deepLink = `arena://event/${entityId}`;
+              break;
+            case 'group':
+              deepLink = `arena://group/${entityId}`;
+              break;
+            case 'user':
+              deepLink = `arena://profile/${entityId}`;
+              break;
+            case 'message':
+              deepLink = 'arena://notifications';
+              break;
+            default:
+              deepLink = 'arena://notifications';
+          }
+
+          setTimeout(() => {
+            Linking.openURL(deepLink).catch(() => {});
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            Linking.openURL('arena://notifications').catch(() => {});
+          }, 1000);
+        }
+      }
+    };
+
+    handleInitialNotification();
+  }, []);
+
   const updatePreferences = useCallback(
     async (prefs: Partial<NotificationPreferences>) => {
       const updated = await notificationsApi.updatePreferences(prefs);

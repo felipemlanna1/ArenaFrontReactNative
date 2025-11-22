@@ -4,6 +4,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
+import { NotificationsProvider } from './src/contexts/NotificationsContext';
 import { UnreadNotificationsProvider } from './src/contexts/UnreadNotificationsContext';
 import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ToastProvider } from './src/contexts/ToastContext';
@@ -42,19 +43,21 @@ export default function App() {
       <KeyboardProvider>
         <SportsProvider>
           <AuthProvider>
-            <AlertProvider>
-              <UnreadNotificationsProvider>
-                <ToastProvider>
-                  <GroupsProvider>
-                    <GroupsFiltersProvider>
-                      <HomeFiltersProvider>
-                        <AppNavigator />
-                      </HomeFiltersProvider>
-                    </GroupsFiltersProvider>
-                  </GroupsProvider>
-                </ToastProvider>
-              </UnreadNotificationsProvider>
-            </AlertProvider>
+            <NotificationsProvider>
+              <AlertProvider>
+                <UnreadNotificationsProvider>
+                  <ToastProvider>
+                    <GroupsProvider>
+                      <GroupsFiltersProvider>
+                        <HomeFiltersProvider>
+                          <AppNavigator />
+                        </HomeFiltersProvider>
+                      </GroupsFiltersProvider>
+                    </GroupsProvider>
+                  </ToastProvider>
+                </UnreadNotificationsProvider>
+              </AlertProvider>
+            </NotificationsProvider>
           </AuthProvider>
         </SportsProvider>
       </KeyboardProvider>

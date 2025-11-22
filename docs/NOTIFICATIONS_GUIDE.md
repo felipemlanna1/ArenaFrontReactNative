@@ -42,6 +42,31 @@
 
 ---
 
+## ✅ Checklist de Implementação Frontend
+
+### Correções Críticas Aplicadas (2025-01-21)
+
+- [x] **NotificationsProvider** envolvido no `App.tsx` após `AuthProvider`
+- [x] **Android 13+ Fix**: Canal de notificação criado ANTES de solicitar permissões
+- [x] **Deep Linking**: Handler de notificação inicial para app em estado "killed"
+- [x] **Firebase Credentials**: Adicionado ao `.gitignore` para segurança
+
+### Configuração Verificada
+
+- [x] Plugin `expo-notifications` configurado em `app.json`
+- [x] Permissão `POST_NOTIFICATIONS` para Android em `app.json`
+- [x] Project ID EAS configurado: `ae9ae6e3-e3f6-4cda-949f-f073d0b44b3b`
+- [x] Deep linking configurado para `arena://event/:id`, `arena://group/:id`, etc.
+- [x] Notification handler configurado com `shouldShowBanner`, `shouldPlaySound`, `shouldSetBadge`
+
+### Estados de App Suportados
+
+- [x] **Foreground**: Notificação exibida em banner dentro do app
+- [x] **Background**: Tap em notificação navega para deep link
+- [x] **Killed/Closed**: App abre e navega para deep link com delay de 1s
+
+---
+
 ## 🚀 Como Testar Notificações
 
 ### Pré-requisitos
