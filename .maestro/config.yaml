@@ -1,0 +1,18 @@
+appId: com.arena.app
+name: Arena E2E Tests
+
+# Variáveis de ambiente
+env:
+  TEST_USER_EMAIL: ${TEST_USER_EMAIL:-test@arena.com}
+  TEST_USER_PASSWORD: ${TEST_USER_PASSWORD:-Test@123}
+  TEST_USER_NAME: "Usuário Teste Arena"
+  BASE_URL: ${BASE_URL:-https://api.arena.dev}
+
+# Tags para organização
+tags:
+  - regression
+  - smoke
+  - critical
+
+# Timeout padrão (60s)
+timeout: 60000

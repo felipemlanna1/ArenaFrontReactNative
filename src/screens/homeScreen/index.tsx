@@ -110,7 +110,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   return (
     <AppLayout onLogout={handleLogout}>
-      <View style={styles.content}>
+      <View style={styles.content} testID="home-screen">
         <View style={styles.filterBarContainer}>
           <FilterBar
             searchValue={searchTerm}
