@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
@@ -87,6 +88,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       </TouchableOpacity>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <LinearGradient
+          colors={[ArenaColors.neutral.darkest, ArenaColors.neutral.dark]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={styles.backgroundGradient}
+        />
         <ProfileHeroSection
           avatarUrl={displayData.avatarUrl}
           initials={initials}

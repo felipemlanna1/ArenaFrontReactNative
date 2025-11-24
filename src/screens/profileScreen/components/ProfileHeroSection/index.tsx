@@ -16,6 +16,7 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
   onBackPress,
   coverImageUrl,
   primarySport,
+  isUserActive = false,
 }) => {
   const iconSource = primarySport?.icon
     ? getSportIcon(primarySport.icon)
@@ -75,7 +76,12 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
         </TouchableOpacity>
       )}
 
-      <View style={styles.avatarContainer}>
+      <View
+        style={[
+          styles.avatarContainer,
+          isUserActive && { borderColor: ArenaColors.brand.primary },
+        ]}
+      >
         {avatarUrl ? (
           <OptimizedImage
             source={{ uri: avatarUrl }}

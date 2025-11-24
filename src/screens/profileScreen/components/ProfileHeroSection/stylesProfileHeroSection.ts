@@ -3,7 +3,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 const HERO_HEIGHT = 280;
 const BUTTON_SIZE = 40;
-const AVATAR_SIZE = 150;
+const AVATAR_SIZE = 80;
 const PLACEHOLDER_ICON_SIZE = 120;
 const PLACEHOLDER_ICON_OPACITY = 0.4;
 
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'absolute',
-    bottom: -75,
+    bottom: -40,
     alignSelf: 'center',
     width: AVATAR_SIZE,
     height: AVATAR_SIZE,
