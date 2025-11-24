@@ -78,6 +78,8 @@ export const Input = React.memo<InputProps>(
     rows = 4,
     maxRows = 10,
     autoGrow = true,
+    showCharacterCount = false,
+    maxLength,
     style,
     inputStyle,
     containerStyle,
@@ -299,6 +301,36 @@ export const Input = React.memo<InputProps>(
             </TouchableOpacity>
           )}
 
+          {!loading &&
+            !inputLogic.shouldShowClearButton &&
+            !shouldShowPasswordToggle &&
+            (error || success || warning) &&
+            !effectiveRightIcon && (
+              <View style={inputLogic.computedStyles.rightIconContainer}>
+                {error && (
+                  <Ionicons
+                    name="alert-circle"
+                    size={inputLogic.iconProps.size}
+                    color={ArenaColors.semantic.error}
+                  />
+                )}
+                {!error && success && (
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={inputLogic.iconProps.size}
+                    color={ArenaColors.semantic.success}
+                  />
+                )}
+                {!error && !success && warning && (
+                  <Ionicons
+                    name="warning"
+                    size={inputLogic.iconProps.size}
+                    color={ArenaColors.semantic.warning}
+                  />
+                )}
+              </View>
+            )}
+
           {effectiveRightIcon &&
             !loading &&
             !inputLogic.shouldShowClearButton &&
@@ -318,6 +350,27 @@ export const Input = React.memo<InputProps>(
             style={inputLogic.computedStyles.helperText}
           >
             {helperMessage}
+          </Text>
+        )}
+
+        {showCharacterCount && maxLength && (
+          <Text
+            variant="captionSecondary"
+            style={
+              [
+                inputLogic.computedStyles.helperText,
+                { textAlign: 'right' },
+                value.length >= maxLength && {
+                  color: ArenaColors.semantic.error,
+                },
+                value.length >= maxLength * 0.9 &&
+                  value.length < maxLength && {
+                    color: ArenaColors.semantic.warning,
+                  },
+              ].filter(Boolean) as never
+            }
+          >
+            {value.length}/{maxLength}
           </Text>
         )}
       </View>
