@@ -128,15 +128,19 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
     return `event-${item.event.id}-${index}`;
   }, []);
 
+  const renderHeader = useCallback(() => {
+    return (
+      <EventTypeFilter
+        value={eventFilter}
+        filterCounts={filterCounts}
+        onChange={setEventFilter}
+      />
+    );
+  }, [eventFilter, filterCounts, setEventFilter]);
+
   return (
     <AppLayout testID={testID}>
       <View style={styles.container}>
-        <EventTypeFilter
-          value={eventFilter}
-          filterCounts={filterCounts}
-          onChange={setEventFilter}
-        />
-
         {isLoading && groupedEvents.length === 0 ? (
           <View style={styles.loadingContainer}>
             <SkeletonCard />
@@ -148,6 +152,8 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
             data={groupedEvents}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            ListHeaderComponent={renderHeader}
+            stickyHeaderIndices={[0]}
             contentContainerStyle={styles.listContent}
             onEndReached={hasMore ? loadMoreEvents : undefined}
             onEndReachedThreshold={0.5}

@@ -33,7 +33,6 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   badge: {
-    minWidth: ArenaSpacing['2xl'],
     height: ArenaSpacing.xl,
     paddingHorizontal: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.pill,
