@@ -3,6 +3,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
+  containerPressed: ViewStyle;
   contentContainer: ViewStyle;
   title: TextStyle;
   infoRow: ViewStyle;
@@ -12,6 +13,8 @@ interface Styles {
   dateTimeRow: ViewStyle;
   dateTimeContainer: ViewStyle;
   dateTimeText: TextStyle;
+  participantsRow: ViewStyle;
+  participantsText: TextStyle;
   progressContainer: ViewStyle;
   actionsRow: ViewStyle;
   buttonWrapper: ViewStyle;
@@ -36,6 +39,10 @@ export const styles = StyleSheet.create<Styles>({
     shadowRadius: ArenaSpacing.sm,
     elevation: ArenaSpacing.sm,
     overflow: 'hidden',
+  },
+  containerPressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.98 }],
   },
   contentContainer: {
     padding: ArenaSpacing['2xl'],
@@ -78,6 +85,16 @@ export const styles = StyleSheet.create<Styles>({
   },
   dateTimeText: {
     color: ArenaColors.text.inverse,
+  },
+  participantsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.sm,
+    marginTop: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.xs,
+  },
+  participantsText: {
+    color: ArenaColors.neutral.medium,
   },
   progressContainer: {
     marginTop: ArenaSpacing.md,

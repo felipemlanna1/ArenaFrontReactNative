@@ -1,14 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
+import { AvatarStack } from '@/components/ui/avatarStack';
 import { EventCardImage } from './components/EventCardImage';
 import { ProgressBar } from './components/ProgressBar';
 import { EventCardProps } from './typesEventCard';
 import { useEventCard } from './useEventCard';
 import { useEventCardActions } from './hooks/useEventCardActions';
+import { haptic } from '@/utils/haptics';
 import { styles } from './stylesEventCard';
 
 export const EventCard: React.FC<EventCardProps> = ({
@@ -75,15 +77,24 @@ export const EventCard: React.FC<EventCardProps> = ({
   };
 
   const handleViewPress = () => {
+    haptic.light();
     onDetailsPress(event.id);
   };
 
   const handleShare = () => {
+    haptic.light();
     onShare(event.id);
+  };
+
+  const handleCardPress = () => {
+    haptic.light();
+    onDetailsPress(event.id);
   };
 
   const handleActionPress = async () => {
     if (!actionButton) return;
+
+    haptic.medium();
 
     switch (actionButton.type) {
       case 'manage':
@@ -116,7 +127,14 @@ export const EventCard: React.FC<EventCardProps> = ({
   };
 
   return (
-    <View style={styles.container} testID={testID}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.container,
+        pressed && styles.containerPressed,
+      ]}
+      onPress={handleCardPress}
+      testID={testID}
+    >
       <EventCardImage
         coverImage={event.coverImage}
         sport={event.sport}
@@ -131,8 +149,8 @@ export const EventCard: React.FC<EventCardProps> = ({
       />
 
       <View style={styles.contentContainer}>
-        <Text variant="bodyPrimary" numberOfLines={2} style={styles.title}>
-          <Text variant="bodyBoldAccent">{event.sport.name}</Text>
+        <Text variant="titleSecondary" numberOfLines={2} style={styles.title}>
+          <Text variant="titleSecondary">{event.sport.name}</Text>
           <Text variant="bodySecondary"> • </Text>
           {event.title}
         </Text>
@@ -141,10 +159,10 @@ export const EventCard: React.FC<EventCardProps> = ({
           <View style={styles.infoContent}>
             <Ionicons
               name="location-outline"
-              size={18}
-              color={ArenaColors.text.inverse}
+              size={20}
+              color={ArenaColors.brand.primary}
             />
-            <Text variant="bodySecondary" style={styles.addressText}>
+            <Text variant="bodyPrimary" style={styles.addressText}>
               {event.location.city}
             </Text>
           </View>
@@ -166,18 +184,33 @@ export const EventCard: React.FC<EventCardProps> = ({
         <View style={styles.dateTimeRow}>
           <View style={styles.dateTimeContainer}>
             <Ionicons
-              name="time-outline"
-              size={18}
-              color={ArenaColors.text.inverse}
+              name="calendar-outline"
+              size={20}
+              color={ArenaColors.brand.primary}
             />
-            <Text variant="bodySecondary" style={styles.dateTimeText}>
+            <Text variant="bodyPrimary" style={styles.dateTimeText}>
               {formatDate(event.startDate)} • {formatTime(event.startDate)}
             </Text>
           </View>
-          <Text variant="bodySecondary" style={styles.slotsText}>
-            {event.currentParticipants}/{event.maxParticipants} vagas
-          </Text>
         </View>
+
+        {event.participants && event.participants.length > 0 && (
+          <View style={styles.participantsRow}>
+            <AvatarStack
+              users={event.participants.map((p) => ({
+                id: p.user.id,
+                name: `${p.user.firstName} ${p.user.lastName}`,
+                photo: p.user.profilePicture,
+              }))}
+              size="sm"
+              max={4}
+              testID={`${testID}-avatars`}
+            />
+            <Text variant="captionSecondary" style={styles.participantsText}>
+              {event.currentParticipants}/{event.maxParticipants} confirmados
+            </Text>
+          </View>
+        )}
 
         <View style={styles.progressContainer}>
           <ProgressBar
@@ -237,6 +270,6 @@ export const EventCard: React.FC<EventCardProps> = ({
           )}
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
