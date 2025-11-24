@@ -18,7 +18,8 @@ import {
 } from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
 import { Event } from '@/services/events/typesEvents';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaCopy } from '@/constants';
+import { haptic } from '@/utils/haptics';
 import { styles } from './stylesHomeScreen';
 
 type HomeScreenNavigationProp = CompositeNavigationProp<
@@ -68,6 +69,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     },
     [navigation]
   );
+
+  const handleCreateEventPress = useCallback(() => {
+    haptic.light();
+    navigation.navigate('CreateEvent');
+  }, [navigation]);
 
   const keyExtractor = useCallback((item: Event) => {
     return item.id;
@@ -128,13 +134,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </View>
         ) : shouldShowEmptyState ? (
           <View style={styles.emptyContainer}>
+            <Ionicons
+              name="trophy-outline"
+              size={64}
+              color={ArenaColors.neutral.medium}
+              style={styles.emptyIcon}
+            />
             <Text variant="headingPrimary" style={styles.emptyTitle}>
-              Nenhum evento encontrado
+              {searchTerm ? 'Nenhum evento encontrado' : ArenaCopy.emptyStates.noEvents.title}
             </Text>
             <Text variant="bodySecondary" style={styles.emptyText}>
               {searchTerm
-                ? 'Tente buscar por outro termo'
-                : 'Não há eventos disponíveis no momento'}
+                ? 'Tente buscar por outro termo ou ajuste os filtros'
+                : ArenaCopy.emptyStates.noEvents.description}
             </Text>
           </View>
         ) : (
@@ -175,7 +187,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         />
 
         <Fab
-          onPress={() => navigation.navigate('CreateEvent')}
+          onPress={handleCreateEventPress}
           icon={
             <Ionicons name="add" size={24} color={ArenaColors.neutral.light} />
           }

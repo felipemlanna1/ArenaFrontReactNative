@@ -9,6 +9,7 @@ interface Styles {
   listContainer: ViewStyle;
   loadingContainer: ViewStyle;
   emptyContainer: ViewStyle;
+  emptyIcon: ViewStyle;
   emptyTitle: TextStyle;
   emptyText: TextStyle;
   footer: ViewStyle;
@@ -47,6 +48,9 @@ export const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     paddingHorizontal: ArenaSpacing['2xl'],
     paddingVertical: ArenaSpacing['4xl'],
+  },
+  emptyIcon: {
+    marginBottom: ArenaSpacing.lg,
   },
   emptyTitle: {
     color: ArenaColors.neutral.light,
