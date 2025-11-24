@@ -2,7 +2,6 @@ import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
-  filterBarContainer: ViewStyle;
   content: ViewStyle;
   listWrapper: ViewStyle;
   list: ViewStyle;
@@ -20,11 +19,6 @@ interface Styles {
 }
 
 export const styles = StyleSheet.create<Styles>({
-  filterBarContainer: {
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderBottomWidth: 1,
-    borderBottomColor: ArenaColors.neutral.dark,
-  },
   content: {
     flex: 1,
   },

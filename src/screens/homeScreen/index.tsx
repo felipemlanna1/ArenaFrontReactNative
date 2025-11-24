@@ -134,14 +134,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <AppLayout onLogout={handleLogout}>
       <View style={styles.content}>
-        <View style={styles.filterBarContainer}>
-          <FilterBar
-            searchValue={searchTerm}
-            onSearchChange={setSearchTerm}
-            onSortPress={handleSortPress}
-            onFilterPress={handleFilterPress}
-          />
-        </View>
+        <FilterBar
+          searchValue={searchTerm}
+          onSearchChange={setSearchTerm}
+          onSortPress={handleSortPress}
+          onFilterPress={handleFilterPress}
+        />
 
         {shouldShowLoading ? (
           <View style={styles.loadingContainer}>
