@@ -23,6 +23,7 @@ export interface SectionHeader {
   type: 'header';
   category: TimeCategory;
   label: string;
+  count: number;
 }
 
 export interface EventItem {

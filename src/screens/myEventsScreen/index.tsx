@@ -42,7 +42,13 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
   const renderItem: ListRenderItem<GroupedEventItem> = useCallback(
     ({ item }) => {
       if (item.type === 'header') {
-        return <EventSectionHeader label={item.label} />;
+        return (
+          <EventSectionHeader
+            label={item.label}
+            category={item.category}
+            count={item.count}
+          />
+        );
       }
 
       return (
