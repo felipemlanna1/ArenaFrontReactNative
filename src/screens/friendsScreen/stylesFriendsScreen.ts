@@ -32,7 +32,15 @@ export const styles = StyleSheet.create({
     marginBottom: ArenaSpacing.md,
   },
   loadingContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing['2xl'],
-    alignItems: 'center',
+    gap: ArenaSpacing.md,
+  },
+  listContent: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+  },
+  loadingFooter: {
+    paddingVertical: ArenaSpacing.md,
   },
 });

@@ -16,6 +16,11 @@ import { GroupDetailsScreen } from '../screens/groupDetailsScreen';
 import { ProfileScreen } from '../screens/profileScreen';
 import { EditProfileScreen } from '../screens/editProfileScreen';
 import { NotificationsScreen } from '../screens/notificationsScreen';
+import { FriendsScreen } from '../screens/friendsScreen';
+import { GroupsListScreen } from '../screens/groupsListScreen';
+import { SettingsScreen } from '../screens/settingsScreen';
+import { HelpScreen } from '../screens/helpScreen';
+import { TermsScreen } from '../screens/termsScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
@@ -57,6 +62,21 @@ const WrappedNotificationsScreen = withAndroidScreenWrapper(
   NotificationsScreen,
   { enableScroll: false }
 );
+const WrappedFriendsScreen = withAndroidScreenWrapper(FriendsScreen, {
+  enableScroll: false,
+});
+const WrappedGroupsListScreen = withAndroidScreenWrapper(GroupsListScreen, {
+  enableScroll: false,
+});
+const WrappedSettingsScreen = withAndroidScreenWrapper(SettingsScreen, {
+  enableScroll: false,
+});
+const WrappedHelpScreen = withAndroidScreenWrapper(HelpScreen, {
+  enableScroll: false,
+});
+const WrappedTermsScreen = withAndroidScreenWrapper(TermsScreen, {
+  enableScroll: false,
+});
 
 export const AppNavigator: React.FC = () => {
   const { user, isLoading } = useAuth();
@@ -170,7 +190,77 @@ export const AppNavigator: React.FC = () => {
               component={WrappedNotificationsScreen}
               options={{
                 presentation: 'card',
-                headerShown: false,
+                headerShown: true,
+                headerTitle: 'Notificações',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Friends"
+              component={WrappedFriendsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Amigos',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="GroupsList"
+              component={WrappedGroupsListScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Grupos',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={WrappedSettingsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Configurações',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Help"
+              component={WrappedHelpScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Ajuda & Suporte',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Terms"
+              component={WrappedTermsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Termos & Privacidade',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
               }}
             />
           </>

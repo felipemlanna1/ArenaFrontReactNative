@@ -127,8 +127,7 @@
           "color": "#FF5301",
           "sounds": []
         }
-      ],
-      "react-native-reanimated/plugin"
+      ]
     ],
     "extra": {
       "ENVIRONMENT": "production",

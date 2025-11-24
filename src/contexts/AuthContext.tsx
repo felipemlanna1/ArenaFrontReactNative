@@ -21,7 +21,7 @@ interface AuthContextData {
   signOut: () => Promise<void>;
   signUp: (data: RegisterData) => Promise<void>;
   updateUser: (user: UserData) => Promise<void>;
-  updateUserSports: (sports: UserSportData[]) => void;
+  updateUserSports: (sports: UserSportData[], skipOnboarding?: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -124,12 +124,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const updateUserSports = useCallback(
-    (sports: UserSportData[]) => {
+    (sports: UserSportData[], skipOnboarding = false) => {
       if (user) {
         const updatedUser: UserData = {
           ...user,
           sports,
-          hasSports: sports.length > 0,
+          hasSports: skipOnboarding || sports.length > 0,
           primarySportId: sports.find(s => s.isPrimary)?.sportId,
         };
 

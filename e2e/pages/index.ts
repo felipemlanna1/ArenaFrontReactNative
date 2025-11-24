@@ -19,3 +19,11 @@ export { MyEventsScreen } from './main/MyEventsScreen';
 export { HomeScreen } from './main/HomeScreen';
 export { ProfileScreen } from './main/ProfileScreen';
 export { MenuScreen } from './main/MenuScreen';
+
+// Event screens
+export { CreateEventScreen } from './events/CreateEventScreen';
+export { EventDetailsScreen } from './events/EventDetailsScreen';
+
+// Group screens
+export { CreateGroupScreen } from './groups/CreateGroupScreen';
+export { GroupDetailsScreen } from './groups/GroupDetailsScreen';

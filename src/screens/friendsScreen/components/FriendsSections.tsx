@@ -1,57 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
-import { Button } from '@/components/ui/button';
+import { StyleSheet } from 'react-native';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { UserCard } from '@/components/userCard';
-import { ArenaColors } from '@/constants';
+import { EmptyState } from '@/components/ui/emptyState';
 import { UserData } from '@/services/http';
-import { StyleSheet } from 'react-native';
 import { ArenaSpacing } from '@/constants';
 
 const styles = StyleSheet.create({
   userList: {
     gap: ArenaSpacing.md,
   },
-  emptyContainer: {
-    paddingVertical: ArenaSpacing['2xl'],
-    paddingHorizontal: ArenaSpacing.lg,
-    alignItems: 'center',
-  },
-  emptyIcon: {
-    marginBottom: ArenaSpacing.md,
-  },
-  emptyMessage: {
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.lg,
-  },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
     alignItems: 'center',
   },
 });
-
-const EmptyState: React.FC<{
-  icon: keyof typeof Ionicons.glyphMap;
-  message: string;
-  actionLabel?: string;
-  onAction?: () => void;
-}> = ({ icon, message, actionLabel, onAction }) => (
-  <View style={styles.emptyContainer}>
-    <View style={styles.emptyIcon}>
-      <Ionicons name={icon} size={32} color={ArenaColors.neutral.medium} />
-    </View>
-    <Text variant="bodySecondary" style={styles.emptyMessage}>
-      {message}
-    </Text>
-    {actionLabel && onAction && (
-      <Button variant="ghost" size="sm" onPress={onAction}>
-        {actionLabel}
-      </Button>
-    )}
-  </View>
-);
 
 const LoadingState: React.FC = () => (
   <View style={styles.loadingContainer}>
@@ -84,9 +48,10 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
     return (
       <EmptyState
         icon="people-outline"
-        message="Você ainda não tem amigos"
+        title="Nenhum amigo ainda"
+        message="Conecte-se com outros atletas para treinar juntos e compartilhar experiências!"
         actionLabel={onSearchPress ? 'Buscar Atletas' : undefined}
-        onAction={onSearchPress}
+        onActionPress={onSearchPress}
       />
     );
   }
@@ -130,7 +95,8 @@ export const RequestsSection: React.FC<RequestsSectionProps> = ({
     return (
       <EmptyState
         icon="mail-outline"
-        message="Nenhuma solicitação no momento"
+        title="Tudo em dia"
+        message="Você não tem solicitações de amizade recebidas no momento"
       />
     );
   }
@@ -174,7 +140,11 @@ export const OutgoingRequestsSection: React.FC<
   if (isLoading) return <LoadingState />;
   if (requests.length === 0) {
     return (
-      <EmptyState icon="time-outline" message="Nenhuma solicitação pendente" />
+      <EmptyState
+        icon="time-outline"
+        title="Nenhuma solicitação enviada"
+        message="Você não tem solicitações de amizade pendentes"
+      />
     );
   }
   return (
@@ -216,7 +186,8 @@ export const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
     return (
       <EmptyState
         icon="sparkles-outline"
-        message="Nenhuma recomendação disponível no momento"
+        title="Nenhuma sugestão"
+        message="Não encontramos atletas para recomendar no momento. Tente ajustar seus filtros!"
       />
     );
   }

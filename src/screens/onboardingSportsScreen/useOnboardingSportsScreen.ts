@@ -145,7 +145,7 @@ export const useOnboardingSportsScreen = () => {
   }, [selectedSports, primarySportId, user, updateUserSports, availableSports]);
 
   const handleSkip = useCallback(() => {
-    updateUserSports([]);
+    updateUserSports([], true);
   }, [updateUserSports]);
 
   const handleExit = useCallback(async () => {

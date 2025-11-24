@@ -1,0 +1,18 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:8081",
+      "localStorage": [
+        {
+          "name": "@Arena:access_token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MDcxYzQ3ZC1kMTg2LTRkMTAtOTNmMy0zYmQxZmVmMmQxZGIiLCJlbWFpbCI6ImZlbGlwZW1sYW5uYUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Imxhbm5hOTUiLCJzcG9ydHMiOlt7InNwb3J0SWQiOiIxNzcwZmE1ZS1hMGMwLTRlMzAtOGRmMC05NGY2MWNlZTgxZmEiLCJzcG9ydE5hbWUiOiJTdXJmIiwic3BvcnRJY29uIjoic3VyZmluZy1vdXRsaW5lIiwic3BvcnRDb2xvciI6IiMxNmEwODUiLCJpc1ByaW1hcnkiOnRydWUsInNraWxsTGV2ZWwiOiJBRFZBTkNFRCJ9LHsic3BvcnRJZCI6ImRkNzYwMGRjLTk4YmMtNGRmMy04NGY0LTE3NzJjNDYxOTdjZSIsInNwb3J0TmFtZSI6IkppdS1qaXRzdSIsInNwb3J0SWNvbiI6ImthcmF0ZS1kbyIsInNwb3J0Q29sb3IiOiIjNmIyMWE4IiwiaXNQcmltYXJ5IjpmYWxzZSwic2tpbGxMZXZlbCI6IkFEVkFOQ0VEIn1dLCJoYXNTcG9ydHMiOnRydWUsImlhdCI6MTc2NDAxNDc2MywiZXhwIjoxNzY0NjE5NTYzfQ.ff5cYsUVmK2LBI0ao2Pe_IcEFcrJ6xeECAYAvzXjJqE"
+        },
+        {
+          "name": "@Arena:user_data",
+          "value": "{\"id\":\"9071c47d-d186-4d10-93f3-3bd1fef2d1db\",\"firstName\":\"Felipe\",\"lastName\":\"Moreira Lanna\",\"username\":\"lanna95\",\"email\":\"felipemlanna@gmail.com\",\"password\":\"P@lioed2011\",\"hasSports\":true,\"sports\":[{\"sportId\":\"1770fa5e-a0c0-4e30-8df0-94f61cee81fa\",\"sportName\":\"Surf\",\"isPrimary\":true,\"level\":\"INTERMEDIATE\"},{\"sportId\":\"dd7600dc-98bc-4df3-84f4-1772c46197ce\",\"sportName\":\"Jiu-jitsu\",\"isPrimary\":false,\"level\":\"INTERMEDIATE\"}]}"
+        }
+      ]
+    }
+  ]
+}
