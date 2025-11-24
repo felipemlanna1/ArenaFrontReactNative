@@ -38,7 +38,7 @@ export const styles = StyleSheet.create<Styles>({
     gap: ArenaSpacing.lg,
   },
   emptyContainer: {
-    flex: 1,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: ArenaSpacing['2xl'],

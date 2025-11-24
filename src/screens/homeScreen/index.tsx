@@ -188,15 +188,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     {ArenaCopy.emptyStates.noEvents.secondaryAction}
                   </Button>
                 </View>
-
-                <Text
-                  variant="captionSecondary"
-                  style={styles.emptySocialProof}
-                >
-                  {formatCopy(ArenaCopy.emptyStates.noEvents.socialProof, {
-                    count: '10.234',
-                  })}
-                </Text>
               </>
             )}
           </View>

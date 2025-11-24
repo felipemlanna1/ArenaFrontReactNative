@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   sportCard: {
-    width: ArenaSpacing['9xl'],
+    width: ArenaSpacing['7xl'],
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: ArenaSpacing.md,
@@ -68,8 +68,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewMoreButton: {
-    width: ArenaSpacing['9xl'],
-    height: ArenaSpacing['9xl'],
+    width: ArenaSpacing['8xl'],
+    height: ArenaSpacing['8xl'],
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: ArenaBorders.radius.md,
