@@ -1,0 +1,23 @@
+[
+  {
+    "screenName": "register",
+    "stateName": "step-1-empty",
+    "description": "Passo 1 do registro - formulário vazio (nome, sobrenome, email, senha)",
+    "timestamp": "2025-11-24T18:28:41.758Z",
+    "path": "e2e/visual-audit/screenshots/01-authentication/register/step-1-empty.png"
+  },
+  {
+    "screenName": "register",
+    "stateName": "step-1-partial",
+    "description": "Passo 1 parcialmente preenchido - apenas nome e sobrenome",
+    "timestamp": "2025-11-24T18:28:42.666Z",
+    "path": "e2e/visual-audit/screenshots/01-authentication/register/step-1-partial.png"
+  },
+  {
+    "screenName": "register",
+    "stateName": "step-1-filled",
+    "description": "Passo 1 completamente preenchido - pronto para avançar",
+    "timestamp": "2025-11-24T18:28:43.587Z",
+    "path": "e2e/visual-audit/screenshots/01-authentication/register/step-1-filled.png"
+  }
+]

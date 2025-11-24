@@ -1,0 +1,16 @@
+[
+  {
+    "screenName": "welcome",
+    "stateName": "default",
+    "description": "Tela inicial com logo, título e botões de login/criar conta",
+    "timestamp": "2025-11-24T18:28:01.985Z",
+    "path": "e2e/visual-audit/screenshots/01-authentication/welcome/default.png"
+  },
+  {
+    "screenName": "welcome",
+    "stateName": "buttons-visible",
+    "description": "Scroll para garantir visibilidade dos botões no rodapé",
+    "timestamp": "2025-11-24T18:28:03.851Z",
+    "path": "e2e/visual-audit/screenshots/01-authentication/welcome/buttons-visible.png"
+  }
+]

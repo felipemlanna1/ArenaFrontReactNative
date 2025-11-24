@@ -23,9 +23,10 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.lg,
   },
   loadingContainer: {
+    flex: 1,
+    paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing['2xl'],
-    alignItems: 'center',
-    justifyContent: 'center',
+    gap: ArenaSpacing.md,
   },
   emptyContainer: {
     paddingVertical: ArenaSpacing['2xl'],
@@ -42,6 +43,13 @@ export const styles = StyleSheet.create({
   },
   loadMoreContainer: {
     paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+  },
+  listContent: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+  },
+  loadingFooter: {
     paddingVertical: ArenaSpacing.md,
   },
   fab: {

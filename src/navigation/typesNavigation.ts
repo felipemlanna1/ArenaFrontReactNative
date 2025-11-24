@@ -22,14 +22,18 @@ export type RootStackParamList = {
   Profile: { userId?: string } | undefined;
   EditProfile: undefined;
   Notifications: undefined;
+  Friends: undefined;
+  GroupsList: undefined;
+  Settings: undefined;
+  Help: undefined;
+  Terms: undefined;
 };
 
 export type TabParamList = {
-  HomeTab: undefined;
-  FriendsTab: undefined;
   MyEventsTab: undefined;
-  GroupsTab: undefined;
+  HomeTab: undefined;
   ProfileTab: undefined;
+  MenuTab: undefined;
 };
 
 export type HomeStackParamList = {
@@ -52,4 +56,8 @@ export type GroupsStackParamList = {
 
 export type ProfileStackParamList = {
   Profile: { userId?: string } | undefined;
+};
+
+export type MenuStackParamList = {
+  Menu: undefined;
 };
