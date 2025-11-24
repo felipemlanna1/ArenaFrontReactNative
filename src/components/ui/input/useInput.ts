@@ -26,6 +26,7 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     fullWidth,
     disableAnimations,
     haptic,
+    inputRef: externalInputRef,
     onChangeText,
     onFocus,
     onBlur,
@@ -33,8 +34,8 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
   } = params;
 
   const [isFocused, setIsFocused] = useState(false);
-  const inputRef = useRef<TextInput>(null);
-
+  const internalInputRef = useRef<TextInput>(null);
+  const inputRef = externalInputRef || internalInputRef;
   const hasValue = useMemo(() => value.length > 0, [value]);
   const hasError = useMemo(() => Boolean(error), [error]);
   const hasSuccess = useMemo(
@@ -117,12 +118,12 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
     onChangeText('');
     onClear?.();
     inputRef.current?.focus();
-  }, [isInteractionDisabled, onChangeText, onClear]);
+  }, [isInteractionDisabled, onChangeText, onClear, inputRef]);
 
   const handlePress = useCallback(() => {
     if (isInteractionDisabled) return;
     inputRef.current?.focus();
-  }, [isInteractionDisabled]);
+  }, [isInteractionDisabled, inputRef]);
 
   const computedStyles = useMemo(() => {
     const containerStyles = [styles.container];

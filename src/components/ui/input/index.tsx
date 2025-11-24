@@ -109,6 +109,7 @@ export const Input = React.memo<InputProps>(
       fullWidth,
       disableAnimations,
       haptic,
+      inputRef,
       onChangeText,
       onFocus: () =>
         textInputProps.onFocus?.(

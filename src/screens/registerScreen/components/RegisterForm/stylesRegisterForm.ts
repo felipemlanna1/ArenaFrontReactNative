@@ -4,7 +4,7 @@ import { ArenaSpacing } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    gap: ArenaSpacing.md,
+    gap: ArenaSpacing.lg,
   },
   nameRow: {
     flexDirection: 'row',

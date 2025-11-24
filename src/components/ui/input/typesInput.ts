@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInputProps, ViewStyle, TextStyle } from 'react-native';
+import { TextInputProps, ViewStyle, TextStyle, TextInput } from 'react-native';
 
 export type InputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type InputVariant = 'default' | 'error' | 'success' | 'warning';
@@ -174,6 +174,7 @@ export interface UseInputParams {
   fullWidth: boolean;
   disableAnimations: boolean;
   haptic: boolean;
+  inputRef?: React.RefObject<TextInput>;
   onChangeText: (text: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
