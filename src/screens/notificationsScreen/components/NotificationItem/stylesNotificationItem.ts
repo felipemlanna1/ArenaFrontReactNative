@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     height: 8,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
-    marginTop: 6,
+    marginTop: ArenaSpacing.xs,
   },
   body: {
     marginBottom: ArenaSpacing.xs,

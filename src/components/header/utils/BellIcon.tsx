@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
 import { Text } from '@/components/ui/text';
-import { ArenaColors, ArenaBorders } from '@/constants';
+import { ArenaColors, ArenaBorders, ArenaSpacing } from '@/constants';
 
 interface BellIconProps {
   size: number;
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: ArenaColors.semantic.error,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 4,
+    paddingHorizontal: ArenaSpacing.xs,
   },
   badgeText: {
     color: ArenaColors.text.inverse,

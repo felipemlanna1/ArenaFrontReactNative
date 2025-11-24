@@ -25,7 +25,9 @@ const [selected, setSelected] = useState<string>('option1');
   onPress={() => setSelected('option2')}
 />`;
 
-const GROUP_CODE = `const options = [
+const GROUP_CODE = `import { ArenaSpacing } from '@/constants';
+
+const options = [
   { id: 'small', label: 'Pequeno' },
   { id: 'medium', label: 'Médio' },
   { id: 'large', label: 'Grande' },
@@ -33,7 +35,7 @@ const GROUP_CODE = `const options = [
 
 const [size, setSize] = useState<string>('medium');
 
-<View style={{ gap: 12 }}>
+<View style={{ gap: ArenaSpacing.md }}>
   {options.map(option => (
     <RadioButton
       key={option.id}
@@ -45,7 +47,9 @@ const [size, setSize] = useState<string>('medium');
   ))}
 </View>`;
 
-const FORM_CODE = `const [paymentMethod, setPaymentMethod] = useState<string>('credit');
+const FORM_CODE = `import { ArenaSpacing } from '@/constants';
+
+const [paymentMethod, setPaymentMethod] = useState<string>('credit');
 
 const paymentMethods = [
   { id: 'credit', label: 'Cartão de Crédito' },
@@ -54,7 +58,7 @@ const paymentMethods = [
   { id: 'boleto', label: 'Boleto Bancário' },
 ];
 
-<View style={{ gap: 12 }}>
+<View style={{ gap: ArenaSpacing.md }}>
   {paymentMethods.map(method => (
     <RadioButton
       key={method.id}
@@ -65,7 +69,9 @@ const paymentMethods = [
   ))}
 </View>`;
 
-const INLINE_CODE = `<View style={{ flexDirection: 'row', gap: 16 }}>
+const INLINE_CODE = `import { ArenaSpacing } from '@/constants';
+
+<View style={{ flexDirection: 'row', gap: ArenaSpacing.lg }}>
   <RadioButton
     label="Sim"
     selected={answer === 'yes'}
