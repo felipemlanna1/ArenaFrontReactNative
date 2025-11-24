@@ -15,3 +15,7 @@ export { OnboardingSportsScreen } from './auth/OnboardingSportsScreen';
 
 // Main screens
 export { MainTabsScreen } from './main/MainTabsScreen';
+export { MyEventsScreen } from './main/MyEventsScreen';
+export { HomeScreen } from './main/HomeScreen';
+export { ProfileScreen } from './main/ProfileScreen';
+export { MenuScreen } from './main/MenuScreen';
