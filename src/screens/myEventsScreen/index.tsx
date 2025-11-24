@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { View, FlatList, ListRenderItem } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { SportsLoading } from '@/components/ui/sportsLoading';
+import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { AccordionSection } from '@/components/accordionSection';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
@@ -87,7 +87,7 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
       <>
         {isLoadingMore && (
           <View style={styles.loadingFooter}>
-            <SportsLoading size="sm" animationSpeed="fast" />
+            <SkeletonCard />
           </View>
         )}
         {pastEvents.length > 0 && (
@@ -134,7 +134,9 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
 
         {isLoading && groupedEvents.length === 0 ? (
           <View style={styles.loadingContainer}>
-            <SportsLoading size="lg" animationSpeed="normal" />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
           </View>
         ) : (
           <FlatList
