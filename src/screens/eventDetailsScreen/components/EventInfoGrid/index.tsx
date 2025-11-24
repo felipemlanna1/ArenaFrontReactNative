@@ -37,7 +37,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
         <View style={styles.item}>
           <Ionicons
             name="calendar-outline"
-            size={18}
+            size={20}
             color={ArenaColors.brand.primary}
             style={styles.icon}
           />
@@ -57,7 +57,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
         <View style={styles.item}>
           <Ionicons
             name="location-outline"
-            size={18}
+            size={20}
             color={ArenaColors.brand.primary}
             style={styles.icon}
           />
@@ -81,7 +81,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
         <View style={styles.item}>
           <Ionicons
             name="cash-outline"
-            size={18}
+            size={20}
             color={ArenaColors.brand.primary}
             style={styles.icon}
           />
@@ -98,7 +98,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
         <View style={styles.item}>
           <Ionicons
             name="people-outline"
-            size={18}
+            size={20}
             color={ArenaColors.brand.primary}
             style={styles.icon}
           />

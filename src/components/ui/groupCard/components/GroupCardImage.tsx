@@ -68,7 +68,7 @@ export const GroupCardImage: React.FC<GroupCardImageProps> = ({
         <View style={styles.privacyBadge}>
           <Ionicons
             name="lock-closed"
-            size={14}
+            size={16}
             color={ArenaColors.neutral.light}
           />
           <Text variant="bodySecondary" style={styles.privacyText}>
@@ -84,7 +84,7 @@ export const GroupCardImage: React.FC<GroupCardImageProps> = ({
           isNearCapacity && !isFull && styles.capacityBadgeWarning,
         ]}
       >
-        <Ionicons name="people" size={14} color={ArenaColors.neutral.light} />
+        <Ionicons name="people" size={16} color={ArenaColors.neutral.light} />
         <Text variant="bodySecondary" style={styles.capacityText}>
           {maxMembers ? `${currentMembers}/${maxMembers}` : currentMembers}
         </Text>
