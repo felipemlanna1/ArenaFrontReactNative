@@ -743,52 +743,34 @@ const successful = results.filter(
 **Use este prompt ao iniciar um novo contexto Claude:**
 
 ```
-Olá! Estou continuando o desenvolvimento de testes E2E para o projeto Arena Mobile.
+🎯 Continuação: Testes E2E do Arena Mobile
 
-📊 ESTADO ATUAL:
-- 16/115 testes implementados (14%)
-- 3/17 specs completos: event-lifecycle, group-lifecycle, event-creation
-- Infraestrutura 100% pronta (Playwright, POMs, storage states, helpers)
+Por favor, leia os seguintes arquivos para se contextualizar sobre o projeto E2E:
 
-🎯 PRÓXIMO SPEC: event-participation.spec.ts (10 testes)
+1. e2e/GUIA_COMPLETO_NOVO_CONTEXTO.md
+   - Documento master com estado completo do projeto
+   - 7 padrões críticos obrigatórios
+   - 14 Page Objects disponíveis
+   - Checklist de implementação
 
-🔥 PADRÕES CRÍTICOS (OBRIGATÓRIOS!):
-1. ⚠️ SEMPRE chamar setDateTimeDirectly() ANTES de selectDuration()
-2. ⚠️ Switch components: click({ force: true }) no input hidden com aria-label
-3. ⚠️ TypeScript types exatos: durationMinutes (não duration), cep (não address), privacy: 'invite_only' (não 'private')
-4. ⚠️ Max participants está no Step 3 (Location), NÃO no Step 2 (Privacy)
-5. ⚠️ testID > aria-label > CSS > text locators (hierarquia de preferência)
-6. ⚠️ Waiters estratégicos: 2000ms após CEP, 500ms após datetime-local
-7. ⚠️ Seguir padrão de teste que passou (comparar diffs)
+2. e2e/E2E_CONTEXT_CONTINUATION.md
+   - Progresso detalhado (16/115 testes, 14%)
+   - Histórico de specs implementados
+   - Lições aprendidas de event-creation.spec.ts
+   - Roadmap P0/P1/P2
 
-📂 ARQUIVOS IMPORTANTES:
-- e2e/E2E_CONTEXT_CONTINUATION.md - Progresso completo
-- e2e/GUIA_COMPLETO_NOVO_CONTEXTO.md - Este guia (referência rápida)
-- e2e/PROMPT_NEW_CONTEXT.md - Estado crítico atual
-- e2e/pages/events/CreateEventScreen.ts - POM crítico (wizard 4 steps)
-- e2e/helpers/test-data-factory.ts - Helpers API (createTestEvent, joinEvent, etc)
-- e2e/specs/events/event-creation.spec.ts - Referência de spec completo (10/10 testes passando)
+3. e2e/PROMPT_NEW_CONTEXT.md
+   - Estado crítico atual
+   - Próximo spec: event-participation.spec.ts
+   - Blocker identificado: NotificationsScreen POM
 
-🚧 BLOCKER ATUAL:
-Preciso criar NotificationsScreen POM antes de implementar event-participation.spec.ts.
+Após ler os 3 arquivos, me informe:
+✅ Qual é o estado atual do projeto E2E
+✅ Quais são os 7 padrões críticos obrigatórios
+✅ Qual é o próximo spec a implementar
+✅ Quais são os blockers atuais
 
-🚀 COMANDOS ÚTEIS:
-# Iniciar servidor
-npx expo start --web &
-sleep 15
-
-# Rodar spec específico
-npx playwright test e2e/specs/events/event-creation.spec.ts --project=chromium
-
-# Rodar todos os testes
-npx playwright test
-
-Por favor, leia:
-1. e2e/GUIA_COMPLETO_NOVO_CONTEXTO.md (este arquivo) - visão geral
-2. e2e/E2E_CONTEXT_CONTINUATION.md - progresso detalhado
-3. e2e/specs/events/event-creation.spec.ts - exemplo de spec completo
-
-Depois me diga: estou pronto para continuar. Qual é o próximo passo?
+Então vamos planejar os próximos passos juntos.
 ```
 
 ---
