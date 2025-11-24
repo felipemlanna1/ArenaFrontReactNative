@@ -1,0 +1,78 @@
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
+import { ArenaColors, ArenaSpacing } from '@/constants';
+
+interface EmptyStateProps {
+  icon: keyof typeof Ionicons.glyphMap;
+  title: string;
+  message: string;
+  actionLabel?: string;
+  onActionPress?: () => void;
+  testID?: string;
+}
+
+export const EmptyState: React.FC<EmptyStateProps> = ({
+  icon,
+  title,
+  message,
+  actionLabel,
+  onActionPress,
+  testID,
+}) => {
+  return (
+    <View style={styles.container} testID={testID}>
+      <View style={styles.iconContainer}>
+        <Ionicons name={icon} size={64} color={ArenaColors.neutral.medium} />
+      </View>
+
+      <Text variant="titlePrimary" style={styles.title}>
+        {title}
+      </Text>
+
+      <Text variant="bodySecondary" style={styles.message}>
+        {message}
+      </Text>
+
+      {actionLabel && onActionPress && (
+        <View style={styles.actionContainer}>
+          <Button
+            variant="primary"
+            size="md"
+            onPress={onActionPress}
+            testID={`${testID}-action-button`}
+          >
+            {actionLabel}
+          </Button>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: ArenaSpacing['2xl'],
+    paddingVertical: ArenaSpacing['3xl'],
+  },
+  iconContainer: {
+    marginBottom: ArenaSpacing.lg,
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: ArenaSpacing.sm,
+  },
+  message: {
+    textAlign: 'center',
+    marginBottom: ArenaSpacing.xl,
+  },
+  actionContainer: {
+    width: '100%',
+    maxWidth: 280,
+  },
+});
