@@ -2,6 +2,13 @@ import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
+  progressWrapper: {
+    paddingVertical: ArenaSpacing.md,
+  },
+  progressLabel: {
+    textAlign: 'center',
+    marginBottom: ArenaSpacing.md,
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -16,12 +23,25 @@ export const styles = StyleSheet.create({
     borderRadius: ArenaSpacing.xs,
     backgroundColor: ArenaColors.neutral.medium,
     marginHorizontal: ArenaSpacing.xs,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dotActive: {
     backgroundColor: ArenaColors.brand.primary,
-    width: ArenaSpacing['2xl'],
+    width: ArenaSpacing.md,
+    height: ArenaSpacing.md,
   },
   dotCompleted: {
+    backgroundColor: ArenaColors.brand.primary,
+  },
+  progressBarContainer: {
+    height: ArenaSpacing.micro,
+    backgroundColor: `${ArenaColors.neutral.medium}33`,
+    marginTop: ArenaSpacing.md,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: ArenaSpacing.micro,
     backgroundColor: ArenaColors.brand.primary,
   },
   numberContainer: {

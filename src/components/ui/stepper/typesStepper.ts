@@ -12,6 +12,7 @@ export interface StepperProps {
   variant?: StepperVariant;
   onStepPress?: (step: number) => void;
   allowSkip?: boolean;
+  showProgress?: boolean;
   testID?: string;
 }
 

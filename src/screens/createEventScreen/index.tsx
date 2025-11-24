@@ -136,6 +136,13 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
             currentStep={currentStep}
             totalSteps={TOTAL_STEPS}
             variant="dots"
+            showProgress={true}
+            steps={[
+              { label: 'Informações' },
+              { label: 'Privacidade' },
+              { label: 'Localização' },
+              { label: 'Revisão' },
+            ]}
           />
         </View>
 
