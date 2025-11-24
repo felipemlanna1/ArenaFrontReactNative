@@ -10,6 +10,11 @@ export const styles = StyleSheet.create({
   container: {
     gap: ArenaSpacing.xs,
   },
+  relativeLabel: {
+    marginTop: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.xs,
+    color: ArenaColors.neutral.medium,
+  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
