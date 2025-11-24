@@ -60,31 +60,42 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
 
   return (
     <View style={styles.container} testID={testID}>
-      {/* Image Skeleton */}
       <Animated.View style={[styles.imageSkeleton, shimmerStyle]} />
 
-      {/* Content */}
+      <View style={styles.divider} />
+
       <View style={styles.contentContainer}>
-        {/* Title skeleton (80% width) */}
         <Animated.View style={[styles.titleSkeleton, shimmerStyle]} />
 
-        {/* Location row skeleton */}
         <View style={styles.infoRow}>
+          <Animated.View style={[styles.iconSkeleton, shimmerStyle]} />
           <Animated.View style={[styles.locationSkeleton, shimmerStyle]} />
         </View>
 
-        {/* Date/Time row skeleton */}
         <View style={styles.dateTimeRow}>
+          <Animated.View style={[styles.iconSkeleton, shimmerStyle]} />
           <Animated.View style={[styles.dateTimeSkeleton, shimmerStyle]} />
-          <Animated.View style={[styles.slotsSkeleton, shimmerStyle]} />
         </View>
 
-        {/* Progress bar skeleton */}
+        <View style={styles.participantsRow}>
+          <View style={styles.avatarsContainer}>
+            <Animated.View style={[styles.avatarSkeleton, shimmerStyle]} />
+            <Animated.View
+              style={[styles.avatarSkeleton, styles.avatarOffset, shimmerStyle]}
+            />
+            <Animated.View
+              style={[styles.avatarSkeleton, styles.avatarOffset, shimmerStyle]}
+            />
+          </View>
+          <Animated.View
+            style={[styles.participantsTextSkeleton, shimmerStyle]}
+          />
+        </View>
+
         <View style={styles.progressContainer}>
           <Animated.View style={[styles.progressSkeleton, shimmerStyle]} />
         </View>
 
-        {/* Buttons row skeleton */}
         <View style={styles.actionsRow}>
           <Animated.View style={[styles.buttonSkeleton, shimmerStyle]} />
           <Animated.View style={[styles.buttonSkeleton, shimmerStyle]} />
@@ -106,6 +117,11 @@ const styles = StyleSheet.create({
     height: 180,
     backgroundColor: ArenaColors.neutral.dark,
   },
+  divider: {
+    height: ArenaBorders.width.thin,
+    backgroundColor: ArenaColors.neutral.dark,
+    opacity: 0.1,
+  },
   contentContainer: {
     padding: ArenaSpacing.lg,
   },
@@ -114,39 +130,68 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: ArenaBorders.radius.sm,
     backgroundColor: ArenaColors.neutral.dark,
-    marginBottom: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.sm,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: ArenaSpacing.md,
+    gap: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.sm,
+  },
+  iconSkeleton: {
+    width: 20,
+    height: 20,
+    borderRadius: ArenaBorders.radius.circle,
+    backgroundColor: ArenaColors.neutral.dark,
   },
   locationSkeleton: {
-    width: '40%',
+    flex: 1,
     height: 16,
     borderRadius: ArenaBorders.radius.sm,
     backgroundColor: ArenaColors.neutral.dark,
   },
   dateTimeRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: ArenaSpacing.md,
+    gap: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.sm,
   },
   dateTimeSkeleton: {
-    width: '50%',
+    flex: 1,
     height: 16,
     borderRadius: ArenaBorders.radius.sm,
     backgroundColor: ArenaColors.neutral.dark,
   },
-  slotsSkeleton: {
-    width: '25%',
-    height: 16,
+  participantsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.sm,
+    marginTop: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.xs,
+  },
+  avatarsContainer: {
+    flexDirection: 'row',
+  },
+  avatarSkeleton: {
+    width: 32,
+    height: 32,
+    borderRadius: ArenaBorders.radius.circle,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderWidth: ArenaBorders.width.thin,
+    borderColor: ArenaColors.neutral.darkest,
+  },
+  avatarOffset: {
+    marginLeft: -ArenaSpacing.sm,
+  },
+  participantsTextSkeleton: {
+    width: 100,
+    height: 14,
     borderRadius: ArenaBorders.radius.sm,
     backgroundColor: ArenaColors.neutral.dark,
   },
   progressContainer: {
-    marginBottom: ArenaSpacing.lg,
+    marginTop: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.md,
   },
   progressSkeleton: {
     width: '100%',

@@ -25,6 +25,9 @@ module.exports = {
   },
 
   create(context) {
+    const filename = context.getFilename();
+    const isSkeletonComponent = filename.toLowerCase().includes('skeleton');
+
     // Valores que devem usar tokens Arena
     const hardcodedPatterns = {
       // Cores hardcoded (hex, rgb, rgba)
@@ -183,6 +186,13 @@ module.exports = {
         // Verificar propriedades de tamanho (size, iconSize, etc) com valores numéricos
         if (sizeProperties.has(propName) && value.type === 'Literal') {
           if (typeof value.value === 'number' && value.value > 0) {
+            // Allow width/height in skeleton components (placeholder dimensions)
+            if (
+              isSkeletonComponent &&
+              (propName === 'width' || propName === 'height')
+            ) {
+              return;
+            }
             context.report({
               node: value,
               messageId: 'useArenaTypography',
