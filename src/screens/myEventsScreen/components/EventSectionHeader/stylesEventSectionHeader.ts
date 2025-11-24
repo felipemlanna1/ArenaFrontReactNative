@@ -5,30 +5,34 @@ export const styles = StyleSheet.create({
   container: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
-    backgroundColor: ArenaColors.neutral.dark,
+    backgroundColor: ArenaColors.neutral.darkIntermediate,
     borderBottomWidth: 2,
     borderBottomColor: ArenaColors.neutral.darkSubtleBorder,
+    minHeight: ArenaSpacing['5.75xl'],
   },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flex: 1,
   },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.sm,
+    flex: 1,
   },
   icon: {
-    marginRight: ArenaSpacing.xs,
+    marginRight: ArenaSpacing.sm,
   },
   badge: {
     height: ArenaSpacing.xl,
+    minWidth: ArenaSpacing['2xl'],
     paddingHorizontal: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.pill,
     backgroundColor: ArenaColors.interaction.hover.neutral,
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: ArenaSpacing.sm,
   },
   badgeText: {
     textAlign: 'center',
