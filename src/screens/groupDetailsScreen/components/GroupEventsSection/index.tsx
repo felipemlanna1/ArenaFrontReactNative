@@ -29,7 +29,12 @@ export const GroupEventsSection: React.FC<GroupEventsSectionProps> = ({
       setIsLoading(true);
       setError(null);
       const groupEvents = await groupsApi.getGroupEvents(groupId);
-      setEvents(Array.isArray(groupEvents) ? groupEvents : []);
+      const validEvents = Array.isArray(groupEvents)
+        ? groupEvents.filter(
+            (event): event is Event => event != null && !!event.id
+          )
+        : [];
+      setEvents(validEvents);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Erro ao carregar eventos')
