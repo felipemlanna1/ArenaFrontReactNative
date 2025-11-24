@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
@@ -38,6 +38,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const {
     events,
     isLoading,
+    isRefreshing,
     isLoadingMore,
     error,
     hasMore,
@@ -47,6 +48,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     handleSortPress,
     handleFilterPress,
     handleApplySort,
+    refreshEvents,
     loadMoreEvents,
     handleShare,
     showSortModal,
@@ -74,6 +76,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     haptic.light();
     navigation.navigate('CreateEvent');
   }, [navigation]);
+
+  const handleRefresh = useCallback(async () => {
+    haptic.light();
+    await refreshEvents();
+  }, [refreshEvents]);
 
   const keyExtractor = useCallback((item: Event) => {
     return item.id;
@@ -141,7 +148,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               style={styles.emptyIcon}
             />
             <Text variant="headingPrimary" style={styles.emptyTitle}>
-              {searchTerm ? 'Nenhum evento encontrado' : ArenaCopy.emptyStates.noEvents.title}
+              {searchTerm
+                ? 'Nenhum evento encontrado'
+                : ArenaCopy.emptyStates.noEvents.title}
             </Text>
             <Text variant="bodySecondary" style={styles.emptyText}>
               {searchTerm
@@ -164,6 +173,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               maxToRenderPerBatch={10}
               windowSize={21}
               removeClippedSubviews={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={handleRefresh}
+                  tintColor={ArenaColors.brand.primary}
+                  colors={[ArenaColors.brand.primary]}
+                  progressBackgroundColor={ArenaColors.neutral.dark}
+                  testID="home-refresh-control"
+                />
+              }
             />
           </View>
         )}
