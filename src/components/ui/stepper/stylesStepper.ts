@@ -5,9 +5,21 @@ export const styles = StyleSheet.create({
   progressWrapper: {
     paddingVertical: ArenaSpacing.md,
   },
+  progressLabelContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: ArenaSpacing.md,
+  },
   progressLabel: {
     textAlign: 'center',
     marginBottom: ArenaSpacing.md,
+  },
+  progressStepNumber: {
+    color: ArenaColors.neutral.medium,
+  },
+  progressStepLabel: {
+    color: ArenaColors.neutral.light,
   },
   container: {
     flexDirection: 'row',

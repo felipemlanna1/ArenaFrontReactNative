@@ -38,17 +38,21 @@ export const Stepper: React.FC<StepperProps> = ({
     return (
       <View style={showProgress ? styles.progressWrapper : undefined}>
         {showProgress && (
-          <Text variant="labelPrimary" style={styles.progressLabel}>
-            <Text variant="labelPrimary">
+          <View style={styles.progressLabelContainer}>
+            <Text variant="labelPrimary" style={styles.progressStepNumber}>
               Passo {currentStep + 1} de {stepsArray.length}
             </Text>
             {currentStepLabel && (
               <>
-                <Text variant="labelPrimary"> - </Text>
-                <Text variant="labelPrimary">{currentStepLabel}</Text>
+                <Text variant="labelPrimary" style={styles.progressStepNumber}>
+                  {' - '}
+                </Text>
+                <Text variant="labelPrimary" style={styles.progressStepLabel}>
+                  {currentStepLabel}
+                </Text>
               </>
             )}
-          </Text>
+          </View>
         )}
 
         <View style={styles.container} testID={testID}>
