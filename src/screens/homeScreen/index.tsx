@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { View, FlatList, RefreshControl } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 import { Fab } from '@/components/ui/fab';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { AppLayout } from '@/components/AppLayout';
@@ -18,7 +19,7 @@ import {
 } from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
 import { Event } from '@/services/events/typesEvents';
-import { ArenaColors, ArenaCopy } from '@/constants';
+import { ArenaColors, ArenaCopy, formatCopy } from '@/constants';
 import { haptic } from '@/utils/haptics';
 import { styles } from './stylesHomeScreen';
 
@@ -157,6 +158,40 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 ? 'Tente buscar por outro termo ou ajuste os filtros'
                 : ArenaCopy.emptyStates.noEvents.description}
             </Text>
+
+            {!searchTerm && (
+              <>
+                <View style={styles.emptyActionsContainer}>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onPress={handleCreateEventPress}
+                    fullWidth
+                    testID="empty-create-event-button"
+                  >
+                    {ArenaCopy.emptyStates.noEvents.primaryAction}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="md"
+                    onPress={handleFilterPress}
+                    fullWidth
+                    testID="empty-filter-button"
+                  >
+                    {ArenaCopy.emptyStates.noEvents.secondaryAction}
+                  </Button>
+                </View>
+
+                <Text
+                  variant="captionSecondary"
+                  style={styles.emptySocialProof}
+                >
+                  {formatCopy(ArenaCopy.emptyStates.noEvents.socialProof, {
+                    count: '10.234',
+                  })}
+                </Text>
+              </>
+            )}
           </View>
         ) : (
           <View style={styles.listWrapper}>

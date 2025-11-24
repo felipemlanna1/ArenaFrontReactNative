@@ -12,6 +12,8 @@ interface Styles {
   emptyIcon: ViewStyle;
   emptyTitle: TextStyle;
   emptyText: TextStyle;
+  emptyActionsContainer: ViewStyle;
+  emptySocialProof: TextStyle;
   footer: ViewStyle;
   errorContainer: ViewStyle;
   errorText: TextStyle;
@@ -58,6 +60,17 @@ export const styles = StyleSheet.create<Styles>({
   emptyText: {
     color: ArenaColors.neutral.medium,
     textAlign: 'center',
+  },
+  emptyActionsContainer: {
+    width: '100%',
+    gap: ArenaSpacing.md,
+    marginTop: ArenaSpacing.md,
+  },
+  emptySocialProof: {
+    color: ArenaColors.neutral.medium,
+    textAlign: 'center',
+    marginTop: ArenaSpacing.lg,
+    opacity: 0.7,
   },
   footer: {
     paddingVertical: ArenaSpacing.lg,
