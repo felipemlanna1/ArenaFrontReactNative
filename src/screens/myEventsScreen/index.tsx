@@ -90,13 +90,30 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
   }, [isLoading, eventFilter]);
 
   const renderFooter = useCallback(() => {
+    if (!isLoadingMore) return null;
+
+    return (
+      <View style={styles.loadingFooter}>
+        <SkeletonCard />
+      </View>
+    );
+  }, [isLoadingMore]);
+
+  const keyExtractor = useCallback((item: GroupedEventItem, index: number) => {
+    if (item.type === 'header') {
+      return `header-${item.category}`;
+    }
+    return `event-${item.event.id}-${index}`;
+  }, []);
+
+  const renderHeader = useCallback(() => {
     return (
       <>
-        {isLoadingMore && (
-          <View style={styles.loadingFooter}>
-            <SkeletonCard />
-          </View>
-        )}
+        <EventTypeFilter
+          value={eventFilter}
+          filterCounts={filterCounts}
+          onChange={setEventFilter}
+        />
         {pastEvents.length > 0 && (
           <AccordionSection
             title="Eventos Passados"
@@ -125,24 +142,14 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
         )}
       </>
     );
-  }, [isLoadingMore, pastEvents, handleDetailsPress, handleShare]);
-
-  const keyExtractor = useCallback((item: GroupedEventItem, index: number) => {
-    if (item.type === 'header') {
-      return `header-${item.category}`;
-    }
-    return `event-${item.event.id}-${index}`;
-  }, []);
-
-  const renderHeader = useCallback(() => {
-    return (
-      <EventTypeFilter
-        value={eventFilter}
-        filterCounts={filterCounts}
-        onChange={setEventFilter}
-      />
-    );
-  }, [eventFilter, filterCounts, setEventFilter]);
+  }, [
+    eventFilter,
+    filterCounts,
+    setEventFilter,
+    pastEvents,
+    handleDetailsPress,
+    handleShare,
+  ]);
 
   return (
     <AppLayout testID={testID}>
