@@ -54,6 +54,17 @@ export const Button: React.FC<ButtonProps> = ({
             animationSpeed="normal"
             testID={`${testID}-loading-spinner`}
           />
+          {loadingText && (
+            <Text
+              variant="bodyBold"
+              style={[
+                buttonLogic.computedStyles.text,
+                buttonStyles.loadingText,
+              ]}
+            >
+              {loadingText}
+            </Text>
+          )}
         </View>
       );
     }
