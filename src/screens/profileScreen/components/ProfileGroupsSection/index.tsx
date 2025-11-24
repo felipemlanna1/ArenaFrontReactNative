@@ -60,6 +60,9 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
       setIsLoading(true);
       setError(null);
       const userGroups = await groupsApi.getUserGroups(userId);
+      console.log('[ProfileGroupsSection] User groups received:', userGroups.length);
+      console.log('[ProfileGroupsSection] Group IDs:', userGroups.map(g => g.id));
+      console.log('[ProfileGroupsSection] Group names:', userGroups.map(g => g.name));
       setGroups(Array.isArray(userGroups) ? userGroups : []);
     } catch (err) {
       setError(
