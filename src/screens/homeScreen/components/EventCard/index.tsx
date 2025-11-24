@@ -1,5 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line arena/arena-use-ui-components -- Pressable is required for card press behavior
 import { View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
