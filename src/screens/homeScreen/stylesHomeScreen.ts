@@ -46,14 +46,13 @@ export const styles = StyleSheet.create<Styles>({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: ArenaSpacing['2xl'],
-    paddingVertical: ArenaSpacing['4xl'],
+    gap: ArenaSpacing.lg,
   },
   emptyIcon: {
-    marginBottom: ArenaSpacing.lg,
+    opacity: 0.6,
   },
   emptyTitle: {
     color: ArenaColors.neutral.light,
-    marginBottom: ArenaSpacing.md,
     textAlign: 'center',
   },
   emptyText: {
