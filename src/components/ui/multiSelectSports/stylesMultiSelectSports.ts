@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -44,6 +44,8 @@ export const styles = StyleSheet.create({
   },
   sportCardText: {
     textAlign: 'center',
+    flexWrap: 'nowrap',
+    overflow: 'hidden',
   },
   checkmarkContainer: {
     position: 'absolute',
