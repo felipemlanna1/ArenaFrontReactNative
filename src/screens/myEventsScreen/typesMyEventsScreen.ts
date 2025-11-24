@@ -36,6 +36,13 @@ export interface MyEventsScreenProps {
   testID?: string;
 }
 
+export interface FilterCounts {
+  all: number;
+  organizing: number;
+  participating: number;
+  invited: number;
+}
+
 export interface UseMyEventsScreenReturn {
   events: Event[];
   groupedEvents: GroupedEventItem[];
@@ -47,6 +54,7 @@ export interface UseMyEventsScreenReturn {
   hasMore: boolean;
   currentPage: number;
   eventFilter: EventFilterType;
+  filterCounts: FilterCounts;
   setEventFilter: (filter: EventFilterType) => void;
   refetch: () => Promise<void>;
   loadMoreEvents: () => Promise<void>;

@@ -30,6 +30,7 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
     isLoadingMore,
     hasMore,
     eventFilter,
+    filterCounts,
     setEventFilter,
     loadMoreEvents,
     handleDetailsPress,
@@ -130,7 +131,11 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
   return (
     <AppLayout testID={testID}>
       <View style={styles.container}>
-        <EventTypeFilter value={eventFilter} onChange={setEventFilter} />
+        <EventTypeFilter
+          value={eventFilter}
+          filterCounts={filterCounts}
+          onChange={setEventFilter}
+        />
 
         {isLoading && groupedEvents.length === 0 ? (
           <View style={styles.loadingContainer}>

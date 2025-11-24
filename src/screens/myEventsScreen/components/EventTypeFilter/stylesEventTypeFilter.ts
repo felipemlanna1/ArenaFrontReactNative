@@ -27,4 +27,7 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.brand.primary,
     borderColor: ArenaColors.brand.primary,
   },
+  badgeText: {
+    opacity: 0.7,
+  },
 });

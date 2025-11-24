@@ -7,6 +7,7 @@ import {
   EventFilterType,
 } from './typesMyEventsScreen';
 import { useMyEvents } from './hooks/useMyEvents';
+import { useEventFilterCounts } from './hooks/useEventFilterCounts';
 import { groupEventsByTime, getPastEvents } from './utils/eventGrouping';
 import { useEventActions } from '@/hooks/useEventActions';
 
@@ -41,6 +42,8 @@ export const useMyEventsScreen = (): UseMyEventsScreenReturn => {
   const pastEvents = useMemo(() => {
     return getPastEvents(events);
   }, [events]);
+
+  const { filterCounts } = useEventFilterCounts();
 
   const eventActions = useEventActions(refreshEvents);
 
@@ -77,6 +80,7 @@ export const useMyEventsScreen = (): UseMyEventsScreenReturn => {
     hasMore,
     currentPage,
     eventFilter,
+    filterCounts,
     setEventFilter: handleFilterChange,
     refetch,
     loadMoreEvents,

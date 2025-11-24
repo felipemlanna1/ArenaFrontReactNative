@@ -14,6 +14,7 @@ const FILTER_OPTIONS: FilterOption[] = [
 
 export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
   value,
+  filterCounts,
   onChange,
   testID = 'event-type-filter',
 }) => {
@@ -24,6 +25,7 @@ export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
       <View style={styles.filtersRow}>
         {FILTER_OPTIONS.map(option => {
           const isActive = value === option.value;
+          const count = filterCounts[option.value];
           return (
             <TouchableOpacity
               key={option.value}
@@ -35,7 +37,13 @@ export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
               testID={`${testID}-${option.value}`}
             >
               <Text variant={isActive ? 'labelPrimary' : 'labelSecondary'}>
-                {option.label}
+                {option.label}{' '}
+                <Text
+                  variant={isActive ? 'labelPrimary' : 'labelSecondary'}
+                  style={styles.badgeText}
+                >
+                  ({count})
+                </Text>
               </Text>
             </TouchableOpacity>
           );
