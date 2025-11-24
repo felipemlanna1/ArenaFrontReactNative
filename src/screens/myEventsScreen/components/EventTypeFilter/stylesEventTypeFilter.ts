@@ -27,7 +27,24 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.brand.primary,
     borderColor: ArenaColors.brand.primary,
   },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+  },
+  badge: {
+    minWidth: ArenaSpacing['2xl'],
+    height: ArenaSpacing.xl,
+    paddingHorizontal: ArenaSpacing.sm,
+    borderRadius: ArenaBorders.radius.pill,
+    backgroundColor: ArenaColors.interaction.hover.neutral,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeActive: {
+    backgroundColor: ArenaColors.neutral.lightSubtlePressed,
+  },
   badgeText: {
-    opacity: 0.7,
+    textAlign: 'center',
   },
 });
