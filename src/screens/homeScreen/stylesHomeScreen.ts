@@ -37,10 +37,9 @@ export const styles = StyleSheet.create<Styles>({
     paddingVertical: ArenaSpacing.md,
   },
   loadingContainer: {
-    flex: 1,
-    paddingHorizontal: ArenaSpacing.lg, // Match list padding
+    paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
-    gap: ArenaSpacing.lg, // Spacing between skeleton cards
+    gap: ArenaSpacing.lg,
   },
   emptyContainer: {
     flex: 1,
