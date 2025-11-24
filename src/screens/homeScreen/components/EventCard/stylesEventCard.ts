@@ -46,7 +46,7 @@ export const styles = StyleSheet.create<Styles>({
     transform: [{ scale: 0.98 }],
   },
   divider: {
-    height: 1, // eslint-disable-line arena/arena-design-tokens -- divider height, not typography
+    height: ArenaBorders.width.thin,
     backgroundColor: ArenaColors.neutral.dark,
     opacity: 0.1,
   },
