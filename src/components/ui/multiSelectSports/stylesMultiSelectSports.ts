@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,38 +8,77 @@ export const styles = StyleSheet.create({
   sportsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: ArenaSpacing.sm,
+    gap: ArenaSpacing.md,
   },
-  sportChip: {
-    flexDirection: 'row',
+  sportCard: {
+    width: ArenaSpacing['9xl'],
     alignItems: 'center',
-    paddingHorizontal: ArenaSpacing.md,
-    paddingVertical: ArenaSpacing.sm,
-    borderRadius: ArenaBorders.radius['3xl'],
-    borderWidth: 1.5,
+    justifyContent: 'center',
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.sm,
+    borderRadius: ArenaBorders.radius.md,
+    borderWidth: ArenaBorders.width.thick,
     gap: ArenaSpacing.xs,
   },
-  sportChipSelected: {
+  sportCardSelected: {
     borderColor: ArenaColors.brand.primary,
     backgroundColor: ArenaColors.brand.primarySubtle,
+    shadowColor: ArenaColors.text.primary,
+    shadowOffset: { width: 0, height: ArenaSpacing.xs },
+    shadowOpacity: 0.12,
+    shadowRadius: ArenaSpacing.sm,
+    elevation: 2,
   },
-  sportChipUnselected: {
+  sportCardUnselected: {
     borderColor: ArenaColors.neutral.dark,
-    backgroundColor: 'transparent',
+    backgroundColor: ArenaColors.neutral.transparent,
+    shadowColor: ArenaColors.text.primary,
+    shadowOffset: { width: 0, height: ArenaSpacing.micro },
+    shadowOpacity: 0.08,
+    shadowRadius: ArenaSpacing.xs,
+    elevation: 1,
   },
-  sportChipIcon: {
-    width: ArenaTypography.size.lg,
-    height: ArenaTypography.size.lg,
+  sportCardIcon: {
+    width: ArenaSpacing['5xl'],
+    height: ArenaSpacing['5xl'],
+  },
+  sportCardText: {
+    textAlign: 'center',
+  },
+  checkmarkContainer: {
+    position: 'absolute',
+    top: ArenaSpacing.xs,
+    right: ArenaSpacing.xs,
+    backgroundColor: ArenaColors.brand.primary,
+    borderRadius: ArenaSpacing.md,
+    width: ArenaSpacing.lg,
+    height: ArenaSpacing.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   levelIcon: {
-    marginLeft: ArenaSpacing.xs,
+    marginTop: ArenaSpacing.xs,
   },
   starButton: {
-    marginLeft: ArenaSpacing.xs,
+    marginTop: ArenaSpacing.xs,
     padding: ArenaSpacing.micro,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing.lg,
     alignItems: 'center',
+  },
+  viewMoreButton: {
+    width: ArenaSpacing['9xl'],
+    height: ArenaSpacing['9xl'],
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: ArenaBorders.radius.md,
+    borderWidth: ArenaBorders.width.thick,
+    borderColor: ArenaColors.neutral.medium,
+    borderStyle: 'dashed',
+    backgroundColor: ArenaColors.neutral.transparent,
+  },
+  viewMoreText: {
+    textAlign: 'center',
   },
 });

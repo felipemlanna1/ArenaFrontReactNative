@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, TouchableOpacity, Animated } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
@@ -10,6 +10,8 @@ import { SkillLevel } from '@/types/sport';
 import { ArenaColors } from '@/constants';
 import { MultiSelectSportsProps } from './typesMultiSelectSports';
 import { styles } from './stylesMultiSelectSports';
+
+const INITIAL_SPORTS_COUNT = 6;
 
 const getLevelIcon = (level: SkillLevel): keyof typeof Entypo.glyphMap => {
   const icons = {
@@ -32,7 +34,9 @@ export const MultiSelectSports: React.FC<MultiSelectSportsProps> = ({
   isLoading = false,
   testID,
 }) => {
-  const handleChipPress = useCallback(
+  const [showAll, setShowAll] = useState(false);
+
+  const handleCardPress = useCallback(
     (sport: (typeof sports)[0]) => {
       const isSelected = selectedSportIds.includes(sport.id);
 
@@ -69,10 +73,15 @@ export const MultiSelectSports: React.FC<MultiSelectSportsProps> = ({
     );
   }
 
+  const displayedSports = showAll
+    ? sports
+    : sports.slice(0, INITIAL_SPORTS_COUNT);
+  const hasMore = sports.length > INITIAL_SPORTS_COUNT;
+
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.sportsGrid}>
-        {sports.map(sport => {
+        {displayedSports.map(sport => {
           const isSelected = selectedSportIds.includes(sport.id);
           const skillLevel = sportLevels?.[sport.id];
           const isPrimary = primarySportId === sport.id;
@@ -80,28 +89,43 @@ export const MultiSelectSports: React.FC<MultiSelectSportsProps> = ({
           return (
             <TouchableOpacity
               key={sport.id}
-              onPress={() => handleChipPress(sport)}
+              onPress={() => handleCardPress(sport)}
+              activeOpacity={0.7}
               testID={
-                testID ? `${testID}-chip-${sport.id}` : `sport-chip-${sport.id}`
+                testID ? `${testID}-card-${sport.id}` : `sport-card-${sport.id}`
               }
             >
-              <View
+              <Animated.View
                 style={[
-                  styles.sportChip,
+                  styles.sportCard,
                   isSelected
-                    ? styles.sportChipSelected
-                    : styles.sportChipUnselected,
+                    ? styles.sportCardSelected
+                    : styles.sportCardUnselected,
                 ]}
               >
                 <OptimizedImage
                   source={getSportIcon(sport.icon)}
-                  style={styles.sportChipIcon}
+                  style={styles.sportCardIcon}
                   contentFit="contain"
                   priority="high"
                 />
-                <Text variant={isSelected ? 'labelPrimary' : 'labelSecondary'}>
+                <Text
+                  variant={isSelected ? 'labelPrimary' : 'labelSecondary'}
+                  style={styles.sportCardText}
+                >
                   {sport.name}
                 </Text>
+
+                {isSelected && (
+                  <View style={styles.checkmarkContainer}>
+                    <Ionicons
+                      name="checkmark"
+                      size={12}
+                      color={ArenaColors.neutral.light}
+                    />
+                  </View>
+                )}
+
                 {isSelected && skillLevel && (
                   <Entypo
                     name={getLevelIcon(skillLevel)}
@@ -127,10 +151,29 @@ export const MultiSelectSports: React.FC<MultiSelectSportsProps> = ({
                     />
                   </TouchableOpacity>
                 )}
-              </View>
+              </Animated.View>
             </TouchableOpacity>
           );
         })}
+
+        {hasMore && !showAll && (
+          <TouchableOpacity
+            onPress={() => setShowAll(true)}
+            activeOpacity={0.7}
+            testID={testID ? `${testID}-view-more` : 'sport-view-more'}
+          >
+            <View style={styles.viewMoreButton}>
+              <Ionicons
+                name="add-circle-outline"
+                size={32}
+                color={ArenaColors.neutral.medium}
+              />
+              <Text variant="labelSecondary" style={styles.viewMoreText}>
+                Ver Mais ({sports.length - INITIAL_SPORTS_COUNT})
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
