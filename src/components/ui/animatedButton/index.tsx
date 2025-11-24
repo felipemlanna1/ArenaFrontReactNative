@@ -14,7 +14,12 @@ import { Animated, Pressable, ViewStyle } from 'react-native';
 import { Button, ButtonProps } from '@/components/ui/button';
 import { haptic } from '@/utils/haptics';
 
-export interface AnimatedButtonProps extends ButtonProps {
+export interface AnimatedButtonProps extends Omit<ButtonProps, 'onPress'> {
+  /**
+   * Callback when button is pressed
+   */
+  onPress?: () => void;
+
   /**
    * Enable haptic feedback on press
    * @default true
@@ -89,7 +94,7 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         onPressOut={handlePressOut}
         onPress={handlePress}
       >
-        <Button {...buttonProps} onPress={undefined} />
+        <Button {...buttonProps} onPress={() => {}} />
       </Pressable>
     </Animated.View>
   );

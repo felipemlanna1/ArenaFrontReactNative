@@ -101,7 +101,7 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
               ]}
             >
               <Text
-                variant="captionPrimary"
+                variant="captionSecondary"
                 style={{
                   fontSize: size === 'sm' ? 11 : size === 'md' ? 13 : 15,
                   color: ArenaColors.neutral.light,
@@ -129,7 +129,7 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
           ]}
         >
           <Text
-            variant="captionPrimary"
+            variant="captionSecondary"
             style={{
               fontSize: size === 'sm' ? 11 : size === 'md' ? 13 : 15,
               color: ArenaColors.neutral.light,

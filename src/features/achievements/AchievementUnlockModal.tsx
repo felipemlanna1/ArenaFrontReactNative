@@ -171,7 +171,7 @@ export const AchievementUnlockModal: React.FC<
           {/* Content */}
           <View style={styles.content}>
             {/* Achievement unlocked header */}
-            <Text variant="captionPrimary" style={styles.unlockText}>
+            <Text variant="captionSecondary" style={styles.unlockText}>
               ACHIEVEMENT UNLOCKED
             </Text>
 
@@ -216,7 +216,7 @@ export const AchievementUnlockModal: React.FC<
               style={[styles.tierBadge, { backgroundColor: tierColor + '40' }]}
             >
               <Text
-                variant="captionPrimary"
+                variant="captionSecondary"
                 style={[styles.tierText, { color: tierColor }]}
               >
                 {achievement.tier.toUpperCase()}
@@ -224,14 +224,11 @@ export const AchievementUnlockModal: React.FC<
             </View>
 
             {/* Dismiss button */}
-            <Button
-              variant="primary"
-              size="lg"
-              onPress={handleDismiss}
-              style={styles.button}
-            >
-              Continuar
-            </Button>
+            <View style={styles.buttonContainer}>
+              <Button variant="primary" size="lg" onPress={handleDismiss} fullWidth>
+                Continuar
+              </Button>
+            </View>
           </View>
         </Animated.View>
       </Pressable>
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
     fontWeight: ArenaTypography.weight.bold,
     letterSpacing: 1.5,
   },
-  button: {
+  buttonContainer: {
     width: '100%',
     marginTop: ArenaSpacing.lg,
   },
