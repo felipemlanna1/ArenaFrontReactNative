@@ -11,11 +11,12 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   sportCard: {
-    width: ArenaSpacing['7xl'],
+    width: ArenaSpacing['7.5xl'],
+    height: ArenaSpacing['7.5xl'],
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: ArenaSpacing.md,
-    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.md,
     borderWidth: ArenaBorders.width.thick,
     gap: ArenaSpacing.xs,
@@ -45,7 +46,6 @@ export const styles = StyleSheet.create({
   sportCardText: {
     textAlign: 'center',
     flexWrap: 'nowrap',
-    overflow: 'hidden',
   },
   checkmarkContainer: {
     position: 'absolute',
