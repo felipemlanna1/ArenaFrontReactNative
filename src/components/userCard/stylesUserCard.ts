@@ -17,23 +17,30 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: ArenaSpacing.md,
   },
+  avatarContainer: {
+    position: 'relative',
+  },
   avatar: {
-    width: ArenaSpacing['4.5xl'],
-    height: ArenaSpacing['4.5xl'],
+    width: ArenaSpacing['5.75xl'],
+    height: ArenaSpacing['5.75xl'],
     borderRadius: ArenaBorders.radius.circle,
   },
   avatarFallback: {
-    width: ArenaSpacing['4.5xl'],
-    height: ArenaSpacing['4.5xl'],
+    width: ArenaSpacing['5.75xl'],
+    height: ArenaSpacing['5.75xl'],
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primarySubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarImage: {
-    width: ArenaSpacing['4.5xl'],
-    height: ArenaSpacing['4.5xl'],
+    width: ArenaSpacing['5.75xl'],
+    height: ArenaSpacing['5.75xl'],
     borderRadius: ArenaBorders.radius.circle,
+  },
+  avatarBorder: {
+    borderWidth: ArenaSpacing.micro,
+    borderColor: ArenaColors.brand.primary,
   },
   initialsText: {
     color: ArenaColors.brand.primary,
@@ -58,6 +65,15 @@ export const styles = StyleSheet.create({
   },
   locationIcon: {
     marginTop: ArenaSpacing.micro,
+  },
+  contextRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+    marginTop: ArenaSpacing.micro,
+  },
+  contextIcon: {
+    marginTop: ArenaSpacing.micro / 2,
   },
   sportsContainer: {
     flexDirection: 'row',

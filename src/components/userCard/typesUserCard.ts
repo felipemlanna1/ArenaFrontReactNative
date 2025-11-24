@@ -34,6 +34,8 @@ export interface UseUserCardReturn {
   displayName: string;
   displayLocation: string | null;
   displaySports: string[];
+  displayContext: string | null;
+  isActiveRecently: boolean;
   hasActions: boolean;
   handlePrimaryAction: () => void;
   handleSecondaryAction?: () => void;
