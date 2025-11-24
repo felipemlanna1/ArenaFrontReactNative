@@ -21,6 +21,7 @@ const [selected, setSelected] = useState<string | null>(null);
 />`;
 
 const GRID_CODE = `import { CardCheckbox } from '@/components/ui/cardCheckbox';
+import { ArenaSpacing } from '@/constants';
 
 const sports = [
   { id: 'football', name: 'Futebol', icon: '⚽' },
@@ -30,7 +31,7 @@ const sports = [
 
 const [selectedSport, setSelectedSport] = useState<string | null>(null);
 
-<View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+<View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: ArenaSpacing.sm }}>
   {sports.map(sport => (
     <CardCheckbox
       key={sport.id}

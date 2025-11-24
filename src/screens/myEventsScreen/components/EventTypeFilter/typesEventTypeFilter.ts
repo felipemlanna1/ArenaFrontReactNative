@@ -1,4 +1,7 @@
-import { EventFilterType } from '@/screens/myEventsScreen/typesMyEventsScreen';
+import {
+  EventFilterType,
+  FilterCounts,
+} from '@/screens/myEventsScreen/typesMyEventsScreen';
 
 export interface FilterOption {
   value: EventFilterType;
@@ -7,6 +10,7 @@ export interface FilterOption {
 
 export interface EventTypeFilterProps {
   value: EventFilterType;
+  filterCounts: FilterCounts;
   onChange: (value: EventFilterType) => void;
   testID?: string;
 }

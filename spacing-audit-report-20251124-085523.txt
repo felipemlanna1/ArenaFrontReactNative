@@ -1,0 +1,23 @@
+Arena Spacing Audit Report
+Generated: Mon Nov 24 08:55:23 -03 2025
+
+Total Violations: 10
+  - Margin: 1
+  - Padding: 3
+  - Gap: 6
+
+=== MARGIN VIOLATIONS ===
+src/screens/notificationsScreen/components/NotificationItem/stylesNotificationItem.ts:43:    marginTop: 6,
+
+=== PADDING VIOLATIONS ===
+src/screens/componentsShowcaseScreen/components/CardSection.tsx:35:  style={{ padding: 24, borderRadius: 16 }}
+src/screens/componentsShowcaseScreen/components/DropdownSection.tsx:61:    <View style={{ flexDirection: 'row', gap: 8, padding: 8 }}>
+src/components/header/utils/BellIcon.tsx:61:    paddingHorizontal: 4,
+
+=== GAP VIOLATIONS ===
+src/screens/componentsShowcaseScreen/components/RadioButtonSection.tsx:36:<View style={{ gap: 12 }}>
+src/screens/componentsShowcaseScreen/components/RadioButtonSection.tsx:57:<View style={{ gap: 12 }}>
+src/screens/componentsShowcaseScreen/components/RadioButtonSection.tsx:68:const INLINE_CODE = `<View style={{ flexDirection: 'row', gap: 16 }}>
+src/screens/componentsShowcaseScreen/components/DropdownSection.tsx:52:  <View style={{ gap: 4 }}>
+src/screens/componentsShowcaseScreen/components/DropdownSection.tsx:61:    <View style={{ flexDirection: 'row', gap: 8, padding: 8 }}>
+src/screens/componentsShowcaseScreen/components/CardCheckboxSection.tsx:33:<View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>

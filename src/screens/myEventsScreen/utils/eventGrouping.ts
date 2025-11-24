@@ -112,6 +112,7 @@ export const groupEventsByTime = (events: Event[]): GroupedEventItem[] => {
         type: 'header',
         category: key,
         label,
+        count: categoryEvents.length,
       });
 
       categoryEvents.forEach(event => {

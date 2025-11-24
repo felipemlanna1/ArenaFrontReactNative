@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { Text } from '@/components/ui/text';
-import { PrivacyBadge } from '@/components/ui/privacyBadge';
 import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
 import { EventHeroSectionProps } from './typesEventHeroSection';
@@ -16,8 +15,29 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
   onBackPress,
   onSharePress,
   onEditPress,
+  userStatus,
 }) => {
   const iconSource = event.sport?.icon ? getSportIcon(event.sport.icon) : null;
+
+  const getStatusBadge = () => {
+    if (userStatus === 'confirmed') {
+      return {
+        icon: 'checkmark-circle' as const,
+        text: 'Confirmado',
+        color: ArenaColors.semantic.success,
+      };
+    }
+    if (event.currentParticipants >= event.maxParticipants) {
+      return {
+        icon: 'close-circle' as const,
+        text: 'Lotado',
+        color: ArenaColors.semantic.error,
+      };
+    }
+    return null;
+  };
+
+  const statusBadge = getStatusBadge();
 
   return (
     <View style={styles.container}>
@@ -54,10 +74,10 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
       )}
 
       <LinearGradient
-        colors={['rgba(27, 29, 41, 0.7)', 'rgba(27, 29, 41, 0)']}
+        colors={['transparent', 'rgba(27, 29, 41, 0.9)']}
         start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 0.3 }}
-        style={styles.overlay}
+        end={{ x: 0.5, y: 1 }}
+        style={styles.gradientOverlay}
       />
 
       <View style={styles.headerOverlay}>
@@ -102,24 +122,35 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
         </View>
       </View>
 
-      <View style={styles.badgesContainer}>
+      {statusBadge && (
+        <View
+          style={[styles.statusBadge, { backgroundColor: statusBadge.color }]}
+        >
+          <Ionicons
+            name={statusBadge.icon}
+            size={16}
+            color={ArenaColors.neutral.light}
+          />
+          <Text variant="captionSecondary" style={styles.statusBadgeText}>
+            {statusBadge.text}
+          </Text>
+        </View>
+      )}
+
+      <View style={styles.categoryChipsContainer}>
         {event.sport && (
-          <View style={styles.sportBadgeContainer}>
-            <Text variant="labelPrimary" style={styles.sportBadgeText}>
-              {event.sport.icon}
+          <View style={styles.categoryChip}>
+            <Text variant="captionSecondary" style={styles.categoryChipText}>
+              {event.sport.name}
             </Text>
           </View>
         )}
+      </View>
 
-        {event.privacy && (
-          <View style={styles.privacyBadgeContainer}>
-            <PrivacyBadge
-              privacy={event.privacy}
-              groupName={event.group?.name}
-              size="sm"
-            />
-          </View>
-        )}
+      <View style={styles.titleContainer}>
+        <Text variant="titlePrimary" style={styles.title} numberOfLines={2}>
+          {event.title}
+        </Text>
       </View>
     </View>
   );

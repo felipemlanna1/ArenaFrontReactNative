@@ -53,7 +53,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         >
           <Ionicons
             name="football-outline"
-            size={18}
+            size={20}
             color={
               selectedSportId
                 ? ArenaColors.brand.primary
@@ -96,7 +96,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         >
           <Ionicons
             name="location-outline"
-            size={18}
+            size={20}
             color={
               hasCityFilter
                 ? ArenaColors.brand.primary

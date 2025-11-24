@@ -30,9 +30,11 @@ const CARD_INTERACTIVE_CODE = `<Card variant="outlined" onPress={handlePress}>
   <Text variant="bodySecondary">Tap me!</Text>
 </Card>`;
 
-const CARD_CUSTOM_CODE = `<Card
+const CARD_CUSTOM_CODE = `import { ArenaSpacing, ArenaBorders } from '@/constants';
+
+<Card
   variant="default"
-  style={{ padding: 24, borderRadius: 16 }}
+  style={{ padding: ArenaSpacing['2xl'], borderRadius: ArenaBorders.radius.lg }}
 >
   <Text variant="titlePrimary">Custom Styled Card</Text>
   <Text variant="bodySecondary">With custom padding and radius</Text>

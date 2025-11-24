@@ -9,6 +9,7 @@ const CONTENT_BOTTOM_PADDING = 100;
 const SHADOW_OFFSET_HEIGHT = 4;
 const SHADOW_RADIUS = 8;
 const SHADOW_OPACITY = 0.3;
+const GRADIENT_HEIGHT = 200;
 
 export const styles = StyleSheet.create({
   container: {
@@ -80,5 +81,13 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.neutral.darkest,
     borderTopWidth: 1,
     borderTopColor: ArenaColors.neutral.dark,
+  },
+  backgroundGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: GRADIENT_HEIGHT,
+    zIndex: -1,
   },
 });

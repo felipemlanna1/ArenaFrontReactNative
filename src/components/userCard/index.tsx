@@ -113,7 +113,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             <View style={styles.contextRow}>
               <Ionicons
                 name="people-outline"
-                size={14}
+                size={16}
                 color={ArenaColors.brand.primary}
                 style={styles.contextIcon}
               />
@@ -127,7 +127,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             <View style={styles.locationRow}>
               <Ionicons
                 name="location-outline"
-                size={14}
+                size={16}
                 color={ArenaColors.neutral.medium}
                 style={styles.locationIcon}
               />

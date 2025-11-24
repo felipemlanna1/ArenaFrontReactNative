@@ -7,4 +7,5 @@ export interface ProfileHeroSectionProps {
   onBackPress: () => void;
   coverImageUrl?: string | null;
   primarySport?: SportBadgeData | null;
+  isUserActive?: boolean;
 }

@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
-    backgroundColor: ArenaColors.neutral.dark,
+    backgroundColor: ArenaColors.neutral.darkest,
     borderWidth: ArenaBorders.width.thin,
     borderColor: `${ArenaColors.neutral.medium}4D`,
   },
@@ -201,7 +201,7 @@ export const styles = StyleSheet.create({
   },
 
   mdContainer: {
-    height: ArenaSpacing['4.5xl'],
+    height: ArenaSpacing['5xl'],
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     borderRadius: ArenaBorders.radius.lg,
@@ -239,7 +239,7 @@ export const styles = StyleSheet.create({
   },
 
   mdLabel: {
-    marginBottom: ArenaSpacing.sm,
+    marginBottom: ArenaSpacing.xs,
   },
 
   lgLabel: {
@@ -259,7 +259,7 @@ export const styles = StyleSheet.create({
   },
 
   mdHelperText: {
-    marginTop: ArenaSpacing.sm,
+    marginTop: ArenaSpacing.xs,
   },
 
   lgHelperText: {

@@ -74,7 +74,7 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
         >
           <Ionicons
             name="trash-outline"
-            size={18}
+            size={20}
             color={ArenaColors.neutral.light}
           />
           <Text variant="labelPrimary" style={styles.buttonText}>

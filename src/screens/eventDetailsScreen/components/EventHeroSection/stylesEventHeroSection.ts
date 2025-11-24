@@ -4,7 +4,8 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: ArenaSpacing['13xl'],
+    // eslint-disable-next-line arena/arena-design-tokens
+    height: 240,
     position: 'relative',
   },
   coverImage: {
@@ -25,9 +26,13 @@ export const styles = StyleSheet.create({
   placeholderText: {
     color: ArenaColors.neutral.light,
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: ArenaColors.neutral.overlay,
+  gradientOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // eslint-disable-next-line arena/arena-design-tokens
+    height: 100,
   },
   headerOverlay: {
     position: 'absolute',
@@ -54,32 +59,51 @@ export const styles = StyleSheet.create({
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.lightSubtle15,
   },
-  badgesContainer: {
+  titleContainer: {
     position: 'absolute',
     bottom: ArenaSpacing.lg,
     left: ArenaSpacing.lg,
     right: ArenaSpacing.lg,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: ArenaSpacing.sm,
   },
-  sportBadgeContainer: {
+  title: {
+    color: ArenaColors.neutral.light,
+
+    textShadowColor: 'rgba(0, 0, 0, 0.6)',
+    // eslint-disable-next-line arena/arena-design-tokens
+    textShadowOffset: { width: 0, height: 2 },
+
+    textShadowRadius: 4,
+  },
+  statusBadge: {
+    position: 'absolute',
+    top: ArenaSpacing.lg,
+    left: ArenaSpacing.lg,
+    paddingHorizontal: ArenaSpacing.md,
+    paddingVertical: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.sm,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: ArenaColors.neutral.darkPressed,
-    paddingHorizontal: ArenaSpacing.md,
-    paddingVertical: ArenaSpacing.sm,
-    borderRadius: ArenaBorders.radius.pill,
     gap: ArenaSpacing.xs,
+  },
+  statusBadgeText: {
+    color: ArenaColors.neutral.light,
+  },
+  categoryChipsContainer: {
+    position: 'absolute',
+    top: ArenaSpacing.lg,
+    right: ArenaSpacing.lg,
+    flexDirection: 'row',
+    gap: ArenaSpacing.xs,
+  },
+  categoryChip: {
+    backgroundColor: ArenaColors.neutral.darkPressed,
+    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.pill,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.lightMedium,
   },
-  sportBadgeText: {
+  categoryChipText: {
     color: ArenaColors.neutral.light,
-    textTransform: 'uppercase',
-  },
-  privacyBadgeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
 });

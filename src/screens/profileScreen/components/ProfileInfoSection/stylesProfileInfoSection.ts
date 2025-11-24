@@ -7,18 +7,19 @@ export const styles = StyleSheet.create({
   container: {
     marginTop: PROFILE_INFO_TOP_MARGIN,
     alignItems: 'center',
-    gap: ArenaSpacing.md,
   },
   nameWithBadgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.sm,
+    marginBottom: ArenaSpacing.xs,
   },
   nameText: {
     textAlign: 'center',
   },
   usernameText: {
     textAlign: 'center',
+    marginBottom: ArenaSpacing['2xl'],
   },
   memberSinceText: {
     textAlign: 'center',

@@ -6,4 +6,5 @@ export interface EventHeroSectionProps {
   onBackPress: () => void;
   onSharePress: () => void;
   onEditPress?: () => void;
+  userStatus?: 'confirmed' | 'pending' | 'rejected' | null;
 }

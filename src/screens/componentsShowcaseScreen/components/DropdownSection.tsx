@@ -48,8 +48,10 @@ const PROFILE_DROPDOWN_CODE = `<Dropdown
   ]}
 />`;
 
-const ICON_DROPDOWN_CODE = `const MenuIcon = () => (
-  <View style={{ gap: 4 }}>
+const ICON_DROPDOWN_CODE = `import { ArenaSpacing } from '@/constants';
+
+const MenuIcon = () => (
+  <View style={{ gap: ArenaSpacing.xs }}>
     <View style={{ width: 20, height: 2, backgroundColor: '#FFF' }} />
     <View style={{ width: 20, height: 2, backgroundColor: '#FFF' }} />
     <View style={{ width: 20, height: 2, backgroundColor: '#FFF' }} />
@@ -58,7 +60,7 @@ const ICON_DROPDOWN_CODE = `const MenuIcon = () => (
 
 <Dropdown
   trigger={
-    <View style={{ flexDirection: 'row', gap: 8, padding: 8 }}>
+    <View style={{ flexDirection: 'row', gap: ArenaSpacing.sm, padding: ArenaSpacing.sm }}>
       <MenuIcon />
       <Text variant="bodyPrimary">Menu</Text>
     </View>

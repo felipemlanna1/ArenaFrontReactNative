@@ -11,18 +11,19 @@ export const styles = StyleSheet.create({
   },
   statsGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: ArenaSpacing.sm,
+    gap: ArenaSpacing.none,
   },
   statCard: {
     flex: 1,
-    minWidth: '47%',
-    backgroundColor: ArenaColors.neutral.dark,
-    borderRadius: ArenaBorders.radius.lg,
-    borderWidth: ArenaBorders.width.thin,
-    borderColor: ArenaColors.neutral.darkSubtleBorder,
-    padding: ArenaSpacing.md,
+    alignItems: 'center',
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.sm,
     gap: ArenaSpacing.xs,
+  },
+  statDivider: {
+    width: ArenaBorders.width.thin,
+    height: '100%',
+    backgroundColor: `${ArenaColors.neutral.dark}33`,
   },
   statCardHeader: {
     flexDirection: 'row',
