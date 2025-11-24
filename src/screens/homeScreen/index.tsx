@@ -21,6 +21,7 @@ import { useHomeScreen } from './useHomeScreen';
 import { Event } from '@/services/events/typesEvents';
 import { ArenaColors, ArenaCopy, formatCopy } from '@/constants';
 import { haptic } from '@/utils/haptics';
+import { useToast } from '@/contexts/ToastContext';
 import { styles } from './stylesHomeScreen';
 
 type HomeScreenNavigationProp = CompositeNavigationProp<
@@ -36,6 +37,7 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const { showToast } = useToast();
   const {
     events,
     isLoading,
@@ -80,8 +82,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const handleRefresh = useCallback(async () => {
     haptic.light();
-    await refreshEvents();
-  }, [refreshEvents]);
+    try {
+      await refreshEvents();
+      haptic.success();
+      showToast('Eventos atualizados', 'success');
+    } catch {
+      haptic.error();
+      showToast('Erro ao atualizar eventos', 'error');
+    }
+  }, [refreshEvents, showToast]);
 
   const keyExtractor = useCallback((item: Event) => {
     return item.id;
