@@ -14,7 +14,7 @@ export class OnboardingSportsScreen extends BasePage {
 
   // Modal de Skill Level
   private readonly skillLevelModal: Locator;
-  private readonly iniciante ButtonOption: Locator;
+  private readonly inicianteOption: Locator;
   private readonly intermediarioOption: Locator;
   private readonly avancadoOption: Locator;
 
