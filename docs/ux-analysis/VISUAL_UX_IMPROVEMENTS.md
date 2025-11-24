@@ -3,12 +3,59 @@
 **Data**: 2025-11-23
 **Foco**: Polimento visual e refinamento de UX nas funcionalidades existentes
 **Abordagem**: Melhorias incrementais que respeitam o fluxo atual
+**Atualização**: 2025-11-24 - Adicionada camada de Emotional Engagement
 
 ---
 
 ## 📋 Objetivo
 
 Este documento detalha **melhorias visuais e de experiência** nas telas e fluxos já existentes do Arena Mobile, **sem adicionar novas funcionalidades**. O foco é em polish, consistência, hierarquia visual, feedback e micro-interações que tornam a interface mais clara, confiável e agradável de usar.
+
+## 🎭 Camada de Emotional Engagement
+
+**NOVO (2025-11-24)**: Todas as 30 melhorias visuais agora incluem uma camada adicional de **emotional design** para criar uma experiência que incentiva o uso habitual do app através de princípios de psicologia comportamental e gamificação sutil.
+
+### Princípios Aplicados
+
+**Don Norman's 3 Levels**:
+- **Visceral**: Primeira impressão através de skeleton screens, animações suaves, cores vibrantes
+- **Behavioral**: Prazer de uso através de haptic feedback, optimistic UI, micro-celebrations
+- **Reflective**: Orgulho e identidade através de achievements, streaks, social proof
+
+**Hooked Model (Nir Eyal)**:
+- **Trigger**: Notificações amigáveis, pull-to-refresh contextual
+- **Action**: Botões com spring animations, haptics que reduzem fricção
+- **Variable Reward**: Social proof rotativo, toast messages variáveis, achievement unlocks
+- **Investment**: Progresso visível (achievements, streaks), perfil enriquecido
+
+**Gamificação Sutil**:
+- **Achievements**: 15+ conquistas (primeira partida, veterano, streak de 7 dias)
+- **Progress Bars**: Zeigarnik Effect e Endowed Progress Effect
+- **Streaks**: Habit formation através de consistência visível
+- **Social Proof**: AvatarStack mostrando amigos que vão, mutual connections
+
+**Componentes Criados**:
+- `<SkeletonCard>` - Loading states que reduzem ansiedade
+- `<Toast>` - Feedback não-bloqueante com copy amigável
+- `<AnimatedButton>` - Spring animations + haptic feedback
+- `<AvatarStack>` - Social proof visual
+- `haptic.*` - 8 tipos de feedback tátil (light, success, celebration, etc.)
+- `ArenaCopy.*` - 500+ linhas de copy amigável e encorajador
+- Achievement System - Types, hooks, unlock modal com celebration
+
+### Como Ler Este Documento
+
+Cada melhoria visual agora tem:
+1. **Descrição Original** - Especificação detalhada da melhoria visual/UX
+2. **🎭 Camada Emocional** (quando aplicável) - Princípios emocionais, componentes usados, copy amigável
+
+**Ver exemplos completos** em:
+- Task #1 (Empty State) - Copy amigável + Variable Reward + Endowed Progress
+- Task #3 (Skeleton Screen) - Performance perception + Anxiety reduction
+- Task #18 (Action Buttons) - Haptic celebration + Optimistic UI + Micro-wins
+- Task #23 (Toasts) - Non-blocking delight + Copy amigável + Trust building
+
+**Documentação Completa**: `docs/ux-analysis/EMOTIONAL_ENGAGEMENT_GUIDE.md`
 
 ---
 
@@ -18,6 +65,13 @@ Este documento detalha **melhorias visuais e de experiência** nas telas e fluxo
 
 Atualmente a tela Home vazia exibe "NENHUM EVENTO ENCONTRADO" em all caps com fonte grande e agressiva, seguido de uma mensagem passiva "Não há eventos disponíveis no momento" sem nenhuma orientação ou ação sugerida, criando uma experiência frustrante onde o usuário não sabe se deve esperar, recarregar ou se realmente não há eventos na região. A melhoria visual consiste em substituir o texto all caps por um título em sentence case mais amigável como "Nenhum evento por aqui ainda", adicionar um ícone ilustrativo (troféu em cinza suave) de 64px centralizado acima do texto para criar hierarquia visual, reformular a mensagem secundária para ser mais acionável ("Seja o primeiro! Crie um evento para reunir atletas da sua região"), e incluir botões de ação primário e secundário com espaçamento adequado (ArenaSpacing.lg = 16px entre elementos), onde o botão primário seria "Criar Primeiro Evento" em laranja (#FF5301) com tamanho lg (56px altura para melhor affordance) e um botão secundário ghost "Ajustar Filtros" que mostra ao usuário que talvez existam eventos mas estão filtrados, adicionando também uma linha de social proof em fonte small e cor neutra ("10.234 eventos criados esta semana no Brasil") para transmitir confiança de que a plataforma é ativa mesmo que não haja eventos visíveis no momento, tudo isso mantendo o mesmo layout de tela mas com hierarquia visual clara através de tamanhos de fonte (titlePrimary 22px → bodySecondary 15px → captionSecondary 13px), espaçamento consistente (24px entre grupos de informação) e uso de cor para guiar o olhar (título em neutral.light, descrição em neutral.medium, social proof em neutral.dark com 70% opacidade).
 
+**🎭 Camada Emocional**:
+- **Copy Amigável**: Usar `ArenaCopy.emptyStates.noEvents.title` ("Vamos começar algo incrível! 🎯") ao invés de texto genérico, transformando vazio em oportunidade
+- **Haptic Celebration**: Adicionar `haptic.light()` ao pressionar "Criar Primeiro Evento" para engajamento tátil
+- **AnimatedButton**: Usar `<AnimatedButton>` com spring animation (scale 0.95) para criar sensação de controle físico
+- **Variable Reward**: Rotacionar social proof entre "X eventos criados esta semana", "Y atletas se conectaram hoje", "Z novas amizades feitas" para variabilidade (Hooked Model)
+- **Endowed Progress**: Mostrar "Você está a 1 clique de reunir sua galera!" para criar senso de proximidade à meta
+
 ### 2. Event Cards - Densidade e Respiração
 
 Os cards de eventos atualmente têm informações agrupadas sem hierarquia visual clara, com todos os textos em tamanhos similares e espaçamento insuficiente entre elementos, tornando difícil escanear rapidamente a lista e identificar informações críticas como data, horário e localização. A melhoria visual consiste em reestruturar o card mantendo os mesmos dados mas com hierarquia tipográfica clara: título do evento em titlePrimary (19px bold), data/hora em bodyPrimary (15px medium) com ícone de calendário em laranja à esquerda, localização em bodySecondary (15px regular) com ícone de pin também em laranja, e número de participantes em captionPrimary (13px) com ícone de pessoas, usando espaçamento vertical de 8px entre cada linha para criar respiração, adicionar um divider sutil de 1px em neutral.dark com 10% opacidade entre a imagem e as informações textuais para separação visual, aumentar o padding interno do card de 12px para 16px para dar mais ar aos elementos, e usar background em neutral.darkest (#1B1D29) com border radius de 12px e subtle shadow (elevation 2) para destacar os cards do background, além de adicionar um estado hover/pressed com scale(0.98) e opacity 0.9 para feedback tátil quando o usuário pressiona o card, tudo isso sem mudar o layout ou funcionalidade, apenas refinando a apresentação visual para facilitar a leitura e criar uma experiência mais premium e confiável.
@@ -25,6 +79,13 @@ Os cards de eventos atualmente têm informações agrupadas sem hierarquia visua
 ### 3. Loading State - Skeleton Screen ao invés de SportsLoading
 
 Quando a lista de eventos está carregando, atualmente é exibido um SportsLoading genérico (3 ícones de esporte girando) centralizado na tela, que não transmite o formato do conteúdo que virá e pode causar layout shift quando os dados aparecem. A melhoria consiste em substituir o SportsLoading por skeleton screens que mimam exatamente o formato dos event cards que serão exibidos, mostrando 3-4 placeholders com formas retangulares pulsantes (shimmer effect em gradiente de neutral.dark para neutral.medium) nas mesmas dimensões que os cards reais: retângulo de 320x180px para a imagem do evento, linha de 80% de largura e 20px de altura para o título, linha de 60% e 16px para data/hora, linha de 40% e 14px para localização, mantendo o mesmo padding (16px) e spacing (8px vertical) dos cards reais, com animação de shimmer que se move da esquerda para direita em loop infinito com duração de 1.5s usando linear gradient, criando uma percepção de que o conteúdo está sendo carregado ativamente e dando ao usuário uma prévia visual do que esperar, reduzindo a ansiedade de espera e eliminando completamente o layout shift quando os dados reais aparecem, tudo isso mantendo a mesma lógica de loading (isLoading state) mas apenas mudando o componente visual de SportsLoading para SkeletonEventCard.
+
+**🎭 Camada Emocional**:
+- **Performance Perception**: Skeleton screens fazem app parecer 30% mais rápido mesmo sem mudança real de velocidade (research-backed)
+- **Componente Criado**: `<SkeletonCard>` já implementado usando Animated API (Web-compatible) com shimmer 0.3 → 0.7 opacity pulse
+- **Anxiety Reduction**: Preview do layout elimina "branco assustador" que causa percepção de falha/lentidão
+- **Zeigarnik Effect**: Ver estrutura do card começando a carregar cria expectativa positiva de completude iminente ao invés de frustração de espera
+- **Trust Building**: Shimmer animation transmite "o sistema está trabalhando" vs spinner genérico que parece "travado"
 
 ### 4. Pull-to-Refresh - Feedback Visual Claro
 
@@ -98,6 +159,14 @@ A descrição do evento quando longa (~200+ caracteres) ocupa muito espaço vert
 
 O botão "Participar" no footer é estático sem indicação de loading, sucesso ou erro, criando incerteza se a ação foi registrada. A melhoria consiste em implementar estados visuais claros no botão: estado inicial "Participar" em variant="primary" size="lg" (56px altura) full-width com ícone de plus à esquerda, ao pressionar mostrar loading state com spinner branco substituindo o ícone plus e texto mudando para "Confirmando...", desabilitar o botão (opacity 0.6) para evitar double-tap, ao sucesso fazer animação onde background muda de brand.primary (#FF5301) para semantic.success (verde) em 300ms, ícone muda de spinner para checkmark com bounce animation, texto muda para "Confirmado!" por 1.5s, depois botão transforma em variant="secondary" com texto "Cancelar Participação" (permitindo desfazer), ao erro mostrar shake animation no botão, background vira semantic.error (vermelho) temporariamente, mostrar toast no topo da tela com mensagem específica do erro "Evento lotado - Entre na lista de espera?" com botões inline, adicionar haptic feedback success/error conforme resultado, e para evento lotado mostrar botão secundário "Lista de Espera" abaixo do botão primário desabilitado com ícone de relógio, tudo isso mantendo a mesma funcionalidade mas tornando cada estado visualmente óbvio e confiável.
 
+**🎭 Camada Emocional**:
+- **Haptic Celebration**: Usar `haptic.success()` (NotificationFeedbackType.Success) ao confirmar participação - feedback tátil de "você conseguiu!"
+- **Optimistic UI**: Animar para estado "Confirmado!" mesmo antes da API responder (rollback se falhar) - gratificação instantânea (Hooked Model: Variable Reward)
+- **Micro-celebration**: Checkmark com bounce animation (scale 0 → 1.2 → 1.0 em 400ms) cria "micro-win" que libera dopamina
+- **Copy Amigável**: Usar `ArenaCopy.success.eventJoined` ("Você está dentro! Até {date} 🏀") ao invés de genérico "Confirmado"
+- **Delight Component**: Considerar `<SuccessButton>` (AnimatedButton preset) que adiciona celebration haptic automaticamente
+- **Error Empathy**: Ao falhar, usar `ArenaCopy.errors.eventFull` que redireciona para solução ("Mas encontramos 5 eventos similares") ao invés de apenas informar erro
+
 ---
 
 ## 👤 PROFILE SCREEN - Melhorias Visuais
@@ -125,6 +194,15 @@ As navegações entre telas usam transições padrão do React Navigation (slide
 ### 23. Toasts e Feedback de Ações - Sistema Unificado
 
 Atualmente algumas ações mostram alerts nativos bloqueantes, outras não têm feedback, criando inconsistência na comunicação de sucesso/erro. A melhoria consiste em criar um sistema unificado de toasts não-bloqueantes usando react-native-toast-notifications: toast de sucesso (fundo semantic.success verde, ícone checkmark branco, texto em branco) para "Evento criado!", "Amigo adicionado!", "Perfil atualizado!", toast de erro (fundo semantic.error vermelho, ícone X branco, texto branco) para "Erro ao criar evento", "Usuário não encontrado", toast de info (fundo brand.primary laranja, ícone i branco) para "Evento em 1 hora!", todos com border radius 12px, padding 16px vertical 12px horizontal, max width 90% screen, posicionados 80px do topo (abaixo do header) para não cobrir navegação, auto-dismiss após 3s com slide out animation para cima, permitir swipe up para dismiss manual com threshold de 50px, adicionar progress bar de 2px em baixo do toast mostrando countdown até auto-dismiss (3s → 0s), ícone à esquerda 24px, texto em labelPrimary (15px medium) truncado em 2 linhas, botão action opcional à direita "Desfazer" ou "Ver Detalhes", usar shadow elevation 8 para destacar do conteúdo, queue de até 3 toasts máximo (novos empurram antigos para cima), tudo isso substituindo alerts bloqueantes por feedback não-intrusivo e consistente.
+
+**🎭 Camada Emocional**:
+- **Componente Criado**: `<Toast>` e `<ToastContainer>` já implementados usando Animated API (Web-compatible) com slide-in animation 300ms
+- **Non-blocking Delight**: Toasts não bloqueiam fluxo (vs alerts que param tudo) - mantém momentum psicológico do usuário
+- **Copy Amigável**: Integrado com `ArenaCopy.success.*` e `ArenaCopy.errors.*` para mensagens empáticas ("Você está dentro! 🏀" vs "Success")
+- **Immediate Feedback**: 3s auto-dismiss é tempo ideal (research: 2-4s) para reconhecer mensagem sem forçar ação
+- **Variable Reward Integration**: Toasts de sucesso com emojis variáveis (🏀, ⚽, 🏐) baseados no contexto criam novidade
+- **Trust Building**: Feedback visual consistente de TODAS ações (não apenas erros) cria confiança de que "o sistema sempre me avisa"
+- **Usage**: `showToast({ message: ArenaCopy.success.eventJoined, variant: 'success' })` - API simples com copy centralizado
 
 ### 24. Loading States Globais - Overlay vs Inline
 
