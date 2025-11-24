@@ -23,29 +23,30 @@ export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.filtersRow}>
-        {FILTER_OPTIONS.map(option => {
+        {FILTER_OPTIONS.map((option, index) => {
           const isActive = value === option.value;
           const count = filterCounts[option.value];
+          const isLast = index === FILTER_OPTIONS.length - 1;
+
           return (
-            <TouchableOpacity
-              key={option.value}
-              style={[
-                styles.filterButton,
-                isActive && styles.filterButtonActive,
-              ]}
-              onPress={() => handlePress(option.value)}
-              testID={`${testID}-${option.value}`}
-            >
-              <Text variant={isActive ? 'labelPrimary' : 'labelSecondary'}>
-                {option.label}{' '}
-                <Text
-                  variant={isActive ? 'labelPrimary' : 'labelSecondary'}
-                  style={styles.badgeText}
-                >
-                  ({count})
+            <React.Fragment key={option.value}>
+              <TouchableOpacity
+                style={[
+                  styles.filterButton,
+                  isActive && styles.filterButtonActive,
+                ]}
+                onPress={() => handlePress(option.value)}
+                testID={`${testID}-${option.value}`}
+              >
+                <Text variant={isActive ? 'labelPrimary' : 'labelSecondary'}>
+                  {option.label}
                 </Text>
-              </Text>
-            </TouchableOpacity>
+                <Text variant="captionSecondary" style={styles.countText}>
+                  {count}
+                </Text>
+              </TouchableOpacity>
+              {!isLast && <View style={styles.divider} />}
+            </React.Fragment>
           );
         })}
       </View>

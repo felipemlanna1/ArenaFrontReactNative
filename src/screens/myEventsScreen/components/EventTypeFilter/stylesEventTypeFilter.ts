@@ -11,39 +11,25 @@ export const styles = StyleSheet.create({
   },
   filtersRow: {
     flexDirection: 'row',
-    gap: ArenaSpacing.sm,
+    alignItems: 'stretch',
   },
   filterButton: {
     flex: 1,
     paddingVertical: ArenaSpacing.sm,
-    borderRadius: ArenaBorders.radius.pill,
-    borderWidth: 1,
-    borderColor: ArenaColors.neutral.medium,
-    backgroundColor: ArenaColors.neutral.darkest,
+    paddingHorizontal: ArenaSpacing.xs,
     alignItems: 'center',
     justifyContent: 'center',
   },
   filterButtonActive: {
-    backgroundColor: ArenaColors.brand.primary,
-    borderColor: ArenaColors.brand.primary,
+    borderBottomWidth: 2,
+    borderBottomColor: ArenaColors.brand.primary,
   },
-  buttonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: ArenaSpacing.xs,
+  countText: {
+    marginTop: ArenaSpacing.xs,
   },
-  badge: {
-    height: ArenaSpacing.xl,
-    paddingHorizontal: ArenaSpacing.sm,
-    borderRadius: ArenaBorders.radius.pill,
-    backgroundColor: ArenaColors.interaction.hover.neutral,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  badgeActive: {
-    backgroundColor: ArenaColors.neutral.lightSubtlePressed,
-  },
-  badgeText: {
-    textAlign: 'center',
+  divider: {
+    width: ArenaBorders.width.thin,
+    alignSelf: 'stretch',
+    backgroundColor: ArenaColors.neutral.darkSubtleBorder,
   },
 });
