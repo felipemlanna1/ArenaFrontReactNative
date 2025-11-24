@@ -15,5 +15,7 @@ interface FriendsFilterBarProps {
 }
 
 export const FriendsFilterBar: React.FC<FriendsFilterBarProps> = props => {
-  return <FilterBar {...props} searchPlaceholder="Buscar amigos..." />;
+  return (
+    <FilterBar {...props} searchPlaceholder="Buscar por nome ou esporte" />
+  );
 };

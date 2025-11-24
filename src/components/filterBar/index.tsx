@@ -39,6 +39,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         value={searchQuery}
         onChangeText={onSearchChange}
         placeholder={searchPlaceholder}
+        type="search"
+        clearable={true}
       />
 
       <View style={styles.filtersRow}>

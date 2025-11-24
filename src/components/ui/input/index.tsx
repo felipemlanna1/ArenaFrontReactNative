@@ -201,7 +201,11 @@ export const Input = React.memo<InputProps>(
               <Ionicons
                 name="search-outline"
                 size={inputLogic.iconProps.size}
-                color={inputLogic.iconProps.color}
+                color={
+                  inputLogic.isFocused
+                    ? ArenaColors.brand.primary
+                    : ArenaColors.neutral.medium
+                }
               />
             </View>
           )}
