@@ -17,7 +17,7 @@ export class WelcomeScreen extends BasePage {
 
     // Definir locators
     this.createAccountButton = this.getByTestId('welcome-create-account');
-    this.loginButton = this.getByTestId('welcome-login');
+    this.loginButton = this.getByTestId('welcome-get-started');
     this.logo = this.getByTestId('welcome-logo');
   }
 
