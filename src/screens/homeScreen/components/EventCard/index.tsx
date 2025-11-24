@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line arena/arena-use-ui-components -- Pressable is required for card press behavior
 import { View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ArenaColors } from '@/constants';
@@ -148,6 +149,8 @@ export const EventCard: React.FC<EventCardProps> = ({
         testID={`${testID}-image`}
       />
 
+      <View style={styles.divider} />
+
       <View style={styles.contentContainer}>
         <Text variant="titleSecondary" numberOfLines={2} style={styles.title}>
           <Text variant="titleSecondary">{event.sport.name}</Text>
@@ -197,7 +200,7 @@ export const EventCard: React.FC<EventCardProps> = ({
         {event.participants && event.participants.length > 0 && (
           <View style={styles.participantsRow}>
             <AvatarStack
-              users={event.participants.map((p) => ({
+              users={event.participants.map(p => ({
                 id: p.user.id,
                 name: `${p.user.firstName} ${p.user.lastName}`,
                 photo: p.user.profilePicture,

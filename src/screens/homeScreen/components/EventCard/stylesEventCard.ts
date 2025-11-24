@@ -4,6 +4,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 interface Styles {
   container: ViewStyle;
   containerPressed: ViewStyle;
+  divider: ViewStyle;
   contentContainer: ViewStyle;
   title: TextStyle;
   infoRow: ViewStyle;
@@ -30,7 +31,7 @@ interface Styles {
 
 export const styles = StyleSheet.create<Styles>({
   container: {
-    backgroundColor: ArenaColors.neutral.dark,
+    backgroundColor: ArenaColors.neutral.darkest,
     borderRadius: ArenaBorders.radius.lg,
     marginBottom: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
@@ -44,8 +45,13 @@ export const styles = StyleSheet.create<Styles>({
     opacity: 0.9,
     transform: [{ scale: 0.98 }],
   },
+  divider: {
+    height: 1, // eslint-disable-line arena/arena-design-tokens -- divider height, not typography
+    backgroundColor: ArenaColors.neutral.dark,
+    opacity: 0.1,
+  },
   contentContainer: {
-    padding: ArenaSpacing['2xl'],
+    padding: ArenaSpacing.lg,
   },
   title: {
     marginTop: ArenaSpacing.xs,
@@ -56,7 +62,7 @@ export const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: ArenaSpacing.sm,
-    marginBottom: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.sm,
   },
   infoContent: {
     flexDirection: 'row',
@@ -75,7 +81,7 @@ export const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.sm,
   },
   dateTimeContainer: {
     flexDirection: 'row',
