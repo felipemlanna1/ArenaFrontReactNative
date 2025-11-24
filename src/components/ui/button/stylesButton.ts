@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   },
   containerDisabled: {
     opacity: ArenaOpacity.medium,
+    boxShadow: ArenaShadows.none,
   },
   buttonDisabled: {
     opacity: ArenaOpacity.medium,

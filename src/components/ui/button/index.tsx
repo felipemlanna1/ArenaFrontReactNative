@@ -7,6 +7,8 @@ import { ButtonProps } from './typesButton';
 import { useButton, useButtonAccessibility } from './useButton';
 import { styles as buttonStyles } from './stylesButton';
 
+export type { ButtonProps } from './typesButton';
+
 const LOADING_SPINNER_SIZE: SportsLoadingSize = 'xs';
 
 export const Button: React.FC<ButtonProps> = ({
@@ -52,6 +54,17 @@ export const Button: React.FC<ButtonProps> = ({
             animationSpeed="normal"
             testID={`${testID}-loading-spinner`}
           />
+          {loadingText && (
+            <Text
+              variant="bodyBold"
+              style={[
+                buttonLogic.computedStyles.text,
+                buttonStyles.loadingText,
+              ]}
+            >
+              {loadingText}
+            </Text>
+          )}
         </View>
       );
     }

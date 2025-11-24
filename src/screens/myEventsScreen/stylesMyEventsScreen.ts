@@ -13,9 +13,9 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.md,
+    gap: ArenaSpacing.lg,
   },
   errorContainer: {
     flex: 1,

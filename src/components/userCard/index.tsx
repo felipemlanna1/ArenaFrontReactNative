@@ -26,6 +26,8 @@ export const UserCard: React.FC<UserCardProps> = ({
     displayName,
     displayLocation,
     displaySports,
+    displayContext,
+    isActiveRecently,
     hasActions,
     handlePrimaryAction,
     handleSecondaryAction,
@@ -61,20 +63,30 @@ export const UserCard: React.FC<UserCardProps> = ({
         accessibilityRole={onPress ? 'button' : 'none'}
         accessibilityLabel={`${displayName}, ${displayLocation || 'sem localização'}`}
       >
-        {user.profilePicture ? (
-          <OptimizedImage
-            source={{ uri: user.profilePicture }}
-            style={styles.avatarImage}
-            contentFit="cover"
-            priority="normal"
-          />
-        ) : (
-          <View style={styles.avatarFallback}>
-            <Text variant="bodyPrimary" style={styles.initialsText}>
-              {getInitials()}
-            </Text>
-          </View>
-        )}
+        <View style={styles.avatarContainer}>
+          {user.profilePicture ? (
+            <OptimizedImage
+              source={{ uri: user.profilePicture }}
+              style={[
+                styles.avatarImage,
+                isActiveRecently && styles.avatarBorder,
+              ]}
+              contentFit="cover"
+              priority="normal"
+            />
+          ) : (
+            <View
+              style={[
+                styles.avatarFallback,
+                isActiveRecently && styles.avatarBorder,
+              ]}
+            >
+              <Text variant="bodyPrimary" style={styles.initialsText}>
+                {getInitials()}
+              </Text>
+            </View>
+          )}
+        </View>
 
         <View style={styles.infoContainer}>
           <View style={styles.nameRow}>
@@ -95,6 +107,20 @@ export const UserCard: React.FC<UserCardProps> = ({
             <Text variant="captionSecondary" style={styles.username}>
               @{user.username}
             </Text>
+          )}
+
+          {displayContext && variant === 'recommendation' && (
+            <View style={styles.contextRow}>
+              <Ionicons
+                name="people-outline"
+                size={14}
+                color={ArenaColors.brand.primary}
+                style={styles.contextIcon}
+              />
+              <Text variant="captionSecondary" numberOfLines={1}>
+                {displayContext}
+              </Text>
+            </View>
           )}
 
           {displayLocation && (

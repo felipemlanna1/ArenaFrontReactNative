@@ -68,6 +68,9 @@ export interface InputProps extends Omit<TextInputProps, 'style'> {
   countryCode?: string;
   formatPhone?: boolean;
 
+  showCharacterCount?: boolean;
+  maxLength?: number;
+
   style?: ViewStyle;
   inputStyle?: TextStyle;
   containerStyle?: ViewStyle;

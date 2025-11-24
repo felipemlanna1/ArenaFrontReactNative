@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { UserCard } from '@/components/userCard';
 import { ArenaColors } from '@/constants';
@@ -15,10 +16,15 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     paddingVertical: ArenaSpacing['2xl'],
+    paddingHorizontal: ArenaSpacing.lg,
     alignItems: 'center',
   },
   emptyIcon: {
     marginBottom: ArenaSpacing.md,
+  },
+  emptyMessage: {
+    textAlign: 'center',
+    marginBottom: ArenaSpacing.lg,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
@@ -29,12 +35,21 @@ const styles = StyleSheet.create({
 const EmptyState: React.FC<{
   icon: keyof typeof Ionicons.glyphMap;
   message: string;
-}> = ({ icon, message }) => (
+  actionLabel?: string;
+  onAction?: () => void;
+}> = ({ icon, message, actionLabel, onAction }) => (
   <View style={styles.emptyContainer}>
     <View style={styles.emptyIcon}>
-      <Ionicons name={icon} size={48} color={ArenaColors.neutral.medium} />
+      <Ionicons name={icon} size={32} color={ArenaColors.neutral.medium} />
     </View>
-    <Text variant="bodySecondary">{message}</Text>
+    <Text variant="bodySecondary" style={styles.emptyMessage}>
+      {message}
+    </Text>
+    {actionLabel && onAction && (
+      <Button variant="ghost" size="sm" onPress={onAction}>
+        {actionLabel}
+      </Button>
+    )}
   </View>
 );
 
@@ -50,6 +65,7 @@ interface FriendsSectionProps {
   loadingUserId: string | null;
   onNavigateToProfile: (userId: string) => void;
   onRemoveFriend: (userId: string) => void;
+  onSearchPress?: () => void;
 }
 
 export const FriendsSection: React.FC<FriendsSectionProps> = ({
@@ -58,6 +74,7 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
   loadingUserId,
   onNavigateToProfile,
   onRemoveFriend,
+  onSearchPress,
 }) => {
   if (isLoading) {
     return <LoadingState />;
@@ -67,7 +84,9 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
     return (
       <EmptyState
         icon="people-outline"
-        message="Você ainda não tem amigos. Adicione algumas pessoas!"
+        message="Você ainda não tem amigos"
+        actionLabel={onSearchPress ? 'Buscar Atletas' : undefined}
+        onAction={onSearchPress}
       />
     );
   }
@@ -111,7 +130,7 @@ export const RequestsSection: React.FC<RequestsSectionProps> = ({
     return (
       <EmptyState
         icon="mail-outline"
-        message="Nenhuma solicitação de amizade pendente"
+        message="Nenhuma solicitação no momento"
       />
     );
   }
@@ -155,10 +174,7 @@ export const OutgoingRequestsSection: React.FC<
   if (isLoading) return <LoadingState />;
   if (requests.length === 0) {
     return (
-      <EmptyState
-        icon="paper-plane-outline"
-        message="Nenhuma solicitação enviada"
-      />
+      <EmptyState icon="time-outline" message="Nenhuma solicitação pendente" />
     );
   }
   return (

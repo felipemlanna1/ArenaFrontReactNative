@@ -10,6 +10,7 @@ import { DatePickerProps } from './typesDatePicker';
 import { useDatePicker } from './useDatePicker';
 import { styles } from './stylesDatePicker';
 import { ArenaColors } from '@/constants';
+import { getRelativeDateLabel } from '@/utils/dateFormatting';
 
 export const DatePicker: React.FC<DatePickerProps> = ({
   variant = 'datetime',
@@ -55,6 +56,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     return ArenaColors.neutral.light;
   };
 
+  const relativeLabel =
+    value && variant !== 'time' ? getRelativeDateLabel(value) : '';
+
   return (
     <View style={styles.container} testID={testID}>
       {label && (
@@ -66,6 +70,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         >
           {label}
         </Label>
+      )}
+
+      {relativeLabel && (
+        <Text variant="captionSecondary" style={styles.relativeLabel}>
+          {relativeLabel}
+        </Text>
       )}
 
       <TouchableOpacity

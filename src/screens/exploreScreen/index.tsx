@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { SportsLoading } from '@/components/ui/sportsLoading';
+import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useExploreScreen } from './useExploreScreen';
@@ -18,7 +18,9 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({
     return (
       <AppLayout>
         <View style={styles.container}>
-          <SportsLoading size="lg" animationSpeed="normal" />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
         </View>
       </AppLayout>
     );

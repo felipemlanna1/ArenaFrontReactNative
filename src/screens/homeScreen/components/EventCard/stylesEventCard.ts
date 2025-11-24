@@ -3,6 +3,8 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
+  containerPressed: ViewStyle;
+  divider: ViewStyle;
   contentContainer: ViewStyle;
   title: TextStyle;
   infoRow: ViewStyle;
@@ -12,6 +14,8 @@ interface Styles {
   dateTimeRow: ViewStyle;
   dateTimeContainer: ViewStyle;
   dateTimeText: TextStyle;
+  participantsRow: ViewStyle;
+  participantsText: TextStyle;
   progressContainer: ViewStyle;
   actionsRow: ViewStyle;
   buttonWrapper: ViewStyle;
@@ -27,7 +31,7 @@ interface Styles {
 
 export const styles = StyleSheet.create<Styles>({
   container: {
-    backgroundColor: ArenaColors.neutral.dark,
+    backgroundColor: ArenaColors.neutral.darkest,
     borderRadius: ArenaBorders.radius.lg,
     marginBottom: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
@@ -37,8 +41,17 @@ export const styles = StyleSheet.create<Styles>({
     elevation: ArenaSpacing.sm,
     overflow: 'hidden',
   },
+  containerPressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.98 }],
+  },
+  divider: {
+    height: ArenaBorders.width.thin,
+    backgroundColor: ArenaColors.neutral.dark,
+    opacity: 0.1,
+  },
   contentContainer: {
-    padding: ArenaSpacing['2xl'],
+    padding: ArenaSpacing.lg,
   },
   title: {
     marginTop: ArenaSpacing.xs,
@@ -49,7 +62,7 @@ export const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: ArenaSpacing.sm,
-    marginBottom: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.sm,
   },
   infoContent: {
     flexDirection: 'row',
@@ -68,7 +81,7 @@ export const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.sm,
   },
   dateTimeContainer: {
     flexDirection: 'row',
@@ -78,6 +91,16 @@ export const styles = StyleSheet.create<Styles>({
   },
   dateTimeText: {
     color: ArenaColors.text.inverse,
+  },
+  participantsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.sm,
+    marginTop: ArenaSpacing.md,
+    marginBottom: ArenaSpacing.xs,
+  },
+  participantsText: {
+    color: ArenaColors.neutral.medium,
   },
   progressContainer: {
     marginTop: ArenaSpacing.md,

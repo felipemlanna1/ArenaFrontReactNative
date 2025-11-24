@@ -2,26 +2,23 @@ import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 interface Styles {
-  filterBarContainer: ViewStyle;
   content: ViewStyle;
   listWrapper: ViewStyle;
   list: ViewStyle;
   listContainer: ViewStyle;
   loadingContainer: ViewStyle;
   emptyContainer: ViewStyle;
+  emptyIcon: ViewStyle;
   emptyTitle: TextStyle;
   emptyText: TextStyle;
+  emptyActionsContainer: ViewStyle;
+  emptySocialProof: TextStyle;
   footer: ViewStyle;
   errorContainer: ViewStyle;
   errorText: TextStyle;
 }
 
 export const styles = StyleSheet.create<Styles>({
-  filterBarContainer: {
-    backgroundColor: ArenaColors.neutral.darkest,
-    borderBottomWidth: 1,
-    borderBottomColor: ArenaColors.neutral.dark,
-  },
   content: {
     flex: 1,
   },
@@ -36,25 +33,41 @@ export const styles = StyleSheet.create<Styles>({
     paddingVertical: ArenaSpacing.md,
   },
   loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+    gap: ArenaSpacing.lg,
   },
   emptyContainer: {
-    flex: 1,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: ArenaSpacing['2xl'],
-    paddingVertical: ArenaSpacing['4xl'],
+    paddingVertical: ArenaSpacing['2xl'],
+  },
+  emptyIcon: {
+    opacity: 0.6,
+    marginBottom: ArenaSpacing.md,
   },
   emptyTitle: {
     color: ArenaColors.neutral.light,
-    marginBottom: ArenaSpacing.md,
     textAlign: 'center',
+    marginBottom: ArenaSpacing.sm,
   },
   emptyText: {
     color: ArenaColors.neutral.medium,
     textAlign: 'center',
+    marginBottom: ArenaSpacing.md,
+  },
+  emptyActionsContainer: {
+    width: '100%',
+    gap: ArenaSpacing.md,
+    marginTop: ArenaSpacing.md,
+  },
+  emptySocialProof: {
+    color: ArenaColors.neutral.medium,
+    textAlign: 'center',
+    marginTop: ArenaSpacing.lg,
+    opacity: 0.7,
   },
   footer: {
     paddingVertical: ArenaSpacing.lg,

@@ -30,7 +30,7 @@ export const OutgoingRequestsAccordionSection: React.FC<
     <AccordionSection
       title="Solicitações Enviadas"
       count={requests.length}
-      defaultExpanded={false}
+      defaultExpanded={requests.length > 0}
       hasMore={hasMore && !isLoading}
       isLoadingMore={isLoadingMore}
       onLoadMore={onLoadMore}

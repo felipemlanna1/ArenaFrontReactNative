@@ -3,15 +3,15 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: ArenaColors.neutral.dark,
+    backgroundColor: ArenaColors.neutral.darkest,
     paddingTop: ArenaSpacing.xl,
     paddingBottom: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: 0, height: ArenaSpacing.xs },
-    shadowOpacity: 0.45,
-    shadowRadius: 12,
-    elevation: 12,
+    shadowOffset: { width: ArenaSpacing.none, height: ArenaSpacing.micro / 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: ArenaSpacing.xs,
+    elevation: 1,
   },
   content: {
     flexDirection: 'row',
@@ -48,7 +48,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   notificationButton: {
-    padding: ArenaSpacing.sm,
+    padding: ArenaSpacing.md,
+    minWidth: ArenaSpacing['4.5xl'],
+    minHeight: ArenaSpacing['4.5xl'],
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profileTrigger: {
     flexDirection: 'row',
@@ -83,12 +87,18 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.md,
+    minWidth: ArenaSpacing['4.5xl'],
+    minHeight: ArenaSpacing['4.5xl'],
   },
   backButton: {
-    paddingVertical: ArenaSpacing.sm,
-    paddingHorizontal: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.md,
     marginLeft: -ArenaSpacing.sm,
+    minWidth: ArenaSpacing['4.5xl'],
+    minHeight: ArenaSpacing['4.5xl'],
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

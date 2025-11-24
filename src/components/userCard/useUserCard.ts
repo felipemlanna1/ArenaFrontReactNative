@@ -36,6 +36,36 @@ export const useUserCard = ({
     return user.sports.slice(0, 3).map(sport => sport.sportName);
   }, [user.sports]);
 
+  const displayContext = useMemo(() => {
+    if (user.totalFriends && user.totalFriends > 0) {
+      const friendText =
+        user.totalFriends === 1 ? 'amigo em comum' : 'amigos em comum';
+      return `${user.totalFriends} ${friendText}`;
+    }
+
+    if (user.sports && user.sports.length > 0) {
+      const primarySport = user.sports[0].sportName;
+      return `Joga ${primarySport}`;
+    }
+
+    if (user.city && user.state) {
+      return `${user.city}, ${user.state}`;
+    }
+
+    return null;
+  }, [user.totalFriends, user.sports, user.city, user.state]);
+
+  const isActiveRecently = useMemo(() => {
+    if (!user.lastLoginAt) return false;
+
+    const lastLogin = new Date(user.lastLoginAt);
+    const now = new Date();
+    const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
+    const diffMs = now.getTime() - lastLogin.getTime();
+
+    return diffMs < threeDaysInMs;
+  }, [user.lastLoginAt]);
+
   const actionConfig = useMemo(() => {
     switch (variant) {
       case 'friend':
@@ -81,6 +111,8 @@ export const useUserCard = ({
     displayName,
     displayLocation,
     displaySports,
+    displayContext,
+    isActiveRecently,
     hasActions: actionConfig.hasActions,
     handlePrimaryAction: () => actionConfig.primaryAction?.(),
     handleSecondaryAction: actionConfig.secondaryAction

@@ -28,22 +28,22 @@ export const styles = StyleSheet.create({
 
   inputContainerFocused: {
     borderColor: ArenaColors.brand.primary,
-    borderWidth: ArenaBorders.width.medium,
+    borderWidth: ArenaBorders.width.thick,
   },
 
   inputContainerError: {
     borderColor: ArenaColors.semantic.error,
-    borderWidth: ArenaBorders.width.medium,
+    borderWidth: ArenaBorders.width.thick,
   },
 
   inputContainerSuccess: {
     borderColor: ArenaColors.semantic.success,
-    borderWidth: ArenaBorders.width.medium,
+    borderWidth: ArenaBorders.width.thick,
   },
 
   inputContainerWarning: {
     borderColor: ArenaColors.semantic.warning,
-    borderWidth: ArenaBorders.width.medium,
+    borderWidth: ArenaBorders.width.thick,
   },
 
   inputContainerDisabled: {

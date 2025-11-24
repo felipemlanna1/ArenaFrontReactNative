@@ -28,6 +28,8 @@ module.exports = {
     const isShowcaseFile = filename.includes(
       'componentsShowcaseScreen/components/'
     );
+    // Permitir Pressable em componentes de Card (EventCard, GroupCard, etc)
+    const isCardComponent = filename.includes('Card/index.');
 
     if (isInComponentsFolder || isShowcaseFile) {
       return {};
@@ -130,6 +132,11 @@ module.exports = {
             if (specifier.type === 'ImportSpecifier') {
               const importedName = specifier.imported.name;
               const localName = specifier.local.name;
+
+              // Permitir Pressable em componentes de Card
+              if (importedName === 'Pressable' && isCardComponent) {
+                return;
+              }
 
               if (
                 componentMapping[importedName] &&

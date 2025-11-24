@@ -62,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
         </View>
 
         <View style={styles.centerSection}>
-          <Symbol variant="variant1" size="lg" testID={`${testID}-symbol`} />
+          <Symbol variant="variant1" size="md" testID={`${testID}-symbol`} />
         </View>
 
         <View style={styles.rightSection}>

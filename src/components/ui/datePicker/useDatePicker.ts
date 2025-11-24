@@ -6,6 +6,7 @@ import {
   UseDatePickerReturn,
   DatePickerMode,
 } from './typesDatePicker';
+import { formatDateHumanized } from '@/utils/dateFormatting';
 
 export const useDatePicker = ({
   variant,
@@ -33,25 +34,7 @@ export const useDatePicker = ({
 
   const formattedValue = useMemo(() => {
     if (!value) return '';
-
-    const options: Intl.DateTimeFormatOptions = {};
-
-    if (variant === 'date') {
-      options.day = '2-digit';
-      options.month = '2-digit';
-      options.year = 'numeric';
-    } else if (variant === 'time') {
-      options.hour = '2-digit';
-      options.minute = '2-digit';
-    } else {
-      options.day = '2-digit';
-      options.month = '2-digit';
-      options.year = 'numeric';
-      options.hour = '2-digit';
-      options.minute = '2-digit';
-    }
-
-    return value.toLocaleDateString('pt-BR', options);
+    return formatDateHumanized(value, variant);
   }, [value, variant]);
 
   const handlePress = useCallback(async () => {

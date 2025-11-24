@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 import { Fab } from '@/components/ui/fab';
-import { SportsLoading } from '@/components/ui/sportsLoading';
+import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
@@ -18,7 +19,9 @@ import {
 } from '@/navigation/typesNavigation';
 import { useHomeScreen } from './useHomeScreen';
 import { Event } from '@/services/events/typesEvents';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaCopy, formatCopy } from '@/constants';
+import { haptic } from '@/utils/haptics';
+import { useToast } from '@/contexts/ToastContext';
 import { styles } from './stylesHomeScreen';
 
 type HomeScreenNavigationProp = CompositeNavigationProp<
@@ -34,9 +37,11 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const { showToast } = useToast();
   const {
     events,
     isLoading,
+    isRefreshing,
     isLoadingMore,
     error,
     hasMore,
@@ -46,6 +51,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     handleSortPress,
     handleFilterPress,
     handleApplySort,
+    refreshEvents,
     loadMoreEvents,
     handleShare,
     showSortModal,
@@ -68,6 +74,23 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     },
     [navigation]
   );
+
+  const handleCreateEventPress = useCallback(() => {
+    haptic.light();
+    navigation.navigate('CreateEvent');
+  }, [navigation]);
+
+  const handleRefresh = useCallback(async () => {
+    haptic.light();
+    try {
+      await refreshEvents();
+      haptic.success();
+      showToast('Eventos atualizados', 'success');
+    } catch {
+      haptic.error();
+      showToast('Erro ao atualizar eventos', 'error');
+    }
+  }, [refreshEvents, showToast]);
 
   const keyExtractor = useCallback((item: Event) => {
     return item.id;
@@ -100,7 +123,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
       <View style={styles.footer}>
-        <SportsLoading size="sm" animationSpeed="fast" />
+        <SkeletonCard />
       </View>
     );
   }, [isLoadingMore]);
@@ -111,29 +134,62 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <AppLayout onLogout={handleLogout}>
       <View style={styles.content}>
-        <View style={styles.filterBarContainer}>
-          <FilterBar
-            searchValue={searchTerm}
-            onSearchChange={setSearchTerm}
-            onSortPress={handleSortPress}
-            onFilterPress={handleFilterPress}
-          />
-        </View>
+        <FilterBar
+          searchValue={searchTerm}
+          onSearchChange={setSearchTerm}
+          onSortPress={handleSortPress}
+          onFilterPress={handleFilterPress}
+        />
 
         {shouldShowLoading ? (
           <View style={styles.loadingContainer}>
-            <SportsLoading size="lg" animationSpeed="normal" />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
           </View>
         ) : shouldShowEmptyState ? (
           <View style={styles.emptyContainer}>
+            <Ionicons
+              name="trophy-outline"
+              size={64}
+              color={ArenaColors.neutral.medium}
+              style={styles.emptyIcon}
+            />
             <Text variant="headingPrimary" style={styles.emptyTitle}>
-              Nenhum evento encontrado
+              {searchTerm
+                ? 'Nenhum evento encontrado'
+                : ArenaCopy.emptyStates.noEvents.title}
             </Text>
             <Text variant="bodySecondary" style={styles.emptyText}>
               {searchTerm
-                ? 'Tente buscar por outro termo'
-                : 'Não há eventos disponíveis no momento'}
+                ? 'Tente buscar por outro termo ou ajuste os filtros'
+                : ArenaCopy.emptyStates.noEvents.description}
             </Text>
+
+            {!searchTerm && (
+              <>
+                <View style={styles.emptyActionsContainer}>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onPress={handleCreateEventPress}
+                    fullWidth
+                    testID="empty-create-event-button"
+                  >
+                    {ArenaCopy.emptyStates.noEvents.primaryAction}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="md"
+                    onPress={handleFilterPress}
+                    fullWidth
+                    testID="empty-filter-button"
+                  >
+                    {ArenaCopy.emptyStates.noEvents.secondaryAction}
+                  </Button>
+                </View>
+              </>
+            )}
           </View>
         ) : (
           <View style={styles.listWrapper}>
@@ -150,6 +206,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               maxToRenderPerBatch={10}
               windowSize={21}
               removeClippedSubviews={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={handleRefresh}
+                  tintColor={ArenaColors.brand.primary}
+                  colors={[ArenaColors.brand.primary]}
+                  progressBackgroundColor={ArenaColors.neutral.dark}
+                  testID="home-refresh-control"
+                />
+              }
             />
           </View>
         )}
@@ -173,7 +239,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         />
 
         <Fab
-          onPress={() => navigation.navigate('CreateEvent')}
+          onPress={handleCreateEventPress}
           icon={
             <Ionicons name="add" size={24} color={ArenaColors.neutral.light} />
           }
