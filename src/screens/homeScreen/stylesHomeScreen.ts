@@ -37,8 +37,9 @@ export const styles = StyleSheet.create<Styles>({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: ArenaSpacing.lg, // Match list padding
+    paddingVertical: ArenaSpacing.md,
+    gap: ArenaSpacing.lg, // Spacing between skeleton cards
   },
   emptyContainer: {
     flex: 1,

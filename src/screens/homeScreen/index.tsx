@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
-import { SportsLoading } from '@/components/ui/sportsLoading';
+import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { EventCard } from './components/EventCard';
@@ -100,7 +100,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
       <View style={styles.footer}>
-        <SportsLoading size="sm" animationSpeed="fast" />
+        <SkeletonCard />
       </View>
     );
   }, [isLoadingMore]);
@@ -122,7 +122,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         {shouldShowLoading ? (
           <View style={styles.loadingContainer}>
-            <SportsLoading size="lg" animationSpeed="normal" />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
           </View>
         ) : shouldShowEmptyState ? (
           <View style={styles.emptyContainer}>

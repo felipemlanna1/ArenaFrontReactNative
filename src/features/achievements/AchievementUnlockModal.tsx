@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   tierBadge: {
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.xs,
-    borderRadius: ArenaBorders.radius.full,
+    borderRadius: ArenaBorders.radius.pill,
     marginTop: ArenaSpacing.sm,
   },
   tierText: {

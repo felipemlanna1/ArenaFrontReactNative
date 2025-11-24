@@ -31,7 +31,7 @@ const VARIANT_CONFIG: Record<
   success: { icon: 'checkmark-circle', color: ArenaColors.semantic.success },
   error: { icon: 'close-circle', color: ArenaColors.semantic.error },
   warning: { icon: 'warning', color: ArenaColors.semantic.warning },
-  info: { icon: 'information-circle', color: ArenaColors.semantic.info },
+  info: { icon: 'information-circle', color: ArenaColors.brand.primary },
 };
 
 export const Toast: React.FC<ToastProps> = ({
