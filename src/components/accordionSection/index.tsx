@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { View, Pressable } from 'react-native';
+import { View, Pressable, LayoutAnimation, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,15 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   const handleToggle = () => {
+    if (Platform.OS !== 'web') {
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(
+          300,
+          LayoutAnimation.Types.easeInEaseOut,
+          LayoutAnimation.Properties.opacity
+        )
+      );
+    }
     setIsExpanded(prev => !prev);
   };
 
@@ -58,7 +67,11 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           <Ionicons
             name="chevron-down"
             size={20}
-            color={ArenaColors.text.inverse}
+            color={
+              isExpanded
+                ? ArenaColors.brand.primary
+                : ArenaColors.neutral.medium
+            }
           />
         </View>
       </Pressable>

@@ -30,7 +30,7 @@ export const RecommendationsAccordionSection: React.FC<
     <AccordionSection
       title="Recomendações"
       count={recommendations.length}
-      defaultExpanded={false}
+      defaultExpanded={recommendations.length > 0}
       hasMore={hasMore && !isLoading}
       isLoadingMore={isLoadingMore}
       onLoadMore={onLoadMore}

@@ -30,7 +30,7 @@ export const FriendsAccordionSection: React.FC<
     <AccordionSection
       title="Meus Amigos"
       count={friends?.length || 0}
-      defaultExpanded={false}
+      defaultExpanded={(friends?.length || 0) > 0}
       hasMore={hasMore && !isLoading}
       isLoadingMore={isLoadingMore}
       onLoadMore={onLoadMore}
