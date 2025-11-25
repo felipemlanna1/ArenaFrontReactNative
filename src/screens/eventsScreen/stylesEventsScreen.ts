@@ -70,7 +70,6 @@ export const styles = StyleSheet.create({
     borderBottomColor: ArenaColors.neutral.dark,
   },
   selectedDateList: {
-    flex: 1,
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.sm,
   },
