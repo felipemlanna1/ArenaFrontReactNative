@@ -54,7 +54,7 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
     },
     {
       id: 'groups',
-      label: customLabels?.groups ?? 'Grupos',
+      label: customLabels?.groups ?? 'Equipes',
       value: (stats.totalGroups ?? 0).toString(),
     },
     {
