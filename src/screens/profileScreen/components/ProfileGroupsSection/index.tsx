@@ -110,7 +110,7 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
     return (
       <View style={styles.container}>
         <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Grupos
+          Equipes
         </Text>
         <View style={styles.loadingContainer}>
           <SportsLoading size="md" animationSpeed="normal" />
@@ -123,11 +123,11 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
     return (
       <View style={styles.container}>
         <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Grupos
+          Equipes
         </Text>
         <View style={styles.emptyContainer}>
           <Text variant="bodySecondary" style={styles.emptyText}>
-            Erro ao carregar grupos
+            Erro ao carregar equipes
           </Text>
         </View>
       </View>
@@ -140,13 +140,13 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
     return (
       <View style={styles.container}>
         <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Grupos
+          Equipes
         </Text>
         <View style={styles.emptyContainer}>
           <Text variant="bodySecondary" style={styles.emptyText}>
             {isOwnProfile
-              ? 'Você ainda não participa de nenhum grupo'
-              : 'Este usuário não participa de nenhum grupo'}
+              ? 'Você ainda não participa de nenhuma equipe'
+              : 'Este usuário não participa de nenhuma equipe'}
           </Text>
         </View>
       </View>
@@ -156,7 +156,7 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
   return (
     <View style={styles.container}>
       <Text variant="titlePrimary" style={styles.sectionTitle}>
-        Grupos {safeGroups.length > 0 && `(${safeGroups.length})`}
+        Equipes
       </Text>
       <View style={styles.groupsScrollContainer}>
         <ScrollView

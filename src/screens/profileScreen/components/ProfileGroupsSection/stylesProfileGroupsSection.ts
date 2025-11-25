@@ -3,20 +3,22 @@ import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     backgroundColor: ArenaColors.neutral.darkest,
   },
   sectionTitle: {
     marginBottom: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.lg,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
+    paddingHorizontal: ArenaSpacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
   },
   emptyContainer: {
     paddingVertical: ArenaSpacing['2xl'],
+    paddingHorizontal: ArenaSpacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -33,7 +35,7 @@ export const styles = StyleSheet.create({
   groupsScrollContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: ArenaSpacing.lg,
+    paddingHorizontal: ArenaSpacing.lg,
   },
   groupCardWrapper: {
     width: 280, // eslint-disable-line arena/arena-design-tokens
