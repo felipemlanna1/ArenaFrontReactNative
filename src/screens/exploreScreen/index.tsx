@@ -7,12 +7,14 @@ import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useExploreScreen } from './useExploreScreen';
 import { ExploreScreenProps } from './typesExploreScreen';
+import { ExploreFilter } from './components/ExploreFilter';
 import { styles } from './stylesExploreScreen';
 
 export const ExploreScreen: React.FC<ExploreScreenProps> = ({
   testID = 'explore-screen',
 }) => {
-  const { isLoading } = useExploreScreen();
+  const { isLoading, activeFilter, filterCounts, handleFilterChange } =
+    useExploreScreen();
 
   if (isLoading) {
     return (
@@ -28,6 +30,11 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({
 
   return (
     <AppLayout testID={testID}>
+      <ExploreFilter
+        value={activeFilter}
+        filterCounts={filterCounts}
+        onChange={handleFilterChange}
+      />
       <View style={styles.container}>
         <View style={styles.content}>
           <Ionicons
@@ -36,10 +43,21 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({
             color={ArenaColors.neutral.medium}
           />
           <Text variant="headingPrimary" style={styles.title}>
-            Explorar Eventos
+            Explorar{' '}
+            {activeFilter === 'friends'
+              ? 'Amigos'
+              : activeFilter === 'groups'
+                ? 'Grupos'
+                : 'Eventos'}
           </Text>
           <Text variant="bodySecondary" style={styles.subtitle}>
-            Descubra novos eventos e esportes próximos de você
+            Descubra novos{' '}
+            {activeFilter === 'friends'
+              ? 'amigos'
+              : activeFilter === 'groups'
+                ? 'grupos'
+                : 'eventos'}{' '}
+            próximos de você
           </Text>
         </View>
       </View>
