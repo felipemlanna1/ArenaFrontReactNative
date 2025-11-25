@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
@@ -39,28 +40,30 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <KeyboardProvider>
-        <SportsProvider>
-          <AuthProvider>
-            <NotificationsProvider>
-              <AlertProvider>
-                <UnreadNotificationsProvider>
-                  <ToastProvider>
-                    <GroupsProvider>
-                      <GroupsFiltersProvider>
-                        <HomeFiltersProvider>
-                          <AppNavigator />
-                        </HomeFiltersProvider>
-                      </GroupsFiltersProvider>
-                    </GroupsProvider>
-                  </ToastProvider>
-                </UnreadNotificationsProvider>
-              </AlertProvider>
-            </NotificationsProvider>
-          </AuthProvider>
-        </SportsProvider>
-      </KeyboardProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <KeyboardProvider>
+          <SportsProvider>
+            <AuthProvider>
+              <NotificationsProvider>
+                <AlertProvider>
+                  <UnreadNotificationsProvider>
+                    <ToastProvider>
+                      <GroupsProvider>
+                        <GroupsFiltersProvider>
+                          <HomeFiltersProvider>
+                            <AppNavigator />
+                          </HomeFiltersProvider>
+                        </GroupsFiltersProvider>
+                      </GroupsProvider>
+                    </ToastProvider>
+                  </UnreadNotificationsProvider>
+                </AlertProvider>
+              </NotificationsProvider>
+            </AuthProvider>
+          </SportsProvider>
+        </KeyboardProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
