@@ -27,6 +27,7 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
   sports,
   isEmailVerified,
   memberSince,
+  bannerSlot,
 }) => {
   return (
     <View style={styles.container}>
@@ -76,6 +77,8 @@ export const ProfileInfoSection: React.FC<ProfileInfoSectionProps> = ({
           )}
         </View>
       )}
+
+      {bannerSlot}
 
       <View style={styles.sportsSection}>
         <Text variant="titlePrimary" style={styles.sportsTitle}>

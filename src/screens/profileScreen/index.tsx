@@ -16,6 +16,7 @@ import { ProfileInfoSection } from './components/ProfileInfoSection';
 import { ProfileBioSection } from './components/ProfileBioSection';
 import { ProfileStatsSection } from './components/ProfileStatsSection';
 import { ProfileGroupsSection } from './components/ProfileGroupsSection';
+import { ProfileCompletionBanner } from './components/ProfileCompletionBanner';
 import { FriendshipActions } from './components/FriendshipActions';
 import {
   mapUserToDisplayData,
@@ -23,6 +24,7 @@ import {
   formatMemberSince,
 } from './utils/profileHelpers';
 import { useProfileStats } from './hooks/useProfileStats';
+import { useProfileCompletionBanner } from './hooks/useProfileCompletionBanner';
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   route,
@@ -40,6 +42,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   } = useProfileScreen({ userId: route?.params?.userId });
 
   const { stats, isLoading: isLoadingStats } = useProfileStats(userId || '');
+
+  const {
+    isIncomplete,
+    isDismissed,
+    isLoading: isLoadingCompletion,
+    handleDismiss,
+  } = useProfileCompletionBanner(user, isOwnProfile);
+
+  const shouldShowCompletionBanner =
+    isOwnProfile && isIncomplete && !isDismissed && !isLoadingCompletion;
 
   if (isLoading) {
     return (
@@ -112,6 +124,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             sports={displayData.sports}
             isEmailVerified={user.isEmailVerified}
             memberSince={formatMemberSince(user.createdAt)}
+            bannerSlot={
+              shouldShowCompletionBanner ? (
+                <ProfileCompletionBanner
+                  onDismiss={handleDismiss}
+                  onComplete={handleEditPress}
+                />
+              ) : undefined
+            }
           />
 
           <ProfileBioSection bio={displayData.bio} />
