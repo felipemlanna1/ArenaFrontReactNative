@@ -122,7 +122,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
   const handleDiscoverEvents = useCallback(() => {
-    navigation.navigate('HomeTab');
+    navigation.navigate('ExploreTab');
   }, [navigation]);
 
   const renderEmpty = useCallback(() => {
