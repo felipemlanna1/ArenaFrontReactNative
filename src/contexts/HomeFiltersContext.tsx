@@ -13,11 +13,18 @@ import { useExploreLocation } from '@/screens/exploreScreen/hooks/useExploreLoca
 import { EventsFilter } from '@/services/events/typesEvents';
 import { FILTER_DEFAULTS } from '@/constants/filterDefaults';
 
-export interface ActiveFilters {
+export type ExploreTab = 'events' | 'groups' | 'friends';
+
+// Base filters compartilhados
+interface BaseFilters {
   sportIds?: string[];
-  hasAvailableSpots?: boolean;
-  state?: string;
   city?: string;
+  state?: string;
+}
+
+// Event filters (completo - todos os filtros)
+export interface EventFilters extends BaseFilters {
+  hasAvailableSpots?: boolean;
   priceMin?: number;
   priceMax?: number;
   isFree?: boolean;
@@ -26,13 +33,27 @@ export interface ActiveFilters {
   eventFilter?: 'all' | 'organizing' | 'participating' | 'invited';
 }
 
+// Group filters (limitado - apenas esporte + local)
+export interface GroupFilters extends BaseFilters {}
+
+// Friend filters (limitado - apenas esporte + local)
+export interface FriendFilters extends BaseFilters {}
+
+// Backward compatibility
+export type ActiveFilters = EventFilters;
+
 interface Sport {
   id?: string;
   sportId?: string;
 }
 
 interface HomeFiltersContextData {
-  activeFilters: ActiveFilters;
+  // Tab management
+  activeTab: ExploreTab;
+  setActiveTab: (tab: ExploreTab) => void;
+
+  // Backward compatibility - retorna filtros da tab ativa
+  activeFilters: EventFilters | GroupFilters | FriendFilters;
   sortBy: 'date' | 'distance' | 'price' | 'name';
   sortOrder: 'asc' | 'desc';
   searchTerm: string;
@@ -40,10 +61,17 @@ interface HomeFiltersContextData {
   isLoadingLocation: boolean;
   isReady: boolean;
   activeFiltersCount: number;
-  setActiveFilters: (filters: ActiveFilters) => void;
-  updateFilter: <K extends keyof ActiveFilters>(
+
+  // Tab-specific getters
+  eventsFilters: EventFilters;
+  groupsFilters: GroupFilters;
+  friendsFilters: FriendFilters;
+
+  // Generic setters (operam na tab ativa)
+  setActiveFilters: (filters: EventFilters | GroupFilters | FriendFilters) => void;
+  updateFilter: <K extends keyof EventFilters>(
     key: K,
-    value: ActiveFilters[K]
+    value: EventFilters[K]
   ) => void;
   toggleSportId: (sportId: string) => void;
   setEventFilter: (
@@ -54,20 +82,40 @@ interface HomeFiltersContextData {
   setSearchTerm: (term: string) => void;
   clearFilters: () => void;
   clearCityFilter: () => void;
+
+  // Tab-specific setters
+  setEventsFilters: (filters: EventFilters) => void;
+  setGroupsFilters: (filters: GroupFilters) => void;
+  setFriendsFilters: (filters: FriendFilters) => void;
+
+  // API builders
   buildApiFilters: () => EventsFilter | null;
 }
 
-const createInitialFilters = (
-  sportIds?: string[],
-  city?: string | null
-): ActiveFilters => ({
+const createInitialEventFilters = (
+  sportIds?: string[]
+): EventFilters => ({
   hasAvailableSpots: FILTER_DEFAULTS.FILTERS.HAS_AVAILABLE_SPOTS,
   eventFilter: 'all',
   sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
 });
 
+const createInitialGroupFilters = (
+  sportIds?: string[]
+): GroupFilters => ({
+  sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
+});
+
+const createInitialFriendFilters = (
+  sportIds?: string[]
+): FriendFilters => ({
+  sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
+});
+
 const DEFAULT_CONTEXT_VALUE: HomeFiltersContextData = {
-  activeFilters: createInitialFilters(),
+  activeTab: 'events',
+  setActiveTab: () => {},
+  activeFilters: createInitialEventFilters(),
   sortBy: 'date',
   sortOrder: FILTER_DEFAULTS.SORT.DEFAULT_SORT_ORDER,
   searchTerm: '',
@@ -75,6 +123,9 @@ const DEFAULT_CONTEXT_VALUE: HomeFiltersContextData = {
   isLoadingLocation: true,
   isReady: false,
   activeFiltersCount: 0,
+  eventsFilters: createInitialEventFilters(),
+  groupsFilters: createInitialGroupFilters(),
+  friendsFilters: createInitialFriendFilters(),
   setActiveFilters: () => {},
   updateFilter: () => {},
   toggleSportId: () => {},
@@ -84,6 +135,9 @@ const DEFAULT_CONTEXT_VALUE: HomeFiltersContextData = {
   setSearchTerm: () => {},
   clearFilters: () => {},
   clearCityFilter: () => {},
+  setEventsFilters: () => {},
+  setGroupsFilters: () => {},
+  setFriendsFilters: () => {},
   buildApiFilters: () => null,
 };
 
@@ -119,9 +173,21 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
       .filter((id): id is string => !!id);
   }, [userSports]);
 
-  const [activeFilters, setActiveFilters] = useState<ActiveFilters>(
-    createInitialFilters()
+  // Tab management
+  const [activeTab, setActiveTab] = useState<ExploreTab>('events');
+
+  // Separate filter states per tab
+  const [eventsFilters, setEventsFilters] = useState<EventFilters>(
+    createInitialEventFilters()
   );
+  const [groupsFilters, setGroupsFilters] = useState<GroupFilters>(
+    createInitialGroupFilters()
+  );
+  const [friendsFilters, setFriendsFilters] = useState<FriendFilters>(
+    createInitialFriendFilters()
+  );
+
+  // Shared states
   const [sortBy, setSortBy] = useState<'date' | 'distance' | 'price' | 'name'>(
     'date'
   );
@@ -130,13 +196,22 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   );
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Apply favorite sports to all tabs on mount
   useEffect(() => {
     if (authLoading) {
       return;
     }
 
     if (!hasSportsAppliedRef.current && favoritesSportIds.length > 0) {
-      setActiveFilters(prev => ({
+      setEventsFilters(prev => ({
+        ...prev,
+        sportIds: favoritesSportIds,
+      }));
+      setGroupsFilters(prev => ({
+        ...prev,
+        sportIds: favoritesSportIds,
+      }));
+      setFriendsFilters(prev => ({
         ...prev,
         sportIds: favoritesSportIds,
       }));
@@ -144,41 +219,133 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     }
   }, [authLoading, favoritesSportIds]);
 
-  const updateFilter = useCallback(
-    <K extends keyof ActiveFilters>(key: K, value: ActiveFilters[K]) => {
-      setActiveFilters(prev => ({ ...prev, [key]: value }));
+  // Computed: activeFilters baseado na tab ativa
+  const activeFilters = useMemo(() => {
+    switch (activeTab) {
+      case 'events':
+        return eventsFilters;
+      case 'groups':
+        return groupsFilters;
+      case 'friends':
+        return friendsFilters;
+      default:
+        return eventsFilters;
+    }
+  }, [activeTab, eventsFilters, groupsFilters, friendsFilters]);
+
+  // Generic setters (operam na tab ativa)
+  const setActiveFilters = useCallback(
+    (filters: EventFilters | GroupFilters | FriendFilters) => {
+      switch (activeTab) {
+        case 'events':
+          setEventsFilters(filters as EventFilters);
+          break;
+        case 'groups':
+          setGroupsFilters(filters as GroupFilters);
+          break;
+        case 'friends':
+          setFriendsFilters(filters as FriendFilters);
+          break;
+      }
     },
-    []
+    [activeTab]
   );
 
-  const toggleSportId = useCallback((sportId: string) => {
-    setActiveFilters(prev => {
-      const currentSportIds = prev.sportIds || [];
-      const newSportIds = currentSportIds.includes(sportId)
-        ? currentSportIds.filter(id => id !== sportId)
-        : [...currentSportIds, sportId];
+  const updateFilter = useCallback(
+    <K extends keyof EventFilters>(key: K, value: EventFilters[K]) => {
+      switch (activeTab) {
+        case 'events':
+          setEventsFilters(prev => ({ ...prev, [key]: value }));
+          break;
+        case 'groups':
+          if (key === 'sportIds' || key === 'city' || key === 'state') {
+            setGroupsFilters(prev => ({ ...prev, [key]: value }));
+          }
+          break;
+        case 'friends':
+          if (key === 'sportIds' || key === 'city' || key === 'state') {
+            setFriendsFilters(prev => ({ ...prev, [key]: value }));
+          }
+          break;
+      }
+    },
+    [activeTab]
+  );
 
-      return { ...prev, sportIds: newSportIds };
-    });
-  }, []);
+  const toggleSportId = useCallback(
+    (sportId: string) => {
+      switch (activeTab) {
+        case 'events':
+          setEventsFilters(prev => {
+            const currentSportIds = prev.sportIds || [];
+            const newSportIds = currentSportIds.includes(sportId)
+              ? currentSportIds.filter(id => id !== sportId)
+              : [...currentSportIds, sportId];
+            return { ...prev, sportIds: newSportIds };
+          });
+          break;
+        case 'groups':
+          setGroupsFilters(prev => {
+            const currentSportIds = prev.sportIds || [];
+            const newSportIds = currentSportIds.includes(sportId)
+              ? currentSportIds.filter(id => id !== sportId)
+              : [...currentSportIds, sportId];
+            return { ...prev, sportIds: newSportIds };
+          });
+          break;
+        case 'friends':
+          setFriendsFilters(prev => {
+            const currentSportIds = prev.sportIds || [];
+            const newSportIds = currentSportIds.includes(sportId)
+              ? currentSportIds.filter(id => id !== sportId)
+              : [...currentSportIds, sportId];
+            return { ...prev, sportIds: newSportIds };
+          });
+          break;
+      }
+    },
+    [activeTab]
+  );
 
   const setEventFilter = useCallback(
     (filter: 'all' | 'organizing' | 'participating' | 'invited') => {
-      setActiveFilters(prev => ({ ...prev, eventFilter: filter }));
+      if (activeTab === 'events') {
+        setEventsFilters(prev => ({ ...prev, eventFilter: filter }));
+      }
     },
-    []
+    [activeTab]
   );
 
   const clearFilters = useCallback(() => {
-    setActiveFilters(createInitialFilters());
+    switch (activeTab) {
+      case 'events':
+        setEventsFilters(createInitialEventFilters());
+        break;
+      case 'groups':
+        setGroupsFilters(createInitialGroupFilters());
+        break;
+      case 'friends':
+        setFriendsFilters(createInitialFriendFilters());
+        break;
+    }
     setSortBy('date');
     setSortOrder(FILTER_DEFAULTS.SORT.DEFAULT_SORT_ORDER);
     setSearchTerm('');
-  }, []);
+  }, [activeTab]);
 
   const clearCityFilter = useCallback(() => {
-    setActiveFilters(prev => ({ ...prev, state: undefined, city: undefined }));
-  }, []);
+    switch (activeTab) {
+      case 'events':
+        setEventsFilters(prev => ({ ...prev, state: undefined, city: undefined }));
+        break;
+      case 'groups':
+        setGroupsFilters(prev => ({ ...prev, state: undefined, city: undefined }));
+        break;
+      case 'friends':
+        setFriendsFilters(prev => ({ ...prev, state: undefined, city: undefined }));
+        break;
+    }
+  }, [activeTab]);
 
   const buildApiFilters = useMemo((): EventsFilter | null => {
     if (authLoading) {
@@ -188,7 +355,7 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     if (!hasLoadedFirstTimeRef.current) {
       const hasSports =
         favoritesSportIds.length === 0 ||
-        (activeFilters.sportIds && activeFilters.sportIds.length > 0);
+        (eventsFilters.sportIds && eventsFilters.sportIds.length > 0);
 
       if (!hasSports) {
         return null;
@@ -197,57 +364,79 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
       hasLoadedFirstTimeRef.current = true;
     }
 
+    // Only build API filters for events tab
+    if (activeTab !== 'events') {
+      return null;
+    }
+
     const filters: EventsFilter = {
       search: searchTerm || undefined,
-      sportIds: activeFilters.sportIds,
-      startDateFrom: activeFilters.startDateFrom || initialDateRef.current,
-      startDateTo: activeFilters.startDateTo,
+      sportIds: eventsFilters.sportIds,
+      startDateFrom: eventsFilters.startDateFrom || initialDateRef.current,
+      startDateTo: eventsFilters.startDateTo,
       status: ['PUBLISHED'] as const,
-      priceMin: activeFilters.priceMin,
-      priceMax: activeFilters.priceMax,
-      isFree: activeFilters.isFree,
-      hasAvailableSpots: activeFilters.hasAvailableSpots,
-      city: activeFilters.city,
+      priceMin: eventsFilters.priceMin,
+      priceMax: eventsFilters.priceMax,
+      isFree: eventsFilters.isFree,
+      hasAvailableSpots: eventsFilters.hasAvailableSpots,
+      city: eventsFilters.city,
       limit: FILTER_DEFAULTS.PAGINATION.DEFAULT_LIMIT,
       sortBy: (sortBy === 'date'
         ? 'startDate'
         : sortBy) as EventsFilter['sortBy'],
       sortOrder,
-      eventFilter: activeFilters.eventFilter,
+      eventFilter: eventsFilters.eventFilter,
     };
 
     return filters;
   }, [
     authLoading,
     searchTerm,
-    activeFilters,
+    eventsFilters,
     sortBy,
     sortOrder,
     favoritesSportIds,
+    activeTab,
   ]);
 
   const activeFiltersCount = useMemo(() => {
     let count = 0;
 
-    if (activeFilters.sportIds && activeFilters.sportIds.length > 0) count++;
-    if (activeFilters.state || activeFilters.city) count++;
-    if (
-      activeFilters.priceMin !== undefined ||
-      activeFilters.priceMax !== undefined ||
-      activeFilters.isFree
-    ) {
-      count++;
+    const filters = activeFilters;
+
+    if (filters.sportIds && filters.sportIds.length > 0) count++;
+    if (filters.state || filters.city) count++;
+
+    // Event-specific filters
+    if (activeTab === 'events') {
+      const eventFilters = filters as EventFilters;
+      if (
+        eventFilters.priceMin !== undefined ||
+        eventFilters.priceMax !== undefined ||
+        eventFilters.isFree
+      ) {
+        count++;
+      }
+      if (eventFilters.startDateFrom || eventFilters.startDateTo) count++;
+      if (eventFilters.eventFilter && eventFilters.eventFilter !== 'all') {
+        count++;
+      }
+      if (eventFilters.hasAvailableSpots !== undefined) {
+        // Only count if different from default
+        if (eventFilters.hasAvailableSpots !== FILTER_DEFAULTS.FILTERS.HAS_AVAILABLE_SPOTS) {
+          count++;
+        }
+      }
     }
-    if (activeFilters.startDateFrom || activeFilters.startDateTo) count++;
-    if (activeFilters.eventFilter && activeFilters.eventFilter !== 'all')
-      count++;
 
     return count;
-  }, [activeFilters]);
+  }, [activeFilters, activeTab]);
 
   const isReady = hasLoadedFirstTimeRef.current;
 
   const value: HomeFiltersContextData = {
+    activeTab,
+    setActiveTab,
     activeFilters,
     sortBy,
     sortOrder,
@@ -256,6 +445,9 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     isLoadingLocation: location.isLoadingLocation,
     isReady,
     activeFiltersCount,
+    eventsFilters,
+    groupsFilters,
+    friendsFilters,
     setActiveFilters,
     updateFilter,
     toggleSportId,
@@ -265,6 +457,9 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     setSearchTerm,
     clearFilters,
     clearCityFilter,
+    setEventsFilters,
+    setGroupsFilters,
+    setFriendsFilters,
     buildApiFilters: () => buildApiFilters,
   };
 

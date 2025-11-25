@@ -11,6 +11,7 @@ interface Styles {
   content: ViewStyle;
   searchContainer: ViewStyle;
   buttonsContainer: ViewStyle;
+  filterButtonWrapper: ViewStyle;
   actionButton: ViewStyle;
   actionButtonPressed: ViewStyle;
   actionButtonStyle: ViewStyle;
@@ -37,6 +38,9 @@ export const styles = StyleSheet.create<Styles>({
   buttonsContainer: {
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
+  },
+  filterButtonWrapper: {
+    position: 'relative',
   },
   actionButton: {
     width: ArenaSpacing['4xl'],

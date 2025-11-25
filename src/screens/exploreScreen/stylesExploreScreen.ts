@@ -24,18 +24,19 @@ export const styles = StyleSheet.create<Styles>({
   },
   listWrapper: {
     flex: 1,
+    marginTop: ArenaSpacing.lg,
   },
   list: {
     flex: 1,
   },
   listContainer: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
   },
   loadingContainer: {
     flex: 1,
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
+    paddingTop: ArenaSpacing.lg,
+    paddingBottom: ArenaSpacing.md,
     gap: ArenaSpacing.lg,
   },
   emptyContainer: {

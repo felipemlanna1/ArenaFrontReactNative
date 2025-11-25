@@ -1,21 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { friendsApi } from '@/services/friends/friendsApi';
+import { friendshipsApi } from '@/services/friendships/friendshipsApi';
+import { FriendshipType } from '@/services/friendships/typesFriendships';
+import { UserData } from '@/services/http';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 
-export interface Friend {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  profilePicture?: string;
-  city?: string;
-  state?: string;
-  favoriteSports?: { id: string; name: string }[];
-  isProfilePublic?: boolean;
-}
-
 interface UseHomeFriendsReturn {
-  friends: Friend[];
+  friends: UserData[];
   isLoading: boolean;
   isRefreshing: boolean;
   isLoadingMore: boolean;
@@ -28,7 +18,7 @@ interface UseHomeFriendsReturn {
 }
 
 export const useExploreFriends = (): UseHomeFriendsReturn => {
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -37,54 +27,11 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
   const [hasMore, setHasMore] = useState(true);
 
   const isLoadingRef = useRef(false);
-  const isInitializedRef = useRef(false);
-  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { searchTerm, activeFilters } = useHomeFilters();
-  const selectedSports = activeFilters.sportIds || [];
-  const selectedCity = activeFilters.city;
-  const selectedState = activeFilters.state;
-
-  // Filtro client-side: busca, esportes e perfil público
-  // A API não suporta esses filtros, então aplicamos após receber os dados
-  const filterFriends = useCallback(
-    (allFriends: Friend[]): Friend[] => {
-      let filtered = allFriends;
-
-      // Filtro 1: Apenas perfis FECHADOS (NÃO públicos)
-      // Assumindo que pessoas sem o campo isProfilePublic definido têm perfil fechado
-      filtered = filtered.filter(
-        friend => friend.isProfilePublic === false || friend.isProfilePublic === undefined
-      );
-
-      // Filtro 2: Busca por nome/username
-      if (searchTerm && searchTerm.trim()) {
-        const term = searchTerm.toLowerCase().trim();
-        filtered = filtered.filter(
-          friend =>
-            friend.firstName.toLowerCase().includes(term) ||
-            friend.lastName.toLowerCase().includes(term) ||
-            friend.username.toLowerCase().includes(term)
-        );
-      }
-
-      // Filtro 3: Esportes favoritos
-      if (selectedSports.length > 0) {
-        filtered = filtered.filter(friend => {
-          if (!friend.favoriteSports || friend.favoriteSports.length === 0) {
-            return false;
-          }
-          // Verifica se o amigo tem pelo menos um dos esportes selecionados
-          return friend.favoriteSports.some(sport =>
-            selectedSports.includes(sport.id)
-          );
-        });
-      }
-
-      return filtered;
-    },
-    [searchTerm, selectedSports]
-  );
+  const { searchTerm, friendsFilters } = useHomeFilters();
+  const selectedSports = friendsFilters.sportIds || [];
+  const selectedCity = friendsFilters.city;
+  const selectedState = friendsFilters.state;
 
   const loadFriends = useCallback(async () => {
     if (isLoadingRef.current) return;
@@ -94,26 +41,26 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setIsLoading(true);
       setError(null);
 
-      // Filtros aplicados à aba AMIGOS:
-      // - Cidade + Estado (via API)
-      // - Busca (filtro client-side)
-      // - Esportes (filtro client-side)
-      // - Apenas perfis FECHADOS (filtro client-side)
-      // Filtros IGNORADOS: preço, data, skill level, disponibilidade
-      const response = await friendsApi.getRecommendations({
-        city: selectedCity || undefined,
-        state: selectedState || undefined,
-        page: 1,
-        limit: 20,
-      });
+      // Filtros aplicados à aba AMIGOS (via API):
+      // - query (busca por nome/username - enviado ao backend)
+      // - Cidade + Estado
+      // - sportId (apenas primeiro esporte da lista)
+      // - Apenas perfis públicos (backend filtra automaticamente)
+      const response = await friendshipsApi.getUsers(
+        FriendshipType.RECOMMENDATIONS,
+        {
+          query: searchTerm || undefined,
+          city: selectedCity || undefined,
+          state: selectedState || undefined,
+          sportId: selectedSports.length > 0 ? selectedSports[0] : undefined,
+        },
+        1,
+        20
+      );
 
-      // Aplicar filtros client-side
-      const filtered = filterFriends(response);
-
-      setFriends(filtered);
+      setFriends(response.data);
       setCurrentPage(1);
-      // Se retornou menos que o limite, não há mais páginas
-      setHasMore(response.length >= 20);
+      setHasMore(response.hasMore);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Erro ao carregar amigos')
@@ -122,7 +69,7 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setIsLoading(false);
       isLoadingRef.current = false;
     }
-  }, [selectedCity, selectedState, filterFriends]);
+  }, [selectedCity, selectedState, selectedSports, searchTerm]);
 
   const loadMoreFriends = useCallback(async () => {
     if (isLoadingMore || !hasMore || isLoadingRef.current) return;
@@ -132,19 +79,21 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       const nextPage = currentPage + 1;
 
       // Buscar próxima página
-      const response = await friendsApi.getRecommendations({
-        city: selectedCity || undefined,
-        state: selectedState || undefined,
-        page: nextPage,
-        limit: 20,
-      });
+      const response = await friendshipsApi.getUsers(
+        FriendshipType.RECOMMENDATIONS,
+        {
+          query: searchTerm || undefined,
+          city: selectedCity || undefined,
+          state: selectedState || undefined,
+          sportId: selectedSports.length > 0 ? selectedSports[0] : undefined,
+        },
+        nextPage,
+        20
+      );
 
-      // Aplicar filtros client-side
-      const filtered = filterFriends(response);
-
-      setFriends(prev => [...prev, ...filtered]);
+      setFriends(prev => [...prev, ...response.data]);
       setCurrentPage(nextPage);
-      setHasMore(response.length >= 20);
+      setHasMore(response.hasMore);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Erro ao carregar mais amigos')
@@ -152,7 +101,7 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [currentPage, hasMore, isLoadingMore, selectedCity, selectedState, filterFriends]);
+  }, [currentPage, hasMore, isLoadingMore, selectedCity, selectedState, selectedSports, searchTerm]);
 
   const refreshFriends = useCallback(async () => {
     if (isLoadingRef.current) return;
@@ -163,19 +112,21 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setError(null);
 
       // Resetar para primeira página
-      const response = await friendsApi.getRecommendations({
-        city: selectedCity || undefined,
-        state: selectedState || undefined,
-        page: 1,
-        limit: 20,
-      });
+      const response = await friendshipsApi.getUsers(
+        FriendshipType.RECOMMENDATIONS,
+        {
+          query: searchTerm || undefined,
+          city: selectedCity || undefined,
+          state: selectedState || undefined,
+          sportId: selectedSports.length > 0 ? selectedSports[0] : undefined,
+        },
+        1,
+        20
+      );
 
-      // Aplicar filtros client-side
-      const filtered = filterFriends(response);
-
-      setFriends(filtered);
+      setFriends(response.data);
       setCurrentPage(1);
-      setHasMore(response.length >= 20);
+      setHasMore(response.hasMore);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Erro ao atualizar amigos')
@@ -184,33 +135,16 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setIsRefreshing(false);
       isLoadingRef.current = false;
     }
-  }, [selectedCity, selectedState, filterFriends]);
+  }, [selectedCity, selectedState, selectedSports, searchTerm]);
 
-  // Recarregar quando filtros mudarem
+  // Carregar amigos quando filtros mudarem (incluindo primeira montagem)
+  // Debounce de 500ms para busca (query enviada ao backend)
   useEffect(() => {
-    if (!isInitializedRef.current) {
-      isInitializedRef.current = true;
-      return;
-    }
-
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-
-    // Debounce de 500ms para busca
-    if (searchTerm) {
-      searchTimeoutRef.current = setTimeout(() => {
-        loadFriends();
-      }, 500);
-    } else {
+    const timeout = setTimeout(() => {
       loadFriends();
-    }
+    }, searchTerm ? 500 : 0);
 
-    return () => {
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-    };
+    return () => clearTimeout(timeout);
   }, [searchTerm, selectedSports, selectedCity, selectedState, loadFriends]);
 
   return {

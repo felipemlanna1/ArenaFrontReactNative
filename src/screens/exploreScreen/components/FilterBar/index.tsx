@@ -68,28 +68,30 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             </View>
           </Button>
 
-          <Button
-            variant="ghost"
-            size="xs"
-            iconOnly
-            onPress={onFilterPress}
-            testID={`${testID}-filter-button`}
-          >
-            <View style={styles.actionButton}>
-              <Ionicons
-                name="options-outline"
-                size={20}
-                color={ArenaColors.text.inverse}
-              />
-              {filterCount > 0 && (
-                <View style={styles.filterBadge}>
-                  <Text variant="labelPrimary" style={styles.filterBadgeText}>
-                    {filterCount}
-                  </Text>
-                </View>
-              )}
-            </View>
-          </Button>
+          <View style={styles.filterButtonWrapper}>
+            <Button
+              variant="ghost"
+              size="xs"
+              iconOnly
+              onPress={onFilterPress}
+              testID={`${testID}-filter-button`}
+            >
+              <View style={styles.actionButton}>
+                <Ionicons
+                  name="options-outline"
+                  size={20}
+                  color={ArenaColors.text.inverse}
+                />
+              </View>
+            </Button>
+            {filterCount > 0 && (
+              <View style={styles.filterBadge}>
+                <Text variant="labelPrimary" style={styles.filterBadgeText}>
+                  {filterCount}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
       </View>
     </View>

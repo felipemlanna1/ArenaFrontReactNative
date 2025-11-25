@@ -26,8 +26,11 @@ import {
 import { useExploreScreen } from './useExploreScreen';
 import { useExploreGroups } from './hooks/useExploreGroups';
 import { useExploreFriends } from './hooks/useExploreFriends';
+import { useHomeFilters } from '@/contexts/HomeFiltersContext';
+import { useFriendsShare } from '@/screens/friendsScreen/hooks/useFriendsShare';
 import { Event } from '@/services/events/typesEvents';
 import { Group } from '@/services/groups/typesGroups';
+import { UserData } from '@/services/http';
 import { ArenaColors, ArenaCopy } from '@/constants';
 import { haptic } from '@/utils/haptics';
 import { useToast } from '@/contexts/ToastContext';
@@ -48,15 +51,24 @@ interface ExploreScreenProps {
 
 export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const { showToast } = useToast();
+  const { setActiveTab: setContextActiveTab } = useHomeFilters();
   const [activeTab, setActiveTab] = useState<ExploreTab>('events');
   const tabBarHeight = useTabBarHeight();
 
   const homeTabs: ExploreTab[] = ['events', 'groups', 'friends'];
 
+  const handleSetActiveTab = useCallback(
+    (tab: ExploreTab) => {
+      setActiveTab(tab);
+      setContextActiveTab(tab);
+    },
+    [setContextActiveTab]
+  );
+
   const { composedGesture } = useSwipeableFilters({
     filters: homeTabs,
     activeFilter: activeTab,
-    onChange: setActiveTab,
+    onChange: handleSetActiveTab,
   });
 
   const {
@@ -67,6 +79,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
     error,
     hasMore,
     searchTerm,
+    activeFiltersCount,
     setSearchTerm,
     handleSortPress,
     handleFilterPress,
@@ -83,6 +96,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
 
   const groupsData = useExploreGroups();
   const friendsData = useExploreFriends();
+  const { shareInvite } = useFriendsShare();
 
   const listContainerStyle = useMemo(
     () => [styles.listContainer, { paddingBottom: tabBarHeight }],
@@ -173,10 +187,24 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
     }
   }, [friendsData, showToast]);
 
-  const handleTabChange = useCallback((tab: ExploreTab) => {
+  const handleInviteFriends = useCallback(async () => {
     haptic.light();
-    setActiveTab(tab);
-  }, []);
+    try {
+      await shareInvite();
+      haptic.success();
+      showToast('Convite compartilhado!', 'success');
+    } catch {
+      return;
+    }
+  }, [shareInvite, showToast]);
+
+  const handleTabChange = useCallback(
+    (tab: ExploreTab) => {
+      haptic.light();
+      handleSetActiveTab(tab);
+    },
+    [handleSetActiveTab]
+  );
 
   const getSearchPlaceholder = useCallback((): string => {
     switch (activeTab) {
@@ -272,12 +300,20 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
     }
   }, [getTabData, activeTab, showToast]);
 
-  const keyExtractor = useCallback((item: Event | Group | { id: string }) => {
-    return item.id;
-  }, []);
+  const keyExtractor = useCallback(
+    (item: Event | Group | UserData | { id: string }) => {
+      return item.id;
+    },
+    []
+  );
 
   const renderItem = useCallback(
-    ({ item }: { item: Event | Group | { id: string }; index: number }) => {
+    ({
+      item,
+    }: {
+      item: Event | Group | UserData | { id: string };
+      index: number;
+    }) => {
       if (activeTab === 'events') {
         const event = item as Event;
         return (
@@ -313,33 +349,10 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
       }
 
       if (activeTab === 'friends') {
-        const friend = item as {
-          id: string;
-          firstName: string;
-          lastName: string;
-          username: string;
-          profilePicture?: string;
-          city?: string;
-          state?: string;
-          favoriteSports?: { id: string; name: string }[];
-        };
+        const friend = item as UserData;
         return (
           <UserCard
-            user={
-              {
-                id: friend.id,
-                firstName: friend.firstName,
-                lastName: friend.lastName,
-                username: friend.username,
-                profilePicture: friend.profilePicture,
-                city: friend.city,
-                state: friend.state,
-                sports: friend.favoriteSports?.map(s => ({
-                  id: s.id,
-                  name: s.name,
-                })),
-              } as never
-            }
+            user={friend}
             variant="recommendation"
             onPress={() => handleUserPress(friend.id)}
             onAddFriend={handleAddFriend}
@@ -385,38 +398,33 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
       case 'events':
         return {
           icon: 'trophy-outline' as const,
-          title: searchTerm
-            ? 'Nenhum evento encontrado'
-            : ArenaCopy.emptyStates.noEvents.title,
-          description: searchTerm
-            ? 'Tente buscar por outro termo ou ajuste os filtros'
-            : ArenaCopy.emptyStates.noEvents.description,
+          title: ArenaCopy.emptyStates.noEvents.title,
+          description: ArenaCopy.emptyStates.noEvents.description,
           primaryAction: ArenaCopy.emptyStates.noEvents.primaryAction,
           onPrimaryAction: handleCreateEventPress,
+          secondaryAction: ArenaCopy.emptyStates.noEvents.secondaryAction,
+          onSecondaryAction: handleFilterPress,
         };
       case 'groups':
         return {
           icon: 'people-circle-outline' as const,
-          title: searchTerm
-            ? 'Nenhum grupo encontrado'
-            : 'Nenhum grupo por aqui',
-          description: searchTerm
-            ? 'Tente buscar por outro termo ou ajuste os filtros'
-            : 'Crie um grupo ou explore grupos da sua região',
-          primaryAction: 'Criar Grupo',
+          title: ArenaCopy.emptyStates.noGroups.title,
+          description: ArenaCopy.emptyStates.noGroups.description,
+          primaryAction: ArenaCopy.emptyStates.noGroups.primaryAction,
           onPrimaryAction: handleCreateGroupPress,
+          secondaryAction: ArenaCopy.emptyStates.noGroups.secondaryAction,
+          onSecondaryAction: handleFilterPress,
         };
       case 'friends':
         return {
           icon: 'people-outline' as const,
-          title: searchTerm
-            ? 'Nenhuma pessoa encontrada'
-            : 'Nenhuma recomendação',
-          description: searchTerm
-            ? 'Tente buscar por outro termo ou ajuste os filtros'
-            : 'Ajuste os filtros para encontrar pessoas',
-          primaryAction: null,
-          onPrimaryAction: null,
+          title: ArenaCopy.emptyStates.noFriendsInvite.title,
+          description: ArenaCopy.emptyStates.noFriendsInvite.description,
+          primaryAction: ArenaCopy.emptyStates.noFriendsInvite.primaryAction,
+          onPrimaryAction: handleInviteFriends,
+          secondaryAction:
+            ArenaCopy.emptyStates.noFriendsInvite.secondaryAction,
+          onSecondaryAction: handleFilterPress,
         };
     }
   };
@@ -441,6 +449,8 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
             onSortPress={handleSortPress}
             onFilterPress={handleFilterPress}
             placeholder={getSearchPlaceholder()}
+            filterCount={activeFiltersCount}
+            sortOrder={sortOrder}
           />
 
           {shouldShowLoading ? (
@@ -474,34 +484,31 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
                 {emptyState.description}
               </Text>
 
-              {!searchTerm &&
-                emptyState.primaryAction &&
-                emptyState.onPrimaryAction && (
-                  <>
-                    <View style={styles.emptyActionsContainer}>
-                      <Button
-                        variant="primary"
-                        size="lg"
-                        onPress={emptyState.onPrimaryAction}
-                        fullWidth
-                        testID={`empty-create-${activeTab}-button`}
-                      >
-                        {emptyState.primaryAction}
-                      </Button>
+              {emptyState.primaryAction && emptyState.onPrimaryAction && (
+                <View style={styles.emptyActionsContainer}>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onPress={emptyState.onPrimaryAction}
+                    fullWidth
+                    testID={`empty-create-${activeTab}-button`}
+                  >
+                    {emptyState.primaryAction}
+                  </Button>
+                  {emptyState.secondaryAction &&
+                    emptyState.onSecondaryAction && (
                       <Button
                         variant="ghost"
                         size="md"
-                        onPress={handleFilterPress}
+                        onPress={emptyState.onSecondaryAction}
                         fullWidth
                         testID="empty-filter-button"
                       >
-                        {activeTab === 'events'
-                          ? ArenaCopy.emptyStates.noEvents.secondaryAction
-                          : 'Ajustar Filtros'}
+                        {emptyState.secondaryAction}
                       </Button>
-                    </View>
-                  </>
-                )}
+                    )}
+                </View>
+              )}
             </View>
           ) : (
             <View style={styles.listWrapper}>

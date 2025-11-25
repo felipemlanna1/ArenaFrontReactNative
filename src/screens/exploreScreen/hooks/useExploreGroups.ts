@@ -26,13 +26,12 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
   const [hasMore, setHasMore] = useState(true);
 
   const isLoadingRef = useRef(false);
-  const isInitializedRef = useRef(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { searchTerm, activeFilters } = useHomeFilters();
-  const selectedSports = activeFilters.sportIds || [];
-  const selectedCity = activeFilters.city;
-  const selectedState = activeFilters.state;
+  const { searchTerm, groupsFilters } = useHomeFilters();
+  const selectedSports = groupsFilters.sportIds || [];
+  const selectedCity = groupsFilters.city;
+  const selectedState = groupsFilters.state;
 
   const loadGroups = useCallback(async () => {
     if (isLoadingRef.current) return;
@@ -129,13 +128,8 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
     }
   }, [searchTerm, selectedSports, selectedCity, selectedState]);
 
-  // Recarregar quando filtros mudarem
+  // Carregar grupos quando filtros mudarem (incluindo primeira montagem)
   useEffect(() => {
-    if (!isInitializedRef.current) {
-      isInitializedRef.current = true;
-      return;
-    }
-
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
