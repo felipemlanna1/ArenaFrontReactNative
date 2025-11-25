@@ -1,10 +1,15 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import * as Clipboard from 'expo-clipboard';
 import { Accordion } from '@/components/ui/accordion';
 import { Text } from '@/components/ui/text';
+import { ArenaColors } from '@/constants';
+import { useAlert } from '@/contexts/AlertContext';
 import { Event } from '@/services/events/typesEvents';
 import { ParticipantListItem } from './components/ParticipantListItem';
 import { useEventManagement } from '@/screens/eventDetailsScreen/hooks/useEventManagement';
+import { formatParticipantsList } from './utils/formatParticipantsList';
 import { styles } from './stylesEventParticipantsSection';
 
 interface EventParticipantsSectionProps {
@@ -18,6 +23,9 @@ export const EventParticipantsSection: React.FC<
 > = ({ event, isOwner = false, onRefresh }) => {
   const participantCount = event.currentParticipants || 0;
   const participants = event.participants || [];
+
+  const { showSuccess, showError } = useAlert();
+  const [isCopied, setIsCopied] = useState(false);
 
   const { isManaging, handleApprove, handleReject, handleRemove } =
     useEventManagement({
@@ -37,6 +45,56 @@ export const EventParticipantsSection: React.FC<
       if (b.userId === event.organizerId) return 1;
       return 0;
     });
+  };
+
+  const handleCopyParticipants = useCallback(async () => {
+    try {
+      const formattedList = formatParticipantsList(
+        participants,
+        event.organizerId,
+        {
+          includeEventTitle: true,
+          eventTitle: event.title,
+          sportName: event.sport?.name,
+        }
+      );
+
+      await Clipboard.setStringAsync(formattedList);
+      showSuccess('Lista de participantes copiada!');
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch {
+      showError('Não foi possível copiar a lista');
+    }
+  }, [participants, event, showSuccess, showError]);
+
+  const renderCopyButton = () => {
+    const hasParticipants =
+      confirmedParticipants.length > 0 ||
+      pendingParticipants.length > 0 ||
+      invitedParticipants.length > 0;
+
+    if (!hasParticipants) return null;
+
+    return (
+      <TouchableOpacity
+        onPress={handleCopyParticipants}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Copiar lista de participantes"
+        accessibilityHint="Copia a lista formatada para compartilhar via WhatsApp ou outros apps"
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        testID="copy-participants-button"
+      >
+        <Ionicons
+          name="copy-outline"
+          size={20}
+          color={
+            isCopied ? ArenaColors.semantic.success : ArenaColors.brand.primary
+          }
+        />
+      </TouchableOpacity>
+    );
   };
 
   const renderPendingList = () => {
@@ -151,11 +209,13 @@ export const EventParticipantsSection: React.FC<
           id: 'pending-requests',
           title: `Solicitações Pendentes (${pendingCount})`,
           content: renderPendingList(),
+          headerAction: renderCopyButton(),
         },
         {
           id: 'participants',
           title: `Participantes (${confirmedCount})`,
           content: renderConfirmedList(),
+          headerAction: renderCopyButton(),
         },
       ];
     }
@@ -165,6 +225,7 @@ export const EventParticipantsSection: React.FC<
         id: 'participants',
         title: `Participantes (${participantCount})`,
         content: renderAllParticipants(),
+        headerAction: renderCopyButton(),
       },
     ];
   };
@@ -180,7 +241,11 @@ export const EventParticipantsSection: React.FC<
       items={items}
       variant="default"
       mode="multiple"
-      defaultExpandedIds={hasPendingRequests ? ['pending-requests'] : undefined}
+      defaultExpandedIds={
+        hasPendingRequests
+          ? ['pending-requests', 'participants']
+          : ['participants']
+      }
     />
   );
 };

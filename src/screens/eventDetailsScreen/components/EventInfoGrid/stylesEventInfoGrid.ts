@@ -48,4 +48,10 @@ export const styles = StyleSheet.create({
   fullBadgeText: {
     color: ArenaColors.neutral.light,
   },
+  addressText: {},
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: ArenaSpacing.xs,
+  },
 });

@@ -13,6 +13,8 @@ import { EventOrganizerCard } from './components/EventOrganizerCard';
 import { EventDescriptionSection } from './components/EventDescriptionSection';
 import { EventParticipantsSection } from './components/EventParticipantsSection';
 import { EventActionButton } from './components/EventActionButton';
+import { EventRequirementsSection } from './components/EventRequirementsSection';
+import { EventRulesSection } from './components/EventRulesSection';
 import { useEventDetailsScreen } from './useEventDetailsScreen';
 import { EventDetailsScreenProps } from './typesEventDetailsScreen';
 import { styles } from './stylesEventDetailsScreen';
@@ -108,12 +110,45 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
       >
         <View style={styles.content}>
           <View style={styles.titleSection}>
-            <Text variant="headingPrimary" style={styles.title}>
-              {event.title}
-            </Text>
+            {event.sport?.name ? (
+              <View style={styles.titleRow}>
+                <Text
+                  variant="headingPrimary"
+                  style={[styles.title, styles.sportName]}
+                >
+                  {event.sport.name}
+                </Text>
+                <Text variant="headingPrimary" style={styles.title}>
+                  {' - '}
+                </Text>
+                <Text variant="headingPrimary" style={styles.title}>
+                  {event.title}
+                </Text>
+              </View>
+            ) : (
+              <Text variant="headingPrimary" style={styles.title}>
+                {event.title}
+              </Text>
+            )}
           </View>
 
           <EventInfoGrid event={event} status={status} />
+
+          {event.description && (
+            <EventDescriptionSection description={event.description} />
+          )}
+
+          {event.requirements && (
+            <EventRequirementsSection requirements={event.requirements} />
+          )}
+
+          {event.rules && <EventRulesSection rules={event.rules} />}
+
+          <EventParticipantsSection
+            event={event}
+            isOwner={status.isOwner}
+            onRefresh={refresh}
+          />
 
           <EventOrganizerCard
             event={event}
@@ -124,16 +159,6 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
                 navigation.navigate('Profile', { userId: organizerId });
               }
             }}
-          />
-
-          {event.description && (
-            <EventDescriptionSection description={event.description} />
-          )}
-
-          <EventParticipantsSection
-            event={event}
-            isOwner={status.isOwner}
-            onRefresh={refresh}
           />
 
           {(status.isOwner || event.ownerIds?.includes(user?.id || '')) && (
