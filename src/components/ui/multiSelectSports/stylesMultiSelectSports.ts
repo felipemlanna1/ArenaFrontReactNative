@@ -64,7 +64,9 @@ export const styles = StyleSheet.create({
     marginTop: ArenaSpacing.xs,
   },
   starButton: {
-    marginTop: ArenaSpacing.xs,
+    position: 'absolute',
+    top: ArenaSpacing.xs,
+    left: ArenaSpacing.xs,
     padding: ArenaSpacing.micro,
   },
   loadingContainer: {
