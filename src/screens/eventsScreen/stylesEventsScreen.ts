@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,11 +23,11 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   toggleButton: {
-    width: 40,
-    height: 40,
+    width: ArenaSpacing['4xl'],
+    height: ArenaSpacing['4xl'],
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: ArenaBorders.radius.md,
     backgroundColor: ArenaColors.neutral.dark,
   },
   toggleButtonActive: {
@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing['2xl'],
   },
   eventCardContainer: {
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create({
   },
   loadingContainer: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing.sm,
+    paddingTop: ArenaSpacing.lg,
     gap: ArenaSpacing.md,
   },
   loadingFooter: {
@@ -71,6 +72,6 @@ export const styles = StyleSheet.create({
   },
   selectedDateList: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing.sm,
+    paddingTop: ArenaSpacing.lg,
   },
 });

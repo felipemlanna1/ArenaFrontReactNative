@@ -11,16 +11,16 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { EmptyState } from '@/components/ui/emptyState';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useTabBarHeight } from '@/hooks/useTabBarHeight';
 import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
-import { TabParamList } from '@/navigation/typesNavigation';
+import { TabParamList, RootStackParamList } from '@/navigation/typesNavigation';
 import { EventCard } from '@/screens/exploreScreen/components/EventCard';
 import { Event } from '@/services/events/typesEvents';
 import { EventFilter } from './components/EventFilter';
@@ -119,11 +119,16 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     [handleDetailsPress, handleManagePress, handleShare, eventActions]
   );
 
-  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const tabNavigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const rootNavigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleDiscoverEvents = useCallback(() => {
-    navigation.navigate('ExploreTab');
-  }, [navigation]);
+    tabNavigation.navigate('ExploreTab');
+  }, [tabNavigation]);
+
+  const handleCreateEvent = useCallback(() => {
+    rootNavigation.navigate('CreateEvent');
+  }, [rootNavigation]);
 
   const renderEmpty = useCallback(() => {
     if (isLoading) return null;
@@ -241,14 +246,16 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
           keyExtractor={item => item.id}
           contentContainerStyle={selectedDateListStyle}
           ListEmptyComponent={() => (
-            <View style={styles.emptyContainer}>
-              <Ionicons
-                name="calendar-outline"
-                size={64}
-                color={ArenaColors.neutral.medium}
-              />
-              <Text variant="bodySecondary">Nenhum evento nesta data</Text>
-            </View>
+            <EmptyState
+              icon="calendar-outline"
+              title="Nada agendado para esta data"
+              message="Que tal criar um evento? Reúna seus amigos e marque um jogo incrível!"
+              actionLabel="Criar Evento"
+              onActionPress={handleCreateEvent}
+              secondaryActionLabel="Descobrir Eventos"
+              onSecondaryActionPress={handleDiscoverEvents}
+              testID="calendar-empty-state"
+            />
           )}
           showsVerticalScrollIndicator={false}
         />
@@ -267,6 +274,8 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     eventActions,
     testID,
     selectedDateListStyle,
+    handleCreateEvent,
+    handleDiscoverEvents,
   ]);
 
   return (
