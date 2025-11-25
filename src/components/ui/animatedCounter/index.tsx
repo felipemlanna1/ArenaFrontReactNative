@@ -37,7 +37,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   }, [value, duration, animatedValue]);
 
   return (
-    <Text variant={variant} style={style as any} testID={testID}>
+    <Text variant={variant} style={style} testID={testID}>
       {displayValue}
     </Text>
   );

@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
+const DOT_SIZE = ArenaSpacing.sm;
+
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -14,8 +16,8 @@ export const styles = StyleSheet.create({
     borderColor: ArenaColors.semantic.success,
   },
   dot: {
-    width: 8,
-    height: 8,
+    width: DOT_SIZE,
+    height: DOT_SIZE,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.semantic.success,
   },

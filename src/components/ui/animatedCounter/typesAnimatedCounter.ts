@@ -1,4 +1,4 @@
-import { StyleProp, TextStyle } from 'react-native';
+import { TextStyle } from 'react-native';
 
 export type AnimatedCounterVariant =
   | 'displayPrimary'
@@ -7,30 +7,9 @@ export type AnimatedCounterVariant =
   | 'bodyPrimary';
 
 export interface AnimatedCounterProps {
-  /**
-   * Valor final a ser exibido
-   */
   value: number;
-
-  /**
-   * Duração da animação em ms
-   * @default 1000
-   */
   duration?: number;
-
-  /**
-   * Variante tipográfica do Text
-   * @default 'displayPrimary'
-   */
   variant?: AnimatedCounterVariant;
-
-  /**
-   * Estilos customizados
-   */
-  style?: StyleProp<TextStyle>;
-
-  /**
-   * ID para testes
-   */
+  style?: TextStyle | TextStyle[];
   testID?: string;
 }
