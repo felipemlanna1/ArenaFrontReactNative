@@ -4,7 +4,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useMyEvents } from '@/screens/myEventsScreen/hooks/useMyEvents';
 import { useEventFilterCounts } from '@/screens/myEventsScreen/hooks/useEventFilterCounts';
-import { groupEventsByTime } from '@/screens/myEventsScreen/utils/eventGrouping';
 import { useEventActions } from '@/hooks/useEventActions';
 import { ArenaColors } from '@/constants';
 import { Event } from '@/services/events/typesEvents';
@@ -23,12 +22,12 @@ export const useEventsScreen = ({
   initialViewMode = 'list',
 }: UseEventsScreenParams = {}): UseEventsScreenReturn => {
   const navigation = useNavigation<NavigationProp>();
-  const [eventFilter, setEventFilter] = useState<EventFilterType>(initialFilter);
+  const [eventFilter, setEventFilter] =
+    useState<EventFilterType>(initialFilter);
   const [viewMode, setViewMode] = useState<EventViewMode>(initialViewMode);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isCalendarExpanded, setIsCalendarExpanded] = useState<boolean>(true);
 
-  // Map 'upcoming' to 'all' for useMyEvents which expects myEventsScreen EventFilterType
   const mappedFilter = (eventFilter === 'upcoming' ? 'all' : eventFilter) as
     | 'all'
     | 'organizing'
@@ -50,19 +49,17 @@ export const useEventsScreen = ({
     loadEvents();
   }, [eventFilter, loadEvents]);
 
-  const groupedEvents = useMemo(() => {
-    return groupEventsByTime(events);
-  }, [events]);
-
   const { filterCounts: myEventsFilterCounts } = useEventFilterCounts();
 
-  // Map filterCounts from myEventsScreen format to EventsScreen format
-  const filterCounts: FilterCount = useMemo(() => ({
-    upcoming: myEventsFilterCounts.all,
-    organizing: myEventsFilterCounts.organizing,
-    participating: myEventsFilterCounts.participating,
-    invited: myEventsFilterCounts.invited,
-  }), [myEventsFilterCounts]);
+  const filterCounts: FilterCount = useMemo(
+    () => ({
+      upcoming: myEventsFilterCounts.all,
+      organizing: myEventsFilterCounts.organizing,
+      participating: myEventsFilterCounts.participating,
+      invited: myEventsFilterCounts.invited,
+    }),
+    [myEventsFilterCounts]
+  );
 
   const eventActions = useEventActions(refreshEvents);
 
@@ -86,7 +83,9 @@ export const useEventsScreen = ({
     const selectedDateStr = selectedDate.toISOString().split('T')[0];
 
     return events.filter(event => {
-      const eventDateStr = new Date(event.startDate).toISOString().split('T')[0];
+      const eventDateStr = new Date(event.startDate)
+        .toISOString()
+        .split('T')[0];
       return eventDateStr === selectedDateStr;
     });
   }, [events, selectedDate]);
@@ -125,10 +124,12 @@ export const useEventsScreen = ({
     await refreshEvents();
   }, [refreshEvents]);
 
-  // Wrap handleShare to convert Event to eventId
-  const handleShare = useCallback((event: Event) => {
-    handleShareById(event.id);
-  }, [handleShareById]);
+  const handleShare = useCallback(
+    (event: Event) => {
+      handleShareById(event.id);
+    },
+    [handleShareById]
+  );
 
   return {
     viewMode,
@@ -136,7 +137,7 @@ export const useEventsScreen = ({
     eventFilter,
     setEventFilter: handleFilterChange,
     filterCounts,
-    groupedEvents,
+    events,
     isLoading,
     isLoadingMore,
     hasMore,

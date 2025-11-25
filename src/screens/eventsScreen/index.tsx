@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import {
   View,
@@ -11,21 +11,23 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { EmptyState } from '@/components/ui/emptyState';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
+import { useTabBarHeight } from '@/hooks/useTabBarHeight';
+import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
 import { TabParamList } from '@/navigation/typesNavigation';
-import { EventCard } from '@/screens/homeScreen/components/EventCard';
+import { EventCard } from '@/screens/exploreScreen/components/EventCard';
+import { Event } from '@/services/events/typesEvents';
 import { EventFilter } from './components/EventFilter';
 import { CalendarView } from './components/CalendarView';
 import { CollapsibleCalendarHeader } from './components/CollapsibleCalendarHeader';
-import { EventSectionHeader } from '@/screens/myEventsScreen/components/EventSectionHeader';
-import { TimeCategory } from '@/screens/myEventsScreen/typesMyEventsScreen';
 import { useEventsScreen } from './useEventsScreen';
-import { EventsScreenProps, GroupedEventItem } from './typesEventsScreen';
+import { EventsScreenProps, EventFilterType } from './typesEventsScreen';
 import { styles } from './stylesEventsScreen';
 
 export const EventsScreen: React.FC<EventsScreenProps> = ({
@@ -37,7 +39,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     eventFilter,
     setEventFilter,
     filterCounts,
-    groupedEvents,
+    events,
     isLoading,
     isLoadingMore,
     hasMore,
@@ -54,6 +56,31 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     eventActions,
   } = useEventsScreen();
 
+  const tabBarHeight = useTabBarHeight();
+
+  const eventFilters: EventFilterType[] = [
+    'upcoming',
+    'organizing',
+    'participating',
+    'invited',
+  ];
+
+  const { panGesture } = useSwipeableFilters({
+    filters: eventFilters,
+    activeFilter: eventFilter,
+    onChange: setEventFilter,
+  });
+
+  const listContentStyle = useMemo(
+    () => [styles.listContent, { paddingBottom: tabBarHeight }],
+    [tabBarHeight]
+  );
+
+  const selectedDateListStyle = useMemo(
+    () => [styles.selectedDateList, { paddingBottom: tabBarHeight }],
+    [tabBarHeight]
+  );
+
   useEffect(() => {
     if (
       Platform.OS === 'android' &&
@@ -68,22 +95,8 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     toggleCalendarExpanded();
   }, [toggleCalendarExpanded]);
 
-  const renderItem: ListRenderItem<GroupedEventItem> = useCallback(
-    ({ item }) => {
-      if (item.type === 'header') {
-        return (
-          <EventSectionHeader
-            label={item.label ?? ''}
-            category={(item.category ?? 'upcoming') as TimeCategory}
-            count={item.count ?? 0}
-          />
-        );
-      }
-
-      if (!item.event) return null;
-
-      const event = item.event;
-
+  const renderItem: ListRenderItem<Event> = useCallback(
+    ({ item: event }) => {
       return (
         <View style={styles.eventCardContainer}>
           <EventCard
@@ -137,54 +150,53 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     );
   }, [isLoadingMore]);
 
-  const keyExtractor = useCallback((item: GroupedEventItem, index: number) => {
-    if (item.type === 'header') {
-      return `header-${item.category}`;
-    }
-    return `event-${item.event?.id || index}`;
-  }, []);
+  const keyExtractor = useCallback((item: Event) => item.id, []);
 
   const renderListView = useCallback(() => {
     return (
-      <>
-        <EventFilter
-          value={eventFilter}
-          filterCounts={filterCounts}
-          onChange={setEventFilter}
-        />
-        {isLoading && groupedEvents.length === 0 ? (
-          <View style={styles.loadingContainer}>
-            <SkeletonCard />
-            <SkeletonCard />
-            <SkeletonCard />
-          </View>
-        ) : (
-          <FlatList
-            data={groupedEvents}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            contentContainerStyle={styles.listContent}
-            onEndReached={hasMore ? loadMoreEvents : undefined}
-            onEndReachedThreshold={0.5}
-            ListEmptyComponent={renderEmpty}
-            ListFooterComponent={renderFooter}
-            showsVerticalScrollIndicator={false}
+      <GestureDetector gesture={panGesture}>
+        <View style={styles.gestureContainer}>
+          <EventFilter
+            value={eventFilter}
+            filterCounts={filterCounts}
+            onChange={setEventFilter}
           />
-        )}
-      </>
+          {isLoading && events.length === 0 ? (
+            <View style={styles.loadingContainer}>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </View>
+          ) : (
+            <FlatList
+              data={events}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              contentContainerStyle={listContentStyle}
+              onEndReached={hasMore ? loadMoreEvents : undefined}
+              onEndReachedThreshold={0.5}
+              ListEmptyComponent={renderEmpty}
+              ListFooterComponent={renderFooter}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
+      </GestureDetector>
     );
   }, [
+    panGesture,
     eventFilter,
     filterCounts,
     setEventFilter,
     isLoading,
-    groupedEvents,
+    events,
     renderItem,
     keyExtractor,
     hasMore,
     loadMoreEvents,
     renderEmpty,
     renderFooter,
+    listContentStyle,
   ]);
 
   const renderCalendarView = useCallback(() => {
@@ -227,7 +239,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
             </View>
           )}
           keyExtractor={item => item.id}
-          contentContainerStyle={styles.selectedDateList}
+          contentContainerStyle={selectedDateListStyle}
           ListEmptyComponent={() => (
             <View style={styles.emptyContainer}>
               <Ionicons
@@ -254,6 +266,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     handleShare,
     eventActions,
     testID,
+    selectedDateListStyle,
   ]);
 
   return (

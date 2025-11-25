@@ -2,18 +2,14 @@ import { Event } from '@/services/events/typesEvents';
 
 export type EventViewMode = 'list' | 'calendar';
 
-export type EventFilterType = 'upcoming' | 'organizing' | 'participating' | 'invited';
+export type EventFilterType =
+  | 'upcoming'
+  | 'organizing'
+  | 'participating'
+  | 'invited';
 
 export interface EventsScreenProps {
   testID?: string;
-}
-
-export interface GroupedEventItem {
-  type: 'header' | 'event';
-  label?: string;
-  category?: string;
-  count?: number;
-  event?: Event;
 }
 
 export interface FilterCount {
@@ -34,7 +30,7 @@ export interface UseEventsScreenReturn {
   eventFilter: EventFilterType;
   setEventFilter: (filter: EventFilterType) => void;
   filterCounts: FilterCount;
-  groupedEvents: GroupedEventItem[];
+  events: Event[];
   isLoading: boolean;
   isLoadingMore: boolean;
   hasMore: boolean;

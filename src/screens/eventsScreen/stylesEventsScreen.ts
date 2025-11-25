@@ -5,6 +5,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  gestureContainer: {
+    flex: 1,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
