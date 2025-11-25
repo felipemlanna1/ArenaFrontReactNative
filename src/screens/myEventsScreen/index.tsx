@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/ui/emptyState';
 import { AccordionSection } from '@/components/accordionSection';
 import { AppLayout } from '@/components/AppLayout';
 import { TabParamList } from '@/navigation/typesNavigation';
-import { EventCard } from '@/screens/homeScreen/components/EventCard';
+import { EventCard } from '@/screens/exploreScreen/components/EventCard';
 import { EventTypeFilter } from './components/EventTypeFilter';
 import { EventSectionHeader } from './components/EventSectionHeader';
 import { useMyEventsScreen } from './useMyEventsScreen';

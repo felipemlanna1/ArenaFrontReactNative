@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/text';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
 // Import all screens
-import { HomeScreen } from '../homeScreen';
+import { ExploreScreen } from '../exploreScreen';
 import { MyEventsScreen } from '../myEventsScreen';
 import { ProfileScreen } from '../profileScreen';
 import { MenuScreen } from '../menuScreen';
@@ -60,7 +60,8 @@ export const VisualAuditScreen: React.FC = () => {
     // Mock data will be injected via context or props based on state param
     const screenMap: Record<string, React.ReactNode> = {
       // Main Tabs
-      HomeScreen: <HomeScreen />,
+      ExploreScreen: <ExploreScreen navigation={{} as never} />,
+      HomeScreen: <ExploreScreen navigation={{} as never} />,
       MyEventsScreen: <MyEventsScreen />,
       ProfileScreen: <ProfileScreen />,
       MenuScreen: <MenuScreen />,

@@ -9,7 +9,7 @@ import React, {
   ReactNode,
 } from 'react';
 import { useAuth } from './AuthContext';
-import { useHomeLocation } from '@/screens/homeScreen/hooks/useHomeLocation';
+import { useExploreLocation } from '@/screens/exploreScreen/hooks/useExploreLocation';
 import { EventsFilter } from '@/services/events/typesEvents';
 import { FILTER_DEFAULTS } from '@/constants/filterDefaults';
 
@@ -107,7 +107,7 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   children,
 }) => {
   const { userSports, isLoading: authLoading } = useAuth();
-  const location = useHomeLocation();
+  const location = useExploreLocation();
 
   const initialDateRef = useRef(new Date().toISOString());
   const hasLoadedFirstTimeRef = useRef(false);

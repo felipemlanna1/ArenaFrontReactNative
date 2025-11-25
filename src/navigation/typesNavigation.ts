@@ -32,14 +32,14 @@ export type RootStackParamList = {
 
 export type TabParamList = {
   MyEventsTab: undefined;
-  HomeTab: undefined;
+  ExploreTab: undefined;
   CreateEventTab: undefined;
   ProfileTab: undefined;
   MenuTab: undefined;
 };
 
-export type HomeStackParamList = {
-  Home: undefined;
+export type ExploreStackParamList = {
+  Explore: undefined;
 };
 
 export type FriendsStackParamList = {

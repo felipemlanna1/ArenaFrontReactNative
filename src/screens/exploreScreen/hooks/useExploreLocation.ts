@@ -10,7 +10,7 @@ interface UseHomeLocationReturn {
   requestLocation: () => Promise<void>;
 }
 
-export const useHomeLocation = (): UseHomeLocationReturn => {
+export const useExploreLocation = (): UseHomeLocationReturn => {
   const { showError } = useAlert();
   const [userLocation, setUserLocation] = useState<LocationCoordinates | null>(
     null

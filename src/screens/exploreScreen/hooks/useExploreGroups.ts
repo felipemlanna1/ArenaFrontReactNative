@@ -16,7 +16,7 @@ interface UseHomeGroupsReturn {
   loadMoreGroups: () => Promise<void>;
 }
 
-export const useHomeGroups = (): UseHomeGroupsReturn => {
+export const useExploreGroups = (): UseHomeGroupsReturn => {
   const [groups, setGroups] = useState<Group[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);

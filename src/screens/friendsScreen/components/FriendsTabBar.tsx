@@ -125,7 +125,7 @@ export const FriendsTabBar: React.FC<FriendsTabBarProps> = ({
   recommendationsCount,
 }) => {
   const tabs: TabItem[] = [
-    { key: 'friends', label: 'Amigos', count: friendsCount },
+    { key: 'friends', label: 'Atletas', count: friendsCount },
     { key: 'incoming', label: 'Recebidas', count: incomingCount },
     { key: 'outgoing', label: 'Enviadas', count: outgoingCount },
     { key: 'recommendations', label: 'Sugestões', count: recommendationsCount },

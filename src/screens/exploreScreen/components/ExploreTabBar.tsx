@@ -3,23 +3,23 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
-export type HomeTab = 'events' | 'groups' | 'friends';
+export type ExploreTab = 'events' | 'groups' | 'friends';
 
 interface TabItem {
-  key: HomeTab;
+  key: ExploreTab;
   label: string;
   count: number;
 }
 
-interface HomeTabBarProps {
-  activeTab: HomeTab;
-  onTabChange: (tab: HomeTab) => void;
+interface ExploreTabBarProps {
+  activeTab: ExploreTab;
+  onTabChange: (tab: ExploreTab) => void;
   eventsCount: number;
   groupsCount: number;
   friendsCount: number;
 }
 
-export const HomeTabBar: React.FC<HomeTabBarProps> = ({
+export const ExploreTabBar: React.FC<ExploreTabBarProps> = ({
   activeTab,
   onTabChange,
   eventsCount,
@@ -28,8 +28,8 @@ export const HomeTabBar: React.FC<HomeTabBarProps> = ({
 }) => {
   const tabs: TabItem[] = [
     { key: 'events', label: 'Eventos', count: eventsCount },
-    { key: 'groups', label: 'Grupos', count: groupsCount },
-    { key: 'friends', label: 'Amigos', count: friendsCount },
+    { key: 'groups', label: 'Equipes', count: groupsCount },
+    { key: 'friends', label: 'Atletas', count: friendsCount },
   ];
 
   return (

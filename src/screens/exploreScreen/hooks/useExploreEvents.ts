@@ -24,7 +24,7 @@ interface UseHomeEventsReturn {
   handleShare: (eventId: string) => void;
 }
 
-export const useHomeEvents = ({
+export const useExploreEvents = ({
   apiFilters,
 }: UseHomeEventsParams): UseHomeEventsReturn => {
   const [events, setEvents] = useState<Event[]>([]);

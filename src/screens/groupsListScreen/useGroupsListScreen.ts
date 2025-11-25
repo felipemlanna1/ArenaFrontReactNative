@@ -22,7 +22,7 @@ export const useGroupsListScreen = () => {
   const [recommendations, setRecommendations] = useState<Group[]>([]);
 
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
-    useState(false);
+    useState(true);
 
   const [hasMoreRecommendations, setHasMoreRecommendations] = useState(false);
 

@@ -216,7 +216,7 @@ export const AppNavigator: React.FC = () => {
               options={{
                 presentation: 'card',
                 headerShown: true,
-                headerTitle: 'Amigos',
+                headerTitle: 'Atletas',
                 headerStyle: {
                   backgroundColor: ArenaColors.neutral.darkest,
                 },
@@ -229,7 +229,7 @@ export const AppNavigator: React.FC = () => {
               options={{
                 presentation: 'card',
                 headerShown: true,
-                headerTitle: 'Grupos',
+                headerTitle: 'Equipes',
                 headerStyle: {
                   backgroundColor: ArenaColors.neutral.darkest,
                 },

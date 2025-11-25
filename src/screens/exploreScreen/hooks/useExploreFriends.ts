@@ -27,7 +27,7 @@ interface UseHomeFriendsReturn {
   loadMoreFriends: () => Promise<void>;
 }
 
-export const useHomeFriends = (): UseHomeFriendsReturn => {
+export const useExploreFriends = (): UseHomeFriendsReturn => {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);

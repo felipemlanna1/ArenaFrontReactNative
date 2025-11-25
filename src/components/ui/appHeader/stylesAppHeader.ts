@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
   },
   leftSection: {
-    width: ArenaSpacing['5xl'],
+    minWidth: ArenaSpacing['8xl'],
     height: ArenaSpacing['5xl'],
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -27,8 +27,10 @@ export const styles = StyleSheet.create({
     marginLeft: ArenaSpacing.xs,
   },
   rightSection: {
+    minWidth: ArenaSpacing['8xl'],
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     height: ArenaSpacing['5xl'],
   },
   backButton: {

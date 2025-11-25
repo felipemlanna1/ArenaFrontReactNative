@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Event } from '@/services/events/typesEvents';
 import { groupsApi } from '@/services/groups/groupsApi';
-import { EventCard } from '@/screens/homeScreen/components/EventCard';
+import { EventCard } from '@/screens/exploreScreen/components/EventCard';
 import { useEventActions } from '@/hooks/useEventActions';
 import { GroupEventsSectionProps } from './typesGroupEventsSection';
 import { styles } from './stylesGroupEventsSection';

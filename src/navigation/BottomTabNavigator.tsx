@@ -13,25 +13,25 @@ import {
   ArenaTypography,
 } from '@/constants';
 import { withAndroidScreenWrapper } from '@/components/wrappers/AndroidScreenWrapper/withAndroidScreenWrapper';
-import { HomeScreen } from '@/screens/homeScreen';
+import { ExploreScreen } from '@/screens/exploreScreen';
 import { EventsScreen } from '@/screens/eventsScreen';
 import { ProfileScreen } from '@/screens/profileScreen';
 import { MenuScreen } from '@/screens/menuScreen';
 import {
   TabParamList,
-  HomeStackParamList,
+  ExploreStackParamList,
   MyEventsStackParamList,
   ProfileStackParamList,
   MenuStackParamList,
 } from './typesNavigation';
 
 const Tab = createBottomTabNavigator<TabParamList>();
-const HomeStack = createNativeStackNavigator<HomeStackParamList>();
+const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
 const MyEventsStack = createNativeStackNavigator<MyEventsStackParamList>();
 const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 const MenuStack = createNativeStackNavigator<MenuStackParamList>();
 
-const WrappedHomeScreen = withAndroidScreenWrapper(HomeScreen, {
+const WrappedExploreScreen = withAndroidScreenWrapper(ExploreScreen, {
   enableScroll: false,
 });
 const WrappedEventsScreen = withAndroidScreenWrapper(EventsScreen, {
@@ -42,11 +42,11 @@ const WrappedMenuScreen = withAndroidScreenWrapper(MenuScreen, {
   enableScroll: false,
 });
 
-const HomeStackScreen: React.FC = () => {
+const ExploreStackScreen: React.FC = () => {
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name="Home" component={WrappedHomeScreen} />
-    </HomeStack.Navigator>
+    <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
+      <ExploreStack.Screen name="Explore" component={WrappedExploreScreen} />
+    </ExploreStack.Navigator>
   );
 };
 
@@ -123,8 +123,8 @@ export const BottomTabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="HomeTab"
-        component={HomeStackScreen}
+        name="ExploreTab"
+        component={ExploreStackScreen}
         options={{
           tabBarLabel: 'Descobrir',
           tabBarIcon: ({ color, focused }) => (
@@ -136,7 +136,7 @@ export const BottomTabNavigator: React.FC = () => {
           ),
           tabBarButton: props => (
             // @ts-ignore - Type incompatibility between React Navigation and React Native
-            <TouchableOpacity {...props} testID="tab-home" />
+            <TouchableOpacity {...props} testID="tab-explore" />
           ),
         }}
       />

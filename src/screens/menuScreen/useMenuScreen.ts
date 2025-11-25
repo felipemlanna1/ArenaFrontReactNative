@@ -25,14 +25,14 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
       {
         id: 'friends',
         type: 'navigation',
-        label: 'Amigos',
+        label: 'Atletas',
         badge: user?.totalFriends || 0,
         testID: 'menu-friends',
       },
       {
         id: 'groups',
         type: 'navigation',
-        label: 'Grupos',
+        label: 'Equipes',
         badge: user?.totalGroups || 0,
         testID: 'menu-groups',
       },
