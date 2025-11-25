@@ -71,7 +71,7 @@ export const mapUserToDisplayData = (user: UserData): ProfileDisplayData => {
   return {
     fullName: `${user.firstName} ${user.lastName}`,
     username: user.username,
-    age: calculateAge(user.birthDate),
+    age: calculateAge(user.dateOfBirth || user.birthDate),
     gender: formatGender(user.gender),
     bio: user.bio || null,
     avatarUrl: user.profilePicture || user.avatar || null,
