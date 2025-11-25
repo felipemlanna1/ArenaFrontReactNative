@@ -24,6 +24,7 @@ type FilterScreenProps = NativeStackScreenProps<
 export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
   const {
     activeFilters,
+    activeTab,
     updateFilter,
     toggleSportId,
     setEventFilter,
@@ -31,33 +32,41 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
     activeFiltersCount,
   } = useHomeFilters();
 
+  // Tab-specific filters visibility
+  const showEventTypeFilter = activeTab === 'events';
+  const showPriceFilter = activeTab === 'events';
+  const showDateFilter = activeTab === 'events';
+  const showAvailabilityFilter = activeTab === 'events';
+  const showSportsFilter = true; // All tabs
+  const showLocationFilter = true; // All tabs
+
   const handleRemoveFilter = useCallback(
-    (key: keyof typeof activeFilters, value?: string) => {
+    (key: string, value?: string) => {
       if (value) {
         toggleSportId(value);
       } else {
         switch (key) {
           case 'sportIds':
-            updateFilter(key, []);
+            updateFilter('sportIds' as never, [] as never);
             break;
           case 'priceMin':
           case 'priceMax':
-            updateFilter(key, undefined);
+            updateFilter(key as never, undefined as never);
             break;
           case 'startDateFrom':
           case 'startDateTo':
-            updateFilter(key, undefined);
+            updateFilter(key as never, undefined as never);
             break;
           case 'state':
-            updateFilter('state', undefined);
-            updateFilter('city', undefined);
+            updateFilter('state' as never, undefined as never);
+            updateFilter('city' as never, undefined as never);
             break;
           case 'city':
-            updateFilter(key, undefined);
+            updateFilter('city' as never, undefined as never);
             break;
           case 'isFree':
           case 'hasAvailableSpots':
-            updateFilter(key, false);
+            updateFilter(key as never, false as never);
             break;
           case 'eventFilter':
             setEventFilter('all');
@@ -89,145 +98,206 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.section}>
-            <FilterSection
-              title="Tipo de Evento"
-              count={activeFilters.eventFilter !== 'all' ? 1 : 0}
-              testID="filter-event-type"
-            >
-              <EventFilterSection
-                value={activeFilters.eventFilter || 'all'}
-                onChange={setEventFilter}
-              />
-            </FilterSection>
-          </View>
-
-          <View style={styles.section}>
-            <FilterSection
-              title="Esportes"
-              count={activeFilters.sportIds?.length || 0}
-              defaultExpanded
-              testID="filter-sports"
-            >
-              <SportsFilter
-                selectedSportIds={activeFilters.sportIds || []}
-                onSportsChange={value => updateFilter('sportIds', value)}
-              />
-            </FilterSection>
-          </View>
-
-          <View style={styles.section}>
-            <FilterSection
-              title="Preço"
-              count={
-                activeFilters.priceMin !== undefined ||
-                activeFilters.priceMax !== undefined ||
-                activeFilters.isFree
-                  ? 1
-                  : 0
-              }
-              testID="filter-price"
-            >
-              <PriceRangeFilter
-                priceMin={activeFilters.priceMin ?? null}
-                priceMax={activeFilters.priceMax ?? null}
-                isFree={activeFilters.isFree ?? false}
-                onPriceMinChange={value =>
-                  updateFilter('priceMin', value ?? undefined)
+          {showEventTypeFilter && (
+            <View style={styles.section}>
+              <FilterSection
+                title="Tipo de Evento"
+                count={
+                  'eventFilter' in activeFilters &&
+                  activeFilters.eventFilter !== 'all'
+                    ? 1
+                    : 0
                 }
-                onPriceMaxChange={value =>
-                  updateFilter('priceMax', value ?? undefined)
-                }
-                onIsFreeChange={value => updateFilter('isFree', value)}
-              />
-            </FilterSection>
-          </View>
-
-          <View style={styles.section}>
-            <FilterSection
-              title="Data"
-              count={
-                activeFilters.startDateFrom || activeFilters.startDateTo ? 1 : 0
-              }
-              testID="filter-date"
-            >
-              <DateRangeFilter
-                startDateFrom={
-                  activeFilters.startDateFrom
-                    ? new Date(activeFilters.startDateFrom)
-                    : null
-                }
-                startDateTo={
-                  activeFilters.startDateTo
-                    ? new Date(activeFilters.startDateTo)
-                    : null
-                }
-                onStartDateFromChange={value =>
-                  updateFilter(
-                    'startDateFrom',
-                    value?.toISOString() ?? undefined
-                  )
-                }
-                onStartDateToChange={value =>
-                  updateFilter('startDateTo', value?.toISOString() ?? undefined)
-                }
-              />
-            </FilterSection>
-          </View>
-
-          <View style={styles.section}>
-            <FilterSection
-              title="Localização"
-              count={activeFilters.state || activeFilters.city ? 1 : 0}
-              testID="filter-location"
-            >
-              <View style={styles.locationInputs}>
-                <StateDropdown
-                  value={activeFilters.state ?? ''}
-                  onChange={value => {
-                    updateFilter('state', value || undefined);
-                    if (activeFilters.state && activeFilters.state !== value) {
-                      updateFilter('city', undefined);
-                    }
-                  }}
-                  label="Estado"
-                  testID="filter-state-dropdown"
+                testID="filter-event-type"
+              >
+                <EventFilterSection
+                  value={
+                    'eventFilter' in activeFilters
+                      ? activeFilters.eventFilter || 'all'
+                      : 'all'
+                  }
+                  onChange={setEventFilter}
                 />
+              </FilterSection>
+            </View>
+          )}
 
-                {activeFilters.state && (
-                  <CityDropdown
-                    value={activeFilters.city ?? ''}
-                    onChange={value => updateFilter('city', value || undefined)}
-                    stateUF={activeFilters.state}
-                    label="Cidade"
-                    testID="filter-city-dropdown"
-                  />
-                )}
-              </View>
-            </FilterSection>
-          </View>
+          {showSportsFilter && (
+            <View style={styles.section}>
+              <FilterSection
+                title="Esportes"
+                count={activeFilters.sportIds?.length || 0}
+                defaultExpanded
+                testID="filter-sports"
+              >
+                <SportsFilter
+                  selectedSportIds={activeFilters.sportIds || []}
+                  onSportsChange={value =>
+                    updateFilter('sportIds' as never, value as never)
+                  }
+                />
+              </FilterSection>
+            </View>
+          )}
 
-          <View style={styles.section}>
-            <FilterSection
-              title="Disponibilidade"
-              count={activeFilters.hasAvailableSpots ? 1 : 0}
-              testID="filter-availability"
-            >
-              <View style={styles.checkboxContainer}>
-                <Checkbox
-                  checked={activeFilters.hasAvailableSpots || false}
-                  onPress={() =>
+          {showPriceFilter && (
+            <View style={styles.section}>
+              <FilterSection
+                title="Preço"
+                count={
+                  ('priceMin' in activeFilters &&
+                    activeFilters.priceMin !== undefined) ||
+                  ('priceMax' in activeFilters &&
+                    activeFilters.priceMax !== undefined) ||
+                  ('isFree' in activeFilters && activeFilters.isFree)
+                    ? 1
+                    : 0
+                }
+                testID="filter-price"
+              >
+                <PriceRangeFilter
+                  priceMin={
+                    'priceMin' in activeFilters
+                      ? activeFilters.priceMin ?? null
+                      : null
+                  }
+                  priceMax={
+                    'priceMax' in activeFilters
+                      ? activeFilters.priceMax ?? null
+                      : null
+                  }
+                  isFree={
+                    'isFree' in activeFilters ? activeFilters.isFree ?? false : false
+                  }
+                  onPriceMinChange={value =>
+                    updateFilter('priceMin' as never, (value ?? undefined) as never)
+                  }
+                  onPriceMaxChange={value =>
+                    updateFilter('priceMax' as never, (value ?? undefined) as never)
+                  }
+                  onIsFreeChange={value =>
+                    updateFilter('isFree' as never, value as never)
+                  }
+                />
+              </FilterSection>
+            </View>
+          )}
+
+          {showDateFilter && (
+            <View style={styles.section}>
+              <FilterSection
+                title="Data"
+                count={
+                  ('startDateFrom' in activeFilters &&
+                    activeFilters.startDateFrom) ||
+                  ('startDateTo' in activeFilters && activeFilters.startDateTo)
+                    ? 1
+                    : 0
+                }
+                testID="filter-date"
+              >
+                <DateRangeFilter
+                  startDateFrom={
+                    'startDateFrom' in activeFilters &&
+                    activeFilters.startDateFrom
+                      ? new Date(activeFilters.startDateFrom)
+                      : null
+                  }
+                  startDateTo={
+                    'startDateTo' in activeFilters && activeFilters.startDateTo
+                      ? new Date(activeFilters.startDateTo)
+                      : null
+                  }
+                  onStartDateFromChange={value =>
                     updateFilter(
-                      'hasAvailableSpots',
-                      !activeFilters.hasAvailableSpots
+                      'startDateFrom' as never,
+                      (value?.toISOString() ?? undefined) as never
                     )
                   }
-                  label="Apenas eventos com vagas disponíveis"
-                  testID="filter-has-spots-checkbox"
+                  onStartDateToChange={value =>
+                    updateFilter(
+                      'startDateTo' as never,
+                      (value?.toISOString() ?? undefined) as never
+                    )
+                  }
                 />
-              </View>
-            </FilterSection>
-          </View>
+              </FilterSection>
+            </View>
+          )}
+
+          {showLocationFilter && (
+            <View style={styles.section}>
+              <FilterSection
+                title="Localização"
+                count={activeFilters.state || activeFilters.city ? 1 : 0}
+                testID="filter-location"
+              >
+                <View style={styles.locationInputs}>
+                  <StateDropdown
+                    value={activeFilters.state ?? ''}
+                    onChange={value => {
+                      updateFilter('state' as never, (value || undefined) as never);
+                      if (
+                        activeFilters.state &&
+                        activeFilters.state !== value
+                      ) {
+                        updateFilter('city' as never, undefined as never);
+                      }
+                    }}
+                    label="Estado"
+                    testID="filter-state-dropdown"
+                  />
+
+                  {activeFilters.state && (
+                    <CityDropdown
+                      value={activeFilters.city ?? ''}
+                      onChange={value =>
+                        updateFilter('city' as never, (value || undefined) as never)
+                      }
+                      stateUF={activeFilters.state}
+                      label="Cidade"
+                      testID="filter-city-dropdown"
+                    />
+                  )}
+                </View>
+              </FilterSection>
+            </View>
+          )}
+
+          {showAvailabilityFilter && (
+            <View style={styles.section}>
+              <FilterSection
+                title="Disponibilidade"
+                count={
+                  'hasAvailableSpots' in activeFilters &&
+                  activeFilters.hasAvailableSpots
+                    ? 1
+                    : 0
+                }
+                testID="filter-availability"
+              >
+                <View style={styles.checkboxContainer}>
+                  <Checkbox
+                    checked={
+                      'hasAvailableSpots' in activeFilters
+                        ? activeFilters.hasAvailableSpots || false
+                        : false
+                    }
+                    onPress={() =>
+                      updateFilter(
+                        'hasAvailableSpots' as never,
+                        ('hasAvailableSpots' in activeFilters
+                          ? !activeFilters.hasAvailableSpots
+                          : true) as never
+                      )
+                    }
+                    label="Apenas eventos com vagas disponíveis"
+                    testID="filter-has-spots-checkbox"
+                  />
+                </View>
+              </FilterSection>
+            </View>
+          )}
         </ScrollView>
       </KeyboardAvoidingView>
 
