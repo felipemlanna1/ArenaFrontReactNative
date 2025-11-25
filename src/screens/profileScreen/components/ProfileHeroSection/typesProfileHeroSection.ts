@@ -9,4 +9,9 @@ export interface ProfileHeroSectionProps {
   primarySport?: SportBadgeData | null;
   isUserActive?: boolean;
   hideAvatar?: boolean;
+  /**
+   * Progresso de completude do perfil (0-100)
+   * @default 0
+   */
+  completionProgress?: number;
 }

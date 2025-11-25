@@ -4,6 +4,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { Text } from '@/components/ui/text';
+import { CompletionRing } from '@/components/ui/completionRing';
+import { ActiveBadge } from '@/components/ui/activeBadge';
 import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
 import { ProfileHeroSectionProps } from './typesProfileHeroSection';
@@ -18,6 +20,7 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
   primarySport,
   isUserActive = false,
   hideAvatar = false,
+  completionProgress = 0,
 }) => {
   const iconSource = primarySport?.icon
     ? getSportIcon(primarySport.icon)
@@ -78,27 +81,34 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
       )}
 
       {!hideAvatar && (
-        <View
-          style={[
-            styles.avatarContainer,
-            isUserActive && { borderColor: ArenaColors.brand.primary },
-          ]}
-        >
-          {avatarUrl ? (
-            <OptimizedImage
-              source={{ uri: avatarUrl }}
-              style={styles.avatarImage}
-              contentFit="cover"
-              priority="high"
-            />
-          ) : (
-            <View style={styles.avatarPlaceholder}>
-              <Text variant="displayPrimary" style={styles.initialsText}>
-                {initials}
-              </Text>
-            </View>
-          )}
-        </View>
+        <>
+          <View style={styles.completionRingContainer}>
+            <CompletionRing size={128} strokeWidth={4} progress={completionProgress}>
+              <View
+                style={[
+                  styles.avatarContainer,
+                  isUserActive && { borderColor: ArenaColors.brand.primary },
+                ]}
+              >
+                {avatarUrl ? (
+                  <OptimizedImage
+                    source={{ uri: avatarUrl }}
+                    style={styles.avatarImage}
+                    contentFit="cover"
+                    priority="high"
+                  />
+                ) : (
+                  <View style={styles.avatarPlaceholder}>
+                    <Text variant="displayPrimary" style={styles.initialsText}>
+                      {initials}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </CompletionRing>
+          </View>
+          <ActiveBadge isActive={isUserActive} style={styles.activeBadge} />
+        </>
       )}
     </View>
   );

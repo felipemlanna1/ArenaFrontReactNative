@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 const HERO_HEIGHT = 280;
-const BUTTON_SIZE = 40;
-const AVATAR_SIZE = 80;
+const BUTTON_SIZE = 44;
+const AVATAR_SIZE = 120;
 const PLACEHOLDER_ICON_SIZE = 120;
 const PLACEHOLDER_ICON_OPACITY = 0.4;
 
@@ -31,10 +31,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 10,
   },
-  avatarContainer: {
+  completionRingContainer: {
     position: 'absolute',
-    bottom: -40,
+    bottom: -64,
     alignSelf: 'center',
+  },
+  avatarContainer: {
     width: AVATAR_SIZE,
     height: AVATAR_SIZE,
     borderRadius: ArenaBorders.radius.circle,
@@ -77,5 +79,10 @@ export const styles = StyleSheet.create({
     width: PLACEHOLDER_ICON_SIZE,
     height: PLACEHOLDER_ICON_SIZE,
     opacity: PLACEHOLDER_ICON_OPACITY,
+  },
+  activeBadge: {
+    position: 'absolute',
+    bottom: -85,
+    alignSelf: 'center',
   },
 });

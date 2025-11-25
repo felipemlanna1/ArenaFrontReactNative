@@ -25,5 +25,5 @@ export interface ProfileStatsSectionProps {
 export interface StatCardData {
   id: string;
   label: string;
-  value: string;
+  value: number;
 }

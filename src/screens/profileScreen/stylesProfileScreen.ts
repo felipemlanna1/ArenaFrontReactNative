@@ -3,7 +3,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 const FAB_SIZE = 56;
 const FAB_POSITION = 24;
-const BACK_BUTTON_SIZE = 40;
+const BACK_BUTTON_SIZE = 44;
 const BACK_BUTTON_TOP = 48;
 const CONTENT_BOTTOM_PADDING = 100;
 const SHADOW_OFFSET_HEIGHT = 4;

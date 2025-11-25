@@ -25,6 +25,7 @@ import {
 } from './utils/profileHelpers';
 import { useProfileStats } from './hooks/useProfileStats';
 import { useProfileCompletionBanner } from './hooks/useProfileCompletionBanner';
+import { useProfileCompletion } from './hooks/useProfileCompletion';
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   route,
@@ -49,6 +50,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     isLoading: isLoadingCompletion,
     handleDismiss,
   } = useProfileCompletionBanner(user, isOwnProfile);
+
+  const { progress: completionProgress } = useProfileCompletion(user);
 
   const shouldShowCompletionBanner =
     isOwnProfile && isIncomplete && !isDismissed && !isLoadingCompletion;
@@ -113,6 +116,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           onBackPress={handleBackPress}
           coverImageUrl={displayData.coverImageUrl}
           primarySport={primarySport}
+          completionProgress={isOwnProfile ? completionProgress : 0}
         />
 
         <View style={styles.contentContainer}>
