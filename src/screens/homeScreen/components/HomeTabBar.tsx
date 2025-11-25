@@ -19,37 +19,6 @@ interface HomeTabBarProps {
   friendsCount: number;
 }
 
-interface TabBadgeProps {
-  count: number;
-  isActive: boolean;
-  testID?: string;
-}
-
-const TabBadge: React.FC<TabBadgeProps> = ({
-  count,
-  isActive,
-  testID = 'tab-badge',
-}) => {
-  const displayCount = count > 99 ? '99+' : count.toString();
-
-  return (
-    <View
-      style={[
-        styles.badge,
-        isActive ? styles.badgeActive : styles.badgeInactive,
-      ]}
-      testID={testID}
-    >
-      <Text
-        variant="labelPrimary"
-        style={isActive ? styles.badgeTextActive : styles.badgeTextInactive}
-      >
-        {displayCount}
-      </Text>
-    </View>
-  );
-};
-
 export const HomeTabBar: React.FC<HomeTabBarProps> = ({
   activeTab,
   onTabChange,
@@ -66,28 +35,26 @@ export const HomeTabBar: React.FC<HomeTabBarProps> = ({
   return (
     <View style={styles.container} testID="home-tab-bar">
       <View style={styles.tabsRow}>
-        {tabs.map(tab => {
+        {tabs.map((tab, index) => {
           const isActive = activeTab === tab.key;
+          const isLast = index === tabs.length - 1;
 
           return (
-            <TouchableOpacity
-              key={tab.key}
-              style={[styles.tabButton, isActive && styles.tabButtonActive]}
-              onPress={() => onTabChange(tab.key)}
-              testID={`home-tab-${tab.key}`}
-            >
-              <Text
-                variant="bodyPrimary"
-                style={isActive ? styles.tabTextActive : styles.tabTextInactive}
+            <React.Fragment key={tab.key}>
+              <TouchableOpacity
+                style={[styles.tabButton, isActive && styles.tabButtonActive]}
+                onPress={() => onTabChange(tab.key)}
+                testID={`home-tab-${tab.key}`}
               >
-                {tab.label}
-              </Text>
-              <TabBadge
-                count={tab.count}
-                isActive={isActive}
-                testID={`home-tab-badge-${tab.key}`}
-              />
-            </TouchableOpacity>
+                <Text variant={isActive ? 'bodyPrimary' : 'bodySecondary'}>
+                  {tab.label}
+                </Text>
+                <Text variant="captionSecondary" style={styles.countText}>
+                  {tab.count}
+                </Text>
+              </TouchableOpacity>
+              {!isLast && <View style={styles.divider} />}
+            </React.Fragment>
           );
         })}
       </View>
@@ -97,54 +64,32 @@ export const HomeTabBar: React.FC<HomeTabBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ArenaColors.neutral.darkest,
-    paddingHorizontal: ArenaSpacing.lg,
+    backgroundColor: ArenaColors.neutral.dark,
     paddingVertical: ArenaSpacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: ArenaColors.neutral.darkest,
   },
   tabsRow: {
     flexDirection: 'row',
-    backgroundColor: ArenaColors.neutral.dark,
-    borderRadius: ArenaBorders.radius.lg,
-    padding: ArenaSpacing.xs,
-    gap: ArenaSpacing.xs,
+    alignItems: 'stretch',
   },
   tabButton: {
     flex: 1,
-    flexDirection: 'column',
+    paddingVertical: ArenaSpacing.xs,
+    paddingHorizontal: ArenaSpacing.xs,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: ArenaSpacing.sm,
-    paddingHorizontal: ArenaSpacing.xs,
-    borderRadius: ArenaBorders.radius.md,
-    gap: ArenaSpacing.xs,
   },
   tabButtonActive: {
-    backgroundColor: ArenaColors.brand.primary,
+    borderBottomWidth: 2,
+    borderBottomColor: ArenaColors.brand.primary,
   },
-  tabTextInactive: {
-    color: ArenaColors.neutral.medium,
+  countText: {
+    marginTop: 2,
   },
-  tabTextActive: {
-    color: ArenaColors.neutral.light,
-  },
-  badge: {
-    paddingVertical: ArenaSpacing.xs,
-    paddingHorizontal: ArenaSpacing.sm,
-    minWidth: ArenaSpacing.lg,
-    borderRadius: ArenaBorders.radius.xl,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  badgeInactive: {
-    backgroundColor: ArenaColors.neutral.darkIntermediate,
-  },
-  badgeActive: {
-    backgroundColor: ArenaColors.neutral.lightMedium,
-  },
-  badgeTextInactive: {
-    color: ArenaColors.neutral.medium,
-  },
-  badgeTextActive: {
-    color: ArenaColors.neutral.light,
+  divider: {
+    width: ArenaBorders.width.thin,
+    alignSelf: 'stretch',
+    backgroundColor: ArenaColors.neutral.darkSubtleBorder,
   },
 });
