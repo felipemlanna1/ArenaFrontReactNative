@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAlert } from '@/contexts/AlertContext';
 import { useSports } from '@/contexts/SportsContext';
@@ -11,6 +11,21 @@ import {
   EditProfileFormErrors,
 } from './typesEditProfileScreen';
 
+const calculateAge = (birthDate: Date | null): number | null => {
+  if (!birthDate) return null;
+
+  const today = new Date();
+  const birth = new Date(birthDate);
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+
+  return age;
+};
+
 interface UseEditProfileScreenReturn {
   formData: EditProfileFormData;
   errors: EditProfileFormErrors;
@@ -21,6 +36,7 @@ interface UseEditProfileScreenReturn {
   isUploadingCover: boolean;
   avatarUploadProgress: number;
   coverUploadProgress: number;
+  calculatedAge: number | null;
   handleFieldChange: (
     field: keyof EditProfileFormData,
     value: string | Date | boolean | null
@@ -366,6 +382,11 @@ export const useEditProfileScreen = ({
     });
   }, [navigation, showConfirm]);
 
+  const calculatedAge = useMemo(
+    () => calculateAge(formData.birthDate),
+    [formData.birthDate]
+  );
+
   return {
     formData,
     errors,
@@ -376,6 +397,7 @@ export const useEditProfileScreen = ({
     isUploadingCover: coverUpload.isUploading,
     avatarUploadProgress: avatarUpload.uploadProgress,
     coverUploadProgress: coverUpload.uploadProgress,
+    calculatedAge,
     handleFieldChange,
     handleToggleSport,
     handleTogglePrimary,
