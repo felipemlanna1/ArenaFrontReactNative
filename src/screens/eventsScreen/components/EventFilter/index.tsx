@@ -5,7 +5,6 @@ import {
   EventFilterType,
   FilterCount,
 } from '@/screens/eventsScreen/typesEventsScreen';
-import { FilterBadge } from './components/FilterBadge';
 import { styles } from './stylesEventFilter';
 
 interface FilterOption {
@@ -36,27 +35,30 @@ export const EventFilter: React.FC<EventFilterProps> = ({
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.filtersRow}>
-        {FILTER_OPTIONS.map(option => {
+        {FILTER_OPTIONS.map((option, index) => {
           const isActive = value === option.value;
           const count = filterCounts[option.value];
+          const isLast = index === FILTER_OPTIONS.length - 1;
 
           return (
-            <TouchableOpacity
-              key={option.value}
-              style={[
-                styles.filterButton,
-                isActive && styles.filterButtonActive,
-              ]}
-              onPress={() => onChange(option.value)}
-              testID={`${testID}-${option.value}`}
-            >
-              <Text variant="bodyBold">{option.label}</Text>
-              <FilterBadge
-                count={count}
-                isActive={isActive}
-                testID={`${testID}-${option.value}-badge`}
-              />
-            </TouchableOpacity>
+            <React.Fragment key={option.value}>
+              <TouchableOpacity
+                style={[
+                  styles.filterButton,
+                  isActive && styles.filterButtonActive,
+                ]}
+                onPress={() => onChange(option.value)}
+                testID={`${testID}-${option.value}`}
+              >
+                <Text variant={isActive ? 'bodyPrimary' : 'bodySecondary'}>
+                  {option.label}
+                </Text>
+                <Text variant="captionSecondary" style={styles.countText}>
+                  {count}
+                </Text>
+              </TouchableOpacity>
+              {!isLast && <View style={styles.divider} />}
+            </React.Fragment>
           );
         })}
       </View>

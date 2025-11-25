@@ -4,8 +4,7 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
-    paddingVertical: ArenaSpacing.md,
-    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.sm,
     borderBottomWidth: 1,
     borderBottomColor: ArenaColors.neutral.darkest,
   },
@@ -15,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   filterButton: {
     flex: 1,
-    paddingVertical: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
     paddingHorizontal: ArenaSpacing.xs,
     alignItems: 'center',
     justifyContent: 'center',
@@ -25,7 +24,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: ArenaColors.brand.primary,
   },
   countText: {
-    marginTop: ArenaSpacing.xs,
+    marginTop: 2,
   },
   divider: {
     width: ArenaBorders.width.thin,

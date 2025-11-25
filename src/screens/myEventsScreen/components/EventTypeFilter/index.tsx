@@ -38,7 +38,7 @@ export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({
                 onPress={() => handlePress(option.value)}
                 testID={`${testID}-${option.value}`}
               >
-                <Text variant={isActive ? 'labelPrimary' : 'labelSecondary'}>
+                <Text variant={isActive ? 'bodyPrimary' : 'bodySecondary'}>
                   {option.label}
                 </Text>
                 <Text variant="captionSecondary" style={styles.countText}>

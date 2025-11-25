@@ -3,26 +3,32 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: ArenaColors.neutral.darkest,
+    backgroundColor: ArenaColors.neutral.dark,
+    paddingVertical: ArenaSpacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: ArenaColors.neutral.darkest,
   },
   filtersRow: {
     flexDirection: 'row',
-    backgroundColor: ArenaColors.neutral.dark,
-    borderRadius: ArenaBorders.radius.lg,
-    padding: ArenaSpacing.xs,
-    gap: ArenaSpacing.xs,
+    alignItems: 'stretch',
   },
   filterButton: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingVertical: ArenaSpacing.xs,
     paddingHorizontal: ArenaSpacing.xs,
-    borderRadius: ArenaBorders.radius.md,
-    gap: ArenaSpacing.xs,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   filterButtonActive: {
-    backgroundColor: ArenaColors.brand.primary,
+    borderBottomWidth: 2,
+    borderBottomColor: ArenaColors.brand.primary,
+  },
+  countText: {
+    marginTop: 2,
+  },
+  divider: {
+    width: ArenaBorders.width.thin,
+    alignSelf: 'stretch',
+    backgroundColor: ArenaColors.neutral.darkSubtleBorder,
   },
 });

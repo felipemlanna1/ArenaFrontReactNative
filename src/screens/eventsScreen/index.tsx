@@ -147,13 +147,11 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
   const renderListView = useCallback(() => {
     return (
       <>
-        <View style={styles.filtersContainer}>
-          <EventFilter
-            value={eventFilter}
-            filterCounts={filterCounts}
-            onChange={setEventFilter}
-          />
-        </View>
+        <EventFilter
+          value={eventFilter}
+          filterCounts={filterCounts}
+          onChange={setEventFilter}
+        />
         {isLoading && groupedEvents.length === 0 ? (
           <View style={styles.loadingContainer}>
             <SkeletonCard />
