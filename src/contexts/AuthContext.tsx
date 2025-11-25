@@ -52,20 +52,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
 
-      const [isAuthenticated, storedUser] = await Promise.all([
-        authService.isAuthenticated(),
-        httpService.getUserData(),
-      ]);
+      const isAuthenticated = await authService.isAuthenticated();
 
-      if (isAuthenticated && storedUser) {
-        const userWithSports: UserData = {
-          ...storedUser,
-          hasSports: Boolean(
-            storedUser.hasSports ||
-              (storedUser.sports && storedUser.sports.length > 0)
-          ),
-        };
-        setUser(userWithSports);
+      if (isAuthenticated) {
+        const fullUserData = await httpService.get<UserData>('/auth/me');
+
+        if (fullUserData) {
+          const userData: UserData = {
+            ...fullUserData,
+            sports: fullUserData.sports as unknown as UserSportData[],
+            hasSports: Boolean(
+              fullUserData.hasSports ||
+                (fullUserData.sports && fullUserData.sports.length > 0)
+            ),
+            createdAt: fullUserData.createdAt || new Date().toISOString(),
+            updatedAt: fullUserData.updatedAt || new Date().toISOString(),
+          };
+          setUser(userData);
+          await httpService.saveUserData(userData);
+        }
       }
     } catch {
       await httpService.clearAuthData();
@@ -79,17 +84,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [loadStoredAuth]);
 
   const signIn = useCallback(async (credentials: LoginCredentials) => {
-    const response = await authService.login(credentials);
+    await authService.login(credentials);
+
+    const fullUserData = await httpService.get<UserData>('/auth/me');
 
     const userData: UserData = {
-      ...response.user,
-      sports: response.user.sports as unknown as UserSportData[],
-      hasSports: response.user.hasSports || false,
-      createdAt: response.user.createdAt || new Date().toISOString(),
-      updatedAt: response.user.updatedAt || new Date().toISOString(),
+      ...fullUserData,
+      sports: fullUserData.sports as unknown as UserSportData[],
+      hasSports: fullUserData.hasSports || false,
+      createdAt: fullUserData.createdAt || new Date().toISOString(),
+      updatedAt: fullUserData.updatedAt || new Date().toISOString(),
     };
 
     setUser(userData);
+    await httpService.saveUserData(userData);
   }, []);
 
   const signOut = useCallback(async () => {
@@ -106,16 +114,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(async (data: RegisterData) => {
-    const response = await authService.register(data);
+    await authService.register(data);
+
+    const fullUserData = await httpService.get<UserData>('/auth/me');
 
     const userData: UserData = {
-      ...response.user,
-      sports: response.user.sports as unknown as UserSportData[],
-      createdAt: response.user.createdAt || new Date().toISOString(),
-      updatedAt: response.user.updatedAt || new Date().toISOString(),
+      ...fullUserData,
+      sports: fullUserData.sports as unknown as UserSportData[],
+      hasSports: fullUserData.hasSports || false,
+      createdAt: fullUserData.createdAt || new Date().toISOString(),
+      updatedAt: fullUserData.updatedAt || new Date().toISOString(),
     };
 
     setUser(userData);
+    await httpService.saveUserData(userData);
   }, []);
 
   const updateUser = useCallback(async (updatedUser: UserData) => {
