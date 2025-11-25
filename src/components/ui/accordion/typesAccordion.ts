@@ -9,6 +9,7 @@ export interface AccordionItemData {
   content: ReactNode;
   disabled?: boolean;
   icon?: React.ComponentType<{ size: number; color: string }>;
+  headerAction?: ReactNode;
 }
 
 export interface AccordionProps {
