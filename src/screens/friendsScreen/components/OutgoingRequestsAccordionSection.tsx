@@ -12,6 +12,7 @@ interface OutgoingRequestsAccordionSectionProps {
   onNavigateToProfile: (userId: string) => void;
   onCancelRequest: (userId: string) => void;
   onLoadMore: () => void;
+  onSwitchToRecommendations: () => void;
 }
 
 export const OutgoingRequestsAccordionSection: React.FC<
@@ -25,6 +26,7 @@ export const OutgoingRequestsAccordionSection: React.FC<
   onNavigateToProfile,
   onCancelRequest,
   onLoadMore,
+  onSwitchToRecommendations,
 }) => {
   return (
     <AccordionSection
@@ -42,6 +44,7 @@ export const OutgoingRequestsAccordionSection: React.FC<
         loadingUserId={loadingUserId}
         onNavigateToProfile={onNavigateToProfile}
         onCancelRequest={onCancelRequest}
+        onSwitchToRecommendations={onSwitchToRecommendations}
       />
     </AccordionSection>
   );

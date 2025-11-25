@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Group } from '@/services/groups/typesGroups';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
@@ -26,6 +26,9 @@ export const useHomeGroups = (): UseHomeGroupsReturn => {
   const [hasMore, setHasMore] = useState(true);
 
   const isLoadingRef = useRef(false);
+  const isInitializedRef = useRef(false);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const { searchTerm, activeFilters } = useHomeFilters();
   const selectedSports = activeFilters.sportIds || [];
   const selectedCity = activeFilters.city;
@@ -39,6 +42,11 @@ export const useHomeGroups = (): UseHomeGroupsReturn => {
       setIsLoading(true);
       setError(null);
 
+      // Filtros aplicados à aba GRUPOS:
+      // - Busca (search)
+      // - Cidade + Estado
+      // - Esporte (APENAS 1 - limitação da API, passa o primeiro selecionado)
+      // Filtros IGNORADOS: preço, data, skill level, disponibilidade
       const response = await groupsApi.getGroups({
         page: 1,
         limit: 10,
@@ -68,6 +76,7 @@ export const useHomeGroups = (): UseHomeGroupsReturn => {
       setIsLoadingMore(true);
       const nextPage = currentPage + 1;
 
+      // Aplicar os mesmos filtros da aba GRUPOS
       const response = await groupsApi.getGroups({
         page: nextPage,
         limit: 10,
@@ -97,6 +106,7 @@ export const useHomeGroups = (): UseHomeGroupsReturn => {
       setIsRefreshing(true);
       setError(null);
 
+      // Aplicar os mesmos filtros da aba GRUPOS
       const response = await groupsApi.getGroups({
         page: 1,
         limit: 10,
@@ -118,6 +128,33 @@ export const useHomeGroups = (): UseHomeGroupsReturn => {
       isLoadingRef.current = false;
     }
   }, [searchTerm, selectedSports, selectedCity, selectedState]);
+
+  // Recarregar quando filtros mudarem
+  useEffect(() => {
+    if (!isInitializedRef.current) {
+      isInitializedRef.current = true;
+      return;
+    }
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    // Debounce de 500ms para busca
+    if (searchTerm) {
+      searchTimeoutRef.current = setTimeout(() => {
+        loadGroups();
+      }, 500);
+    } else {
+      loadGroups();
+    }
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchTerm, selectedSports, selectedCity, selectedState, loadGroups]);
 
   return {
     groups,

@@ -1,7 +1,11 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { EventFilterType, FilterCount } from '../../typesEventsScreen';
+import {
+  EventFilterType,
+  FilterCount,
+} from '@/screens/eventsScreen/typesEventsScreen';
+import { FilterBadge } from './components/FilterBadge';
 import { styles } from './stylesEventFilter';
 
 interface FilterOption {
@@ -11,9 +15,9 @@ interface FilterOption {
 
 const FILTER_OPTIONS: FilterOption[] = [
   { value: 'upcoming', label: 'Próximos' },
-  { value: 'organizing', label: 'Organizando' },
-  { value: 'participating', label: 'Participando' },
-  { value: 'invited', label: 'Convidado' },
+  { value: 'organizing', label: 'Meus' },
+  { value: 'participating', label: 'Vou' },
+  { value: 'invited', label: 'Convites' },
 ];
 
 export interface EventFilterProps {
@@ -32,30 +36,27 @@ export const EventFilter: React.FC<EventFilterProps> = ({
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.filtersRow}>
-        {FILTER_OPTIONS.map((option, index) => {
+        {FILTER_OPTIONS.map(option => {
           const isActive = value === option.value;
           const count = filterCounts[option.value];
-          const isLast = index === FILTER_OPTIONS.length - 1;
 
           return (
-            <React.Fragment key={option.value}>
-              <TouchableOpacity
-                style={[
-                  styles.filterButton,
-                  isActive && styles.filterButtonActive,
-                ]}
-                onPress={() => onChange(option.value)}
-                testID={`${testID}-${option.value}`}
-              >
-                <Text variant={isActive ? 'labelPrimary' : 'labelSecondary'}>
-                  {option.label}
-                </Text>
-                <Text variant="captionSecondary" style={styles.countText}>
-                  {count}
-                </Text>
-              </TouchableOpacity>
-              {!isLast && <View style={styles.divider} />}
-            </React.Fragment>
+            <TouchableOpacity
+              key={option.value}
+              style={[
+                styles.filterButton,
+                isActive && styles.filterButtonActive,
+              ]}
+              onPress={() => onChange(option.value)}
+              testID={`${testID}-${option.value}`}
+            >
+              <Text variant="bodyBold">{option.label}</Text>
+              <FilterBadge
+                count={count}
+                isActive={isActive}
+                testID={`${testID}-${option.value}-badge`}
+              />
+            </TouchableOpacity>
           );
         })}
       </View>

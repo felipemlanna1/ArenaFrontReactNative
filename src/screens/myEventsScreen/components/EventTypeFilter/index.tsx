@@ -7,9 +7,9 @@ import { styles } from './stylesEventTypeFilter';
 
 const FILTER_OPTIONS: FilterOption[] = [
   { value: 'all', label: 'Todos' },
-  { value: 'organizing', label: 'Organizando' },
-  { value: 'participating', label: 'Participando' },
-  { value: 'invited', label: 'Convidado' },
+  { value: 'organizing', label: 'Meus' },
+  { value: 'participating', label: 'Vou' },
+  { value: 'invited', label: 'Convites' },
 ];
 
 export const EventTypeFilter: React.FC<EventTypeFilterProps> = ({

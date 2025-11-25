@@ -60,6 +60,10 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     navigation.navigate('CreateGroup');
   }, [navigation]);
 
+  const handleSwitchToRecommendations = useCallback(() => {
+    setActiveTab('recommendations');
+  }, []);
+
   const handleCityChange = useCallback(
     (city: string) => {
       updateFilter('city', city);
@@ -119,8 +123,12 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
             group={item}
             onDetailsPress={handleGroupPress}
             onManagePress={handleGroupPress}
-            onJoinGroup={activeTab === 'myGroups' ? async () => {} : handleJoinGroup}
-            onLeaveGroup={activeTab === 'myGroups' ? handleLeaveGroup : async () => {}}
+            onJoinGroup={
+              activeTab === 'myGroups' ? async () => {} : handleJoinGroup
+            }
+            onLeaveGroup={
+              activeTab === 'myGroups' ? handleLeaveGroup : async () => {}
+            }
             isActionLoading={loadingGroupId === item.id}
             currentActionGroupId={loadingGroupId}
             testID={`group-card-${item.id}`}
@@ -136,6 +144,8 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
       loadingGroupId,
     ]
   );
+
+  const hasActiveFilters = activeFiltersCount > 0 || searchTerm.length > 0;
 
   const renderFooter = useCallback(() => {
     const { isLoadingMore } = getTabData();
@@ -162,6 +172,9 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
             onNavigateToGroup={handleGroupPress}
             onManageGroup={handleGroupPress}
             onLeaveGroup={handleLeaveGroup}
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={clearFilters}
+            onSwitchToRecommendations={handleSwitchToRecommendations}
           />
         );
       case 'recommendations':
@@ -173,6 +186,9 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
             onNavigateToGroup={handleGroupPress}
             onManageGroup={handleGroupPress}
             onJoinGroup={handleJoinGroup}
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={clearFilters}
+            onCreateGroup={handleCreateGroup}
           />
         );
     }
@@ -182,10 +198,13 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     handleGroupPress,
     handleJoinGroup,
     handleLeaveGroup,
+    hasActiveFilters,
+    clearFilters,
+    handleSwitchToRecommendations,
+    handleCreateGroup,
   ]);
 
   const selectedSportId = activeFilters.sportIds?.[0];
-  const hasActiveFilters = activeFiltersCount > 0 || searchTerm.length > 0;
   const { data, isLoading, hasMore, onLoadMore } = getTabData();
 
   return (

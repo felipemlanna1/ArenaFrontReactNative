@@ -11,6 +11,7 @@ import { styles } from './stylesProfileStatsSection';
 export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
   stats,
   isLoading,
+  customLabels,
 }) => {
   if (isLoading) {
     return (
@@ -43,22 +44,22 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
   const statCards: StatCardData[] = [
     {
       id: 'events',
-      label: 'Eventos',
+      label: customLabels?.events ?? 'Eventos',
       value: (stats.totalEvents ?? 0).toString(),
     },
     {
       id: 'created',
-      label: 'Criados',
+      label: customLabels?.created ?? 'Criados',
       value: (stats.createdEvents ?? 0).toString(),
     },
     {
       id: 'groups',
-      label: 'Grupos',
+      label: customLabels?.groups ?? 'Grupos',
       value: (stats.totalGroups ?? 0).toString(),
     },
     {
       id: 'friends',
-      label: 'Amigos',
+      label: customLabels?.friends ?? 'Amigos',
       value: (stats.totalFriends ?? 0).toString(),
     },
   ];

@@ -50,10 +50,6 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
     }
   }, [handleSubmit, refetchGroups, navigation]);
 
-  const handleGoBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-
   const handlePickGroupCover = useCallback(async () => {
     try {
       const selectedImage = await coverUpload.pickImage();
@@ -81,7 +77,7 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
   }, [coverUpload, updateField, showSuccess, showError]);
 
   return (
-    <AppLayout onBack={handleGoBack}>
+    <AppLayout>
       <ArenaKeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}
         style={styles.container}

@@ -4,6 +4,7 @@ import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { AppLayout } from '@/components/AppLayout';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
+import { useFriendsShare } from './hooks/useFriendsShare';
 import { styles } from './stylesFriendsScreen';
 import { FriendsBackground } from './components/FriendsBackground';
 import { FriendsFilterBar } from './components/FriendsFilterBar';
@@ -22,6 +23,19 @@ import { AnimatedListItem } from '@/components/ui/animatedListItem';
 export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<FriendTab>('friends');
   const hookData = useFriendsScreen(navigation);
+  const { shareInvite } = useFriendsShare();
+
+  const handleSwitchToRecommendations = useCallback(() => {
+    setActiveTab('recommendations');
+  }, []);
+
+  const handleEditProfile = useCallback(() => {
+    navigation.navigate('EditProfile');
+  }, [navigation]);
+
+  const handleInviteFriends = useCallback(() => {
+    shareInvite();
+  }, [shareInvite]);
 
   const {
     friends,
@@ -39,7 +53,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleSendRequest,
     handleNavigateToProfile,
     loadingUserId,
-    handleLogout,
     searchQuery,
     setSearchQuery,
     selectedCity,
@@ -178,9 +191,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
       }
 
       return (
-        <AnimatedListItem index={index ?? 0}>
-          {cardContent}
-        </AnimatedListItem>
+        <AnimatedListItem index={index ?? 0}>{cardContent}</AnimatedListItem>
       );
     },
     [
@@ -219,6 +230,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
             loadingUserId={null}
             onNavigateToProfile={handleNavigateToProfile}
             onRemoveFriend={handleRemoveFriend}
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={handleClearFilters}
+            onSwitchToRecommendations={handleSwitchToRecommendations}
+            onInviteFriends={handleInviteFriends}
           />
         );
       case 'incoming':
@@ -239,6 +254,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
             loadingUserId={null}
             onNavigateToProfile={handleNavigateToProfile}
             onCancelRequest={handleCancelRequest}
+            onSwitchToRecommendations={handleSwitchToRecommendations}
           />
         );
       case 'recommendations':
@@ -249,6 +265,9 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
             loadingUserId={null}
             onNavigateToProfile={handleNavigateToProfile}
             onSendRequest={handleSendRequest}
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={handleClearFilters}
+            onEditProfile={handleEditProfile}
           />
         );
     }
@@ -261,25 +280,32 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleRejectRequest,
     handleCancelRequest,
     handleSendRequest,
+    hasActiveFilters,
+    handleClearFilters,
+    handleSwitchToRecommendations,
+    handleEditProfile,
+    handleInviteFriends,
   ]);
 
   const { data, isLoading, hasMore, onLoadMore } = getTabData();
 
   return (
-    <AppLayout onLogout={handleLogout}>
+    <AppLayout>
       <FriendsBackground>
-        <FriendsFilterBar
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          selectedCity={selectedCity}
-          onCityChange={setSelectedCity}
-          selectedState={selectedState}
-          onStateChange={setSelectedState}
-          selectedSportId={selectedSportId}
-          onSportChange={setSelectedSportId}
-          onClearFilters={handleClearFilters}
-          hasActiveFilters={hasActiveFilters}
-        />
+        {(activeTab === 'friends' || activeTab === 'recommendations') && (
+          <FriendsFilterBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            selectedCity={selectedCity}
+            onCityChange={setSelectedCity}
+            selectedState={selectedState}
+            onStateChange={setSelectedState}
+            selectedSportId={selectedSportId}
+            onSportChange={setSelectedSportId}
+            onClearFilters={handleClearFilters}
+            hasActiveFilters={hasActiveFilters}
+          />
+        )}
 
         <FriendsTabBar
           activeTab={activeTab}

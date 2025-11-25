@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,28 +8,21 @@ export const styles = StyleSheet.create({
   filtersRow: {
     flexDirection: 'row',
     backgroundColor: ArenaColors.neutral.dark,
-    borderRadius: 8,
+    borderRadius: ArenaBorders.radius.lg,
     padding: ArenaSpacing.xs,
+    gap: ArenaSpacing.xs,
   },
   filterButton: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: ArenaSpacing.sm,
+    paddingVertical: ArenaSpacing.xs,
     paddingHorizontal: ArenaSpacing.xs,
-    borderRadius: 6,
+    borderRadius: ArenaBorders.radius.md,
     gap: ArenaSpacing.xs,
   },
   filterButtonActive: {
     backgroundColor: ArenaColors.brand.primary,
-  },
-  countText: {
-    textAlign: 'center',
-  },
-  divider: {
-    width: 1,
-    backgroundColor: ArenaColors.neutral.medium,
-    opacity: 0.2,
   },
 });

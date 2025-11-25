@@ -1,26 +1,32 @@
-import React, { useCallback } from 'react';
-import { View, FlatList, ListRenderItem, Pressable } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+
+import {
+  View,
+  FlatList,
+  ListRenderItem,
+  TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { Button } from '@/components/ui/button';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
+import { EmptyState } from '@/components/ui/emptyState';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
+import { TabParamList } from '@/navigation/typesNavigation';
 import { EventCard } from '@/screens/homeScreen/components/EventCard';
 import { EventFilter } from './components/EventFilter';
 import { CalendarView } from './components/CalendarView';
+import { CollapsibleCalendarHeader } from './components/CollapsibleCalendarHeader';
 import { EventSectionHeader } from '@/screens/myEventsScreen/components/EventSectionHeader';
 import { TimeCategory } from '@/screens/myEventsScreen/typesMyEventsScreen';
 import { useEventsScreen } from './useEventsScreen';
 import { EventsScreenProps, GroupedEventItem } from './typesEventsScreen';
 import { styles } from './stylesEventsScreen';
-
-const FILTER_LABELS: Record<string, string> = {
-  upcoming: 'Próximos eventos',
-  organizing: 'Eventos que você organiza',
-  participating: 'Eventos que você participa',
-  invited: 'Convites pendentes',
-};
 
 export const EventsScreen: React.FC<EventsScreenProps> = ({
   testID = 'events-screen',
@@ -39,13 +45,28 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     setSelectedDate,
     markedDates,
     eventsForSelectedDate,
+    isCalendarExpanded,
+    toggleCalendarExpanded,
     loadMoreEvents,
-    refreshEvents,
     handleDetailsPress,
     handleManagePress,
     handleShare,
     eventActions,
   } = useEventsScreen();
+
+  useEffect(() => {
+    if (
+      Platform.OS === 'android' &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
+
+  const handleToggleCalendar = useCallback(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    toggleCalendarExpanded();
+  }, [toggleCalendarExpanded]);
 
   const renderItem: ListRenderItem<GroupedEventItem> = useCallback(
     ({ item }) => {
@@ -85,21 +106,26 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     [handleDetailsPress, handleManagePress, handleShare, eventActions]
   );
 
+  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+
+  const handleDiscoverEvents = useCallback(() => {
+    navigation.navigate('HomeTab');
+  }, [navigation]);
+
   const renderEmpty = useCallback(() => {
     if (isLoading) return null;
 
     return (
-      <View style={styles.emptyContainer}>
-        <Ionicons
-          name="calendar-outline"
-          size={64}
-          color={ArenaColors.neutral.medium}
-        />
-        <Text variant="headingPrimary">Nenhum evento encontrado</Text>
-        <Text variant="bodySecondary">{FILTER_LABELS[eventFilter]}</Text>
-      </View>
+      <EmptyState
+        icon="trophy-outline"
+        title="Vamos começar algo incrível!"
+        message="Nenhum evento por aqui ainda. Explore eventos da sua região ou crie o primeiro!"
+        actionLabel="Descobrir Eventos"
+        onActionPress={handleDiscoverEvents}
+        testID="events-empty-state"
+      />
     );
-  }, [isLoading, eventFilter]);
+  }, [isLoading, handleDiscoverEvents]);
 
   const renderFooter = useCallback(() => {
     if (!isLoadingMore) return null;
@@ -118,54 +144,6 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     return `event-${item.event?.id || index}`;
   }, []);
 
-  const renderHeader = useCallback(() => {
-    return (
-      <View style={styles.header}>
-        <Text variant="headingPrimary" style={styles.headerTitle}>
-          Eventos
-        </Text>
-        <View style={styles.viewToggle}>
-          <Pressable
-            style={[
-              styles.toggleButton,
-              viewMode === 'list' && styles.toggleButtonActive,
-            ]}
-            onPress={() => setViewMode('list')}
-            testID={`${testID}-toggle-list`}
-          >
-            <Ionicons
-              name="list"
-              size={24}
-              color={
-                viewMode === 'list'
-                  ? ArenaColors.neutral.light
-                  : ArenaColors.neutral.medium
-              }
-            />
-          </Pressable>
-          <Pressable
-            style={[
-              styles.toggleButton,
-              viewMode === 'calendar' && styles.toggleButtonActive,
-            ]}
-            onPress={() => setViewMode('calendar')}
-            testID={`${testID}-toggle-calendar`}
-          >
-            <Ionicons
-              name="calendar"
-              size={24}
-              color={
-                viewMode === 'calendar'
-                  ? ArenaColors.neutral.light
-                  : ArenaColors.neutral.medium
-              }
-            />
-          </Pressable>
-        </View>
-      </View>
-    );
-  }, [viewMode, setViewMode, testID]);
-
   const renderListView = useCallback(() => {
     return (
       <>
@@ -177,7 +155,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
           />
         </View>
         {isLoading && groupedEvents.length === 0 ? (
-          <View style={styles.emptyContainer}>
+          <View style={styles.loadingContainer}>
             <SkeletonCard />
             <SkeletonCard />
             <SkeletonCard />
@@ -214,24 +192,21 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
   const renderCalendarView = useCallback(() => {
     return (
       <View style={styles.calendarContainer}>
-        <CalendarView
-          markedDates={markedDates}
+        <CollapsibleCalendarHeader
           selectedDate={selectedDate}
-          onDateSelect={setSelectedDate}
+          eventsCount={eventsForSelectedDate.length}
+          isExpanded={isCalendarExpanded}
+          onToggle={handleToggleCalendar}
+          testID={`${testID}-calendar-header`}
         />
 
-        <View style={styles.selectedDateHeader}>
-          <Text variant="titlePrimary">
-            {selectedDate.toLocaleDateString('pt-BR', {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-            })}
-          </Text>
-          <Text variant="bodySecondary">
-            {eventsForSelectedDate.length} evento(s)
-          </Text>
-        </View>
+        {isCalendarExpanded && (
+          <CalendarView
+            markedDates={markedDates}
+            selectedDate={selectedDate}
+            onDateSelect={setSelectedDate}
+          />
+        )}
 
         <FlatList
           data={eventsForSelectedDate}
@@ -241,7 +216,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
                 event={item}
                 onDetailsPress={handleDetailsPress}
                 onManagePress={handleManagePress}
-                onShare={(eventId) => handleShare(item)}
+                onShare={() => handleShare(item)}
                 onJoinEvent={eventActions.handleJoinEvent}
                 onRequestJoin={eventActions.handleRequestJoin}
                 onCancelParticipation={eventActions.handleCancelParticipation}
@@ -262,9 +237,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
                 size={64}
                 color={ArenaColors.neutral.medium}
               />
-              <Text variant="bodySecondary">
-                Nenhum evento nesta data
-              </Text>
+              <Text variant="bodySecondary">Nenhum evento nesta data</Text>
             </View>
           )}
           showsVerticalScrollIndicator={false}
@@ -272,37 +245,69 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
       </View>
     );
   }, [
-    markedDates,
     selectedDate,
-    setSelectedDate,
     eventsForSelectedDate,
+    isCalendarExpanded,
+    handleToggleCalendar,
+    markedDates,
+    setSelectedDate,
     handleDetailsPress,
     handleManagePress,
     handleShare,
     eventActions,
+    testID,
   ]);
 
   return (
-    <AppLayout testID={testID}>
-      <View style={{ flex: 1 }}>
-        {renderHeader()}
-        {viewMode === 'list' ? renderListView() : renderCalendarView()}
-
-        <View style={styles.fabContainer}>
-          <Button
-            variant="primary"
-            size="lg"
-            iconOnly
-            onPress={() => {}}
-            testID={`${testID}-create-fab`}
+    <AppLayout
+      testID={testID}
+      headerVariant="main"
+      headerShowLogo={true}
+      headerRightComponent={
+        <View style={styles.viewToggle}>
+          <TouchableOpacity
+            style={[
+              styles.toggleButton,
+              viewMode === 'list' && styles.toggleButtonActive,
+            ]}
+            onPress={() => setViewMode('list')}
+            testID={`${testID}-toggle-list`}
+            activeOpacity={0.7}
           >
             <Ionicons
-              name="add"
-              size={28}
-              color={ArenaColors.neutral.light}
+              name="list"
+              size={24}
+              color={
+                viewMode === 'list'
+                  ? ArenaColors.neutral.light
+                  : ArenaColors.neutral.medium
+              }
             />
-          </Button>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.toggleButton,
+              viewMode === 'calendar' && styles.toggleButtonActive,
+            ]}
+            onPress={() => setViewMode('calendar')}
+            testID={`${testID}-toggle-calendar`}
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name="calendar"
+              size={24}
+              color={
+                viewMode === 'calendar'
+                  ? ArenaColors.neutral.light
+                  : ArenaColors.neutral.medium
+              }
+            />
+          </TouchableOpacity>
         </View>
+      }
+    >
+      <View style={styles.container}>
+        {viewMode === 'list' ? renderListView() : renderCalendarView()}
       </View>
     </AppLayout>
   );

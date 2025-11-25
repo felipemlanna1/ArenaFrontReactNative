@@ -29,7 +29,10 @@ interface FriendsSectionProps {
   loadingUserId: string | null;
   onNavigateToProfile: (userId: string) => void;
   onRemoveFriend: (userId: string) => void;
-  onSearchPress?: () => void;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onSwitchToRecommendations: () => void;
+  onInviteFriends: () => void;
 }
 
 export const FriendsSection: React.FC<FriendsSectionProps> = ({
@@ -38,20 +41,39 @@ export const FriendsSection: React.FC<FriendsSectionProps> = ({
   loadingUserId,
   onNavigateToProfile,
   onRemoveFriend,
-  onSearchPress,
+  hasActiveFilters,
+  onClearFilters,
+  onSwitchToRecommendations,
+  onInviteFriends,
 }) => {
   if (isLoading) {
     return <LoadingState />;
   }
 
   if (friends.length === 0) {
+    if (hasActiveFilters) {
+      return (
+        <EmptyState
+          icon="filter-outline"
+          title="Nenhum amigo encontrado"
+          message="Tente ajustar seus filtros ou limpe-os para ver todos os seus amigos."
+          actionLabel="Limpar Filtros"
+          onActionPress={onClearFilters}
+          testID="friends-filtered-empty-state"
+        />
+      );
+    }
+
     return (
       <EmptyState
-        icon="people-outline"
-        title="Nenhum amigo ainda"
-        message="Conecte-se com outros atletas para treinar juntos e compartilhar experiências!"
-        actionLabel={onSearchPress ? 'Buscar Atletas' : undefined}
-        onActionPress={onSearchPress}
+        icon="people-circle-outline"
+        title="Treine com amigos!"
+        message="Conecte-se com atletas da sua região e compartilhem treinos, dicas e conquistas. A jornada é melhor acompanhado!"
+        actionLabel="Descobrir Atletas"
+        onActionPress={onSwitchToRecommendations}
+        secondaryActionLabel="Convide seus amigos"
+        onSecondaryActionPress={onInviteFriends}
+        testID="friends-empty-state"
       />
     );
   }
@@ -126,6 +148,7 @@ interface OutgoingRequestsSectionProps {
   loadingUserId: string | null;
   onNavigateToProfile: (userId: string) => void;
   onCancelRequest: (userId: string) => void;
+  onSwitchToRecommendations: () => void;
 }
 
 export const OutgoingRequestsSection: React.FC<
@@ -136,14 +159,18 @@ export const OutgoingRequestsSection: React.FC<
   loadingUserId,
   onNavigateToProfile,
   onCancelRequest,
+  onSwitchToRecommendations,
 }) => {
   if (isLoading) return <LoadingState />;
   if (requests.length === 0) {
     return (
       <EmptyState
-        icon="time-outline"
+        icon="paper-plane-outline"
         title="Nenhuma solicitação enviada"
-        message="Você não tem solicitações de amizade pendentes"
+        message="Que tal começar a expandir sua rede? Descubra atletas com interesses em comum!"
+        actionLabel="Ver Recomendações"
+        onActionPress={onSwitchToRecommendations}
+        testID="outgoing-empty-state"
       />
     );
   }
@@ -170,6 +197,9 @@ interface RecommendationsSectionProps {
   loadingUserId: string | null;
   onNavigateToProfile: (userId: string) => void;
   onSendRequest: (userId: string) => void;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onEditProfile: () => void;
 }
 
 export const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
@@ -178,16 +208,35 @@ export const RecommendationsSection: React.FC<RecommendationsSectionProps> = ({
   loadingUserId,
   onNavigateToProfile,
   onSendRequest,
+  hasActiveFilters,
+  onClearFilters,
+  onEditProfile,
 }) => {
   if (isLoading) {
     return <LoadingState />;
   }
   if (recommendations.length === 0) {
+    if (hasActiveFilters) {
+      return (
+        <EmptyState
+          icon="search-outline"
+          title="Nenhum resultado"
+          message="Não encontramos atletas com esses critérios. Tente ajustar seus filtros ou explore outras cidades."
+          actionLabel="Limpar Filtros"
+          onActionPress={onClearFilters}
+          testID="recommendations-filtered-empty-state"
+        />
+      );
+    }
+
     return (
       <EmptyState
-        icon="sparkles-outline"
-        title="Nenhuma sugestão"
-        message="Não encontramos atletas para recomendar no momento. Tente ajustar seus filtros!"
+        icon="compass-outline"
+        title="Complete seu perfil"
+        message="Para receber recomendações personalizadas, adicione seus esportes favoritos, localização e fotos ao seu perfil!"
+        actionLabel="Editar Perfil"
+        onActionPress={onEditProfile}
+        testID="recommendations-empty-state"
       />
     );
   }

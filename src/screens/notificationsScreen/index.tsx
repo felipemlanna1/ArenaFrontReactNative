@@ -13,7 +13,6 @@ import { Notification } from '@/services/notifications/typesNotifications';
 import { styles } from './stylesNotificationsScreen';
 
 export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
-  navigation,
   testID = 'notifications-screen',
 }) => {
   const {
@@ -25,10 +24,6 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
     handleNotificationPress,
     handleMarkAllAsRead,
   } = useNotificationsScreen();
-
-  const handleBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
 
   const renderItem: ListRenderItem<Notification> = useCallback(
     ({ item }) => (
@@ -91,7 +86,7 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
 
   if (isLoading) {
     return (
-      <AppLayout onBack={handleBack}>
+      <AppLayout>
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
@@ -100,7 +95,7 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   }
 
   return (
-    <AppLayout testID={testID} onBack={handleBack}>
+    <AppLayout testID={testID}>
       <View style={styles.container}>
         <FlatList
           data={notifications}

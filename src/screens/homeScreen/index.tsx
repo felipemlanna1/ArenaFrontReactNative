@@ -4,8 +4,8 @@ import { FlashList } from '@shopify/flash-list';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { Fab } from '@/components/ui/fab';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
+import { SkeletonUserCard } from '@/components/ui/skeletonUserCard';
 import { AppLayout } from '@/components/AppLayout';
 import { FilterBar } from './components/FilterBar';
 import { HomeTabBar, HomeTab } from './components/HomeTabBar';
@@ -55,7 +55,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     error,
     hasMore,
     searchTerm,
-    handleLogout,
     setSearchTerm,
     handleSortPress,
     handleFilterPress,
@@ -111,27 +110,33 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     [navigation]
   );
 
-  const handleJoinGroup = useCallback(async (groupId: string) => {
-    try {
-      await groupsData.refreshGroups();
-      haptic.success();
-      showToast('Solicitação enviada', 'success');
-    } catch {
-      haptic.error();
-      showToast('Erro ao solicitar entrada no grupo', 'error');
-    }
-  }, [groupsData, showToast]);
+  const handleJoinGroup = useCallback(
+    async (groupId: string) => {
+      try {
+        await groupsData.refreshGroups();
+        haptic.success();
+        showToast('Solicitação enviada', 'success');
+      } catch {
+        haptic.error();
+        showToast('Erro ao solicitar entrada no grupo', 'error');
+      }
+    },
+    [groupsData, showToast]
+  );
 
-  const handleLeaveGroup = useCallback(async (groupId: string) => {
-    try {
-      await groupsData.refreshGroups();
-      haptic.success();
-      showToast('Você saiu do grupo', 'success');
-    } catch {
-      haptic.error();
-      showToast('Erro ao sair do grupo', 'error');
-    }
-  }, [groupsData, showToast]);
+  const handleLeaveGroup = useCallback(
+    async (groupId: string) => {
+      try {
+        await groupsData.refreshGroups();
+        haptic.success();
+        showToast('Você saiu do grupo', 'success');
+      } catch {
+        haptic.error();
+        showToast('Erro ao sair do grupo', 'error');
+      }
+    },
+    [groupsData, showToast]
+  );
 
   const handleUserPress = useCallback(
     (userId: string) => {
@@ -155,6 +160,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     haptic.light();
     setActiveTab(tab);
   }, []);
+
+  // Placeholder dinâmico baseado na aba ativa
+  const getSearchPlaceholder = useCallback((): string => {
+    switch (activeTab) {
+      case 'events':
+        return 'Buscar eventos...';
+      case 'groups':
+        return 'Buscar grupos...';
+      case 'friends':
+        return 'Buscar pessoas...';
+      default:
+        return 'Buscar...';
+    }
+  }, [activeTab]);
 
   const getTabData = useCallback(() => {
     switch (activeTab) {
@@ -183,10 +202,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           data: friendsData.friends,
           isLoading: friendsData.isLoading,
           isRefreshing: friendsData.isRefreshing,
-          isLoadingMore: false,
-          hasMore: false,
+          isLoadingMore: friendsData.isLoadingMore,
+          hasMore: friendsData.hasMore,
           refresh: friendsData.refreshFriends,
-          loadMore: async () => {},
+          loadMore: friendsData.loadMoreFriends,
         };
       default:
         return {
@@ -278,19 +297,33 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       }
 
       if (activeTab === 'friends') {
-        const friend = item as { id: string; firstName: string; lastName: string; username: string; profilePicture?: string; city?: string; state?: string; favoriteSports?: { id: string; name: string }[] };
+        const friend = item as {
+          id: string;
+          firstName: string;
+          lastName: string;
+          username: string;
+          profilePicture?: string;
+          city?: string;
+          state?: string;
+          favoriteSports?: { id: string; name: string }[];
+        };
         return (
           <UserCard
-            user={{
-              id: friend.id,
-              firstName: friend.firstName,
-              lastName: friend.lastName,
-              username: friend.username,
-              profilePicture: friend.profilePicture,
-              city: friend.city,
-              state: friend.state,
-              sports: friend.favoriteSports?.map(s => ({ id: s.id, name: s.name })),
-            } as never}
+            user={
+              {
+                id: friend.id,
+                firstName: friend.firstName,
+                lastName: friend.lastName,
+                username: friend.username,
+                profilePicture: friend.profilePicture,
+                city: friend.city,
+                state: friend.state,
+                sports: friend.favoriteSports?.map(s => ({
+                  id: s.id,
+                  name: s.name,
+                })),
+              } as never
+            }
             variant="recommendation"
             onPress={() => handleUserPress(friend.id)}
             onAddFriend={handleAddFriend}
@@ -322,10 +355,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
       <View style={styles.footer}>
-        <SkeletonCard />
+        {activeTab === 'friends' ? <SkeletonUserCard /> : <SkeletonCard />}
       </View>
     );
-  }, [getTabData]);
+  }, [getTabData, activeTab]);
 
   const tabData = getTabData();
   const shouldShowLoading = tabData.isLoading && tabData.data.length === 0;
@@ -336,24 +369,36 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       case 'events':
         return {
           icon: 'trophy-outline' as const,
-          title: searchTerm ? 'Nenhum evento encontrado' : ArenaCopy.emptyStates.noEvents.title,
-          description: searchTerm ? 'Tente buscar por outro termo ou ajuste os filtros' : ArenaCopy.emptyStates.noEvents.description,
+          title: searchTerm
+            ? 'Nenhum evento encontrado'
+            : ArenaCopy.emptyStates.noEvents.title,
+          description: searchTerm
+            ? 'Tente buscar por outro termo ou ajuste os filtros'
+            : ArenaCopy.emptyStates.noEvents.description,
           primaryAction: ArenaCopy.emptyStates.noEvents.primaryAction,
           onPrimaryAction: handleCreateEventPress,
         };
       case 'groups':
         return {
           icon: 'people-circle-outline' as const,
-          title: searchTerm ? 'Nenhum grupo encontrado' : 'Nenhum grupo por aqui',
-          description: searchTerm ? 'Tente buscar por outro termo ou ajuste os filtros' : 'Crie um grupo ou explore grupos da sua região',
+          title: searchTerm
+            ? 'Nenhum grupo encontrado'
+            : 'Nenhum grupo por aqui',
+          description: searchTerm
+            ? 'Tente buscar por outro termo ou ajuste os filtros'
+            : 'Crie um grupo ou explore grupos da sua região',
           primaryAction: 'Criar Grupo',
           onPrimaryAction: handleCreateGroupPress,
         };
       case 'friends':
         return {
           icon: 'people-outline' as const,
-          title: searchTerm ? 'Nenhuma pessoa encontrada' : 'Nenhuma recomendação',
-          description: searchTerm ? 'Tente buscar por outro termo ou ajuste os filtros' : 'Ajuste os filtros para encontrar pessoas',
+          title: searchTerm
+            ? 'Nenhuma pessoa encontrada'
+            : 'Nenhuma recomendação',
+          description: searchTerm
+            ? 'Tente buscar por outro termo ou ajuste os filtros'
+            : 'Ajuste os filtros para encontrar pessoas',
           primaryAction: null,
           onPrimaryAction: null,
         };
@@ -363,7 +408,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const emptyState = getEmptyStateConfig();
 
   return (
-    <AppLayout onLogout={handleLogout}>
+    <AppLayout>
       <View style={styles.content}>
         <HomeTabBar
           activeTab={activeTab}
@@ -378,13 +423,24 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onSearchChange={setSearchTerm}
           onSortPress={handleSortPress}
           onFilterPress={handleFilterPress}
+          placeholder={getSearchPlaceholder()}
         />
 
         {shouldShowLoading ? (
           <View style={styles.loadingContainer}>
-            <SkeletonCard />
-            <SkeletonCard />
-            <SkeletonCard />
+            {activeTab === 'friends' ? (
+              <>
+                <SkeletonUserCard />
+                <SkeletonUserCard />
+                <SkeletonUserCard />
+              </>
+            ) : (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            )}
           </View>
         ) : shouldShowEmptyState ? (
           <View style={styles.emptyContainer}>
@@ -401,32 +457,34 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               {emptyState.description}
             </Text>
 
-            {!searchTerm && emptyState.primaryAction && emptyState.onPrimaryAction && (
-              <>
-                <View style={styles.emptyActionsContainer}>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onPress={emptyState.onPrimaryAction}
-                    fullWidth
-                    testID={`empty-create-${activeTab}-button`}
-                  >
-                    {emptyState.primaryAction}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="md"
-                    onPress={handleFilterPress}
-                    fullWidth
-                    testID="empty-filter-button"
-                  >
-                    {activeTab === 'events'
-                      ? ArenaCopy.emptyStates.noEvents.secondaryAction
-                      : 'Ajustar Filtros'}
-                  </Button>
-                </View>
-              </>
-            )}
+            {!searchTerm &&
+              emptyState.primaryAction &&
+              emptyState.onPrimaryAction && (
+                <>
+                  <View style={styles.emptyActionsContainer}>
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onPress={emptyState.onPrimaryAction}
+                      fullWidth
+                      testID={`empty-create-${activeTab}-button`}
+                    >
+                      {emptyState.primaryAction}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="md"
+                      onPress={handleFilterPress}
+                      fullWidth
+                      testID="empty-filter-button"
+                    >
+                      {activeTab === 'events'
+                        ? ArenaCopy.emptyStates.noEvents.secondaryAction
+                        : 'Ajustar Filtros'}
+                    </Button>
+                  </View>
+                </>
+              )}
           </View>
         ) : (
           <View style={styles.listWrapper}>
@@ -469,16 +527,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onClose={() => setShowSortModal(false)}
           onApply={handleApplySort}
         />
-
-        {activeTab !== 'friends' && (
-          <Fab
-            onPress={activeTab === 'events' ? handleCreateEventPress : handleCreateGroupPress}
-            icon={
-              <Ionicons name="add" size={24} color={ArenaColors.neutral.light} />
-            }
-            testID={`create-${activeTab}-fab`}
-          />
-        )}
       </View>
     </AppLayout>
   );

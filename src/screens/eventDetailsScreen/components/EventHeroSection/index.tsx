@@ -148,7 +148,12 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
       </View>
 
       <View style={styles.titleContainer}>
-        <Text variant="titlePrimary" style={styles.title} numberOfLines={2}>
+        <Text
+          variant="titlePrimary"
+          style={styles.title}
+          numberOfLines={2}
+          testID="event-detail-title"
+        >
           {event.title}
         </Text>
       </View>

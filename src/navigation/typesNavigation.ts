@@ -17,6 +17,7 @@ export type RootStackParamList = {
         preSelectedSportId?: string;
       }
     | undefined;
+  CreateGroup: undefined;
   EventDetails: { eventId: string };
   GroupDetails: { groupId: string };
   Profile: { userId?: string } | undefined;
@@ -32,6 +33,7 @@ export type RootStackParamList = {
 export type TabParamList = {
   MyEventsTab: undefined;
   HomeTab: undefined;
+  CreateEventTab: undefined;
   ProfileTab: undefined;
   MenuTab: undefined;
 };

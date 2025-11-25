@@ -55,7 +55,11 @@ interface AnimatedTabProps {
   onPress: () => void;
 }
 
-const AnimatedTab: React.FC<AnimatedTabProps> = ({ tab, isActive, onPress }) => {
+const AnimatedTab: React.FC<AnimatedTabProps> = ({
+  tab,
+  isActive,
+  onPress,
+}) => {
   const scale = useSharedValue(1);
   const backgroundColor = useSharedValue(0);
 

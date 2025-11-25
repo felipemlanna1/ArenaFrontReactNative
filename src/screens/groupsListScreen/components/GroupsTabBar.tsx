@@ -53,7 +53,11 @@ interface AnimatedTabProps {
   onPress: () => void;
 }
 
-const AnimatedTab: React.FC<AnimatedTabProps> = ({ tab, isActive, onPress }) => {
+const AnimatedTab: React.FC<AnimatedTabProps> = ({
+  tab,
+  isActive,
+  onPress,
+}) => {
   const scale = useSharedValue(1);
   const backgroundColor = useSharedValue(0);
 
@@ -118,7 +122,11 @@ export const GroupsTabBar: React.FC<GroupsTabBarProps> = ({
 }) => {
   const tabs: TabItem[] = [
     { key: 'myGroups', label: 'Meus Grupos', count: myGroupsCount },
-    { key: 'recommendations', label: 'Recomendações', count: recommendationsCount },
+    {
+      key: 'recommendations',
+      label: 'Recomendações',
+      count: recommendationsCount,
+    },
   ];
 
   return (

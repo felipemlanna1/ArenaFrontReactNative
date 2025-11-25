@@ -11,6 +11,8 @@ interface EmptyStateProps {
   message: string;
   actionLabel?: string;
   onActionPress?: () => void;
+  secondaryActionLabel?: string;
+  onSecondaryActionPress?: () => void;
   testID?: string;
 }
 
@@ -20,6 +22,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   message,
   actionLabel,
   onActionPress,
+  secondaryActionLabel,
+  onSecondaryActionPress,
   testID,
 }) => {
   return (
@@ -45,6 +49,19 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             testID={`${testID}-action-button`}
           >
             {actionLabel}
+          </Button>
+        </View>
+      )}
+
+      {secondaryActionLabel && onSecondaryActionPress && (
+        <View style={styles.secondaryActionContainer}>
+          <Button
+            variant="secondary"
+            size="md"
+            onPress={onSecondaryActionPress}
+            testID={`${testID}-secondary-action-button`}
+          >
+            {secondaryActionLabel}
           </Button>
         </View>
       )}
@@ -74,5 +91,10 @@ const styles = StyleSheet.create({
   actionContainer: {
     width: '100%',
     maxWidth: 280,
+  },
+  secondaryActionContainer: {
+    width: '100%',
+    maxWidth: 280,
+    marginTop: ArenaSpacing.md,
   },
 });

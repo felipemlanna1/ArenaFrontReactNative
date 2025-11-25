@@ -4,8 +4,9 @@ export interface ProfileHeroSectionProps {
   avatarUrl: string | null;
   initials: string;
   showBackButton: boolean;
-  onBackPress: () => void;
+  onBackPress?: () => void;
   coverImageUrl?: string | null;
   primarySport?: SportBadgeData | null;
   isUserActive?: boolean;
+  hideAvatar?: boolean;
 }

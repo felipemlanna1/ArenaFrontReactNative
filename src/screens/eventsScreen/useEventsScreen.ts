@@ -26,6 +26,7 @@ export const useEventsScreen = ({
   const [eventFilter, setEventFilter] = useState<EventFilterType>(initialFilter);
   const [viewMode, setViewMode] = useState<EventViewMode>(initialViewMode);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [isCalendarExpanded, setIsCalendarExpanded] = useState<boolean>(true);
 
   // Map 'upcoming' to 'all' for useMyEvents which expects myEventsScreen EventFilterType
   const mappedFilter = (eventFilter === 'upcoming' ? 'all' : eventFilter) as
@@ -102,6 +103,10 @@ export const useEventsScreen = ({
     setSelectedDate(date);
   }, []);
 
+  const toggleCalendarExpanded = useCallback(() => {
+    setIsCalendarExpanded(prev => !prev);
+  }, []);
+
   const handleDetailsPress = useCallback(
     (eventId: string) => {
       navigation.navigate('EventDetails', { eventId });
@@ -139,6 +144,8 @@ export const useEventsScreen = ({
     setSelectedDate: handleDateSelect,
     markedDates,
     eventsForSelectedDate,
+    isCalendarExpanded,
+    toggleCalendarExpanded,
     loadMoreEvents,
     refreshEvents: refetch,
     handleDetailsPress,

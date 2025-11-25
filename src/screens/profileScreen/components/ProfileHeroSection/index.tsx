@@ -17,6 +17,7 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
   coverImageUrl,
   primarySport,
   isUserActive = false,
+  hideAvatar = false,
 }) => {
   const iconSource = primarySport?.icon
     ? getSportIcon(primarySport.icon)
@@ -76,27 +77,29 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
         </TouchableOpacity>
       )}
 
-      <View
-        style={[
-          styles.avatarContainer,
-          isUserActive && { borderColor: ArenaColors.brand.primary },
-        ]}
-      >
-        {avatarUrl ? (
-          <OptimizedImage
-            source={{ uri: avatarUrl }}
-            style={styles.avatarImage}
-            contentFit="cover"
-            priority="high"
-          />
-        ) : (
-          <View style={styles.avatarPlaceholder}>
-            <Text variant="displayPrimary" style={styles.initialsText}>
-              {initials}
-            </Text>
-          </View>
-        )}
-      </View>
+      {!hideAvatar && (
+        <View
+          style={[
+            styles.avatarContainer,
+            isUserActive && { borderColor: ArenaColors.brand.primary },
+          ]}
+        >
+          {avatarUrl ? (
+            <OptimizedImage
+              source={{ uri: avatarUrl }}
+              style={styles.avatarImage}
+              contentFit="cover"
+              priority="high"
+            />
+          ) : (
+            <View style={styles.avatarPlaceholder}>
+              <Text variant="displayPrimary" style={styles.initialsText}>
+                {initials}
+              </Text>
+            </View>
+          )}
+        </View>
+      )}
     </View>
   );
 };

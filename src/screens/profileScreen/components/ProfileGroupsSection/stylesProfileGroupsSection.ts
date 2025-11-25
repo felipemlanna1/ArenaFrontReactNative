@@ -28,13 +28,29 @@ export const styles = StyleSheet.create({
   },
   groupsScrollContainer: {
     marginTop: ArenaSpacing.sm,
+    position: 'relative',
   },
   groupsScrollContent: {
-    gap: ArenaSpacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingRight: ArenaSpacing.lg,
   },
   groupCardWrapper: {
-    marginRight: ArenaSpacing.sm,
+    width: 280, // eslint-disable-line arena/arena-design-tokens
+  },
+  divider: {
+    width: ArenaBorders.width.thin,
+    height: 80, // eslint-disable-line arena/arena-design-tokens
+    backgroundColor: ArenaColors.neutral.dark,
+    marginHorizontal: ArenaSpacing.md,
+  },
+  scrollGradient: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 60, // eslint-disable-line arena/arena-design-tokens
+    pointerEvents: 'none',
   },
   separator: {
     height: ArenaBorders.width.thin,

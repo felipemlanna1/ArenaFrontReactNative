@@ -21,6 +21,11 @@ export const UserCard: React.FC<UserCardProps> = ({
   onAddFriend,
   isLoading = false,
   testID,
+  hideAvatar = false,
+  hideActions = false,
+  customNameVariant = 'bodyPrimary',
+  customNameColor,
+  chevronPosition = 'inline',
 }) => {
   const {
     displayName,
@@ -63,37 +68,53 @@ export const UserCard: React.FC<UserCardProps> = ({
         accessibilityRole={onPress ? 'button' : 'none'}
         accessibilityLabel={`${displayName}, ${displayLocation || 'sem localização'}`}
       >
-        <View style={styles.avatarContainer}>
-          {user.profilePicture ? (
-            <OptimizedImage
-              source={{ uri: user.profilePicture }}
-              style={[
-                styles.avatarImage,
-                isActiveRecently && styles.avatarBorder,
-              ]}
-              contentFit="cover"
-              priority="normal"
-            />
-          ) : (
-            <View
-              style={[
-                styles.avatarFallback,
-                isActiveRecently && styles.avatarBorder,
-              ]}
-            >
-              <Text variant="bodyPrimary" style={styles.initialsText}>
-                {getInitials()}
-              </Text>
-            </View>
-          )}
-        </View>
+        {!hideAvatar && (
+          <View style={styles.avatarContainer}>
+            {user.profilePicture ? (
+              <OptimizedImage
+                source={{ uri: user.profilePicture }}
+                style={[
+                  styles.avatarImage,
+                  isActiveRecently && styles.avatarBorder,
+                ]}
+                contentFit="cover"
+                priority="normal"
+              />
+            ) : (
+              <View
+                style={[
+                  styles.avatarFallback,
+                  isActiveRecently && styles.avatarBorder,
+                ]}
+              >
+                <Text variant="bodyPrimary" style={styles.initialsText}>
+                  {getInitials()}
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
 
-        <View style={styles.infoContainer}>
-          <View style={styles.nameRow}>
-            <Text variant="bodyPrimary" numberOfLines={1}>
+        <View
+          style={[
+            styles.infoContainer,
+            chevronPosition === 'right' && styles.infoContainerWithChevron,
+          ]}
+        >
+          <View
+            style={[
+              styles.nameRow,
+              chevronPosition === 'right' && styles.nameRowFull,
+            ]}
+          >
+            <Text
+              variant={customNameVariant}
+              numberOfLines={1}
+              style={customNameColor ? { color: customNameColor } : undefined}
+            >
               {displayName}
             </Text>
-            {onPress && (
+            {onPress && chevronPosition === 'inline' && (
               <Ionicons
                 name="chevron-forward"
                 size={16}
@@ -152,9 +173,18 @@ export const UserCard: React.FC<UserCardProps> = ({
             </View>
           )}
         </View>
+        {onPress && chevronPosition === 'right' && (
+          <View style={styles.chevronContainer}>
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={ArenaColors.neutral.medium}
+            />
+          </View>
+        )}
       </TouchableOpacity>
 
-      {hasActions && (
+      {!hideActions && hasActions && (
         <View style={styles.actionsContainer}>
           {handleSecondaryAction && secondaryActionLabel && (
             <Button

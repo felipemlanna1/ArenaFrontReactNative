@@ -10,6 +10,9 @@ interface MyGroupsAccordionSectionProps {
   onNavigateToGroup: (groupId: string) => void;
   onManageGroup: (groupId: string) => void;
   onLeaveGroup: (groupId: string) => Promise<void>;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onSwitchToRecommendations: () => void;
 }
 
 export const MyGroupsAccordionSection: React.FC<
@@ -21,6 +24,9 @@ export const MyGroupsAccordionSection: React.FC<
   onNavigateToGroup,
   onManageGroup,
   onLeaveGroup,
+  hasActiveFilters,
+  onClearFilters,
+  onSwitchToRecommendations,
 }) => {
   const safeGroups = Array.isArray(groups) ? groups : [];
 
@@ -38,6 +44,9 @@ export const MyGroupsAccordionSection: React.FC<
         onNavigateToGroup={onNavigateToGroup}
         onManageGroup={onManageGroup}
         onLeaveGroup={onLeaveGroup}
+        hasActiveFilters={hasActiveFilters}
+        onClearFilters={onClearFilters}
+        onSwitchToRecommendations={onSwitchToRecommendations}
       />
     </AccordionSection>
   );

@@ -1,16 +1,7 @@
-import React, { useEffect } from 'react';
-import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  useSharedValue,
-} from 'react-native-reanimated';
+import React from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Badge } from '@/components/ui/badge';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export type HomeTab = 'events' | 'groups' | 'friends';
 
@@ -28,86 +19,34 @@ interface HomeTabBarProps {
   friendsCount: number;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    borderBottomWidth: 1,
-    borderBottomColor: ArenaColors.neutral.dark,
-    paddingVertical: ArenaSpacing.sm,
-  },
-  scrollContent: {
-    paddingHorizontal: ArenaSpacing.lg,
-    gap: ArenaSpacing.sm,
-  },
-  tab: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: ArenaSpacing.sm,
-    paddingHorizontal: ArenaSpacing.md,
-    borderRadius: ArenaBorders.radius.pill,
-    gap: ArenaSpacing.xs,
-  },
-});
-
-interface AnimatedTabProps {
-  tab: TabItem;
+interface TabBadgeProps {
+  count: number;
   isActive: boolean;
-  onPress: () => void;
+  testID?: string;
 }
 
-const AnimatedTab: React.FC<AnimatedTabProps> = ({ tab, isActive, onPress }) => {
-  const scale = useSharedValue(1);
-  const backgroundColor = useSharedValue(0);
-
-  useEffect(() => {
-    backgroundColor.value = withTiming(isActive ? 1 : 0, { duration: 300 });
-  }, [isActive, backgroundColor]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-      backgroundColor: withTiming(
-        isActive ? ArenaColors.brand.primary : ArenaColors.neutral.darkest,
-        { duration: 300 }
-      ),
-    };
-  });
-
-  const handlePressIn = () => {
-    scale.value = withSpring(0.95, { damping: 15, stiffness: 300 });
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 15, stiffness: 300 });
-  };
+const TabBadge: React.FC<TabBadgeProps> = ({
+  count,
+  isActive,
+  testID = 'tab-badge',
+}) => {
+  const displayCount = count > 99 ? '99+' : count.toString();
 
   return (
-    <AnimatedPressable
-      style={[styles.tab, animatedStyle]}
-      onPress={onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      testID={`home-tab-${tab.key}`}
+    <View
+      style={[
+        styles.badge,
+        isActive ? styles.badgeActive : styles.badgeInactive,
+      ]}
+      testID={testID}
     >
       <Text
         variant="labelPrimary"
-        style={{
-          color: isActive
-            ? ArenaColors.neutral.light
-            : ArenaColors.neutral.medium,
-        }}
+        style={isActive ? styles.badgeTextActive : styles.badgeTextInactive}
       >
-        {tab.label}
+        {displayCount}
       </Text>
-      {tab.count > 0 && (
-        <Badge
-          variant={isActive ? 'outlined' : 'default'}
-          size="sm"
-          testID={`home-tab-badge-${tab.key}`}
-        >
-          {String(tab.count)}
-        </Badge>
-      )}
-    </AnimatedPressable>
+    </View>
   );
 };
 
@@ -125,21 +64,87 @@ export const HomeTabBar: React.FC<HomeTabBarProps> = ({
   ];
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {tabs.map(tab => (
-          <AnimatedTab
-            key={tab.key}
-            tab={tab}
-            isActive={activeTab === tab.key}
-            onPress={() => onTabChange(tab.key)}
-          />
-        ))}
-      </ScrollView>
+    <View style={styles.container} testID="home-tab-bar">
+      <View style={styles.tabsRow}>
+        {tabs.map(tab => {
+          const isActive = activeTab === tab.key;
+
+          return (
+            <TouchableOpacity
+              key={tab.key}
+              style={[styles.tabButton, isActive && styles.tabButtonActive]}
+              onPress={() => onTabChange(tab.key)}
+              testID={`home-tab-${tab.key}`}
+            >
+              <Text
+                variant="bodyPrimary"
+                style={isActive ? styles.tabTextActive : styles.tabTextInactive}
+              >
+                {tab.label}
+              </Text>
+              <TabBadge
+                count={tab.count}
+                isActive={isActive}
+                testID={`home-tab-badge-${tab.key}`}
+              />
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: ArenaColors.neutral.darkest,
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.sm,
+  },
+  tabsRow: {
+    flexDirection: 'row',
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaBorders.radius.lg,
+    padding: ArenaSpacing.xs,
+    gap: ArenaSpacing.xs,
+  },
+  tabButton: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.md,
+    gap: ArenaSpacing.xs,
+  },
+  tabButtonActive: {
+    backgroundColor: ArenaColors.brand.primary,
+  },
+  tabTextInactive: {
+    color: ArenaColors.neutral.medium,
+  },
+  tabTextActive: {
+    color: ArenaColors.neutral.light,
+  },
+  badge: {
+    paddingVertical: ArenaSpacing.xs,
+    paddingHorizontal: ArenaSpacing.sm,
+    minWidth: ArenaSpacing.lg,
+    borderRadius: ArenaBorders.radius.xl,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeInactive: {
+    backgroundColor: ArenaColors.neutral.darkIntermediate,
+  },
+  badgeActive: {
+    backgroundColor: ArenaColors.neutral.lightMedium,
+  },
+  badgeTextInactive: {
+    color: ArenaColors.neutral.medium,
+  },
+  badgeTextActive: {
+    color: ArenaColors.neutral.light,
+  },
+});

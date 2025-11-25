@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -46,6 +49,11 @@ export const styles = StyleSheet.create({
     paddingTop: ArenaSpacing['3xl'],
     gap: ArenaSpacing.md,
   },
+  loadingContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.sm,
+    gap: ArenaSpacing.md,
+  },
   loadingFooter: {
     paddingVertical: ArenaSpacing.lg,
   },
@@ -62,10 +70,5 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.sm,
-  },
-  fabContainer: {
-    position: 'absolute',
-    right: ArenaSpacing.lg,
-    bottom: ArenaSpacing['2xl'],
   },
 });

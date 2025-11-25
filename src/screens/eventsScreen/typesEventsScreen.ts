@@ -42,6 +42,8 @@ export interface UseEventsScreenReturn {
   setSelectedDate: (date: Date) => void;
   markedDates: Record<string, { marked: boolean; dotColor: string }>;
   eventsForSelectedDate: Event[];
+  isCalendarExpanded: boolean;
+  toggleCalendarExpanded: () => void;
   loadMoreEvents: () => Promise<void>;
   refreshEvents: () => Promise<void>;
   handleDetailsPress: (eventId: string) => void;

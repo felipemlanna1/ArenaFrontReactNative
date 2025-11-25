@@ -1,21 +1,6 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '@/navigation/typesNavigation';
 import { Notification } from '@/services/notifications/typesNotifications';
 
-export type NotificationsScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Notifications'
->;
-
-export type NotificationsScreenRouteProp = RouteProp<
-  RootStackParamList,
-  'Notifications'
->;
-
 export interface NotificationsScreenProps {
-  navigation: NotificationsScreenNavigationProp;
-  route: NotificationsScreenRouteProp;
   testID?: string;
 }
 

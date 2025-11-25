@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.darkest,
     borderRadius: ArenaBorders.radius.lg,
-    marginBottom: ArenaSpacing.lg,
     overflow: 'hidden',
   },
   imageSkeleton: {

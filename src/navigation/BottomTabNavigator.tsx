@@ -1,9 +1,11 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { CenterCreateButton } from './components/CenterCreateButton';
 import {
   ArenaColors,
   ArenaBorders,
@@ -74,6 +76,12 @@ const MenuStackScreen: React.FC = () => {
 
 export const BottomTabNavigator: React.FC = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
+
+  const handleCreateEventPress = () => {
+    // @ts-ignore - Navigation type
+    navigation.navigate('CreateEvent');
+  };
 
   return (
     <Tab.Navigator
@@ -108,7 +116,7 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: (props) => (
+          tabBarButton: props => (
             // @ts-ignore - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-eventos" />
           ),
@@ -126,10 +134,30 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: (props) => (
+          tabBarButton: props => (
             // @ts-ignore - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-home" />
           ),
+        }}
+      />
+      <Tab.Screen
+        name="CreateEventTab"
+        component={View}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: () => null,
+          tabBarButton: () => (
+            <CenterCreateButton
+              onPress={handleCreateEventPress}
+              testID="tab-create"
+            />
+          ),
+        }}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+            handleCreateEventPress();
+          },
         }}
       />
       <Tab.Screen
@@ -144,7 +172,7 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: (props) => (
+          tabBarButton: props => (
             // @ts-ignore - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-perfil" />
           ),
@@ -162,7 +190,7 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: (props) => (
+          tabBarButton: props => (
             // @ts-ignore - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-menu" />
           ),

@@ -12,10 +12,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scrollContent: {
-    paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing['4xl'],
   },
   contentContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
     gap: ArenaSpacing.lg,
   },
   section: {

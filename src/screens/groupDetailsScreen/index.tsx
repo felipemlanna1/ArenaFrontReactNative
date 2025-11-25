@@ -78,10 +78,6 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
     [groupId, handleRefresh]
   );
 
-  const handleGoBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-
   const handleScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const scrollY = event.nativeEvent.contentOffset.y;
@@ -100,7 +96,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
 
   if (isLoading) {
     return (
-      <AppLayout onBack={handleGoBack}>
+      <AppLayout>
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
@@ -110,7 +106,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
 
   if (!group) {
     return (
-      <AppLayout onBack={handleGoBack}>
+      <AppLayout>
         <View style={styles.loadingContainer}>
           <Text variant="bodySecondary">Grupo não encontrado</Text>
         </View>
@@ -119,7 +115,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
   }
 
   return (
-    <AppLayout onBack={handleGoBack}>
+    <AppLayout>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
@@ -129,7 +125,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
         <ProfileHeroSection
           {...mapGroupToHeroData(group)}
           showBackButton={false}
-          onBackPress={handleGoBack}
+          hideAvatar={true}
         />
 
         <View style={styles.contentContainer}>
@@ -162,6 +158,12 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
           <ProfileStatsSection
             stats={mapGroupStatisticsToStats(statistics)}
             isLoading={isLoadingStats}
+            customLabels={{
+              events: 'Eventos',
+              created: 'Recentes',
+              groups: 'Esportes',
+              friends: 'Atletas',
+            }}
           />
 
           <GroupRulesSection rules={group.rules} />

@@ -22,11 +22,11 @@ export const useFriendsScreen = (
     new Map()
   );
 
-  const [isLoadingFriends, setIsLoadingFriends] = useState(true);
-  const [isLoadingRequests, setIsLoadingRequests] = useState(true);
-  const [isLoadingOutgoing, setIsLoadingOutgoing] = useState(true);
+  const [isLoadingFriends, setIsLoadingFriends] = useState(false);
+  const [isLoadingRequests, setIsLoadingRequests] = useState(false);
+  const [isLoadingOutgoing, setIsLoadingOutgoing] = useState(false);
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
-    useState(true);
+    useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
 

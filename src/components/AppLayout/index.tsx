@@ -1,15 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Header } from '@/components/header';
+import { AppHeader } from '@/components/ui/appHeader';
 import { AppLayoutProps } from './typesAppLayout';
 import { styles } from './stylesAppLayout';
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
-  onLogout,
-  onBack,
   showBottomNav = false,
+  showHeader = true,
+  headerVariant = 'main',
+  headerTitle,
+  headerShowLogo = true,
+  headerShowBackButton = false,
+  headerOnBackPress,
+  headerRightActions = [],
+  headerRightComponent,
   testID = 'app-layout',
 }) => {
   return (
@@ -18,7 +24,18 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
       edges={['top', 'bottom', 'left', 'right']}
       testID={testID}
     >
-      <Header onLogout={onLogout} onBack={onBack} testID={`${testID}-header`} />
+      {showHeader && (
+        <AppHeader
+          variant={headerVariant}
+          title={headerTitle}
+          showLogo={headerShowLogo}
+          showBackButton={headerShowBackButton}
+          onBackPress={headerOnBackPress}
+          rightActions={headerRightActions}
+          rightComponent={headerRightComponent}
+          testID={`${testID}-header`}
+        />
+      )}
 
       <View style={styles.content}>{children}</View>
 

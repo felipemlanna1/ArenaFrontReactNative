@@ -1,24 +1,18 @@
 import React, { useCallback } from 'react';
 import { View, FlatList, ListRenderItem } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
+import { EmptyState } from '@/components/ui/emptyState';
 import { AccordionSection } from '@/components/accordionSection';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaColors } from '@/constants';
+import { TabParamList } from '@/navigation/typesNavigation';
 import { EventCard } from '@/screens/homeScreen/components/EventCard';
 import { EventTypeFilter } from './components/EventTypeFilter';
 import { EventSectionHeader } from './components/EventSectionHeader';
 import { useMyEventsScreen } from './useMyEventsScreen';
 import { MyEventsScreenProps, GroupedEventItem } from './typesMyEventsScreen';
 import { styles } from './stylesMyEventsScreen';
-
-const FILTER_LABELS: Record<string, string> = {
-  all: 'Todos os eventos',
-  organizing: 'Eventos que você organiza',
-  participating: 'Eventos que você participa',
-  invited: 'Convites pendentes',
-};
 
 export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
   testID = 'my-events-screen',
@@ -73,21 +67,26 @@ export const MyEventsScreen: React.FC<MyEventsScreenProps> = ({
     [handleDetailsPress, handleManagePress, handleShare, eventActions]
   );
 
+  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+
+  const handleDiscoverEvents = useCallback(() => {
+    navigation.navigate('HomeTab');
+  }, [navigation]);
+
   const renderEmpty = useCallback(() => {
     if (isLoading) return null;
 
     return (
-      <View style={styles.emptyContainer}>
-        <Ionicons
-          name="calendar-outline"
-          size={64}
-          color={ArenaColors.neutral.medium}
-        />
-        <Text variant="headingPrimary">Nenhum evento encontrado</Text>
-        <Text variant="bodySecondary">{FILTER_LABELS[eventFilter]}</Text>
-      </View>
+      <EmptyState
+        icon="trophy-outline"
+        title="Vamos começar algo incrível!"
+        message="Nenhum evento por aqui ainda. Explore eventos da sua região ou crie o primeiro!"
+        actionLabel="Descobrir Eventos"
+        onActionPress={handleDiscoverEvents}
+        testID="my-events-empty-state"
+      />
     );
-  }, [isLoading, eventFilter]);
+  }, [isLoading, handleDiscoverEvents]);
 
   const renderFooter = useCallback(() => {
     if (!isLoadingMore) return null;
