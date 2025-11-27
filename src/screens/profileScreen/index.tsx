@@ -19,6 +19,7 @@ import { ProfileStatsSection } from './components/ProfileStatsSection';
 import { ProfileGroupsSection } from './components/ProfileGroupsSection';
 import { ProfileCompletionBanner } from './components/ProfileCompletionBanner';
 import { FriendshipActions } from './components/FriendshipActions';
+import { ReportUserModal } from '@/components/reportUserModal';
 import {
   mapUserToDisplayData,
   getInitials,
@@ -41,6 +42,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     refetch,
     handleEditPress,
     handleBackPress,
+    isReportModalOpen,
+    handleOpenReportModal,
+    handleCloseReportModal,
   } = useProfileScreen({ userId: route?.params?.userId });
 
   const { stats, isLoading: isLoadingStats } = useProfileStats(userId || '');
@@ -103,6 +107,17 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       headerShowLogo={true}
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
+      headerRightActions={
+        !isOwnProfile && userId
+          ? [
+              {
+                icon: 'flag-outline',
+                onPress: handleOpenReportModal,
+                testID: 'report-user-button',
+              },
+            ]
+          : undefined
+      }
     >
       <SafeAreaView
         style={styles.container}
@@ -172,6 +187,15 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               color={ArenaColors.neutral.light}
             />
           </TouchableOpacity>
+        )}
+
+        {!isOwnProfile && userId && (
+          <ReportUserModal
+            userId={userId}
+            isOpen={isReportModalOpen}
+            onClose={handleCloseReportModal}
+            onReportSuccess={refetch}
+          />
         )}
       </SafeAreaView>
     </AppLayout>

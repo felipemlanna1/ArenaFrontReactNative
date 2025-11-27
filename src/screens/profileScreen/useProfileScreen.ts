@@ -81,6 +81,16 @@ export const useProfileScreen = (
     signOut();
   }, [signOut]);
 
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
+  const handleOpenReportModal = useCallback(() => {
+    setIsReportModalOpen(true);
+  }, []);
+
+  const handleCloseReportModal = useCallback(() => {
+    setIsReportModalOpen(false);
+  }, []);
+
   return {
     user,
     userId: targetUserId,
@@ -93,5 +103,8 @@ export const useProfileScreen = (
     handleEditPress,
     handleBackPress,
     handleLogout,
+    isReportModalOpen,
+    handleOpenReportModal,
+    handleCloseReportModal,
   };
 };
