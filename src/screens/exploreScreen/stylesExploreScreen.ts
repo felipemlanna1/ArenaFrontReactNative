@@ -24,7 +24,6 @@ export const styles = StyleSheet.create<Styles>({
   },
   listWrapper: {
     flex: 1,
-    marginTop: ArenaSpacing.lg,
   },
   list: {
     flex: 1,

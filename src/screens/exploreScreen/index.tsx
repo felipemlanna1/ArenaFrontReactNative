@@ -31,7 +31,7 @@ import { useFriendsShare } from '@/screens/friendsScreen/hooks/useFriendsShare';
 import { Event } from '@/services/events/typesEvents';
 import { Group } from '@/services/groups/typesGroups';
 import { UserData } from '@/services/http';
-import { ArenaColors, ArenaCopy, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaCopy } from '@/constants';
 import { haptic } from '@/utils/haptics';
 import { useToast } from '@/contexts/ToastContext';
 import { useTabBarHeight } from '@/hooks/useTabBarHeight';
@@ -99,10 +99,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const { shareInvite } = useFriendsShare();
 
   const listContainerStyle = useMemo(
-    () => [
-      styles.listContainer,
-      { paddingBottom: tabBarHeight + ArenaSpacing.md },
-    ],
+    () => [styles.listContainer, { paddingBottom: tabBarHeight }],
     [tabBarHeight]
   );
 
