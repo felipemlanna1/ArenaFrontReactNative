@@ -6,9 +6,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
   },
-  scrollContent: {
-    flex: 1,
-  },
   scrollContainer: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing['2xl'],
