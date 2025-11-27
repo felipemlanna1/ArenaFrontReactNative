@@ -9,7 +9,6 @@ import {
   Platform,
   UIManager,
   Keyboard,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -185,6 +184,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
               onEndReachedThreshold={0.5}
               ListEmptyComponent={renderEmpty}
               ListFooterComponent={renderFooter}
+              onScrollBeginDrag={Keyboard.dismiss}
               showsVerticalScrollIndicator={false}
             />
           )}
@@ -248,6 +248,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
           )}
           keyExtractor={item => item.id}
           contentContainerStyle={selectedDateListStyle}
+          onScrollBeginDrag={Keyboard.dismiss}
           ListEmptyComponent={() => (
             <EmptyState
               icon="calendar-outline"
@@ -329,11 +330,9 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
         </View>
       }
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          {viewMode === 'list' ? renderListView() : renderCalendarView()}
-        </View>
-      </TouchableWithoutFeedback>
+      <View style={styles.container}>
+        {viewMode === 'list' ? renderListView() : renderCalendarView()}
+      </View>
     </AppLayout>
   );
 };

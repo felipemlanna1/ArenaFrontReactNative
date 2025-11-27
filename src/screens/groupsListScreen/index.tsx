@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -215,66 +215,62 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
-          <GestureDetector gesture={composedGesture}>
-            <View style={styles.content}>
-              <GroupsTabBar
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-                myGroupsCount={myGroups.length}
-                recommendationsCount={recommendations.length}
-              />
+      <GestureDetector gesture={composedGesture}>
+        <View style={styles.content}>
+          <GroupsTabBar
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            myGroupsCount={myGroups.length}
+            recommendationsCount={recommendations.length}
+          />
 
-              <FilterBar
-                searchQuery={searchTerm}
-                onSearchChange={setSearchTerm}
-                onFilterPress={handleFilterPress}
-                filterCount={filterCount}
-              />
+          <FilterBar
+            searchQuery={searchTerm}
+            onSearchChange={setSearchTerm}
+            onFilterPress={handleFilterPress}
+            filterCount={filterCount}
+          />
 
-              {isLoading && data.length === 0 ? (
-                <View style={styles.loadingContainer}>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </View>
-              ) : (
-                <View style={styles.listWrapper}>
-                  <FlashList
-                    data={data}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                    contentContainerStyle={styles.listContent}
-                    ItemSeparatorComponent={renderSeparator}
-                    onEndReached={hasMore ? onLoadMore : undefined}
-                    onEndReachedThreshold={0.5}
-                    ListEmptyComponent={renderEmpty}
-                    ListFooterComponent={renderFooter}
-                    showsVerticalScrollIndicator={false}
-                    estimatedItemSize={150}
-                  />
-                </View>
-              )}
-
-              <View style={styles.fab}>
-                <Fab
-                  icon={
-                    <Ionicons
-                      name="add"
-                      size={24}
-                      color={ArenaColors.neutral.light}
-                    />
-                  }
-                  onPress={handleCreateGroup}
-                  variant="primary"
-                  size="md"
-                />
-              </View>
+          {isLoading && data.length === 0 ? (
+            <View style={styles.loadingContainer}>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
             </View>
-          </GestureDetector>
+          ) : (
+            <View style={styles.listWrapper}>
+              <FlashList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                contentContainerStyle={styles.listContent}
+                ItemSeparatorComponent={renderSeparator}
+                onEndReached={hasMore ? onLoadMore : undefined}
+                onEndReachedThreshold={0.5}
+                ListEmptyComponent={renderEmpty}
+                ListFooterComponent={renderFooter}
+                onScrollBeginDrag={Keyboard.dismiss}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          )}
+
+          <View style={styles.fab}>
+            <Fab
+              icon={
+                <Ionicons
+                  name="add"
+                  size={24}
+                  color={ArenaColors.neutral.light}
+                />
+              }
+              onPress={handleCreateGroup}
+              variant="primary"
+              size="md"
+            />
+          </View>
         </View>
-      </TouchableWithoutFeedback>
+      </GestureDetector>
     </AppLayout>
   );
 };
