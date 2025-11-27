@@ -98,7 +98,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
   const displayData = mapUserToDisplayData(user);
   const initials = getInitials(user.firstName, user.lastName);
-  const primarySport = displayData.sports.find(s => s.isPrimary) || null;
+  const primarySport =
+    displayData.sports.find(s => s.isPrimary) ||
+    displayData.sports[0] ||
+    null;
 
   return (
     <AppLayout
