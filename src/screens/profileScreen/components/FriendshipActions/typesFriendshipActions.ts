@@ -1,3 +1,5 @@
+import { Friendship } from '@/services/friendships/typesFriendships';
+
 export interface FriendshipActionsProps {
   userId: string;
   onStatusChange?: () => void;
@@ -10,9 +12,4 @@ export type FriendshipActionType =
   | 'accepted'
   | 'loading';
 
-export interface FriendshipData {
-  status: string | null;
-  friendshipId?: string;
-  requesterId?: string;
-  addresseeId?: string;
-}
+export type FriendshipData = Friendship | { status: null };

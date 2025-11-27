@@ -129,8 +129,8 @@ class FriendshipsApi {
 
   async getFriendshipStatus(
     userId: string
-  ): Promise<{ status: string | null }> {
-    const response = await httpService.get<{ status: string | null }>(
+  ): Promise<Friendship | { status: null }> {
+    const response = await httpService.get<Friendship | { status: null }>(
       `${this.basePath}/status/${userId}`
     );
     return response;

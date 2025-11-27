@@ -49,9 +49,15 @@ export const useFriendshipActions = (
     if (!friendshipData || friendshipData.status === null) return 'none';
 
     if (friendshipData.status === 'PENDING') {
-      return friendshipData.requesterId === currentUser?.id
-        ? 'pending_sent'
-        : 'pending_received';
+      if ('requesterId' in friendshipData && 'addresseeId' in friendshipData) {
+        if (friendshipData.requesterId === currentUser?.id) {
+          return 'pending_sent';
+        }
+        if (friendshipData.addresseeId === currentUser?.id) {
+          return 'pending_received';
+        }
+      }
+      return 'none';
     }
 
     if (friendshipData.status === 'ACCEPTED') return 'accepted';
@@ -74,9 +80,12 @@ export const useFriendshipActions = (
   }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleCancelRequest = useCallback(async () => {
+    if (!friendshipData || friendshipData.status === null) return;
+    if (!('id' in friendshipData)) return;
+
     try {
       setIsLoading(true);
-      await friendshipsApi.cancelFriendRequest(userId);
+      await friendshipsApi.cancelFriendRequest(friendshipData.id);
       showToast('Solicitação cancelada', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
@@ -85,14 +94,15 @@ export const useFriendshipActions = (
     } finally {
       setIsLoading(false);
     }
-  }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
+  }, [friendshipData, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleAcceptRequest = useCallback(async () => {
-    if (!friendshipData) return;
+    if (!friendshipData || friendshipData.status === null) return;
+    if (!('id' in friendshipData)) return;
 
     try {
       setIsLoading(true);
-      await friendshipsApi.acceptFriendRequest(userId);
+      await friendshipsApi.acceptFriendRequest(friendshipData.id);
       showToast('Solicitação aceita', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
@@ -101,18 +111,15 @@ export const useFriendshipActions = (
     } finally {
       setIsLoading(false);
     }
-  }, [
-    userId,
-    friendshipData,
-    fetchFriendshipStatus,
-    onStatusChange,
-    showToast,
-  ]);
+  }, [friendshipData, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleRejectRequest = useCallback(async () => {
+    if (!friendshipData || friendshipData.status === null) return;
+    if (!('id' in friendshipData)) return;
+
     try {
       setIsLoading(true);
-      await friendshipsApi.rejectFriendRequest(userId);
+      await friendshipsApi.rejectFriendRequest(friendshipData.id);
       showToast('Solicitação recusada', 'success');
       await fetchFriendshipStatus();
       onStatusChange?.();
@@ -121,7 +128,7 @@ export const useFriendshipActions = (
     } finally {
       setIsLoading(false);
     }
-  }, [userId, fetchFriendshipStatus, onStatusChange, showToast]);
+  }, [friendshipData, fetchFriendshipStatus, onStatusChange, showToast]);
 
   const handleRemoveFriend = useCallback(async () => {
     try {
