@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npx expo export --platform web",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "env": {
+    "EXPO_PUBLIC_API_URL": "https://backsportpulsemobile-production.up.railway.app",
+    "EXPO_PUBLIC_API_TIMEOUT": "30000",
+    "EXPO_PUBLIC_ENVIRONMENT": "production"
+  }
+}

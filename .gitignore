@@ -54,3 +54,4 @@ google-services.json
 *-firebase-adminsdk-*.json
 firebase-adminsdk*.json
 GoogleService-Info.plist
+dist/
