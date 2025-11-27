@@ -194,7 +194,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
                     onPress={() => setShowInviteModal(true)}
                     fullWidth
                   >
-                    Convidar Membros
+                    Adicionar Atleta
                   </Button>
                 )}
 
@@ -246,7 +246,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
             {isMember && group.currentUserRole !== 'OWNER' && (
               <View style={styles.actions}>
                 <Button
-                  variant="destructive"
+                  variant="ghost"
                   size="lg"
                   onPress={handleLeaveGroup}
                   loading={actionLoading}
@@ -311,7 +311,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
         visible={showInviteModal}
         onClose={() => setShowInviteModal(false)}
         onInvite={handleInviteUsers}
-        title="Convidar para o Grupo"
+        title="Adicionar Atletas"
         availableSlots={
           group.maxMembers
             ? group.maxMembers - (group.memberCount || 0)

@@ -59,6 +59,10 @@ export const EventParticipantsSection: React.FC<
           includeEventTitle: true,
           eventTitle: event.title,
           sportName: event.sport?.name,
+          description: event.description,
+          location: event.location,
+          startDate: event.startDate,
+          endDate: event.endDate,
         }
       );
 

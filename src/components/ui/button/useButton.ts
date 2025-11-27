@@ -18,6 +18,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
     fullWidth,
     iconOnly,
     onPress,
+    align,
   } = params;
   const buttonConfig = useMemo(() => getButtonVariant(variant), [variant]);
   const sizeConfig = useMemo(() => getButtonSize(size), [size]);
@@ -60,6 +61,12 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
           : iconOnly
             ? undefined
             : sizeConfig.minWidth,
+        justifyContent:
+          align === 'left'
+            ? 'flex-start'
+            : align === 'right'
+              ? 'flex-end'
+              : 'center',
       },
     ];
     if (fullWidth) {
@@ -100,6 +107,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
     iconOnly,
     disabled,
     loading,
+    align,
   ]);
   const iconProps = useMemo(
     () => ({

@@ -7,11 +7,13 @@ export type ButtonVariant =
   | 'destructive'
   | 'success'
   | 'ghost'
+  | 'ghost-destructive'
   | 'outline-light'
   | 'fab'
   | 'outline-primary';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonIconPosition = 'left' | 'right';
+export type ButtonAlign = 'left' | 'center' | 'right';
 export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -27,6 +29,7 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   fullWidth?: boolean;
   loadingText?: string;
   disableAnimations?: boolean;
+  align?: ButtonAlign;
 }
 export interface ButtonVariantConfig {
   backgroundColor: string;
@@ -73,6 +76,7 @@ export interface UseButtonParams {
   iconOnly: boolean;
   onPress: () => void;
   disableAnimations: boolean;
+  align: ButtonAlign;
 }
 export interface UseButtonReturn {
   buttonConfig: ButtonVariantConfig;

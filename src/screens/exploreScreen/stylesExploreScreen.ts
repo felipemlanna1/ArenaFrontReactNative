@@ -7,6 +7,7 @@ interface Styles {
   list: ViewStyle;
   listContainer: ViewStyle;
   loadingContainer: ViewStyle;
+  emptyScrollContent: ViewStyle;
   emptyContainer: ViewStyle;
   emptyIcon: ViewStyle;
   emptyTitle: TextStyle;
@@ -24,13 +25,13 @@ export const styles = StyleSheet.create<Styles>({
   },
   listWrapper: {
     flex: 1,
-    marginTop: ArenaSpacing.lg,
   },
   list: {
     flex: 1,
   },
   listContainer: {
     paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.lg,
   },
   loadingContainer: {
     flex: 1,
@@ -38,6 +39,9 @@ export const styles = StyleSheet.create<Styles>({
     paddingTop: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing.md,
     gap: ArenaSpacing.lg,
+  },
+  emptyScrollContent: {
+    flexGrow: 1,
   },
   emptyContainer: {
     height: '100%',

@@ -22,7 +22,8 @@ export interface ActionButton {
     | 'outline'
     | 'danger'
     | 'outline-light'
-    | 'outline-primary';
+    | 'outline-primary'
+    | 'ghost';
   type:
     | 'view'
     | 'manage'
@@ -85,7 +86,7 @@ const createCancelButton = (
 ): ActionButton => ({
   key: 'action',
   label: 'CANCELAR',
-  variant: 'danger',
+  variant: 'ghost',
   type: 'cancel',
   testID: 'event-card-cancel-button',
   loading: isLoading,

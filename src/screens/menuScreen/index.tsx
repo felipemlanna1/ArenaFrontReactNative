@@ -63,7 +63,7 @@ export const MenuScreen: React.FC = () => {
     }) => <Ionicons name={iconName} size={size} color={color} />;
 
     const hasBadge = item.badge !== undefined && item.badge > 0;
-    const buttonVariant = item.id === 'logout' ? 'destructive' : 'ghost';
+    const buttonVariant = item.id === 'logout' ? 'ghost-destructive' : 'ghost';
 
     return (
       <View key={item.id} style={styles.menuItemWrapper}>
@@ -74,6 +74,7 @@ export const MenuScreen: React.FC = () => {
           leftIcon={IconComponent}
           testID={item.testID}
           fullWidth
+          align="left"
         >
           {item.label}
         </Button>

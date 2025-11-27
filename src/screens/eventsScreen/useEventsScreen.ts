@@ -5,6 +5,8 @@ import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useMyEvents } from '@/screens/myEventsScreen/hooks/useMyEvents';
 import { useEventFilterCounts } from '@/screens/myEventsScreen/hooks/useEventFilterCounts';
 import { useEventActions } from '@/hooks/useEventActions';
+import { useToast } from '@/contexts/ToastContext';
+import { haptic } from '@/utils/haptics';
 import { ArenaColors } from '@/constants';
 import { Event } from '@/services/events/typesEvents';
 import {
@@ -22,6 +24,7 @@ export const useEventsScreen = ({
   initialViewMode = 'list',
 }: UseEventsScreenParams = {}): UseEventsScreenReturn => {
   const navigation = useNavigation<NavigationProp>();
+  const { showToast } = useToast();
   const [eventFilter, setEventFilter] =
     useState<EventFilterType>(initialFilter);
   const [viewMode, setViewMode] = useState<EventViewMode>(initialViewMode);
@@ -37,6 +40,7 @@ export const useEventsScreen = ({
   const {
     events,
     isLoading,
+    isRefreshing,
     isLoadingMore,
     hasMore,
     loadEvents,
@@ -131,6 +135,18 @@ export const useEventsScreen = ({
     [handleShareById]
   );
 
+  const handleRefresh = useCallback(async () => {
+    haptic.light();
+    try {
+      await refreshEvents();
+      haptic.success();
+      showToast('Eventos atualizados', 'success');
+    } catch {
+      haptic.error();
+      showToast('Erro ao atualizar eventos', 'error');
+    }
+  }, [refreshEvents, showToast]);
+
   return {
     viewMode,
     setViewMode: handleViewModeChange,
@@ -139,6 +155,7 @@ export const useEventsScreen = ({
     filterCounts,
     events,
     isLoading,
+    isRefreshing,
     isLoadingMore,
     hasMore,
     selectedDate,
@@ -149,6 +166,7 @@ export const useEventsScreen = ({
     toggleCalendarExpanded,
     loadMoreEvents,
     refreshEvents: refetch,
+    handleRefresh,
     handleDetailsPress,
     handleManagePress,
     handleShare,

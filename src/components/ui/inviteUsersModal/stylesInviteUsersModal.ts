@@ -173,13 +173,4 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.lg,
     alignItems: 'center',
   },
-  removeInviteButton: {
-    paddingHorizontal: ArenaSpacing.md,
-    paddingVertical: ArenaSpacing.sm,
-    borderRadius: ArenaBorders.radius.sm,
-    backgroundColor: ArenaColors.semantic.error,
-  },
-  removeInviteText: {
-    textAlign: 'center',
-  },
 });

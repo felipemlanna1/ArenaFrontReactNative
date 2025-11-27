@@ -63,7 +63,7 @@ export const useEventDetailsScreen = ({
       return {
         type: 'leave',
         label: 'Sair do Evento',
-        variant: 'destructive',
+        variant: 'ghost',
         disabled: false,
         loading: isPerformingAction,
         onPress: userActions.onLeave,

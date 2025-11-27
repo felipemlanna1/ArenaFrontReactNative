@@ -25,6 +25,9 @@ export interface UseProfileScreenReturn {
   handleEditPress: () => void;
   handleBackPress: () => void;
   handleLogout: () => void;
+  isReportModalOpen: boolean;
+  handleOpenReportModal: () => void;
+  handleCloseReportModal: () => void;
 }
 
 export interface ProfileDisplayData {

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useMemo } from 'react';
-import { View, RefreshControl } from 'react-native';
+import { View, ScrollView, RefreshControl, Keyboard } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -99,7 +99,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const { shareInvite } = useFriendsShare();
 
   const listContainerStyle = useMemo(
-    () => [styles.listContainer, { paddingBottom: tabBarHeight }],
+    () => [styles.listContainer, { paddingBottom: tabBarHeight + 40 }],
     [tabBarHeight]
   );
 
@@ -470,46 +470,61 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
               )}
             </View>
           ) : shouldShowEmptyState ? (
-            <View style={styles.emptyContainer}>
-              <Ionicons
-                name={emptyState.icon}
-                size={64}
-                color={ArenaColors.neutral.medium}
-                style={styles.emptyIcon}
-              />
-              <Text variant="headingPrimary" style={styles.emptyTitle}>
-                {emptyState.title}
-              </Text>
-              <Text variant="bodySecondary" style={styles.emptyText}>
-                {emptyState.description}
-              </Text>
+            <ScrollView
+              contentContainerStyle={styles.emptyScrollContent}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={tabData.isRefreshing}
+                  onRefresh={handleRefresh}
+                  tintColor={ArenaColors.brand.primary}
+                  colors={[ArenaColors.brand.primary]}
+                  progressBackgroundColor={ArenaColors.neutral.dark}
+                  testID="explore-empty-refresh-control"
+                />
+              }
+            >
+              <View style={styles.emptyContainer}>
+                <Ionicons
+                  name={emptyState.icon}
+                  size={64}
+                  color={ArenaColors.neutral.medium}
+                  style={styles.emptyIcon}
+                />
+                <Text variant="headingPrimary" style={styles.emptyTitle}>
+                  {emptyState.title}
+                </Text>
+                <Text variant="bodySecondary" style={styles.emptyText}>
+                  {emptyState.description}
+                </Text>
 
-              {emptyState.primaryAction && emptyState.onPrimaryAction && (
-                <View style={styles.emptyActionsContainer}>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onPress={emptyState.onPrimaryAction}
-                    fullWidth
-                    testID={`empty-create-${activeTab}-button`}
-                  >
-                    {emptyState.primaryAction}
-                  </Button>
-                  {emptyState.secondaryAction &&
-                    emptyState.onSecondaryAction && (
-                      <Button
-                        variant="ghost"
-                        size="md"
-                        onPress={emptyState.onSecondaryAction}
-                        fullWidth
-                        testID="empty-filter-button"
-                      >
-                        {emptyState.secondaryAction}
-                      </Button>
-                    )}
-                </View>
-              )}
-            </View>
+                {emptyState.primaryAction && emptyState.onPrimaryAction && (
+                  <View style={styles.emptyActionsContainer}>
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onPress={emptyState.onPrimaryAction}
+                      fullWidth
+                      testID={`empty-create-${activeTab}-button`}
+                    >
+                      {emptyState.primaryAction}
+                    </Button>
+                    {emptyState.secondaryAction &&
+                      emptyState.onSecondaryAction && (
+                        <Button
+                          variant="ghost"
+                          size="md"
+                          onPress={emptyState.onSecondaryAction}
+                          fullWidth
+                          testID="empty-filter-button"
+                        >
+                          {emptyState.secondaryAction}
+                        </Button>
+                      )}
+                  </View>
+                )}
+              </View>
+            </ScrollView>
           ) : (
             <View style={styles.listWrapper}>
               <FlashList
@@ -520,6 +535,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
                 onEndReached={tabData.hasMore ? tabData.loadMore : undefined}
                 onEndReachedThreshold={0.5}
                 ListFooterComponent={renderFooter}
+                onScrollBeginDrag={Keyboard.dismiss}
                 refreshControl={
                   <RefreshControl
                     refreshing={tabData.isRefreshing}

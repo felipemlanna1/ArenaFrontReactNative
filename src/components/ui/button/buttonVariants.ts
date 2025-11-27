@@ -172,6 +172,33 @@ export const buttonVariants: ButtonVariantConfigs = {
       textColor: ArenaColors.disabled.text,
     },
   },
+  'ghost-destructive': {
+    backgroundColor: ArenaColors.neutral.transparent,
+    borderColor: ArenaColors.neutral.transparent,
+    borderWidth: 0,
+    textColor: ArenaColors.semantic.error,
+    hover: {
+      backgroundColor: ArenaColors.interaction.hover.neutral,
+      borderColor: ArenaColors.neutral.transparent,
+      textColor: ArenaColors.semantic.errorHover,
+    },
+    pressed: {
+      backgroundColor: ArenaColors.interaction.pressed.neutral,
+      borderColor: ArenaColors.neutral.transparent,
+      textColor: ArenaColors.semantic.errorPressed,
+    },
+    focus: {
+      backgroundColor: ArenaColors.neutral.transparent,
+      borderColor: ArenaColors.neutral.transparent,
+      textColor: ArenaColors.semantic.error,
+      shadowColor: ArenaColors.semantic.errorFocus,
+    },
+    disabled: {
+      backgroundColor: ArenaColors.neutral.transparent,
+      borderColor: ArenaColors.neutral.transparent,
+      textColor: ArenaColors.disabled.text,
+    },
+  },
   'outline-light': {
     backgroundColor: ArenaColors.neutral.transparent,
     borderColor: ArenaColors.neutral.light,

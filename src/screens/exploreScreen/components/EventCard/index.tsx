@@ -51,13 +51,15 @@ export const EventCard: React.FC<EventCardProps> = ({
       | 'danger'
       | 'outline-light'
       | 'outline-primary'
+      | 'ghost'
   ):
     | 'primary'
     | 'secondary'
     | 'subtle'
     | 'destructive'
     | 'outline-light'
-    | 'outline-primary' => {
+    | 'outline-primary'
+    | 'ghost' => {
     switch (variant) {
       case 'primary':
         return 'primary';
@@ -71,6 +73,8 @@ export const EventCard: React.FC<EventCardProps> = ({
         return 'outline-light';
       case 'outline-primary':
         return 'outline-primary';
+      case 'ghost':
+        return 'ghost';
       default:
         return 'secondary';
     }

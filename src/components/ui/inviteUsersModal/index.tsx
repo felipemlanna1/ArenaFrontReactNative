@@ -166,14 +166,13 @@ export const InviteUsersModal: React.FC<InviteUsersModalProps> = ({
         )}
 
         {isInvited && selectedTab === 'invited' && (
-          <TouchableOpacity
-            style={styles.removeInviteButton}
+          <Button
+            variant="ghost"
+            size="sm"
             onPress={() => handleRemoveInvite(user.id)}
           >
-            <Text variant="labelPrimary" style={styles.removeInviteText}>
-              Remover
-            </Text>
-          </TouchableOpacity>
+            Remover
+          </Button>
         )}
       </TouchableOpacity>
     );

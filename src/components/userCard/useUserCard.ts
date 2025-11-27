@@ -73,7 +73,7 @@ export const useUserCard = ({
           hasActions: true,
           primaryAction: onRemove,
           primaryLabel: 'Remover',
-          isPrimaryDestructive: true,
+          isPrimaryDestructive: false,
         };
       case 'request':
         return {
@@ -89,7 +89,7 @@ export const useUserCard = ({
           hasActions: true,
           primaryAction: onCancel,
           primaryLabel: 'Cancelar',
-          isPrimaryDestructive: true,
+          isPrimaryDestructive: false,
         };
       case 'recommendation':
         return {
