@@ -36,7 +36,12 @@ const REQUIRED_FIELDS: (keyof UserData)[] = [
 
 const checkProfileCompletion = (user: UserData): ProfileCompletionStatus => {
   const missingFields = REQUIRED_FIELDS.filter(field => {
-    const value = user[field];
+    let value = user[field];
+
+    if (field === 'birthDate') {
+      value = user.dateOfBirth || user.birthDate;
+    }
+
     return !value || (typeof value === 'string' && value.trim() === '');
   });
 
