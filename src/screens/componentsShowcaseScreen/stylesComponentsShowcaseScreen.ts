@@ -158,7 +158,7 @@ export const styles = StyleSheet.create({
   },
   menuIconBar: {
     width: ArenaSpacing.xl,
-    height: ArenaSpacing.micro,
+    height: ArenaSpacing.xxs,
     backgroundColor: ArenaColors.neutral.light,
   },
   iconMenuTrigger: {

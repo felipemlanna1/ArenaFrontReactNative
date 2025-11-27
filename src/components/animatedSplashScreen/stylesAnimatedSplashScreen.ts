@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 const { width } = Dimensions.get('window');
 

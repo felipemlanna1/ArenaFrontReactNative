@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.sm,
   },
   icon: {
-    marginTop: ArenaSpacing.micro,
+    marginTop: ArenaSpacing.xxs,
   },
   content: {
     flex: 1,
@@ -32,16 +32,16 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.medium,
   },
   progressContainer: {
-    marginTop: ArenaSpacing.micro,
+    marginTop: ArenaSpacing.xxs,
   },
   spotsText: {
     color: ArenaColors.neutral.medium,
-    marginTop: ArenaSpacing.micro,
+    marginTop: ArenaSpacing.xxs,
   },
   fullBadge: {
     backgroundColor: ArenaColors.semantic.error,
     paddingHorizontal: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.micro,
+    paddingVertical: ArenaSpacing.xxs,
     borderRadius: ArenaBorders.radius.sm,
     alignSelf: 'flex-start',
   },

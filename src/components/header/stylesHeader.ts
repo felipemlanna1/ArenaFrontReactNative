@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     paddingBottom: ArenaSpacing.sm,
     paddingHorizontal: ArenaSpacing.lg,
     shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: ArenaSpacing.none, height: ArenaSpacing.micro / 2 },
+    shadowOffset: { width: ArenaSpacing.none, height: ArenaSpacing.xxs / 2 },
     shadowOpacity: 0.15,
     shadowRadius: ArenaSpacing.xs,
     elevation: 1,
@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
   },
   menuIconBar: {
     width: ArenaSpacing.xl,
-    height: ArenaSpacing.micro,
+    height: ArenaSpacing.xxs,
     backgroundColor: ArenaColors.text.inverse,
   },
   menuButton: {

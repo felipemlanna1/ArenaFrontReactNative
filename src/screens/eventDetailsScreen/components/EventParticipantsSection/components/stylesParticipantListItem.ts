@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
-    gap: ArenaSpacing.micro,
+    gap: ArenaSpacing.xxs,
   },
   nameRow: {
     flexDirection: 'row',
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     color: ArenaColors.neutral.light,
   },
   chevronIcon: {
-    marginLeft: ArenaSpacing.micro,
+    marginLeft: ArenaSpacing.xxs,
   },
   username: {
     color: ArenaColors.neutral.medium,
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
   organizerBadge: {
     backgroundColor: ArenaColors.brand.primary,
     paddingHorizontal: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.micro,
+    paddingVertical: ArenaSpacing.xxs,
     borderRadius: ArenaBorders.radius.sm,
   },
   organizerBadgeText: {
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
   statusBadge: {
     backgroundColor: ArenaColors.neutral.dark,
     paddingHorizontal: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.micro,
+    paddingVertical: ArenaSpacing.xxs,
     borderRadius: ArenaBorders.radius.sm,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.darkSubtleBorder,

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
+import { ArenaSpacing, ArenaColors, ArenaBorders, ArenaSizes } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {

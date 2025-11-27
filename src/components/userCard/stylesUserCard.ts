@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     borderRadius: ArenaBorders.radius.circle,
   },
   avatarBorder: {
-    borderWidth: ArenaSpacing.micro,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: ArenaColors.brand.primary,
   },
   initialsText: {
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
-    gap: ArenaSpacing.micro,
+    gap: ArenaSpacing.xxs,
   },
   infoContainerWithChevron: {
     paddingRight: ArenaSpacing.xs,
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   chevronIcon: {
-    marginLeft: ArenaSpacing.micro,
+    marginLeft: ArenaSpacing.xxs,
   },
   chevronContainer: {
     justifyContent: 'center',
@@ -75,16 +75,16 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   locationIcon: {
-    marginTop: ArenaSpacing.micro,
+    marginTop: ArenaSpacing.xxs,
   },
   contextRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.xs,
-    marginTop: ArenaSpacing.micro,
+    marginTop: ArenaSpacing.xxs,
   },
   contextIcon: {
-    marginTop: ArenaSpacing.micro / 2,
+    marginTop: ArenaSpacing.xxs / 2,
   },
   sportsContainer: {
     flexDirection: 'row',

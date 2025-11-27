@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   ruleBullet: {
-    paddingTop: ArenaSpacing.micro,
+    paddingTop: ArenaSpacing.xxs,
   },
   ruleText: {
     flex: 1,

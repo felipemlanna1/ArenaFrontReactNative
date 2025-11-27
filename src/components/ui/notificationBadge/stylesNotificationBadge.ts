@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
   badgeSm: {
     width: ArenaSpacing.sm,
     height: ArenaSpacing.sm,
-    top: -ArenaSpacing.micro,
-    right: -ArenaSpacing.micro,
+    top: -ArenaSpacing.xxs,
+    right: -ArenaSpacing.xxs,
   },
   badgeMd: {
     minWidth: ArenaSpacing.lg,
