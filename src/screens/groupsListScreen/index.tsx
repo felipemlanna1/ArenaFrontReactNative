@@ -243,6 +243,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
         ) : (
           <View style={styles.listWrapper}>
             <FlashList
+              key={activeTab}
               data={data}
               renderItem={renderItem}
               keyExtractor={item => item.id}
