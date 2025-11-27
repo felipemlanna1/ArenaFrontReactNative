@@ -32,13 +32,18 @@ export const useFriendshipActions = (
     try {
       setIsInitialLoading(true);
       const response = await friendshipsApi.getFriendshipStatus(userId);
+      console.log('[FriendshipActions] Friendship status response:', {
+        userId,
+        currentUserId: currentUser?.id,
+        response,
+      });
       setFriendshipData(response as FriendshipData);
     } catch {
       setFriendshipData({ status: null });
     } finally {
       setIsInitialLoading(false);
     }
-  }, [userId]);
+  }, [userId, currentUser]);
 
   useEffect(() => {
     fetchFriendshipStatus();
@@ -50,13 +55,24 @@ export const useFriendshipActions = (
 
     if (friendshipData.status === 'PENDING') {
       if ('requesterId' in friendshipData && 'addresseeId' in friendshipData) {
+        console.log('[FriendshipActions] Comparing IDs:', {
+          requesterId: friendshipData.requesterId,
+          addresseeId: friendshipData.addresseeId,
+          currentUserId: currentUser?.id,
+          requesterMatch: friendshipData.requesterId === currentUser?.id,
+          addresseeMatch: friendshipData.addresseeId === currentUser?.id,
+        });
+
         if (friendshipData.requesterId === currentUser?.id) {
+          console.log('[FriendshipActions] Returning pending_sent');
           return 'pending_sent';
         }
         if (friendshipData.addresseeId === currentUser?.id) {
+          console.log('[FriendshipActions] Returning pending_received');
           return 'pending_received';
         }
       }
+      console.log('[FriendshipActions] No ID match, returning none');
       return 'none';
     }
 
