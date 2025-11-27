@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
+import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
+import { useFriendsFilters } from '@/contexts/FriendsFiltersContext';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { StateDropdown } from '@/components/ui/stateDropdown';
@@ -21,24 +23,96 @@ type FilterScreenProps = NativeStackScreenProps<
   'FilterScreen'
 >;
 
-export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
-  const {
-    activeFilters,
-    activeTab,
-    updateFilter,
-    toggleSportId,
-    setEventFilter,
-    clearFilters,
-    activeFiltersCount,
-  } = useHomeFilters();
+export const FilterScreen: React.FC<FilterScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const { source } = route.params;
 
-  // Tab-specific filters visibility
-  const showEventTypeFilter = activeTab === 'events';
-  const showPriceFilter = activeTab === 'events';
-  const showDateFilter = activeTab === 'events';
-  const showAvailabilityFilter = activeTab === 'events';
-  const showSportsFilter = true; // All tabs
-  const showLocationFilter = true; // All tabs
+  const homeFilters = useHomeFilters();
+  const groupsFilters = useGroupsFilters();
+  const friendsFilters = useFriendsFilters();
+
+  const { activeFilters, activeFiltersCount } = useMemo(() => {
+    switch (source) {
+      case 'groups':
+        return {
+          activeFilters: groupsFilters.activeFilters,
+          activeFiltersCount: groupsFilters.activeFiltersCount,
+        };
+      case 'friends':
+        return {
+          activeFilters: friendsFilters.activeFilters,
+          activeFiltersCount: friendsFilters.activeFiltersCount,
+        };
+      case 'home':
+      default:
+        return {
+          activeFilters: homeFilters.activeFilters,
+          activeFiltersCount: homeFilters.activeFiltersCount,
+        };
+    }
+  }, [source, homeFilters, groupsFilters, friendsFilters]);
+
+  const updateFilter = useCallback(
+    (key: string, value: unknown) => {
+      switch (source) {
+        case 'groups':
+          groupsFilters.updateFilter(key as never, value as never);
+          break;
+        case 'friends':
+          friendsFilters.updateFilter(key as never, value as never);
+          break;
+        case 'home':
+        default:
+          homeFilters.updateFilter(key as never, value as never);
+          break;
+      }
+    },
+    [source, homeFilters, groupsFilters, friendsFilters]
+  );
+
+  const toggleSportId = useCallback(
+    (sportId: string) => {
+      switch (source) {
+        case 'groups':
+          groupsFilters.toggleSportId(sportId);
+          break;
+        case 'friends':
+          friendsFilters.toggleSportId(sportId);
+          break;
+        case 'home':
+        default:
+          homeFilters.toggleSportId(sportId);
+          break;
+      }
+    },
+    [source, homeFilters, groupsFilters, friendsFilters]
+  );
+
+  const clearFilters = useCallback(() => {
+    switch (source) {
+      case 'groups':
+        groupsFilters.clearFilters();
+        break;
+      case 'friends':
+        friendsFilters.clearFilters();
+        break;
+      case 'home':
+      default:
+        homeFilters.clearFilters();
+        break;
+    }
+  }, [source, homeFilters, groupsFilters, friendsFilters]);
+
+  const { setEventFilter, activeTab } = homeFilters;
+
+  const showEventTypeFilter = source === 'home' && activeTab === 'events';
+  const showPriceFilter = source === 'home' && activeTab === 'events';
+  const showDateFilter = source === 'home' && activeTab === 'events';
+  const showAvailabilityFilter = source === 'home' && activeTab === 'events';
+  const showSportsFilter = true;
+  const showLocationFilter = true;
 
   const handleRemoveFilter = useCallback(
     (key: string, value?: string) => {
@@ -113,7 +187,11 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
                 <EventFilterSection
                   value={
                     'eventFilter' in activeFilters
-                      ? activeFilters.eventFilter || 'all'
+                      ? (activeFilters.eventFilter as
+                          | 'all'
+                          | 'organizing'
+                          | 'participating'
+                          | 'invited') || 'all'
                       : 'all'
                   }
                   onChange={setEventFilter}
@@ -158,22 +236,30 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
                 <PriceRangeFilter
                   priceMin={
                     'priceMin' in activeFilters
-                      ? activeFilters.priceMin ?? null
+                      ? ((activeFilters.priceMin as number | undefined) ?? null)
                       : null
                   }
                   priceMax={
                     'priceMax' in activeFilters
-                      ? activeFilters.priceMax ?? null
+                      ? ((activeFilters.priceMax as number | undefined) ?? null)
                       : null
                   }
                   isFree={
-                    'isFree' in activeFilters ? activeFilters.isFree ?? false : false
+                    'isFree' in activeFilters
+                      ? ((activeFilters.isFree as boolean | undefined) ?? false)
+                      : false
                   }
                   onPriceMinChange={value =>
-                    updateFilter('priceMin' as never, (value ?? undefined) as never)
+                    updateFilter(
+                      'priceMin' as never,
+                      (value ?? undefined) as never
+                    )
                   }
                   onPriceMaxChange={value =>
-                    updateFilter('priceMax' as never, (value ?? undefined) as never)
+                    updateFilter(
+                      'priceMax' as never,
+                      (value ?? undefined) as never
+                    )
                   }
                   onIsFreeChange={value =>
                     updateFilter('isFree' as never, value as never)
@@ -200,12 +286,12 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
                   startDateFrom={
                     'startDateFrom' in activeFilters &&
                     activeFilters.startDateFrom
-                      ? new Date(activeFilters.startDateFrom)
+                      ? new Date(activeFilters.startDateFrom as string)
                       : null
                   }
                   startDateTo={
                     'startDateTo' in activeFilters && activeFilters.startDateTo
-                      ? new Date(activeFilters.startDateTo)
+                      ? new Date(activeFilters.startDateTo as string)
                       : null
                   }
                   onStartDateFromChange={value =>
@@ -236,7 +322,10 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
                   <StateDropdown
                     value={activeFilters.state ?? ''}
                     onChange={value => {
-                      updateFilter('state' as never, (value || undefined) as never);
+                      updateFilter(
+                        'state' as never,
+                        (value || undefined) as never
+                      );
                       if (
                         activeFilters.state &&
                         activeFilters.state !== value
@@ -252,7 +341,10 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
                     <CityDropdown
                       value={activeFilters.city ?? ''}
                       onChange={value =>
-                        updateFilter('city' as never, (value || undefined) as never)
+                        updateFilter(
+                          'city' as never,
+                          (value || undefined) as never
+                        )
                       }
                       stateUF={activeFilters.state}
                       label="Cidade"
@@ -280,7 +372,9 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({ navigation }) => {
                   <Checkbox
                     checked={
                       'hasAvailableSpots' in activeFilters
-                        ? activeFilters.hasAvailableSpots || false
+                        ? (activeFilters.hasAvailableSpots as
+                            | boolean
+                            | undefined) || false
                         : false
                     }
                     onPress={() =>

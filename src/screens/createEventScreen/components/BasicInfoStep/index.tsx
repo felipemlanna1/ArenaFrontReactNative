@@ -9,14 +9,16 @@ import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Label } from '@/components/ui/label';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { DURATION_OPTIONS } from '@/screens/createEventScreen/typesCreateEventScreen';
-import { ArenaColors, ArenaSpacing, ArenaBorders, ArenaTypography } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaTypography,
+} from '@/constants';
 import { BasicInfoStepProps } from './typesBasicInfoStep';
 import { useBasicInfoStep } from './useBasicInfoStep';
 import { styles } from './stylesBasicInfoStep';
 
-/**
- * Formata Date para formato datetime-local do HTML5 (YYYY-MM-DDTHH:mm)
- */
 const formatDateForInput = (date: Date): string => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -105,15 +107,16 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
 
       <View style={styles.section}>
         {Platform.OS === 'web' ? (
-          // Web: Input HTML nativo datetime-local
           <View>
             <Label variant="form" required>
               Data e Hora
             </Label>
             {createElement('input', {
               type: 'datetime-local',
-              value: formData.startDate ? formatDateForInput(formData.startDate) : '',
-              onChange: (e: any) => {
+              value: formData.startDate
+                ? formatDateForInput(formData.startDate)
+                : '',
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                 const dateValue = e.target.value;
                 if (dateValue) {
                   const newDate = new Date(dateValue);
@@ -144,7 +147,6 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
             )}
           </View>
         ) : (
-          // iOS/Android: DatePicker nativo
           <DatePicker
             label="Data e Hora"
             variant="datetime"

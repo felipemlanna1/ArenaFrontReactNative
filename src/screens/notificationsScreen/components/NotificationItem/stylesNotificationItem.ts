@@ -36,8 +36,8 @@ export const styles = StyleSheet.create({
     marginRight: ArenaSpacing.sm,
   },
   unreadDot: {
-    width: 8,
-    height: 8,
+    width: ArenaSpacing.sm,
+    height: ArenaSpacing.sm,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
     marginTop: ArenaSpacing.xs,

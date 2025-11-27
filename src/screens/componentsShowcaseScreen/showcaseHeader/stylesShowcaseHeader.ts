@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   header: {
     paddingBottom: ArenaSpacing.xl,
     marginBottom: ArenaSpacing.lg,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: `${ArenaColors.neutral.medium}20`,
   },
   backButton: {

@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     backgroundColor: ArenaColors.neutral.darkIntermediate,
-    borderBottomWidth: 2,
+    borderBottomWidth: ArenaSpacing.xxs,
     borderBottomColor: ArenaColors.neutral.darkSubtleBorder,
     minHeight: ArenaSpacing['5.75xl'],
   },

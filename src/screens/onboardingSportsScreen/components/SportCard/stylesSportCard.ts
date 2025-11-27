@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     aspectRatio: 1,
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: 'transparent',
     padding: ArenaSpacing.sm,
     justifyContent: 'center',

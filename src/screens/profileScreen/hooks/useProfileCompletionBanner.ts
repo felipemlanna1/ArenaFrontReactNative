@@ -70,7 +70,7 @@ export const useProfileCompletionBanner = (
           setIsDismissed(isSameUser && isSameVersion);
         }
       } catch (error) {
-        console.error('Error loading dismissed state:', error);
+        void error;
       } finally {
         setIsLoading(false);
       }
@@ -91,7 +91,7 @@ export const useProfileCompletionBanner = (
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(dismissData));
       setIsDismissed(true);
     } catch (error) {
-      console.error('Error saving dismissed state:', error);
+      void error;
     }
   }, [user]);
 

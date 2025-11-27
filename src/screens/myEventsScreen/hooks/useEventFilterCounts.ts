@@ -52,8 +52,8 @@ export const useEventFilterCounts = (): UseEventFilterCountsReturn => {
       });
 
       setFilterCounts(counts);
-    } catch (error) {
-      // Silent fail - counts will remain at 0
+    } catch {
+      return;
     } finally {
       setIsLoading(false);
     }

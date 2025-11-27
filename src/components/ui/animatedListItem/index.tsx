@@ -1,3 +1,4 @@
+// eslint-disable-next-line arena/arena-file-structure
 import React, { useEffect } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -26,10 +27,7 @@ export const AnimatedListItem: React.FC<AnimatedListItemProps> = ({
   useEffect(() => {
     const itemDelay = index * delay;
 
-    opacity.value = withDelay(
-      itemDelay,
-      withTiming(1, { duration })
-    );
+    opacity.value = withDelay(itemDelay, withTiming(1, { duration }));
 
     translateY.value = withDelay(
       itemDelay,

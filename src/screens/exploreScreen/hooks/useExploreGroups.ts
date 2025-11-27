@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Group } from '@/services/groups/typesGroups';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
@@ -29,7 +29,10 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { searchTerm, groupsFilters } = useHomeFilters();
-  const selectedSports = groupsFilters.sportIds || [];
+  const selectedSports = useMemo(
+    () => groupsFilters.sportIds || [],
+    [groupsFilters.sportIds]
+  );
   const selectedCity = groupsFilters.city;
   const selectedState = groupsFilters.state;
 
@@ -41,11 +44,6 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
       setIsLoading(true);
       setError(null);
 
-      // Filtros aplicados à aba GRUPOS:
-      // - Busca (search)
-      // - Cidade + Estado
-      // - Esporte (APENAS 1 - limitação da API, passa o primeiro selecionado)
-      // Filtros IGNORADOS: preço, data, skill level, disponibilidade
       const response = await groupsApi.getGroups({
         page: 1,
         limit: 10,
@@ -75,7 +73,6 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
       setIsLoadingMore(true);
       const nextPage = currentPage + 1;
 
-      // Aplicar os mesmos filtros da aba GRUPOS
       const response = await groupsApi.getGroups({
         page: nextPage,
         limit: 10,
@@ -95,7 +92,15 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [currentPage, hasMore, isLoadingMore, searchTerm, selectedSports, selectedCity, selectedState]);
+  }, [
+    currentPage,
+    hasMore,
+    isLoadingMore,
+    searchTerm,
+    selectedSports,
+    selectedCity,
+    selectedState,
+  ]);
 
   const refreshGroups = useCallback(async () => {
     if (isLoadingRef.current) return;
@@ -105,7 +110,6 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
       setIsRefreshing(true);
       setError(null);
 
-      // Aplicar os mesmos filtros da aba GRUPOS
       const response = await groupsApi.getGroups({
         page: 1,
         limit: 10,
@@ -128,13 +132,11 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
     }
   }, [searchTerm, selectedSports, selectedCity, selectedState]);
 
-  // Carregar grupos quando filtros mudarem (incluindo primeira montagem)
   useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    // Debounce de 500ms para busca
     if (searchTerm) {
       searchTimeoutRef.current = setTimeout(() => {
         loadGroups();

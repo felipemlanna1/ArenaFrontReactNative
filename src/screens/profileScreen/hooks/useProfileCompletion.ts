@@ -16,11 +16,6 @@ interface UseProfileCompletionReturn {
   totalFields: number;
 }
 
-/**
- * Hook para calcular o progresso de completude do perfil
- * @param user - Dados do usuário
- * @returns Progresso de 0 a 100, contagem de campos faltando e total de campos
- */
 export const useProfileCompletion = (
   user: UserData | null
 ): UseProfileCompletionReturn => {
@@ -39,7 +34,9 @@ export const useProfileCompletion = (
     });
 
     const completedFields = REQUIRED_FIELDS.length - missingFields.length;
-    const progress = Math.round((completedFields / REQUIRED_FIELDS.length) * 100);
+    const progress = Math.round(
+      (completedFields / REQUIRED_FIELDS.length) * 100
+    );
 
     return {
       progress,

@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
     paddingVertical: ArenaSpacing.sm,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.darkest,
   },
   filtersRow: {
@@ -20,11 +20,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   filterButtonActive: {
-    borderBottomWidth: 2,
+    borderBottomWidth: ArenaSpacing.xxs,
     borderBottomColor: ArenaColors.brand.primary,
   },
   countText: {
-    marginTop: 2,
+    marginTop: ArenaSpacing.xxs,
   },
   divider: {
     width: ArenaBorders.width.thin,

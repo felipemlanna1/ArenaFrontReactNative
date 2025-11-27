@@ -1,13 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
+import { GestureDetector } from 'react-native-gesture-handler';
 import { AppLayout } from '@/components/AppLayout';
 import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { useFriendsShare } from './hooks/useFriendsShare';
+import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
 import { styles } from './stylesFriendsScreen';
-import { FriendsBackground } from './components/FriendsBackground';
-import { FriendsFilterBar } from './components/FriendsFilterBar';
+import { FilterBar } from './components/FilterBar';
 import { FriendsTabBar, FriendTab } from './components/FriendsTabBar';
 import {
   FriendsSection,
@@ -25,6 +26,19 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const hookData = useFriendsScreen(navigation);
   const { shareInvite } = useFriendsShare();
 
+  const friendTabs: FriendTab[] = [
+    'friends',
+    'incoming',
+    'outgoing',
+    'recommendations',
+  ];
+
+  const { composedGesture } = useSwipeableFilters({
+    filters: friendTabs,
+    activeFilter: activeTab,
+    onChange: setActiveTab,
+  });
+
   const handleSwitchToRecommendations = useCallback(() => {
     setActiveTab('recommendations');
   }, []);
@@ -36,6 +50,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const handleInviteFriends = useCallback(() => {
     shareInvite();
   }, [shareInvite]);
+
+  const handleBackPress = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
   const {
     friends,
@@ -56,11 +74,8 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     searchQuery,
     setSearchQuery,
     selectedCity,
-    setSelectedCity,
     selectedState,
-    setSelectedState,
     selectedSportId,
-    setSelectedSportId,
     handleClearFilters,
     hasActiveFilters,
     hasMoreFriends,
@@ -76,6 +91,18 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     handleLoadMoreOutgoing,
     handleLoadMoreRecommendations,
   } = hookData;
+
+  const handleFilterPress = useCallback(() => {
+    navigation.navigate('FilterScreen', { source: 'friends' });
+  }, [navigation]);
+
+  const filterCount = useMemo(() => {
+    let count = 0;
+    if (selectedCity) count++;
+    if (selectedState) count++;
+    if (selectedSportId) count++;
+    return count;
+  }, [selectedCity, selectedState, selectedSportId]);
 
   const getTabData = useCallback(() => {
     switch (activeTab) {
@@ -206,6 +233,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     ]
   );
 
+  const renderSeparator = useCallback(() => {
+    return <View style={styles.itemSeparator} />;
+  }, []);
+
   const renderFooter = useCallback(() => {
     const { isLoadingMore } = getTabData();
     if (!isLoadingMore) return null;
@@ -290,52 +321,55 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const { data, isLoading, hasMore, onLoadMore } = getTabData();
 
   return (
-    <AppLayout>
-      <FriendsBackground>
-        {(activeTab === 'friends' || activeTab === 'recommendations') && (
-          <FriendsFilterBar
+    <AppLayout
+      showHeader={true}
+      headerVariant="mainWithBack"
+      headerShowLogo={true}
+      headerShowBackButton={true}
+      headerOnBackPress={handleBackPress}
+    >
+      <GestureDetector gesture={composedGesture}>
+        <View style={styles.content}>
+          <FriendsTabBar
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            friendsCount={friends.length}
+            incomingCount={incomingRequests.length}
+            outgoingCount={outgoingRequests.length}
+            recommendationsCount={recommendations.length}
+          />
+
+          <FilterBar
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
-            selectedCity={selectedCity}
-            onCityChange={setSelectedCity}
-            selectedState={selectedState}
-            onStateChange={setSelectedState}
-            selectedSportId={selectedSportId}
-            onSportChange={setSelectedSportId}
-            onClearFilters={handleClearFilters}
-            hasActiveFilters={hasActiveFilters}
+            onFilterPress={handleFilterPress}
+            filterCount={filterCount}
           />
-        )}
 
-        <FriendsTabBar
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          friendsCount={friends.length}
-          incomingCount={incomingRequests.length}
-          outgoingCount={outgoingRequests.length}
-          recommendationsCount={recommendations.length}
-        />
-
-        {isLoading && data.length === 0 ? (
-          <View style={styles.loadingContainer}>
-            <SkeletonCard />
-            <SkeletonCard />
-            <SkeletonCard />
-          </View>
-        ) : (
-          <FlashList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            contentContainerStyle={styles.listContent}
-            onEndReached={hasMore ? onLoadMore : undefined}
-            onEndReachedThreshold={0.5}
-            ListEmptyComponent={renderEmpty}
-            ListFooterComponent={renderFooter}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
-      </FriendsBackground>
+          {isLoading && data.length === 0 ? (
+            <View style={styles.loadingContainer}>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </View>
+          ) : (
+            <View style={styles.listWrapper}>
+              <FlashList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                contentContainerStyle={styles.listContent}
+                ItemSeparatorComponent={renderSeparator}
+                onEndReached={hasMore ? onLoadMore : undefined}
+                onEndReachedThreshold={0.5}
+                ListEmptyComponent={renderEmpty}
+                ListFooterComponent={renderFooter}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          )}
+        </View>
+      </GestureDetector>
     </AppLayout>
   );
 };

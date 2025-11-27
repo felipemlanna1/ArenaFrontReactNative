@@ -114,7 +114,7 @@ export const useExploreScreen = (
   }, []);
 
   const handleFilterPress = useCallback(() => {
-    navigation.navigate('FilterScreen');
+    navigation.navigate('FilterScreen', { source: 'home' });
   }, [navigation]);
 
   const handleApplySort = useCallback(

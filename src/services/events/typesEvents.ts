@@ -32,9 +32,6 @@ export type ParticipantStatus =
   | 'REJECTED';
 export type InvitationStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED';
 
-/**
- * Restrição de idade para eventos
- */
 export interface AgeRestriction {
   min?: number;
   max?: number;
@@ -143,7 +140,6 @@ export interface Event {
 
   participants?: EventParticipant[];
 
-  // Campos opcionais adicionais
   ageRestriction?: AgeRestriction;
   rules?: string;
   requirements?: string;

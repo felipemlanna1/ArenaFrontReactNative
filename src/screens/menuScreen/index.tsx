@@ -1,8 +1,11 @@
 import React from 'react';
-import { View, ScrollView, Pressable } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { ArenaColors } from '@/constants';
 import { useMenuScreen } from './useMenuScreen';
 import { styles } from './stylesMenuScreen';
@@ -25,9 +28,14 @@ export const MenuScreen: React.FC = () => {
   const renderAvatar = () => {
     if (userAvatar) {
       return (
-        <View style={styles.avatarContainer}>
-          <Text variant="titlePrimary">{userName.charAt(0).toUpperCase()}</Text>
-        </View>
+        <OptimizedImage
+          source={{ uri: userAvatar }}
+          style={styles.avatarContainer}
+          contentFit="cover"
+          priority="high"
+          showLoading
+          loadingSize="sm"
+        />
       );
     }
 
@@ -47,15 +55,16 @@ export const MenuScreen: React.FC = () => {
       ICON_MAP[item.id as keyof typeof ICON_MAP] || 'ellipsis-horizontal';
 
     return (
-      <Pressable
+      <Card
         key={item.id}
         onPress={() => handleItemPress(item)}
         disabled={item.disabled}
-        style={({ pressed }) => [
-          styles.menuItem,
-          pressed && styles.menuItemPressed,
-          item.disabled && styles.menuItemDisabled,
-        ]}
+        variant="default"
+        style={
+          item.disabled
+            ? [styles.menuItem, styles.menuItemDisabled]
+            : styles.menuItem
+        }
         testID={item.testID}
       >
         <View style={styles.iconContainer}>
@@ -72,12 +81,7 @@ export const MenuScreen: React.FC = () => {
         <View style={styles.menuItemContent}>
           <Text
             variant="bodyPrimary"
-            style={{
-              color:
-                item.id === 'logout'
-                  ? ArenaColors.semantic.error
-                  : ArenaColors.neutral.light,
-            }}
+            style={item.id === 'logout' ? styles.logoutText : undefined}
           >
             {item.label}
           </Text>
@@ -89,12 +93,12 @@ export const MenuScreen: React.FC = () => {
             </View>
           )}
         </View>
-      </Pressable>
+      </Card>
     );
   };
 
   return (
-    <View style={styles.container} testID="menu-screen">
+    <SafeAreaView style={styles.container} testID="menu-screen" edges={['top']}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -102,8 +106,10 @@ export const MenuScreen: React.FC = () => {
         <View style={styles.header}>
           <View style={styles.userInfo}>
             {renderAvatar()}
-            <Text variant="titlePrimary">{userName}</Text>
-            <Text variant="bodySecondary">{userEmail}</Text>
+            <View style={styles.userTextContainer}>
+              <Text variant="titlePrimary">{userName}</Text>
+              <Text variant="bodySecondary">{userEmail}</Text>
+            </View>
           </View>
         </View>
 
@@ -111,6 +117,6 @@ export const MenuScreen: React.FC = () => {
           {menuItems.map(item => renderMenuItem(item))}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };

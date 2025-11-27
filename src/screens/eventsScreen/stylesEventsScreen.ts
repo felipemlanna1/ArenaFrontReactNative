@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   selectedDateHeader: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   selectedDateList: {

@@ -1,4 +1,4 @@
-import { StyleSheet, TextStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: ArenaSpacing.xs },
     shadowOpacity: 0.12,
     shadowRadius: ArenaSpacing.sm,
-    elevation: 2,
+    elevation: ArenaSpacing.xxs,
   },
   sportCardUnselected: {
     borderColor: ArenaColors.neutral.dark,

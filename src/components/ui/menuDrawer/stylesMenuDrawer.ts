@@ -4,27 +4,27 @@ import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 export const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: ArenaColors.neutral.overlay,
   },
   drawerContainer: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
     width: '80%',
-    maxWidth: 320,
+    maxWidth: ArenaSpacing['15xl'],
   },
   header: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing['2xl'],
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   userInfo: {
     gap: ArenaSpacing.xs,
   },
   avatarContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: ArenaSpacing['6xl'],
+    height: ArenaSpacing['6xl'],
+    borderRadius: ArenaBorders.radius['2xl'],
     backgroundColor: ArenaColors.neutral.dark,
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,20 +54,20 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   iconContainer: {
-    width: 24,
-    height: 24,
+    width: ArenaSpacing['2xl'],
+    height: ArenaSpacing['2xl'],
     justifyContent: 'center',
     alignItems: 'center',
   },
   divider: {
-    height: 1,
+    height: ArenaBorders.width.thin,
     backgroundColor: ArenaColors.neutral.dark,
     marginVertical: ArenaSpacing.sm,
     marginHorizontal: ArenaSpacing.lg,
   },
   badgeContainer: {
-    minWidth: 20,
-    height: 20,
+    minWidth: ArenaSpacing.xl,
+    height: ArenaSpacing.xl,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
     justifyContent: 'center',
@@ -77,7 +77,13 @@ export const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing['2xl'],
-    borderTopWidth: 1,
+    borderTopWidth: ArenaBorders.width.thin,
     borderTopColor: ArenaColors.neutral.dark,
+  },
+  modalContainer: {
+    flex: 1,
+  },
+  logoutText: {
+    color: ArenaColors.semantic.error,
   },
 });

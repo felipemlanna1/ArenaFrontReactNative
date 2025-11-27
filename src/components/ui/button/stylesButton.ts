@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     left: -2,
     right: -2,
     bottom: -2,
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     opacity: 0,
   },
   primaryContainer: {
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
   },
   secondaryContainer: {
     overflow: 'hidden',
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     boxShadow: ArenaShadows.soft,
   },
   subtleContainer: {
@@ -82,12 +82,12 @@ export const styles = StyleSheet.create({
   },
   'outline-lightContainer': {
     overflow: 'hidden',
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     boxShadow: ArenaShadows.soft,
   },
   'outline-primaryContainer': {
     overflow: 'hidden',
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     boxShadow: ArenaShadows.soft,
   },
   xsContainer: {

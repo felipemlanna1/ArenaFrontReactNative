@@ -6,6 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { CenterCreateButton } from './components/CenterCreateButton';
+import { NotificationBadge } from '@/components/ui/notificationBadge';
+import { useInvites } from '@/contexts/InvitesContext';
 import {
   ArenaColors,
   ArenaBorders,
@@ -77,9 +79,10 @@ const MenuStackScreen: React.FC = () => {
 export const BottomTabNavigator: React.FC = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const { counts } = useInvites();
 
   const handleCreateEventPress = () => {
-    // @ts-ignore - Navigation type
+    // @ts-expect-error - Navigation type
     navigation.navigate('CreateEvent');
   };
 
@@ -117,7 +120,7 @@ export const BottomTabNavigator: React.FC = () => {
             />
           ),
           tabBarButton: props => (
-            // @ts-ignore - Type incompatibility between React Navigation and React Native
+            // @ts-expect-error - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-eventos" />
           ),
         }}
@@ -135,7 +138,7 @@ export const BottomTabNavigator: React.FC = () => {
             />
           ),
           tabBarButton: props => (
-            // @ts-ignore - Type incompatibility between React Navigation and React Native
+            // @ts-expect-error - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-explore" />
           ),
         }}
@@ -173,7 +176,7 @@ export const BottomTabNavigator: React.FC = () => {
             />
           ),
           tabBarButton: props => (
-            // @ts-ignore - Type incompatibility between React Navigation and React Native
+            // @ts-expect-error - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-perfil" />
           ),
         }}
@@ -184,14 +187,17 @@ export const BottomTabNavigator: React.FC = () => {
         options={{
           tabBarLabel: 'Menu',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'menu' : 'menu-outline'}
-              size={24}
-              color={color}
-            />
+            <View>
+              <Ionicons
+                name={focused ? 'menu' : 'menu-outline'}
+                size={24}
+                color={color}
+              />
+              <NotificationBadge count={counts.total} size="sm" />
+            </View>
           ),
           tabBarButton: props => (
-            // @ts-ignore - Type incompatibility between React Navigation and React Native
+            // @ts-expect-error - Type incompatibility between React Navigation and React Native
             <TouchableOpacity {...props} testID="tab-menu" />
           ),
         }}

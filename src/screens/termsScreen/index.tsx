@@ -36,8 +36,8 @@ export const TermsScreen: React.FC<TermsScreenProps> = () => {
             1. Aceitação dos Termos
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph}>
-            Ao acessar e usar o aplicativo Arena, você concorda em cumprir e estar
-            vinculado aos seguintes termos e condições de uso.
+            Ao acessar e usar o aplicativo Arena, você concorda em cumprir e
+            estar vinculado aos seguintes termos e condições de uso.
           </Text>
         </View>
 
@@ -47,8 +47,8 @@ export const TermsScreen: React.FC<TermsScreenProps> = () => {
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph}>
             O Arena é uma plataforma para organização de eventos esportivos e
-            conexão entre atletas. Você concorda em usar o aplicativo apenas para
-            fins legais e de acordo com estes termos.
+            conexão entre atletas. Você concorda em usar o aplicativo apenas
+            para fins legais e de acordo com estes termos.
           </Text>
         </View>
 
@@ -57,8 +57,8 @@ export const TermsScreen: React.FC<TermsScreenProps> = () => {
             3. Conta de Usuário
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph}>
-            Você é responsável por manter a confidencialidade de sua conta e senha
-            e por todas as atividades que ocorram em sua conta.
+            Você é responsável por manter a confidencialidade de sua conta e
+            senha e por todas as atividades que ocorram em sua conta.
           </Text>
         </View>
 
@@ -78,8 +78,9 @@ export const TermsScreen: React.FC<TermsScreenProps> = () => {
             5. Modificações
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph}>
-            Reservamo-nos o direito de modificar estes termos a qualquer momento.
-            Alterações significativas serão comunicadas através do aplicativo.
+            Reservamo-nos o direito de modificar estes termos a qualquer
+            momento. Alterações significativas serão comunicadas através do
+            aplicativo.
           </Text>
         </View>
 

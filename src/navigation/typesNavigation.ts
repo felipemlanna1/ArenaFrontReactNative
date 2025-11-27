@@ -4,10 +4,13 @@ export type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
   Register: undefined;
+  ForgotPassword: undefined;
+  VerifyCode: { email: string };
+  ResetPassword: { email: string; code: string };
   ComponentsShowcase: undefined;
   OnboardingSports: undefined;
   MainTabs: undefined;
-  FilterScreen: undefined;
+  FilterScreen: { source: 'home' | 'groups' | 'friends' };
   CreateEvent:
     | {
         mode?: 'create' | 'edit';

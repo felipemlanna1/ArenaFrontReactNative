@@ -124,19 +124,19 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
 
   const handleCreateGroupPress = useCallback(() => {
     haptic.light();
-    navigation.navigate('CreateGroup' as never);
+    navigation.navigate('CreateGroup');
   }, [navigation]);
 
   const handleGroupDetailsPress = useCallback(
     (groupId: string) => {
-      navigation.navigate('GroupDetails' as never, { groupId } as never);
+      navigation.navigate('GroupDetails', { groupId });
     },
     [navigation]
   );
 
   const handleGroupManagePress = useCallback(
     (groupId: string) => {
-      navigation.navigate('GroupDetails' as never, { groupId } as never);
+      navigation.navigate('GroupDetails', { groupId });
     },
     [navigation]
   );
@@ -171,7 +171,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
 
   const handleUserPress = useCallback(
     (userId: string) => {
-      navigation.navigate('UserProfile' as never, { userId } as never);
+      navigation.navigate('Profile', { userId });
     },
     [navigation]
   );

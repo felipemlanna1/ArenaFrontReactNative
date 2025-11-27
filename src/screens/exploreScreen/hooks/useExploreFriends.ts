@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { friendshipsApi } from '@/services/friendships/friendshipsApi';
 import { FriendshipType } from '@/services/friendships/typesFriendships';
 import { UserData } from '@/services/http';
@@ -29,7 +29,10 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
   const isLoadingRef = useRef(false);
 
   const { searchTerm, friendsFilters } = useHomeFilters();
-  const selectedSports = friendsFilters.sportIds || [];
+  const selectedSports = useMemo(
+    () => friendsFilters.sportIds || [],
+    [friendsFilters.sportIds]
+  );
   const selectedCity = friendsFilters.city;
   const selectedState = friendsFilters.state;
 
@@ -41,11 +44,6 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setIsLoading(true);
       setError(null);
 
-      // Filtros aplicados à aba AMIGOS (via API):
-      // - query (busca por nome/username - enviado ao backend)
-      // - Cidade + Estado
-      // - sportId (apenas primeiro esporte da lista)
-      // - Apenas perfis públicos (backend filtra automaticamente)
       const response = await friendshipsApi.getUsers(
         FriendshipType.RECOMMENDATIONS,
         {
@@ -78,7 +76,6 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setIsLoadingMore(true);
       const nextPage = currentPage + 1;
 
-      // Buscar próxima página
       const response = await friendshipsApi.getUsers(
         FriendshipType.RECOMMENDATIONS,
         {
@@ -101,7 +98,15 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
     } finally {
       setIsLoadingMore(false);
     }
-  }, [currentPage, hasMore, isLoadingMore, selectedCity, selectedState, selectedSports, searchTerm]);
+  }, [
+    currentPage,
+    hasMore,
+    isLoadingMore,
+    selectedCity,
+    selectedState,
+    selectedSports,
+    searchTerm,
+  ]);
 
   const refreshFriends = useCallback(async () => {
     if (isLoadingRef.current) return;
@@ -111,7 +116,6 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
       setIsRefreshing(true);
       setError(null);
 
-      // Resetar para primeira página
       const response = await friendshipsApi.getUsers(
         FriendshipType.RECOMMENDATIONS,
         {
@@ -137,12 +141,13 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
     }
   }, [selectedCity, selectedState, selectedSports, searchTerm]);
 
-  // Carregar amigos quando filtros mudarem (incluindo primeira montagem)
-  // Debounce de 500ms para busca (query enviada ao backend)
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      loadFriends();
-    }, searchTerm ? 500 : 0);
+    const timeout = setTimeout(
+      () => {
+        loadFriends();
+      },
+      searchTerm ? 500 : 0
+    );
 
     return () => clearTimeout(timeout);
   }, [searchTerm, selectedSports, selectedCity, selectedState, loadFriends]);

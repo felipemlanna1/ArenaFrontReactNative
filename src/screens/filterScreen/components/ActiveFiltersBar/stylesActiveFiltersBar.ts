@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors } from '@/constants';
+import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.darkest,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
     paddingVertical: ArenaSpacing.sm,
   },

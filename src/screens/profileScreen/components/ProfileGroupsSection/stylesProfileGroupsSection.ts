@@ -38,11 +38,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
   },
   groupCardWrapper: {
-    width: 280, // eslint-disable-line arena/arena-design-tokens
+    width: ArenaSpacing['13xl'],
   },
   divider: {
     width: ArenaBorders.width.thin,
-    height: 80, // eslint-disable-line arena/arena-design-tokens
+    height: ArenaSpacing['8xl'],
     backgroundColor: ArenaColors.neutral.dark,
     marginHorizontal: ArenaSpacing.md,
   },
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    width: 60, // eslint-disable-line arena/arena-design-tokens
+    width: ArenaSizes.imageShowcaseSmall,
     pointerEvents: 'none',
   },
   separator: {

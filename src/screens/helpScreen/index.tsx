@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { AppLayout } from '@/components/AppLayout';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors } from '@/constants';
 import { styles } from './stylesHelpScreen';
 import { HelpScreenProps } from './typesHelpScreen';
 
@@ -37,29 +37,32 @@ export const HelpScreen: React.FC<HelpScreenProps> = () => {
           </Text>
 
           <View style={styles.faqItem}>
-            <Text variant="subtitlePrimary" style={styles.question}>
+            <Text variant="titleSecondary" style={styles.question}>
               Como criar um evento?
             </Text>
             <Text variant="bodySecondary" style={styles.answer}>
-              Toque no botão "+" na tela de eventos e preencha as informações do evento que deseja criar.
+              Toque no botão "+" na tela de eventos e preencha as informações do
+              evento que deseja criar.
             </Text>
           </View>
 
           <View style={styles.faqItem}>
-            <Text variant="subtitlePrimary" style={styles.question}>
+            <Text variant="titleSecondary" style={styles.question}>
               Como adicionar amigos?
             </Text>
             <Text variant="bodySecondary" style={styles.answer}>
-              Vá para a aba "Amigos", busque pelo nome do usuário e envie uma solicitação de amizade.
+              Vá para a aba "Amigos", busque pelo nome do usuário e envie uma
+              solicitação de amizade.
             </Text>
           </View>
 
           <View style={styles.faqItem}>
-            <Text variant="subtitlePrimary" style={styles.question}>
+            <Text variant="titleSecondary" style={styles.question}>
               Como participar de um grupo?
             </Text>
             <Text variant="bodySecondary" style={styles.answer}>
-              Na tela de grupos, navegue pelas recomendações e toque em "Entrar" no grupo desejado.
+              Na tela de grupos, navegue pelas recomendações e toque em "Entrar"
+              no grupo desejado.
             </Text>
           </View>
         </View>

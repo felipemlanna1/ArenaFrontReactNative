@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -24,11 +24,11 @@ export const styles = StyleSheet.create({
   },
 
   bullet: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: ArenaSpacing.xs,
+    height: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.sm,
     backgroundColor: ArenaColors.neutral.medium,
-    marginTop: 8, // Align with text baseline
+    marginTop: ArenaSpacing.sm,
   },
 
   ruleText: {

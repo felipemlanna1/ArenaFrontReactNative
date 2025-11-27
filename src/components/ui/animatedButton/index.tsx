@@ -1,41 +1,16 @@
-/**
- * AnimatedButton - Button Wrapper with Haptic Feedback & Spring Animation
- *
- * Wraps existing Button component with:
- * - Scale animation on press (spring physics)
- * - Haptic feedback (light impact)
- * - Uses Animated API for Web compatibility
- *
- * @module components/ui/animatedButton
- */
-
+// eslint-disable-next-line arena/arena-file-structure
 import React, { useRef } from 'react';
 import { Animated, Pressable, ViewStyle } from 'react-native';
 import { Button, ButtonProps } from '@/components/ui/button';
 import { haptic } from '@/utils/haptics';
 
 export interface AnimatedButtonProps extends Omit<ButtonProps, 'onPress'> {
-  /**
-   * Callback when button is pressed
-   */
   onPress?: () => void;
 
-  /**
-   * Enable haptic feedback on press
-   * @default true
-   */
   enableHaptics?: boolean;
 
-  /**
-   * Scale factor when pressed (0.95 = 95% of original size)
-   * @default 0.95
-   */
   pressScale?: number;
 
-  /**
-   * Animation duration in ms
-   * @default 100
-   */
   animationDuration?: number;
 
   style?: ViewStyle;
@@ -52,12 +27,10 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = (): void => {
-    // Trigger haptic feedback
     if (enableHaptics) {
       haptic.light();
     }
 
-    // Scale down animation
     Animated.spring(scaleAnim, {
       toValue: pressScale,
       friction: 3,
@@ -67,7 +40,6 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   };
 
   const handlePressOut = (): void => {
-    // Scale back up animation
     Animated.spring(scaleAnim, {
       toValue: 1,
       friction: 3,
@@ -100,14 +72,11 @@ export const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   );
 };
 
-/**
- * Preset: Success Button (green with success haptic)
- */
 export const SuccessButton: React.FC<
   Omit<AnimatedButtonProps, 'variant' | 'enableHaptics'>
-> = (props) => {
+> = props => {
   const handlePress = (): void => {
-    haptic.success(); // Triple-tap celebration
+    haptic.success();
     props.onPress?.();
   };
 
@@ -116,19 +85,16 @@ export const SuccessButton: React.FC<
       {...props}
       variant="primary"
       onPress={handlePress}
-      enableHaptics={false} // Already handling via success()
+      enableHaptics={false}
     />
   );
 };
 
-/**
- * Preset: Celebration Button (for achievements, milestones)
- */
 export const CelebrationButton: React.FC<
   Omit<AnimatedButtonProps, 'enableHaptics'>
-> = (props) => {
+> = props => {
   const handlePress = (): void => {
-    haptic.celebration(); // Triple-tap pattern
+    haptic.celebration();
     props.onPress?.();
   };
 
@@ -137,7 +103,7 @@ export const CelebrationButton: React.FC<
       {...props}
       onPress={handlePress}
       enableHaptics={false}
-      pressScale={0.9} // More pronounced scale
+      pressScale={0.9}
     />
   );
 };

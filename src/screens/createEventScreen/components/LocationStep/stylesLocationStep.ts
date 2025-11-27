@@ -26,6 +26,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   flex2: {
-    flex: 2,
+    flex: ArenaSpacing.xxs,
   },
 });

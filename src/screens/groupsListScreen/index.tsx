@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
+import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
 import { SkeletonCard } from '@/components/ui/skeletonCard';
 import { GroupCard } from '@/components/ui/groupCard';
@@ -10,11 +10,11 @@ import { AnimatedListItem } from '@/components/ui/animatedListItem';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
+import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
 import { GroupsListScreenProps } from './typesGroupsListScreen';
 import { useGroupsListScreen } from './useGroupsListScreen';
 import { styles } from './stylesGroupsListScreen';
-import { GroupsBackground } from './components/GroupsBackground';
-import { GroupsFilterBar } from './components/GroupsFilterBar';
+import { FilterBar } from './components/FilterBar';
 import { GroupsTabBar, GroupTab } from './components/GroupsTabBar';
 import {
   MyGroupsSection,
@@ -27,14 +27,16 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<GroupTab>('myGroups');
 
-  const {
-    activeFilters,
-    searchTerm,
-    setSearchTerm,
-    updateFilter,
-    clearFilters,
-    activeFiltersCount,
-  } = useGroupsFilters();
+  const groupTabs: GroupTab[] = ['myGroups', 'recommendations'];
+
+  const { composedGesture } = useSwipeableFilters({
+    filters: groupTabs,
+    activeFilter: activeTab,
+    onChange: setActiveTab,
+  });
+
+  const { activeFilters, searchTerm, setSearchTerm, clearFilters } =
+    useGroupsFilters();
 
   const {
     myGroups,
@@ -60,30 +62,25 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     navigation.navigate('CreateGroup');
   }, [navigation]);
 
+  const handleBackPress = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   const handleSwitchToRecommendations = useCallback(() => {
     setActiveTab('recommendations');
   }, []);
 
-  const handleCityChange = useCallback(
-    (city: string) => {
-      updateFilter('city', city);
-    },
-    [updateFilter]
-  );
+  const handleFilterPress = useCallback(() => {
+    navigation.navigate('FilterScreen', { source: 'groups' });
+  }, [navigation]);
 
-  const handleStateChange = useCallback(
-    (state: string) => {
-      updateFilter('state', state);
-    },
-    [updateFilter]
-  );
-
-  const handleSportChange = useCallback(
-    (sportId: string | undefined) => {
-      updateFilter('sportIds', sportId ? [sportId] : undefined);
-    },
-    [updateFilter]
-  );
+  const filterCount = useMemo(() => {
+    let count = 0;
+    if (activeFilters.city) count++;
+    if (activeFilters.state) count++;
+    if (activeFilters.sportIds && activeFilters.sportIds.length > 0) count++;
+    return count;
+  }, [activeFilters.city, activeFilters.state, activeFilters.sportIds]);
 
   const getTabData = useCallback(() => {
     switch (activeTab) {
@@ -145,7 +142,11 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     ]
   );
 
-  const hasActiveFilters = activeFiltersCount > 0 || searchTerm.length > 0;
+  const hasActiveFilters = filterCount > 0 || searchTerm.length > 0;
+
+  const renderSeparator = useCallback(() => {
+    return <View style={styles.itemSeparator} />;
+  }, []);
 
   const renderFooter = useCallback(() => {
     const { isLoadingMore } = getTabData();
@@ -204,37 +205,30 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     handleCreateGroup,
   ]);
 
-  const selectedSportId = activeFilters.sportIds?.[0];
   const { data, isLoading, hasMore, onLoadMore } = getTabData();
 
   return (
-    <AppLayout>
-      <GroupsBackground>
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text variant="headingPrimary" style={styles.title}>
-              Grupos
-            </Text>
-          </View>
-
-          <GroupsFilterBar
-            searchQuery={searchTerm}
-            onSearchChange={setSearchTerm}
-            selectedCity={activeFilters.city || ''}
-            onCityChange={handleCityChange}
-            selectedState={activeFilters.state || ''}
-            onStateChange={handleStateChange}
-            selectedSportId={selectedSportId}
-            onSportChange={handleSportChange}
-            onClearFilters={clearFilters}
-            hasActiveFilters={hasActiveFilters}
-          />
-
+    <AppLayout
+      showHeader={true}
+      headerVariant="mainWithBack"
+      headerShowLogo={true}
+      headerShowBackButton={true}
+      headerOnBackPress={handleBackPress}
+    >
+      <GestureDetector gesture={composedGesture}>
+        <View style={styles.content}>
           <GroupsTabBar
             activeTab={activeTab}
             onTabChange={setActiveTab}
             myGroupsCount={myGroups.length}
             recommendationsCount={recommendations.length}
+          />
+
+          <FilterBar
+            searchQuery={searchTerm}
+            onSearchChange={setSearchTerm}
+            onFilterPress={handleFilterPress}
+            filterCount={filterCount}
           />
 
           {isLoading && data.length === 0 ? (
@@ -244,17 +238,20 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
               <SkeletonCard />
             </View>
           ) : (
-            <FlashList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              contentContainerStyle={styles.listContent}
-              onEndReached={hasMore ? onLoadMore : undefined}
-              onEndReachedThreshold={0.5}
-              ListEmptyComponent={renderEmpty}
-              ListFooterComponent={renderFooter}
-              showsVerticalScrollIndicator={false}
-            />
+            <View style={styles.listWrapper}>
+              <FlashList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                contentContainerStyle={styles.listContent}
+                ItemSeparatorComponent={renderSeparator}
+                onEndReached={hasMore ? onLoadMore : undefined}
+                onEndReachedThreshold={0.5}
+                ListEmptyComponent={renderEmpty}
+                ListFooterComponent={renderFooter}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
           )}
 
           <View style={styles.fab}>
@@ -272,7 +269,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
             />
           </View>
         </View>
-      </GroupsBackground>
+      </GestureDetector>
     </AppLayout>
   );
 };

@@ -120,7 +120,8 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
   );
 
   const tabNavigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
-  const rootNavigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const rootNavigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleDiscoverEvents = useCallback(() => {
     tabNavigation.navigate('ExploreTab');

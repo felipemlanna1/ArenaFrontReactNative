@@ -28,8 +28,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
         </Text>
 
         <Text variant="captionSecondary" style={styles.caption}>
-          Aqui você poderá gerenciar suas preferências, notificações, privacidade
-          e outras configurações do aplicativo.
+          Aqui você poderá gerenciar suas preferências, notificações,
+          privacidade e outras configurações do aplicativo.
         </Text>
       </View>
     </AppLayout>

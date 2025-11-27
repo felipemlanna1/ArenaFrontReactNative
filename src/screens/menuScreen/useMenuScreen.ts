@@ -1,11 +1,15 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
+import { useInvites } from '@/contexts/InvitesContext';
+import { useUnreadNotificationsContext } from '@/contexts/UnreadNotificationsContext';
 import { UseMenuScreenReturn, MenuItem } from './typesMenuScreen';
 
 export const useMenuScreen = (): UseMenuScreenReturn => {
   const navigation = useNavigation();
   const { user, signOut } = useAuth();
+  const { counts } = useInvites();
+  const { unreadCount } = useUnreadNotificationsContext();
 
   const userName = useMemo(() => {
     if (!user) return '';
@@ -26,21 +30,21 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
         id: 'friends',
         type: 'navigation',
         label: 'Atletas',
-        badge: user?.totalFriends || 0,
+        badge: counts.friendRequests,
         testID: 'menu-friends',
       },
       {
         id: 'groups',
         type: 'navigation',
         label: 'Equipes',
-        badge: user?.totalGroups || 0,
+        badge: counts.groupInvites,
         testID: 'menu-groups',
       },
       {
         id: 'notifications',
         type: 'navigation',
         label: 'Notificações',
-        badge: user?.totalInvites || 0,
+        badge: unreadCount,
         testID: 'menu-notifications',
       },
       {
@@ -76,7 +80,7 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
         testID: 'menu-logout',
       },
     ],
-    [user]
+    [counts, unreadCount]
   );
 
   const handleItemPress = useCallback(

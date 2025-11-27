@@ -1,5 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { View, TouchableOpacity, LayoutAnimation, Platform } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
@@ -17,7 +22,8 @@ export const EventDescriptionSection: React.FC<
 > = ({ description }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const shouldShowToggle = description && description.length > MAX_COLLAPSED_LENGTH;
+  const shouldShowToggle =
+    description && description.length > MAX_COLLAPSED_LENGTH;
 
   const handleToggle = useCallback(() => {
     if (Platform.OS !== 'web') {
@@ -43,7 +49,7 @@ export const EventDescriptionSection: React.FC<
       <View style={styles.descriptionContainer}>
         <Text
           variant="bodyPrimary"
-          style={[styles.text, { lineHeight: 24 }]}
+          style={styles.text}
           numberOfLines={isExpanded || !shouldShowToggle ? undefined : 3}
         >
           {description}
@@ -73,9 +79,6 @@ export const EventDescriptionSection: React.FC<
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
             size={16}
             color={ArenaColors.brand.primary}
-            style={{
-              transform: [{ rotate: isExpanded ? '0deg' : '0deg' }],
-            }}
           />
         </TouchableOpacity>
       )}

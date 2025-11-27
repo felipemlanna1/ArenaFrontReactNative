@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
   modalHeader: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.darkest,
   },
   modalList: {

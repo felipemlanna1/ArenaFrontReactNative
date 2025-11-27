@@ -30,6 +30,10 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
     isLoading,
     isSaving,
     availableSports,
+    isUploadingAvatar,
+    isUploadingCover,
+    avatarUploadProgress,
+    coverUploadProgress,
     calculatedAge,
     handleFieldChange,
     handleToggleSport,
@@ -126,6 +130,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
               onPress={handlePickProfilePicture}
               testID="pick-profile-picture"
               style={styles.profilePictureTouchable}
+              disabled={isUploadingAvatar || isSaving}
             >
               <View style={styles.profilePictureWrapper}>
                 {formData.profilePicture ? (
@@ -144,16 +149,24 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
                     />
                   </View>
                 )}
-                <View style={styles.cameraBadge}>
-                  <Ionicons
-                    name="camera"
-                    size={16}
-                    color={ArenaColors.neutral.light}
-                  />
-                </View>
+                {isUploadingAvatar ? (
+                  <View style={styles.uploadOverlay}>
+                    <SportsLoading size="sm" animationSpeed="fast" />
+                  </View>
+                ) : (
+                  <View style={styles.cameraBadge}>
+                    <Ionicons
+                      name="camera"
+                      size={16}
+                      color={ArenaColors.neutral.light}
+                    />
+                  </View>
+                )}
               </View>
               <Text variant="captionSecondary" style={styles.photoLabel}>
-                Foto de Perfil
+                {isUploadingAvatar
+                  ? `Enviando... ${Math.round(avatarUploadProgress)}%`
+                  : 'Foto de Perfil'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -162,6 +175,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
             onPress={handlePickCoverPhoto}
             testID="pick-cover-photo"
             style={styles.coverPhotoButton}
+            disabled={isUploadingCover || isSaving}
           >
             <View style={styles.coverPhotoWrapper}>
               {formData.coverPhoto ? (
@@ -180,16 +194,24 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
                   />
                 </View>
               )}
-              <View style={styles.cameraBadge}>
-                <Ionicons
-                  name="camera"
-                  size={16}
-                  color={ArenaColors.neutral.light}
-                />
-              </View>
+              {isUploadingCover ? (
+                <View style={styles.uploadOverlay}>
+                  <SportsLoading size="sm" animationSpeed="fast" />
+                </View>
+              ) : (
+                <View style={styles.cameraBadge}>
+                  <Ionicons
+                    name="camera"
+                    size={16}
+                    color={ArenaColors.neutral.light}
+                  />
+                </View>
+              )}
             </View>
             <Text variant="captionSecondary" style={styles.photoLabel}>
-              Foto de Capa
+              {isUploadingCover
+                ? `Enviando... ${Math.round(coverUploadProgress)}%`
+                : 'Foto de Capa'}
             </Text>
           </TouchableOpacity>
         </View>

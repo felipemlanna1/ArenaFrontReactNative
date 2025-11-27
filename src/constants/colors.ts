@@ -10,6 +10,7 @@ export const ArenaColors = {
   },
   neutral: {
     darkest: '#1B1D29',
+    darker: '#1E2535',
     dark: '#20303D',
     darkIntermediate: '#243441',
     darkSubtleBorder: '#2C3E50',
@@ -79,6 +80,19 @@ export const ArenaColors = {
     successSubtle20: '#10B98133',
     warning: '#F59E0B',
     warningSubtle: 'rgba(245, 158, 11, 0.1)',
+  },
+  achievement: {
+    bronze: '#CD7F32',
+    silver: '#C0C0C0',
+    gold: '#FFD700',
+    platinum: '#E5E4E2',
+  },
+  backdrop: {
+    light: 'rgba(0, 0, 0, 0.5)',
+    medium: 'rgba(0, 0, 0, 0.7)',
+    dark: 'rgba(0, 0, 0, 0.8)',
+    darker: 'rgba(0, 0, 0, 0.9)',
+    darkestOverlay: 'rgba(27, 29, 41, 0.8)',
   },
 } as const;
 export type ArenaBrandColor = keyof typeof ArenaColors.brand;

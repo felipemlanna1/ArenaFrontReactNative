@@ -199,13 +199,13 @@ export const EventCard: React.FC<EventCardProps> = ({
         {event.participants && event.participants.length > 0 && (
           <View style={styles.participantsRow}>
             <AvatarStack
-              users={event.participants.map(p => ({
-                id: p.user.id,
+              participants={event.participants.map(p => ({
+                id: p.id,
+                userId: p.user.id,
                 name: `${p.user.firstName} ${p.user.lastName}`,
-                photo: p.user.profilePicture,
+                profileImage: p.user.profilePicture,
               }))}
-              size="sm"
-              max={4}
+              maxVisible={4}
               testID={`${testID}-avatars`}
             />
             <Text variant="captionSecondary" style={styles.participantsText}>

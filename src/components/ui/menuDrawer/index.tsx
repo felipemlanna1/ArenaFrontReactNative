@@ -42,8 +42,14 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
   const translateX = useSharedValue(-320);
   const opacity = useSharedValue(0);
 
-  const { menuItems, handleItemPress, handleClose, userName, userEmail, userAvatar } =
-    useMenuDrawer({ isOpen, onClose });
+  const {
+    menuItems,
+    handleItemPress,
+    handleClose,
+    userName,
+    userEmail,
+    userAvatar,
+  } = useMenuDrawer({ isOpen, onClose });
 
   React.useEffect(() => {
     if (isOpen) {
@@ -82,12 +88,13 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
     );
   };
 
-  const renderMenuItem = (item: typeof menuItems[number]) => {
+  const renderMenuItem = (item: (typeof menuItems)[number]) => {
     if (item.type === 'divider') {
       return <View key={item.id} style={styles.divider} />;
     }
 
-    const iconName = ICON_MAP[item.id as keyof typeof ICON_MAP] || 'ellipsis-horizontal';
+    const iconName =
+      ICON_MAP[item.id as keyof typeof ICON_MAP] || 'ellipsis-horizontal';
 
     return (
       <Pressable
@@ -115,12 +122,7 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
         <View style={styles.menuItemContent}>
           <Text
             variant="bodyPrimary"
-            style={{
-              color:
-                item.id === 'logout'
-                  ? ArenaColors.semantic.error
-                  : ArenaColors.neutral.light,
-            }}
+            style={item.id === 'logout' ? styles.logoutText : undefined}
           >
             {item.label}
           </Text>
@@ -144,7 +146,7 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
       onRequestClose={handleClose}
       testID={testID}
     >
-      <View style={{ flex: 1 }}>
+      <View style={styles.modalContainer}>
         <TouchableWithoutFeedback onPress={handleClose}>
           <Animated.View style={[styles.overlay, overlayAnimatedStyle]} />
         </TouchableWithoutFeedback>

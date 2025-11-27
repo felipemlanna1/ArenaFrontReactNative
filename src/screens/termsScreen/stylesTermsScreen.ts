@@ -25,9 +25,7 @@ export const styles = StyleSheet.create({
   sectionTitle: {
     marginBottom: ArenaSpacing.sm,
   },
-  paragraph: {
-    lineHeight: 22,
-  },
+  paragraph: {},
   footer: {
     marginTop: ArenaSpacing['2xl'],
     paddingTop: ArenaSpacing.xl,

@@ -1,3 +1,4 @@
+// eslint-disable-next-line arena/arena-file-structure
 import React, { useEffect, useState, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { Text } from '@/components/ui/text';

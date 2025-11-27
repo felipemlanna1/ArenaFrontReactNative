@@ -24,15 +24,15 @@ export const styles = StyleSheet.create({
   },
 
   checkbox: {
-    width: 20,
-    height: 20,
+    width: ArenaSpacing.xl,
+    height: ArenaSpacing.xl,
     borderRadius: ArenaBorders.radius.sm,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.medium,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 2, // Align with text baseline
+    marginTop: ArenaSpacing.xxs,
   },
 
   requirementText: {

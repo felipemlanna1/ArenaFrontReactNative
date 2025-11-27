@@ -41,13 +41,14 @@ export const PRODUCTION_SDK = {
   // Supabase Configuration
   supabase: {
     url: 'https://mqackbycjhsetihmvdfq.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xYWNrYnljamhzZXRpaG12ZGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjAyMzYsImV4cCI6MjA3MzA5NjIzNn0.QKHfleZr6G_NWQHBf9JXlFOLO0ya2F9MSTScxSkOn3M',
+    anonKey:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xYWNrYnljamhzZXRpaG12ZGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjAyMzYsImV4cCI6MjA3MzA5NjIzNn0.QKHfleZr6G_NWQHBf9JXlFOLO0ya2F9MSTScxSkOn3M',
   },
 
   // Common Headers
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
   },
 
   // Test User Credentials (para testes)

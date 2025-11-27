@@ -21,6 +21,6 @@ export const styles = StyleSheet.create({
   },
   caption: {
     textAlign: 'center',
-    maxWidth: 300,
+    maxWidth: ArenaSpacing['14xl'],
   },
 });

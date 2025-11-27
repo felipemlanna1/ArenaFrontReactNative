@@ -28,13 +28,11 @@ const PRIORITY_CODE = `// High priority - carrega primeiro (hero images, banners
   priority="high"
 />
 
-// Normal priority - padrão
 <OptimizedImage
   source={require('@/assets/image.png')}
   priority="normal"
 />
 
-// Low priority - carrega depois (thumbnails, avatars abaixo do fold)
 <OptimizedImage
   source={require('@/assets/thumbnail.png')}
   priority="low"
@@ -47,7 +45,6 @@ const LOADING_CODE = `// Com loading indicator (padrão)
   loadingSize="md"
 />
 
-// Sem loading indicator
 <OptimizedImage
   source={require('@/assets/image.png')}
   showLoading={false}
@@ -66,13 +63,11 @@ const CONTENT_FIT_CODE = `// Cover - preenche o container (padrão para banners)
   contentFit="cover"
 />
 
-// Contain - mantém proporções (logos, ícones)
 <OptimizedImage
   source={require('@/assets/logo.png')}
   contentFit="contain"
 />
 
-// Fill - estica a imagem
 <OptimizedImage
   source={require('@/assets/bg.png')}
   contentFit="fill"

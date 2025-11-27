@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors } from '@/constants';
+import { styles } from './stylesEmptyState';
 
 interface EmptyStateProps {
   icon: keyof typeof Ionicons.glyphMap;
@@ -68,33 +69,3 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: ArenaSpacing['2xl'],
-    paddingVertical: ArenaSpacing['3xl'],
-  },
-  iconContainer: {
-    marginBottom: ArenaSpacing.lg,
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.sm,
-  },
-  message: {
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.xl,
-  },
-  actionContainer: {
-    width: '100%',
-    maxWidth: 280,
-  },
-  secondaryActionContainer: {
-    width: '100%',
-    maxWidth: 280,
-    marginTop: ArenaSpacing.md,
-  },
-});

@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { Text } from '@/components/ui/text';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { styles } from './stylesVisualAuditScreen';
 
-// Import all screens
 import { ExploreScreen } from '../exploreScreen';
 import { MyEventsScreen } from '../myEventsScreen';
 import { ProfileScreen } from '../profileScreen';
@@ -19,31 +18,15 @@ import { GroupsListScreen } from '../groupsListScreen';
 import { SettingsScreen } from '../settingsScreen';
 import { EditProfileScreen } from '../editProfileScreen';
 
-/**
- * VisualAuditScreen
- *
- * Tela especial para Visual Audit que renderiza qualquer screen com dados mockados.
- *
- * Uso:
- * /visual-audit?screen=EventDetailsScreen&state=asParticipant
- * /visual-audit?screen=HomeScreen&state=empty
- *
- * Estados disponíveis por screen:
- * - EventDetailsScreen: asParticipant, asOrganizer, notParticipating, fullCapacity, cancelled
- * - GroupDetailsScreen: asMember, asAdmin, asOwner, notMember, pendingRequest, invited, fullCapacity
- * - HomeScreen: loading, empty, filled, error
- * - MyEventsScreen: loading, empty, filled, error
- * - etc.
- */
-
 interface VisualAuditScreenParams {
   screen?: string;
   state?: string;
 }
 
 export const VisualAuditScreen: React.FC = () => {
-  const route = useRoute<RouteProp<Record<string, VisualAuditScreenParams>, string>>();
-  const { screen, state } = route.params || {};
+  const route =
+    useRoute<RouteProp<Record<string, VisualAuditScreenParams>, string>>();
+  const { screen } = route.params || {};
 
   const renderScreen = useMemo(() => {
     if (!screen) {
@@ -56,30 +39,59 @@ export const VisualAuditScreen: React.FC = () => {
       );
     }
 
-    // Map screen names to components
-    // Mock data will be injected via context or props based on state param
+    const mockNavigation = {
+      navigate: () => {},
+      goBack: () => {},
+      addListener: () => () => {},
+      removeListener: () => {},
+      reset: () => {},
+      setParams: () => {},
+      dispatch: () => {},
+      setOptions: () => {},
+      isFocused: () => true,
+      canGoBack: () => true,
+      getParent: () => undefined,
+      getState: () => ({ routes: [], index: 0, type: 'stack' }),
+      getId: () => undefined,
+      push: () => {},
+      pop: () => {},
+      popToTop: () => {},
+      replace: () => {},
+    } as never;
+
+    const mockRoute = {
+      key: 'mock-route',
+      name: 'Mock',
+      params: {},
+    } as never;
+
     const screenMap: Record<string, React.ReactNode> = {
-      // Main Tabs
-      ExploreScreen: <ExploreScreen navigation={{} as never} />,
-      HomeScreen: <ExploreScreen navigation={{} as never} />,
+      ExploreScreen: <ExploreScreen navigation={mockNavigation} />,
+      HomeScreen: <ExploreScreen navigation={mockNavigation} />,
       MyEventsScreen: <MyEventsScreen />,
-      ProfileScreen: <ProfileScreen />,
+      ProfileScreen: (
+        <ProfileScreen navigation={mockNavigation} route={mockRoute} />
+      ),
       MenuScreen: <MenuScreen />,
-
-      // Detail Screens
-      EventDetailsScreen: <EventDetailsScreen />,
-      GroupDetailsScreen: <GroupDetailsScreen />,
-
-      // Create Screens
-      CreateEventScreen: <CreateEventScreen />,
-      CreateGroupScreen: <CreateGroupScreen />,
-
-      // Secondary Screens
+      EventDetailsScreen: (
+        <EventDetailsScreen navigation={mockNavigation} route={mockRoute} />
+      ),
+      GroupDetailsScreen: (
+        <GroupDetailsScreen navigation={mockNavigation} route={mockRoute} />
+      ),
+      CreateEventScreen: <CreateEventScreen navigation={mockNavigation} />,
+      CreateGroupScreen: (
+        <CreateGroupScreen navigation={mockNavigation} route={mockRoute} />
+      ),
       NotificationsScreen: <NotificationsScreen />,
-      FriendsScreen: <FriendsScreen />,
-      GroupsListScreen: <GroupsListScreen />,
-      SettingsScreen: <SettingsScreen />,
-      EditProfileScreen: <EditProfileScreen />,
+      FriendsScreen: <FriendsScreen navigation={mockNavigation} />,
+      GroupsListScreen: <GroupsListScreen navigation={mockNavigation} />,
+      SettingsScreen: (
+        <SettingsScreen navigation={mockNavigation} route={mockRoute} />
+      ),
+      EditProfileScreen: (
+        <EditProfileScreen navigation={mockNavigation} route={mockRoute} />
+      ),
     };
 
     const ScreenComponent = screenMap[screen];
@@ -87,33 +99,16 @@ export const VisualAuditScreen: React.FC = () => {
     if (!ScreenComponent) {
       return (
         <View style={styles.errorContainer}>
-          <Text variant="bodyPrimary">
-            Screen não encontrada: {screen}
-          </Text>
+          <Text variant="bodyPrimary">Screen não encontrada: {screen}</Text>
           <Text variant="captionSecondary">
-            Screens disponíveis:{' '}
-            {Object.keys(screenMap).join(', ')}
+            Screens disponíveis: {Object.keys(screenMap).join(', ')}
           </Text>
         </View>
       );
     }
 
     return ScreenComponent;
-  }, [screen, state]);
+  }, [screen]);
 
   return <View style={styles.container}>{renderScreen}</View>;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: ArenaColors.neutral.darkest,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: ArenaSpacing.lg,
-    backgroundColor: ArenaColors.neutral.darkest,
-  },
-});

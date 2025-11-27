@@ -17,7 +17,6 @@ class DeepLinksService {
   }
 
   generateEventLink(eventId: string): string {
-    // Usar domínio público para compartilhamento, não API
     const baseUrl = 'https://www.arenaapp.com.br';
     return `${baseUrl}/event/${eventId}`;
   }

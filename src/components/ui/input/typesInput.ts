@@ -174,7 +174,7 @@ export interface UseInputParams {
   fullWidth: boolean;
   disableAnimations: boolean;
   haptic: boolean;
-  inputRef?: React.RefObject<TextInput>;
+  inputRef?: React.RefObject<TextInput | null>;
   onChangeText: (text: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;

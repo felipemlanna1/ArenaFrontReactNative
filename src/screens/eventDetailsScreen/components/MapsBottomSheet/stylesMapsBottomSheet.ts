@@ -1,15 +1,18 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaSizes,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
-  // Modal Overlay
   modalOverlay: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.overlay,
     justifyContent: 'flex-end',
   },
 
-  // Modal Content
   modalContent: {
     width: '100%',
     backgroundColor: ArenaColors.neutral.darkest,
@@ -19,7 +22,6 @@ export const styles = StyleSheet.create({
     maxHeight: '50%',
   },
 
-  // Header
   modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -36,14 +38,12 @@ export const styles = StyleSheet.create({
     padding: ArenaSpacing.xs,
   },
 
-  // Lista de Apps
   appsList: {
     paddingVertical: ArenaSpacing.md,
     paddingHorizontal: ArenaSpacing.lg,
     gap: ArenaSpacing.sm,
   },
 
-  // Item de App
   appItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     borderRadius: ArenaBorders.radius.md,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.darkSubtleBorder,
-    minHeight: 64, // Touch target mínimo
+    minHeight: ArenaSpacing['6xl'],
   },
 
   appItemDisabled: {
@@ -61,8 +61,8 @@ export const styles = StyleSheet.create({
   },
 
   appIcon: {
-    width: 40,
-    height: 40,
+    width: ArenaSpacing['4xl'],
+    height: ArenaSpacing['4xl'],
     borderRadius: ArenaBorders.radius.sm,
     backgroundColor: ArenaColors.neutral.darkIntermediate,
     alignItems: 'center',
@@ -73,11 +73,10 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Loading state
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 200,
+    minHeight: ArenaSizes.gradientHeight,
   },
 });

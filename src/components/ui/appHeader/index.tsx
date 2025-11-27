@@ -84,9 +84,79 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     </>
   );
 
+  const renderSecondaryCentered = () => (
+    <>
+      <View style={styles.leftSection}>
+        {showBackButton && (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={handleBackPress}
+            testID={`${testID}-back-button`}
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={ArenaColors.neutral.light}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      <View style={styles.centerSection}>
+        {title && (
+          <Text variant="titlePrimary" testID={`${testID}-title`}>
+            {title}
+          </Text>
+        )}
+      </View>
+      <View style={styles.rightSection}>{renderRightSection()}</View>
+    </>
+  );
+
+  const renderMainWithBack = () => (
+    <>
+      <View style={styles.leftSection}>
+        {showBackButton && (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={handleBackPress}
+            testID={`${testID}-back-button`}
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={ArenaColors.neutral.light}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      <View style={styles.centerSection}>
+        {showLogo && (
+          <Symbol variant="variant1" size="md" testID={`${testID}-logo`} />
+        )}
+      </View>
+      <View style={styles.rightSection}>{renderRightSection()}</View>
+    </>
+  );
+
+  const renderContent = () => {
+    switch (variant) {
+      case 'main':
+        return renderMain();
+      case 'mainWithBack':
+        return renderMainWithBack();
+      case 'secondaryCentered':
+        return renderSecondaryCentered();
+      case 'secondary':
+      default:
+        return renderSecondary();
+    }
+  };
+
   return (
     <View style={styles.container} testID={testID}>
-      {variant === 'main' ? renderMain() : renderSecondary()}
+      {renderContent()}
     </View>
   );
 };

@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
-const ICON_SIZE = 24;
-const CLOSE_BUTTON_SIZE = 32;
-
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -30,12 +27,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginRight: ArenaSpacing.sm,
   },
-  messageText: {
-    lineHeight: 20,
-  },
+  messageText: {},
   closeButton: {
-    width: CLOSE_BUTTON_SIZE,
-    height: CLOSE_BUTTON_SIZE,
+    width: ArenaSpacing['3xl'],
+    height: ArenaSpacing['3xl'],
     borderRadius: ArenaBorders.radius.sm,
     justifyContent: 'center',
     alignItems: 'center',
@@ -47,6 +42,6 @@ export const styles = StyleSheet.create({
 });
 
 export const CONSTANTS = {
-  ICON_SIZE,
-  CLOSE_BUTTON_SIZE,
+  ICON_SIZE: ArenaSpacing['2xl'],
+  CLOSE_BUTTON_SIZE: ArenaSpacing['3xl'],
 };

@@ -1,83 +1,50 @@
-/**
- * Achievement Unlock Modal
- *
- * Celebratory modal displayed when user unlocks an achievement.
- * Features: Scale animation, glow effect, haptic celebration.
- *
- * @module features/achievements/AchievementUnlockModal
- */
-
 import React, { useEffect, useRef } from 'react';
-import {
-  Modal,
-  View,
-  StyleSheet,
-  Animated,
-  Dimensions,
-  Pressable,
-} from 'react-native';
+import { Modal, View, StyleSheet, Animated, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaTypography,
-} from '@/constants';
-import { Achievement } from './types';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import { Achievement } from './typesAchievements';
 import { haptic } from '@/utils/haptics';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export interface AchievementUnlockModalProps {
-  /**
-   * Whether modal is visible
-   */
   visible: boolean;
-
-  /**
-   * Achievement that was unlocked
-   */
   achievement: Achievement | null;
-
-  /**
-   * Callback when modal is dismissed
-   */
   onDismiss: () => void;
-
   testID?: string;
 }
 
 const TIER_COLORS = {
-  bronze: '#CD7F32',
-  silver: '#C0C0C0',
-  gold: '#FFD700',
-  platinum: '#E5E4E2',
+  bronze: ArenaColors.achievement.bronze,
+  silver: ArenaColors.achievement.silver,
+  gold: ArenaColors.achievement.gold,
+  platinum: ArenaColors.achievement.platinum,
 };
 
-export const AchievementUnlockModal: React.FC<
-  AchievementUnlockModalProps
-> = ({ visible, achievement, onDismiss, testID = 'achievement-unlock-modal' }) => {
+export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
+  visible,
+  achievement,
+  onDismiss,
+  testID = 'achievement-unlock-modal',
+}) => {
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (visible && achievement) {
-      // Trigger celebration haptic
       haptic.celebration();
 
-      // Entrance animations
       Animated.parallel([
-        // Scale up with bounce
         Animated.spring(scaleAnim, {
           toValue: 1,
           friction: 5,
           tension: 40,
           useNativeDriver: true,
         }),
-        // Fade in
+
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 300,
@@ -85,7 +52,6 @@ export const AchievementUnlockModal: React.FC<
         }),
       ]).start();
 
-      // Continuous glow animation
       const glowAnimation = Animated.loop(
         Animated.sequence([
           Animated.timing(glowAnim, {
@@ -106,7 +72,6 @@ export const AchievementUnlockModal: React.FC<
         glowAnimation.stop();
       };
     } else {
-      // Reset animations
       scaleAnim.setValue(0);
       fadeAnim.setValue(0);
       glowAnim.setValue(0);
@@ -114,7 +79,6 @@ export const AchievementUnlockModal: React.FC<
   }, [visible, achievement, scaleAnim, fadeAnim, glowAnim]);
 
   const handleDismiss = (): void => {
-    // Exit animations
     Animated.parallel([
       Animated.timing(scaleAnim, {
         toValue: 0,
@@ -147,7 +111,7 @@ export const AchievementUnlockModal: React.FC<
       onRequestClose={handleDismiss}
       testID={testID}
     >
-      <Pressable style={styles.backdrop} onPress={handleDismiss}>
+      <View style={styles.backdrop}>
         <Animated.View
           style={[
             styles.container,
@@ -157,7 +121,6 @@ export const AchievementUnlockModal: React.FC<
             },
           ]}
         >
-          {/* Glow effect */}
           <Animated.View
             style={[
               styles.glow,
@@ -168,14 +131,11 @@ export const AchievementUnlockModal: React.FC<
             ]}
           />
 
-          {/* Content */}
           <View style={styles.content}>
-            {/* Achievement unlocked header */}
             <Text variant="captionSecondary" style={styles.unlockText}>
               ACHIEVEMENT UNLOCKED
             </Text>
 
-            {/* Icon */}
             <View
               style={[
                 styles.iconContainer,
@@ -189,17 +149,14 @@ export const AchievementUnlockModal: React.FC<
               />
             </View>
 
-            {/* Title */}
             <Text variant="headingPrimary" style={styles.title}>
               {achievement.title}
             </Text>
 
-            {/* Description */}
             <Text variant="bodySecondary" style={styles.description}>
               {achievement.description}
             </Text>
 
-            {/* Points */}
             <View style={styles.pointsContainer}>
               <Ionicons
                 name="star"
@@ -211,7 +168,6 @@ export const AchievementUnlockModal: React.FC<
               </Text>
             </View>
 
-            {/* Tier badge */}
             <View
               style={[styles.tierBadge, { backgroundColor: tierColor + '40' }]}
             >
@@ -223,29 +179,36 @@ export const AchievementUnlockModal: React.FC<
               </Text>
             </View>
 
-            {/* Dismiss button */}
             <View style={styles.buttonContainer}>
-              <Button variant="primary" size="lg" onPress={handleDismiss} fullWidth>
+              <Button
+                variant="primary"
+                size="lg"
+                onPress={handleDismiss}
+                fullWidth
+              >
                 Continuar
               </Button>
             </View>
           </View>
         </Animated.View>
-      </Pressable>
+      </View>
     </Modal>
   );
 };
 
+const MODAL_MAX_WIDTH = 400;
+const ICON_SIZE = 120;
+
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: ArenaColors.backdrop.dark,
     justifyContent: 'center',
     alignItems: 'center',
   },
   container: {
     width: SCREEN_WIDTH - ArenaSpacing['2xl'] * 2,
-    maxWidth: 400,
+    maxWidth: MODAL_MAX_WIDTH,
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.lg,
     overflow: 'hidden',
@@ -256,7 +219,7 @@ const styles = StyleSheet.create({
     left: -100,
     right: -100,
     bottom: -100,
-    borderRadius: 200,
+    borderRadius: ArenaBorders.radius.circle,
     opacity: 0.3,
   },
   content: {
@@ -266,14 +229,13 @@ const styles = StyleSheet.create({
   },
   unlockText: {
     color: ArenaColors.brand.primary,
-    letterSpacing: 2,
     textAlign: 'center',
   },
   iconContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 4,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
+    borderRadius: ArenaBorders.radius.circle,
+    borderWidth: ArenaBorders.width.thick,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: ArenaSpacing.md,
@@ -301,9 +263,7 @@ const styles = StyleSheet.create({
     marginTop: ArenaSpacing.sm,
   },
   tierText: {
-    fontSize: ArenaTypography.size.xs,
-    fontWeight: ArenaTypography.weight.bold,
-    letterSpacing: 1.5,
+    textAlign: 'center',
   },
   buttonContainer: {
     width: '100%',

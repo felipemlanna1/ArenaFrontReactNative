@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFriendsFilters } from '@/contexts/FriendsFiltersContext';
 import { friendshipsApi } from '@/services/friendships';
 import { FriendshipType } from '@/services/friendships/typesFriendships';
 import { UseFriendsScreenReturn } from './typesFriendsScreen';
@@ -10,6 +11,13 @@ export const useFriendsScreen = (
   navigation: NavigationProp<Record<string, object | undefined>>
 ): UseFriendsScreenReturn => {
   const { signOut } = useAuth();
+  const {
+    activeFilters,
+    searchTerm,
+    setSearchTerm,
+    clearFilters,
+    activeFiltersCount,
+  } = useFriendsFilters();
 
   const [friends, setFriends] = useState<UserData[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<UserData[]>([]);
@@ -46,20 +54,14 @@ export const useFriendsScreen = (
   const [isLoadingMoreRecommendations, setIsLoadingMoreRecommendations] =
     useState(false);
 
-  const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedSportId, setSelectedSportId] = useState<string | undefined>(
-    undefined
-  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
+      setDebouncedSearchQuery(searchTerm);
     }, 500);
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [searchTerm]);
 
   const fetchFriends = useCallback(
     async (page: number = 1) => {
@@ -75,9 +77,9 @@ export const useFriendsScreen = (
           FriendshipType.FRIENDS,
           {
             query: debouncedSearchQuery || undefined,
-            city: selectedCity || undefined,
-            state: selectedState || undefined,
-            sportId: selectedSportId,
+            city: activeFilters.city,
+            state: activeFilters.state,
+            sportId: activeFilters.sportIds?.[0],
           },
           page,
           20
@@ -100,7 +102,12 @@ export const useFriendsScreen = (
         setIsLoadingMoreFriends(false);
       }
     },
-    [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]
+    [
+      debouncedSearchQuery,
+      activeFilters.city,
+      activeFilters.state,
+      activeFilters.sportIds,
+    ]
   );
 
   const fetchIncomingRequests = useCallback(
@@ -117,9 +124,9 @@ export const useFriendsScreen = (
           FriendshipType.INCOMING,
           {
             query: debouncedSearchQuery || undefined,
-            city: selectedCity || undefined,
-            state: selectedState || undefined,
-            sportId: selectedSportId,
+            city: activeFilters.city,
+            state: activeFilters.state,
+            sportId: activeFilters.sportIds?.[0],
           },
           page,
           20
@@ -151,7 +158,12 @@ export const useFriendsScreen = (
         setIsLoadingMoreIncoming(false);
       }
     },
-    [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]
+    [
+      debouncedSearchQuery,
+      activeFilters.city,
+      activeFilters.state,
+      activeFilters.sportIds,
+    ]
   );
 
   const fetchOutgoingRequests = useCallback(async (page: number = 1) => {
@@ -211,9 +223,9 @@ export const useFriendsScreen = (
           FriendshipType.RECOMMENDATIONS,
           {
             query: debouncedSearchQuery || undefined,
-            city: selectedCity || undefined,
-            state: selectedState || undefined,
-            sportId: selectedSportId,
+            city: activeFilters.city,
+            state: activeFilters.state,
+            sportId: activeFilters.sportIds?.[0],
           },
           page,
           20
@@ -236,7 +248,12 @@ export const useFriendsScreen = (
         setIsLoadingMoreRecommendations(false);
       }
     },
-    [debouncedSearchQuery, selectedCity, selectedState, selectedSportId]
+    [
+      debouncedSearchQuery,
+      activeFilters.city,
+      activeFilters.state,
+      activeFilters.sportIds,
+    ]
   );
 
   const handleRefresh = useCallback(async () => {
@@ -382,18 +399,7 @@ export const useFriendsScreen = (
     }
   }, [signOut]);
 
-  const handleClearFilters = useCallback(() => {
-    setSearchQuery('');
-    setSelectedCity('');
-    setSelectedState('');
-    setSelectedSportId(undefined);
-  }, []);
-
-  const hasActiveFilters =
-    searchQuery !== '' ||
-    selectedCity !== '' ||
-    selectedState !== '' ||
-    selectedSportId !== undefined;
+  const hasActiveFilters = activeFiltersCount > 0;
 
   const handleLoadMoreFriends = useCallback(() => {
     if (!isLoadingMoreFriends && hasMoreFriends) {
@@ -454,9 +460,9 @@ export const useFriendsScreen = (
     fetchRecommendations(1);
   }, [
     debouncedSearchQuery,
-    selectedCity,
-    selectedState,
-    selectedSportId,
+    activeFilters.city,
+    activeFilters.state,
+    activeFilters.sportIds,
     fetchFriends,
     fetchIncomingRequests,
     fetchRecommendations,
@@ -481,15 +487,15 @@ export const useFriendsScreen = (
     handleNavigateToProfile,
     loadingUserId,
     handleLogout,
-    searchQuery,
-    setSearchQuery,
-    selectedCity,
-    setSelectedCity,
-    selectedState,
-    setSelectedState,
-    selectedSportId,
-    setSelectedSportId,
-    handleClearFilters,
+    searchQuery: searchTerm,
+    setSearchQuery: setSearchTerm,
+    selectedCity: activeFilters.city || '',
+    setSelectedCity: () => {},
+    selectedState: activeFilters.state || '',
+    setSelectedState: () => {},
+    selectedSportId: activeFilters.sportIds?.[0],
+    setSelectedSportId: () => {},
+    handleClearFilters: clearFilters,
     hasActiveFilters,
     hasMoreFriends,
     hasMoreIncoming,

@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { Text } from '@/components/ui/text';
 import { CompletionRing } from '@/components/ui/completionRing';
@@ -14,8 +13,6 @@ import { styles } from './stylesProfileHeroSection';
 export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
   avatarUrl,
   initials,
-  showBackButton,
-  onBackPress,
   coverImageUrl,
   primarySport,
   isUserActive = false,
@@ -66,24 +63,14 @@ export const ProfileHeroSection: React.FC<ProfileHeroSectionProps> = ({
         />
       )}
 
-      {showBackButton && (
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={onBackPress}
-          testID="back-button"
-        >
-          <Ionicons
-            name="arrow-back"
-            size={24}
-            color={ArenaColors.neutral.light}
-          />
-        </TouchableOpacity>
-      )}
-
       {!hideAvatar && (
         <>
           <View style={styles.completionRingContainer}>
-            <CompletionRing size={128} strokeWidth={4} progress={completionProgress}>
+            <CompletionRing
+              size={128}
+              strokeWidth={4}
+              progress={completionProgress}
+            >
               <View
                 style={[
                   styles.avatarContainer,

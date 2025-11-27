@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Modal, Pressable, TouchableOpacity } from 'react-native';
+import { View, Modal, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { Text } from '@/components/ui/text';
@@ -8,26 +8,6 @@ import { ArenaColors } from '@/constants';
 import { styles } from './stylesMapsBottomSheet';
 import type { MapsBottomSheetProps, MapApp } from './typesMapsBottomSheet';
 
-/**
- * Componente MapsBottomSheet
- *
- * Bottom sheet para seleção de app de mapas (Google Maps, Waze, Apple Maps, Uber).
- * Exibe apenas apps disponíveis/instalados no dispositivo do usuário.
- *
- * Segue princípios de UX/UI:
- * - Touch targets mínimo 64px (Material Design + HIG)
- * - Feedback háptico em interações
- * - Estados de loading/empty/error
- * - Acessibilidade completa
- *
- * @example
- * <MapsBottomSheet
- *   visible={showMapsSheet}
- *   onClose={() => setShowMapsSheet(false)}
- *   onSelectApp={handleAppSelect}
- *   getAvailableApps={getAvailableApps}
- * />
- */
 export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
   visible,
   onClose,
@@ -38,51 +18,44 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
   const [apps, setApps] = useState<MapApp[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Carregar apps disponíveis quando modal abre
-  useEffect(() => {
-    if (visible) {
-      loadAvailableApps();
-    }
-  }, [visible]);
-
   const loadAvailableApps = useCallback(async () => {
     try {
       setIsLoading(true);
       const availableApps = await getAvailableApps();
       setApps(availableApps);
-    } catch (error) {
-      console.error('[MapsBottomSheet] Error loading available apps:', error);
+    } catch {
       setApps([]);
     } finally {
       setIsLoading(false);
     }
   }, [getAvailableApps]);
 
-  // Handler para seleção de app
+  useEffect(() => {
+    if (visible) {
+      loadAvailableApps();
+    }
+  }, [visible, loadAvailableApps]);
+
   const handleSelectApp = useCallback(
     async (app: MapApp) => {
       if (!app.available) {
         return;
       }
 
-      // Feedback háptico
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-      // Chama callback
       onSelectApp(app.id);
     },
     [onSelectApp]
   );
 
-  // Handler para fechar modal
   const handleClose = useCallback(async () => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onClose();
   }, [onClose]);
 
-  // Renderizar ícone de cada app
   const renderAppIcon = (app: MapApp) => {
-    const iconMap: Record<MapApp['id'], string> = {
+    const iconMap: Record<MapApp['id'], keyof typeof Ionicons.glyphMap> = {
       google: 'logo-google',
       waze: 'navigate-circle',
       apple: 'map',
@@ -91,7 +64,11 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
 
     return (
       <View style={styles.appIcon}>
-        <Ionicons name={iconMap[app.id] as any} size={24} color={ArenaColors.brand.primary} />
+        <Ionicons
+          name={iconMap[app.id]}
+          size={24}
+          color={ArenaColors.brand.primary}
+        />
       </View>
     );
   };
@@ -105,9 +82,12 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
       onRequestClose={handleClose}
       testID={testID}
     >
-      <Pressable style={styles.modalOverlay} onPress={handleClose}>
-        <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}>
-          {/* Header */}
+      <TouchableOpacity
+        style={styles.modalOverlay}
+        activeOpacity={1}
+        onPress={handleClose}
+      >
+        <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
             <Text variant="titlePrimary">Abrir no mapa</Text>
             <TouchableOpacity
@@ -119,21 +99,28 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
               accessibilityRole="button"
               accessibilityLabel="Fechar"
             >
-              <Ionicons name="close" size={24} color={ArenaColors.neutral.light} />
+              <Ionicons
+                name="close"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
             </TouchableOpacity>
           </View>
 
-          {/* Lista de Apps */}
+          {}
           {isLoading ? (
             <View style={styles.loadingContainer}>
               <SportsLoading size="md" animationSpeed="normal" />
             </View>
           ) : (
             <View style={styles.appsList}>
-              {apps.map((app) => (
+              {apps.map(app => (
                 <TouchableOpacity
                   key={app.id}
-                  style={[styles.appItem, !app.available && styles.appItemDisabled]}
+                  style={[
+                    styles.appItem,
+                    !app.available && styles.appItemDisabled,
+                  ]}
                   onPress={() => handleSelectApp(app)}
                   disabled={!app.available}
                   testID={`${testID}-app-${app.id}`}
@@ -142,10 +129,10 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
                   accessibilityLabel={`Abrir no ${app.name}`}
                   accessibilityState={{ disabled: !app.available }}
                 >
-                  {/* Ícone do App */}
+                  {}
                   {renderAppIcon(app)}
 
-                  {/* Nome do App */}
+                  {}
                   <View style={styles.appInfo}>
                     <Text variant="bodyPrimary">{app.name}</Text>
                     {!app.available && (
@@ -153,7 +140,6 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
                     )}
                   </View>
 
-                  {/* Ícone de Chevron */}
                   {app.available && (
                     <Ionicons
                       name="chevron-forward"
@@ -165,8 +151,8 @@ export const MapsBottomSheet: React.FC<MapsBottomSheetProps> = ({
               ))}
             </View>
           )}
-        </Pressable>
-      </Pressable>
+        </View>
+      </TouchableOpacity>
     </Modal>
   );
 };

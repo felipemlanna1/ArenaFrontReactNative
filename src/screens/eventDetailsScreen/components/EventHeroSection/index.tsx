@@ -1,24 +1,18 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { Text } from '@/components/ui/text';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors } from '@/constants';
 import { getSportIcon } from '@/config/sportIcons';
 import { EventHeroSectionProps } from './typesEventHeroSection';
 import { styles } from './stylesEventHeroSection';
 
 export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
   event,
-  isOwner,
-  onBackPress,
-  onSharePress,
-  onEditPress,
   userStatus,
 }) => {
-  const insets = useSafeAreaInsets();
   const iconSource = event.sport?.icon ? getSportIcon(event.sport.icon) : null;
 
   const getStatusBadge = () => {
@@ -82,60 +76,12 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
         style={styles.gradientOverlay}
       />
 
-      <View
-        style={[
-          styles.headerOverlay,
-          { paddingTop: insets.top + ArenaSpacing.md },
-        ]}
-      >
-        <TouchableOpacity
-          style={styles.headerButton}
-          onPress={onBackPress}
-          testID="back-button"
-        >
-          <Ionicons
-            name="arrow-back"
-            size={24}
-            color={ArenaColors.neutral.light}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.headerButtons}>
-          <TouchableOpacity
-            style={styles.headerButton}
-            onPress={onSharePress}
-            testID="share-button"
-          >
-            <Ionicons
-              name="share-outline"
-              size={22}
-              color={ArenaColors.brand.primary}
-            />
-          </TouchableOpacity>
-
-          {isOwner && onEditPress && (
-            <TouchableOpacity
-              style={styles.headerButton}
-              onPress={onEditPress}
-              testID="edit-button"
-            >
-              <Ionicons
-                name="create-outline"
-                size={22}
-                color={ArenaColors.neutral.light}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-
       {statusBadge && (
         <View
           style={[
             styles.statusBadge,
             {
               backgroundColor: statusBadge.color,
-              top: insets.top + ArenaSpacing.lg,
             },
           ]}
         >

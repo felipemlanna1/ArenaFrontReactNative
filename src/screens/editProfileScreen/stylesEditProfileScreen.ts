@@ -3,13 +3,8 @@ import {
   ArenaColors,
   ArenaSpacing,
   ArenaBorders,
-  ArenaTypography,
+  ArenaSizes,
 } from '@/constants';
-
-const FOOTER_HEIGHT = ArenaTypography.size['5xl'] + 16;
-const PROFILE_PICTURE_SIZE = 100;
-const COVER_PHOTO_HEIGHT = 120;
-const CAMERA_BADGE_SIZE = 32;
 
 export const styles = StyleSheet.create({
   scrollContainer: {
@@ -39,30 +34,41 @@ export const styles = StyleSheet.create({
     position: 'relative',
   },
   profilePictureContainer: {
-    width: PROFILE_PICTURE_SIZE,
-    height: PROFILE_PICTURE_SIZE,
-    borderRadius: PROFILE_PICTURE_SIZE / 2,
+    width: ArenaSizes.avatarMedium,
+    height: ArenaSizes.avatarMedium,
+    borderRadius: ArenaSizes.avatarMedium / 2,
     backgroundColor: ArenaColors.neutral.dark,
     justifyContent: 'center',
     alignItems: 'center',
   },
   profilePictureImage: {
-    width: PROFILE_PICTURE_SIZE,
-    height: PROFILE_PICTURE_SIZE,
-    borderRadius: PROFILE_PICTURE_SIZE / 2,
+    width: ArenaSizes.avatarMedium,
+    height: ArenaSizes.avatarMedium,
+    borderRadius: ArenaSizes.avatarMedium / 2,
   },
   cameraBadge: {
     position: 'absolute',
     bottom: 0,
     right: 0,
-    width: CAMERA_BADGE_SIZE,
-    height: CAMERA_BADGE_SIZE,
-    borderRadius: CAMERA_BADGE_SIZE / 2,
+    width: ArenaSizes.badgeSmall,
+    height: ArenaSizes.badgeSmall,
+    borderRadius: ArenaSizes.badgeSmall / 2,
     backgroundColor: ArenaColors.brand.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: ArenaColors.neutral.darkest,
+  },
+  uploadOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: ArenaColors.backdrop.darkestOverlay,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: ArenaSizes.avatarMedium / 2,
   },
   photoLabel: {
     marginTop: ArenaSpacing.xs,
@@ -76,7 +82,7 @@ export const styles = StyleSheet.create({
   },
   coverPhotoContainer: {
     width: '100%',
-    height: COVER_PHOTO_HEIGHT,
+    height: ArenaSizes.coverPhotoHeight,
     borderRadius: ArenaBorders.radius.md,
     backgroundColor: ArenaColors.neutral.dark,
     justifyContent: 'center',
@@ -84,7 +90,7 @@ export const styles = StyleSheet.create({
   },
   coverPhotoImage: {
     width: '100%',
-    height: COVER_PHOTO_HEIGHT,
+    height: ArenaSizes.coverPhotoHeight,
     borderRadius: ArenaBorders.radius.md,
   },
   genderLabel: {
@@ -101,7 +107,7 @@ export const styles = StyleSheet.create({
     marginTop: ArenaSpacing.xs,
   },
   footer: {
-    height: FOOTER_HEIGHT,
+    height: ArenaSpacing['6xl'],
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     borderTopWidth: 1,

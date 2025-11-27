@@ -34,13 +34,16 @@ export const CompletionRing: React.FC<CompletionRingProps> = ({
   });
 
   const getStrokeColor = (): string => {
-    if (progress >= 100) return '#28C76F'; // Verde
-    if (progress >= 50) return '#FF5301'; // Laranja
-    return '#E63946'; // Vermelho
+    if (progress >= 100) return '#28C76F';
+    if (progress >= 50) return '#FF5301';
+    return '#E63946';
   };
 
   return (
-    <View style={[styles.container, { width: size, height: size }, style]} testID={testID}>
+    <View
+      style={[styles.container, { width: size, height: size }, style]}
+      testID={testID}
+    >
       <Svg width={size} height={size} style={styles.svg}>
         <Circle
           cx={center}

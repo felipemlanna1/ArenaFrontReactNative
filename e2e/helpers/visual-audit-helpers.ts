@@ -21,19 +21,14 @@ export const captureScreenshot = async (
 ): Promise<void> => {
   const screenshotPath = `${SCREENSHOT_BASE}/${category}/${screenName}/${stateName}.png`;
 
-  console.log(`📸 Capturando: ${screenName} - ${stateName}`);
-
-  // Aguardar animações terminarem
   await page.waitForTimeout(800);
 
-  // Capturar screenshot
   await page.screenshot({
     path: screenshotPath,
     fullPage: true,
     animations: 'disabled',
   });
 
-  // Salvar metadata
   await saveMetadata({
     screenName,
     stateName,
@@ -41,8 +36,6 @@ export const captureScreenshot = async (
     timestamp: new Date().toISOString(),
     path: screenshotPath,
   });
-
-  console.log(`✅ Screenshot salvo: ${screenshotPath}`);
 };
 
 const saveMetadata = async (metadata: ScreenshotMetadata): Promise<void> => {
@@ -50,15 +43,11 @@ const saveMetadata = async (metadata: ScreenshotMetadata): Promise<void> => {
     path.join(SCREENSHOT_BASE, '..', 'reports', 'metadata')
   );
 
-  // Criar diretório se não existir
   if (!fs.existsSync(metadataDir)) {
     fs.mkdirSync(metadataDir, { recursive: true });
   }
 
-  const metadataFile = path.join(
-    metadataDir,
-    `${metadata.screenName}.json`
-  );
+  const metadataFile = path.join(metadataDir, `${metadata.screenName}.json`);
 
   let existingData: ScreenshotMetadata[] = [];
 

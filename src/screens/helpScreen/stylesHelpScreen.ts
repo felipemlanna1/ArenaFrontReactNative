@@ -31,9 +31,7 @@ export const styles = StyleSheet.create({
   question: {
     marginBottom: ArenaSpacing.xs,
   },
-  answer: {
-    lineHeight: 22,
-  },
+  answer: {},
   contactText: {
     marginBottom: ArenaSpacing.sm,
   },

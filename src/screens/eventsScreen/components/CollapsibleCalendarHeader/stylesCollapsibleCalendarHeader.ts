@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.darkest,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   pressable: {
@@ -25,8 +25,8 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
   },
   chevronContainer: {
-    width: 32,
-    height: 32,
+    width: ArenaSpacing['3xl'],
+    height: ArenaSpacing['3xl'],
     justifyContent: 'center',
     alignItems: 'center',
   },

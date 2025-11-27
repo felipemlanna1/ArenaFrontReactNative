@@ -1,11 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaSizes,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    // eslint-disable-next-line arena/arena-design-tokens
-    height: 240,
+    height: ArenaSizes.eventHeroHeight,
     position: 'relative',
   },
   coverImage: {
@@ -31,8 +35,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    // eslint-disable-next-line arena/arena-design-tokens
-    height: 100,
+    height: ArenaSpacing['8.5xl'],
   },
   headerOverlay: {
     position: 'absolute',

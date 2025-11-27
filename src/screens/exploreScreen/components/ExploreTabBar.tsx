@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: ArenaColors.neutral.dark,
     paddingVertical: ArenaSpacing.sm,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.darkest,
   },
   tabsRow: {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderBottomColor: ArenaColors.brand.primary,
   },
   countText: {
-    marginTop: 2,
+    marginTop: ArenaSpacing.xxs,
   },
   divider: {
     width: ArenaBorders.width.thin,

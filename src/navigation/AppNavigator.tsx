@@ -7,6 +7,9 @@ import { withAndroidScreenWrapper } from '../components/wrappers/AndroidScreenWr
 import { WelcomeScreen } from '../screens/welcomeScreen';
 import { LoginScreen } from '../screens/loginScreen';
 import { RegisterScreen } from '../screens/registerScreen';
+import { ForgotPasswordScreen } from '../screens/forgotPasswordScreen';
+import { VerifyCodeScreen } from '../screens/verifyCodeScreen';
+import { ResetPasswordScreen } from '../screens/resetPasswordScreen';
 import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
 import { FilterScreen } from '../screens/filterScreen';
@@ -36,6 +39,17 @@ const WrappedLoginScreen = withAndroidScreenWrapper(LoginScreen, {
 const WrappedRegisterScreen = withAndroidScreenWrapper(RegisterScreen, {
   enableScroll: false,
 });
+const WrappedForgotPasswordScreen = withAndroidScreenWrapper(
+  ForgotPasswordScreen,
+  { enableScroll: false }
+);
+const WrappedVerifyCodeScreen = withAndroidScreenWrapper(VerifyCodeScreen, {
+  enableScroll: false,
+});
+const WrappedResetPasswordScreen = withAndroidScreenWrapper(
+  ResetPasswordScreen,
+  { enableScroll: false }
+);
 const WrappedComponentsShowcaseScreen = withAndroidScreenWrapper(
   ComponentsShowcaseScreen,
   { enableScroll: false }
@@ -123,6 +137,18 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen name="Welcome" component={WrappedWelcomeScreen} />
             <Stack.Screen name="Login" component={WrappedLoginScreen} />
             <Stack.Screen name="Register" component={WrappedRegisterScreen} />
+            <Stack.Screen
+              name="ForgotPassword"
+              component={WrappedForgotPasswordScreen}
+            />
+            <Stack.Screen
+              name="VerifyCode"
+              component={WrappedVerifyCodeScreen}
+            />
+            <Stack.Screen
+              name="ResetPassword"
+              component={WrappedResetPasswordScreen}
+            />
             <Stack.Screen
               name="ComponentsShowcase"
               component={WrappedComponentsShowcaseScreen}
@@ -215,12 +241,7 @@ export const AppNavigator: React.FC = () => {
               component={WrappedFriendsScreen}
               options={{
                 presentation: 'card',
-                headerShown: true,
-                headerTitle: 'Atletas',
-                headerStyle: {
-                  backgroundColor: ArenaColors.neutral.darkest,
-                },
-                headerTintColor: ArenaColors.neutral.light,
+                headerShown: false,
               }}
             />
             <Stack.Screen
@@ -228,12 +249,7 @@ export const AppNavigator: React.FC = () => {
               component={WrappedGroupsListScreen}
               options={{
                 presentation: 'card',
-                headerShown: true,
-                headerTitle: 'Equipes',
-                headerStyle: {
-                  backgroundColor: ArenaColors.neutral.darkest,
-                },
-                headerTintColor: ArenaColors.neutral.light,
+                headerShown: false,
               }}
             />
             <Stack.Screen

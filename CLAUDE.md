@@ -21,6 +21,78 @@ Este é um aplicativo React Native com Expo para a plataforma Arena. O projeto s
 - Um arquivo por componente
 - Exports nomeados, não default
 
+### 🚫 Comentários no Código (arena-no-comments)
+
+**REGRA CRÍTICA**: Comentários são **PROIBIDOS** no código Arena. O código deve ser **auto-explicativo** (self-documenting).
+
+**Filosofia**: Código limpo não precisa de comentários. Use nomes descritivos de variáveis, funções e componentes.
+
+#### ❌ NUNCA Permitido
+
+```typescript
+// ❌ Comentários de linha
+const x = 10; // ❌ Explicação inline
+
+/* ❌ Comentários de bloco */
+
+// ❌ TODO: Implementar feature
+// ❌ FIXME: Corrigir bug
+```
+
+#### ✅ Exceções Permitidas
+
+```typescript
+// ✅ Copyright/License (apenas primeiras 10 linhas)
+// Copyright 2024 Arena
+// SPDX-License-Identifier: MIT
+
+// ✅ Diretivas do linter (quando absolutamente necessário)
+// eslint-disable-next-line react-hooks/exhaustive-deps
+// @ts-expect-error - Tipo externo incorreto
+
+/** ✅ JSDoc para interfaces/tipos EXPORTADOS apenas */
+export interface UserProps {
+  id: string;
+  name: string;
+}
+
+// ❌ JSDoc NÃO permitido para funções internas
+function internalHelper() {}
+```
+
+#### 📂 Arquivos Excluídos da Regra
+
+- `src/config/sportsConfig.ts`
+- `src/components/error-boundary/**`
+- Arquivos `.config.js` e `.config.ts`
+
+#### 💡 Como Escrever Código Auto-Explicativo
+
+```typescript
+// ❌ ERRADO - Precisa de comentário
+const d = new Date();
+// Calcula idade em anos
+
+// ✅ CORRETO - Nome descritivo
+const calculateAgeInYears = (birthDate: Date): number => {
+  const today = new Date();
+  const age = today.getFullYear() - birthDate.getFullYear();
+  return age;
+};
+
+// ❌ ERRADO - Magic number com comentário
+const timeout = 3000; // 3 segundos
+
+// ✅ CORRETO - Constante nomeada
+const AUTHENTICATION_TIMEOUT_MS = 3000;
+```
+
+#### ⚠️ Consequências
+
+- **Auto-fix ativo**: `npm run lint -- --fix` remove comentários automaticamente
+- **Build falha**: Comentários bloqueiam CI/CD
+- **Code review**: PRs com comentários são rejeitados
+
 ### Nomenclatura
 
 ```

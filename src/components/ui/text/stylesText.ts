@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   focused: {
     textShadowColor: ArenaColors.brand.primary,
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 2,
+    textShadowRadius: ArenaSpacing.xxs,
   },
   displayText: {
     textAlignVertical: 'top',

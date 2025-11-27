@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     paddingBottom: ArenaSpacing.sm,
     width: '100%',
     position: 'relative',
-    zIndex: 4,
+    zIndex: ArenaSpacing.xs,
   },
   playerImageContainer: {
     position: 'absolute',
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 2,
+    zIndex: ArenaSpacing.xxs,
   },
   bottomContent: {
     position: 'absolute',

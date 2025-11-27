@@ -171,7 +171,7 @@ export const styles = StyleSheet.create({
     left: -3,
     right: -3,
     bottom: -3,
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: ArenaColors.interaction.focus.primary,
     opacity: 0,
     pointerEvents: 'none',

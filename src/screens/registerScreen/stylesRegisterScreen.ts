@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: ArenaSpacing['3xl'] + 20,
     left: ArenaSpacing.lg,
-    zIndex: 10,
+    zIndex: ArenaSpacing.sm,
   },
   scrollContent: {
     paddingHorizontal: ArenaSpacing.lg,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Clipboard from 'expo-clipboard';
@@ -22,7 +22,10 @@ export const EventParticipantsSection: React.FC<
   EventParticipantsSectionProps
 > = ({ event, isOwner = false, onRefresh }) => {
   const participantCount = event.currentParticipants || 0;
-  const participants = event.participants || [];
+  const participants = useMemo(
+    () => event.participants || [],
+    [event.participants]
+  );
 
   const { showSuccess, showError } = useAlert();
   const [isCopied, setIsCopied] = useState(false);

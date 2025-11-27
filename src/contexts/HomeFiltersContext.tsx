@@ -15,14 +15,12 @@ import { FILTER_DEFAULTS } from '@/constants/filterDefaults';
 
 export type ExploreTab = 'events' | 'groups' | 'friends';
 
-// Base filters compartilhados
 interface BaseFilters {
   sportIds?: string[];
   city?: string;
   state?: string;
 }
 
-// Event filters (completo - todos os filtros)
 export interface EventFilters extends BaseFilters {
   hasAvailableSpots?: boolean;
   priceMin?: number;
@@ -33,13 +31,10 @@ export interface EventFilters extends BaseFilters {
   eventFilter?: 'all' | 'organizing' | 'participating' | 'invited';
 }
 
-// Group filters (limitado - apenas esporte + local)
-export interface GroupFilters extends BaseFilters {}
+export type GroupFilters = BaseFilters;
 
-// Friend filters (limitado - apenas esporte + local)
-export interface FriendFilters extends BaseFilters {}
+export type FriendFilters = BaseFilters;
 
-// Backward compatibility
 export type ActiveFilters = EventFilters;
 
 interface Sport {
@@ -48,11 +43,9 @@ interface Sport {
 }
 
 interface HomeFiltersContextData {
-  // Tab management
   activeTab: ExploreTab;
   setActiveTab: (tab: ExploreTab) => void;
 
-  // Backward compatibility - retorna filtros da tab ativa
   activeFilters: EventFilters | GroupFilters | FriendFilters;
   sortBy: 'date' | 'distance' | 'price' | 'name';
   sortOrder: 'asc' | 'desc';
@@ -62,13 +55,13 @@ interface HomeFiltersContextData {
   isReady: boolean;
   activeFiltersCount: number;
 
-  // Tab-specific getters
   eventsFilters: EventFilters;
   groupsFilters: GroupFilters;
   friendsFilters: FriendFilters;
 
-  // Generic setters (operam na tab ativa)
-  setActiveFilters: (filters: EventFilters | GroupFilters | FriendFilters) => void;
+  setActiveFilters: (
+    filters: EventFilters | GroupFilters | FriendFilters
+  ) => void;
   updateFilter: <K extends keyof EventFilters>(
     key: K,
     value: EventFilters[K]
@@ -83,32 +76,24 @@ interface HomeFiltersContextData {
   clearFilters: () => void;
   clearCityFilter: () => void;
 
-  // Tab-specific setters
   setEventsFilters: (filters: EventFilters) => void;
   setGroupsFilters: (filters: GroupFilters) => void;
   setFriendsFilters: (filters: FriendFilters) => void;
 
-  // API builders
   buildApiFilters: () => EventsFilter | null;
 }
 
-const createInitialEventFilters = (
-  sportIds?: string[]
-): EventFilters => ({
+const createInitialEventFilters = (sportIds?: string[]): EventFilters => ({
   hasAvailableSpots: FILTER_DEFAULTS.FILTERS.HAS_AVAILABLE_SPOTS,
   eventFilter: 'all',
   sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
 });
 
-const createInitialGroupFilters = (
-  sportIds?: string[]
-): GroupFilters => ({
+const createInitialGroupFilters = (sportIds?: string[]): GroupFilters => ({
   sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
 });
 
-const createInitialFriendFilters = (
-  sportIds?: string[]
-): FriendFilters => ({
+const createInitialFriendFilters = (sportIds?: string[]): FriendFilters => ({
   sportIds: sportIds && sportIds.length > 0 ? sportIds : undefined,
 });
 
@@ -173,10 +158,8 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
       .filter((id): id is string => !!id);
   }, [userSports]);
 
-  // Tab management
   const [activeTab, setActiveTab] = useState<ExploreTab>('events');
 
-  // Separate filter states per tab
   const [eventsFilters, setEventsFilters] = useState<EventFilters>(
     createInitialEventFilters()
   );
@@ -187,7 +170,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     createInitialFriendFilters()
   );
 
-  // Shared states
   const [sortBy, setSortBy] = useState<'date' | 'distance' | 'price' | 'name'>(
     'date'
   );
@@ -196,7 +178,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   );
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Apply favorite sports to all tabs on mount
   useEffect(() => {
     if (authLoading) {
       return;
@@ -219,7 +200,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     }
   }, [authLoading, favoritesSportIds]);
 
-  // Computed: activeFilters baseado na tab ativa
   const activeFilters = useMemo(() => {
     switch (activeTab) {
       case 'events':
@@ -233,7 +213,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     }
   }, [activeTab, eventsFilters, groupsFilters, friendsFilters]);
 
-  // Generic setters (operam na tab ativa)
   const setActiveFilters = useCallback(
     (filters: EventFilters | GroupFilters | FriendFilters) => {
       switch (activeTab) {
@@ -336,13 +315,25 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
   const clearCityFilter = useCallback(() => {
     switch (activeTab) {
       case 'events':
-        setEventsFilters(prev => ({ ...prev, state: undefined, city: undefined }));
+        setEventsFilters(prev => ({
+          ...prev,
+          state: undefined,
+          city: undefined,
+        }));
         break;
       case 'groups':
-        setGroupsFilters(prev => ({ ...prev, state: undefined, city: undefined }));
+        setGroupsFilters(prev => ({
+          ...prev,
+          state: undefined,
+          city: undefined,
+        }));
         break;
       case 'friends':
-        setFriendsFilters(prev => ({ ...prev, state: undefined, city: undefined }));
+        setFriendsFilters(prev => ({
+          ...prev,
+          state: undefined,
+          city: undefined,
+        }));
         break;
     }
   }, [activeTab]);
@@ -364,7 +355,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
       hasLoadedFirstTimeRef.current = true;
     }
 
-    // Only build API filters for events tab
     if (activeTab !== 'events') {
       return null;
     }
@@ -407,7 +397,6 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
     if (filters.sportIds && filters.sportIds.length > 0) count++;
     if (filters.state || filters.city) count++;
 
-    // Event-specific filters
     if (activeTab === 'events') {
       const eventFilters = filters as EventFilters;
       if (
@@ -422,8 +411,10 @@ export const HomeFiltersProvider: React.FC<HomeFiltersProviderProps> = ({
         count++;
       }
       if (eventFilters.hasAvailableSpots !== undefined) {
-        // Only count if different from default
-        if (eventFilters.hasAvailableSpots !== FILTER_DEFAULTS.FILTERS.HAS_AVAILABLE_SPOTS) {
+        if (
+          eventFilters.hasAvailableSpots !==
+          FILTER_DEFAULTS.FILTERS.HAS_AVAILABLE_SPOTS
+        ) {
           count++;
         }
       }
