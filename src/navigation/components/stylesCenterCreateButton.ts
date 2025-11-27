@@ -5,9 +5,11 @@ export const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: ArenaSpacing.xl,
+    left: '50%',
+    marginLeft: -(ArenaSpacing['6xl'] / 2),
     width: ArenaSpacing['6xl'],
     height: ArenaSpacing['6xl'],
-    borderRadius: ArenaBorders.radius['2xl'],
+    borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
     justifyContent: 'center',
     alignItems: 'center',

@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   avatarContainer: {
     width: ArenaSpacing['6xl'],
     height: ArenaSpacing['6xl'],
-    borderRadius: ArenaBorders.radius['2xl'],
+    borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.neutral.dark,
     justifyContent: 'center',
     alignItems: 'center',
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   menuItemPressed: {
-    backgroundColor: ArenaColors.neutral.dark,
+    backgroundColor: ArenaColors.neutral.darkest,
   },
   menuItemDisabled: {
     opacity: 0.5,
