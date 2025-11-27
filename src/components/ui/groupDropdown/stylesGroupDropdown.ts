@@ -55,7 +55,8 @@ export const styles = StyleSheet.create({
   },
   modalList: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.sm,
+    paddingTop: ArenaSpacing.sm,
+    paddingBottom: ArenaSpacing['3xl'],
   },
   groupItem: {
     flexDirection: 'row',
