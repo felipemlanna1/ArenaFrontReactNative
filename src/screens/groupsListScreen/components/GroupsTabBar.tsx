@@ -25,7 +25,7 @@ export const GroupsTabBar: React.FC<GroupsTabBarProps> = ({
   recommendationsCount,
 }) => {
   const tabs: TabItem[] = [
-    { key: 'myGroups', label: 'Meus Grupos', count: myGroupsCount },
+    { key: 'myGroups', label: 'Minhas Equipes', count: myGroupsCount },
     {
       key: 'recommendations',
       label: 'Recomendações',
