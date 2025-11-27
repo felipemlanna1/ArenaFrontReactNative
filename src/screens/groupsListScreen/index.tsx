@@ -247,6 +247,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
               data={data}
               renderItem={renderItem}
               keyExtractor={item => item.id}
+              extraData={activeTab}
               contentContainerStyle={styles.listContent}
               ItemSeparatorComponent={renderSeparator}
               onEndReached={hasMore ? onLoadMore : undefined}

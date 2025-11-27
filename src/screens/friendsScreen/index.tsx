@@ -362,6 +362,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
               data={data}
               renderItem={renderItem}
               keyExtractor={item => item.id}
+              extraData={activeTab}
               contentContainerStyle={styles.listContent}
               ItemSeparatorComponent={renderSeparator}
               onEndReached={hasMore ? onLoadMore : undefined}
