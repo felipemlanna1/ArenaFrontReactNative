@@ -26,6 +26,7 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   loadingText,
   disableAnimations = false,
+  align = 'center',
   ...touchableProps
 }) => {
   const buttonLogic = useButton({
@@ -38,6 +39,7 @@ export const Button: React.FC<ButtonProps> = ({
     iconOnly,
     onPress,
     disableAnimations,
+    align,
   });
   const accessibility = useButtonAccessibility(
     children,
