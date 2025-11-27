@@ -1,5 +1,5 @@
 import { StyleSheet, TextStyle } from 'react-native';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 export const styles = StyleSheet.create({
   baseText: {
     includeFontPadding: false,

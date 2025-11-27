@@ -284,7 +284,7 @@ export const buttonSizes: ButtonSizeConfigs = {
     paddingHorizontal: ArenaSpacing['2xl'],
     fontSize: ArenaTypography.size.lg,
     iconSize: ArenaTypography.size.xl,
-    borderRadius: ArenaBorders.radius.xl - ArenaSpacing.micro,
+    borderRadius: ArenaBorders.radius.xl - ArenaSpacing.xxs,
     minWidth: ArenaSpacing['6xl'] + ArenaSpacing['4xl'],
   },
   xl: {

@@ -47,13 +47,13 @@ export const styles = StyleSheet.create({
     backgroundColor: ArenaColors.brand.primary,
   },
   progressBarContainer: {
-    height: ArenaSpacing.micro,
+    height: ArenaSpacing.xxs,
     backgroundColor: `${ArenaColors.neutral.medium}33`,
     marginTop: ArenaSpacing.md,
     overflow: 'hidden',
   },
   progressBarFill: {
-    height: ArenaSpacing.micro,
+    height: ArenaSpacing.xxs,
     backgroundColor: ArenaColors.brand.primary,
   },
   numberContainer: {
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     height: ArenaSpacing['3xl'],
     borderRadius: ArenaSpacing.lg,
     backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: ArenaSpacing.micro,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: ArenaColors.neutral.medium,
     alignItems: 'center',
     justifyContent: 'center',
@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   connector: {
     width: ArenaSpacing['2xl'],
-    height: ArenaSpacing.micro,
+    height: ArenaSpacing.xxs,
     backgroundColor: ArenaColors.neutral.medium,
     marginHorizontal: ArenaSpacing.xs,
   },

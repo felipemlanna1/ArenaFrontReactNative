@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     right: 0,
     backgroundColor: ArenaColors.neutral.darkest,
     borderRadius: ArenaBorders.radius.circle,
-    padding: ArenaSpacing.micro,
+    padding: ArenaSpacing.xxs,
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.brand.primary,
   },

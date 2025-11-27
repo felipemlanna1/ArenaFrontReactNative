@@ -20,7 +20,7 @@ export const createTextShadow = (
     width: ArenaSpacing.none,
     height: ArenaBorders.width.thin,
   },
-  radius: number = ArenaSpacing.micro
+  radius: number = ArenaSpacing.xxs
 ) => ({
   textShadowColor: color,
   textShadowOffset: offset,

@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
-    gap: ArenaSpacing.micro,
+    gap: ArenaSpacing.xxs,
   },
   labelRow: {
     flexDirection: 'row',
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
   badge: {
     backgroundColor: ArenaColors.brand.primarySubtle,
     paddingHorizontal: ArenaSpacing.sm,
-    paddingVertical: ArenaSpacing.micro,
+    paddingVertical: ArenaSpacing.xxs,
     borderRadius: ArenaBorders.radius.sm,
   },
   badgeText: {

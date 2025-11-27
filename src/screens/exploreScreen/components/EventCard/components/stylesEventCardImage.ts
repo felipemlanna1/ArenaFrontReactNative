@@ -65,7 +65,7 @@ export const styles = StyleSheet.create<Styles>({
     right: ArenaSpacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: ArenaSpacing.micro,
+    gap: ArenaSpacing.xxs,
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.pill,
