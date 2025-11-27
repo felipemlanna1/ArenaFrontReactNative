@@ -99,7 +99,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const { shareInvite } = useFriendsShare();
 
   const listContainerStyle = useMemo(
-    () => [styles.listContainer, { paddingBottom: tabBarHeight }],
+    () => [styles.listContainer, { paddingBottom: tabBarHeight + 40 }],
     [tabBarHeight]
   );
 
