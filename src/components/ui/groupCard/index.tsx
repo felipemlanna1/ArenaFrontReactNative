@@ -41,13 +41,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({
       | 'destructive'
       | 'outline-light'
       | 'outline-primary'
+      | 'ghost'
   ):
     | 'primary'
     | 'secondary'
     | 'subtle'
     | 'destructive'
     | 'outline-light'
-    | 'outline-primary' => {
+    | 'outline-primary'
+    | 'ghost' => {
     return variant;
   };
 
