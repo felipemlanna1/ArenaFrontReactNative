@@ -52,9 +52,6 @@ export const styles = StyleSheet.create({
   infoContainerWithChevron: {
     paddingRight: ArenaSpacing.xs,
   },
-  infoContainerWithChevron: {
-    paddingRight: ArenaSpacing.xs,
-  },
   nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -66,11 +63,6 @@ export const styles = StyleSheet.create({
   },
   chevronIcon: {
     marginLeft: ArenaSpacing.xxs,
-  },
-  chevronContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: ArenaSpacing.xs,
   },
   chevronContainer: {
     justifyContent: 'center',

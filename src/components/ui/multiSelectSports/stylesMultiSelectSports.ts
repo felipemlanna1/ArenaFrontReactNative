@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.md,
     borderWidth: ArenaBorders.width.thick,
-    gap: ArenaSpacing.micro,
+    gap: ArenaSpacing.xxs,
   },
   sportCardSelected: {
     borderColor: ArenaColors.brand.primary,
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     borderColor: ArenaColors.neutral.dark,
     backgroundColor: ArenaColors.neutral.transparent,
     shadowColor: ArenaColors.text.primary,
-    shadowOffset: { width: 0, height: ArenaSpacing.micro },
+    shadowOffset: { width: 0, height: ArenaSpacing.xxs },
     shadowOpacity: 0.08,
     shadowRadius: ArenaSpacing.xs,
     elevation: 1,
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: ArenaSpacing.xs,
     left: ArenaSpacing.xs,
-    padding: ArenaSpacing.micro,
+    padding: ArenaSpacing.xxs,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing.lg,
