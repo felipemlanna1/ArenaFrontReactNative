@@ -11,6 +11,7 @@ import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
 import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
+import { useTabBarHeight } from '@/hooks/useTabBarHeight';
 import { GroupsListScreenProps } from './typesGroupsListScreen';
 import { useGroupsListScreen } from './useGroupsListScreen';
 import { styles } from './stylesGroupsListScreen';
@@ -26,6 +27,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
   navigation,
 }) => {
   const [activeTab, setActiveTab] = useState<GroupTab>('myGroups');
+  const tabBarHeight = useTabBarHeight();
 
   const groupTabs: GroupTab[] = ['myGroups', 'recommendations'];
 
@@ -81,6 +83,11 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     if (activeFilters.sportIds && activeFilters.sportIds.length > 0) count++;
     return count;
   }, [activeFilters.city, activeFilters.state, activeFilters.sportIds]);
+
+  const listContentStyle = useMemo(
+    () => [styles.listContent, { paddingBottom: tabBarHeight }],
+    [tabBarHeight]
+  );
 
   const getTabData = useCallback(() => {
     switch (activeTab) {
@@ -243,7 +250,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContent}
+                contentContainerStyle={listContentStyle}
                 ItemSeparatorComponent={renderSeparator}
                 onEndReached={hasMore ? onLoadMore : undefined}
                 onEndReachedThreshold={0.5}

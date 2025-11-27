@@ -7,6 +7,7 @@ import { FriendsScreenProps } from './typesFriendsScreen';
 import { useFriendsScreen } from './useFriendsScreen';
 import { useFriendsShare } from './hooks/useFriendsShare';
 import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
+import { useTabBarHeight } from '@/hooks/useTabBarHeight';
 import { styles } from './stylesFriendsScreen';
 import { FilterBar } from './components/FilterBar';
 import { FriendsTabBar, FriendTab } from './components/FriendsTabBar';
@@ -25,6 +26,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<FriendTab>('friends');
   const hookData = useFriendsScreen(navigation);
   const { shareInvite } = useFriendsShare();
+  const tabBarHeight = useTabBarHeight();
 
   const friendTabs: FriendTab[] = [
     'friends',
@@ -103,6 +105,11 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     if (selectedSportId) count++;
     return count;
   }, [selectedCity, selectedState, selectedSportId]);
+
+  const listContentStyle = useMemo(
+    () => [styles.listContent, { paddingBottom: tabBarHeight }],
+    [tabBarHeight]
+  );
 
   const getTabData = useCallback(() => {
     switch (activeTab) {
@@ -358,7 +365,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContent}
+                contentContainerStyle={listContentStyle}
                 ItemSeparatorComponent={renderSeparator}
                 onEndReached={hasMore ? onLoadMore : undefined}
                 onEndReachedThreshold={0.5}
