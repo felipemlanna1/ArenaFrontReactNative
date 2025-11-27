@@ -1,5 +1,10 @@
 import React, { useCallback, useState, useMemo } from 'react';
-import { View, RefreshControl } from 'react-native';
+import {
+  View,
+  RefreshControl,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -433,126 +438,132 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
 
   return (
     <AppLayout headerVariant="main" headerShowLogo={true}>
-      <GestureDetector gesture={composedGesture}>
-        <View style={styles.content}>
-          <ExploreTabBar
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            eventsCount={events.length}
-            groupsCount={groupsData.groups.length}
-            friendsCount={friendsData.friends.length}
-          />
-
-          <FilterBar
-            searchValue={searchTerm}
-            onSearchChange={setSearchTerm}
-            onSortPress={handleSortPress}
-            onFilterPress={handleFilterPress}
-            placeholder={getSearchPlaceholder()}
-            filterCount={activeFiltersCount}
-            sortOrder={sortOrder}
-          />
-
-          {shouldShowLoading ? (
-            <View style={styles.loadingContainer}>
-              {activeTab === 'friends' ? (
-                <>
-                  <SkeletonUserCard />
-                  <SkeletonUserCard />
-                  <SkeletonUserCard />
-                </>
-              ) : (
-                <>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </>
-              )}
-            </View>
-          ) : shouldShowEmptyState ? (
-            <View style={styles.emptyContainer}>
-              <Ionicons
-                name={emptyState.icon}
-                size={64}
-                color={ArenaColors.neutral.medium}
-                style={styles.emptyIcon}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <GestureDetector gesture={composedGesture}>
+            <View style={styles.content}>
+              <ExploreTabBar
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
+                eventsCount={events.length}
+                groupsCount={groupsData.groups.length}
+                friendsCount={friendsData.friends.length}
               />
-              <Text variant="headingPrimary" style={styles.emptyTitle}>
-                {emptyState.title}
-              </Text>
-              <Text variant="bodySecondary" style={styles.emptyText}>
-                {emptyState.description}
-              </Text>
 
-              {emptyState.primaryAction && emptyState.onPrimaryAction && (
-                <View style={styles.emptyActionsContainer}>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onPress={emptyState.onPrimaryAction}
-                    fullWidth
-                    testID={`empty-create-${activeTab}-button`}
-                  >
-                    {emptyState.primaryAction}
-                  </Button>
-                  {emptyState.secondaryAction &&
-                    emptyState.onSecondaryAction && (
+              <FilterBar
+                searchValue={searchTerm}
+                onSearchChange={setSearchTerm}
+                onSortPress={handleSortPress}
+                onFilterPress={handleFilterPress}
+                placeholder={getSearchPlaceholder()}
+                filterCount={activeFiltersCount}
+                sortOrder={sortOrder}
+              />
+
+              {shouldShowLoading ? (
+                <View style={styles.loadingContainer}>
+                  {activeTab === 'friends' ? (
+                    <>
+                      <SkeletonUserCard />
+                      <SkeletonUserCard />
+                      <SkeletonUserCard />
+                    </>
+                  ) : (
+                    <>
+                      <SkeletonCard />
+                      <SkeletonCard />
+                      <SkeletonCard />
+                    </>
+                  )}
+                </View>
+              ) : shouldShowEmptyState ? (
+                <View style={styles.emptyContainer}>
+                  <Ionicons
+                    name={emptyState.icon}
+                    size={64}
+                    color={ArenaColors.neutral.medium}
+                    style={styles.emptyIcon}
+                  />
+                  <Text variant="headingPrimary" style={styles.emptyTitle}>
+                    {emptyState.title}
+                  </Text>
+                  <Text variant="bodySecondary" style={styles.emptyText}>
+                    {emptyState.description}
+                  </Text>
+
+                  {emptyState.primaryAction && emptyState.onPrimaryAction && (
+                    <View style={styles.emptyActionsContainer}>
                       <Button
-                        variant="ghost"
-                        size="md"
-                        onPress={emptyState.onSecondaryAction}
+                        variant="primary"
+                        size="lg"
+                        onPress={emptyState.onPrimaryAction}
                         fullWidth
-                        testID="empty-filter-button"
+                        testID={`empty-create-${activeTab}-button`}
                       >
-                        {emptyState.secondaryAction}
+                        {emptyState.primaryAction}
                       </Button>
-                    )}
+                      {emptyState.secondaryAction &&
+                        emptyState.onSecondaryAction && (
+                          <Button
+                            variant="ghost"
+                            size="md"
+                            onPress={emptyState.onSecondaryAction}
+                            fullWidth
+                            testID="empty-filter-button"
+                          >
+                            {emptyState.secondaryAction}
+                          </Button>
+                        )}
+                    </View>
+                  )}
+                </View>
+              ) : (
+                <View style={styles.listWrapper}>
+                  <FlashList
+                    data={tabData.data}
+                    renderItem={renderItem}
+                    keyExtractor={keyExtractor}
+                    contentContainerStyle={listContainerStyle}
+                    onEndReached={
+                      tabData.hasMore ? tabData.loadMore : undefined
+                    }
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={renderFooter}
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={tabData.isRefreshing}
+                        onRefresh={handleRefresh}
+                        tintColor={ArenaColors.brand.primary}
+                        colors={[ArenaColors.brand.primary]}
+                        progressBackgroundColor={ArenaColors.neutral.dark}
+                        testID="home-refresh-control"
+                      />
+                    }
+                  />
                 </View>
               )}
-            </View>
-          ) : (
-            <View style={styles.listWrapper}>
-              <FlashList
-                data={tabData.data}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                contentContainerStyle={listContainerStyle}
-                onEndReached={tabData.hasMore ? tabData.loadMore : undefined}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={renderFooter}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={tabData.isRefreshing}
-                    onRefresh={handleRefresh}
-                    tintColor={ArenaColors.brand.primary}
-                    colors={[ArenaColors.brand.primary]}
-                    progressBackgroundColor={ArenaColors.neutral.dark}
-                    testID="home-refresh-control"
-                  />
-                }
+
+              {error && (
+                <View style={styles.errorContainer}>
+                  <Text variant="bodyPrimary" style={styles.errorText}>
+                    {error.message}
+                  </Text>
+                </View>
+              )}
+
+              <SortModal
+                visible={showSortModal}
+                currentSort={{
+                  sortBy,
+                  sortOrder,
+                }}
+                onClose={() => setShowSortModal(false)}
+                onApply={handleApplySort}
               />
             </View>
-          )}
-
-          {error && (
-            <View style={styles.errorContainer}>
-              <Text variant="bodyPrimary" style={styles.errorText}>
-                {error.message}
-              </Text>
-            </View>
-          )}
-
-          <SortModal
-            visible={showSortModal}
-            currentSort={{
-              sortBy,
-              sortOrder,
-            }}
-            onClose={() => setShowSortModal(false)}
-            onApply={handleApplySort}
-          />
+          </GestureDetector>
         </View>
-      </GestureDetector>
+      </TouchableWithoutFeedback>
     </AppLayout>
   );
 };

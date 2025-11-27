@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { AppLayout } from '@/components/AppLayout';
@@ -328,49 +328,53 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
     >
-      <GestureDetector gesture={composedGesture}>
-        <View style={styles.content}>
-          <FriendsTabBar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            friendsCount={friends.length}
-            incomingCount={incomingRequests.length}
-            outgoingCount={outgoingRequests.length}
-            recommendationsCount={recommendations.length}
-          />
-
-          <FilterBar
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            onFilterPress={handleFilterPress}
-            filterCount={filterCount}
-          />
-
-          {isLoading && data.length === 0 ? (
-            <View style={styles.loadingContainer}>
-              <SkeletonUserCard showActions={true} />
-              <SkeletonUserCard showActions={true} />
-              <SkeletonUserCard showActions={true} />
-            </View>
-          ) : (
-            <View style={styles.listWrapper}>
-              <FlashList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContent}
-                ItemSeparatorComponent={renderSeparator}
-                onEndReached={hasMore ? onLoadMore : undefined}
-                onEndReachedThreshold={0.5}
-                ListEmptyComponent={renderEmpty}
-                ListFooterComponent={renderFooter}
-                showsVerticalScrollIndicator={false}
-                estimatedItemSize={120}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <GestureDetector gesture={composedGesture}>
+            <View style={styles.content}>
+              <FriendsTabBar
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                friendsCount={friends.length}
+                incomingCount={incomingRequests.length}
+                outgoingCount={outgoingRequests.length}
+                recommendationsCount={recommendations.length}
               />
+
+              <FilterBar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                onFilterPress={handleFilterPress}
+                filterCount={filterCount}
+              />
+
+              {isLoading && data.length === 0 ? (
+                <View style={styles.loadingContainer}>
+                  <SkeletonUserCard showActions={true} />
+                  <SkeletonUserCard showActions={true} />
+                  <SkeletonUserCard showActions={true} />
+                </View>
+              ) : (
+                <View style={styles.listWrapper}>
+                  <FlashList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    contentContainerStyle={styles.listContent}
+                    ItemSeparatorComponent={renderSeparator}
+                    onEndReached={hasMore ? onLoadMore : undefined}
+                    onEndReachedThreshold={0.5}
+                    ListEmptyComponent={renderEmpty}
+                    ListFooterComponent={renderFooter}
+                    showsVerticalScrollIndicator={false}
+                    estimatedItemSize={120}
+                  />
+                </View>
+              )}
             </View>
-          )}
+          </GestureDetector>
         </View>
-      </GestureDetector>
+      </TouchableWithoutFeedback>
     </AppLayout>
   );
 };

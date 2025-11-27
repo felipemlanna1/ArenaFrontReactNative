@@ -8,6 +8,8 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -327,9 +329,11 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
         </View>
       }
     >
-      <View style={styles.container}>
-        {viewMode === 'list' ? renderListView() : renderCalendarView()}
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {viewMode === 'list' ? renderListView() : renderCalendarView()}
+        </View>
+      </TouchableWithoutFeedback>
     </AppLayout>
   );
 };
