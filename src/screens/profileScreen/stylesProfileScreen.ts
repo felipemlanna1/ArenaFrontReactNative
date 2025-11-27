@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: ArenaSpacing['8.5xl'],
   },
   loadingContainer: {
     flex: 1,

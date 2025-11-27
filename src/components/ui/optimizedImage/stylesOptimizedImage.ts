@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     position: 'relative',
+    overflow: 'hidden',
   },
   image: {
     width: '100%',

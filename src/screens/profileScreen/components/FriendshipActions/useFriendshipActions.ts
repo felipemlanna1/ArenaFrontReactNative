@@ -46,18 +46,13 @@ export const useFriendshipActions = (
       setIsInitialLoading(true);
       await fetchOutgoingRequests();
       const response = await friendshipsApi.getFriendshipStatus(userId);
-      console.log('[FriendshipActions] Friendship status response:', {
-        userId,
-        currentUserId: currentUser?.id,
-        response,
-      });
       setFriendshipData(response as FriendshipData);
     } catch {
       setFriendshipData({ status: null });
     } finally {
       setIsInitialLoading(false);
     }
-  }, [userId, currentUser, fetchOutgoingRequests]);
+  }, [userId, fetchOutgoingRequests]);
 
   useEffect(() => {
     fetchFriendshipStatus();
@@ -69,34 +64,16 @@ export const useFriendshipActions = (
 
     if (friendshipData.status === 'PENDING') {
       if ('requesterId' in friendshipData && 'addresseeId' in friendshipData) {
-        console.log('[FriendshipActions] Comparing IDs with full data:', {
-          requesterId: friendshipData.requesterId,
-          addresseeId: friendshipData.addresseeId,
-          currentUserId: currentUser?.id,
-          requesterMatch: friendshipData.requesterId === currentUser?.id,
-          addresseeMatch: friendshipData.addresseeId === currentUser?.id,
-        });
-
         if (friendshipData.requesterId === currentUser?.id) {
-          console.log('[FriendshipActions] Returning pending_sent (from API)');
           return 'pending_sent';
         }
         if (friendshipData.addresseeId === currentUser?.id) {
-          console.log('[FriendshipActions] Returning pending_received (from API)');
           return 'pending_received';
         }
       } else {
-        console.log('[FriendshipActions] No requesterId/addresseeId, using fallback:', {
-          userId,
-          isInOutgoing: outgoingRequestIds.has(userId),
-          outgoingIds: Array.from(outgoingRequestIds),
-        });
-
         if (outgoingRequestIds.has(userId)) {
-          console.log('[FriendshipActions] Returning pending_sent (from outgoing list)');
           return 'pending_sent';
         } else {
-          console.log('[FriendshipActions] Returning pending_received (not in outgoing list)');
           return 'pending_received';
         }
       }
@@ -105,7 +82,13 @@ export const useFriendshipActions = (
     if (friendshipData.status === 'ACCEPTED') return 'accepted';
 
     return 'none';
-  }, [friendshipData, currentUser, isInitialLoading, userId, outgoingRequestIds]);
+  }, [
+    friendshipData,
+    currentUser,
+    isInitialLoading,
+    userId,
+    outgoingRequestIds,
+  ]);
 
   const handleSendRequest = useCallback(async () => {
     try {

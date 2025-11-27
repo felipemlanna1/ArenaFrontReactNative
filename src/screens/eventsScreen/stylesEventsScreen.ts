@@ -40,7 +40,6 @@ export const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.lg,
-    paddingBottom: ArenaSpacing['2xl'],
   },
   eventCardContainer: {
     marginBottom: ArenaSpacing.md,

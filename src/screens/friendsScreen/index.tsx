@@ -17,7 +17,7 @@ import {
   RecommendationsSection,
 } from './components/FriendsSections';
 import { UserData } from '@/services/http';
-import { SkeletonCard } from '@/components/ui/skeletonCard';
+import { SkeletonUserCard } from '@/components/ui/skeletonUserCard';
 import { UserCard } from '@/components/userCard';
 import { AnimatedListItem } from '@/components/ui/animatedListItem';
 
@@ -243,7 +243,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
 
     return (
       <View style={styles.loadingFooter}>
-        <SkeletonCard />
+        <SkeletonUserCard showActions={true} />
       </View>
     );
   }, [getTabData]);
@@ -348,9 +348,9 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
 
           {isLoading && data.length === 0 ? (
             <View style={styles.loadingContainer}>
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
+              <SkeletonUserCard showActions={true} />
+              <SkeletonUserCard showActions={true} />
+              <SkeletonUserCard showActions={true} />
             </View>
           ) : (
             <View style={styles.listWrapper}>
@@ -365,6 +365,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
                 ListEmptyComponent={renderEmpty}
                 ListFooterComponent={renderFooter}
                 showsVerticalScrollIndicator={false}
+                estimatedItemSize={120}
               />
             </View>
           )}
