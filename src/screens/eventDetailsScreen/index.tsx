@@ -124,7 +124,6 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
         />
 
         <ScrollView
-          style={styles.scrollContent}
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
