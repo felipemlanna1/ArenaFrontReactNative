@@ -72,9 +72,7 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
           size="sm"
           onPress={onRemove}
           disabled={isManaging}
-          leftIcon={props => (
-            <Ionicons name="trash-outline" {...props} />
-          )}
+          leftIcon={props => <Ionicons name="trash-outline" {...props} />}
         >
           Remover
         </Button>
