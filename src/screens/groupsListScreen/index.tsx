@@ -250,6 +250,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
                 ListEmptyComponent={renderEmpty}
                 ListFooterComponent={renderFooter}
                 showsVerticalScrollIndicator={false}
+                estimatedItemSize={150}
               />
             </View>
           )}

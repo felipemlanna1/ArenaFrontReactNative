@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
+import { useTabBarHeight } from '@/hooks/useTabBarHeight';
 import { useProfileScreen } from './useProfileScreen';
 import { ProfileScreenProps } from './typesProfileScreen';
 import { styles } from './stylesProfileScreen';
@@ -52,6 +53,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   } = useProfileCompletionBanner(user, isOwnProfile);
 
   const { progress: completionProgress } = useProfileCompletion(user);
+
+  const tabBarHeight = useTabBarHeight();
+
+  const scrollContainerStyle = useMemo(
+    () => [styles.scrollContainer, { paddingBottom: tabBarHeight }],
+    [tabBarHeight]
+  );
 
   const shouldShowCompletionBanner =
     isOwnProfile && isIncomplete && !isDismissed && !isLoadingCompletion;
@@ -98,10 +106,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     >
       <SafeAreaView
         style={styles.container}
-        edges={['bottom', 'left', 'right']}
+        edges={['left', 'right']}
         testID={testID}
       >
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView contentContainerStyle={scrollContainerStyle}>
           <LinearGradient
             colors={[ArenaColors.neutral.darkest, ArenaColors.neutral.dark]}
             start={{ x: 0.5, y: 0 }}

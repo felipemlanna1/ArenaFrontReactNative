@@ -35,6 +35,7 @@ export const styles = StyleSheet.create({
   avatarImage: {
     width: '100%',
     height: '100%',
+    borderRadius: ArenaBorders.radius.circle,
   },
   avatarPlaceholder: {
     width: '100%',

@@ -165,15 +165,10 @@ export const GroupsFiltersProvider: React.FC<GroupsFiltersProviderProps> = ({
   }, []);
 
   const clearFilters = useCallback(() => {
-    setActiveFilters(
-      createInitialFilters(
-        favoritesSportIds,
-        location.userCity,
-        location.userState
-      )
-    );
+    setActiveFilters(createInitialFilters());
     setSearchTerm('');
-  }, [favoritesSportIds, location.userCity, location.userState]);
+    hasSportsAppliedRef.current = false;
+  }, []);
 
   const clearCityFilter = useCallback(() => {
     setActiveFilters(prev => ({ ...prev, city: undefined, state: undefined }));

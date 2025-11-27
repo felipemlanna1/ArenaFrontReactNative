@@ -1,21 +1,16 @@
 import { StyleSheet, Platform } from 'react-native';
-import {
-  ArenaColors,
-  ArenaSpacing,
-  ArenaBorders,
-  ArenaElevations,
-} from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaElevations } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: ArenaSpacing.xl,
+    left: '50%',
+    marginLeft: -ArenaSpacing['3xl'],
     width: ArenaSpacing['6xl'],
     height: ArenaSpacing['6xl'],
-    borderRadius: ArenaBorders.radius['2xl'],
+    borderRadius: ArenaSpacing['3xl'],
     backgroundColor: ArenaColors.brand.primary,
-    borderWidth: ArenaBorders.width.thick,
-    borderColor: ArenaColors.neutral.light,
     justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({

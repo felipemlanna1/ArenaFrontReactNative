@@ -34,7 +34,8 @@ export const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingVertical: ArenaSpacing.md,
+    paddingTop: ArenaSpacing.md,
+    paddingBottom: ArenaSpacing['2xl'],
   },
   itemSeparator: {
     height: ArenaSpacing.sm,

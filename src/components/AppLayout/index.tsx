@@ -21,7 +21,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   return (
     <SafeAreaView
       style={styles.container}
-      edges={['top', 'bottom', 'left', 'right']}
+      edges={['top', 'left', 'right']}
       testID={testID}
     >
       {showHeader && (

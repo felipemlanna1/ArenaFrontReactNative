@@ -29,8 +29,16 @@ export const useProfileCompletion = (
     }
 
     const missingFields = REQUIRED_FIELDS.filter(field => {
-      const value = user[field];
-      return !value || (typeof value === 'string' && value.trim() === '');
+      let value = user[field];
+
+      if (field === 'birthDate') {
+        value = user.dateOfBirth || user.birthDate;
+      }
+
+      const isEmpty =
+        !value || (typeof value === 'string' && value.trim() === '');
+
+      return isEmpty;
     });
 
     const completedFields = REQUIRED_FIELDS.length - missingFields.length;

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { ArenaColors } from '@/constants';
 import { useMenuScreen } from './useMenuScreen';
@@ -54,46 +54,37 @@ export const MenuScreen: React.FC = () => {
     const iconName =
       ICON_MAP[item.id as keyof typeof ICON_MAP] || 'ellipsis-horizontal';
 
+    const IconComponent = ({
+      size,
+      color,
+    }: {
+      size: number;
+      color: string;
+    }) => <Ionicons name={iconName} size={size} color={color} />;
+
+    const hasBadge = item.badge !== undefined && item.badge > 0;
+    const buttonVariant = item.id === 'logout' ? 'destructive' : 'ghost';
+
     return (
-      <Card
-        key={item.id}
-        onPress={() => handleItemPress(item)}
-        disabled={item.disabled}
-        variant="default"
-        style={
-          item.disabled
-            ? [styles.menuItem, styles.menuItemDisabled]
-            : styles.menuItem
-        }
-        testID={item.testID}
-      >
-        <View style={styles.iconContainer}>
-          <Ionicons
-            name={iconName}
-            size={24}
-            color={
-              item.id === 'logout'
-                ? ArenaColors.semantic.error
-                : ArenaColors.neutral.light
-            }
-          />
-        </View>
-        <View style={styles.menuItemContent}>
-          <Text
-            variant="bodyPrimary"
-            style={item.id === 'logout' ? styles.logoutText : undefined}
-          >
-            {item.label}
-          </Text>
-          {item.badge !== undefined && item.badge > 0 && (
-            <View style={styles.badgeContainer}>
-              <Badge variant="primary" size="sm">
-                {item.badge > 99 ? '99+' : item.badge.toString()}
-              </Badge>
-            </View>
-          )}
-        </View>
-      </Card>
+      <View key={item.id} style={styles.menuItemWrapper}>
+        <Button
+          variant={buttonVariant}
+          onPress={() => handleItemPress(item)}
+          disabled={item.disabled}
+          leftIcon={IconComponent}
+          testID={item.testID}
+          fullWidth
+        >
+          {item.label}
+        </Button>
+        {hasBadge && item.badge !== undefined && (
+          <View style={styles.badgeContainer}>
+            <Badge variant="primary" size="sm">
+              {item.badge > 99 ? '99+' : item.badge.toString()}
+            </Badge>
+          </View>
+        )}
+      </View>
     );
   };
 
