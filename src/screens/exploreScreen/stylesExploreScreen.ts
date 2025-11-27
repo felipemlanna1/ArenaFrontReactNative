@@ -31,6 +31,7 @@ export const styles = StyleSheet.create<Styles>({
   },
   listContainer: {
     paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.lg,
   },
   loadingContainer: {
     flex: 1,
