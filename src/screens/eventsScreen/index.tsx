@@ -9,6 +9,7 @@ import {
   Platform,
   UIManager,
   Keyboard,
+  RefreshControl,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -42,6 +43,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     filterCounts,
     events,
     isLoading,
+    isRefreshing,
     isLoadingMore,
     hasMore,
     selectedDate,
@@ -51,6 +53,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     isCalendarExpanded,
     toggleCalendarExpanded,
     loadMoreEvents,
+    handleRefresh,
     handleDetailsPress,
     handleManagePress,
     handleShare,
@@ -186,6 +189,16 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
               ListFooterComponent={renderFooter}
               onScrollBeginDrag={Keyboard.dismiss}
               showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={handleRefresh}
+                  tintColor={ArenaColors.brand.primary}
+                  colors={[ArenaColors.brand.primary]}
+                  progressBackgroundColor={ArenaColors.neutral.dark}
+                  testID={`${testID}-refresh-control`}
+                />
+              }
             />
           )}
         </View>
@@ -197,6 +210,7 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     filterCounts,
     setEventFilter,
     isLoading,
+    isRefreshing,
     events,
     renderItem,
     keyExtractor,
@@ -205,6 +219,8 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     renderEmpty,
     renderFooter,
     listContentStyle,
+    handleRefresh,
+    testID,
   ]);
 
   const renderCalendarView = useCallback(() => {
@@ -262,6 +278,16 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
             />
           )}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+              tintColor={ArenaColors.brand.primary}
+              colors={[ArenaColors.brand.primary]}
+              progressBackgroundColor={ArenaColors.neutral.dark}
+              testID={`${testID}-calendar-refresh-control`}
+            />
+          }
         />
       </View>
     );
@@ -269,12 +295,14 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
     selectedDate,
     eventsForSelectedDate,
     isCalendarExpanded,
+    isRefreshing,
     handleToggleCalendar,
     markedDates,
     setSelectedDate,
     handleDetailsPress,
     handleManagePress,
     handleShare,
+    handleRefresh,
     eventActions,
     testID,
     selectedDateListStyle,

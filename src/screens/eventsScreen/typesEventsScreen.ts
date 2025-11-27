@@ -32,6 +32,7 @@ export interface UseEventsScreenReturn {
   filterCounts: FilterCount;
   events: Event[];
   isLoading: boolean;
+  isRefreshing: boolean;
   isLoadingMore: boolean;
   hasMore: boolean;
   selectedDate: Date;
@@ -42,6 +43,7 @@ export interface UseEventsScreenReturn {
   toggleCalendarExpanded: () => void;
   loadMoreEvents: () => Promise<void>;
   refreshEvents: () => Promise<void>;
+  handleRefresh: () => Promise<void>;
   handleDetailsPress: (eventId: string) => void;
   handleManagePress: (eventId: string) => void;
   handleShare: (event: Event) => void;
