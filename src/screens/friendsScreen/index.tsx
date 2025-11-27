@@ -328,48 +328,51 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
     >
-      <GestureDetector gesture={composedGesture}>
-        <View style={styles.content}>
-          <FriendsTabBar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            friendsCount={friends.length}
-            incomingCount={incomingRequests.length}
-            outgoingCount={outgoingRequests.length}
-            recommendationsCount={recommendations.length}
-          />
+      <View style={styles.content}>
+        <GestureDetector gesture={composedGesture}>
+          <View>
+            <FriendsTabBar
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              friendsCount={friends.length}
+              incomingCount={incomingRequests.length}
+              outgoingCount={outgoingRequests.length}
+              recommendationsCount={recommendations.length}
+            />
 
-          <FilterBar
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            onFilterPress={handleFilterPress}
-            filterCount={filterCount}
-          />
+            <FilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              onFilterPress={handleFilterPress}
+              filterCount={filterCount}
+            />
+          </View>
+        </GestureDetector>
 
-          {isLoading && data.length === 0 ? (
-            <View style={styles.loadingContainer}>
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-            </View>
-          ) : (
-            <View style={styles.listWrapper}>
-              <FlashList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContent}
-                ItemSeparatorComponent={renderSeparator}
-                onEndReached={hasMore ? onLoadMore : undefined}
-                onEndReachedThreshold={0.5}
-                ListEmptyComponent={renderEmpty}
-                ListFooterComponent={renderFooter}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
-          )}
-        </View>
-      </GestureDetector>
+        {isLoading && data.length === 0 ? (
+          <View style={styles.loadingContainer}>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </View>
+        ) : (
+          <View style={styles.listWrapper}>
+            <FlashList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              contentContainerStyle={styles.listContent}
+              ItemSeparatorComponent={renderSeparator}
+              onEndReached={hasMore ? onLoadMore : undefined}
+              onEndReachedThreshold={0.5}
+              ListEmptyComponent={renderEmpty}
+              ListFooterComponent={renderFooter}
+              showsVerticalScrollIndicator={false}
+              estimatedItemSize={100}
+            />
+          </View>
+        )}
+      </View>
     </AppLayout>
   );
 };
