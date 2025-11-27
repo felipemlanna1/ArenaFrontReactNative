@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 import { StyleSheet } from 'react-native';
@@ -66,21 +67,17 @@ export const ParticipantActions: React.FC<ParticipantActionsProps> = ({
       )}
 
       {status === 'CONFIRMED' && onRemove && (
-        <TouchableOpacity
-          style={[styles.actionButton, styles.removeButton]}
+        <Button
+          variant="ghost"
+          size="sm"
           onPress={onRemove}
           disabled={isManaging}
-          activeOpacity={0.7}
+          leftIcon={props => (
+            <Ionicons name="trash-outline" {...props} />
+          )}
         >
-          <Ionicons
-            name="trash-outline"
-            size={20}
-            color={ArenaColors.neutral.light}
-          />
-          <Text variant="labelPrimary" style={styles.buttonText}>
-            Remover
-          </Text>
-        </TouchableOpacity>
+          Remover
+        </Button>
       )}
     </View>
   );
@@ -110,10 +107,6 @@ const styles = StyleSheet.create({
   },
   rejectButton: {
     backgroundColor: ArenaColors.semantic.error,
-  },
-  removeButton: {
-    backgroundColor: ArenaColors.semantic.error,
-    minWidth: ArenaSpacing['10xl'],
   },
   buttonText: {
     color: ArenaColors.neutral.light,

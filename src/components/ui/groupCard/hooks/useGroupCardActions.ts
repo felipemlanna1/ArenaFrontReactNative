@@ -24,7 +24,8 @@ export interface ActionButton {
     | 'subtle'
     | 'destructive'
     | 'outline-light'
-    | 'outline-primary';
+    | 'outline-primary'
+    | 'ghost';
   type: 'view' | 'join' | 'leave';
   testID: string;
   loading: boolean;
@@ -72,7 +73,7 @@ const createLeaveButton = (
 ): ActionButton => ({
   key: 'action',
   label: 'SAIR',
-  variant: 'destructive',
+  variant: 'ghost',
   type: 'leave',
   testID: 'group-card-leave-button',
   loading: isLoading,

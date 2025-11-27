@@ -90,7 +90,7 @@ export const FriendshipActions: React.FC<FriendshipActionsProps> = ({
     return (
       <View style={styles.container}>
         <Button
-          variant="destructive"
+          variant="ghost"
           size="lg"
           onPress={handleRemoveFriend}
           loading={isLoading}

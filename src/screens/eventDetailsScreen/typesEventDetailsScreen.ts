@@ -68,7 +68,7 @@ export type EventActionType =
 export interface EventActionButtonState {
   type: EventActionType;
   label: string;
-  variant: 'primary' | 'secondary' | 'destructive' | 'success' | 'subtle';
+  variant: 'primary' | 'secondary' | 'destructive' | 'success' | 'subtle' | 'ghost';
   disabled: boolean;
   loading: boolean;
   onPress: () => void | Promise<void>;
