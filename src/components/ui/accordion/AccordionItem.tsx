@@ -63,6 +63,9 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
             </Text>
           </View>
         </View>
+        {item.headerAction && (
+          <View style={styles.headerActionContainer}>{item.headerAction}</View>
+        )}
         <View
           style={[
             styles.chevronContainer,

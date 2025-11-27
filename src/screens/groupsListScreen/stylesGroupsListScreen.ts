@@ -2,19 +2,12 @@ import { StyleSheet } from 'react-native';
 import { ArenaSpacing } from '@/constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  titleContainer: {
-    paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing.md,
-    paddingBottom: ArenaSpacing.sm,
-  },
-  title: {
-    textAlign: 'center',
-  },
   content: {
     flex: 1,
+  },
+  listWrapper: {
+    flex: 1,
+    marginTop: ArenaSpacing.lg,
   },
   scrollContent: {
     paddingHorizontal: ArenaSpacing.lg,
@@ -23,9 +16,10 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.lg,
   },
   loadingContainer: {
+    flex: 1,
+    paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing['2xl'],
-    alignItems: 'center',
-    justifyContent: 'center',
+    gap: ArenaSpacing.md,
   },
   emptyContainer: {
     paddingVertical: ArenaSpacing['2xl'],
@@ -42,6 +36,16 @@ export const styles = StyleSheet.create({
   },
   loadMoreContainer: {
     paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+  },
+  listContent: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing.md,
+  },
+  itemSeparator: {
+    height: ArenaSpacing.sm,
+  },
+  loadingFooter: {
     paddingVertical: ArenaSpacing.md,
   },
   fab: {

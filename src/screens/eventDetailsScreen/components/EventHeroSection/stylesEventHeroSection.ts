@@ -1,11 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaSizes,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    // eslint-disable-next-line arena/arena-design-tokens
-    height: 240,
+    height: ArenaSizes.eventHeroHeight,
     position: 'relative',
   },
   coverImage: {
@@ -31,8 +35,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    // eslint-disable-next-line arena/arena-design-tokens
-    height: 100,
+    height: ArenaSpacing['8.5xl'],
   },
   headerOverlay: {
     position: 'absolute',
@@ -43,7 +46,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing['5xl'],
   },
   headerButtons: {
     flexDirection: 'row',
@@ -59,24 +61,8 @@ export const styles = StyleSheet.create({
     borderWidth: ArenaBorders.width.thin,
     borderColor: ArenaColors.neutral.lightSubtle15,
   },
-  titleContainer: {
-    position: 'absolute',
-    bottom: ArenaSpacing.lg,
-    left: ArenaSpacing.lg,
-    right: ArenaSpacing.lg,
-  },
-  title: {
-    color: ArenaColors.neutral.light,
-
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    // eslint-disable-next-line arena/arena-design-tokens
-    textShadowOffset: { width: 0, height: 2 },
-
-    textShadowRadius: 4,
-  },
   statusBadge: {
     position: 'absolute',
-    top: ArenaSpacing.lg,
     left: ArenaSpacing.lg,
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.xs,
@@ -90,7 +76,7 @@ export const styles = StyleSheet.create({
   },
   categoryChipsContainer: {
     position: 'absolute',
-    top: ArenaSpacing.lg,
+    bottom: ArenaSpacing.lg,
     right: ArenaSpacing.lg,
     flexDirection: 'row',
     gap: ArenaSpacing.xs,

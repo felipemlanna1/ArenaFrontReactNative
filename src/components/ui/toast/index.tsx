@@ -1,17 +1,9 @@
-/**
- * Toast Component - Simple Custom Implementation
- *
- * Uses React Native's Animated API for Web compatibility.
- * Auto-dismisses after 3 seconds, slides in from top.
- *
- * @module components/ui/toast
- */
-
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, View, ViewStyle } from 'react-native';
+import { Animated, ViewStyle } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
+import { ArenaColors } from '@/constants';
+import { styles } from './stylesToast';
 
 export type ToastVariant = 'success' | 'error' | 'info' | 'warning';
 
@@ -46,7 +38,6 @@ export const Toast: React.FC<ToastProps> = ({
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Slide in animation
     Animated.parallel([
       Animated.timing(translateY, {
         toValue: 0,
@@ -60,7 +51,6 @@ export const Toast: React.FC<ToastProps> = ({
       }),
     ]).start();
 
-    // Auto-dismiss after duration
     const timeout = setTimeout(() => {
       Animated.parallel([
         Animated.timing(translateY, {
@@ -105,34 +95,6 @@ export const Toast: React.FC<ToastProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: ArenaSpacing.xl,
-    left: ArenaSpacing.lg,
-    right: ArenaSpacing.lg,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: ArenaSpacing.md,
-    paddingHorizontal: ArenaSpacing.lg,
-    borderRadius: ArenaBorders.radius.md,
-    borderLeftWidth: 4,
-    shadowColor: ArenaColors.neutral.darkest,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-    zIndex: 9999,
-    gap: ArenaSpacing.sm,
-  },
-  message: {
-    flex: 1,
-  },
-});
-
-/**
- * Toast Manager - Global toast state
- */
 interface ToastState {
   id: number;
   message: string;
@@ -140,11 +102,8 @@ interface ToastState {
 }
 
 let toastState: ToastState | null = null;
-let toastListeners: Array<(state: ToastState | null) => void> = [];
+let toastListeners: ((state: ToastState | null) => void)[] = [];
 
-/**
- * Show a toast notification
- */
 export const showToast = (params: {
   message: string;
   variant?: ToastVariant;
@@ -158,30 +117,23 @@ export const showToast = (params: {
     variant,
   };
 
-  toastListeners.forEach((listener) => listener(toastState));
+  toastListeners.forEach(listener => listener(toastState));
 
-  // Auto-dismiss
   setTimeout(() => {
     toastState = null;
-    toastListeners.forEach((listener) => listener(null));
-  }, duration + 300); // duration + animation time
+    toastListeners.forEach(listener => listener(null));
+  }, duration + 300);
 };
 
-/**
- * Subscribe to toast changes
- */
 export const subscribeToToast = (
   listener: (state: ToastState | null) => void
 ): (() => void) => {
   toastListeners.push(listener);
   return () => {
-    toastListeners = toastListeners.filter((l) => l !== listener);
+    toastListeners = toastListeners.filter(l => l !== listener);
   };
 };
 
-/**
- * ToastContainer - Place once at root of app
- */
 export const ToastContainer: React.FC = () => {
   const [currentToast, setCurrentToast] = React.useState<ToastState | null>(
     null

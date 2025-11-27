@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { AlertProvider } from './src/contexts/AlertContext';
 import { NotificationsProvider } from './src/contexts/NotificationsContext';
 import { UnreadNotificationsProvider } from './src/contexts/UnreadNotificationsContext';
+import { InvitesProvider } from './src/contexts/InvitesContext';
 import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { SportsProvider } from './src/contexts/SportsContext';
 import { GroupsProvider } from './src/contexts/GroupsContext';
 import { GroupsFiltersProvider } from './src/contexts/GroupsFiltersContext';
+import { FriendsFiltersProvider } from './src/contexts/FriendsFiltersContext';
 import { AnimatedSplashScreen } from './src/components/animatedSplashScreen';
 import { usePreloadAssets } from './src/hooks/usePreloadAssets';
+import { styles } from './stylesApp';
 
 export default function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
@@ -39,28 +43,34 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <KeyboardProvider>
-        <SportsProvider>
-          <AuthProvider>
-            <NotificationsProvider>
-              <AlertProvider>
-                <UnreadNotificationsProvider>
-                  <ToastProvider>
-                    <GroupsProvider>
-                      <GroupsFiltersProvider>
-                        <HomeFiltersProvider>
-                          <AppNavigator />
-                        </HomeFiltersProvider>
-                      </GroupsFiltersProvider>
-                    </GroupsProvider>
-                  </ToastProvider>
-                </UnreadNotificationsProvider>
-              </AlertProvider>
-            </NotificationsProvider>
-          </AuthProvider>
-        </SportsProvider>
-      </KeyboardProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={styles.rootContainer}>
+      <SafeAreaProvider>
+        <KeyboardProvider>
+          <SportsProvider>
+            <AuthProvider>
+              <InvitesProvider>
+                <NotificationsProvider>
+                  <AlertProvider>
+                    <UnreadNotificationsProvider>
+                      <ToastProvider>
+                        <GroupsProvider>
+                          <GroupsFiltersProvider>
+                            <FriendsFiltersProvider>
+                              <HomeFiltersProvider>
+                                <AppNavigator />
+                              </HomeFiltersProvider>
+                            </FriendsFiltersProvider>
+                          </GroupsFiltersProvider>
+                        </GroupsProvider>
+                      </ToastProvider>
+                    </UnreadNotificationsProvider>
+                  </AlertProvider>
+                </NotificationsProvider>
+              </InvitesProvider>
+            </AuthProvider>
+          </SportsProvider>
+        </KeyboardProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.lg,
     paddingBottom: ArenaSpacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   modalTitle: {
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: ArenaSpacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   userAvatar: {
@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
   tabsContainer: {
     flexDirection: 'row',
     paddingHorizontal: ArenaSpacing.lg,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   tab: {
@@ -145,7 +145,7 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.md,
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: ArenaSpacing.xxs,
     borderBottomColor: 'transparent',
   },
   tabActive: {

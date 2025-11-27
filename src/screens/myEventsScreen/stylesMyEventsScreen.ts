@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   loadingContainer: {
+    flex: 1,
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.md,
     gap: ArenaSpacing.lg,

@@ -1,16 +1,17 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
-
-const BACKDROP_OPACITY = 0.8;
-const LOADING_CARD_MIN_WIDTH = 200;
-const PROGRESS_BAR_WIDTH = 200;
-const PROGRESS_BAR_HEIGHT = 4;
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaOpacity,
+  ArenaSizes,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   backdropOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: `${ArenaColors.neutral.darkest}${Math.round(
-      BACKDROP_OPACITY * 255
+      ArenaOpacity.strong * 255
     )
       .toString(16)
       .padStart(2, '0')}`,
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing['2xl'],
     paddingVertical: ArenaSpacing.xl,
     borderRadius: ArenaBorders.radius.lg,
-    minWidth: LOADING_CARD_MIN_WIDTH,
+    minWidth: ArenaSizes.loadingCardMinWidth,
   },
   fullscreenContainer: {
     paddingHorizontal: ArenaSpacing['2xl'],
@@ -44,12 +45,12 @@ export const styles = StyleSheet.create({
   },
   progressContainer: {
     marginTop: ArenaSpacing.md,
-    width: PROGRESS_BAR_WIDTH,
+    width: ArenaSizes.progressBarWidth,
     alignItems: 'center',
   },
   progressTrack: {
     width: '100%',
-    height: PROGRESS_BAR_HEIGHT,
+    height: ArenaSizes.progressBarHeight,
     backgroundColor: ArenaColors.neutral.dark,
     borderRadius: ArenaBorders.radius.pill,
     overflow: 'hidden',

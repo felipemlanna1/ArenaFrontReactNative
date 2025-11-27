@@ -7,15 +7,24 @@ import { withAndroidScreenWrapper } from '../components/wrappers/AndroidScreenWr
 import { WelcomeScreen } from '../screens/welcomeScreen';
 import { LoginScreen } from '../screens/loginScreen';
 import { RegisterScreen } from '../screens/registerScreen';
+import { ForgotPasswordScreen } from '../screens/forgotPasswordScreen';
+import { VerifyCodeScreen } from '../screens/verifyCodeScreen';
+import { ResetPasswordScreen } from '../screens/resetPasswordScreen';
 import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
 import { FilterScreen } from '../screens/filterScreen';
 import { CreateEventScreen } from '../screens/createEventScreen';
+import { CreateGroupScreen } from '../screens/createGroupScreen';
 import { EventDetailsScreen } from '../screens/eventDetailsScreen';
 import { GroupDetailsScreen } from '../screens/groupDetailsScreen';
 import { ProfileScreen } from '../screens/profileScreen';
 import { EditProfileScreen } from '../screens/editProfileScreen';
 import { NotificationsScreen } from '../screens/notificationsScreen';
+import { FriendsScreen } from '../screens/friendsScreen';
+import { GroupsListScreen } from '../screens/groupsListScreen';
+import { SettingsScreen } from '../screens/settingsScreen';
+import { HelpScreen } from '../screens/helpScreen';
+import { TermsScreen } from '../screens/termsScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
@@ -30,6 +39,17 @@ const WrappedLoginScreen = withAndroidScreenWrapper(LoginScreen, {
 const WrappedRegisterScreen = withAndroidScreenWrapper(RegisterScreen, {
   enableScroll: false,
 });
+const WrappedForgotPasswordScreen = withAndroidScreenWrapper(
+  ForgotPasswordScreen,
+  { enableScroll: false }
+);
+const WrappedVerifyCodeScreen = withAndroidScreenWrapper(VerifyCodeScreen, {
+  enableScroll: false,
+});
+const WrappedResetPasswordScreen = withAndroidScreenWrapper(
+  ResetPasswordScreen,
+  { enableScroll: false }
+);
 const WrappedComponentsShowcaseScreen = withAndroidScreenWrapper(
   ComponentsShowcaseScreen,
   { enableScroll: false }
@@ -41,6 +61,9 @@ const WrappedFilterScreen = withAndroidScreenWrapper(FilterScreen, {
   enableScroll: false,
 });
 const WrappedCreateEventScreen = withAndroidScreenWrapper(CreateEventScreen, {
+  enableScroll: false,
+});
+const WrappedCreateGroupScreen = withAndroidScreenWrapper(CreateGroupScreen, {
   enableScroll: false,
 });
 const WrappedEventDetailsScreen = withAndroidScreenWrapper(EventDetailsScreen, {
@@ -57,6 +80,21 @@ const WrappedNotificationsScreen = withAndroidScreenWrapper(
   NotificationsScreen,
   { enableScroll: false }
 );
+const WrappedFriendsScreen = withAndroidScreenWrapper(FriendsScreen, {
+  enableScroll: false,
+});
+const WrappedGroupsListScreen = withAndroidScreenWrapper(GroupsListScreen, {
+  enableScroll: false,
+});
+const WrappedSettingsScreen = withAndroidScreenWrapper(SettingsScreen, {
+  enableScroll: false,
+});
+const WrappedHelpScreen = withAndroidScreenWrapper(HelpScreen, {
+  enableScroll: false,
+});
+const WrappedTermsScreen = withAndroidScreenWrapper(TermsScreen, {
+  enableScroll: false,
+});
 
 export const AppNavigator: React.FC = () => {
   const { user, isLoading } = useAuth();
@@ -100,6 +138,18 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen name="Login" component={WrappedLoginScreen} />
             <Stack.Screen name="Register" component={WrappedRegisterScreen} />
             <Stack.Screen
+              name="ForgotPassword"
+              component={WrappedForgotPasswordScreen}
+            />
+            <Stack.Screen
+              name="VerifyCode"
+              component={WrappedVerifyCodeScreen}
+            />
+            <Stack.Screen
+              name="ResetPassword"
+              component={WrappedResetPasswordScreen}
+            />
+            <Stack.Screen
               name="ComponentsShowcase"
               component={WrappedComponentsShowcaseScreen}
             />
@@ -128,6 +178,14 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen
               name="CreateEvent"
               component={WrappedCreateEventScreen}
+              options={{
+                presentation: 'card',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="CreateGroup"
+              component={WrappedCreateGroupScreen}
               options={{
                 presentation: 'card',
                 headerShown: false,
@@ -170,7 +228,67 @@ export const AppNavigator: React.FC = () => {
               component={WrappedNotificationsScreen}
               options={{
                 presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Notificações',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Friends"
+              component={WrappedFriendsScreen}
+              options={{
+                presentation: 'card',
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="GroupsList"
+              component={WrappedGroupsListScreen}
+              options={{
+                presentation: 'card',
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={WrappedSettingsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Configurações',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Help"
+              component={WrappedHelpScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Ajuda & Suporte',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Terms"
+              component={WrappedTermsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Termos & Privacidade',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
               }}
             />
           </>

@@ -1,15 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
-
-const HERO_HEIGHT = 280;
-const BUTTON_SIZE = 40;
-const AVATAR_SIZE = 80;
-const PLACEHOLDER_ICON_SIZE = 120;
-const PLACEHOLDER_ICON_OPACITY = 0.4;
+import {
+  ArenaColors,
+  ArenaBorders,
+  ArenaSizes,
+  ArenaOpacity,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    height: HERO_HEIGHT,
+    height: ArenaSizes.heroSectionHeight,
     position: 'relative',
   },
   gradient: {
@@ -17,26 +16,16 @@ export const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: HERO_HEIGHT,
+    height: ArenaSizes.heroSectionHeight,
   },
-  backButton: {
+  completionRingContainer: {
     position: 'absolute',
-    top: 48,
-    left: ArenaSpacing.lg,
-    width: BUTTON_SIZE,
-    height: BUTTON_SIZE,
-    borderRadius: ArenaBorders.radius['3xl'],
-    backgroundColor: ArenaColors.neutral.darkMedium,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 10,
+    bottom: -64,
+    alignSelf: 'center',
   },
   avatarContainer: {
-    position: 'absolute',
-    bottom: -40,
-    alignSelf: 'center',
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
+    width: ArenaSizes.avatarLarge,
+    height: ArenaSizes.avatarLarge,
     borderRadius: ArenaBorders.radius.circle,
     borderWidth: ArenaBorders.width.bold,
     borderColor: ArenaColors.neutral.darkest,
@@ -62,20 +51,25 @@ export const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: HERO_HEIGHT,
+    height: ArenaSizes.heroSectionHeight,
   },
   placeholderContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    height: HERO_HEIGHT,
+    height: ArenaSizes.heroSectionHeight,
     justifyContent: 'center',
     alignItems: 'center',
   },
   placeholderIcon: {
-    width: PLACEHOLDER_ICON_SIZE,
-    height: PLACEHOLDER_ICON_SIZE,
-    opacity: PLACEHOLDER_ICON_OPACITY,
+    width: ArenaSizes.avatarLarge,
+    height: ArenaSizes.avatarLarge,
+    opacity: ArenaOpacity.medium,
+  },
+  activeBadge: {
+    position: 'absolute',
+    bottom: -85,
+    alignSelf: 'center',
   },
 });

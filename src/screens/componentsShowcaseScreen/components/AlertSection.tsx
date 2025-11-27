@@ -18,13 +18,11 @@ import { AlertProvider } from '@/contexts/AlertContext';
   <YourApp />
 </AlertProvider>
 
-// 2. Use the useAlert hook in any component
 import { useAlert } from '@/contexts/AlertContext';
 
 const MyComponent = () => {
   const { showSuccess, showError, showWarning, showInfo, showConfirm } = useAlert();
 
-  // Use the helper methods...
 };`;
 
 const SUCCESS_CODE = `const { showSuccess } = useAlert();
@@ -90,7 +88,7 @@ showConfirm({
 const DISMISSIBLE_CODE = `showInfo({
   title: 'Notificação',
   message: 'Toque fora do alerta para fechar.',
-  dismissible: true, // Permite fechar tocando no backdrop
+  dismissible: true,
 });`;
 
 export const AlertSection: React.FC<AlertSectionProps> = ({ onCopyCode }) => {

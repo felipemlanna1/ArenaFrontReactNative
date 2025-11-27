@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
+import { AnimatedCounter } from '@/components/ui/animatedCounter';
 import {
   ProfileStatsSectionProps,
   StatCardData,
@@ -11,6 +12,7 @@ import { styles } from './stylesProfileStatsSection';
 export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
   stats,
   isLoading,
+  customLabels,
 }) => {
   if (isLoading) {
     return (
@@ -40,26 +42,29 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
     );
   }
 
-  const statCards: StatCardData[] = [
+  const activityStats: StatCardData[] = [
     {
       id: 'events',
-      label: 'Eventos',
-      value: (stats.totalEvents ?? 0).toString(),
+      label: customLabels?.events ?? 'Eventos',
+      value: stats.totalEvents ?? 0,
     },
     {
       id: 'created',
-      label: 'Criados',
-      value: (stats.createdEvents ?? 0).toString(),
+      label: customLabels?.created ?? 'Criados',
+      value: stats.createdEvents ?? 0,
+    },
+  ];
+
+  const socialStats: StatCardData[] = [
+    {
+      id: 'friends',
+      label: customLabels?.friends ?? 'Amigos',
+      value: stats.totalFriends ?? 0,
     },
     {
       id: 'groups',
-      label: 'Grupos',
-      value: (stats.totalGroups ?? 0).toString(),
-    },
-    {
-      id: 'friends',
-      label: 'Amigos',
-      value: (stats.totalFriends ?? 0).toString(),
+      label: customLabels?.groups ?? 'Equipes',
+      value: stats.totalGroups ?? 0,
     },
   ];
 
@@ -68,20 +73,48 @@ export const ProfileStatsSection: React.FC<ProfileStatsSectionProps> = ({
       <Text variant="titlePrimary" style={styles.sectionTitle}>
         Estatísticas
       </Text>
-      <View style={styles.statsGrid}>
-        {statCards.map((card, index) => (
-          <React.Fragment key={card.id}>
-            {index > 0 && <View style={styles.statDivider} />}
-            <View style={styles.statCard}>
-              <Text variant="displayPrimary" style={styles.statValue}>
-                {card.value}
-              </Text>
-              <Text variant="captionSecondary" style={styles.statLabel}>
-                {card.label}
-              </Text>
-            </View>
-          </React.Fragment>
-        ))}
+      <View style={styles.statsContainer}>
+        <View style={styles.statsGroup}>
+          <Text variant="labelPrimary" style={styles.groupLabel}>
+            ATIVIDADE
+          </Text>
+          <View style={styles.statsRow}>
+            {activityStats.map(card => (
+              <View key={card.id} style={styles.statCard}>
+                <AnimatedCounter
+                  value={card.value}
+                  duration={1000}
+                  variant="displayPrimary"
+                  style={styles.statValue}
+                />
+                <Text variant="captionSecondary" style={styles.statLabel}>
+                  {card.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.statsGroup}>
+          <Text variant="labelPrimary" style={styles.groupLabel}>
+            SOCIAL
+          </Text>
+          <View style={styles.statsRow}>
+            {socialStats.map(card => (
+              <View key={card.id} style={styles.statCard}>
+                <AnimatedCounter
+                  value={card.value}
+                  duration={1000}
+                  variant="displayPrimary"
+                  style={styles.statValue}
+                />
+                <Text variant="captionSecondary" style={styles.statLabel}>
+                  {card.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </View>
       </View>
     </View>
   );

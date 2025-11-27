@@ -1,41 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { GroupCard } from '@/components/ui/groupCard';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { EmptyState } from '@/components/ui/emptyState';
+import { ArenaSpacing } from '@/constants';
 import { Group } from '@/services/groups/typesGroups';
 
 const styles = StyleSheet.create({
   groupsList: {
     gap: ArenaSpacing.md,
   },
-  emptyContainer: {
-    paddingVertical: ArenaSpacing['2xl'],
-    alignItems: 'center',
-  },
-  emptyIcon: {
-    marginBottom: ArenaSpacing.md,
-  },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
     alignItems: 'center',
   },
 });
-
-const EmptyState: React.FC<{
-  icon: keyof typeof Ionicons.glyphMap;
-  message: string;
-}> = ({ icon, message }) => (
-  <View style={styles.emptyContainer}>
-    <View style={styles.emptyIcon}>
-      <Ionicons name={icon} size={48} color={ArenaColors.neutral.medium} />
-    </View>
-    <Text variant="bodySecondary">{message}</Text>
-  </View>
-);
 
 const LoadingState: React.FC = () => (
   <View style={styles.loadingContainer}>
@@ -50,6 +30,9 @@ interface MyGroupsSectionProps {
   onNavigateToGroup: (groupId: string) => void;
   onManageGroup: (groupId: string) => void;
   onLeaveGroup: (groupId: string) => Promise<void>;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onSwitchToRecommendations: () => void;
 }
 
 export const MyGroupsSection: React.FC<MyGroupsSectionProps> = ({
@@ -59,13 +42,33 @@ export const MyGroupsSection: React.FC<MyGroupsSectionProps> = ({
   onNavigateToGroup,
   onManageGroup,
   onLeaveGroup,
+  hasActiveFilters,
+  onClearFilters,
+  onSwitchToRecommendations,
 }) => {
   if (isLoading) return <LoadingState />;
   if (groups.length === 0) {
+    if (hasActiveFilters) {
+      return (
+        <EmptyState
+          icon="funnel-outline"
+          title="Nenhum grupo encontrado"
+          message="Tente ajustar seus filtros ou limpe-os para ver todos os seus grupos."
+          actionLabel="Limpar Filtros"
+          onActionPress={onClearFilters}
+          testID="my-groups-filtered-empty-state"
+        />
+      );
+    }
+
     return (
       <EmptyState
-        icon="people-circle-outline"
-        message="Você ainda não participa de nenhum grupo"
+        icon="fitness-outline"
+        title="Seu squad te espera!"
+        message="Participe de grupos e treine com atletas que compartilham sua paixão. Juntos vocês chegam mais longe!"
+        actionLabel="Explorar Grupos"
+        onActionPress={onSwitchToRecommendations}
+        testID="my-groups-empty-state"
       />
     );
   }
@@ -108,7 +111,11 @@ export const PendingGroupsSection: React.FC<PendingGroupsSectionProps> = ({
   if (isLoading) return <LoadingState />;
   if (groups.length === 0) {
     return (
-      <EmptyState icon="time-outline" message="Nenhuma solicitação pendente" />
+      <EmptyState
+        icon="time-outline"
+        title="Tudo em dia"
+        message="Você não tem solicitações pendentes no momento"
+      />
     );
   }
   return (
@@ -137,6 +144,9 @@ interface GroupRecommendationsSectionProps {
   onNavigateToGroup: (groupId: string) => void;
   onManageGroup: (groupId: string) => void;
   onJoinGroup: (groupId: string) => Promise<void>;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onCreateGroup: () => void;
 }
 
 export const GroupRecommendationsSection: React.FC<
@@ -148,13 +158,33 @@ export const GroupRecommendationsSection: React.FC<
   onNavigateToGroup,
   onManageGroup,
   onJoinGroup,
+  hasActiveFilters,
+  onClearFilters,
+  onCreateGroup,
 }) => {
   if (isLoading) return <LoadingState />;
   if (groups.length === 0) {
+    if (hasActiveFilters) {
+      return (
+        <EmptyState
+          icon="search-outline"
+          title="Nenhum resultado"
+          message="Não encontramos grupos com esses critérios. Tente expandir sua busca ou explore outras regiões."
+          actionLabel="Limpar Filtros"
+          onActionPress={onClearFilters}
+          testID="recommendations-filtered-empty-state"
+        />
+      );
+    }
+
     return (
       <EmptyState
-        icon="sparkles-outline"
-        message="Nenhuma recomendação disponível no momento"
+        icon="rocket-outline"
+        title="Seja o pioneiro!"
+        message="Ainda não há grupos na sua região. Que tal criar o primeiro e reunir atletas que pensam como você?"
+        actionLabel="Criar Grupo"
+        onActionPress={onCreateGroup}
+        testID="recommendations-empty-state"
       />
     );
   }

@@ -1,35 +1,44 @@
-/**
- * Arena Copy - Friendly Copy System
- *
- * Centraliza todo copy do app para consistência de tom e voz.
- * Tom: Direct, Motivational, Technical, Friendly, Inclusive
- *
- * SEMPRE importar daqui ao invés de hardcoded strings.
- *
- * @module constants/copy
- */
-
 export const ArenaCopy = {
-  /**
-   * Empty States - Encouraging, Actionable
-   */
   emptyStates: {
     noEvents: {
       title: 'Vamos começar algo incrível! 🎯',
       description:
-        'Nenhum evento por aqui ainda. Seja o primeiro a reunir atletas da sua região!',
+        'Reúna sua galera, marque o jogo e faça acontecer. É rápido e fácil!',
       primaryAction: 'Criar Primeiro Evento',
       secondaryAction: 'Ajustar Filtros',
       socialProof: '{count} eventos criados esta semana no Brasil',
+      benefits: [
+        'Jogadores confirmados em 24h',
+        'Chat integrado com o time',
+        'Notificações automáticas',
+      ],
     },
     noFriends: {
       title: 'Sua crew esportiva te espera!',
-      description: 'Participe de eventos para conhecer atletas incríveis da sua área.',
+      description:
+        'Participe de eventos para conhecer atletas incríveis da sua área.',
       primaryAction: 'Buscar Eventos',
     },
     noFriendsRecommendations: {
       title: 'Conhece alguém legal por aqui?',
-      description: 'Ainda não temos recomendações para você. Participe de mais eventos!',
+      description:
+        'Ainda não temos recomendações para você. Participe de mais eventos!',
+    },
+    noFriendsInvite: {
+      title: 'Traga seus parceiros de treino! 💪',
+      description:
+        'Amigos no Arena encontram jogos juntos, criam eventos e acompanham seus treinos.',
+      primaryAction: 'Convidar Amigos',
+      secondaryAction: 'Ajustar Filtros',
+      socialProof: '{count} atletas se conectaram esta semana',
+      networkEffect: '73% dos eventos incluem pelo menos 2 amigos',
+      benefits: [
+        '🏃 Encontre jogos com amigos',
+        '📊 Acompanhe o progresso deles',
+        '🎉 Receba convites de eventos',
+        '⭐ Construa sua crew esportiva',
+      ],
+      helpText: 'Compartilhe via WhatsApp, Instagram ou SMS',
     },
     noFriendRequests: {
       title: 'Nenhuma solicitação no momento',
@@ -55,7 +64,8 @@ export const ArenaCopy = {
     },
     noProfilePhoto: {
       title: 'Mostre sua cara!',
-      description: 'Adicione uma foto de perfil para que outros atletas reconheçam você.',
+      description:
+        'Adicione uma foto de perfil para que outros atletas reconheçam você.',
       primaryAction: 'Adicionar Foto',
     },
     noEventsCreated: {
@@ -65,7 +75,8 @@ export const ArenaCopy = {
     },
     noEventsHistory: {
       title: 'Sua jornada começa aqui!',
-      description: 'Quando você participar de eventos, seu histórico aparecerá aqui.',
+      description:
+        'Quando você participar de eventos, seu histórico aparecerá aqui.',
       primaryAction: 'Explorar Eventos',
     },
     noUpcomingEvents: {
@@ -82,12 +93,29 @@ export const ArenaCopy = {
       description: 'Organize jogos e traga atletas juntos!',
       primaryAction: 'Criar Primeiro Evento',
     },
+    noGroups: {
+      title: 'Encontre seu time fixo! 🏆',
+      description:
+        'Equipes facilitam a organização de jogos recorrentes com os mesmos atletas.',
+      primaryAction: 'Criar Minha Equipe',
+      secondaryAction: 'Ajustar Filtros',
+      socialProof: '{activeCount} equipes ativas no Brasil',
+      benefits: [
+        'Chat privado com a equipe',
+        'Eventos recorrentes automáticos',
+        'Lista fixa de jogadores',
+        'Histórico de jogos juntos',
+      ],
+      examples: [
+        { emoji: '⚽', label: 'Pelada Sábado', members: '24 atletas' },
+        { emoji: '🏀', label: 'Basquete Quintas', members: '16 atletas' },
+        { emoji: '🎾', label: 'Tênis Matinal', members: '12 atletas' },
+      ],
+      testimonial:
+        '"Minha equipe de futebol joga todo sábado há 6 meses!" - João, SP',
+    },
   },
 
-  /**
-   * Error Messages - Helpful, Not Blaming
-   * Pattern: [O que aconteceu] + [Por quê] + [Como resolver]
-   */
   errors: {
     noInternet: {
       title: 'Sem conexão com a internet',
@@ -106,7 +134,8 @@ export const ArenaCopy = {
     },
     eventFull: {
       title: 'Esse jogo já está lotado!',
-      message: 'Mas encontramos {count} eventos similares perto de você. Veja as opções.',
+      message:
+        'Mas encontramos {count} eventos similares perto de você. Veja as opções.',
       action: 'Ver Eventos Similares',
       secondaryAction: 'Entrar na Lista de Espera',
     },
@@ -143,7 +172,8 @@ export const ArenaCopy = {
     },
     locationDenied: {
       title: 'Localização negada',
-      message: 'Permita acesso à localização nas configurações para ver eventos perto de você.',
+      message:
+        'Permita acesso à localização nas configurações para ver eventos perto de você.',
       action: 'Abrir Configurações',
     },
     cameraPermissionDenied: {
@@ -153,14 +183,12 @@ export const ArenaCopy = {
     },
     notificationsDenied: {
       title: 'Notificações desativadas',
-      message: 'Ative notificações para saber quando rolar jogos do seu estilo.',
+      message:
+        'Ative notificações para saber quando rolar jogos do seu estilo.',
       action: 'Ativar Notificações',
     },
   },
 
-  /**
-   * Success Messages - Celebratory, Not Clinical
-   */
   success: {
     eventJoined: 'Você está dentro! Até {date} {emoji}',
     eventJoinedDefault: 'Você está dentro! Até o jogo {emoji}',
@@ -172,10 +200,12 @@ export const ArenaCopy = {
     profilePhotoUpdated: 'Foto atualizada! Você está com boa cara.',
     friendAdded: 'Conexão feita! Você e {name} agora são amigos 👋',
     friendRequestSent: 'Solicitação enviada! Aguarde {name} aceitar.',
-    friendRequestAccepted: '{name} aceitou sua solicitação! Vocês são amigos agora 🎉',
+    friendRequestAccepted:
+      '{name} aceitou sua solicitação! Vocês são amigos agora 🎉',
     friendRemoved: 'Você e {name} não são mais amigos.',
     passwordChanged: 'Tudo certo! Sua nova senha está salva.',
-    passwordResetSent: 'Email enviado! Confira sua caixa de entrada para redefinir a senha.',
+    passwordResetSent:
+      'Email enviado! Confira sua caixa de entrada para redefinir a senha.',
     photoUploaded: 'Perfeito! Sua foto está no ar.',
     messagesSent: 'Mensagem enviada!',
     reviewSubmitted: 'Avaliação enviada! Obrigado pelo feedback.',
@@ -183,12 +213,10 @@ export const ArenaCopy = {
     achievementUnlocked: 'Conquista Desbloqueada: {name}! 🏆',
     levelUp: 'Level Up! Você agora é {level} ⭐',
     streakMaintained: 'Streak mantido! 🔥 {days} dias consecutivos.',
-    profileComplete: 'Perfil 100% completo! 🎉 Você desbloqueou recursos premium.',
+    profileComplete:
+      'Perfil 100% completo! 🎉 Você desbloqueou recursos premium.',
   },
 
-  /**
-   * Onboarding - Conversational, Not Robotic
-   */
   onboarding: {
     welcome: {
       title: 'Bem-vindo ao Arena!',
@@ -220,9 +248,6 @@ export const ArenaCopy = {
     },
   },
 
-  /**
-   * UI Elements - Personality in Microcopy
-   */
   ui: {
     pullToRefresh: {
       idle: 'Puxe para atualizar',
@@ -247,14 +272,16 @@ export const ArenaCopy = {
     },
     filter: {
       applied: 'Filtros aplicados',
-      resultsCount: 'Encontramos {count} {count, plural, one {jogo} other {jogos}} para você!',
+      resultsCount:
+        'Encontramos {count} {count, plural, one {jogo} other {jogos}} para você!',
       noResults: 'Nenhum jogo com esses filtros. Tente ajustar!',
     },
     search: {
       placeholder: 'Buscar por nome ou esporte',
       searching: 'Procurando...',
       noResults: 'Nenhum resultado para "{query}"',
-      resultsCount: '{count} {count, plural, one {resultado} other {resultados}}',
+      resultsCount:
+        '{count} {count, plural, one {resultado} other {resultados}}',
     },
     profileViews: {
       single: 'Seu perfil foi visto {count} vez esta semana 👀',
@@ -267,9 +294,6 @@ export const ArenaCopy = {
     },
   },
 
-  /**
-   * Social Features
-   */
   social: {
     mutualFriends: {
       single: '{count} amigo em comum',
@@ -281,7 +305,8 @@ export const ArenaCopy = {
       none: 'Seja o primeiro a entrar!',
       single: '{count} atleta confirmado',
       multiple: '{count} atletas confirmados',
-      withFriends: '{count} atletas · {friendsCount} {friendsCount, plural, one {amigo} other {amigos}}',
+      withFriends:
+        '{count} atletas · {friendsCount} {friendsCount, plural, one {amigo} other {amigos}}',
     },
     eventActivity: {
       joined: '{name} entrou neste evento',
@@ -297,12 +322,10 @@ export const ArenaCopy = {
     },
   },
 
-  /**
-   * Event Details
-   */
   event: {
     spots: {
-      available: '{count} {count, plural, one {vaga disponível} other {vagas disponíveis}}',
+      available:
+        '{count} {count, plural, one {vaga disponível} other {vagas disponíveis}}',
       almostFull: 'Só {count} {count, plural, one {vaga} other {vagas}}! 🔥',
       full: 'Lotado',
       waitlist: 'Lista de espera: {count}',
@@ -331,9 +354,6 @@ export const ArenaCopy = {
     },
   },
 
-  /**
-   * Achievements & Gamification
-   */
   achievements: {
     unlocked: 'Conquista Desbloqueada!',
     progress: '{current} de {total}',
@@ -347,20 +367,15 @@ export const ArenaCopy = {
     },
   },
 
-  /**
-   * Streaks
-   */
   streaks: {
     current: '{days} {days, plural, one {dia} other {dias}} ativo!',
     maintain: 'Continue para manter seu streak!',
     broken: 'Streak perdido. Comece de novo!',
-    freeze: 'Você tem {count} {count, plural, one {freeze disponível} other {freezes disponíveis}}',
+    freeze:
+      'Você tem {count} {count, plural, one {freeze disponível} other {freezes disponíveis}}',
     freezeUsed: 'Freeze usado! Seu streak está protegido.',
   },
 
-  /**
-   * Levels
-   */
   levels: {
     rookie: 'Rookie',
     beginner: 'Iniciante',
@@ -372,9 +387,6 @@ export const ArenaCopy = {
     levelUp: 'Você subiu de nível!',
   },
 
-  /**
-   * Validation Messages
-   */
   validation: {
     email: {
       required: 'Precisamos do seu email para enviar atualizações do evento.',
@@ -402,9 +414,6 @@ export const ArenaCopy = {
     },
   },
 
-  /**
-   * Accessibility Labels
-   */
   a11y: {
     buttons: {
       close: 'Fechar',
@@ -427,13 +436,6 @@ export const ArenaCopy = {
   },
 } as const;
 
-/**
- * Helper para formatar copy com variáveis
- *
- * Exemplo:
- * formatCopy(ArenaCopy.success.friendAdded, { name: 'João' })
- * → "Conexão feita! Você e João agora são amigos 👋"
- */
 export const formatCopy = (
   template: string,
   variables?: Record<string, string | number>
@@ -446,13 +448,6 @@ export const formatCopy = (
   }, template);
 };
 
-/**
- * Helper para copy com pluralização
- *
- * Exemplo:
- * pluralize(3, 'evento', 'eventos')
- * → "eventos"
- */
 export const pluralize = (
   count: number,
   singular: string,
@@ -461,13 +456,6 @@ export const pluralize = (
   return count === 1 ? singular : plural;
 };
 
-/**
- * Helper para copy com contagem
- *
- * Exemplo:
- * formatCount(3, 'atleta', 'atletas')
- * → "3 atletas"
- */
 export const formatCount = (
   count: number,
   singular: string,

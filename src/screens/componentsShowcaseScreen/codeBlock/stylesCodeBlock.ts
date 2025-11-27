@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.md,
     paddingVertical: ArenaSpacing.sm,
     backgroundColor: ArenaColors.neutral.dark,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.medium,
   },
   copyButton: {

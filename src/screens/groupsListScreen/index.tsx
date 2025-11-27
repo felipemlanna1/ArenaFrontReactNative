@@ -1,30 +1,42 @@
-import React, { useCallback } from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { useState, useCallback, useMemo } from 'react';
+import { View } from 'react-native';
+import { FlashList, ListRenderItem } from '@shopify/flash-list';
+import { GestureDetector } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Text } from '@/components/ui/text';
 import { Fab } from '@/components/ui/fab';
+import { SkeletonCard } from '@/components/ui/skeletonCard';
+import { GroupCard } from '@/components/ui/groupCard';
+import { AnimatedListItem } from '@/components/ui/animatedListItem';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useGroupsFilters } from '@/contexts/GroupsFiltersContext';
+import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
 import { GroupsListScreenProps } from './typesGroupsListScreen';
 import { useGroupsListScreen } from './useGroupsListScreen';
 import { styles } from './stylesGroupsListScreen';
-import { GroupsBackground } from './components/GroupsBackground';
-import { GroupsFilterBar } from './components/GroupsFilterBar';
-import { MyGroupsAccordionSection } from './components/MyGroupsAccordionSection';
-import { RecommendationsAccordionSection } from './components/RecommendationsAccordionSection';
+import { FilterBar } from './components/FilterBar';
+import { GroupsTabBar, GroupTab } from './components/GroupsTabBar';
+import {
+  MyGroupsSection,
+  GroupRecommendationsSection,
+} from './components/GroupsSections';
+import { Group } from '@/services/groups/typesGroups';
 
 export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
   navigation,
 }) => {
-  const {
-    activeFilters,
-    searchTerm,
-    setSearchTerm,
-    updateFilter,
-    clearFilters,
-    activeFiltersCount,
-  } = useGroupsFilters();
+  const [activeTab, setActiveTab] = useState<GroupTab>('myGroups');
+
+  const groupTabs: GroupTab[] = ['myGroups', 'recommendations'];
+
+  const { composedGesture } = useSwipeableFilters({
+    filters: groupTabs,
+    activeFilter: activeTab,
+    onChange: setActiveTab,
+  });
+
+  const { activeFilters, searchTerm, setSearchTerm, clearFilters } =
+    useGroupsFilters();
 
   const {
     myGroups,
@@ -50,81 +62,197 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     navigation.navigate('CreateGroup');
   }, [navigation]);
 
-  const handleCityChange = useCallback(
-    (city: string) => {
-      updateFilter('city', city);
+  const handleBackPress = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const handleSwitchToRecommendations = useCallback(() => {
+    setActiveTab('recommendations');
+  }, []);
+
+  const handleFilterPress = useCallback(() => {
+    navigation.navigate('FilterScreen', { source: 'groups' });
+  }, [navigation]);
+
+  const filterCount = useMemo(() => {
+    let count = 0;
+    if (activeFilters.city) count++;
+    if (activeFilters.state) count++;
+    if (activeFilters.sportIds && activeFilters.sportIds.length > 0) count++;
+    return count;
+  }, [activeFilters.city, activeFilters.state, activeFilters.sportIds]);
+
+  const getTabData = useCallback(() => {
+    switch (activeTab) {
+      case 'myGroups':
+        return {
+          data: myGroups,
+          isLoading: isLoadingMyGroups,
+          isLoadingMore: false,
+          hasMore: false,
+          onLoadMore: undefined,
+        };
+      case 'recommendations':
+        return {
+          data: recommendations,
+          isLoading: isLoadingRecommendations,
+          isLoadingMore: isLoadingMoreRecommendations,
+          hasMore: hasMoreRecommendations,
+          onLoadMore: handleLoadMoreRecommendations,
+        };
+    }
+  }, [
+    activeTab,
+    myGroups,
+    recommendations,
+    isLoadingMyGroups,
+    isLoadingRecommendations,
+    isLoadingMoreRecommendations,
+    hasMoreRecommendations,
+    handleLoadMoreRecommendations,
+  ]);
+
+  const renderItem: ListRenderItem<Group> = useCallback(
+    ({ item, index }) => {
+      return (
+        <AnimatedListItem index={index ?? 0}>
+          <GroupCard
+            group={item}
+            onDetailsPress={handleGroupPress}
+            onManagePress={handleGroupPress}
+            onJoinGroup={
+              activeTab === 'myGroups' ? async () => {} : handleJoinGroup
+            }
+            onLeaveGroup={
+              activeTab === 'myGroups' ? handleLeaveGroup : async () => {}
+            }
+            isActionLoading={loadingGroupId === item.id}
+            currentActionGroupId={loadingGroupId}
+            testID={`group-card-${item.id}`}
+          />
+        </AnimatedListItem>
+      );
     },
-    [updateFilter]
+    [
+      activeTab,
+      handleGroupPress,
+      handleJoinGroup,
+      handleLeaveGroup,
+      loadingGroupId,
+    ]
   );
 
-  const handleStateChange = useCallback(
-    (state: string) => {
-      updateFilter('state', state);
-    },
-    [updateFilter]
-  );
+  const hasActiveFilters = filterCount > 0 || searchTerm.length > 0;
 
-  const handleSportChange = useCallback(
-    (sportId: string | undefined) => {
-      updateFilter('sportIds', sportId ? [sportId] : undefined);
-    },
-    [updateFilter]
-  );
+  const renderSeparator = useCallback(() => {
+    return <View style={styles.itemSeparator} />;
+  }, []);
 
-  const selectedSportId = activeFilters.sportIds?.[0];
-  const hasActiveFilters = activeFiltersCount > 0 || searchTerm.length > 0;
+  const renderFooter = useCallback(() => {
+    const { isLoadingMore } = getTabData();
+    if (!isLoadingMore) return null;
+
+    return (
+      <View style={styles.loadingFooter}>
+        <SkeletonCard />
+      </View>
+    );
+  }, [getTabData]);
+
+  const renderEmpty = useCallback(() => {
+    const { isLoading } = getTabData();
+    if (isLoading) return null;
+
+    switch (activeTab) {
+      case 'myGroups':
+        return (
+          <MyGroupsSection
+            groups={[]}
+            isLoading={false}
+            loadingGroupId={null}
+            onNavigateToGroup={handleGroupPress}
+            onManageGroup={handleGroupPress}
+            onLeaveGroup={handleLeaveGroup}
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={clearFilters}
+            onSwitchToRecommendations={handleSwitchToRecommendations}
+          />
+        );
+      case 'recommendations':
+        return (
+          <GroupRecommendationsSection
+            groups={[]}
+            isLoading={false}
+            loadingGroupId={null}
+            onNavigateToGroup={handleGroupPress}
+            onManageGroup={handleGroupPress}
+            onJoinGroup={handleJoinGroup}
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={clearFilters}
+            onCreateGroup={handleCreateGroup}
+          />
+        );
+    }
+  }, [
+    activeTab,
+    getTabData,
+    handleGroupPress,
+    handleJoinGroup,
+    handleLeaveGroup,
+    hasActiveFilters,
+    clearFilters,
+    handleSwitchToRecommendations,
+    handleCreateGroup,
+  ]);
+
+  const { data, isLoading, hasMore, onLoadMore } = getTabData();
 
   return (
-    <AppLayout>
-      <GroupsBackground>
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text variant="headingPrimary" style={styles.title}>
-              Grupos
-            </Text>
-          </View>
-
-          <GroupsFilterBar
-            searchQuery={searchTerm}
-            onSearchChange={setSearchTerm}
-            selectedCity={activeFilters.city || ''}
-            onCityChange={handleCityChange}
-            selectedState={activeFilters.state || ''}
-            onStateChange={handleStateChange}
-            selectedSportId={selectedSportId}
-            onSportChange={handleSportChange}
-            onClearFilters={clearFilters}
-            hasActiveFilters={hasActiveFilters}
+    <AppLayout
+      showHeader={true}
+      headerVariant="mainWithBack"
+      headerShowLogo={true}
+      headerShowBackButton={true}
+      headerOnBackPress={handleBackPress}
+    >
+      <GestureDetector gesture={composedGesture}>
+        <View style={styles.content}>
+          <GroupsTabBar
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            myGroupsCount={myGroups.length}
+            recommendationsCount={recommendations.length}
           />
 
-          <ScrollView
-            style={styles.content}
-            contentContainerStyle={styles.scrollContent}
-            testID="groups-screen-scroll"
-          >
-            <View style={styles.accordionsContainer}>
-              <MyGroupsAccordionSection
-                groups={myGroups}
-                isLoading={isLoadingMyGroups}
-                loadingGroupId={loadingGroupId}
-                onNavigateToGroup={handleGroupPress}
-                onManageGroup={handleGroupPress}
-                onLeaveGroup={handleLeaveGroup}
-              />
+          <FilterBar
+            searchQuery={searchTerm}
+            onSearchChange={setSearchTerm}
+            onFilterPress={handleFilterPress}
+            filterCount={filterCount}
+          />
 
-              <RecommendationsAccordionSection
-                groups={recommendations}
-                isLoading={isLoadingRecommendations}
-                isLoadingMore={isLoadingMoreRecommendations}
-                hasMore={hasMoreRecommendations}
-                loadingGroupId={loadingGroupId}
-                onNavigateToGroup={handleGroupPress}
-                onManageGroup={handleGroupPress}
-                onJoinGroup={handleJoinGroup}
-                onLoadMore={handleLoadMoreRecommendations}
+          {isLoading && data.length === 0 ? (
+            <View style={styles.loadingContainer}>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </View>
+          ) : (
+            <View style={styles.listWrapper}>
+              <FlashList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                contentContainerStyle={styles.listContent}
+                ItemSeparatorComponent={renderSeparator}
+                onEndReached={hasMore ? onLoadMore : undefined}
+                onEndReachedThreshold={0.5}
+                ListEmptyComponent={renderEmpty}
+                ListFooterComponent={renderFooter}
+                showsVerticalScrollIndicator={false}
               />
             </View>
-          </ScrollView>
+          )}
 
           <View style={styles.fab}>
             <Fab
@@ -141,7 +269,7 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
             />
           </View>
         </View>
-      </GroupsBackground>
+      </GestureDetector>
     </AppLayout>
   );
 };

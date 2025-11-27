@@ -8,42 +8,49 @@ export interface ElevationStyle {
   elevation: number;
 }
 
+const SHADOW_COLOR = ArenaColors.text.primary;
+const SHADOW_OFFSET_NONE = { width: 0, height: 0 };
+const SHADOW_OFFSET_SMALL = { width: 0, height: 2 };
+const SHADOW_OFFSET_MEDIUM = { width: 0, height: 4 };
+const SHADOW_OFFSET_LARGE = { width: 0, height: 8 };
+const SHADOW_OFFSET_XLARGE = { width: 0, height: 12 };
+
 export const ArenaElevations = {
   elevation0: {
-    shadowColor: ArenaColors.text.primary,
-    shadowOffset: { width: 0, height: 0 },
+    shadowColor: SHADOW_COLOR,
+    shadowOffset: SHADOW_OFFSET_NONE,
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
   } as ElevationStyle,
 
   elevation1: {
-    shadowColor: ArenaColors.text.primary,
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: SHADOW_COLOR,
+    shadowOffset: SHADOW_OFFSET_SMALL,
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
   } as ElevationStyle,
 
   elevation2: {
-    shadowColor: ArenaColors.text.primary,
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: SHADOW_COLOR,
+    shadowOffset: SHADOW_OFFSET_MEDIUM,
     shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 4,
   } as ElevationStyle,
 
   elevation3: {
-    shadowColor: ArenaColors.text.primary,
-    shadowOffset: { width: 0, height: 8 },
+    shadowColor: SHADOW_COLOR,
+    shadowOffset: SHADOW_OFFSET_LARGE,
     shadowOpacity: 0.16,
     shadowRadius: 16,
     elevation: 8,
   } as ElevationStyle,
 
   elevation4: {
-    shadowColor: ArenaColors.text.primary,
-    shadowOffset: { width: 0, height: 12 },
+    shadowColor: SHADOW_COLOR,
+    shadowOffset: SHADOW_OFFSET_XLARGE,
     shadowOpacity: 0.24,
     shadowRadius: 24,
     elevation: 12,

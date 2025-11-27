@@ -145,7 +145,7 @@ export const MultiSelectSports: React.FC<MultiSelectSportsProps> = ({
                       size={16}
                       color={
                         isPrimary
-                          ? ArenaColors.brand.primary
+                          ? ArenaColors.semantic.warning
                           : ArenaColors.neutral.medium
                       }
                     />

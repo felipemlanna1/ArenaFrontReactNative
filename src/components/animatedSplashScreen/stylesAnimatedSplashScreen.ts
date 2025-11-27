@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   logoContainer: {
-    zIndex: 10,
+    zIndex: ArenaSpacing.sm,
     width: width * 0.7,
     maxWidth: 400,
   },

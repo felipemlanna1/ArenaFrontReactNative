@@ -9,24 +9,25 @@ export const styles = StyleSheet.create({
   sectionTitle: {
     marginBottom: ArenaSpacing.md,
   },
-  statsGrid: {
+  statsContainer: {
+    gap: ArenaSpacing.lg,
+  },
+  statsGroup: {
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaBorders.radius.lg,
+    padding: ArenaSpacing.md,
+    gap: ArenaSpacing.sm,
+  },
+  groupLabel: {
+    textAlign: 'center',
+    marginBottom: ArenaSpacing.xs,
+  },
+  statsRow: {
     flexDirection: 'row',
-    gap: ArenaSpacing.none,
+    justifyContent: 'space-around',
   },
   statCard: {
     flex: 1,
-    alignItems: 'center',
-    paddingVertical: ArenaSpacing.md,
-    paddingHorizontal: ArenaSpacing.sm,
-    gap: ArenaSpacing.xs,
-  },
-  statDivider: {
-    width: ArenaBorders.width.thin,
-    height: '100%',
-    backgroundColor: `${ArenaColors.neutral.dark}33`,
-  },
-  statCardHeader: {
-    flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.xs,
   },

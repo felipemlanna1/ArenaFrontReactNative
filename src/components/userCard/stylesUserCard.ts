@@ -49,14 +49,25 @@ export const styles = StyleSheet.create({
     flex: 1,
     gap: ArenaSpacing.micro,
   },
+  infoContainerWithChevron: {
+    paddingRight: ArenaSpacing.xs,
+  },
   nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.sm,
     flexWrap: 'wrap',
   },
+  nameRowFull: {
+    flex: 1,
+  },
   chevronIcon: {
     marginLeft: ArenaSpacing.micro,
+  },
+  chevronContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: ArenaSpacing.xs,
   },
   locationRow: {
     flexDirection: 'row',

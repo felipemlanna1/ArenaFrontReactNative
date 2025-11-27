@@ -12,8 +12,8 @@ export const useUserCard = ({
 }: UseUserCardProps): UseUserCardReturn => {
   const displayName = useMemo(() => {
     const { firstName, lastName, username } = user;
-    if (firstName && lastName) {
-      return `${firstName} ${lastName}`;
+    if (firstName) {
+      return lastName ? `${firstName} ${lastName}` : firstName;
     }
     return username || 'Usuário';
   }, [user]);

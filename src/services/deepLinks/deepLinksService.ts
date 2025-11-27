@@ -17,7 +17,7 @@ class DeepLinksService {
   }
 
   generateEventLink(eventId: string): string {
-    const baseUrl = this.config.apiUrl.replace(/\/$/, '');
+    const baseUrl = 'https://www.arenaapp.com.br';
     return `${baseUrl}/event/${eventId}`;
   }
 

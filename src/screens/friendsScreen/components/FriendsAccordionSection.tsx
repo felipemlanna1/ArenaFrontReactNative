@@ -12,6 +12,10 @@ interface FriendsAccordionSectionProps {
   onNavigateToProfile: (userId: string) => void;
   onRemoveFriend: (userId: string) => void;
   onLoadMore: () => void;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onSwitchToRecommendations: () => void;
+  onInviteFriends: () => void;
 }
 
 export const FriendsAccordionSection: React.FC<
@@ -25,6 +29,10 @@ export const FriendsAccordionSection: React.FC<
   onNavigateToProfile,
   onRemoveFriend,
   onLoadMore,
+  hasActiveFilters,
+  onClearFilters,
+  onSwitchToRecommendations,
+  onInviteFriends,
 }) => {
   return (
     <AccordionSection
@@ -42,6 +50,10 @@ export const FriendsAccordionSection: React.FC<
         loadingUserId={loadingUserId}
         onNavigateToProfile={onNavigateToProfile}
         onRemoveFriend={onRemoveFriend}
+        hasActiveFilters={hasActiveFilters}
+        onClearFilters={onClearFilters}
+        onSwitchToRecommendations={onSwitchToRecommendations}
+        onInviteFriends={onInviteFriends}
       />
     </AccordionSection>
   );

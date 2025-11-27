@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing['2xl'],
     paddingBottom: ArenaSpacing['4xl'],
   },
   content: {
@@ -20,6 +21,13 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   title: {},
+  titleRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  sportName: {
+    color: ArenaColors.brand.primary,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',

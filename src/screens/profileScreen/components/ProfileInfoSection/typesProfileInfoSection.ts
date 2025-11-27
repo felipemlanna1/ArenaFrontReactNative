@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { SportBadgeData } from '@/screens/profileScreen/typesProfileScreen';
 
 export interface ProfileInfoSectionProps {
@@ -8,4 +9,5 @@ export interface ProfileInfoSectionProps {
   sports: SportBadgeData[];
   isEmailVerified: boolean;
   memberSince: string;
+  bannerSlot?: ReactNode;
 }

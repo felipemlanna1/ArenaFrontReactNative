@@ -5,18 +5,27 @@ import { defineConfig, devices } from '@playwright/test';
  * Tests run against Expo Web on localhost:8081
  */
 export default defineConfig({
-  testDir: './scripts/screenshots',
+  testDir: './e2e',
   fullyParallel: false, // Run tests sequentially para screenshots consistentes
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1, // Single worker para evitar conflitos
-  reporter: 'html',
+  reporter: [['html'], ['list']],
+  globalSetup: './e2e/global-setup.ts', // Setup de usuários de teste
 
   use: {
     baseURL: 'http://localhost:8081',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    screenshot: 'on',
+    video: 'on',
+    headless: false,
+    // iPhone 15 Pro viewport (modo responsivo)
+    viewport: { width: 393, height: 852 },
+    deviceScaleFactor: 3,
+    isMobile: true,
+    hasTouch: true,
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
   },
 
   projects: [

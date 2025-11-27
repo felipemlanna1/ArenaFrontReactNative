@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, { useCallback, createElement } from 'react';
+import { View, TouchableOpacity, Platform } from 'react-native';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
@@ -9,9 +9,24 @@ import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Label } from '@/components/ui/label';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { DURATION_OPTIONS } from '@/screens/createEventScreen/typesCreateEventScreen';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaTypography,
+} from '@/constants';
 import { BasicInfoStepProps } from './typesBasicInfoStep';
 import { useBasicInfoStep } from './useBasicInfoStep';
 import { styles } from './stylesBasicInfoStep';
+
+const formatDateForInput = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
 
 export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   formData,
@@ -91,15 +106,57 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
       </View>
 
       <View style={styles.section}>
-        <DatePicker
-          label="Data e Hora"
-          variant="datetime"
-          value={formData.startDate}
-          onChange={date => onUpdate({ startDate: date })}
-          error={errors.startDate}
-          minimumDate={new Date()}
-          placeholder="Selecione data e hora do evento"
-        />
+        {Platform.OS === 'web' ? (
+          <View>
+            <Label variant="form" required>
+              Data e Hora
+            </Label>
+            {createElement('input', {
+              type: 'datetime-local',
+              value: formData.startDate
+                ? formatDateForInput(formData.startDate)
+                : '',
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                const dateValue = e.target.value;
+                if (dateValue) {
+                  const newDate = new Date(dateValue);
+                  onUpdate({ startDate: newDate });
+                }
+              },
+              min: formatDateForInput(new Date()),
+              placeholder: 'Selecione data e hora do evento',
+              style: {
+                width: '100%',
+                padding: `${ArenaSpacing.md}px`,
+                fontSize: `${ArenaTypography.size.md}px`,
+                fontFamily: ArenaTypography.family.body,
+                color: ArenaColors.neutral.light,
+                backgroundColor: ArenaColors.neutral.dark,
+                border: errors.startDate
+                  ? `2px solid ${ArenaColors.semantic.error}`
+                  : `1px solid ${ArenaColors.neutral.medium}`,
+                borderRadius: `${ArenaBorders.radius.md}px`,
+                outline: 'none',
+              },
+              'data-testid': 'datetime-input-web',
+            })}
+            {errors.startDate && (
+              <Text variant="captionSecondary" style={styles.errorText}>
+                {errors.startDate}
+              </Text>
+            )}
+          </View>
+        ) : (
+          <DatePicker
+            label="Data e Hora"
+            variant="datetime"
+            value={formData.startDate}
+            onChange={date => onUpdate({ startDate: date })}
+            error={errors.startDate}
+            minimumDate={new Date()}
+            placeholder="Selecione data e hora do evento"
+          />
+        )}
       </View>
 
       <View style={styles.section}>

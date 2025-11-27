@@ -31,6 +31,12 @@ export type ParticipantStatus =
   | 'CANCELLED'
   | 'REJECTED';
 export type InvitationStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED';
+
+export interface AgeRestriction {
+  min?: number;
+  max?: number;
+}
+
 export interface EventLocation {
   address: string;
   city: string;
@@ -133,6 +139,10 @@ export interface Event {
   organizer?: EventUser;
 
   participants?: EventParticipant[];
+
+  ageRestriction?: AgeRestriction;
+  rules?: string;
+  requirements?: string;
 
   createdAt: string;
   updatedAt: string;

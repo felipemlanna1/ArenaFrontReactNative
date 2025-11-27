@@ -4,6 +4,7 @@ interface FriendshipFilterDto {
   query?: string;
   city?: string;
   state?: string;
+  sportId?: string;
   page?: number;
   limit?: number;
 }
@@ -17,6 +18,7 @@ interface Friend {
   city?: string;
   state?: string;
   favoriteSports?: { id: string; name: string }[];
+  isProfilePrivate?: boolean;
 }
 
 class FriendsApi {
@@ -83,6 +85,7 @@ class FriendsApi {
 
     if (filters?.city) queryParams.append('city', filters.city);
     if (filters?.state) queryParams.append('state', filters.state);
+    if (filters?.sportId) queryParams.append('sportId', filters.sportId);
     if (filters?.page) queryParams.append('page', filters.page.toString());
     if (filters?.limit) queryParams.append('limit', filters.limit.toString());
 

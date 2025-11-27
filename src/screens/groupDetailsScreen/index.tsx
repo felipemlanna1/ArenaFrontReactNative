@@ -5,6 +5,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -18,19 +19,15 @@ import { GroupCapacityIndicator } from './components/GroupCapacityIndicator';
 import { GroupRulesSection } from './components/GroupRulesSection';
 import { GroupMembersSection } from './components/GroupMembersSection';
 import { RoleBadge } from '@/components/ui/roleBadge';
-import { ProfileHeroSection } from '@/screens/profileScreen/components/ProfileHeroSection';
-import { ProfileInfoSection } from '@/screens/profileScreen/components/ProfileInfoSection';
+import { GroupDetailsHeroSection } from './components/GroupDetailsHeroSection';
+import { GroupDetailsInfoSection } from './components/GroupDetailsInfoSection';
 import { ProfileStatsSection } from '@/screens/profileScreen/components/ProfileStatsSection';
 import { AppLayout } from '@/components/AppLayout';
 import { groupsApi } from '@/services/groups/groupsApi';
 import { GroupDetailsScreenProps } from './typesGroupDetailsScreen';
 import { useGroupDetailsScreen } from './useGroupDetailsScreen';
 import { useGroupStatistics } from './hooks/useGroupStatistics';
-import {
-  mapGroupToHeroData,
-  mapGroupToInfoData,
-  mapGroupStatisticsToStats,
-} from './utils/groupAdapters';
+import { mapGroupStatisticsToStats } from './utils/groupAdapters';
 import { styles } from './stylesGroupDetailsScreen';
 
 export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
@@ -61,6 +58,10 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
 
   const { statistics, isLoading: isLoadingStats } = useGroupStatistics(groupId);
 
+  const handleBackPress = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   const handleCreateEvent = useCallback(() => {
     const defaultSportId = group?.sports?.[0]?.id;
     navigation.getParent()?.navigate('CreateEvent', {
@@ -77,10 +78,6 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
     },
     [groupId, handleRefresh]
   );
-
-  const handleGoBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
 
   const handleScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -100,7 +97,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
 
   if (isLoading) {
     return (
-      <AppLayout onBack={handleGoBack}>
+      <AppLayout>
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
@@ -110,7 +107,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
 
   if (!group) {
     return (
-      <AppLayout onBack={handleGoBack}>
+      <AppLayout>
         <View style={styles.loadingContainer}>
           <Text variant="bodySecondary">Grupo não encontrado</Text>
         </View>
@@ -119,141 +116,149 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
   }
 
   return (
-    <AppLayout onBack={handleGoBack}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-      >
-        <ProfileHeroSection
-          {...mapGroupToHeroData(group)}
-          showBackButton={false}
-          onBackPress={handleGoBack}
-        />
-
-        <View style={styles.contentContainer}>
-          {!group.isPublic && (
-            <View style={styles.privacyBadgeContainer}>
-              <View style={styles.privacyBadge}>
-                <Ionicons
-                  name="lock-closed"
-                  size={16}
-                  color={ArenaColors.neutral.light}
-                />
-                <Text variant="bodySecondary">Grupo Privado</Text>
-              </View>
-            </View>
-          )}
-
-          <ProfileInfoSection {...mapGroupToInfoData(group)} />
-
-          {group.currentUserRole && (
-            <View style={styles.roleBadgeContainer}>
-              <RoleBadge role={group.currentUserRole} size="md" />
-            </View>
-          )}
-
-          <GroupCapacityIndicator
-            currentMembers={group.memberCount ?? 0}
-            maxMembers={group.maxMembers}
+    <AppLayout
+      showHeader={true}
+      headerVariant="mainWithBack"
+      headerShowLogo={true}
+      headerShowBackButton={true}
+      headerOnBackPress={handleBackPress}
+    >
+      <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.scrollContent}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+        >
+          <GroupDetailsHeroSection
+            coverImageUrl={group.coverImage}
+            primarySport={group.sports?.[0]}
+            isPublic={group.isPublic}
           />
 
-          <ProfileStatsSection
-            stats={mapGroupStatisticsToStats(statistics)}
-            isLoading={isLoadingStats}
-          />
-
-          <GroupRulesSection rules={group.rules} />
-
-          <View style={styles.section}>
-            <GroupEventsSection
-              groupId={groupId}
-              canCreateEvents={!!canCreateEvents}
-              onCreateEvent={handleCreateEvent}
+          <View style={styles.contentContainer}>
+            <GroupDetailsInfoSection
+              name={group.name}
+              city={group.city}
+              state={group.state}
+              sports={group.sports}
+              createdAt={group.createdAt}
+              description={group.description}
             />
-          </View>
 
-          <View style={styles.section}>
-            <GroupMembersSection
-              group={group}
-              members={showAllMembers ? members : members.slice(0, 5)}
-              isOwner={group.currentUserRole === 'OWNER'}
-              canManage={!!canManage}
-              onRefresh={handleRefresh}
+            {group.currentUserRole && (
+              <View style={styles.roleBadgeContainer}>
+                <RoleBadge role={group.currentUserRole} size="md" />
+              </View>
+            )}
+
+            <GroupCapacityIndicator
+              currentMembers={group.memberCount ?? 0}
+              maxMembers={group.maxMembers}
             />
-            <View style={styles.manageButtonContainer}>
-              {canManage && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onPress={() => setShowInviteModal(true)}
-                  fullWidth
-                >
-                  Convidar Membros
-                </Button>
-              )}
 
-              {members.length > 5 && (
-                <Button
-                  variant="subtle"
-                  size="sm"
-                  onPress={() => setShowAllMembers(!showAllMembers)}
-                  fullWidth
-                >
-                  {showAllMembers
-                    ? 'Mostrar menos'
-                    : `Ver todos (${members.length})`}
-                </Button>
-              )}
+            <ProfileStatsSection
+              stats={mapGroupStatisticsToStats(statistics)}
+              isLoading={isLoadingStats}
+              customLabels={{
+                events: 'Eventos',
+                created: 'Recentes',
+                groups: 'Esportes',
+                friends: 'Atletas',
+              }}
+            />
+
+            <GroupRulesSection rules={group.rules} />
+
+            <View style={styles.section}>
+              <GroupEventsSection
+                groupId={groupId}
+                canCreateEvents={!!canCreateEvents}
+                onCreateEvent={handleCreateEvent}
+              />
             </View>
-          </View>
 
-          {!isMember && group.isPublic && (
-            <View style={styles.actions}>
-              <Button
-                variant="primary"
-                size="lg"
-                onPress={handleJoinGroup}
-                loading={actionLoading}
-                fullWidth
-              >
-                Entrar no grupo
-              </Button>
-            </View>
-          )}
+            <View style={styles.section}>
+              <GroupMembersSection
+                group={group}
+                members={showAllMembers ? members : members.slice(0, 5)}
+                isOwner={group.currentUserRole === 'OWNER'}
+                canManage={!!canManage}
+                onRefresh={handleRefresh}
+              />
+              <View style={styles.manageButtonContainer}>
+                {canManage && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onPress={() => setShowInviteModal(true)}
+                    fullWidth
+                  >
+                    Convidar Membros
+                  </Button>
+                )}
 
-          {!isMember && !group.isPublic && (
-            <View style={styles.actions}>
-              <View style={styles.privateGroupMessage}>
-                <Ionicons
-                  name="lock-closed-outline"
-                  size={24}
-                  color={ArenaColors.neutral.medium}
-                />
-                <Text variant="bodySecondary" style={styles.privateGroupText}>
-                  Este é um grupo privado. Você precisa ser convidado por um
-                  administrador para participar.
-                </Text>
+                {members.length > 5 && (
+                  <Button
+                    variant="subtle"
+                    size="sm"
+                    onPress={() => setShowAllMembers(!showAllMembers)}
+                    fullWidth
+                  >
+                    {showAllMembers
+                      ? 'Mostrar menos'
+                      : `Ver todos (${members.length})`}
+                  </Button>
+                )}
               </View>
             </View>
-          )}
 
-          {isMember && group.currentUserRole !== 'OWNER' && (
-            <View style={styles.actions}>
-              <Button
-                variant="destructive"
-                size="lg"
-                onPress={handleLeaveGroup}
-                loading={actionLoading}
-                fullWidth
-              >
-                Sair do grupo
-              </Button>
-            </View>
-          )}
-        </View>
-      </ScrollView>
+            {!isMember && group.isPublic && (
+              <View style={styles.actions}>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onPress={handleJoinGroup}
+                  loading={actionLoading}
+                  fullWidth
+                >
+                  Entrar no grupo
+                </Button>
+              </View>
+            )}
+
+            {!isMember && !group.isPublic && (
+              <View style={styles.actions}>
+                <View style={styles.privateGroupMessage}>
+                  <Ionicons
+                    name="lock-closed-outline"
+                    size={24}
+                    color={ArenaColors.neutral.medium}
+                  />
+                  <Text variant="bodySecondary" style={styles.privateGroupText}>
+                    Este é um grupo privado. Você precisa ser convidado por um
+                    administrador para participar.
+                  </Text>
+                </View>
+              </View>
+            )}
+
+            {isMember && group.currentUserRole !== 'OWNER' && (
+              <View style={styles.actions}>
+                <Button
+                  variant="destructive"
+                  size="lg"
+                  onPress={handleLeaveGroup}
+                  loading={actionLoading}
+                  fullWidth
+                >
+                  Sair do grupo
+                </Button>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
 
       <ConfirmationModal
         visible={showLeaveConfirmation}

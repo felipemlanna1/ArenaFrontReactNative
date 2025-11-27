@@ -1,0 +1,18 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:8081",
+      "localStorage": [
+        {
+          "name": "@Arena:access_token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOGVkMGZhNS01ZmIyLTRjM2EtYWJmMC05MTMyMjY1YTJiYjQiLCJlbWFpbCI6ImUyZS5wYXJ0LjE3NjQwMTQ3NjE5MTZAYXJlbmEtdGVzdC5jb20iLCJ1c2VybmFtZSI6InRlc3R1c2VyX3BhcnRfMTc2NDAxNDc2MTkxNiIsInNwb3J0cyI6W10sImhhc1Nwb3J0cyI6ZmFsc2UsImlhdCI6MTc2NDAxNDc2MywiZXhwIjoxNzY0NjE5NTYzfQ.dK5VLMGn6yxUnFlYiaUQ203aKPHSqPdFAMICw8QVOqs"
+        },
+        {
+          "name": "@Arena:user_data",
+          "value": "{\"id\":\"d8ed0fa5-5fb2-4c3a-abf0-9132265a2bb4\",\"firstName\":\"Test\",\"lastName\":\"Participant\",\"username\":\"testuser_part_1764014761916\",\"email\":\"e2e.part.1764014761916@arena-test.com\",\"password\":\"Test@1234\",\"hasSports\":false,\"sports\":[]}"
+        }
+      ]
+    }
+  ]
+}

@@ -71,6 +71,7 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     alignSelf: 'flex-start',
     boxShadow: ArenaShadows.subtle,
   },
@@ -80,7 +81,7 @@ export const styles = StyleSheet.create({
     marginRight: ArenaSpacing.xs,
   },
   text: {
-    paddingRight: ArenaSpacing.xs,
+    textAlign: 'center',
   },
   removeButton: {
     marginLeft: ArenaSpacing.xs,

@@ -40,6 +40,17 @@ export interface ResetPasswordData {
   confirmPassword: string;
 }
 
+export interface VerifyResetCodeData {
+  email: string;
+  code: string;
+}
+
+export interface ResetPasswordWithCodeData {
+  email: string;
+  code: string;
+  newPassword: string;
+}
+
 class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
@@ -149,6 +160,42 @@ class AuthService {
         500,
         'RESET_PASSWORD_ERROR',
         'Erro ao redefinir senha'
+      );
+    }
+  }
+
+  async verifyResetCode(
+    data: VerifyResetCodeData
+  ): Promise<{ valid: boolean }> {
+    try {
+      return await httpService.post<{ valid: boolean }>(
+        '/auth/verify-reset-code',
+        data
+      );
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(500, 'VERIFY_CODE_ERROR', 'Erro ao verificar código');
+    }
+  }
+
+  async resetPasswordWithCode(
+    data: ResetPasswordWithCodeData
+  ): Promise<{ message: string }> {
+    try {
+      return await httpService.postMessage(
+        '/auth/reset-password-with-code',
+        data
+      );
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        500,
+        'RESET_PASSWORD_WITH_CODE_ERROR',
+        'Erro ao redefinir senha com código'
       );
     }
   }

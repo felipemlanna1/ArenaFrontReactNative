@@ -1,11 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { ProgressBar } from '@/components/ui/progressBar';
 import { ArenaColors } from '@/constants';
+import { useAlert } from '@/contexts/AlertContext';
 import { EventInfoGridProps } from './typesEventInfoGrid';
 import { styles } from './stylesEventInfoGrid';
 
@@ -13,6 +15,8 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
   event,
   status,
 }) => {
+  const { showSuccess, showError } = useAlert();
+
   const formattedDate = format(new Date(event.startDate), "dd 'de' MMMM", {
     locale: ptBR,
   });
@@ -20,7 +24,43 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
     locale: ptBR,
   });
 
-  const location = `${event.location.city}, ${event.location.state}`;
+  const formatFullAddress = (): string => {
+    const parts: string[] = [];
+
+    if (event.location.street) {
+      const streetLine = event.location.number
+        ? `${event.location.street}, ${event.location.number}`
+        : event.location.street;
+      parts.push(streetLine);
+    }
+
+    if (event.location.complement) {
+      parts.push(event.location.complement);
+    }
+
+    if (event.location.district) {
+      parts.push(event.location.district);
+    }
+
+    parts.push(`${event.location.city}, ${event.location.state}`);
+
+    if (event.location.zipCode) {
+      parts.push(`CEP: ${event.location.zipCode}`);
+    }
+
+    return parts.join('\n');
+  };
+
+  const fullAddress = formatFullAddress();
+
+  const handleCopyAddress = async () => {
+    try {
+      await Clipboard.setStringAsync(fullAddress);
+      showSuccess('Endereço copiado para a área de transferência');
+    } catch {
+      showError('Não foi possível copiar o endereço');
+    }
+  };
 
   const price = event.isFree
     ? 'Gratuito'
@@ -42,7 +82,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
             style={styles.icon}
           />
           <View style={styles.content}>
-            <Text variant="captionSecondary" style={styles.label}>
+            <Text variant="labelSecondary" style={styles.label}>
               Data
             </Text>
             <Text variant="bodyPrimary" style={styles.value}>
@@ -61,19 +101,32 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
             color={ArenaColors.brand.primary}
             style={styles.icon}
           />
-          <View style={styles.content}>
-            <Text variant="captionSecondary" style={styles.label}>
-              Local
-            </Text>
-            <Text variant="bodyPrimary" style={styles.value} numberOfLines={2}>
-              {location}
+          <TouchableOpacity
+            style={styles.content}
+            onPress={handleCopyAddress}
+            accessible={true}
+            accessibilityLabel="Copiar endereço"
+            accessibilityRole="button"
+          >
+            <View style={styles.labelRow}>
+              <Text variant="labelSecondary" style={styles.label}>
+                Local
+              </Text>
+              <Ionicons
+                name="copy-outline"
+                size={14}
+                color={ArenaColors.brand.primary}
+              />
+            </View>
+            <Text variant="bodyPrimary" style={styles.value} numberOfLines={3}>
+              {fullAddress}
             </Text>
             {event.location.referencePoint && (
               <Text variant="captionSecondary" style={styles.valueSecondary}>
-                {event.location.referencePoint}
+                Ref: {event.location.referencePoint}
               </Text>
             )}
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -86,7 +139,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
             style={styles.icon}
           />
           <View style={styles.content}>
-            <Text variant="captionSecondary" style={styles.label}>
+            <Text variant="labelSecondary" style={styles.label}>
               Preço
             </Text>
             <Text variant="bodyPrimary" style={styles.value}>
@@ -103,7 +156,7 @@ export const EventInfoGrid: React.FC<EventInfoGridProps> = ({
             style={styles.icon}
           />
           <View style={styles.content}>
-            <Text variant="captionSecondary" style={styles.label}>
+            <Text variant="labelSecondary" style={styles.label}>
               Vagas
             </Text>
 

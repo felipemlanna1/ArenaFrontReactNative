@@ -53,6 +53,7 @@ module.exports = [
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
       'arena/arena-no-comments': 'error',
+      'arena/arena-no-hardcoded-constants': 'error',
       'arena/arena-use-ui-components': 'error',
       'arena/arena-no-custom-text-styles': 'error',
       'arena/arena-use-alert-context': 'error',
@@ -110,6 +111,7 @@ module.exports = [
       'arena/arena-file-structure': 'warn',
       'arena/arena-best-practices': 'warn',
       'arena/arena-no-comments': 'error',
+      'arena/arena-no-hardcoded-constants': 'error',
       'arena/arena-use-ui-components': 'error',
       'arena/arena-no-custom-text-styles': 'error',
       'arena/arena-use-alert-context': 'error',
@@ -129,7 +131,11 @@ module.exports = [
     },
   },
   {
-    files: ['src/config/sportsConfig.ts', 'src/components/error-boundary/**'],
+    files: [
+      'src/config/sportsConfig.ts',
+      'src/components/error-boundary/**',
+      'src/constants/**',
+    ],
     rules: {
       'arena/arena-design-tokens': 'off',
       'arena/arena-no-comments': 'off',

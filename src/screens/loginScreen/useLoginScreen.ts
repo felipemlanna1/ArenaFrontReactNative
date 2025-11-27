@@ -160,8 +160,8 @@ export const useLoginScreen = (
   }, [formData.email, formData.password, rememberMe, signIn]);
 
   const handleForgotPassword = useCallback(() => {
-    showInfo('Funcionalidade será implementada em breve.');
-  }, [showInfo]);
+    navigation.navigate('ForgotPassword');
+  }, [navigation]);
 
   const handleRegister = useCallback(() => {
     navigation.navigate('Register');

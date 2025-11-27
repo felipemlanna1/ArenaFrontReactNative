@@ -1,22 +1,6 @@
-/**
- * Achievement System - Predefined Achievements
- *
- * 15+ achievements covering participation, social, streaks, milestones, sports, profile.
- *
- * @module features/achievements/achievementsList
- */
+import { Achievement } from './typesAchievements';
 
-import { Achievement } from './types';
-
-/**
- * All available achievements in Arena
- *
- * Organized by category for easy discovery and balanced progression.
- */
 export const ACHIEVEMENTS: Achievement[] = [
-  // ========================================
-  // PARTICIPATION - Getting started with events
-  // ========================================
   {
     id: 'first-event',
     title: 'Primeira Partida',
@@ -78,9 +62,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
   },
 
-  // ========================================
-  // SOCIAL - Building connections
-  // ========================================
   {
     id: 'first-friend',
     title: 'Primeira Conexão',
@@ -118,9 +99,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
   },
 
-  // ========================================
-  // STREAK - Consistency and habit formation
-  // ========================================
   {
     id: 'streak-3',
     title: 'Em Chamas 🔥',
@@ -158,9 +136,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
   },
 
-  // ========================================
-  // SPORT - Sport-specific achievements
-  // ========================================
   {
     id: 'football-fan',
     title: 'Craque do Futebol',
@@ -170,7 +145,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: 'football',
     points: 50,
     requirements: {
-      customCheck: (userStats) => (userStats.eventsBySport['futebol'] ?? 0) >= 10,
+      customCheck: userStats => (userStats.eventsBySport['futebol'] ?? 0) >= 10,
     },
   },
   {
@@ -182,7 +157,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: 'basketball',
     points: 50,
     requirements: {
-      customCheck: (userStats) =>
+      customCheck: userStats =>
         (userStats.eventsBySport['basquete'] ?? 0) >= 10,
     },
   },
@@ -195,14 +170,11 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: 'trophy-outline',
     points: 150,
     requirements: {
-      customCheck: (userStats) =>
+      customCheck: userStats =>
         Object.keys(userStats.eventsBySport).length >= 5,
     },
   },
 
-  // ========================================
-  // PROFILE - Completing profile setup
-  // ========================================
   {
     id: 'profile-complete',
     title: 'Perfil Completo',
@@ -216,9 +188,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     },
   },
 
-  // ========================================
-  // MILESTONE - Time-based achievements
-  // ========================================
   {
     id: 'arena-veteran',
     title: 'Veterano Arena',
@@ -228,7 +197,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: 'calendar',
     points: 100,
     requirements: {
-      customCheck: (userStats) => {
+      customCheck: userStats => {
         const daysSinceCreation =
           (Date.now() - userStats.accountCreatedAt.getTime()) /
           (1000 * 60 * 60 * 24);
@@ -238,34 +207,22 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
 ];
 
-/**
- * Get achievements by category
- */
 export const getAchievementsByCategory = (
   category: Achievement['category']
 ): Achievement[] => {
-  return ACHIEVEMENTS.filter((a) => a.category === category);
+  return ACHIEVEMENTS.filter(a => a.category === category);
 };
 
-/**
- * Get achievements by tier
- */
 export const getAchievementsByTier = (
   tier: Achievement['tier']
 ): Achievement[] => {
-  return ACHIEVEMENTS.filter((a) => a.tier === tier);
+  return ACHIEVEMENTS.filter(a => a.tier === tier);
 };
 
-/**
- * Get achievement by ID
- */
 export const getAchievementById = (id: string): Achievement | undefined => {
-  return ACHIEVEMENTS.find((a) => a.id === id);
+  return ACHIEVEMENTS.find(a => a.id === id);
 };
 
-/**
- * Total points available from all achievements
- */
 export const TOTAL_ACHIEVEMENT_POINTS = ACHIEVEMENTS.reduce(
   (sum, a) => sum + a.points,
   0

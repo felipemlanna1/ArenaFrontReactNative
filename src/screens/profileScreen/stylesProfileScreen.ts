@@ -1,15 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
-
-const FAB_SIZE = 56;
-const FAB_POSITION = 24;
-const BACK_BUTTON_SIZE = 40;
-const BACK_BUTTON_TOP = 48;
-const CONTENT_BOTTOM_PADDING = 100;
-const SHADOW_OFFSET_HEIGHT = 4;
-const SHADOW_RADIUS = 8;
-const SHADOW_OPACITY = 0.3;
-const GRADIENT_HEIGHT = 200;
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaBorders,
+  ArenaSizes,
+  ArenaOpacity,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,6 +14,7 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
+    paddingBottom: ArenaSpacing['8.5xl'],
   },
   loadingContainer: {
     flex: 1,
@@ -38,38 +35,37 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingBottom: CONTENT_BOTTOM_PADDING,
   },
   backButton: {
     position: 'absolute',
-    top: BACK_BUTTON_TOP,
+    top: ArenaSpacing['5xl'],
     left: ArenaSpacing.lg,
-    width: BACK_BUTTON_SIZE,
-    height: BACK_BUTTON_SIZE,
+    width: ArenaSizes.buttonSize,
+    height: ArenaSizes.buttonSize,
     borderRadius: ArenaBorders.radius['3xl'],
     backgroundColor: ArenaColors.neutral.darkMedium,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: ArenaSpacing.sm,
   },
   fab: {
     position: 'absolute',
-    right: FAB_POSITION,
-    bottom: FAB_POSITION,
-    width: FAB_SIZE,
-    height: FAB_SIZE,
+    right: ArenaSpacing['2xl'],
+    bottom: ArenaSpacing['2xl'],
+    width: ArenaSizes.fabSize,
+    height: ArenaSizes.fabSize,
     borderRadius: ArenaBorders.radius.circle,
     backgroundColor: ArenaColors.brand.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 8,
+    elevation: ArenaSpacing.sm,
     shadowColor: ArenaColors.neutral.darkest,
     shadowOffset: {
       width: 0,
-      height: SHADOW_OFFSET_HEIGHT,
+      height: ArenaSpacing.xs,
     },
-    shadowOpacity: SHADOW_OPACITY,
-    shadowRadius: SHADOW_RADIUS,
+    shadowOpacity: ArenaOpacity.moderate,
+    shadowRadius: ArenaSpacing.sm,
   },
   friendshipActionsContainer: {
     position: 'absolute',
@@ -87,7 +83,7 @@ export const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: GRADIENT_HEIGHT,
+    height: ArenaSizes.gradientHeight,
     zIndex: -1,
   },
 });

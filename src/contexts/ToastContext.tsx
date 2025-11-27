@@ -287,17 +287,14 @@ const styles = StyleSheet.create({
   actionButton: {
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
-    // eslint-disable-next-line arena/arena-design-tokens
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: ArenaColors.neutral.overlay,
     borderRadius: ArenaBorders.radius.sm,
   },
   actionText: {
     color: ArenaColors.neutral.light,
   },
   progressBar: {
-    // eslint-disable-next-line arena/arena-design-tokens
-    height: 2,
-    // eslint-disable-next-line arena/arena-design-tokens
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    height: ArenaBorders.width.thin,
+    backgroundColor: ArenaColors.neutral.medium,
   },
 });

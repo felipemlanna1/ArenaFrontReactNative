@@ -3,20 +3,22 @@ import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     backgroundColor: ArenaColors.neutral.darkest,
   },
   sectionTitle: {
     marginBottom: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.lg,
   },
   loadingContainer: {
     paddingVertical: ArenaSpacing['2xl'],
+    paddingHorizontal: ArenaSpacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
   },
   emptyContainer: {
     paddingVertical: ArenaSpacing['2xl'],
+    paddingHorizontal: ArenaSpacing.lg,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -28,13 +30,29 @@ export const styles = StyleSheet.create({
   },
   groupsScrollContainer: {
     marginTop: ArenaSpacing.sm,
+    position: 'relative',
   },
   groupsScrollContent: {
-    gap: ArenaSpacing.sm,
-    paddingRight: ArenaSpacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: ArenaSpacing.lg,
   },
   groupCardWrapper: {
-    marginRight: ArenaSpacing.sm,
+    width: ArenaSpacing['13xl'],
+  },
+  divider: {
+    width: ArenaBorders.width.thin,
+    height: ArenaSpacing['8xl'],
+    backgroundColor: ArenaColors.neutral.dark,
+    marginHorizontal: ArenaSpacing.md,
+  },
+  scrollGradient: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: ArenaSizes.imageShowcaseSmall,
+    pointerEvents: 'none',
   },
   separator: {
     height: ArenaBorders.width.thin,

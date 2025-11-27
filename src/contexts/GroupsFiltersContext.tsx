@@ -9,7 +9,7 @@ import React, {
   ReactNode,
 } from 'react';
 import { useAuth } from './AuthContext';
-import { useHomeLocation } from '@/screens/homeScreen/hooks/useHomeLocation';
+import { useExploreLocation } from '@/screens/exploreScreen/hooks/useExploreLocation';
 
 export interface GroupsActiveFilters {
   sportIds?: string[];
@@ -89,7 +89,7 @@ export const GroupsFiltersProvider: React.FC<GroupsFiltersProviderProps> = ({
   children,
 }) => {
   const { userSports, isLoading: authLoading } = useAuth();
-  const location = useHomeLocation();
+  const location = useExploreLocation();
 
   const hasLoadedFirstTimeRef = useRef(false);
   const previousCityRef = useRef<string | null | undefined>(location.userCity);

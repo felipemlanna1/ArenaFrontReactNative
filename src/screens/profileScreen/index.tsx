@@ -3,10 +3,10 @@ import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { SportsLoading } from '@/components/ui/sportsLoading';
+import { AppLayout } from '@/components/AppLayout';
 import { ArenaColors } from '@/constants';
 import { useProfileScreen } from './useProfileScreen';
 import { ProfileScreenProps } from './typesProfileScreen';
@@ -16,6 +16,7 @@ import { ProfileInfoSection } from './components/ProfileInfoSection';
 import { ProfileBioSection } from './components/ProfileBioSection';
 import { ProfileStatsSection } from './components/ProfileStatsSection';
 import { ProfileGroupsSection } from './components/ProfileGroupsSection';
+import { ProfileCompletionBanner } from './components/ProfileCompletionBanner';
 import { FriendshipActions } from './components/FriendshipActions';
 import {
   mapUserToDisplayData,
@@ -23,6 +24,8 @@ import {
   formatMemberSince,
 } from './utils/profileHelpers';
 import { useProfileStats } from './hooks/useProfileStats';
+import { useProfileCompletionBanner } from './hooks/useProfileCompletionBanner';
+import { useProfileCompletion } from './hooks/useProfileCompletion';
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   route,
@@ -41,27 +44,43 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
   const { stats, isLoading: isLoadingStats } = useProfileStats(userId || '');
 
+  const {
+    isIncomplete,
+    isDismissed,
+    isLoading: isLoadingCompletion,
+    handleDismiss,
+  } = useProfileCompletionBanner(user, isOwnProfile);
+
+  const { progress: completionProgress } = useProfileCompletion(user);
+
+  const shouldShowCompletionBanner =
+    isOwnProfile && isIncomplete && !isDismissed && !isLoadingCompletion;
+
   if (isLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <SportsLoading size="lg" animationSpeed="normal" />
-      </View>
+      <AppLayout>
+        <View style={styles.loadingContainer}>
+          <SportsLoading size="lg" animationSpeed="normal" />
+        </View>
+      </AppLayout>
     );
   }
 
   if (error || !user) {
     return (
-      <View style={styles.errorContainer}>
-        <Text variant="headingPrimary" style={styles.errorText}>
-          Erro ao carregar perfil
-        </Text>
-        <Text variant="bodySecondary" style={styles.errorText}>
-          {error?.message || 'Usuário não encontrado'}
-        </Text>
-        <Button variant="primary" onPress={refetch}>
-          Tentar novamente
-        </Button>
-      </View>
+      <AppLayout>
+        <View style={styles.errorContainer}>
+          <Text variant="headingPrimary" style={styles.errorText}>
+            Erro ao carregar perfil
+          </Text>
+          <Text variant="bodySecondary" style={styles.errorText}>
+            {error?.message || 'Usuário não encontrado'}
+          </Text>
+          <Button variant="primary" onPress={refetch}>
+            Tentar novamente
+          </Button>
+        </View>
+      </AppLayout>
     );
   }
 
@@ -70,80 +89,83 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const primarySport = displayData.sports.find(s => s.isPrimary) || null;
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      edges={['bottom', 'left', 'right']}
-      testID={testID}
+    <AppLayout
+      showHeader={true}
+      headerVariant="mainWithBack"
+      headerShowLogo={true}
+      headerShowBackButton={true}
+      headerOnBackPress={handleBackPress}
     >
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={handleBackPress}
-        testID="back-button"
+      <SafeAreaView
+        style={styles.container}
+        edges={['bottom', 'left', 'right']}
+        testID={testID}
       >
-        <Ionicons
-          name="arrow-back"
-          size={24}
-          color={ArenaColors.neutral.light}
-        />
-      </TouchableOpacity>
-
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <LinearGradient
-          colors={[ArenaColors.neutral.darkest, ArenaColors.neutral.dark]}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
-          style={styles.backgroundGradient}
-        />
-        <ProfileHeroSection
-          avatarUrl={displayData.avatarUrl}
-          initials={initials}
-          showBackButton={false}
-          onBackPress={handleBackPress}
-          coverImageUrl={displayData.coverImageUrl}
-          primarySport={primarySport}
-        />
-
-        <View style={styles.contentContainer}>
-          <ProfileInfoSection
-            fullName={displayData.fullName}
-            username={displayData.username}
-            age={displayData.age}
-            gender={displayData.gender}
-            sports={displayData.sports}
-            isEmailVerified={user.isEmailVerified}
-            memberSince={formatMemberSince(user.createdAt)}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <LinearGradient
+            colors={[ArenaColors.neutral.darkest, ArenaColors.neutral.dark]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={styles.backgroundGradient}
+          />
+          <ProfileHeroSection
+            avatarUrl={displayData.avatarUrl}
+            initials={initials}
+            coverImageUrl={displayData.coverImageUrl}
+            primarySport={primarySport}
+            completionProgress={isOwnProfile ? completionProgress : 0}
           />
 
-          <ProfileBioSection bio={displayData.bio} />
+          <View style={styles.contentContainer}>
+            <ProfileInfoSection
+              fullName={displayData.fullName}
+              username={displayData.username}
+              age={displayData.age}
+              gender={displayData.gender}
+              sports={displayData.sports}
+              isEmailVerified={user.isEmailVerified}
+              memberSince={formatMemberSince(user.createdAt)}
+              bannerSlot={
+                shouldShowCompletionBanner ? (
+                  <ProfileCompletionBanner
+                    onDismiss={handleDismiss}
+                    onComplete={handleEditPress}
+                  />
+                ) : undefined
+              }
+            />
 
-          <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
+            <ProfileBioSection bio={displayData.bio} />
 
-          <ProfileGroupsSection
-            userId={userId || ''}
-            isOwnProfile={isOwnProfile}
-          />
-        </View>
-      </ScrollView>
+            <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
 
-      {!isOwnProfile && userId && (
-        <View style={styles.friendshipActionsContainer}>
-          <FriendshipActions userId={userId} onStatusChange={refetch} />
-        </View>
-      )}
+            <ProfileGroupsSection
+              userId={userId || ''}
+              isOwnProfile={isOwnProfile}
+            />
+          </View>
+        </ScrollView>
 
-      {isOwnProfile && (
-        <TouchableOpacity
-          style={styles.fab}
-          onPress={handleEditPress}
-          testID="edit-profile-fab"
-        >
-          <FontAwesome5
-            name="user-edit"
-            size={24}
-            color={ArenaColors.neutral.light}
-          />
-        </TouchableOpacity>
-      )}
-    </SafeAreaView>
+        {!isOwnProfile && userId && (
+          <View style={styles.friendshipActionsContainer}>
+            <FriendshipActions userId={userId} onStatusChange={refetch} />
+          </View>
+        )}
+
+        {isOwnProfile && (
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={handleEditPress}
+            testID="edit-profile-fab"
+          >
+            <FontAwesome5
+              name="user-edit"
+              size={24}
+              color={ArenaColors.neutral.light}
+            />
+          </TouchableOpacity>
+        )}
+      </SafeAreaView>
+    </AppLayout>
   );
 };

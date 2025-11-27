@@ -17,6 +17,11 @@ export interface UserCardProps {
   onAddFriend?: () => void;
   isLoading?: boolean;
   testID?: string;
+  hideAvatar?: boolean;
+  hideActions?: boolean;
+  customNameVariant?: 'bodyPrimary' | 'titlePrimary' | 'titleSecondary';
+  customNameColor?: string;
+  chevronPosition?: 'inline' | 'right';
 }
 
 export interface UseUserCardProps {

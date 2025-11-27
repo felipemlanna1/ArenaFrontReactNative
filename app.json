@@ -17,7 +17,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.arena.app",
       "jsEngine": "hermes",
-      "associatedDomains": ["applinks:backsportpulsemobile-production.up.railway.app"],
+      "associatedDomains": [
+        "applinks:backsportpulsemobile-production.up.railway.app"
+      ],
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSAppTransportSecurity": {
@@ -127,8 +129,7 @@
           "color": "#FF5301",
           "sounds": []
         }
-      ],
-      "react-native-reanimated/plugin"
+      ]
     ],
     "extra": {
       "ENVIRONMENT": "production",

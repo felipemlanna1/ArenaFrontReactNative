@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   privacyOptionCard: {
     backgroundColor: ArenaColors.neutral.dark,
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: ArenaColors.neutral.darkSubtleBorder,
     borderRadius: ArenaBorders.radius.lg,
     padding: ArenaSpacing.md,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     width: ArenaSpacing['2xl'],
     height: ArenaSpacing['2xl'],
     borderRadius: ArenaBorders.radius.circle,
-    borderWidth: 2,
+    borderWidth: ArenaSpacing.xxs,
     borderColor: ArenaColors.neutral.medium,
     justifyContent: 'center',
     alignItems: 'center',

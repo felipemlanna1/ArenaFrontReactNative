@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
-import { ArenaColors } from '@/constants';
 import { ProfileBioSectionProps } from './typesProfileBioSection';
 import { styles } from './stylesProfileBioSection';
 
@@ -21,6 +19,10 @@ export const ProfileBioSection: React.FC<ProfileBioSectionProps> = ({
     }
   };
 
+  if (!bio) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -28,42 +30,24 @@ export const ProfileBioSection: React.FC<ProfileBioSectionProps> = ({
           Sobre
         </Text>
 
-        {bio ? (
-          <>
-            <Text
-              variant="bodyPrimary"
-              style={styles.bioText}
-              numberOfLines={isExpanded ? undefined : MAX_LINES}
-              onTextLayout={handleTextLayout}
-            >
-              {bio}
-            </Text>
+        <Text
+          variant="bodyPrimary"
+          style={styles.bioText}
+          numberOfLines={isExpanded ? undefined : MAX_LINES}
+          onTextLayout={handleTextLayout}
+        >
+          {bio}
+        </Text>
 
-            {showExpandButton && (
-              <TouchableOpacity
-                style={styles.showMoreButton}
-                onPress={() => setIsExpanded(!isExpanded)}
-              >
-                <Text variant="bodyAccent">
-                  {isExpanded ? 'Ver menos' : 'Ver mais'}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </>
-        ) : (
-          <View style={styles.emptyState}>
-            <Ionicons
-              name="person-outline"
-              size={28}
-              color={ArenaColors.neutral.medium}
-            />
-            <Text variant="bodySecondary" style={styles.emptyText}>
-              Nenhuma informação adicionada
+        {showExpandButton && (
+          <TouchableOpacity
+            style={styles.showMoreButton}
+            onPress={() => setIsExpanded(!isExpanded)}
+          >
+            <Text variant="bodyAccent">
+              {isExpanded ? 'Ver menos' : 'Ver mais'}
             </Text>
-            <Text variant="captionSecondary" style={styles.emptyHint}>
-              Conte um pouco sobre você e seus interesses esportivos
-            </Text>
-          </View>
+          </TouchableOpacity>
         )}
       </View>
     </View>

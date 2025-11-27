@@ -52,6 +52,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <View
+      // eslint-disable-next-line arena/arena-best-practices
       style={{
         marginRight: overlap,
       }}

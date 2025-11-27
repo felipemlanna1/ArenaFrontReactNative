@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
@@ -11,10 +11,6 @@ import { styles } from './stylesEventHeroSection';
 
 export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
   event,
-  isOwner,
-  onBackPress,
-  onSharePress,
-  onEditPress,
   userStatus,
 }) => {
   const iconSource = event.sport?.icon ? getSportIcon(event.sport.icon) : null;
@@ -80,51 +76,14 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
         style={styles.gradientOverlay}
       />
 
-      <View style={styles.headerOverlay}>
-        <TouchableOpacity
-          style={styles.headerButton}
-          onPress={onBackPress}
-          testID="back-button"
-        >
-          <Ionicons
-            name="arrow-back"
-            size={24}
-            color={ArenaColors.neutral.light}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.headerButtons}>
-          <TouchableOpacity
-            style={styles.headerButton}
-            onPress={onSharePress}
-            testID="share-button"
-          >
-            <Ionicons
-              name="share-outline"
-              size={22}
-              color={ArenaColors.neutral.light}
-            />
-          </TouchableOpacity>
-
-          {isOwner && onEditPress && (
-            <TouchableOpacity
-              style={styles.headerButton}
-              onPress={onEditPress}
-              testID="edit-button"
-            >
-              <Ionicons
-                name="create-outline"
-                size={22}
-                color={ArenaColors.neutral.light}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-
       {statusBadge && (
         <View
-          style={[styles.statusBadge, { backgroundColor: statusBadge.color }]}
+          style={[
+            styles.statusBadge,
+            {
+              backgroundColor: statusBadge.color,
+            },
+          ]}
         >
           <Ionicons
             name={statusBadge.icon}
@@ -145,12 +104,6 @@ export const EventHeroSection: React.FC<EventHeroSectionProps> = ({
             </Text>
           </View>
         )}
-      </View>
-
-      <View style={styles.titleContainer}>
-        <Text variant="titlePrimary" style={styles.title} numberOfLines={2}>
-          {event.title}
-        </Text>
       </View>
     </View>
   );

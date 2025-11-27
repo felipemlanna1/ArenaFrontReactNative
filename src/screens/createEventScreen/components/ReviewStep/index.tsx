@@ -5,6 +5,7 @@ import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { PrivacyBadge } from '@/components/ui/privacyBadge';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
+import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Label } from '@/components/ui/label';
 import { ArenaColors } from '@/constants';
 import { useImageUpload } from '@/hooks/useImageUpload';
@@ -215,7 +216,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                 disabled={coverUpload.isUploading}
                 style={styles.coverButton}
               >
-                <View>
+                <View style={styles.coverContainer}>
                   {formData.coverImage ? (
                     <OptimizedImage
                       source={{ uri: formData.coverImage }}
@@ -230,6 +231,11 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                         size={32}
                         color={ArenaColors.neutral.medium}
                       />
+                    </View>
+                  )}
+                  {coverUpload.isUploading && (
+                    <View style={styles.uploadOverlay}>
+                      <SportsLoading size="sm" animationSpeed="fast" />
                     </View>
                   )}
                   <Text variant="captionSecondary" style={styles.coverText}>

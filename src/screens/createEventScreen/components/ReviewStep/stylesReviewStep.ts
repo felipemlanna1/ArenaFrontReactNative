@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors, ArenaBorders } from '@/constants';
-
-const COVER_IMAGE_HEIGHT = 180;
+import {
+  ArenaSpacing,
+  ArenaColors,
+  ArenaBorders,
+  ArenaSizes,
+} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -24,7 +27,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: ArenaSpacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: ArenaBorders.width.thin,
     borderBottomColor: ArenaColors.neutral.dark,
   },
   accordionContent: {
@@ -45,14 +48,14 @@ export const styles = StyleSheet.create({
   },
   coverPreview: {
     width: '100%',
-    height: COVER_IMAGE_HEIGHT,
+    height: ArenaSizes.coverImageHeight,
     borderRadius: ArenaBorders.radius.lg,
     backgroundColor: ArenaColors.neutral.dark,
     marginTop: ArenaSpacing.sm,
   },
   coverPlaceholder: {
     width: '100%',
-    height: COVER_IMAGE_HEIGHT,
+    height: ArenaSizes.coverImageHeight,
     borderRadius: ArenaBorders.radius.lg,
     backgroundColor: ArenaColors.neutral.dark,
     justifyContent: 'center',
@@ -63,6 +66,20 @@ export const styles = StyleSheet.create({
   },
   coverButton: {
     marginTop: ArenaSpacing.sm,
+  },
+  coverContainer: {
+    position: 'relative',
+  },
+  uploadOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: ArenaColors.backdrop.darkestOverlay,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: ArenaBorders.radius.lg,
   },
   coverText: {
     marginTop: ArenaSpacing.xs,

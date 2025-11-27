@@ -65,6 +65,10 @@ export const styles = StyleSheet.create({
   title: {
     color: ArenaColors.text.inverse,
   },
+  headerActionContainer: {
+    marginLeft: ArenaSpacing.sm,
+    marginRight: ArenaSpacing.xs,
+  },
   chevronContainer: {
     marginLeft: ArenaSpacing.md,
   },

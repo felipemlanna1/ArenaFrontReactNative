@@ -6,8 +6,8 @@ export const mapGroupToHeroData = (group: Group) => {
   const primarySport = group.sports?.[0];
 
   return {
-    avatarUrl: group.avatar || null,
-    initials: getGroupInitials(group.name),
+    avatarUrl: null,
+    initials: '',
     coverImageUrl: group.coverImage || null,
     primarySport: primarySport ? { ...primarySport, isPrimary: true } : null,
   };
@@ -56,24 +56,14 @@ export const mapGroupStatisticsToStats = (
 
   return {
     totalEvents: statistics.totalEvents,
-    confirmedEvents: statistics.recentEvents,
-    attendedEvents: Math.round(
-      (statistics.participationRate / 100) * statistics.totalEvents
-    ),
-    attendanceRate: statistics.participationRate,
+    createdEvents: statistics.recentEvents,
     totalGroups: statistics.activeSportsCount,
     totalFriends: statistics.totalMembers,
-    totalSports: statistics.activeSportsCount,
-    createdEvents: Math.round(statistics.eventsPerMonth * 12),
+    confirmedEvents: 0,
+    attendedEvents: 0,
+    attendanceRate: 0,
+    totalSports: 0,
   };
-};
-
-export const getGroupInitials = (name: string): string => {
-  const words = name.trim().split(' ');
-  if (words.length >= 2) {
-    return `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase();
-  }
-  return name.slice(0, 2).toUpperCase();
 };
 
 const formatGroupCreatedAt = (createdAt: string): string => {

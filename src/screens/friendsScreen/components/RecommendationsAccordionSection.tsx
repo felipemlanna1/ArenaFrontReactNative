@@ -12,6 +12,9 @@ interface RecommendationsAccordionSectionProps {
   onNavigateToProfile: (userId: string) => void;
   onSendRequest: (userId: string) => void;
   onLoadMore: () => void;
+  hasActiveFilters: boolean;
+  onClearFilters: () => void;
+  onEditProfile: () => void;
 }
 
 export const RecommendationsAccordionSection: React.FC<
@@ -25,6 +28,9 @@ export const RecommendationsAccordionSection: React.FC<
   onNavigateToProfile,
   onSendRequest,
   onLoadMore,
+  hasActiveFilters,
+  onClearFilters,
+  onEditProfile,
 }) => {
   return (
     <AccordionSection
@@ -42,6 +48,9 @@ export const RecommendationsAccordionSection: React.FC<
         loadingUserId={loadingUserId}
         onNavigateToProfile={onNavigateToProfile}
         onSendRequest={onSendRequest}
+        hasActiveFilters={hasActiveFilters}
+        onClearFilters={onClearFilters}
+        onEditProfile={onEditProfile}
       />
     </AccordionSection>
   );

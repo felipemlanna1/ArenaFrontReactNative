@@ -1,11 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { ArenaSpacing, ArenaBorders, ArenaColors } from '@/constants';
 
-const PROFILE_INFO_TOP_MARGIN = 75;
-
 export const styles = StyleSheet.create({
   container: {
-    marginTop: PROFILE_INFO_TOP_MARGIN,
+    marginTop: ArenaSpacing['8xl'],
     alignItems: 'center',
   },
   nameWithBadgeRow: {

@@ -7,3 +7,4 @@ export type { ElevationStyle } from './shadows';
 export { ArenaOpacity } from './opacity';
 export { ArenaCopy, formatCopy, pluralize } from './copy';
 export { ArenaIconSizes } from './iconSizes';
+export { TAB_BAR_BASE_HEIGHT } from './layout';

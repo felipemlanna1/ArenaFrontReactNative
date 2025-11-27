@@ -12,6 +12,7 @@ module.exports = {
     'arena-no-console': require('./arena-no-console'),
     'arena-no-custom-text-styles': require('./arena-no-custom-text-styles'),
     'arena-no-emoji-icons': require('./arena-no-emoji-icons'),
+    'arena-no-hardcoded-constants': require('./arena-no-hardcoded-constants'),
     'arena-text-requires-variant': require('./arena-text-requires-variant'),
     'arena-use-alert-context': require('./arena-use-alert-context'),
     'arena-use-sports-context': require('./arena-use-sports-context'),

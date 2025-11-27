@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, ScrollView } from 'react-native';
+import {
+  View,
+  ScrollView,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
@@ -7,6 +13,7 @@ import { UserCard } from '@/components/userCard';
 import { Group } from '@/services/groups/typesGroups';
 import { UserData } from '@/services/http';
 import { groupsApi } from '@/services/groups/groupsApi';
+import { ArenaColors } from '@/constants';
 import { ProfileGroupsSectionProps } from './typesProfileGroupsSection';
 import { styles } from './stylesProfileGroupsSection';
 import { RootStackParamList } from '@/navigation/typesNavigation';
@@ -15,10 +22,6 @@ const mapGroupToUserCard = (group: Group): UserData => {
   const nameParts = group.name.trim().split(' ');
   const firstName = nameParts[0] || group.name;
   const lastName = nameParts.slice(1).join(' ') || '';
-
-  const usernameText =
-    group.description?.slice(0, 80) ||
-    `${group.memberCount} ${group.memberCount === 1 ? 'membro' : 'membros'}`;
 
   const sports = (group.sports || []).map((sport, index) => ({
     sportId: sport.id,
@@ -33,7 +36,7 @@ const mapGroupToUserCard = (group: Group): UserData => {
     id: group.id,
     firstName,
     lastName,
-    username: usernameText,
+    username: '',
     email: '',
     profilePicture: group.avatar || null,
     city: group.city || null,
@@ -54,6 +57,7 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
   const [groups, setGroups] = useState<Group[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [showGradient, setShowGradient] = useState(false);
 
   const fetchUserGroups = useCallback(async () => {
     try {
@@ -82,11 +86,31 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
     [navigation]
   );
 
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const { contentOffset, contentSize, layoutMeasurement } =
+        event.nativeEvent;
+      const isScrollable = contentSize.width > layoutMeasurement.width;
+      const isNotAtEnd =
+        contentOffset.x < contentSize.width - layoutMeasurement.width - 10;
+      setShowGradient(isScrollable && isNotAtEnd);
+    },
+    []
+  );
+
+  const handleContentSizeChange = useCallback(
+    (contentWidth: number, contentHeight: number) => {
+      const isScrollable = contentWidth > 0;
+      setShowGradient(isScrollable);
+    },
+    []
+  );
+
   if (isLoading) {
     return (
       <View style={styles.container}>
         <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Grupos
+          Equipes
         </Text>
         <View style={styles.loadingContainer}>
           <SportsLoading size="md" animationSpeed="normal" />
@@ -99,11 +123,11 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
     return (
       <View style={styles.container}>
         <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Grupos
+          Equipes
         </Text>
         <View style={styles.emptyContainer}>
           <Text variant="bodySecondary" style={styles.emptyText}>
-            Erro ao carregar grupos
+            Erro ao carregar equipes
           </Text>
         </View>
       </View>
@@ -116,13 +140,13 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
     return (
       <View style={styles.container}>
         <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Grupos
+          Equipes
         </Text>
         <View style={styles.emptyContainer}>
           <Text variant="bodySecondary" style={styles.emptyText}>
             {isOwnProfile
-              ? 'Você ainda não participa de nenhum grupo'
-              : 'Este usuário não participa de nenhum grupo'}
+              ? 'Você ainda não participa de nenhuma equipe'
+              : 'Este usuário não participa de nenhuma equipe'}
           </Text>
         </View>
       </View>
@@ -132,24 +156,48 @@ export const ProfileGroupsSection: React.FC<ProfileGroupsSectionProps> = ({
   return (
     <View style={styles.container}>
       <Text variant="titlePrimary" style={styles.sectionTitle}>
-        Grupos {safeGroups.length > 0 && `(${safeGroups.length})`}
+        Equipes
       </Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.groupsScrollContent}
-        style={styles.groupsScrollContainer}
-      >
-        {safeGroups.map(group => (
-          <View key={group.id} style={styles.groupCardWrapper}>
-            <UserCard
-              user={mapGroupToUserCard(group)}
-              variant="friend"
-              onPress={() => handleGroupPress(group.id)}
-            />
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.groupsScrollContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.groupsScrollContent}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          onContentSizeChange={handleContentSizeChange}
+        >
+          {safeGroups.map((group, index) => (
+            <React.Fragment key={group.id}>
+              <View style={styles.groupCardWrapper}>
+                <UserCard
+                  user={mapGroupToUserCard(group)}
+                  variant="friend"
+                  onPress={() => handleGroupPress(group.id)}
+                  hideAvatar={true}
+                  hideActions={true}
+                  customNameVariant="titlePrimary"
+                  customNameColor={ArenaColors.brand.primary}
+                  chevronPosition="right"
+                />
+              </View>
+              {index < safeGroups.length - 1 && <View style={styles.divider} />}
+            </React.Fragment>
+          ))}
+        </ScrollView>
+        {showGradient && (
+          <LinearGradient
+            colors={[
+              'transparent',
+              `${ArenaColors.neutral.darkest}CC`,
+              ArenaColors.neutral.darkest,
+            ]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.scrollGradient}
+          />
+        )}
+      </View>
     </View>
   );
 };

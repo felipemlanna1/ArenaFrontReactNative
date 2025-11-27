@@ -93,6 +93,13 @@ export class GroupsApi {
     return response;
   }
 
+  async getPendingGroupInvites(): Promise<Group[]> {
+    const response = await httpService.getDirect<Group[]>(
+      `${this.basePath}/my-groups/pending-invites`
+    );
+    return response;
+  }
+
   async getGroupById(groupId: string): Promise<Group> {
     const response = await httpService.getDirect<Group>(
       `${this.basePath}/${groupId}`

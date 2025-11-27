@@ -10,6 +10,7 @@ import { StateDropdown } from '@/components/ui/stateDropdown';
 import { CityDropdown } from '@/components/ui/cityDropdown';
 import { MultiSelectSports } from '@/components/ui/multiSelectSports';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
+import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Label } from '@/components/ui/label';
 import { AppLayout } from '@/components/AppLayout';
 import { useSports } from '@/contexts/SportsContext';
@@ -50,10 +51,6 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
     }
   }, [handleSubmit, refetchGroups, navigation]);
 
-  const handleGoBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-
   const handlePickGroupCover = useCallback(async () => {
     try {
       const selectedImage = await coverUpload.pickImage();
@@ -81,7 +78,7 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
   }, [coverUpload, updateField, showSuccess, showError]);
 
   return (
-    <AppLayout onBack={handleGoBack}>
+    <AppLayout>
       <ArenaKeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}
         style={styles.container}
@@ -121,7 +118,7 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
             disabled={coverUpload.isUploading || isSubmitting}
             style={styles.coverSection}
           >
-            <View>
+            <View style={styles.coverContainer}>
               {formData.coverImage ? (
                 <OptimizedImage
                   source={{ uri: formData.coverImage }}
@@ -136,6 +133,11 @@ export const CreateGroupScreen: React.FC<CreateGroupScreenProps> = ({
                     size={32}
                     color={ArenaColors.neutral.medium}
                   />
+                </View>
+              )}
+              {coverUpload.isUploading && (
+                <View style={styles.uploadOverlay}>
+                  <SportsLoading size="sm" animationSpeed="fast" />
                 </View>
               )}
               <Text variant="captionSecondary" style={styles.coverText}>

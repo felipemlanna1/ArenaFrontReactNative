@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { AppLayout } from '@/components/AppLayout';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -30,6 +30,11 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
     isLoading,
     isSaving,
     availableSports,
+    isUploadingAvatar,
+    isUploadingCover,
+    avatarUploadProgress,
+    coverUploadProgress,
+    calculatedAge,
     handleFieldChange,
     handleToggleSport,
     handleTogglePrimary,
@@ -85,45 +90,30 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container}>
+      <AppLayout
+        showHeader={true}
+        headerVariant="secondary"
+        headerTitle="Editar Perfil"
+        headerShowBackButton={true}
+        headerOnBackPress={handleCancel}
+        testID="edit-profile-screen"
+      >
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
-      </SafeAreaView>
+      </AppLayout>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={handleCancel}
-          style={styles.headerButton}
-          testID="cancel-button"
-        >
-          <Ionicons name="close" size={24} color={ArenaColors.neutral.light} />
-        </TouchableOpacity>
-
-        <Text variant="titlePrimary" style={styles.headerTitle}>
-          Editar Perfil
-        </Text>
-
-        <TouchableOpacity
-          onPress={handleSave}
-          style={styles.headerButton}
-          disabled={isSaving}
-          testID="save-button"
-        >
-          <Ionicons
-            name="checkmark"
-            size={24}
-            color={
-              isSaving ? ArenaColors.neutral.medium : ArenaColors.brand.primary
-            }
-          />
-        </TouchableOpacity>
-      </View>
-
+    <AppLayout
+      showHeader={true}
+      headerVariant="secondary"
+      headerTitle="Editar Perfil"
+      headerShowBackButton={true}
+      headerOnBackPress={handleCancel}
+      testID="edit-profile-screen"
+    >
       <ArenaKeyboardAwareScrollView
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
@@ -134,39 +124,60 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           <Text variant="titleSecondary" style={styles.sectionTitle}>
             Fotos
           </Text>
-          <TouchableOpacity
-            onPress={handlePickProfilePicture}
-            testID="pick-profile-picture"
-          >
-            <View>
-              {formData.profilePicture ? (
-                <OptimizedImage
-                  source={{ uri: formData.profilePicture }}
-                  style={styles.profilePictureImage}
-                  contentFit="cover"
-                  priority="high"
-                />
-              ) : (
-                <View style={styles.profilePictureContainer}>
-                  <Ionicons
-                    name="camera"
-                    size={32}
-                    color={ArenaColors.neutral.medium}
+
+          <View style={styles.profilePictureSection}>
+            <TouchableOpacity
+              onPress={handlePickProfilePicture}
+              testID="pick-profile-picture"
+              style={styles.profilePictureTouchable}
+              disabled={isUploadingAvatar || isSaving}
+            >
+              <View style={styles.profilePictureWrapper}>
+                {formData.profilePicture ? (
+                  <OptimizedImage
+                    source={{ uri: formData.profilePicture }}
+                    style={styles.profilePictureImage}
+                    contentFit="cover"
+                    priority="high"
                   />
-                </View>
-              )}
+                ) : (
+                  <View style={styles.profilePictureContainer}>
+                    <Ionicons
+                      name="camera"
+                      size={32}
+                      color={ArenaColors.neutral.medium}
+                    />
+                  </View>
+                )}
+                {isUploadingAvatar ? (
+                  <View style={styles.uploadOverlay}>
+                    <SportsLoading size="sm" animationSpeed="fast" />
+                  </View>
+                ) : (
+                  <View style={styles.cameraBadge}>
+                    <Ionicons
+                      name="camera"
+                      size={16}
+                      color={ArenaColors.neutral.light}
+                    />
+                  </View>
+                )}
+              </View>
               <Text variant="captionSecondary" style={styles.photoLabel}>
-                Foto de Perfil
+                {isUploadingAvatar
+                  ? `Enviando... ${Math.round(avatarUploadProgress)}%`
+                  : 'Foto de Perfil'}
               </Text>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
             onPress={handlePickCoverPhoto}
             testID="pick-cover-photo"
             style={styles.coverPhotoButton}
+            disabled={isUploadingCover || isSaving}
           >
-            <View>
+            <View style={styles.coverPhotoWrapper}>
               {formData.coverPhoto ? (
                 <OptimizedImage
                   source={{ uri: formData.coverPhoto }}
@@ -183,10 +194,25 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
                   />
                 </View>
               )}
-              <Text variant="captionSecondary" style={styles.photoLabel}>
-                Foto de Capa
-              </Text>
+              {isUploadingCover ? (
+                <View style={styles.uploadOverlay}>
+                  <SportsLoading size="sm" animationSpeed="fast" />
+                </View>
+              ) : (
+                <View style={styles.cameraBadge}>
+                  <Ionicons
+                    name="camera"
+                    size={16}
+                    color={ArenaColors.neutral.light}
+                  />
+                </View>
+              )}
             </View>
+            <Text variant="captionSecondary" style={styles.photoLabel}>
+              {isUploadingCover
+                ? `Enviando... ${Math.round(coverUploadProgress)}%`
+                : 'Foto de Capa'}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -249,6 +275,22 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
             onPress={() => handleFieldChange('gender', 'other')}
             testID="radio-other"
           />
+
+          {calculatedAge !== null && (
+            <View style={styles.ageDisplay}>
+              <Text variant="bodySecondary">
+                {formData.gender
+                  ? `${
+                      formData.gender === 'male'
+                        ? 'Masculino'
+                        : formData.gender === 'female'
+                          ? 'Feminino'
+                          : 'Outro'
+                    } - ${calculatedAge} anos`
+                  : `${calculatedAge} anos`}
+              </Text>
+            </View>
+          )}
         </View>
 
         <View style={styles.section}>
@@ -347,6 +389,6 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           testID="skill-level-modal"
         />
       )}
-    </SafeAreaView>
+    </AppLayout>
   );
 };
