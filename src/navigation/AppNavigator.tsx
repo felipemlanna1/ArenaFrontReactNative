@@ -27,6 +27,7 @@ import { GroupsListScreen } from '../screens/groupsListScreen';
 import { SettingsScreen } from '../screens/settingsScreen';
 import { HelpScreen } from '../screens/helpScreen';
 import { TermsScreen } from '../screens/termsScreen';
+import { PrivacyPolicyScreen } from '../screens/privacyPolicyScreen';
 import { PastEventsScreen } from '../screens/pastEventsScreen';
 import { RateParticipantsScreen } from '../screens/rateParticipantsScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
@@ -99,6 +100,10 @@ const WrappedHelpScreen = withAndroidScreenWrapper(HelpScreen, {
 const WrappedTermsScreen = withAndroidScreenWrapper(TermsScreen, {
   enableScroll: false,
 });
+const WrappedPrivacyPolicyScreen = withAndroidScreenWrapper(
+  PrivacyPolicyScreen,
+  { enableScroll: false }
+);
 const WrappedPastEventsScreen = withAndroidScreenWrapper(PastEventsScreen, {
   enableScroll: false,
 });
@@ -197,6 +202,32 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen
               name="ComponentsShowcase"
               component={WrappedComponentsShowcaseScreen}
+            />
+            <Stack.Screen
+              name="Terms"
+              component={WrappedTermsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Termos de Uso',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Privacy"
+              component={WrappedPrivacyPolicyScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Política de Privacidade',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
             />
           </>
         ) : !user.hasSports ? (
@@ -329,7 +360,20 @@ export const AppNavigator: React.FC = () => {
               options={{
                 presentation: 'card',
                 headerShown: true,
-                headerTitle: 'Termos & Privacidade',
+                headerTitle: 'Termos de Uso',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="Privacy"
+              component={WrappedPrivacyPolicyScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Política de Privacidade',
                 headerStyle: {
                   backgroundColor: ArenaColors.neutral.darkest,
                 },
