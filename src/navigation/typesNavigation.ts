@@ -31,6 +31,8 @@ export type RootStackParamList = {
   Settings: undefined;
   Help: undefined;
   Terms: undefined;
+  PastEvents: undefined;
+  RateParticipants: { eventId: string };
 };
 
 export type TabParamList = {

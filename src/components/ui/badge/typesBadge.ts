@@ -16,6 +16,7 @@ export interface BadgeProps extends Omit<ViewProps, 'style'> {
   onRemove?: () => void;
   children: string;
   icon?: ImageSourcePropType;
+  iconName?: string;
   testID?: string;
 }
 

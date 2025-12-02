@@ -23,6 +23,8 @@ import { ArenaColors } from '@/constants';
 import { useTabBarHeight } from '@/hooks/useTabBarHeight';
 import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
 import { TabParamList, RootStackParamList } from '@/navigation/typesNavigation';
+import { Button } from '@/components/ui/button';
+import { testFriendRequestNotification } from '@/utils/testNotifications';
 import { EventCard } from '@/screens/exploreScreen/components/EventCard';
 import { Event } from '@/services/events/typesEvents';
 import { EventFilter } from './components/EventFilter';
@@ -359,6 +361,16 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
       }
     >
       <View style={styles.container}>
+        <View style={styles.testButtonContainer}>
+          <Button
+            variant="secondary"
+            size="sm"
+            onPress={testFriendRequestNotification}
+            testID="test-friend-notification-button"
+          >
+            Testar Notificação de Amizade
+          </Button>
+        </View>
         {viewMode === 'list' ? renderListView() : renderCalendarView()}
       </View>
     </AppLayout>

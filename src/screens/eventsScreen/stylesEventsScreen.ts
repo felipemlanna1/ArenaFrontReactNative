@@ -73,4 +73,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.lg,
   },
+  testButtonContainer: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.sm,
+    paddingBottom: ArenaSpacing.sm,
+  },
 });

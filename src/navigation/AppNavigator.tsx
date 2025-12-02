@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ArenaColors } from '../constants';
 import { useAuth } from '../contexts/AuthContext';
+import { feedbackApi } from '../services/feedback/feedbackApi';
+import { PendingFeedbackModal } from '../components/feedback/PendingFeedbackModal';
 import { withAndroidScreenWrapper } from '../components/wrappers/AndroidScreenWrapper/withAndroidScreenWrapper';
 import { WelcomeScreen } from '../screens/welcomeScreen';
 import { LoginScreen } from '../screens/loginScreen';
@@ -25,6 +27,8 @@ import { GroupsListScreen } from '../screens/groupsListScreen';
 import { SettingsScreen } from '../screens/settingsScreen';
 import { HelpScreen } from '../screens/helpScreen';
 import { TermsScreen } from '../screens/termsScreen';
+import { PastEventsScreen } from '../screens/pastEventsScreen';
+import { RateParticipantsScreen } from '../screens/rateParticipantsScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
@@ -95,9 +99,46 @@ const WrappedHelpScreen = withAndroidScreenWrapper(HelpScreen, {
 const WrappedTermsScreen = withAndroidScreenWrapper(TermsScreen, {
   enableScroll: false,
 });
+const WrappedPastEventsScreen = withAndroidScreenWrapper(PastEventsScreen, {
+  enableScroll: false,
+});
+const WrappedRateParticipantsScreen = withAndroidScreenWrapper(
+  RateParticipantsScreen,
+  { enableScroll: false }
+);
 
 export const AppNavigator: React.FC = () => {
   const { user, isLoading } = useAuth();
+  const navigationRef = React.useRef<any>(null);
+
+  const [pendingEventsCount, setPendingEventsCount] = useState(0);
+  const [isModalDismissed, setIsModalDismissed] = useState(false);
+
+  useEffect(() => {
+    const fetchPendingEvents = async () => {
+      if (!user || isLoading) return;
+
+      try {
+        const events = await feedbackApi.getPendingEvents();
+        setPendingEventsCount(events.length);
+      } catch {
+        setPendingEventsCount(0);
+      }
+    };
+
+    fetchPendingEvents();
+  }, [user, isLoading]);
+
+  const handleDismissModal = useCallback(() => {
+    setIsModalDismissed(true);
+  }, []);
+
+  const handleNavigateToPastEvents = useCallback(() => {
+    setIsModalDismissed(true);
+    if (navigationRef.current) {
+      navigationRef.current.navigate('PastEvents');
+    }
+  }, []);
 
   const CustomDarkTheme = {
     ...DarkTheme,
@@ -130,7 +171,11 @@ export const AppNavigator: React.FC = () => {
   }
 
   return (
-    <NavigationContainer theme={CustomDarkTheme} linking={linking}>
+    <NavigationContainer
+      ref={navigationRef}
+      theme={CustomDarkTheme}
+      linking={linking}
+    >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!user ? (
           <>
@@ -291,9 +336,45 @@ export const AppNavigator: React.FC = () => {
                 headerTintColor: ArenaColors.neutral.light,
               }}
             />
+            <Stack.Screen
+              name="PastEvents"
+              component={WrappedPastEventsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Eventos Passados',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="RateParticipants"
+              component={WrappedRateParticipantsScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Avaliar Participantes',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
           </>
         )}
       </Stack.Navigator>
+
+      {user && (
+        <PendingFeedbackModal
+          visible={pendingEventsCount > 0 && !isModalDismissed}
+          onDismiss={handleDismissModal}
+          onNavigateToPastEvents={handleNavigateToPastEvents}
+          pendingCount={pendingEventsCount}
+          testID="pending-feedback-modal"
+        />
+      )}
     </NavigationContainer>
   );
 };

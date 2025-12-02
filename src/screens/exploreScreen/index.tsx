@@ -28,6 +28,7 @@ import { useExploreGroups } from './hooks/useExploreGroups';
 import { useExploreFriends } from './hooks/useExploreFriends';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 import { useFriendsShare } from '@/screens/friendsScreen/hooks/useFriendsShare';
+import { friendshipsApi } from '@/services/friendships/friendshipsApi';
 import { Event } from '@/services/events/typesEvents';
 import { Group } from '@/services/groups/typesGroups';
 import { UserData } from '@/services/http';
@@ -176,16 +177,20 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
     [navigation]
   );
 
-  const handleAddFriend = useCallback(async () => {
-    try {
-      await friendsData.refreshFriends();
-      haptic.success();
-      showToast('Solicitação de amizade enviada', 'success');
-    } catch {
-      haptic.error();
-      showToast('Erro ao enviar solicitação', 'error');
-    }
-  }, [friendsData, showToast]);
+  const handleAddFriend = useCallback(
+    async (userId: string) => {
+      try {
+        await friendshipsApi.sendFriendRequest({ addresseeId: userId });
+        await friendsData.refreshFriends();
+        haptic.success();
+        showToast('Solicitação de amizade enviada', 'success');
+      } catch {
+        haptic.error();
+        showToast('Erro ao enviar solicitação', 'error');
+      }
+    },
+    [friendsData, showToast]
+  );
 
   const handleInviteFriends = useCallback(async () => {
     haptic.light();
@@ -355,7 +360,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
             user={friend}
             variant="recommendation"
             onPress={() => handleUserPress(friend.id)}
-            onAddFriend={handleAddFriend}
+            onAddFriend={() => handleAddFriend(friend.id)}
             testID={`user-card-${friend.id}`}
           />
         );

@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
 import { useInvites } from '@/contexts/InvitesContext';
 import { useUnreadNotificationsContext } from '@/contexts/UnreadNotificationsContext';
+import { usePendingFeedback } from '@/contexts/PendingFeedbackContext';
 import { UseMenuScreenReturn, MenuItem } from './typesMenuScreen';
 
 export const useMenuScreen = (): UseMenuScreenReturn => {
@@ -10,6 +11,7 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
   const { user, signOut } = useAuth();
   const { counts } = useInvites();
   const { unreadCount } = useUnreadNotificationsContext();
+  const { pendingCount } = usePendingFeedback();
 
   const userName = useMemo(() => {
     if (!user) return '';
@@ -48,6 +50,13 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
         testID: 'menu-notifications',
       },
       {
+        id: 'pastEvents',
+        type: 'navigation',
+        label: 'Eventos Passados',
+        badge: pendingCount,
+        testID: 'menu-past-events',
+      },
+      {
         id: 'divider-1',
         type: 'divider',
       },
@@ -80,7 +89,7 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
         testID: 'menu-logout',
       },
     ],
-    [counts, unreadCount]
+    [counts, unreadCount, pendingCount]
   );
 
   const handleItemPress = useCallback(
@@ -96,6 +105,9 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
           break;
         case 'notifications':
           navigation.navigate('Notifications' as never);
+          break;
+        case 'pastEvents':
+          navigation.navigate('PastEvents' as never);
           break;
         case 'settings':
           navigation.navigate('Settings' as never);

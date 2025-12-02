@@ -55,6 +55,15 @@ export const useBadge = ({
     return iconSizeMap[size];
   }, [size]);
 
+  const iconSize = useMemo(() => {
+    const iconSizeMap: Record<BadgeSize, number> = {
+      sm: ArenaTypography.size.xs + 1,
+      md: ArenaTypography.size.sm + 1,
+      lg: ArenaTypography.size.md + 1,
+    };
+    return iconSizeMap[size];
+  }, [size]);
+
   const handleRemove = useCallback(() => {
     if (removable && onRemove) {
       onRemove();
@@ -66,6 +75,7 @@ export const useBadge = ({
     textStyle,
     removeIconStyle,
     removeIconSize,
+    iconSize,
     handleRemove,
     canRemove: removable && !!onRemove,
   };

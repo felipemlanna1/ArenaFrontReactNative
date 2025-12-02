@@ -15,6 +15,7 @@ import { styles } from './stylesProfileScreen';
 import { ProfileHeroSection } from './components/ProfileHeroSection';
 import { ProfileInfoSection } from './components/ProfileInfoSection';
 import { ProfileBioSection } from './components/ProfileBioSection';
+import { ProfileReputationSection } from './components/ProfileReputationSection';
 import { ProfileStatsSection } from './components/ProfileStatsSection';
 import { ProfileGroupsSection } from './components/ProfileGroupsSection';
 import { ProfileCompletionBanner } from './components/ProfileCompletionBanner';
@@ -160,6 +161,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             />
 
             <ProfileBioSection bio={displayData.bio} />
+
+            <ProfileReputationSection
+              userId={userId || user.id}
+              isOwnProfile={isOwnProfile}
+            />
 
             <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
 

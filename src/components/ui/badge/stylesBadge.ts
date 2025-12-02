@@ -80,6 +80,9 @@ export const styles = StyleSheet.create({
     height: ArenaTypography.size.md,
     marginRight: ArenaSpacing.xs,
   },
+  ionicon: {
+    marginRight: ArenaSpacing.xxs,
+  },
   text: {
     textAlign: 'center',
   },

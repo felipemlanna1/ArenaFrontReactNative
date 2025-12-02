@@ -93,6 +93,33 @@ export class EventsApi {
     return response;
   }
 
+  async getUserPastEvents(params?: { limit?: number }): Promise<Event[]> {
+    const queryParams: Record<string, unknown> = {
+      limit: params?.limit || 50,
+      status: ['PUBLISHED', 'COMPLETED'],
+      sortBy: 'startDate',
+      sortOrder: 'desc',
+      userEventStatus: ['PARTICIPANT'],
+      onlyFutureEvents: false,
+    };
+
+    const queryString = prepareParams(queryParams).toString();
+    const url = queryString ? `${this.basePath}?${queryString}` : this.basePath;
+
+    const response = await httpService.get<EventsResponse>(url);
+
+    const now = new Date();
+    const pastEvents = (response.data || []).filter(event => {
+      const endDate = new Date(event.endDate);
+      return endDate < now;
+    });
+
+    console.log('[getUserPastEvents] Fetched events:', response.data?.length || 0);
+    console.log('[getUserPastEvents] Past events (endDate < now):', pastEvents.length);
+
+    return pastEvents;
+  }
+
   async getEventDetails(eventId: string): Promise<Event> {
     const response = await httpService.get<Event>(
       `${this.basePath}/${eventId}`

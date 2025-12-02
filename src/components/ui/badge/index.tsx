@@ -15,6 +15,7 @@ export const Badge: React.FC<BadgeProps> = ({
   onRemove,
   children,
   icon,
+  iconName,
   testID,
   ...restProps
 }) => {
@@ -23,6 +24,7 @@ export const Badge: React.FC<BadgeProps> = ({
     textStyle,
     removeIconStyle,
     removeIconSize,
+    iconSize,
     handleRemove,
     canRemove,
   } = useBadge({
@@ -44,6 +46,14 @@ export const Badge: React.FC<BadgeProps> = ({
           style={styles.icon}
           contentFit="contain"
           priority="high"
+        />
+      )}
+      {iconName && (
+        <Ionicons
+          name={iconName as keyof typeof Ionicons.glyphMap}
+          size={iconSize}
+          color={textStyle.color}
+          style={styles.ionicon}
         />
       )}
       <Text variant="bodyPrimary" style={[styles.text, textStyle]}>

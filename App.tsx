@@ -8,6 +8,7 @@ import { AlertProvider } from './src/contexts/AlertContext';
 import { NotificationsProvider } from './src/contexts/NotificationsContext';
 import { UnreadNotificationsProvider } from './src/contexts/UnreadNotificationsContext';
 import { InvitesProvider } from './src/contexts/InvitesContext';
+import { PendingFeedbackProvider } from './src/contexts/PendingFeedbackContext';
 import { HomeFiltersProvider } from './src/contexts/HomeFiltersContext';
 import { ToastProvider } from './src/contexts/ToastContext';
 import { SportsProvider } from './src/contexts/SportsContext';
@@ -48,25 +49,27 @@ export default function App() {
         <KeyboardProvider>
           <SportsProvider>
             <AuthProvider>
-              <InvitesProvider>
-                <NotificationsProvider>
-                  <AlertProvider>
-                    <UnreadNotificationsProvider>
-                      <ToastProvider>
-                        <GroupsProvider>
-                          <GroupsFiltersProvider>
-                            <FriendsFiltersProvider>
-                              <HomeFiltersProvider>
-                                <AppNavigator />
-                              </HomeFiltersProvider>
-                            </FriendsFiltersProvider>
-                          </GroupsFiltersProvider>
-                        </GroupsProvider>
-                      </ToastProvider>
-                    </UnreadNotificationsProvider>
-                  </AlertProvider>
-                </NotificationsProvider>
-              </InvitesProvider>
+              <PendingFeedbackProvider>
+                <InvitesProvider>
+                  <NotificationsProvider>
+                    <AlertProvider>
+                      <UnreadNotificationsProvider>
+                        <ToastProvider>
+                          <GroupsProvider>
+                            <GroupsFiltersProvider>
+                              <FriendsFiltersProvider>
+                                <HomeFiltersProvider>
+                                  <AppNavigator />
+                                </HomeFiltersProvider>
+                              </FriendsFiltersProvider>
+                            </GroupsFiltersProvider>
+                          </GroupsProvider>
+                        </ToastProvider>
+                      </UnreadNotificationsProvider>
+                    </AlertProvider>
+                  </NotificationsProvider>
+                </InvitesProvider>
+              </PendingFeedbackProvider>
             </AuthProvider>
           </SportsProvider>
         </KeyboardProvider>
