@@ -96,25 +96,40 @@ export class EventsApi {
   async getUserPastEvents(params?: { limit?: number }): Promise<Event[]> {
     const queryParams: Record<string, unknown> = {
       limit: params?.limit || 50,
-      status: ['PUBLISHED', 'COMPLETED'],
       sortBy: 'startDate',
       sortOrder: 'desc',
-      userEventStatus: ['PARTICIPANT'],
       onlyFutureEvents: false,
     };
 
     const queryString = prepareParams(queryParams).toString();
-    const url = queryString ? `${this.basePath}?${queryString}` : this.basePath;
+    const url = `${this.basePath}/my-events?${queryString}`;
+
+    console.log('[getUserPastEvents] Fetching from /my-events endpoint');
+    console.log('[getUserPastEvents] URL:', url);
 
     const response = await httpService.get<EventsResponse>(url);
+
+    console.log('[getUserPastEvents] Response received:', {
+      totalItems: response.pagination?.totalItems,
+      dataLength: response.data?.length,
+      events: response.data?.map(e => ({
+        id: e.id,
+        title: e.title,
+        status: e.status,
+        startDate: e.startDate,
+        endDate: e.endDate,
+        userEventStatus: e.userEventStatus,
+      })),
+    });
 
     const now = new Date();
     const pastEvents = (response.data || []).filter(event => {
       const endDate = new Date(event.endDate);
-      return endDate < now;
+      const isPast = endDate < now;
+      return isPast;
     });
 
-    console.log('[getUserPastEvents] Fetched events:', response.data?.length || 0);
+    console.log('[getUserPastEvents] Total events from API:', response.data?.length || 0);
     console.log('[getUserPastEvents] Past events (endDate < now):', pastEvents.length);
 
     return pastEvents;
