@@ -17,7 +17,6 @@ interface Styles {
   footer: ViewStyle;
   errorContainer: ViewStyle;
   errorText: TextStyle;
-  testButtonContainer: ViewStyle;
 }
 
 export const styles = StyleSheet.create<Styles>({
@@ -92,10 +91,5 @@ export const styles = StyleSheet.create<Styles>({
   errorText: {
     color: ArenaColors.text.inverse,
     textAlign: 'center',
-  },
-  testButtonContainer: {
-    paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing.sm,
-    paddingBottom: ArenaSpacing.sm,
   },
 });

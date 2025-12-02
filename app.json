@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.arena.app",
+      "bundleIdentifier": "com.arena.sportpulse",
       "jsEngine": "hermes",
       "associatedDomains": [
         "applinks:backsportpulsemobile-production.up.railway.app"
@@ -45,7 +45,7 @@
       "versionCode": 5,
       "edgeToEdgeEnabled": true,
       "jsEngine": "hermes",
-      "package": "com.arena.app",
+      "package": "com.arena.sportpulse",
       "softwareKeyboardLayoutMode": "resize",
       "navigationBar": {
         "visible": "sticky-immersive",
