@@ -31,24 +31,22 @@ export const styles = StyleSheet.create({
     paddingVertical: ArenaSpacing.md,
     gap: ArenaSpacing.md,
   },
-  content: {
-    flex: 1,
+  scrollContent: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
+    gap: ArenaSpacing.lg,
   },
   footer: {
-    paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing.md,
-    paddingBottom: ArenaSpacing.lg + 4,
-    borderTopWidth: 1,
-    borderTopColor: ArenaColors.neutral.dark,
+    paddingTop: ArenaSpacing.lg,
+    paddingBottom: ArenaSpacing.md,
+    gap: ArenaSpacing.md,
   },
   buttonRow: {
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
   },
   loadingContainer: {
-    marginTop: ArenaSpacing.lg,
+    marginTop: ArenaSpacing.md,
     alignItems: 'center',
   },
   loadingText: {

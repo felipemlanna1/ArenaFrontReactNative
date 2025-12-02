@@ -31,6 +31,7 @@ export type RootStackParamList = {
   Settings: undefined;
   Help: undefined;
   Terms: undefined;
+  Privacy: undefined;
   PastEvents: undefined;
   RateParticipants: { eventId: string };
 };

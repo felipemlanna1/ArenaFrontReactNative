@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaElevations } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaElevations, ArenaBorders } from '@/constants';
 
 interface Styles {
   container: ViewStyle;
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create<Styles>({
   actionButton: {
     width: ArenaSpacing['4xl'],
     height: ArenaSpacing['4xl'],
-    borderRadius: ArenaSpacing.xl,
+    borderRadius: ArenaBorders.radius.md,
     backgroundColor: ArenaColors.neutral.darkest,
     justifyContent: 'center',
     alignItems: 'center',

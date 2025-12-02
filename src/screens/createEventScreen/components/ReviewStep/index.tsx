@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
@@ -69,10 +69,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={styles.container}>
       <View style={styles.previewCard}>
         <Text variant="headingPrimary">{formData.title || 'Sem título'}</Text>
         <View style={styles.divider} />
@@ -251,6 +248,6 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           </View>
         )}
       </View>
-    </ScrollView>
+    </View>
   );
 };

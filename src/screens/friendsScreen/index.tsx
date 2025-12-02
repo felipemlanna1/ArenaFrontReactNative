@@ -10,6 +10,7 @@ import { useSwipeableFilters } from '@/hooks/useSwipeableFilters';
 import { useTabBarHeight } from '@/hooks/useTabBarHeight';
 import { styles } from './stylesFriendsScreen';
 import { FilterBar } from './components/FilterBar';
+import { ActiveFiltersBar } from '../groupsListScreen/components/ActiveFiltersBar';
 import { FriendsTabBar, FriendTab } from './components/FriendsTabBar';
 import {
   FriendsSection,
@@ -78,7 +79,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
     selectedCity,
     selectedState,
     selectedSportId,
+    selectedSportIds,
     handleClearFilters,
+    handleClearLocation,
+    handleRemoveSport,
     hasActiveFilters,
     hasMoreFriends,
     hasMoreIncoming,
@@ -335,49 +339,64 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
     >
-      <GestureDetector gesture={composedGesture}>
-        <View style={styles.content}>
-          <FriendsTabBar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            friendsCount={friends.length}
-            incomingCount={incomingRequests.length}
-            outgoingCount={outgoingRequests.length}
-            recommendationsCount={recommendations.length}
-          />
+      <View style={styles.content}>
+        <GestureDetector gesture={composedGesture}>
+          <View>
+            <FriendsTabBar
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              friendsCount={friends.length}
+              incomingCount={incomingRequests.length}
+              outgoingCount={outgoingRequests.length}
+              recommendationsCount={recommendations.length}
+            />
 
-          <FilterBar
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            onFilterPress={handleFilterPress}
-            filterCount={filterCount}
-          />
+            <FilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              onFilterPress={handleFilterPress}
+              filterCount={filterCount}
+            />
+          </View>
+        </GestureDetector>
 
-          {isLoading && data.length === 0 ? (
-            <View style={styles.loadingContainer}>
-              <SkeletonUserCard showActions={true} />
-              <SkeletonUserCard showActions={true} />
-              <SkeletonUserCard showActions={true} />
-            </View>
-          ) : (
-            <View style={styles.listWrapper}>
-              <FlashList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                contentContainerStyle={listContentStyle}
-                ItemSeparatorComponent={renderSeparator}
-                onEndReached={hasMore ? onLoadMore : undefined}
-                onEndReachedThreshold={0.5}
-                ListEmptyComponent={renderEmpty}
-                ListFooterComponent={renderFooter}
-                onScrollBeginDrag={Keyboard.dismiss}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
-          )}
-        </View>
-      </GestureDetector>
+        {filterCount > 0 && (
+          <ActiveFiltersBar
+            city={selectedCity}
+            state={selectedState}
+            sportIds={selectedSportIds}
+            onClearLocation={handleClearLocation}
+            onRemoveSport={handleRemoveSport}
+            onClearAll={handleClearFilters}
+            testID="friends-active-filters"
+          />
+        )}
+
+        {isLoading && data.length === 0 ? (
+          <View style={styles.loadingContainer}>
+            <SkeletonUserCard showActions={true} />
+            <SkeletonUserCard showActions={true} />
+            <SkeletonUserCard showActions={true} />
+          </View>
+        ) : (
+          <View style={styles.listWrapper}>
+            <FlashList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              contentContainerStyle={listContentStyle}
+              estimatedItemSize={100}
+              ItemSeparatorComponent={renderSeparator}
+              onEndReached={hasMore ? onLoadMore : undefined}
+              onEndReachedThreshold={0.5}
+              ListEmptyComponent={renderEmpty}
+              ListFooterComponent={renderFooter}
+              onScrollBeginDrag={Keyboard.dismiss}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        )}
+      </View>
     </AppLayout>
   );
 };

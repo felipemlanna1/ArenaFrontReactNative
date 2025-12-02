@@ -15,9 +15,11 @@ const ICON_MAP = {
   friends: 'people',
   groups: 'people-circle',
   notifications: 'notifications',
+  pastEvents: 'calendar',
   settings: 'settings',
   help: 'help-circle',
   terms: 'document-text',
+  privacy: 'shield-checkmark',
   logout: 'log-out',
 } as const;
 

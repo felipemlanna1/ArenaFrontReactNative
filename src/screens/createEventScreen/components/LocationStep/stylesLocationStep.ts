@@ -3,7 +3,6 @@ import { ArenaSpacing, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: ArenaSpacing.lg,
     gap: ArenaSpacing['2xl'],
   },
   section: {

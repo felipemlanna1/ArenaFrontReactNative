@@ -1,18 +1,21 @@
 import React from 'react';
-import { View, Linking } from 'react-native';
+import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Text } from '@/components/ui/text';
 import { Link } from '@/components/ui/link';
 import { REGISTER_TEXTS } from '@/constants/texts';
 import { styles } from './stylesRegisterTerms';
 
 export const RegisterTerms: React.FC = React.memo(() => {
+  const navigation = useNavigation();
+
   const handleTermsPress = React.useCallback(() => {
-    Linking.openURL('https://arena.com/termos-de-uso');
-  }, []);
+    navigation.navigate('Terms' as never);
+  }, [navigation]);
 
   const handlePrivacyPress = React.useCallback(() => {
-    Linking.openURL('https://arena.com/politica-de-privacidade');
-  }, []);
+    navigation.navigate('Privacy' as never);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

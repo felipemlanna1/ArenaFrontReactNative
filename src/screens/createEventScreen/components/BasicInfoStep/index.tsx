@@ -1,6 +1,5 @@
 import React, { useCallback, createElement } from 'react';
 import { View, TouchableOpacity, Platform } from 'react-native';
-import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/datePicker';
@@ -50,12 +49,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
   );
 
   return (
-    <ArenaKeyboardAwareScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
-      bottomOffset={60}
-    >
+    <View style={styles.container}>
       <View style={styles.section}>
         <Input
           label="Título do evento"
@@ -204,6 +198,6 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           </Text>
         </TouchableOpacity>
       )}
-    </ArenaKeyboardAwareScrollView>
+    </View>
   );
 };
