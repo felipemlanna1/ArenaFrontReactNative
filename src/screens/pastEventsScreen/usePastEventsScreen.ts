@@ -7,6 +7,7 @@ import { feedbackApi } from '@/services/feedback/feedbackApi';
 import { Event } from '@/services/events/typesEvents';
 import { useAuth } from '@/contexts/AuthContext';
 import { ArenaSpacing } from '@/constants';
+import { storageService } from '@/utils/storage';
 import type {
   EnrichedPastEvent,
   UsePastEventsScreenReturn,
@@ -85,7 +86,23 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
   }, [user]);
 
   useEffect(() => {
+    const printJwtToken = async () => {
+      try {
+        const token = await storageService.getItem('@Arena:access_token');
+        console.log('\n========================================');
+        console.log('🔑 JWT TOKEN PARA COPIAR:');
+        console.log(token);
+        console.log('========================================\n');
+        console.log('📋 Use este token para testar o endpoint via curl:');
+        console.log(`curl -X GET "https://your-api-url/api/v1/events/my-events?onlyFutureEvents=false&limit=50" -H "Authorization: Bearer ${token}"`);
+        console.log('========================================\n');
+      } catch (error) {
+        console.error('[usePastEventsScreen] Erro ao buscar token:', error);
+      }
+    };
+
     if (isFocused) {
+      printJwtToken();
       fetchData();
     }
   }, [isFocused, fetchData]);
