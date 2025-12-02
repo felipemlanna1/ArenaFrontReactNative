@@ -85,4 +85,7 @@ export const styles = StyleSheet.create({
     height: ArenaSizes.gradientHeight,
     zIndex: -1,
   },
+  reputationContainer: {
+    display: 'none',
+  },
 });

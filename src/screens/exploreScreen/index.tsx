@@ -438,46 +438,113 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
 
   return (
     <AppLayout headerVariant="main" headerShowLogo={true}>
-      <GestureDetector gesture={composedGesture}>
-        <View style={styles.content}>
-          <ExploreTabBar
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            eventsCount={events.length}
-            groupsCount={groupsData.groups.length}
-            friendsCount={friendsData.friends.length}
-          />
+      <View style={styles.content}>
+        <GestureDetector gesture={composedGesture}>
+          <View>
+            <ExploreTabBar
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+              eventsCount={events.length}
+              groupsCount={groupsData.groups.length}
+              friendsCount={friendsData.friends.length}
+            />
 
-          <FilterBar
-            searchValue={searchTerm}
-            onSearchChange={setSearchTerm}
-            onSortPress={handleSortPress}
-            onFilterPress={handleFilterPress}
-            placeholder={getSearchPlaceholder()}
-            filterCount={activeFiltersCount}
-            sortOrder={sortOrder}
-          />
+            <FilterBar
+              searchValue={searchTerm}
+              onSearchChange={setSearchTerm}
+              onSortPress={handleSortPress}
+              onFilterPress={handleFilterPress}
+              placeholder={getSearchPlaceholder()}
+              filterCount={activeFiltersCount}
+              sortOrder={sortOrder}
+            />
+          </View>
+        </GestureDetector>
 
-          {shouldShowLoading ? (
-            <View style={styles.loadingContainer}>
-              {activeTab === 'friends' ? (
-                <>
-                  <SkeletonUserCard />
-                  <SkeletonUserCard />
-                  <SkeletonUserCard />
-                </>
-              ) : (
-                <>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </>
+        {shouldShowLoading ? (
+          <View style={styles.loadingContainer}>
+            {activeTab === 'friends' ? (
+              <>
+                <SkeletonUserCard />
+                <SkeletonUserCard />
+                <SkeletonUserCard />
+              </>
+            ) : (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            )}
+          </View>
+        ) : shouldShowEmptyState ? (
+          <ScrollView
+            contentContainerStyle={styles.emptyScrollContent}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={tabData.isRefreshing}
+                onRefresh={handleRefresh}
+                tintColor={ArenaColors.brand.primary}
+                colors={[ArenaColors.brand.primary]}
+                progressBackgroundColor={ArenaColors.neutral.dark}
+                testID="explore-empty-refresh-control"
+              />
+            }
+          >
+            <View style={styles.emptyContainer}>
+              <Ionicons
+                name={emptyState.icon}
+                size={64}
+                color={ArenaColors.neutral.medium}
+                style={styles.emptyIcon}
+              />
+              <Text variant="headingPrimary" style={styles.emptyTitle}>
+                {emptyState.title}
+              </Text>
+              <Text variant="bodySecondary" style={styles.emptyText}>
+                {emptyState.description}
+              </Text>
+
+              {emptyState.primaryAction && emptyState.onPrimaryAction && (
+                <View style={styles.emptyActionsContainer}>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onPress={emptyState.onPrimaryAction}
+                    fullWidth
+                    testID={`empty-create-${activeTab}-button`}
+                  >
+                    {emptyState.primaryAction}
+                  </Button>
+                  {emptyState.secondaryAction &&
+                    emptyState.onSecondaryAction && (
+                      <Button
+                        variant="ghost"
+                        size="md"
+                        onPress={emptyState.onSecondaryAction}
+                        fullWidth
+                        testID="empty-filter-button"
+                      >
+                        {emptyState.secondaryAction}
+                      </Button>
+                    )}
+                </View>
               )}
             </View>
-          ) : shouldShowEmptyState ? (
-            <ScrollView
-              contentContainerStyle={styles.emptyScrollContent}
-              showsVerticalScrollIndicator={false}
+          </ScrollView>
+        ) : (
+          <View style={styles.listWrapper}>
+            <FlashList
+              data={tabData.data}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              contentContainerStyle={listContainerStyle}
+              estimatedItemSize={150}
+              onEndReached={tabData.hasMore ? tabData.loadMore : undefined}
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={renderFooter}
+              onScrollBeginDrag={Keyboard.dismiss}
               refreshControl={
                 <RefreshControl
                   refreshing={tabData.isRefreshing}
@@ -485,95 +552,31 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
                   tintColor={ArenaColors.brand.primary}
                   colors={[ArenaColors.brand.primary]}
                   progressBackgroundColor={ArenaColors.neutral.dark}
-                  testID="explore-empty-refresh-control"
+                  testID="home-refresh-control"
                 />
               }
-            >
-              <View style={styles.emptyContainer}>
-                <Ionicons
-                  name={emptyState.icon}
-                  size={64}
-                  color={ArenaColors.neutral.medium}
-                  style={styles.emptyIcon}
-                />
-                <Text variant="headingPrimary" style={styles.emptyTitle}>
-                  {emptyState.title}
-                </Text>
-                <Text variant="bodySecondary" style={styles.emptyText}>
-                  {emptyState.description}
-                </Text>
+            />
+          </View>
+        )}
 
-                {emptyState.primaryAction && emptyState.onPrimaryAction && (
-                  <View style={styles.emptyActionsContainer}>
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      onPress={emptyState.onPrimaryAction}
-                      fullWidth
-                      testID={`empty-create-${activeTab}-button`}
-                    >
-                      {emptyState.primaryAction}
-                    </Button>
-                    {emptyState.secondaryAction &&
-                      emptyState.onSecondaryAction && (
-                        <Button
-                          variant="ghost"
-                          size="md"
-                          onPress={emptyState.onSecondaryAction}
-                          fullWidth
-                          testID="empty-filter-button"
-                        >
-                          {emptyState.secondaryAction}
-                        </Button>
-                      )}
-                  </View>
-                )}
-              </View>
-            </ScrollView>
-          ) : (
-            <View style={styles.listWrapper}>
-              <FlashList
-                data={tabData.data}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                contentContainerStyle={listContainerStyle}
-                onEndReached={tabData.hasMore ? tabData.loadMore : undefined}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={renderFooter}
-                onScrollBeginDrag={Keyboard.dismiss}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={tabData.isRefreshing}
-                    onRefresh={handleRefresh}
-                    tintColor={ArenaColors.brand.primary}
-                    colors={[ArenaColors.brand.primary]}
-                    progressBackgroundColor={ArenaColors.neutral.dark}
-                    testID="home-refresh-control"
-                  />
-                }
-              />
-            </View>
-          )}
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text variant="bodyPrimary" style={styles.errorText}>
+              {error.message}
+            </Text>
+          </View>
+        )}
 
-          {error && (
-            <View style={styles.errorContainer}>
-              <Text variant="bodyPrimary" style={styles.errorText}>
-                {error.message}
-              </Text>
-            </View>
-          )}
-
-          <SortModal
-            visible={showSortModal}
-            currentSort={{
-              sortBy,
-              sortOrder,
-            }}
-            onClose={() => setShowSortModal(false)}
-            onApply={handleApplySort}
-          />
-        </View>
-      </GestureDetector>
+        <SortModal
+          visible={showSortModal}
+          currentSort={{
+            sortBy,
+            sortOrder,
+          }}
+          onClose={() => setShowSortModal(false)}
+          onApply={handleApplySort}
+        />
+      </View>
     </AppLayout>
   );
 };

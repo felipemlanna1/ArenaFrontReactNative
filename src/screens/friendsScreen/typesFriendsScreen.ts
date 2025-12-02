@@ -33,6 +33,9 @@ export interface UseFriendsScreenReturn {
   selectedSportId: string | undefined;
   setSelectedSportId: (sportId: string | undefined) => void;
   handleClearFilters: () => void;
+  handleClearLocation: () => void;
+  handleRemoveSport: (sportId: string) => void;
+  selectedSportIds: string[];
   hasActiveFilters: boolean;
   hasMoreFriends: boolean;
   hasMoreIncoming: boolean;

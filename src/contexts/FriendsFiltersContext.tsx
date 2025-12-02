@@ -4,22 +4,15 @@ import React, {
   useState,
   useCallback,
   useMemo,
-  useEffect,
   useRef,
   ReactNode,
 } from 'react';
-import { useAuth } from './AuthContext';
 import { useExploreLocation } from '@/screens/exploreScreen/hooks/useExploreLocation';
 
 export interface FriendsActiveFilters {
   sportIds?: string[];
   city?: string;
   state?: string;
-}
-
-interface Sport {
-  id?: string;
-  sportId?: string;
 }
 
 interface FriendsFiltersContextData {
@@ -88,56 +81,14 @@ interface FriendsFiltersProviderProps {
 export const FriendsFiltersProvider: React.FC<FriendsFiltersProviderProps> = ({
   children,
 }) => {
-  const { userSports, isLoading: authLoading } = useAuth();
   const location = useExploreLocation();
 
   const hasLoadedFirstTimeRef = useRef(false);
-  const previousCityRef = useRef<string | null | undefined>(location.userCity);
-  const hasSportsAppliedRef = useRef(false);
-
-  const favoritesSportIds = useMemo(() => {
-    return userSports
-      .map((sport: Sport) => sport.sportId || sport.id)
-      .filter((id): id is string => !!id);
-  }, [userSports]);
 
   const [activeFilters, setActiveFilters] = useState<FriendsActiveFilters>(
     createInitialFilters()
   );
   const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-
-    if (!hasSportsAppliedRef.current && favoritesSportIds.length > 0) {
-      setActiveFilters(prev => ({
-        ...prev,
-        sportIds: favoritesSportIds,
-      }));
-      hasSportsAppliedRef.current = true;
-    }
-  }, [authLoading, favoritesSportIds]);
-
-  useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-
-    const cityChanged =
-      location.userCity !== previousCityRef.current &&
-      location.userCity != null;
-
-    if (cityChanged) {
-      setActiveFilters(prev => ({
-        ...prev,
-        city: location.userCity || undefined,
-        state: location.userState || undefined,
-      }));
-      previousCityRef.current = location.userCity;
-    }
-  }, [location.userCity, location.userState, authLoading]);
 
   const updateFilter = useCallback(
     <K extends keyof FriendsActiveFilters>(
@@ -145,9 +96,6 @@ export const FriendsFiltersProvider: React.FC<FriendsFiltersProviderProps> = ({
       value: FriendsActiveFilters[K]
     ) => {
       setActiveFilters(prev => ({ ...prev, [key]: value }));
-      if (key === 'sportIds') {
-        hasSportsAppliedRef.current = false;
-      }
     },
     []
   );
@@ -161,13 +109,11 @@ export const FriendsFiltersProvider: React.FC<FriendsFiltersProviderProps> = ({
 
       return { ...prev, sportIds: newSportIds };
     });
-    hasSportsAppliedRef.current = false;
   }, []);
 
   const clearFilters = useCallback(() => {
     setActiveFilters(createInitialFilters());
     setSearchTerm('');
-    hasSportsAppliedRef.current = false;
   }, []);
 
   const clearCityFilter = useCallback(() => {

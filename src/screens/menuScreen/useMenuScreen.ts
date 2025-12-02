@@ -75,8 +75,14 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
       {
         id: 'terms',
         type: 'navigation',
-        label: 'Termos & Privacidade',
+        label: 'Termos de Uso',
         testID: 'menu-terms',
+      },
+      {
+        id: 'privacy',
+        type: 'navigation',
+        label: 'Política de Privacidade',
+        testID: 'menu-privacy',
       },
       {
         id: 'divider-2',
@@ -117,6 +123,9 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
           break;
         case 'terms':
           navigation.navigate('Terms' as never);
+          break;
+        case 'privacy':
+          navigation.navigate('Privacy' as never);
           break;
         case 'logout':
           signOut();

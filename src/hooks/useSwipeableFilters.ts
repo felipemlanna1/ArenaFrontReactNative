@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { Platform } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import { useSharedValue, withSpring, runOnJS } from 'react-native-reanimated';
 
@@ -47,7 +48,7 @@ export const useSwipeableFilters = <T>({
 
   const panGesture = Gesture.Pan()
     .activeOffsetX([-10, 10])
-    .failOffsetY([-5, 5])
+    .failOffsetY(Platform.OS === 'android' ? [-20, 20] : [-5, 5])
     .minDistance(10)
     .maxPointers(1)
     .enableTrackpadTwoFingerGesture(true)

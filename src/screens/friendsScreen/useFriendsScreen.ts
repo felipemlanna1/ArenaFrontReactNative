@@ -16,6 +16,8 @@ export const useFriendsScreen = (
     searchTerm,
     setSearchTerm,
     clearFilters,
+    clearCityFilter,
+    toggleSportId,
     activeFiltersCount,
   } = useFriendsFilters();
 
@@ -496,6 +498,9 @@ export const useFriendsScreen = (
     selectedSportId: activeFilters.sportIds?.[0],
     setSelectedSportId: () => {},
     handleClearFilters: clearFilters,
+    handleClearLocation: clearCityFilter,
+    handleRemoveSport: toggleSportId,
+    selectedSportIds: activeFilters.sportIds || [],
     hasActiveFilters,
     hasMoreFriends,
     hasMoreIncoming,

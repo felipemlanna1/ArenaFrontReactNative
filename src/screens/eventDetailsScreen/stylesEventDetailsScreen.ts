@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: ArenaSpacing.lg,
-    paddingTop: ArenaSpacing['2xl'],
     paddingBottom: ArenaSpacing['4xl'],
   },
   content: {

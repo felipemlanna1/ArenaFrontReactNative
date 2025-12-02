@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { SportsLoading } from '@/components/ui/sportsLoading';
@@ -108,45 +104,46 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 80}
+      <View style={styles.header}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity style={styles.backButton} onPress={handleCancel}>
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={ArenaColors.neutral.light}
+            />
+          </TouchableOpacity>
+
+          <Text variant="headingPrimary" style={styles.headerTitle}>
+            {isEditMode ? 'Editar Evento' : 'Criar Evento'}
+          </Text>
+
+          <View style={styles.placeholder} />
+        </View>
+      </View>
+
+      <View style={styles.progressContainer}>
+        <Stepper
+          currentStep={currentStep}
+          totalSteps={TOTAL_STEPS}
+          variant="dots"
+          showProgress={true}
+          steps={[
+            { label: 'Informações' },
+            { label: 'Privacidade' },
+            { label: 'Localização' },
+            { label: 'Revisão' },
+          ]}
+        />
+      </View>
+
+      <ArenaKeyboardAwareScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        bottomOffset={100}
       >
-        <View style={styles.header}>
-          <View style={styles.headerRow}>
-            <TouchableOpacity style={styles.backButton} onPress={handleCancel}>
-              <Ionicons
-                name="arrow-back"
-                size={24}
-                color={ArenaColors.neutral.light}
-              />
-            </TouchableOpacity>
-
-            <Text variant="headingPrimary" style={styles.headerTitle}>
-              {isEditMode ? 'Editar Evento' : 'Criar Evento'}
-            </Text>
-
-            <View style={styles.placeholder} />
-          </View>
-        </View>
-
-        <View style={styles.progressContainer}>
-          <Stepper
-            currentStep={currentStep}
-            totalSteps={TOTAL_STEPS}
-            variant="dots"
-            showProgress={true}
-            steps={[
-              { label: 'Informações' },
-              { label: 'Privacidade' },
-              { label: 'Localização' },
-              { label: 'Revisão' },
-            ]}
-          />
-        </View>
-
-        <View style={styles.content}>{renderStepContent()}</View>
+        {renderStepContent()}
 
         <View style={styles.footer}>
           <View style={styles.buttonRow}>
@@ -184,7 +181,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
             </View>
           )}
         </View>
-      </KeyboardAvoidingView>
+      </ArenaKeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

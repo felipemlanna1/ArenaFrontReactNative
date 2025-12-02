@@ -164,45 +164,47 @@ export const EventsScreen: React.FC<EventsScreenProps> = ({
 
   const renderListView = useCallback(() => {
     return (
-      <GestureDetector gesture={panGesture}>
-        <View style={styles.gestureContainer}>
-          <EventFilter
-            value={eventFilter}
-            filterCounts={filterCounts}
-            onChange={setEventFilter}
-          />
-          {isLoading && events.length === 0 ? (
-            <View style={styles.loadingContainer}>
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-            </View>
-          ) : (
-            <FlatList
-              data={events}
-              renderItem={renderItem}
-              keyExtractor={keyExtractor}
-              contentContainerStyle={listContentStyle}
-              onEndReached={hasMore ? loadMoreEvents : undefined}
-              onEndReachedThreshold={0.5}
-              ListEmptyComponent={renderEmpty}
-              ListFooterComponent={renderFooter}
-              onScrollBeginDrag={Keyboard.dismiss}
-              showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                  refreshing={isRefreshing}
-                  onRefresh={handleRefresh}
-                  tintColor={ArenaColors.brand.primary}
-                  colors={[ArenaColors.brand.primary]}
-                  progressBackgroundColor={ArenaColors.neutral.dark}
-                  testID={`${testID}-refresh-control`}
-                />
-              }
+      <View style={styles.gestureContainer}>
+        <GestureDetector gesture={panGesture}>
+          <View>
+            <EventFilter
+              value={eventFilter}
+              filterCounts={filterCounts}
+              onChange={setEventFilter}
             />
-          )}
-        </View>
-      </GestureDetector>
+          </View>
+        </GestureDetector>
+        {isLoading && events.length === 0 ? (
+          <View style={styles.loadingContainer}>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </View>
+        ) : (
+          <FlatList
+            data={events}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            contentContainerStyle={listContentStyle}
+            onEndReached={hasMore ? loadMoreEvents : undefined}
+            onEndReachedThreshold={0.5}
+            ListEmptyComponent={renderEmpty}
+            ListFooterComponent={renderFooter}
+            onScrollBeginDrag={Keyboard.dismiss}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                tintColor={ArenaColors.brand.primary}
+                colors={[ArenaColors.brand.primary]}
+                progressBackgroundColor={ArenaColors.neutral.dark}
+                testID={`${testID}-refresh-control`}
+              />
+            }
+          />
+        )}
+      </View>
     );
   }, [
     panGesture,

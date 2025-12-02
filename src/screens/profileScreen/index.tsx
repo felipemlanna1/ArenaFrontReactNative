@@ -162,10 +162,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
             <ProfileBioSection bio={displayData.bio} />
 
-            <ProfileReputationSection
-              userId={userId || user.id}
-              isOwnProfile={isOwnProfile}
-            />
+            <View style={styles.reputationContainer}>
+              <ProfileReputationSection
+                userId={userId || user.id}
+                isOwnProfile={isOwnProfile}
+              />
+            </View>
 
             <ProfileStatsSection stats={stats} isLoading={isLoadingStats} />
 

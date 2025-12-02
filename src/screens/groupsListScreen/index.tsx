@@ -16,6 +16,7 @@ import { GroupsListScreenProps } from './typesGroupsListScreen';
 import { useGroupsListScreen } from './useGroupsListScreen';
 import { styles } from './stylesGroupsListScreen';
 import { FilterBar } from './components/FilterBar';
+import { ActiveFiltersBar } from './components/ActiveFiltersBar';
 import { GroupsTabBar, GroupTab } from './components/GroupsTabBar';
 import {
   MyGroupsSection,
@@ -37,8 +38,14 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
     onChange: setActiveTab,
   });
 
-  const { activeFilters, searchTerm, setSearchTerm, clearFilters } =
-    useGroupsFilters();
+  const {
+    activeFilters,
+    searchTerm,
+    setSearchTerm,
+    clearFilters,
+    clearCityFilter,
+    toggleSportId,
+  } = useGroupsFilters();
 
   const {
     myGroups,
@@ -75,6 +82,17 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
   const handleFilterPress = useCallback(() => {
     navigation.navigate('FilterScreen', { source: 'groups' });
   }, [navigation]);
+
+  const handleClearLocation = useCallback(() => {
+    clearCityFilter();
+  }, [clearCityFilter]);
+
+  const handleRemoveSport = useCallback(
+    (sportId: string) => {
+      toggleSportId(sportId);
+    },
+    [toggleSportId]
+  );
 
   const filterCount = useMemo(() => {
     let count = 0;
@@ -222,62 +240,77 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
     >
-      <GestureDetector gesture={composedGesture}>
-        <View style={styles.content}>
-          <GroupsTabBar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            myGroupsCount={myGroups.length}
-            recommendationsCount={recommendations.length}
-          />
+      <View style={styles.content}>
+        <GestureDetector gesture={composedGesture}>
+          <View>
+            <GroupsTabBar
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              myGroupsCount={myGroups.length}
+              recommendationsCount={recommendations.length}
+            />
 
-          <FilterBar
-            searchQuery={searchTerm}
-            onSearchChange={setSearchTerm}
-            onFilterPress={handleFilterPress}
-            filterCount={filterCount}
-          />
-
-          {isLoading && data.length === 0 ? (
-            <View style={styles.loadingContainer}>
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-            </View>
-          ) : (
-            <View style={styles.listWrapper}>
-              <FlashList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                contentContainerStyle={listContentStyle}
-                ItemSeparatorComponent={renderSeparator}
-                onEndReached={hasMore ? onLoadMore : undefined}
-                onEndReachedThreshold={0.5}
-                ListEmptyComponent={renderEmpty}
-                ListFooterComponent={renderFooter}
-                onScrollBeginDrag={Keyboard.dismiss}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
-          )}
-
-          <View style={styles.fab}>
-            <Fab
-              icon={
-                <Ionicons
-                  name="add"
-                  size={24}
-                  color={ArenaColors.neutral.light}
-                />
-              }
-              onPress={handleCreateGroup}
-              variant="primary"
-              size="md"
+            <FilterBar
+              searchQuery={searchTerm}
+              onSearchChange={setSearchTerm}
+              onFilterPress={handleFilterPress}
+              filterCount={filterCount}
             />
           </View>
+        </GestureDetector>
+
+        {filterCount > 0 && (
+          <ActiveFiltersBar
+            city={activeFilters.city}
+            state={activeFilters.state}
+            sportIds={activeFilters.sportIds}
+            onClearLocation={handleClearLocation}
+            onRemoveSport={handleRemoveSport}
+            onClearAll={clearFilters}
+            testID="groups-active-filters"
+          />
+        )}
+
+        {isLoading && data.length === 0 ? (
+          <View style={styles.loadingContainer}>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </View>
+        ) : (
+          <View style={styles.listWrapper}>
+            <FlashList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              contentContainerStyle={listContentStyle}
+              estimatedItemSize={120}
+              ItemSeparatorComponent={renderSeparator}
+              onEndReached={hasMore ? onLoadMore : undefined}
+              onEndReachedThreshold={0.5}
+              ListEmptyComponent={renderEmpty}
+              ListFooterComponent={renderFooter}
+              onScrollBeginDrag={Keyboard.dismiss}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        )}
+
+        <View style={styles.fab}>
+          <Fab
+            icon={
+              <Ionicons
+                name="add"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            }
+            onPress={handleCreateGroup}
+            variant="primary"
+            size="md"
+          />
         </View>
-      </GestureDetector>
+      </View>
     </AppLayout>
   );
 };

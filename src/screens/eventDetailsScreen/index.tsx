@@ -118,15 +118,15 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
       }
     >
       <View style={styles.container}>
-        <EventHeroSection
-          event={event}
-          userStatus={status.isParticipant ? 'confirmed' : null}
-        />
-
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
+          <EventHeroSection
+            event={event}
+            userStatus={status.isParticipant ? 'confirmed' : null}
+          />
+
           <View style={styles.content}>
             <View style={styles.titleSection}>
               {event.sport?.name ? (
