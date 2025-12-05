@@ -97,6 +97,12 @@ class UsersApi {
     });
     return response;
   }
+
+  async deleteAccount(confirmationKeyword: string): Promise<void> {
+    await httpService.delete(`${this.basePath}/me/account`, {
+      data: { confirmationKeyword },
+    });
+  }
 }
 
 export const usersApi = new UsersApi();

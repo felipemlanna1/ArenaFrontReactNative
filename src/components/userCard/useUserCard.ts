@@ -10,15 +10,25 @@ export const useUserCard = ({
   onRemove,
   onAddFriend,
 }: UseUserCardProps): UseUserCardReturn => {
+  const isDeleted = useMemo(() => !!user.deletedAt, [user.deletedAt]);
+
   const displayName = useMemo(() => {
+    if (isDeleted) {
+      return 'Usuário Excluído';
+    }
+
     const { firstName, lastName, username } = user;
     if (firstName) {
       return lastName ? `${firstName} ${lastName}` : firstName;
     }
     return username || 'Usuário';
-  }, [user]);
+  }, [user, isDeleted]);
 
   const displayLocation = useMemo(() => {
+    if (isDeleted) {
+      return null;
+    }
+
     const { city, state } = user;
     if (city && state) {
       return `${city}, ${state}`;
@@ -27,14 +37,14 @@ export const useUserCard = ({
       return state;
     }
     return null;
-  }, [user]);
+  }, [user, isDeleted]);
 
   const displaySports = useMemo(() => {
-    if (!user.sports || user.sports.length === 0) {
+    if (isDeleted || !user.sports || user.sports.length === 0) {
       return [];
     }
     return user.sports.slice(0, 3).map(sport => sport.sportName);
-  }, [user.sports]);
+  }, [user.sports, isDeleted]);
 
   const displayContext = useMemo(() => {
     if (user.totalFriends && user.totalFriends > 0) {
@@ -113,6 +123,7 @@ export const useUserCard = ({
     displaySports,
     displayContext,
     isActiveRecently,
+    isDeleted,
     hasActions: actionConfig.hasActions,
     handlePrimaryAction: () => actionConfig.primaryAction?.(),
     handleSecondaryAction: actionConfig.secondaryAction

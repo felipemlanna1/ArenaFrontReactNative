@@ -9,7 +9,7 @@ import { HelpScreenProps } from './typesHelpScreen';
 
 export const HelpScreen: React.FC<HelpScreenProps> = () => {
   return (
-    <AppLayout>
+    <AppLayout showHeader={false}>
       <ScrollView
         contentContainerStyle={styles.container}
         testID="help-screen"

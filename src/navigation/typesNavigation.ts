@@ -34,6 +34,7 @@ export type RootStackParamList = {
   Privacy: undefined;
   PastEvents: undefined;
   RateParticipants: { eventId: string };
+  DeleteAccount: undefined;
 };
 
 export type TabParamList = {

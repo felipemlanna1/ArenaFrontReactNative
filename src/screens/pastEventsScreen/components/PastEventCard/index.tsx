@@ -80,9 +80,9 @@ export const PastEventCard = React.memo<PastEventCardProps>(
             <Ionicons
               name="information-circle-outline"
               size={16}
-              color={ArenaColors.neutral.darkest}
+              color={ArenaColors.semantic.warning}
             />
-            <Text variant="captionSecondary">
+            <Text variant="labelPrimary">
               Nenhum participante confirmado
             </Text>
           </View>

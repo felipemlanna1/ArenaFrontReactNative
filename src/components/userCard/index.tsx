@@ -33,6 +33,7 @@ export const UserCard: React.FC<UserCardProps> = ({
     displaySports,
     displayContext,
     isActiveRecently,
+    isDeleted,
     hasActions,
     handlePrimaryAction,
     handleSecondaryAction,
@@ -124,10 +125,16 @@ export const UserCard: React.FC<UserCardProps> = ({
             )}
           </View>
 
-          {user.username && (
+          {user.username && !isDeleted && (
             <Text variant="captionSecondary" style={styles.username}>
               @{user.username}
             </Text>
+          )}
+
+          {isDeleted && (
+            <Badge variant="outlined" size="sm">
+              CONTA EXCLUÍDA
+            </Badge>
           )}
 
           {displayContext && variant === 'recommendation' && (

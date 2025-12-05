@@ -1,26 +1,34 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing } from '@/constants';
+import { ArenaSpacing, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  scrollContent: {
+    paddingHorizontal: ArenaSpacing.lg,
+    paddingVertical: ArenaSpacing['2xl'],
+    gap: ArenaSpacing.lg,
+  },
+  section: {
+    gap: ArenaSpacing.sm,
+  },
+  sectionTitle: {
+    marginBottom: ArenaSpacing.xs,
+  },
+  settingItem: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: ArenaSpacing['2xl'],
+    paddingVertical: ArenaSpacing.md,
+    paddingHorizontal: ArenaSpacing.md,
+    backgroundColor: ArenaColors.neutral.dark,
+    borderRadius: ArenaSpacing.sm,
+    gap: ArenaSpacing.sm,
   },
-  iconContainer: {
-    marginBottom: ArenaSpacing.lg,
+  settingLabel: {
+    flex: 1,
   },
-  title: {
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.md,
-  },
-  message: {
-    textAlign: 'center',
-    marginBottom: ArenaSpacing.lg,
-  },
-  caption: {
-    textAlign: 'center',
-    maxWidth: ArenaSpacing['14xl'],
+  destructive: {
+    color: ArenaColors.semantic.error,
   },
 });

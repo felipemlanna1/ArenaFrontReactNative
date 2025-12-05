@@ -286,21 +286,42 @@ export const TermsScreen: React.FC<TermsScreenProps> = () => {
 
         <View style={styles.section}>
           <Text variant="titlePrimary" style={styles.sectionTitle}>
-            14. Suspensão e Cancelamento de Conta
+            14. Exclusão de Conta e Direito à Eliminação (LGPD)
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Podemos suspender ou encerrar sua conta imediatamente se você violar
-            estes Termos, houver suspeita de fraude, recebermos solicitação de
-            autoridade judicial, sua conta permanecer inativa por mais de 24 meses,
-            ou identificarmos comportamento prejudicial à comunidade.
+            Conforme Artigo 18, inciso VI da Lei Geral de Proteção de Dados
+            (LGPD), você pode solicitar a exclusão permanente da sua conta a
+            qualquer momento através de Configurações {'>'} Excluir Conta. Esta
+            ação é IRREVERSÍVEL e não pode ser desfeita.
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Você pode cancelar sua conta a qualquer momento através das
-            configurações do aplicativo ou entrando em contato conosco. Após
-            cancelamento: você perderá acesso à plataforma; conteúdo privado será
-            excluído em 30 dias; conteúdo público poderá permanecer anonimizado;
-            eventos futuros serão cancelados; e você permanecerá responsável por
-            obrigações anteriores.
+            Ao confirmar a exclusão: (1) você perderá acesso à plataforma
+            imediatamente; (2) todos os seus dados pessoais (nome, email,
+            telefone, data de nascimento, fotos, cidade, estado e bio) serão
+            excluídos permanentemente; (3) sua participação em eventos futuros
+            será cancelada automaticamente; (4) todas as suas amizades serão
+            removidas; (5) seu nome de usuário e email ficarão disponíveis para
+            reutilização imediatamente.
+          </Text>
+          <Text variant="bodySecondary" style={styles.paragraph} selectable>
+            Dados mantidos de forma anonimizada: participações em eventos
+            passados, avaliações de eventos e check-ins são preservados de forma
+            anonimizada para estatísticas históricas da plataforma, conforme
+            permitido pelo Artigo 16, §3º da LGPD (dados anonimizados não estão
+            mais sob escopo da lei).
+          </Text>
+          <Text variant="bodySecondary" style={styles.paragraph} selectable>
+            Você NÃO poderá excluir sua conta se for organizador de eventos
+            futuros ou proprietário de grupos ativos. Nestes casos, cancele os
+            eventos ou transfira a propriedade dos grupos antes de prosseguir com
+            a exclusão.
+          </Text>
+          <Text variant="bodySecondary" style={styles.paragraph} selectable>
+            Suspensão de conta pelo Arena: Podemos suspender ou encerrar sua
+            conta imediatamente se você violar estes Termos, houver suspeita de
+            fraude, recebermos solicitação de autoridade judicial, sua conta
+            permanecer inativa por mais de 24 meses, ou identificarmos
+            comportamento prejudicial à comunidade.
           </Text>
         </View>
 
