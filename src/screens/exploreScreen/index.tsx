@@ -29,6 +29,7 @@ import { useExploreFriends } from './hooks/useExploreFriends';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
 import { useFriendsShare } from '@/screens/friendsScreen/hooks/useFriendsShare';
 import { friendshipsApi } from '@/services/friendships/friendshipsApi';
+import { groupsApi } from '@/services/groups/groupsApi';
 import { Event } from '@/services/events/typesEvents';
 import { Group } from '@/services/groups/typesGroups';
 import { UserData } from '@/services/http';
@@ -145,12 +146,13 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const handleJoinGroup = useCallback(
     async (groupId: string) => {
       try {
-        await groupsData.refreshGroups();
+        const { group: updatedGroup } = await groupsApi.requestJoin(groupId);
+        groupsData.updateGroup(groupId, updatedGroup);
         haptic.success();
-        showToast('Solicitação enviada', 'success');
+        showToast('Você entrou no grupo', 'success');
       } catch {
         haptic.error();
-        showToast('Erro ao solicitar entrada no grupo', 'error');
+        showToast('Erro ao entrar no grupo', 'error');
       }
     },
     [groupsData, showToast]
@@ -159,7 +161,8 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const handleLeaveGroup = useCallback(
     async (groupId: string) => {
       try {
-        await groupsData.refreshGroups();
+        const { group: updatedGroup } = await groupsApi.leaveGroup(groupId);
+        groupsData.updateGroup(groupId, updatedGroup);
         haptic.success();
         showToast('Você saiu do grupo', 'success');
       } catch {

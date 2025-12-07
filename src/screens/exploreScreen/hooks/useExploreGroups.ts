@@ -14,6 +14,7 @@ interface UseHomeGroupsReturn {
   loadGroups: () => Promise<void>;
   refreshGroups: () => Promise<void>;
   loadMoreGroups: () => Promise<void>;
+  updateGroup: (groupId: string, updatedGroup: Group) => void;
 }
 
 export const useExploreGroups = (): UseHomeGroupsReturn => {
@@ -152,6 +153,10 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
     };
   }, [searchTerm, selectedSports, selectedCity, selectedState, loadGroups]);
 
+  const updateGroup = useCallback((groupId: string, updatedGroup: Group) => {
+    setGroups(prev => prev.map(g => (g.id === groupId ? updatedGroup : g)));
+  }, []);
+
   return {
     groups,
     isLoading,
@@ -163,5 +168,6 @@ export const useExploreGroups = (): UseHomeGroupsReturn => {
     loadGroups,
     refreshGroups,
     loadMoreGroups,
+    updateGroup,
   };
 };
