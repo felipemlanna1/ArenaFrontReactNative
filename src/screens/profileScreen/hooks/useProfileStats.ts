@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { usersApi, UserStatsResponseDto } from '@/services/users/api';
 
 interface UseProfileStatsReturn {
@@ -34,6 +35,12 @@ export const useProfileStats = (userId: string): UseProfileStatsReturn => {
   useEffect(() => {
     fetchStats();
   }, [fetchStats]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchStats();
+    }, [fetchStats])
+  );
 
   return {
     stats,
