@@ -543,8 +543,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
               renderItem={renderItem}
               keyExtractor={keyExtractor}
               contentContainerStyle={listContainerStyle}
-              scrollEnabled={true}
-              nestedScrollEnabled={true}
+              estimatedItemSize={150}
               onEndReached={tabData.hasMore ? tabData.loadMore : undefined}
               onEndReachedThreshold={0.5}
               ListFooterComponent={renderFooter}
