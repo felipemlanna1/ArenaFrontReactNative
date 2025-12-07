@@ -60,24 +60,22 @@ export const useRateParticipantsScreen =
       try {
         setIsLoading(true);
 
-        const [eventData, participants, givenFeedbacks] = await Promise.all([
+        const [eventData, participantsResponse] = await Promise.all([
           eventsApi.getEventDetails(eventId),
-          eventsApi.getEventParticipants(eventId, 'confirmed'),
-          feedbackApi.getGivenFeedbacks(eventId),
+          feedbackApi.getParticipantsToRate(eventId),
         ]);
 
         setEvent(eventData);
-        setAlreadyRatedUserIds(givenFeedbacks);
+        setAlreadyRatedUserIds([]);
 
-        const participantsToRateData =
-          participants
-            ?.filter(p => !givenFeedbacks.includes(p.userId))
-            .map(p => ({
-              id: p.id,
-              userId: p.userId,
-              name: `${p.user.firstName} ${p.user.lastName}`,
-              avatar: p.user.profilePicture,
-            })) || [];
+        const participantsToRateData = participantsResponse.participants.map(
+          p => ({
+            id: p.id,
+            userId: p.userId,
+            name: p.name,
+            avatar: p.avatar,
+          })
+        );
 
         setParticipantsToRate(participantsToRateData);
       } catch (error) {
