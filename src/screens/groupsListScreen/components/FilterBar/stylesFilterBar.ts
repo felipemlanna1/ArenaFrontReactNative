@@ -1,5 +1,10 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { ArenaColors, ArenaSpacing, ArenaElevations, ArenaBorders } from '@/constants';
+import {
+  ArenaColors,
+  ArenaSpacing,
+  ArenaElevations,
+  ArenaBorders,
+} from '@/constants';
 
 interface Styles {
   container: ViewStyle;

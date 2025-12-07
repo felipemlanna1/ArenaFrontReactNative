@@ -9,11 +9,9 @@ import { useReputationData } from './hooks/useReputationData';
 import { ProfileReputationSectionProps } from './typesProfileReputationSection';
 import { styles } from './stylesProfileReputationSection';
 
-export const ProfileReputationSection: React.FC<ProfileReputationSectionProps> = ({
-  userId,
-  isOwnProfile,
-  testID = 'profile-reputation-section',
-}) => {
+export const ProfileReputationSection: React.FC<
+  ProfileReputationSectionProps
+> = ({ userId, isOwnProfile, testID = 'profile-reputation-section' }) => {
   const { aggregate, isLoading } = useReputationData(userId);
 
   if (isLoading) {

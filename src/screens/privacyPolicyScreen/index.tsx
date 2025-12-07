@@ -60,12 +60,12 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             2. Definições Importantes
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Para facilitar o entendimento desta política, utilizamos os seguintes
-            termos conforme definidos pela LGPD:
+            Para facilitar o entendimento desta política, utilizamos os
+            seguintes termos conforme definidos pela LGPD:
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
-            • Dados Pessoais: Informação relacionada a pessoa natural identificada
-            ou identificável (ex: nome, email, CPF, localização).
+            • Dados Pessoais: Informação relacionada a pessoa natural
+            identificada ou identificável (ex: nome, email, CPF, localização).
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
             • Dados Pessoais Sensíveis: Dados sobre origem racial ou étnica,
@@ -80,8 +80,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             armazenamento, uso, compartilhamento, exclusão, etc.).
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
-            • Controlador: Arena, responsável pelas decisões sobre o tratamento de
-            dados pessoais.
+            • Controlador: Arena, responsável pelas decisões sobre o tratamento
+            de dados pessoais.
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
             • Encarregado (DPO): Pessoa responsável por atuar como canal de
@@ -103,9 +103,9 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             3.1. Dados de Cadastro e Perfil
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Quando você cria uma conta no Arena, coletamos: nome completo, email,
-            telefone, data de nascimento, gênero, biografia, foto de perfil,
-            cidade/estado/país, e configurações de privacidade.
+            Quando você cria uma conta no Arena, coletamos: nome completo,
+            email, telefone, data de nascimento, gênero, biografia, foto de
+            perfil, cidade/estado/país, e configurações de privacidade.
           </Text>
 
           <Text variant="titleSecondary" style={styles.subsectionTitle}>
@@ -124,7 +124,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             Com sua permissão explícita: coordenadas GPS (latitude e longitude)
             para mostrar eventos próximos, endereços salvos, e distância
             calculada entre você e eventos. A coleta de dados de localização
-            sempre requer sua autorização prévia nas configurações do dispositivo.
+            sempre requer sua autorização prévia nas configurações do
+            dispositivo.
           </Text>
 
           <Text variant="titleSecondary" style={styles.subsectionTitle}>
@@ -140,16 +141,17 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             3.5. Dados de Uso e Comportamento
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Para melhorar nossos serviços: páginas visitadas, recursos utilizados,
-            tempo de uso, preferências, e feedback sobre o app.
+            Para melhorar nossos serviços: páginas visitadas, recursos
+            utilizados, tempo de uso, preferências, e feedback sobre o app.
           </Text>
 
           <Text variant="titleSecondary" style={styles.subsectionTitle}>
             3.6. Dados de Dispositivo e Técnicos
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Coletados automaticamente: modelo do dispositivo, sistema operacional,
-            ID único do dispositivo, endereço IP, logs de acesso, e dados de rede.
+            Coletados automaticamente: modelo do dispositivo, sistema
+            operacional, ID único do dispositivo, endereço IP, logs de acesso, e
+            dados de rede.
           </Text>
         </View>
 
@@ -191,8 +193,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             fraudes.
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
-            • Cumprimento de Obrigação Legal (Art. 7º, II): Quando necessário para
-            atender requisições de autoridades e cumprir leis aplicáveis.
+            • Cumprimento de Obrigação Legal (Art. 7º, II): Quando necessário
+            para atender requisições de autoridades e cumprir leis aplicáveis.
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
             • Exercício Regular de Direitos (Art. 7º, VI): Para defender-nos em
@@ -224,9 +226,9 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
             Compartilhamos dados com empresas que nos ajudam a operar o Arena:
-            hospedagem em nuvem, analytics, mapas/geolocalização, armazenamento de
-            imagens e notificações push. Todos são contratualmente obrigados a
-            proteger seus dados.
+            hospedagem em nuvem, analytics, mapas/geolocalização, armazenamento
+            de imagens e notificações push. Todos são contratualmente obrigados
+            a proteger seus dados.
           </Text>
 
           <Text variant="titleSecondary" style={styles.subsectionTitle}>
@@ -244,10 +246,11 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             7. Transferência Internacional de Dados
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Alguns prestadores de serviços podem estar localizados fora do Brasil.
-            Garantimos que a transferência ocorre conforme o Capítulo V da LGPD
-            (Art. 33), utilizando apenas prestadores que oferecem nível adequado
-            de proteção de dados e implementando cláusulas contratuais padrão.
+            Alguns prestadores de serviços podem estar localizados fora do
+            Brasil. Garantimos que a transferência ocorre conforme o Capítulo V
+            da LGPD (Art. 33), utilizando apenas prestadores que oferecem nível
+            adequado de proteção de dados e implementando cláusulas contratuais
+            padrão.
           </Text>
         </View>
 
@@ -262,8 +265,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             monitoramento contínuo e backup regular.
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Nenhum sistema é 100% seguro. Embora nos esforcemos para proteger seus
-            dados, não podemos garantir segurança absoluta. Você também é
+            Nenhum sistema é 100% seguro. Embora nos esforcemos para proteger
+            seus dados, não podemos garantir segurança absoluta. Você também é
             responsável por proteger suas credenciais de acesso.
           </Text>
         </View>
@@ -287,7 +290,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
             A LGPD garante diversos direitos a você como titular de dados
-            pessoais. Você pode exercer os seguintes direitos a qualquer momento:
+            pessoais. Você pode exercer os seguintes direitos a qualquer
+            momento:
           </Text>
 
           <Text variant="bodySecondary" style={styles.listItem} selectable>
@@ -302,8 +306,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             identificáveis, suspender tratamento ou eliminar dados.
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
-            • Portabilidade: Receber seus dados em formato estruturado (CSV, JSON)
-            para transferir a outro prestador.
+            • Portabilidade: Receber seus dados em formato estruturado (CSV,
+            JSON) para transferir a outro prestador.
           </Text>
           <Text variant="bodySecondary" style={styles.listItem} selectable>
             • Informação sobre Compartilhamento: Saber com quais entidades
@@ -323,9 +327,9 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
           </Text>
 
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Para exercer seus direitos, acesse Configurações no app ou envie email
-            para privacy@arena.app ou dpo@arena.app. Prazo de resposta: até 15
-            dias corridos.
+            Para exercer seus direitos, acesse Configurações no app ou envie
+            email para privacy@arena.app ou dpo@arena.app. Prazo de resposta:
+            até 15 dias corridos.
           </Text>
         </View>
 
@@ -364,7 +368,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             convites) que são essenciais e não podem ser desativadas, e
             comunicações promocionais (novos recursos, eventos recomendados) que
             requerem seu consentimento. Você pode gerenciar notificações nas
-            configurações do dispositivo ou descadastrar-se de emails promocionais.
+            configurações do dispositivo ou descadastrar-se de emails
+            promocionais.
           </Text>
         </View>
 
@@ -374,9 +379,9 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
             O Arena pode conter links para sites de terceiros. Esta Política de
-            Privacidade não se aplica a esses sites. Recomendamos que você leia as
-            políticas de privacidade de sites de terceiros. Não somos responsáveis
-            pelas práticas de privacidade de terceiros.
+            Privacidade não se aplica a esses sites. Recomendamos que você leia
+            as políticas de privacidade de sites de terceiros. Não somos
+            responsáveis pelas práticas de privacidade de terceiros.
           </Text>
         </View>
 
@@ -385,11 +390,11 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             15. Alterações nesta Política
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Podemos atualizar esta Política periodicamente para refletir mudanças
-            em nossas práticas ou na legislação. Alterações significativas serão
-            notificadas por email ou notificação no app com pelo menos 15 dias de
-            antecedência. Seu uso continuado do Arena após alterações constitui
-            aceitação da política atualizada.
+            Podemos atualizar esta Política periodicamente para refletir
+            mudanças em nossas práticas ou na legislação. Alterações
+            significativas serão notificadas por email ou notificação no app com
+            pelo menos 15 dias de antecedência. Seu uso continuado do Arena após
+            alterações constitui aceitação da política atualizada.
           </Text>
         </View>
 
@@ -410,10 +415,10 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             17. Autoridade Nacional de Proteção de Dados
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Você tem o direito de apresentar reclamações à Autoridade Nacional de
-            Proteção de Dados (ANPD) caso entenda que o tratamento de seus dados
-            viola a LGPD. Website: www.gov.br/anpd/pt-br. Encorajamos você a
-            entrar em contato conosco primeiro para resolver preocupações
+            Você tem o direito de apresentar reclamações à Autoridade Nacional
+            de Proteção de Dados (ANPD) caso entenda que o tratamento de seus
+            dados viola a LGPD. Website: www.gov.br/anpd/pt-br. Encorajamos você
+            a entrar em contato conosco primeiro para resolver preocupações
             diretamente.
           </Text>
         </View>
@@ -431,8 +436,8 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
             Email: dpo@arena.app ou privacy@arena.app
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
-            Prazo de resposta: Até 15 dias corridos a partir do recebimento da sua
-            solicitação, conforme Art. 19 da LGPD.
+            Prazo de resposta: Até 15 dias corridos a partir do recebimento da
+            sua solicitação, conforme Art. 19 da LGPD.
           </Text>
         </View>
 
@@ -442,10 +447,10 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = () => {
           </Text>
           <Text variant="bodySecondary" style={styles.paragraph} selectable>
             Ao criar uma conta e utilizar o Arena, você declara que: leu e
-            compreendeu esta Política de Privacidade, concorda com a coleta, uso,
-            armazenamento e compartilhamento de seus dados conforme descrito, tem
-            18 anos ou mais (ou possui autorização de responsável legal), e
-            forneceu informações verdadeiras e precisas.
+            compreendeu esta Política de Privacidade, concorda com a coleta,
+            uso, armazenamento e compartilhamento de seus dados conforme
+            descrito, tem 18 anos ou mais (ou possui autorização de responsável
+            legal), e forneceu informações verdadeiras e precisas.
           </Text>
         </View>
 

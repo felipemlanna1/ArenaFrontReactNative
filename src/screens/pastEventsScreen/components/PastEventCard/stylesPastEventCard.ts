@@ -31,11 +31,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: ArenaSpacing.xs,
-    backgroundColor: ArenaColors.neutral.medium,
+    backgroundColor: ArenaColors.semantic.warningSubtle,
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
     borderRadius: ArenaBorders.radius.sm,
-    opacity: 0.3,
   },
   actions: {
     flexDirection: 'row',

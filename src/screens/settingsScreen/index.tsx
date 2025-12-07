@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { AppLayout } from '@/components/AppLayout';
@@ -7,31 +7,42 @@ import { ArenaColors } from '@/constants';
 import { styles } from './stylesSettingsScreen';
 import { SettingsScreenProps } from './typesSettingsScreen';
 
-export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
+export const SettingsScreen: React.FC<SettingsScreenProps> = ({
+  navigation,
+}) => {
   return (
-    <AppLayout>
-      <View style={styles.container} testID="settings-screen">
-        <View style={styles.iconContainer}>
-          <Ionicons
-            name="settings-outline"
-            size={64}
-            color={ArenaColors.neutral.medium}
-          />
+    <AppLayout showHeader={false}>
+      <ScrollView style={styles.container} testID="settings-screen">
+        <View style={styles.scrollContent}>
+          <View style={styles.section}>
+            <Text variant="titlePrimary" style={styles.sectionTitle}>
+              Dados e Privacidade
+            </Text>
+
+            <TouchableOpacity
+              style={styles.settingItem}
+              onPress={() => navigation.navigate('DeleteAccount')}
+            >
+              <Ionicons
+                name="trash-outline"
+                size={24}
+                color={ArenaColors.semantic.error}
+              />
+              <Text
+                variant="bodyPrimary"
+                style={[styles.settingLabel, styles.destructive]}
+              >
+                Excluir Conta
+              </Text>
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={ArenaColors.semantic.error}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <Text variant="headingPrimary" style={styles.title}>
-          Configurações
-        </Text>
-
-        <Text variant="bodySecondary" style={styles.message}>
-          Esta tela está em desenvolvimento e estará disponível em breve.
-        </Text>
-
-        <Text variant="captionSecondary" style={styles.caption}>
-          Aqui você poderá gerenciar suas preferências, notificações,
-          privacidade e outras configurações do aplicativo.
-        </Text>
-      </View>
+      </ScrollView>
     </AppLayout>
   );
 };

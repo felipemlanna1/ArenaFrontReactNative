@@ -30,6 +30,7 @@ import { TermsScreen } from '../screens/termsScreen';
 import { PrivacyPolicyScreen } from '../screens/privacyPolicyScreen';
 import { PastEventsScreen } from '../screens/pastEventsScreen';
 import { RateParticipantsScreen } from '../screens/rateParticipantsScreen';
+import { DeleteAccountScreen } from '../screens/deleteAccountScreen';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { RootStackParamList } from './typesNavigation';
 
@@ -109,6 +110,10 @@ const WrappedPastEventsScreen = withAndroidScreenWrapper(PastEventsScreen, {
 });
 const WrappedRateParticipantsScreen = withAndroidScreenWrapper(
   RateParticipantsScreen,
+  { enableScroll: false }
+);
+const WrappedDeleteAccountScreen = withAndroidScreenWrapper(
+  DeleteAccountScreen,
   { enableScroll: false }
 );
 
@@ -400,6 +405,19 @@ export const AppNavigator: React.FC = () => {
                 presentation: 'card',
                 headerShown: true,
                 headerTitle: 'Avaliar Participantes',
+                headerStyle: {
+                  backgroundColor: ArenaColors.neutral.darkest,
+                },
+                headerTintColor: ArenaColors.neutral.light,
+              }}
+            />
+            <Stack.Screen
+              name="DeleteAccount"
+              component={WrappedDeleteAccountScreen}
+              options={{
+                presentation: 'card',
+                headerShown: true,
+                headerTitle: 'Excluir Conta',
                 headerStyle: {
                   backgroundColor: ArenaColors.neutral.darkest,
                 },

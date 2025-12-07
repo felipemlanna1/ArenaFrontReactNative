@@ -55,3 +55,7 @@ google-services.json
 firebase-adminsdk*.json
 GoogleService-Info.plist
 dist/
+
+# MCP configuration (pode conter credenciais sensíveis)
+.mcp.json
+.env.mcp

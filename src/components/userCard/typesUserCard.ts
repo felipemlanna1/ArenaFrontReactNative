@@ -41,6 +41,7 @@ export interface UseUserCardReturn {
   displaySports: string[];
   displayContext: string | null;
   isActiveRecently: boolean;
+  isDeleted: boolean;
   hasActions: boolean;
   handlePrimaryAction: () => void;
   handleSecondaryAction?: () => void;

@@ -145,8 +145,13 @@ export const useRateParticipantsScreen =
           showError('Você não tem permissão para avaliar este evento');
         } else if (apiError.status === 400) {
           showError(apiError.message || 'Dados de avaliação inválidos');
-        } else if (apiError.status === 0 || (apiError.status !== undefined && apiError.status >= 500)) {
-          showError('Não foi possível salvar. Verifique sua conexão e tente novamente.');
+        } else if (
+          apiError.status === 0 ||
+          (apiError.status !== undefined && apiError.status >= 500)
+        ) {
+          showError(
+            'Não foi possível salvar. Verifique sua conexão e tente novamente.'
+          );
         } else {
           showError('Erro ao salvar avaliações');
         }
@@ -172,13 +177,21 @@ export const useRateParticipantsScreen =
           } catch (error) {
             const apiError = error as { status?: number; message?: string };
 
-            if (apiError.status === 0 || (apiError.status !== undefined && apiError.status >= 500)) {
-              showError('Não foi possível marcar como concluído. Verifique sua conexão.');
+            if (
+              apiError.status === 0 ||
+              (apiError.status !== undefined && apiError.status >= 500)
+            ) {
+              showError(
+                'Não foi possível marcar como concluído. Verifique sua conexão.'
+              );
             } else {
               showError('Não foi possível marcar como concluído');
             }
 
-            console.error('[RateParticipants] Erro ao marcar como concluído:', apiError);
+            console.error(
+              '[RateParticipants] Erro ao marcar como concluído:',
+              apiError
+            );
           } finally {
             setIsMarking(false);
           }

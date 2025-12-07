@@ -80,11 +80,9 @@ export const PastEventCard = React.memo<PastEventCardProps>(
             <Ionicons
               name="information-circle-outline"
               size={16}
-              color={ArenaColors.neutral.darkest}
+              color={ArenaColors.semantic.warning}
             />
-            <Text variant="captionSecondary">
-              Nenhum participante confirmado
-            </Text>
+            <Text variant="labelPrimary">Nenhum participante confirmado</Text>
           </View>
         ) : (
           <View style={styles.infoRow}>
@@ -119,7 +117,8 @@ export const PastEventCard = React.memo<PastEventCardProps>(
       prev.event.id === next.event.id &&
       prev.event.badgeVariant === next.event.badgeVariant &&
       prev.event.badgeText === next.event.badgeText &&
-      prev.event.shouldPulsate === next.event.shouldPulsate
+      prev.event.shouldPulsate === next.event.shouldPulsate &&
+      prev.event.isPendingWithin7Days === next.event.isPendingWithin7Days
     );
   }
 );

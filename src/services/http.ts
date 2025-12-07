@@ -40,6 +40,7 @@ export interface UserData {
   lastLoginAt?: string;
   createdAt: string;
   updatedAt: string;
+  deletedAt?: string;
   avatar?: string;
   sports?: UserSportData[];
   hasSports?: boolean;
