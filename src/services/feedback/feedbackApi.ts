@@ -34,6 +34,27 @@ export const feedbackApi = {
     return response.map(f => f.evaluatedId);
   },
 
+  async getParticipantsToRate(eventId: string): Promise<{
+    participants: Array<{
+      id: string;
+      userId: string;
+      name: string;
+      avatar?: string;
+    }>;
+    totalCount: number;
+  }> {
+    const response = await httpService.get<{
+      participants: Array<{
+        id: string;
+        userId: string;
+        name: string;
+        avatar?: string;
+      }>;
+      totalCount: number;
+    }>(`/feedback/event/${eventId}/participants-to-rate`);
+    return response;
+  },
+
   async getReceivedFeedbacks(limit = 20): Promise<ReceivedFeedback[]> {
     const response = await httpService.get<ReceivedFeedback[]>(
       `/feedback/received?limit=${limit}`
