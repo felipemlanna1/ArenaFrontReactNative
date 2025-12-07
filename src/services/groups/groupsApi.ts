@@ -125,12 +125,22 @@ export class GroupsApi {
     await httpService.delete(`${this.basePath}/${groupId}`);
   }
 
-  async requestJoin(groupId: string): Promise<void> {
-    await httpService.post(`${this.basePath}/${groupId}/join`, {});
+  async requestJoin(
+    groupId: string
+  ): Promise<{ membership: GroupMember; group: Group }> {
+    const response = await httpService.post<{
+      membership: GroupMember;
+      group: Group;
+    }>(`${this.basePath}/${groupId}/join`, {});
+    return response;
   }
 
-  async leaveGroup(groupId: string): Promise<void> {
-    await httpService.post(`${this.basePath}/${groupId}/leave`, {});
+  async leaveGroup(groupId: string): Promise<{ group: Group }> {
+    const response = await httpService.post<{ group: Group }>(
+      `${this.basePath}/${groupId}/leave`,
+      {}
+    );
+    return response;
   }
 
   async getMembers(groupId: string): Promise<GroupMember[]> {
@@ -155,8 +165,15 @@ export class GroupsApi {
     );
   }
 
-  async removeMember(groupId: string, memberId: string): Promise<void> {
-    await httpService.delete(`${this.basePath}/${groupId}/members/${memberId}`);
+  async removeMember(
+    groupId: string,
+    memberId: string
+  ): Promise<{ group: Group; members: GroupMember[] }> {
+    const response = await httpService.delete<{
+      group: Group;
+      members: GroupMember[];
+    }>(`${this.basePath}/${groupId}/members/${memberId}`);
+    return response;
   }
 
   async getGroupEvents(groupId: string): Promise<Event[]> {
