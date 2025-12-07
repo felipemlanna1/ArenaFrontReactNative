@@ -12,6 +12,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
   },
+  durationScroll: {
+    flexGrow: 0,
+  },
+  durationScrollContent: {
+    gap: ArenaSpacing.sm,
+    paddingRight: ArenaSpacing.lg,
+  },
   toggleButton: {
     alignSelf: 'flex-start',
     paddingVertical: ArenaSpacing.sm,

@@ -1,5 +1,5 @@
 import React, { useCallback, createElement } from 'react';
-import { View, TouchableOpacity, Platform } from 'react-native';
+import { View, TouchableOpacity, Platform, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/datePicker';
@@ -157,7 +157,12 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
         <Label variant="section" required>
           Duração
         </Label>
-        <View style={styles.durationContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.durationScrollContent}
+          style={styles.durationScroll}
+        >
           {DURATION_OPTIONS.map(option => (
             <Checkbox
               key={option.value}
@@ -168,7 +173,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
               testID={`duration-${option.value}`}
             />
           ))}
-        </View>
+        </ScrollView>
         {errors.duration && (
           <Text variant="captionError" style={styles.errorText}>
             {errors.duration}
