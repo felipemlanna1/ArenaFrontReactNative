@@ -47,12 +47,14 @@ export const useGroupDetailsScreen = (groupId: string) => {
   const handleJoinGroup = useCallback(async () => {
     setActionLoading(true);
     try {
-      await groupsApi.requestJoin(groupId);
-      await fetchGroupDetails();
+      const { group: updatedGroup } = await groupsApi.requestJoin(groupId);
+      setGroup(updatedGroup);
+      const updatedMembers = await groupsApi.getMembers(groupId);
+      setMembers(updatedMembers);
     } finally {
       setActionLoading(false);
     }
-  }, [groupId, fetchGroupDetails]);
+  }, [groupId]);
 
   const handleLeaveGroup = useCallback(() => {
     setShowLeaveConfirmation(true);
@@ -61,13 +63,13 @@ export const useGroupDetailsScreen = (groupId: string) => {
   const confirmLeaveGroup = useCallback(async () => {
     setActionLoading(true);
     try {
-      await groupsApi.leaveGroup(groupId);
-      await fetchGroupDetails();
+      const { group: updatedGroup } = await groupsApi.leaveGroup(groupId);
+      setGroup(updatedGroup);
       setShowLeaveConfirmation(false);
     } finally {
       setActionLoading(false);
     }
-  }, [groupId, fetchGroupDetails]);
+  }, [groupId]);
 
   const handleRemoveMember = useCallback((memberId: string) => {
     setMemberToRemove(memberId);
@@ -80,15 +82,17 @@ export const useGroupDetailsScreen = (groupId: string) => {
     setActionLoading(true);
     setCurrentActionMemberId(memberToRemove);
     try {
-      await groupsApi.removeMember(groupId, memberToRemove);
-      await fetchGroupDetails();
+      const { group: updatedGroup, members: updatedMembers } =
+        await groupsApi.removeMember(groupId, memberToRemove);
+      setGroup(updatedGroup);
+      setMembers(updatedMembers);
       setShowRemoveConfirmation(false);
       setMemberToRemove(null);
     } finally {
       setActionLoading(false);
       setCurrentActionMemberId(null);
     }
-  }, [groupId, memberToRemove, fetchGroupDetails]);
+  }, [groupId, memberToRemove]);
 
   return {
     group,
