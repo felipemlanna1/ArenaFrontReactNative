@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AppLayout } from '@/components/AppLayout';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
@@ -24,6 +25,8 @@ import { styles } from './stylesEditProfileScreen';
 export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
   navigation,
 }) => {
+  const insets = useSafeAreaInsets();
+
   const {
     formData,
     errors,
@@ -365,7 +368,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
         </View>
       </ArenaKeyboardAwareScrollView>
 
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingBottom: insets.bottom || 12 }]}>
         <Button
           variant="primary"
           onPress={handleSave}
