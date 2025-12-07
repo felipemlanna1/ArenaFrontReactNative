@@ -21,7 +21,9 @@ export const useReputationData = (userId: string): UseReputationDataReturn => {
         const data = await feedbackApi.getUserAggregate(userId);
         setAggregate(data);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Erro ao buscar reputação'));
+        setError(
+          err instanceof Error ? err : new Error('Erro ao buscar reputação')
+        );
       } finally {
         setIsLoading(false);
       }
