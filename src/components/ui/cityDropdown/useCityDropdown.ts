@@ -8,6 +8,13 @@ import {
 const IBGE_API_BASE =
   'https://servicodados.ibge.gov.br/api/v1/localidades/estados';
 
+const normalizeString = (str: string): string => {
+  return str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+};
+
 export const useCityDropdown = ({
   stateUF,
   value,
@@ -78,8 +85,10 @@ export const useCityDropdown = ({
       return cities;
     }
 
-    const query = searchQuery.toLowerCase().trim();
-    return cities.filter(city => city.toLowerCase().includes(query));
+    const normalizedQuery = normalizeString(searchQuery.trim());
+    return cities.filter(city =>
+      normalizeString(city).includes(normalizedQuery)
+    );
   }, [cities, searchQuery]);
 
   return {
