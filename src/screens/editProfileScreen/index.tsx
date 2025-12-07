@@ -17,7 +17,7 @@ import { CityDropdown } from '@/components/ui/cityDropdown';
 import { Switch } from '@/components/ui/switch';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { SkillLevel } from '@/types/sport';
-import { ArenaColors } from '@/constants';
+import { ArenaColors, ArenaSpacing } from '@/constants';
 import { useEditProfileScreen } from './useEditProfileScreen';
 import { EditProfileScreenProps } from './typesEditProfileScreen';
 import { styles } from './stylesEditProfileScreen';
@@ -368,7 +368,12 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
         </View>
       </ArenaKeyboardAwareScrollView>
 
-      <View style={[styles.footer, { paddingBottom: insets.bottom || 12 }]}>
+      <View
+        style={[
+          styles.footer,
+          { paddingBottom: ArenaSpacing.md + (insets.bottom || 0) },
+        ]}
+      >
         <Button
           variant="primary"
           onPress={handleSave}
