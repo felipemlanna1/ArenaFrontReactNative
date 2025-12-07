@@ -284,7 +284,6 @@ export const GroupsListScreen: React.FC<GroupsListScreenProps> = ({
               renderItem={renderItem}
               keyExtractor={item => item.id}
               contentContainerStyle={listContentStyle}
-              estimatedItemSize={120}
               ItemSeparatorComponent={renderSeparator}
               onEndReached={hasMore ? onLoadMore : undefined}
               onEndReachedThreshold={0.5}
