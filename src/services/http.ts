@@ -48,6 +48,9 @@ export interface UserData {
   totalGroups?: number;
   totalFriends?: number;
   totalInvites?: number;
+  authProvider?: 'local' | 'google' | 'apple';
+  googleId?: string;
+  appleId?: string;
 }
 
 export interface LoginUserData {
@@ -200,7 +203,11 @@ class HttpService {
     return withRetry(
       async () => {
         const response = await this.client.get<ApiResponse<T>>(url, config);
-        if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+        if (
+          response.data &&
+          typeof response.data === 'object' &&
+          'data' in response.data
+        ) {
           return response.data.data;
         }
         return response.data as T;
@@ -306,41 +313,12 @@ class HttpService {
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<{ message: string }> {
-    const fullUrl = `${this.client.defaults.baseURL}${url}`;
-    console.log('[HTTP] postMessage request:', {
+    const response = await this.client.post<{ message: string }>(
       url,
-      fullUrl,
-      baseURL: this.client.defaults.baseURL,
       data,
-      headers: this.client.defaults.headers,
-      configHeaders: config?.headers,
-    });
-
-    try {
-      const response = await this.client.post<{ message: string }>(
-        url,
-        data,
-        config
-      );
-      console.log('[HTTP] postMessage response:', {
-        url,
-        status: response.status,
-        statusText: response.statusText,
-        data: response.data,
-        headers: response.headers,
-      });
-      return response.data;
-    } catch (error) {
-      console.error('[HTTP] postMessage error:', {
-        url,
-        fullUrl,
-        error,
-        isAxiosError: error && typeof error === 'object' && 'isAxiosError' in error,
-        response: error && typeof error === 'object' && 'response' in error ? (error as any).response : undefined,
-        message: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw error;
-    }
+      config
+    );
+    return response.data;
   }
 
   async getAccessToken(): Promise<string | null> {
