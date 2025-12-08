@@ -1,10 +1,10 @@
 import * as Notifications from 'expo-notifications';
+import { SchedulableTriggerInputTypes } from 'expo-notifications';
 
 export const testEventInviteNotification = async () => {
   const { status } = await Notifications.requestPermissionsAsync();
 
   if (status !== 'granted') {
-    alert('Permissão de notificação negada!');
     return;
   }
 
@@ -20,17 +20,14 @@ export const testEventInviteNotification = async () => {
       sound: true,
       badge: 1,
     },
-    trigger: { seconds: 2 },
+    trigger: { type: SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 2 },
   });
-
-  alert('Notificação de convite agendada! Aguarde 2 segundos...');
 };
 
 export const testNewParticipantNotification = async () => {
   const { status } = await Notifications.requestPermissionsAsync();
 
   if (status !== 'granted') {
-    alert('Permissão negada!');
     return;
   }
 
@@ -47,8 +44,6 @@ export const testNewParticipantNotification = async () => {
     },
     trigger: null,
   });
-
-  alert('Notificação enviada imediatamente!');
 };
 
 export const testEventStartingSoonNotification = async () => {
@@ -67,10 +62,8 @@ export const testEventStartingSoonNotification = async () => {
       },
       sound: true,
     },
-    trigger: { seconds: 3 },
+    trigger: { type: SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 3 },
   });
-
-  alert('Notificação de evento começando agendada para 3s!');
 };
 
 export const testCheckInConfirmedNotification = async () => {
@@ -109,7 +102,7 @@ export const testFriendRequestNotification = async () => {
       },
       sound: true,
     },
-    trigger: { seconds: 1 },
+    trigger: { type: SchedulableTriggerInputTypes.TIME_INTERVAL, seconds: 1 },
   });
 };
 
@@ -117,7 +110,6 @@ export const testAllNotifications = async () => {
   const { status } = await Notifications.requestPermissionsAsync();
 
   if (status !== 'granted') {
-    alert('Permissão negada!');
     return;
   }
 
@@ -156,9 +148,10 @@ export const testAllNotifications = async () => {
         body: notif.body,
         sound: true,
       },
-      trigger: { seconds: notif.delay },
+      trigger: {
+        type: SchedulableTriggerInputTypes.TIME_INTERVAL,
+        seconds: notif.delay,
+      },
     });
   }
-
-  alert('5 notificações agendadas! Aguarde...');
 };
