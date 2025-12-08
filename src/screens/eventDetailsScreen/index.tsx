@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { Text } from '@/components/ui/text';
@@ -56,11 +55,11 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
   if (isLoading && !event) {
     return (
       <AppLayout>
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.loadingContainer}>
             <SportsLoading size="lg" />
           </View>
-        </SafeAreaView>
+        </View>
       </AppLayout>
     );
   }
@@ -68,7 +67,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
   if (error && !event) {
     return (
       <AppLayout>
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.errorContainer}>
             <Text variant="bodySecondary" style={styles.errorText}>
               {error.message || 'Erro ao carregar detalhes do evento'}
@@ -77,7 +76,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
               Tentar Novamente
             </Button>
           </View>
-        </SafeAreaView>
+        </View>
       </AppLayout>
     );
   }
@@ -85,7 +84,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
   if (!event) {
     return (
       <AppLayout>
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.errorContainer}>
             <Text variant="bodySecondary" style={styles.errorText}>
               Evento não encontrado
@@ -94,7 +93,7 @@ export const EventDetailsScreen: React.FC<EventDetailsScreenProps> = ({
               Voltar
             </Button>
           </View>
-        </SafeAreaView>
+        </View>
       </AppLayout>
     );
   }

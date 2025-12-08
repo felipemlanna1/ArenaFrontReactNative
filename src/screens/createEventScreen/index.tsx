@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Button } from '@/components/ui/button';
@@ -103,7 +102,7 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerRow}>
           <TouchableOpacity style={styles.backButton} onPress={handleCancel}>
@@ -182,6 +181,6 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
           )}
         </View>
       </ArenaKeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 };

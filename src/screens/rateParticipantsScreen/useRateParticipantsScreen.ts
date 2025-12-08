@@ -78,10 +78,8 @@ export const useRateParticipantsScreen =
         );
 
         setParticipantsToRate(participantsToRateData);
-      } catch (error) {
-        const apiError = error as { status?: number; message?: string };
+      } catch {
         showError('Não foi possível carregar os participantes');
-        console.error('[RateParticipants] Erro ao carregar:', apiError);
       } finally {
         setIsLoading(false);
       }
@@ -153,8 +151,6 @@ export const useRateParticipantsScreen =
         } else {
           showError('Erro ao salvar avaliações');
         }
-
-        console.error('[RateParticipants] Erro ao salvar:', apiError);
       } finally {
         setIsSaving(false);
       }
@@ -185,11 +181,6 @@ export const useRateParticipantsScreen =
             } else {
               showError('Não foi possível marcar como concluído');
             }
-
-            console.error(
-              '[RateParticipants] Erro ao marcar como concluído:',
-              apiError
-            );
           } finally {
             setIsMarking(false);
           }
