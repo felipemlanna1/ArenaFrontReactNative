@@ -102,7 +102,7 @@ export const VerifyEmailScreen: React.FC = () => {
                 size={20}
                 color={ArenaColors.semantic.error}
               />
-              <Text variant="errorPrimary" style={{ flex: 1 }}>
+              <Text variant="bodyError" style={{ flex: 1 }}>
                 {error}
               </Text>
             </View>
