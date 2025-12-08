@@ -16,4 +16,6 @@ export interface UseMenuScreenReturn {
   userName: string;
   userEmail: string;
   userAvatar: string | null;
+  isEmailVerified: boolean;
+  handleVerifyPress: () => void;
 }

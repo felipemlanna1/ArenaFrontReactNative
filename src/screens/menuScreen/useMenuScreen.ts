@@ -1,13 +1,17 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '@/contexts/AuthContext';
 import { useInvites } from '@/contexts/InvitesContext';
 import { useUnreadNotificationsContext } from '@/contexts/UnreadNotificationsContext';
 import { usePendingFeedback } from '@/contexts/PendingFeedbackContext';
+import type { RootStackParamList } from '@/navigation/typesNavigation';
 import { UseMenuScreenReturn, MenuItem } from './typesMenuScreen';
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export const useMenuScreen = (): UseMenuScreenReturn => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const { user, signOut } = useAuth();
   const { counts } = useInvites();
   const { unreadCount } = useUnreadNotificationsContext();
@@ -25,6 +29,14 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
   const userAvatar = useMemo(() => {
     return user?.profilePicture || user?.avatar || null;
   }, [user]);
+
+  const isEmailVerified = useMemo(() => {
+    return user?.isEmailVerified || false;
+  }, [user]);
+
+  const handleVerifyPress = useCallback(() => {
+    navigation.navigate('VerifyEmail', { token: undefined });
+  }, [navigation]);
 
   const menuItems: MenuItem[] = useMemo(
     () => [
@@ -143,5 +155,7 @@ export const useMenuScreen = (): UseMenuScreenReturn => {
     userName,
     userEmail,
     userAvatar,
+    isEmailVerified,
+    handleVerifyPress,
   };
 };

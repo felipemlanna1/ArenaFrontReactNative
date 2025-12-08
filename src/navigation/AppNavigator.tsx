@@ -11,6 +11,7 @@ import { LoginScreen } from '../screens/loginScreen';
 import { RegisterScreen } from '../screens/registerScreen';
 import { ForgotPasswordScreen } from '../screens/forgotPasswordScreen';
 import { VerifyCodeScreen } from '../screens/verifyCodeScreen';
+import { VerifyEmailScreen } from '../screens/verifyEmailScreen';
 import { ResetPasswordScreen } from '../screens/resetPasswordScreen';
 import { ComponentsShowcaseScreen } from '../screens/componentsShowcaseScreen';
 import { OnboardingSportsScreen } from '../screens/onboardingSportsScreen';
@@ -56,6 +57,9 @@ const WrappedResetPasswordScreen = withAndroidScreenWrapper(
   ResetPasswordScreen,
   { enableScroll: false }
 );
+const WrappedVerifyEmailScreen = withAndroidScreenWrapper(VerifyEmailScreen, {
+  enableScroll: false,
+});
 const WrappedComponentsShowcaseScreen = withAndroidScreenWrapper(
   ComponentsShowcaseScreen,
   { enableScroll: false }
@@ -168,9 +172,14 @@ export const AppNavigator: React.FC = () => {
   };
 
   const linking = {
-    prefixes: ['arena://', 'exp://'],
+    prefixes: [
+      'arena://',
+      'exp://',
+      'https://backsportpulsemobile-production.up.railway.app',
+    ],
     config: {
       screens: {
+        VerifyEmail: 'verify-email/:token',
         MainTabs: 'tabs',
         EventDetails: 'event/:eventId',
         GroupDetails: 'group/:groupId',
@@ -196,6 +205,10 @@ export const AppNavigator: React.FC = () => {
             <Stack.Screen name="Welcome" component={WrappedWelcomeScreen} />
             <Stack.Screen name="Login" component={WrappedLoginScreen} />
             <Stack.Screen name="Register" component={WrappedRegisterScreen} />
+            <Stack.Screen
+              name="VerifyEmail"
+              component={WrappedVerifyEmailScreen}
+            />
             <Stack.Screen
               name="ForgotPassword"
               component={WrappedForgotPasswordScreen}
@@ -247,6 +260,10 @@ export const AppNavigator: React.FC = () => {
         ) : (
           <>
             <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
+            <Stack.Screen
+              name="VerifyEmail"
+              component={WrappedVerifyEmailScreen}
+            />
             <Stack.Screen
               name="FilterScreen"
               component={WrappedFilterScreen}
