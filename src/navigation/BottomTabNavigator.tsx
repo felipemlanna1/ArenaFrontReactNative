@@ -1,9 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  createBottomTabNavigator,
+  BottomTabBarButtonProps,
+} from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { CenterCreateButton } from './components/CenterCreateButton';
 import { NotificationBadge } from '@/components/ui/notificationBadge';
@@ -14,12 +18,13 @@ import {
   ArenaSpacing,
   ArenaTypography,
 } from '@/constants';
-import { withAndroidScreenWrapper } from '@/components/wrappers/AndroidScreenWrapper/withAndroidScreenWrapper';
+import { withAndroidScreenWrapper } from '@/hocs/withAndroidScreenWrapper';
 import { ExploreScreen } from '@/screens/exploreScreen';
 import { EventsScreen } from '@/screens/eventsScreen';
 import { ProfileScreen } from '@/screens/profileScreen';
 import { MenuScreen } from '@/screens/menuScreen';
 import {
+  RootStackParamList,
   TabParamList,
   ExploreStackParamList,
   MyEventsStackParamList,
@@ -35,11 +40,15 @@ const MenuStack = createNativeStackNavigator<MenuStackParamList>();
 
 const WrappedExploreScreen = withAndroidScreenWrapper(ExploreScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedEventsScreen = withAndroidScreenWrapper(EventsScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
-const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen);
+const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen, {
+  safeAreaEdges: false,
+});
 const WrappedMenuScreen = withAndroidScreenWrapper(MenuScreen, {
   enableScroll: false,
 });
@@ -76,13 +85,14 @@ const MenuStackScreen: React.FC = () => {
   );
 };
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export const BottomTabNavigator: React.FC = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const { counts } = useInvites();
 
   const handleCreateEventPress = () => {
-    // @ts-expect-error - Navigation type
     navigation.navigate('CreateEvent');
   };
 
@@ -119,9 +129,20 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: props => (
-            // @ts-expect-error - Type incompatibility between React Navigation and React Native
-            <TouchableOpacity {...props} testID="tab-eventos" />
+          tabBarButton: ({
+            children,
+            onPress,
+            accessibilityState,
+            style,
+          }: BottomTabBarButtonProps) => (
+            <TouchableOpacity
+              onPress={onPress}
+              accessibilityState={accessibilityState}
+              style={style}
+              testID="tab-eventos"
+            >
+              {children}
+            </TouchableOpacity>
           ),
         }}
       />
@@ -137,9 +158,20 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: props => (
-            // @ts-expect-error - Type incompatibility between React Navigation and React Native
-            <TouchableOpacity {...props} testID="tab-explore" />
+          tabBarButton: ({
+            children,
+            onPress,
+            accessibilityState,
+            style,
+          }: BottomTabBarButtonProps) => (
+            <TouchableOpacity
+              onPress={onPress}
+              accessibilityState={accessibilityState}
+              style={style}
+              testID="tab-explore"
+            >
+              {children}
+            </TouchableOpacity>
           ),
         }}
       />
@@ -175,9 +207,20 @@ export const BottomTabNavigator: React.FC = () => {
               color={color}
             />
           ),
-          tabBarButton: props => (
-            // @ts-expect-error - Type incompatibility between React Navigation and React Native
-            <TouchableOpacity {...props} testID="tab-perfil" />
+          tabBarButton: ({
+            children,
+            onPress,
+            accessibilityState,
+            style,
+          }: BottomTabBarButtonProps) => (
+            <TouchableOpacity
+              onPress={onPress}
+              accessibilityState={accessibilityState}
+              style={style}
+              testID="tab-perfil"
+            >
+              {children}
+            </TouchableOpacity>
           ),
         }}
       />
@@ -196,9 +239,20 @@ export const BottomTabNavigator: React.FC = () => {
               <NotificationBadge count={counts.total} size="sm" />
             </View>
           ),
-          tabBarButton: props => (
-            // @ts-expect-error - Type incompatibility between React Navigation and React Native
-            <TouchableOpacity {...props} testID="tab-menu" />
+          tabBarButton: ({
+            children,
+            onPress,
+            accessibilityState,
+            style,
+          }: BottomTabBarButtonProps) => (
+            <TouchableOpacity
+              onPress={onPress}
+              accessibilityState={accessibilityState}
+              style={style}
+              testID="tab-menu"
+            >
+              {children}
+            </TouchableOpacity>
           ),
         }}
       />
