@@ -103,16 +103,7 @@ export class EventsApi {
     const queryString = prepareParams(queryParams).toString();
     const url = `${this.basePath}/my-past-events?${queryString}`;
 
-    console.log('[getUserPastEvents] Fetching past events from:', url);
-
     const response = await httpService.get<EventsResponse>(url);
-
-    console.log('[getUserPastEvents] Response:', {
-      responseType: Array.isArray(response) ? 'Array' : typeof response,
-      hasData: response && 'data' in response,
-      total: response?.data?.length || 0,
-      eventIds: response?.data?.map(e => e.id) || [],
-    });
 
     if (!response || !response.data) {
       console.warn('[getUserPastEvents] Invalid response structure, returning []');
