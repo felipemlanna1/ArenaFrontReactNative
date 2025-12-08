@@ -200,7 +200,10 @@ class HttpService {
     return withRetry(
       async () => {
         const response = await this.client.get<ApiResponse<T>>(url, config);
-        return response.data.data;
+        if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+          return response.data.data;
+        }
+        return response.data as T;
       },
       {
         maxRetries: 2,

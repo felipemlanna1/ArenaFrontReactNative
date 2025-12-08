@@ -118,7 +118,7 @@ const WrappedDeleteAccountScreen = withAndroidScreenWrapper(
 );
 
 export const AppNavigator: React.FC = () => {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, userHasSports } = useAuth();
   const navigationRef = React.useRef<any>(null);
 
   const [pendingEventsCount, setPendingEventsCount] = useState(0);
@@ -126,7 +126,7 @@ export const AppNavigator: React.FC = () => {
 
   useEffect(() => {
     const fetchPendingEvents = async () => {
-      if (!user || isLoading || !user.hasSports) return;
+      if (!user || isLoading || !userHasSports) return;
 
       try {
         const events = await feedbackApi.getPendingEvents();
@@ -239,7 +239,7 @@ export const AppNavigator: React.FC = () => {
               }}
             />
           </>
-        ) : !user.hasSports ? (
+        ) : !userHasSports ? (
           <Stack.Screen
             name="OnboardingSports"
             component={WrappedOnboardingSportsScreen}
@@ -432,7 +432,7 @@ export const AppNavigator: React.FC = () => {
         )}
       </Stack.Navigator>
 
-      {user && user.hasSports && (
+      {user && userHasSports && (
         <PendingFeedbackModal
           visible={pendingEventsCount > 0 && !isModalDismissed}
           onDismiss={handleDismissModal}
