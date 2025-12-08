@@ -126,11 +126,15 @@ export const AppNavigator: React.FC = () => {
 
   useEffect(() => {
     const fetchPendingEvents = async () => {
-      if (!user || isLoading) return;
+      if (!user || isLoading || !user.hasSports) return;
 
       try {
         const events = await feedbackApi.getPendingEvents();
-        setPendingEventsCount(events.length);
+        if (Array.isArray(events)) {
+          setPendingEventsCount(events.length);
+        } else {
+          setPendingEventsCount(0);
+        }
       } catch {
         setPendingEventsCount(0);
       }
@@ -428,7 +432,7 @@ export const AppNavigator: React.FC = () => {
         )}
       </Stack.Navigator>
 
-      {user && (
+      {user && user.hasSports && (
         <PendingFeedbackModal
           visible={pendingEventsCount > 0 && !isModalDismissed}
           onDismiss={handleDismissModal}

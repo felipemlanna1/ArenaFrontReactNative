@@ -108,11 +108,18 @@ export class EventsApi {
     const response = await httpService.get<EventsResponse>(url);
 
     console.log('[getUserPastEvents] Response:', {
-      total: response.data?.length || 0,
-      eventIds: response.data?.map(e => e.id) || [],
+      responseType: Array.isArray(response) ? 'Array' : typeof response,
+      hasData: response && 'data' in response,
+      total: response?.data?.length || 0,
+      eventIds: response?.data?.map(e => e.id) || [],
     });
 
-    return response.data || [];
+    if (!response || !response.data) {
+      console.warn('[getUserPastEvents] Invalid response structure, returning []');
+      return [];
+    }
+
+    return Array.isArray(response.data) ? response.data : [];
   }
 
   async getEventDetails(eventId: string): Promise<Event> {
