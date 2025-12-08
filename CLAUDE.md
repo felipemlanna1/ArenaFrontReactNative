@@ -1078,4 +1078,112 @@ return (
 
 ---
 
+## 📱 Safe Area Protection
+
+### 🚨 REGRA CRÍTICA: Safe Area via HOC Global
+
+**NUNCA** adicionar `<SafeAreaView>` dentro de componentes de tela.
+A proteção de safe area é **automática** via `withAndroidScreenWrapper` HOC configurado no `AppNavigator.tsx`.
+
+### 🌟 Proteção Automática (PADRÃO ATUAL)
+
+**TODAS as 32 telas** são automaticamente envolvidas por `withAndroidScreenWrapper` no `AppNavigator.tsx`:
+
+```tsx
+// ❌ ERRADO - SafeAreaView manual (REDUNDANTE)
+export const MyScreen: React.FC = () => {
+  return (
+    <SafeAreaView edges={['top', 'left', 'right']}>
+      <View style={styles.container}>...</View>
+    </SafeAreaView>
+  );
+};
+
+// ✅ CORRETO - Wrapper HOC no AppNavigator gerencia automaticamente
+export const MyScreen: React.FC = () => {
+  return (
+    <View style={styles.container}>...</View>
+  );
+};
+```
+
+**Por que não incluir 'bottom'?**
+- Telas de abas: Bottom tab bar gerencia bottom inset
+- Telas de stack: Navegação gerencia bottom inset
+- Telas com footer fixo: Usar `useSafeAreaInsets()` para padding dinâmico no footer
+
+### Configuração no AppNavigator
+
+**Configuração padrão** (aplicada automaticamente):
+
+```tsx
+// arquivo: src/navigation/AppNavigator.tsx
+const WrappedMyScreen = withAndroidScreenWrapper(MyScreen, {
+  enableScroll: false,
+});
+// Automaticamente aplica edges={['top', 'left', 'right']}
+```
+
+**Telas com AppLayout** (DEVEM usar `safeAreaEdges: false`):
+
+```tsx
+// arquivo: src/navigation/AppNavigator.tsx
+const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen, {
+  safeAreaEdges: false, // ← OBRIGATÓRIO para evitar duplicação
+});
+```
+
+### Constantes SafeAreaEdges Disponíveis
+
+Use no `AppNavigator.tsx` quando necessário personalizar:
+
+- `DEFAULT`: `['top', 'left', 'right']` - Maioria das telas (padrão automático)
+- `FULL_SCREEN`: `['top', 'bottom', 'left', 'right']` - Map, Camera
+- `TAB_SCREEN`: `['top', 'left', 'right']` - Telas em tabs
+- `MODAL`: `['top', 'left', 'right']` - Modais
+- `BOTTOM_MODAL`: `['bottom', 'left', 'right']` - Bottom sheets
+- `false`: Desabilita wrapper (para telas com AppLayout)
+
+### Telas com Footer Fixo
+
+Para telas com footer fixo, usar `useSafeAreaInsets()` para padding dinâmico no footer. O wrapper HOC gerencia top/left/right automaticamente:
+
+```tsx
+// arquivo: src/screens/myScreen/index.tsx
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ArenaSpacing } from '@/constants';
+
+export const MyScreen: React.FC = () => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <View style={styles.container}>
+      <FlatList data={items} renderItem={renderItem} />
+
+      <View
+        style={[
+          styles.footer,
+          { paddingBottom: ArenaSpacing.md + (insets.bottom || 0) },
+        ]}
+      >
+        <Button>Salvar</Button>
+      </View>
+    </View>
+  );
+};
+```
+
+### ❌ O Que NUNCA Fazer
+
+1. **Nunca adicionar SafeAreaView manual** - wrapper HOC gerencia automaticamente
+2. **Nunca esquecer `safeAreaEdges: false`** em telas com AppLayout
+3. **Nunca hardcoded insets** - usar `useSafeAreaInsets()` para footers
+4. **Nunca usar valores fixos** - usar tokens Arena
+
+### Guia Completo
+
+**Consulte**: [`SAFE_AREA_GUIDE.md`](./SAFE_AREA_GUIDE.md) para documentação completa com exemplos detalhados, padrões de uso e troubleshooting.
+
+---
+
 **IMPORTANTE**: Este arquivo deve ser consultado SEMPRE antes de criar ou modificar código. As regras aqui são obrigatórias e não opcionais.
