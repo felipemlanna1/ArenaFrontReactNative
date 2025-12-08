@@ -1,5 +1,7 @@
 import React from 'react';
 import { Platform, ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaEdges } from '@/constants';
 import { styles } from './stylesAndroidScreenWrapper';
 import type { AndroidScreenWrapperProps } from './typesAndroidScreenWrapper';
 
@@ -32,12 +34,32 @@ const AndroidScreenWrapperContent: React.FC<AndroidScreenWrapperProps> = ({
   );
 };
 
-export const AndroidScreenWrapper: React.FC<
-  AndroidScreenWrapperProps
-> = props => {
-  if (Platform.OS !== 'android') {
-    return <>{props.children}</>;
+export const AndroidScreenWrapper: React.FC<AndroidScreenWrapperProps> = ({
+  children,
+  safeAreaEdges = 'DEFAULT',
+  ...props
+}) => {
+  const content =
+    Platform.OS === 'android' ? (
+      <AndroidScreenWrapperContent {...props}>
+        {children}
+      </AndroidScreenWrapperContent>
+    ) : (
+      children
+    );
+
+  if (safeAreaEdges === false) {
+    return <>{content}</>;
   }
 
-  return <AndroidScreenWrapperContent {...props} />;
+  const edges =
+    typeof safeAreaEdges === 'string'
+      ? SafeAreaEdges[safeAreaEdges]
+      : SafeAreaEdges.DEFAULT;
+
+  return (
+    <SafeAreaView style={styles.safeArea} edges={edges}>
+      {content}
+    </SafeAreaView>
+  );
 };
