@@ -122,7 +122,7 @@ export const VerifyEmailScreen: React.FC = () => {
           <View style={styles.resendContainer}>
             <Text variant="bodySecondary">Não recebeu o código?</Text>
             <Button
-              variant="link"
+              variant="ghost"
               size="md"
               onPress={handleResendCode}
               disabled={!canResend || isResending}
