@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -20,7 +19,7 @@ export const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
   const hook = useVerifyCodeScreen(navigation, route);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <AppHeader
         variant="secondaryCentered"
         title={VERIFY_CODE_TEXTS.TITLE}
@@ -102,6 +101,6 @@ export const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = ({
           </Button>
         </View>
       </ArenaKeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 };

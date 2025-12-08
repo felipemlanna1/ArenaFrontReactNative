@@ -1,6 +1,5 @@
 import React from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { LoginLayoutProps } from './typesLoginLayout';
 import { useLoginLayout } from './useLoginLayout';
 import { styles } from './stylesLoginLayout';
@@ -16,7 +15,7 @@ export const LoginLayout: React.FC<LoginLayoutProps> = React.memo(
     ];
 
     return (
-      <SafeAreaView style={styles.container} testID="login-layout">
+      <View style={styles.container} testID="login-layout">
         <KeyboardAvoidingView
           behavior={keyboardBehavior}
           keyboardVerticalOffset={keyboardVerticalOffset}
@@ -34,7 +33,7 @@ export const LoginLayout: React.FC<LoginLayoutProps> = React.memo(
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-      </SafeAreaView>
+      </View>
     );
   }
 );

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,7 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   const hook = useForgotPasswordScreen(navigation);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <AppHeader
         variant="secondaryCentered"
         title={FORGOT_PASSWORD_TEXTS.TITLE}
@@ -76,6 +75,6 @@ export const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
           </Button>
         </View>
       </ArenaKeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
