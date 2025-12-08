@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Accordion } from '@/components/ui/accordion';
 import { AccordionItemData } from '@/components/ui/accordion/typesAccordion';
 import { useComponentsShowcaseScreen } from './useComponentsShowcaseScreen';
@@ -145,7 +144,7 @@ export const ComponentsShowcaseScreen: React.FC<
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.scrollContent}
@@ -160,6 +159,6 @@ export const ComponentsShowcaseScreen: React.FC<
           testID="components-showcase-accordion"
         />
       </ScrollView>
-    </SafeAreaView>
+    </ScrollView>
   );
 };

@@ -33,7 +33,7 @@ export const PendingFeedbackProvider: React.FC<
       setIsLoading(true);
       const events = await feedbackApi.getPendingEvents();
       setPendingCount(events.length);
-    } catch (error) {
+    } catch {
       setPendingCount(0);
     } finally {
       setIsLoading(false);

@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
@@ -154,7 +153,7 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <ActiveFiltersBar
         filters={activeFilters}
         filterCount={activeFiltersCount}
@@ -404,6 +403,6 @@ export const FilterScreen: React.FC<FilterScreenProps> = ({
           Aplicar Filtros
         </Button>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };

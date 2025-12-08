@@ -1,1 +1,1 @@
-export interface PrivacyPolicyScreenProps {}
+export type PrivacyPolicyScreenProps = Record<string, never>;
