@@ -51,7 +51,6 @@ export const ProfileReputationSection: React.FC<
           value={aggregate.overallAverageRating}
           duration={1000}
           variant="displayPrimary"
-          decimals={1}
           style={styles.ratingValue}
         />
         <Text variant="captionSecondary">/ 5.0</Text>

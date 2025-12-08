@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Text } from '@/components/ui/text';
@@ -121,9 +120,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           : undefined
       }
     >
-      <SafeAreaView
+      <View
         style={styles.container}
-        edges={['left', 'right']}
         testID={testID}
       >
         <ScrollView contentContainerStyle={scrollContainerStyle}>
@@ -206,7 +204,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             onReportSuccess={refetch}
           />
         )}
-      </SafeAreaView>
+      </View>
     </AppLayout>
   );
 };
