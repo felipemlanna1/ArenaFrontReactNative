@@ -6,7 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "arena",
+    "scheme": [
+      "arena",
+      "com.googleusercontent.apps.701372933128-6idnumgvqgveiuj58t9lh5iisa050h6h",
+      "com.googleusercontent.apps.701372933128-3oro4a7pjug66mvie4iv9larg5lnffo3"
+    ],
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -34,7 +38,19 @@
           }
         },
         "NSLocationWhenInUseUsageDescription": "Arena precisa acessar sua localização para mostrar eventos próximos a você.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Arena precisa acessar sua localização para mostrar eventos próximos a você."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Arena precisa acessar sua localização para mostrar eventos próximos a você.",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "arena"
+            ]
+          },
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.701372933128-6idnumgvqgveiuj58t9lh5iisa050h6h"
+            ]
+          }
+        ]
       }
     },
     "android": {
@@ -92,6 +108,16 @@
               "scheme": "https",
               "host": "backsportpulsemobile-production.up.railway.app",
               "pathPrefix": "/profile"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        },
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "com.googleusercontent.apps.701372933128-3oro4a7pjug66mvie4iv9larg5lnffo3",
+              "path": "oauth2redirect"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
