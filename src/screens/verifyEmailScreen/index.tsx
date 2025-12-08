@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { AppHeader } from '@/components/ui/header';
+import { AppHeader } from '@/components/ui/appHeader';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
