@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -30,11 +30,10 @@ export const styles = StyleSheet.create({
   },
   codeInput: {
     backgroundColor: ArenaColors.neutral.dark,
-    borderRadius: 8,
+    borderRadius: ArenaBorders.radius.lg,
     paddingHorizontal: ArenaSpacing.lg,
     paddingVertical: ArenaSpacing.md,
     textAlign: 'center',
-    letterSpacing: 8,
   },
   timerContainer: {
     flexDirection: 'row',
@@ -43,8 +42,8 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   errorContainer: {
-    backgroundColor: ArenaColors.semantic.errorLight,
-    borderRadius: 8,
+    backgroundColor: ArenaColors.semantic.errorSubtle,
+    borderRadius: ArenaBorders.radius.lg,
     padding: ArenaSpacing.md,
     flexDirection: 'row',
     gap: ArenaSpacing.sm,
@@ -63,5 +62,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  centeredText: {
+    textAlign: 'center',
+  },
+  flexText: {
+    flex: 1,
   },
 });

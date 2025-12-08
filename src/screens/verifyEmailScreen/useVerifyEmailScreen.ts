@@ -53,11 +53,42 @@ export const useVerifyEmailScreen = (): UseVerifyEmailScreenReturn => {
     if (timer <= 0) return;
 
     const interval = setInterval(() => {
-      setTimer((prev) => (prev > 0 ? prev - 1 : 0));
+      setTimer(prev => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => clearInterval(interval);
   }, [timer]);
+
+  const handleVerifyEmailWithCode = useCallback(
+    async (verificationCode: string) => {
+      if (!user?.email || verificationCode.length !== 6) {
+        setError('Código inválido. Digite os 6 dígitos.');
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        await authService.verifyEmail(user.email, verificationCode);
+
+        const updatedUser = { ...user, isEmailVerified: true };
+        await updateUser(updatedUser);
+
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MainTabs' }],
+        });
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Código inválido ou expirado';
+        setError(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [user, updateUser, navigation]
+  );
 
   useEffect(() => {
     const autoVerifyWithToken = async () => {
@@ -69,73 +100,14 @@ export const useVerifyEmailScreen = (): UseVerifyEmailScreenReturn => {
     };
 
     autoVerifyWithToken();
-  }, [route.params?.token]);
-
-  const handleVerifyEmailWithCode = async (verificationCode: string) => {
-    console.log('[VerifyEmail] handleVerifyEmailWithCode called', {
-      email: user?.email,
-      codeLength: verificationCode.length,
-      code: verificationCode,
-    });
-
-    if (!user?.email || verificationCode.length !== 6) {
-      console.log('[VerifyEmail] Validation failed', {
-        hasEmail: !!user?.email,
-        codeLength: verificationCode.length,
-      });
-      setError('Código inválido. Digite os 6 dígitos.');
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      console.log('[VerifyEmail] Calling authService.verifyEmail', {
-        email: user.email,
-        code: verificationCode,
-      });
-
-      const response = await authService.verifyEmail(user.email, verificationCode);
-      console.log('[VerifyEmail] verifyEmail response:', response);
-
-      const updatedUser = { ...user, isEmailVerified: true };
-      await updateUser(updatedUser);
-
-      console.log('[VerifyEmail] Navigation to MainTabs');
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'MainTabs' }],
-      });
-    } catch (err) {
-      console.error('[VerifyEmail] Error caught:', {
-        error: err,
-        message: err instanceof Error ? err.message : 'Unknown error',
-        stack: err instanceof Error ? err.stack : undefined,
-      });
-      const errorMessage =
-        err instanceof Error ? err.message : 'Código inválido ou expirado';
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [route.params?.token, handleVerifyEmailWithCode]);
 
   const handleVerifyEmail = useCallback(async () => {
     await handleVerifyEmailWithCode(code);
-  }, [code, user?.email]);
+  }, [code, handleVerifyEmailWithCode]);
 
   const handleResendCode = useCallback(async () => {
-    console.log('[VerifyEmail] handleResendCode called', {
-      email: user?.email,
-      canResend,
-    });
-
     if (!user?.email || !canResend) {
-      console.log('[VerifyEmail] Resend blocked', {
-        hasEmail: !!user?.email,
-        canResend,
-      });
       return;
     }
 
@@ -143,12 +115,7 @@ export const useVerifyEmailScreen = (): UseVerifyEmailScreenReturn => {
     setError(null);
 
     try {
-      console.log('[VerifyEmail] Calling authService.resendVerificationEmail', {
-        email: user.email,
-      });
-
-      const response = await authService.resendVerificationEmail(user.email);
-      console.log('[VerifyEmail] resendVerificationEmail response:', response);
+      await authService.resendVerificationEmail(user.email);
 
       const cooldownEnd = Date.now() + RESEND_COOLDOWN_DURATION;
       await AsyncStorage.setItem(RESEND_COOLDOWN_KEY, cooldownEnd.toString());
@@ -158,14 +125,7 @@ export const useVerifyEmailScreen = (): UseVerifyEmailScreenReturn => {
 
       setTimer(TIMER_DURATION);
       setCode('');
-
-      console.log('[VerifyEmail] Resend successful, timer reset');
     } catch (err) {
-      console.error('[VerifyEmail] Resend error caught:', {
-        error: err,
-        message: err instanceof Error ? err.message : 'Unknown error',
-        stack: err instanceof Error ? err.stack : undefined,
-      });
       const errorMessage =
         err instanceof Error
           ? err.message
