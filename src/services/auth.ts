@@ -28,6 +28,8 @@ export interface RegisterData {
 export interface AuthResponse {
   user: LoginUserData;
   access_token: string;
+  isNewUser?: boolean;
+  isProfileComplete?: boolean;
 }
 
 export interface ForgotPasswordData {
@@ -113,6 +115,37 @@ class AuthService {
         throw error;
       }
       throw new ApiError(500, 'REGISTER_ERROR', 'Erro interno no registro');
+    }
+  }
+
+  async googleLogin(idToken: string): Promise<AuthResponse> {
+    try {
+      const response = await httpService.post<AuthResponse>('/auth/google', {
+        idToken,
+      });
+
+      if (response.access_token) {
+        const tokens: AuthTokens = {
+          access_token: response.access_token,
+        };
+        await httpService.saveTokens(tokens);
+      }
+
+      if (response.user) {
+        const userData = {
+          ...response.user,
+          createdAt: response.user.createdAt || new Date().toISOString(),
+          updatedAt: response.user.updatedAt || new Date().toISOString(),
+        } as UserData;
+        await httpService.saveUserData(userData);
+      }
+
+      return response;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(500, 'GOOGLE_LOGIN_ERROR', 'Erro no login com Google');
     }
   }
 
@@ -244,23 +277,13 @@ class AuthService {
   }
 
   async verifyEmail(email: string, code: string): Promise<{ message: string }> {
-    console.log('[AuthService] verifyEmail called', {
-      email,
-      code,
-      endpoint: '/auth/verify-email',
-    });
-
     try {
-      const response = await httpService.postMessage('/auth/verify-email', { email, code });
-      console.log('[AuthService] verifyEmail response:', response);
+      const response = await httpService.postMessage('/auth/verify-email', {
+        email,
+        code,
+      });
       return response;
     } catch (error) {
-      console.error('[AuthService] verifyEmail error:', {
-        error,
-        isApiError: error instanceof ApiError,
-        message: error instanceof Error ? error.message : 'Unknown error',
-      });
-
       if (error instanceof ApiError) {
         throw error;
       }
@@ -273,24 +296,15 @@ class AuthService {
   }
 
   async resendVerificationEmail(email: string): Promise<{ message: string }> {
-    console.log('[AuthService] resendVerificationEmail called', {
-      email,
-      endpoint: '/auth/resend-verification',
-    });
-
     try {
-      const response = await httpService.postMessage('/auth/resend-verification', {
-        email,
-      });
-      console.log('[AuthService] resendVerificationEmail response:', response);
+      const response = await httpService.postMessage(
+        '/auth/resend-verification',
+        {
+          email,
+        }
+      );
       return response;
     } catch (error) {
-      console.error('[AuthService] resendVerificationEmail error:', {
-        error,
-        isApiError: error instanceof ApiError,
-        message: error instanceof Error ? error.message : 'Unknown error',
-      });
-
       if (error instanceof ApiError) {
         throw error;
       }
