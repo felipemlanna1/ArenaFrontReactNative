@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaBorders } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: ArenaColors.semantic.warningLight,
-    borderRadius: 12,
+    backgroundColor: ArenaColors.semantic.warningSubtle,
+    borderRadius: ArenaBorders.radius.xl,
     padding: ArenaSpacing.md,
     marginHorizontal: ArenaSpacing.lg,
     marginVertical: ArenaSpacing.md,
@@ -13,9 +13,9 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.md,
   },
   iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: ArenaSpacing['3xl'] + ArenaSpacing.sm,
+    height: ArenaSpacing['3xl'] + ArenaSpacing.sm,
+    borderRadius: ArenaBorders.radius['3xl'],
     backgroundColor: ArenaColors.semantic.warning,
     justifyContent: 'center',
     alignItems: 'center',

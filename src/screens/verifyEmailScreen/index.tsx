@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AppHeader } from '@/components/ui/appHeader';
 import { Text } from '@/components/ui/text';
@@ -33,17 +32,17 @@ export const VerifyEmailScreen: React.FC = () => {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.container}>
         <AppHeader variant="secondaryCentered" title="Verificar Email" />
         <View style={styles.loadingContainer}>
           <SportsLoading size="lg" animationSpeed="normal" />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <AppHeader variant="secondaryCentered" title="Verificar Email" />
       <ArenaKeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}
@@ -140,6 +139,6 @@ export const VerifyEmailScreen: React.FC = () => {
           </Text>
         </View>
       </ArenaKeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
