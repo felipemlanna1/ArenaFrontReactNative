@@ -106,7 +106,6 @@ export class EventsApi {
     const response = await httpService.get<EventsResponse>(url);
 
     if (!response || !response.data) {
-      console.warn('[getUserPastEvents] Invalid response structure, returning []');
       return [];
     }
 
