@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
   VerifyCode: { email: string };
+  VerifyEmail: { token?: string };
   ResetPassword: { email: string; code: string };
   ComponentsShowcase: undefined;
   OnboardingSports: undefined;

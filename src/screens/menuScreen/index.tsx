@@ -6,6 +6,7 @@ import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
+import { EmailVerificationBanner } from '@/components/verification/emailVerificationBanner';
 import { ArenaColors } from '@/constants';
 import { useMenuScreen } from './useMenuScreen';
 import { styles } from './stylesMenuScreen';
@@ -24,8 +25,15 @@ const ICON_MAP = {
 } as const;
 
 export const MenuScreen: React.FC = () => {
-  const { menuItems, handleItemPress, userName, userEmail, userAvatar } =
-    useMenuScreen();
+  const {
+    menuItems,
+    handleItemPress,
+    userName,
+    userEmail,
+    userAvatar,
+    isEmailVerified,
+    handleVerifyPress,
+  } = useMenuScreen();
 
   const renderAvatar = () => {
     if (userAvatar) {
@@ -106,6 +114,10 @@ export const MenuScreen: React.FC = () => {
             </View>
           </View>
         </View>
+
+        {!isEmailVerified && (
+          <EmailVerificationBanner onVerifyPress={handleVerifyPress} />
+        )}
 
         <View style={styles.menuContent}>
           {menuItems.map(item => renderMenuItem(item))}
