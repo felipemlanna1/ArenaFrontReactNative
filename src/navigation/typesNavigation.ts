@@ -25,7 +25,12 @@ export type RootStackParamList = {
   EventDetails: { eventId: string };
   GroupDetails: { groupId: string };
   Profile: { userId?: string } | undefined;
-  EditProfile: undefined;
+  EditProfile:
+    | {
+        requireCompletion?: boolean;
+        fromOAuth?: boolean;
+      }
+    | undefined;
   Notifications: undefined;
   Friends: undefined;
   GroupsList: undefined;

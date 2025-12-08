@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+  DarkTheme,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ArenaColors } from '../constants';
 import { useAuth } from '../contexts/AuthContext';
 import { feedbackApi } from '../services/feedback/feedbackApi';
 import { PendingFeedbackModal } from '../components/feedback/PendingFeedbackModal';
-import { withAndroidScreenWrapper } from '../components/wrappers/AndroidScreenWrapper/withAndroidScreenWrapper';
+import { withAndroidScreenWrapper } from '../hocs/withAndroidScreenWrapper';
 import { WelcomeScreen } from '../screens/welcomeScreen';
 import { LoginScreen } from '../screens/loginScreen';
 import { RegisterScreen } from '../screens/registerScreen';
@@ -72,42 +76,53 @@ const WrappedFilterScreen = withAndroidScreenWrapper(FilterScreen, {
 });
 const WrappedCreateEventScreen = withAndroidScreenWrapper(CreateEventScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedCreateGroupScreen = withAndroidScreenWrapper(CreateGroupScreen, {
   enableScroll: false,
 });
 const WrappedEventDetailsScreen = withAndroidScreenWrapper(EventDetailsScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedGroupDetailsScreen = withAndroidScreenWrapper(GroupDetailsScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
-const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen);
+const WrappedProfileScreen = withAndroidScreenWrapper(ProfileScreen, {
+  safeAreaEdges: false,
+});
 const WrappedEditProfileScreen = withAndroidScreenWrapper(EditProfileScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedNotificationsScreen = withAndroidScreenWrapper(
   NotificationsScreen,
-  { enableScroll: false }
+  { enableScroll: false, safeAreaEdges: false }
 );
 const WrappedFriendsScreen = withAndroidScreenWrapper(FriendsScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedGroupsListScreen = withAndroidScreenWrapper(GroupsListScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedSettingsScreen = withAndroidScreenWrapper(SettingsScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedHelpScreen = withAndroidScreenWrapper(HelpScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedTermsScreen = withAndroidScreenWrapper(TermsScreen, {
   enableScroll: false,
+  safeAreaEdges: false,
 });
 const WrappedPrivacyPolicyScreen = withAndroidScreenWrapper(
   PrivacyPolicyScreen,
-  { enableScroll: false }
+  { enableScroll: false, safeAreaEdges: false }
 );
 const WrappedPastEventsScreen = withAndroidScreenWrapper(PastEventsScreen, {
   enableScroll: false,
@@ -118,15 +133,38 @@ const WrappedRateParticipantsScreen = withAndroidScreenWrapper(
 );
 const WrappedDeleteAccountScreen = withAndroidScreenWrapper(
   DeleteAccountScreen,
-  { enableScroll: false }
+  { enableScroll: false, safeAreaEdges: false }
 );
 
 export const AppNavigator: React.FC = () => {
   const { user, isLoading, userHasSports } = useAuth();
-  const navigationRef = React.useRef<any>(null);
+  const navigationRef = React.useRef<NavigationContainerRef<
+    Record<string, unknown>
+  > | null>(null);
 
   const [pendingEventsCount, setPendingEventsCount] = useState(0);
   const [isModalDismissed, setIsModalDismissed] = useState(false);
+
+  useEffect(() => {
+    const checkGoogleOAuthProfileCompletion = () => {
+      if (!user || isLoading || !userHasSports) return;
+
+      const isGoogleOAuthUser = user.authProvider === 'google' || !!user.googleId;
+
+      if (!isGoogleOAuthUser) return;
+
+      const isProfileIncomplete = !user.dateOfBirth && !user.birthDate || !user.gender || !user.city || !user.state;
+
+      if (isProfileIncomplete && navigationRef.current) {
+        navigationRef.current.navigate('EditProfile', {
+          requireCompletion: true,
+          fromOAuth: true,
+        } as never);
+      }
+    };
+
+    checkGoogleOAuthProfileCompletion();
+  }, [user, isLoading, userHasSports]);
 
   useEffect(() => {
     const fetchPendingEvents = async () => {
@@ -145,7 +183,7 @@ export const AppNavigator: React.FC = () => {
     };
 
     fetchPendingEvents();
-  }, [user, isLoading]);
+  }, [user, isLoading, userHasSports]);
 
   const handleDismissModal = useCallback(() => {
     setIsModalDismissed(true);
