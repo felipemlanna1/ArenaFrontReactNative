@@ -10,7 +10,7 @@ import {
   testFriendRequestNotification,
   testAllNotifications,
 } from '@/utils/testNotifications';
-import { styles } from './styles';
+import { styles } from './stylesTestNotificationsScreen';
 
 export const TestNotificationsScreen: React.FC = () => {
   return (
@@ -24,67 +24,37 @@ export const TestNotificationsScreen: React.FC = () => {
       </Text>
 
       <View style={styles.section}>
-        <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Notificações de Eventos
-        </Text>
+        <Text variant="titlePrimary">Notificações de Eventos</Text>
 
-        <Button
-          variant="primary"
-          onPress={testEventInviteNotification}
-          style={styles.button}
-        >
+        <Button variant="primary" onPress={testEventInviteNotification}>
           ⚽ Convite para Evento
         </Button>
 
-        <Button
-          variant="secondary"
-          onPress={testNewParticipantNotification}
-          style={styles.button}
-        >
+        <Button variant="secondary" onPress={testNewParticipantNotification}>
           🏀 Novo Participante
         </Button>
 
-        <Button
-          variant="secondary"
-          onPress={testEventStartingSoonNotification}
-          style={styles.button}
-        >
+        <Button variant="secondary" onPress={testEventStartingSoonNotification}>
           🏐 Evento Começando
         </Button>
 
-        <Button
-          variant="secondary"
-          onPress={testCheckInConfirmedNotification}
-          style={styles.button}
-        >
+        <Button variant="secondary" onPress={testCheckInConfirmedNotification}>
           ✅ Check-in Confirmado
         </Button>
       </View>
 
       <View style={styles.section}>
-        <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Notificações Sociais
-        </Text>
+        <Text variant="titlePrimary">Notificações Sociais</Text>
 
-        <Button
-          variant="secondary"
-          onPress={testFriendRequestNotification}
-          style={styles.button}
-        >
+        <Button variant="secondary" onPress={testFriendRequestNotification}>
           👋 Solicitação de Amizade
         </Button>
       </View>
 
       <View style={styles.section}>
-        <Text variant="titlePrimary" style={styles.sectionTitle}>
-          Teste em Massa
-        </Text>
+        <Text variant="titlePrimary">Teste em Massa</Text>
 
-        <Button
-          variant="primary"
-          onPress={testAllNotifications}
-          style={styles.button}
-        >
+        <Button variant="primary" onPress={testAllNotifications}>
           🔔 Enviar Todas (5 notificações)
         </Button>
       </View>

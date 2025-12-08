@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
@@ -100,7 +99,7 @@ export const MenuScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} testID="menu-screen" edges={['top']}>
+    <View style={styles.container} testID="menu-screen">
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -123,6 +122,6 @@ export const MenuScreen: React.FC = () => {
           {menuItems.map(item => renderMenuItem(item))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Symbol } from '@/components/ui/symbol';
 import { LoginBackground } from './components/LoginBackground';
@@ -43,7 +42,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = React.memo(
     };
 
     return (
-      <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+      <View style={styles.container}>
         <View style={styles.topSymbol}>
           <Symbol size="md" variant="variant1" testID="login-arena-symbol" />
         </View>
@@ -60,7 +59,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = React.memo(
             <SocialLoginButtons {...socialProps} />
           </ArenaKeyboardAwareScrollView>
         </LoginBackground>
-      </SafeAreaView>
+      </View>
     );
   }
 );

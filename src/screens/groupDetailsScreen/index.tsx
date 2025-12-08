@@ -5,7 +5,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -123,7 +122,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
       headerShowBackButton={true}
       headerOnBackPress={handleBackPress}
     >
-      <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+      <View style={styles.safeArea}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.scrollContent}
@@ -258,7 +257,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({
             )}
           </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
 
       <ConfirmationModal
         visible={showLeaveConfirmation}

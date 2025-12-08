@@ -65,7 +65,7 @@ export const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
         style={styles.clearButton}
         testID={`${testID}-clear-all`}
       >
-        <Text variant="linkPrimary">Limpar tudo</Text>
+        <Text variant="bodyAccent">Limpar tudo</Text>
       </TouchableOpacity>
     </View>
   );

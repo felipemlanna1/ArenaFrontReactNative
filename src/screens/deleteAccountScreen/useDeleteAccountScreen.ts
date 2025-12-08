@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { DeleteAccountStep } from './typesDeleteAccountScreen';
 import { ApiError } from '@/services/http';
+import { useAlert } from '@/contexts/AlertContext';
 
 interface UseDeleteAccountScreenReturn {
   step: DeleteAccountStep;
@@ -21,16 +21,23 @@ export const useDeleteAccountScreen = (): UseDeleteAccountScreenReturn => {
   const [step, setStep] = useState<DeleteAccountStep>('info');
   const [keyword, setKeyword] = useState('');
   const { deleteAccount, isDeleting, error } = useDeleteAccount();
+  const { showAlert, showError } = useAlert();
 
   const isKeywordValid = keyword === REQUIRED_KEYWORD;
 
   const handleDeleteAccount = useCallback(async () => {
     if (!isKeywordValid) {
-      Alert.alert(
-        'Palavra-chave incorreta',
-        'Digite exatamente "EXCLUIR PERMANENTEMENTE" para confirmar.',
-        [{ text: 'OK' }]
-      );
+      showAlert({
+        variant: 'error',
+        title: 'Palavra-chave incorreta',
+        message: 'Digite exatamente "EXCLUIR PERMANENTEMENTE" para confirmar.',
+        primaryButton: {
+          text: 'OK',
+          onPress: () => {},
+          variant: 'primary',
+        },
+        dismissible: true,
+      });
       return;
     }
 
@@ -40,22 +47,36 @@ export const useDeleteAccountScreen = (): UseDeleteAccountScreenReturn => {
       const apiError = err as ApiError;
 
       if (apiError.code === 'ORGANIZER_OF_FUTURE_EVENTS') {
-        Alert.alert('Não é possível excluir', apiError.message, [
-          { text: 'OK' },
-        ]);
+        showAlert({
+          variant: 'error',
+          title: 'Não é possível excluir',
+          message: apiError.message,
+          primaryButton: {
+            text: 'OK',
+            onPress: () => {},
+            variant: 'primary',
+          },
+          dismissible: true,
+        });
       } else if (apiError.code === 'OWNER_OF_ACTIVE_GROUPS') {
-        Alert.alert('Não é possível excluir', apiError.message, [
-          { text: 'OK' },
-        ]);
+        showAlert({
+          variant: 'error',
+          title: 'Não é possível excluir',
+          message: apiError.message,
+          primaryButton: {
+            text: 'OK',
+            onPress: () => {},
+            variant: 'primary',
+          },
+          dismissible: true,
+        });
       } else {
-        Alert.alert(
-          'Erro',
-          'Não foi possível excluir sua conta. Tente novamente mais tarde.',
-          [{ text: 'OK' }]
+        showError(
+          'Não foi possível excluir sua conta. Tente novamente mais tarde.'
         );
       }
     }
-  }, [isKeywordValid, keyword, deleteAccount]);
+  }, [isKeywordValid, keyword, deleteAccount, showAlert, showError]);
 
   return {
     step,

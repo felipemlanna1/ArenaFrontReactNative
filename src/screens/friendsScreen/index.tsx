@@ -385,7 +385,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({ navigation }) => {
               renderItem={renderItem}
               keyExtractor={item => item.id}
               contentContainerStyle={listContentStyle}
-              estimatedItemSize={100}
               ItemSeparatorComponent={renderSeparator}
               onEndReached={hasMore ? onLoadMore : undefined}
               onEndReachedThreshold={0.5}

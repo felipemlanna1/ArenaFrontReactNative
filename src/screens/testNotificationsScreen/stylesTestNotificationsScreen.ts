@@ -18,12 +18,7 @@ export const styles = StyleSheet.create({
   },
   section: {
     marginBottom: ArenaSpacing['2xl'],
-  },
-  sectionTitle: {
-    marginBottom: ArenaSpacing.md,
-  },
-  button: {
-    marginBottom: ArenaSpacing.md,
+    gap: ArenaSpacing.md,
   },
   note: {
     marginTop: ArenaSpacing.lg,

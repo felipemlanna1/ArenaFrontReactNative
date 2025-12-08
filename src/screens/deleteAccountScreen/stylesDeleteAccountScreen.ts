@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.sm,
   },
   bulletIcon: {
-    marginTop: 2,
+    marginTop: ArenaSpacing.xxs,
   },
   bulletText: {
     flex: 1,

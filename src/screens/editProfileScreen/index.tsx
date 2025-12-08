@@ -24,6 +24,7 @@ import { styles } from './stylesEditProfileScreen';
 
 export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
   navigation,
+  route,
 }) => {
   const insets = useSafeAreaInsets();
 
@@ -38,6 +39,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
     avatarUploadProgress,
     coverUploadProgress,
     calculatedAge,
+    isFormComplete,
     handleFieldChange,
     handleToggleSport,
     handleTogglePrimary,
@@ -46,7 +48,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
     handlePickCoverPhoto,
     handleSave,
     handleCancel,
-  } = useEditProfileScreen({ navigation });
+  } = useEditProfileScreen({ navigation, route });
 
   const [skillLevelModal, setSkillLevelModal] = useState<{
     visible: boolean;
@@ -377,7 +379,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
         <Button
           variant="primary"
           onPress={handleSave}
-          disabled={isSaving}
+          disabled={!isFormComplete || isSaving}
           size="lg"
           testID="save-button-footer"
         >

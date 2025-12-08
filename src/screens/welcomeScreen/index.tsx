@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -25,7 +24,7 @@ export const WelcomeScreen: React.FC = () => {
   } = useWelcomeScreen();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar style="light" backgroundColor="transparent" translucent />
       <LinearGradient
         colors={['#0F0F23', '#1A1A2E', '#16213E']}
@@ -152,6 +151,6 @@ export const WelcomeScreen: React.FC = () => {
           </View>
         </View>
       </LinearGradient>
-    </SafeAreaView>
+    </View>
   );
 };

@@ -37,6 +37,7 @@ interface UseEditProfileScreenReturn {
   avatarUploadProgress: number;
   coverUploadProgress: number;
   calculatedAge: number | null;
+  isFormComplete: boolean;
   handleFieldChange: (
     field: keyof EditProfileFormData,
     value: string | Date | boolean | null
@@ -54,14 +55,24 @@ interface UseEditProfileScreenParams {
   navigation: {
     goBack: () => void;
   };
+  route?: {
+    params?: {
+      requireCompletion?: boolean;
+      fromOAuth?: boolean;
+    };
+  };
 }
 
 export const useEditProfileScreen = ({
   navigation,
+  route,
 }: UseEditProfileScreenParams): UseEditProfileScreenReturn => {
   const { user, updateUser } = useAuth();
   const { showSuccess, showError, showConfirm } = useAlert();
   const { sports: availableSports, isLoading: sportsLoading } = useSports();
+
+  const isOAuthFlow = route?.params?.fromOAuth === true;
+  const requireCompletion = route?.params?.requireCompletion === true;
 
   const avatarUpload = useImageUpload({
     allowsEditing: true,
@@ -154,9 +165,27 @@ export const useEditProfileScreen = ({
       newErrors.bio = 'Bio deve ter no máximo 500 caracteres';
     }
 
+    if (isOAuthFlow && requireCompletion) {
+      if (!formData.birthDate) {
+        newErrors.birthDate = 'Data de nascimento é obrigatória';
+      }
+
+      if (!formData.gender) {
+        newErrors.gender = 'Gênero é obrigatório';
+      }
+
+      if (!formData.city.trim()) {
+        newErrors.city = 'Cidade é obrigatória';
+      }
+
+      if (!formData.state.trim()) {
+        newErrors.state = 'Estado é obrigatório';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [formData]);
+  }, [formData, isOAuthFlow, requireCompletion]);
 
   const handleFieldChange = useCallback(
     (
@@ -373,6 +402,11 @@ export const useEditProfileScreen = ({
   }, [user?.id, coverUpload, showSuccess, showError]);
 
   const handleCancel = useCallback(() => {
+    if (requireCompletion) {
+      showError('Complete todos os campos obrigatórios para continuar');
+      return;
+    }
+
     showConfirm({
       title: 'Descartar alterações',
       message: 'Tem certeza que deseja descartar as alterações?',
@@ -380,12 +414,27 @@ export const useEditProfileScreen = ({
       cancelText: 'Não',
       onConfirm: () => navigation.goBack(),
     });
-  }, [navigation, showConfirm]);
+  }, [navigation, showConfirm, requireCompletion, showError]);
 
   const calculatedAge = useMemo(
     () => calculateAge(formData.birthDate),
     [formData.birthDate]
   );
+
+  const isFormComplete = useMemo(() => {
+    if (!isOAuthFlow || !requireCompletion) {
+      return true;
+    }
+
+    return Boolean(
+      formData.firstName.trim() &&
+        formData.lastName.trim() &&
+        formData.birthDate &&
+        formData.gender &&
+        formData.city.trim() &&
+        formData.state.trim()
+    );
+  }, [formData, isOAuthFlow, requireCompletion]);
 
   return {
     formData,
@@ -398,6 +447,7 @@ export const useEditProfileScreen = ({
     avatarUploadProgress: avatarUpload.uploadProgress,
     coverUploadProgress: coverUpload.uploadProgress,
     calculatedAge,
+    isFormComplete,
     handleFieldChange,
     handleToggleSport,
     handleTogglePrimary,

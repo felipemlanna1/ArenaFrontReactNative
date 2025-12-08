@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { Divider } from './components/Divider';
 import { GoogleLoginButton } from './components/GoogleLoginButton';
 import { AppleLoginButton } from './components/AppleLoginButton';
@@ -13,7 +13,9 @@ export const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = React.memo(
       <View style={styles.container}>
         <Divider text="ou" />
         <GoogleLoginButton isLoading={isLoading} onPress={onGoogleLogin} />
-        <AppleLoginButton isLoading={isLoading} onPress={onAppleLogin} />
+        {Platform.OS === 'ios' && (
+          <AppleLoginButton isLoading={isLoading} onPress={onAppleLogin} />
+        )}
         <RegisterButton isLoading={isLoading} onPress={onRegister} />
       </View>
     );

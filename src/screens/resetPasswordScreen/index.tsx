@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Animated } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
@@ -63,7 +62,7 @@ export const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({
 
   if (hook.isSuccess) {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.scrollContent}>
           <View style={styles.header}>
             <Ionicons
@@ -80,12 +79,12 @@ export const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({
             </Text>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <AppHeader
         variant="secondaryCentered"
         title={RESET_PASSWORD_TEXTS.TITLE}
@@ -216,6 +215,6 @@ export const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({
           </Button>
         </View>
       </ArenaKeyboardAwareScrollView>
-    </SafeAreaView>
+    </View>
   );
 };

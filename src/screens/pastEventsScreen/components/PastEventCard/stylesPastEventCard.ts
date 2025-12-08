@@ -22,9 +22,9 @@ export const styles = StyleSheet.create({
     gap: ArenaSpacing.xs,
   },
   infoSeparator: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
+    width: ArenaSpacing.xs,
+    height: ArenaSpacing.xs,
+    borderRadius: ArenaBorders.radius.xs,
     backgroundColor: ArenaColors.neutral.medium,
   },
   warningContainer: {

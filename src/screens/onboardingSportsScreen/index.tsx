@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Symbol } from '@/components/ui/symbol';
 import { Text } from '@/components/ui/text';
 import { SkillLevelModal } from '@/components/ui/skillLevelModal';
@@ -38,7 +37,7 @@ export const OnboardingSportsScreen: React.FC<
 
   return (
     <ErrorBoundary>
-      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+      <View style={styles.container}>
         <View style={styles.topSymbol}>
           <Symbol
             size="md"
@@ -86,7 +85,7 @@ export const OnboardingSportsScreen: React.FC<
           onSkip={handleSkip}
           onFinish={handleFinish}
         />
-      </SafeAreaView>
+      </View>
     </ErrorBoundary>
   );
 };

@@ -27,6 +27,7 @@ import { useExploreScreen } from './useExploreScreen';
 import { useExploreGroups } from './hooks/useExploreGroups';
 import { useExploreFriends } from './hooks/useExploreFriends';
 import { useHomeFilters } from '@/contexts/HomeFiltersContext';
+import { useGroups } from '@/contexts/GroupsContext';
 import { useFriendsShare } from '@/screens/friendsScreen/hooks/useFriendsShare';
 import { friendshipsApi } from '@/services/friendships/friendshipsApi';
 import { groupsApi } from '@/services/groups/groupsApi';
@@ -99,6 +100,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const groupsData = useExploreGroups();
   const friendsData = useExploreFriends();
   const { shareInvite } = useFriendsShare();
+  const { refetch: refetchGroupsContext } = useGroups();
 
   const listContainerStyle = useMemo(
     () => [styles.listContainer, { paddingBottom: tabBarHeight + 40 }],
@@ -146,31 +148,43 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
   const handleJoinGroup = useCallback(
     async (groupId: string) => {
       try {
-        const { group: updatedGroup } = await groupsApi.requestJoin(groupId);
-        groupsData.updateGroup(groupId, updatedGroup);
+        await groupsApi.requestJoin(groupId);
+        await Promise.all([
+          refetchGroupsContext(),
+          groupsData.refreshGroups(),
+        ]);
         haptic.success();
         showToast('Você entrou no grupo', 'success');
       } catch {
+        await Promise.all([
+          refetchGroupsContext(),
+          groupsData.refreshGroups(),
+        ]);
         haptic.error();
-        showToast('Erro ao entrar no grupo', 'error');
       }
     },
-    [groupsData, showToast]
+    [groupsData, refetchGroupsContext, showToast]
   );
 
   const handleLeaveGroup = useCallback(
     async (groupId: string) => {
       try {
-        const { group: updatedGroup } = await groupsApi.leaveGroup(groupId);
-        groupsData.updateGroup(groupId, updatedGroup);
+        await groupsApi.leaveGroup(groupId);
+        await Promise.all([
+          refetchGroupsContext(),
+          groupsData.refreshGroups(),
+        ]);
         haptic.success();
         showToast('Você saiu do grupo', 'success');
       } catch {
+        await Promise.all([
+          refetchGroupsContext(),
+          groupsData.refreshGroups(),
+        ]);
         haptic.error();
-        showToast('Erro ao sair do grupo', 'error');
       }
     },
-    [groupsData, showToast]
+    [groupsData, refetchGroupsContext, showToast]
   );
 
   const handleUserPress = useCallback(
@@ -543,7 +557,6 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
               renderItem={renderItem}
               keyExtractor={keyExtractor}
               contentContainerStyle={listContainerStyle}
-              estimatedItemSize={150}
               onEndReached={tabData.hasMore ? tabData.loadMore : undefined}
               onEndReachedThreshold={0.5}
               ListFooterComponent={renderFooter}

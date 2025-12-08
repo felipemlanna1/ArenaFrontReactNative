@@ -8,7 +8,6 @@ import { feedbackApi } from '@/services/feedback/feedbackApi';
 import { Event } from '@/services/events/typesEvents';
 import { useAuth } from '@/contexts/AuthContext';
 import { ArenaSpacing } from '@/constants';
-import { storageService } from '@/utils/storage';
 import type {
   EnrichedPastEvent,
   UsePastEventsScreenReturn,
@@ -36,19 +35,12 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
   const { user } = useAuth();
 
   const fetchData = useCallback(async () => {
-    console.log('[usePastEventsScreen] fetchData called, user:', user?.id);
-
     if (!user) {
-      console.log('[usePastEventsScreen] No user found, skipping fetch');
       return;
     }
 
     try {
       setError(null);
-
-      console.log(
-        '[usePastEventsScreen] Fetching past events and pending events...'
-      );
 
       const [pastEventsResult, pendingEventsResult] = await Promise.allSettled([
         eventsApi.getUserPastEvents({ limit: 50 }),
@@ -60,10 +52,6 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
 
       if (pastEventsResult.status === 'fulfilled') {
         pastEvents = pastEventsResult.value;
-        console.log(
-          '[usePastEventsScreen] Past events fetched:',
-          pastEvents.length
-        );
 
         const feedbackChecks = await Promise.allSettled(
           pastEvents.map(async event => {
@@ -75,11 +63,7 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
                 eventId: event.id,
                 hasFeedback: givenFeedbacks.length > 0,
               };
-            } catch (error) {
-              console.warn(
-                `[usePastEventsScreen] Failed to check feedback for event ${event.id}:`,
-                error
-              );
+            } catch {
               return {
                 eventId: event.id,
                 hasFeedback: false,
@@ -95,15 +79,7 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
           }
         });
         setEventsWithFeedback(eventsWithFeedbackSet);
-        console.log(
-          '[usePastEventsScreen] Events with feedback:',
-          eventsWithFeedbackSet.size
-        );
       } else {
-        console.error(
-          '[usePastEventsScreen] Failed to fetch past events:',
-          pastEventsResult.reason
-        );
         setError(
           new Error('Falha ao carregar eventos passados. Tente novamente.')
         );
@@ -111,20 +87,11 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
 
       if (pendingEventsResult.status === 'fulfilled') {
         pendingEvents = pendingEventsResult.value;
-        console.log(
-          '[usePastEventsScreen] Pending events fetched:',
-          pendingEvents.length
-        );
-      } else {
-        console.warn(
-          '[usePastEventsScreen] Failed to fetch pending events - showing events without badges'
-        );
       }
 
       setAllPastEvents(pastEvents);
       setPendingEventsMap(new Map(pendingEvents.map(e => [e.id, e])));
     } catch (err) {
-      console.error('[usePastEventsScreen] Error in fetchData:', err);
       setError(err instanceof Error ? err : new Error('Erro desconhecido'));
     } finally {
       setIsLoading(false);
@@ -133,25 +100,7 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
   }, [user]);
 
   useEffect(() => {
-    const printJwtToken = async () => {
-      try {
-        const token = await storageService.getItem('@Arena:access_token');
-        console.log('\n========================================');
-        console.log('🔑 JWT TOKEN PARA COPIAR:');
-        console.log(token);
-        console.log('========================================\n');
-        console.log('📋 Use este token para testar o endpoint via curl:');
-        console.log(
-          `curl -X GET "https://your-api-url/api/v1/events/my-events?onlyFutureEvents=false&limit=50" -H "Authorization: Bearer ${token}"`
-        );
-        console.log('========================================\n');
-      } catch (error) {
-        console.error('[usePastEventsScreen] Erro ao buscar token:', error);
-      }
-    };
-
     if (isFocused) {
-      printJwtToken();
       fetchData();
     }
   }, [isFocused, fetchData]);
@@ -161,7 +110,6 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
       'change',
       (nextAppState: AppStateStatus) => {
         if (nextAppState === 'active') {
-          console.log('[usePastEventsScreen] App became active, refreshing...');
           fetchData();
         }
       }
@@ -173,15 +121,7 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
   }, [fetchData]);
 
   const enrichedEvents = useMemo(() => {
-    console.log('[usePastEventsScreen] enrichedEvents memo triggered');
-    console.log('[usePastEventsScreen] user:', user?.id);
-    console.log(
-      '[usePastEventsScreen] allPastEvents length:',
-      allPastEvents.length
-    );
-
     if (!user) {
-      console.log('[usePastEventsScreen] No user, returning empty array');
       return [];
     }
 
@@ -230,7 +170,6 @@ export const usePastEventsScreen = (): UsePastEventsScreenReturn => {
       };
     });
 
-    console.log('[usePastEventsScreen] Enriched events:', enriched.length);
     return enriched;
   }, [allPastEvents, pendingEventsMap, eventsWithFeedback, user]);
 
