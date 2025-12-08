@@ -244,9 +244,23 @@ class AuthService {
   }
 
   async verifyEmail(email: string, code: string): Promise<{ message: string }> {
+    console.log('[AuthService] verifyEmail called', {
+      email,
+      code,
+      endpoint: '/auth/verify-email',
+    });
+
     try {
-      return await httpService.postMessage('/auth/verify-email', { email, code });
+      const response = await httpService.postMessage('/auth/verify-email', { email, code });
+      console.log('[AuthService] verifyEmail response:', response);
+      return response;
     } catch (error) {
+      console.error('[AuthService] verifyEmail error:', {
+        error,
+        isApiError: error instanceof ApiError,
+        message: error instanceof Error ? error.message : 'Unknown error',
+      });
+
       if (error instanceof ApiError) {
         throw error;
       }
@@ -259,11 +273,24 @@ class AuthService {
   }
 
   async resendVerificationEmail(email: string): Promise<{ message: string }> {
+    console.log('[AuthService] resendVerificationEmail called', {
+      email,
+      endpoint: '/auth/resend-verification',
+    });
+
     try {
-      return await httpService.postMessage('/auth/resend-verification', {
+      const response = await httpService.postMessage('/auth/resend-verification', {
         email,
       });
+      console.log('[AuthService] resendVerificationEmail response:', response);
+      return response;
     } catch (error) {
+      console.error('[AuthService] resendVerificationEmail error:', {
+        error,
+        isApiError: error instanceof ApiError,
+        message: error instanceof Error ? error.message : 'Unknown error',
+      });
+
       if (error instanceof ApiError) {
         throw error;
       }

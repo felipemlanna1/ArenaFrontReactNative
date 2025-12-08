@@ -306,12 +306,41 @@ class HttpService {
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<{ message: string }> {
-    const response = await this.client.post<{ message: string }>(
+    const fullUrl = `${this.client.defaults.baseURL}${url}`;
+    console.log('[HTTP] postMessage request:', {
       url,
+      fullUrl,
+      baseURL: this.client.defaults.baseURL,
       data,
-      config
-    );
-    return response.data;
+      headers: this.client.defaults.headers,
+      configHeaders: config?.headers,
+    });
+
+    try {
+      const response = await this.client.post<{ message: string }>(
+        url,
+        data,
+        config
+      );
+      console.log('[HTTP] postMessage response:', {
+        url,
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+        headers: response.headers,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('[HTTP] postMessage error:', {
+        url,
+        fullUrl,
+        error,
+        isAxiosError: error && typeof error === 'object' && 'isAxiosError' in error,
+        response: error && typeof error === 'object' && 'response' in error ? (error as any).response : undefined,
+        message: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw error;
+    }
   }
 
   async getAccessToken(): Promise<string | null> {
