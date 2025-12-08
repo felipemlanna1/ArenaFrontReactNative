@@ -245,7 +245,7 @@ class AuthService {
 
   async verifyEmail(email: string, code: string): Promise<{ message: string }> {
     try {
-      return await httpService.postMessage('/api/v1/auth/verify-email', { email, code });
+      return await httpService.postMessage('/auth/verify-email', { email, code });
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;
@@ -260,7 +260,7 @@ class AuthService {
 
   async resendVerificationEmail(email: string): Promise<{ message: string }> {
     try {
-      return await httpService.postMessage('/api/v1/auth/resend-verification', {
+      return await httpService.postMessage('/auth/resend-verification', {
         email,
       });
     } catch (error) {
