@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { authService } from '@/services/authService';
-import { useAuth } from '@/contexts/authContext';
+import { authService } from '@/services/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { RootStackParamList } from '@/navigation/typesNavigation';
 import { UseVerifyEmailScreenReturn } from './typesVerifyEmailScreen';
 

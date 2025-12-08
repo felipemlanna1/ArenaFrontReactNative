@@ -243,9 +243,9 @@ class AuthService {
     return await httpService.isAuthenticated();
   }
 
-  async verifyEmail(token: string): Promise<{ message: string }> {
+  async verifyEmail(email: string, code: string): Promise<{ message: string }> {
     try {
-      return await httpService.postMessage('/auth/verify-email', { token });
+      return await httpService.postMessage('/auth/verify-email', { email, code });
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;
