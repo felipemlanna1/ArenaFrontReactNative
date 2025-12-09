@@ -244,6 +244,23 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
             autoCapitalize="words"
             testID="input-last-name"
           />
+
+          {route?.params?.fromOAuth && (
+            <Input
+              label="Username"
+              value={formData.username}
+              onChangeText={value =>
+                handleFieldChange('username', value.toLowerCase())
+              }
+              error={errors.username}
+              placeholder="Digite seu username"
+              autoCapitalize="none"
+              autoCorrect={false}
+              helperText="Usado para identificar você no app. Apenas letras minúsculas, números e _"
+              required={route?.params?.requireCompletion}
+              testID="input-username"
+            />
+          )}
         </View>
 
         <View style={styles.section}>

@@ -53,6 +53,10 @@ export interface ResetPasswordWithCodeData {
   newPassword: string;
 }
 
+export interface CheckUsernameResponse {
+  available: boolean;
+}
+
 class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
@@ -312,6 +316,25 @@ class AuthService {
         500,
         'RESEND_VERIFICATION_ERROR',
         'Erro ao reenviar email de verificação'
+      );
+    }
+  }
+
+  async checkUsername(username: string): Promise<CheckUsernameResponse> {
+    try {
+      const response = await httpService.post<CheckUsernameResponse>(
+        '/auth/check-username',
+        { username }
+      );
+      return response;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        500,
+        'CHECK_USERNAME_ERROR',
+        'Erro ao verificar username'
       );
     }
   }
