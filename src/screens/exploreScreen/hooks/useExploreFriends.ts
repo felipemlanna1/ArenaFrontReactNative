@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { friendshipsApi } from '@/services/friendships/friendshipsApi';
 import { FriendshipType } from '@/services/friendships/typesFriendships';
 import { UserData } from '@/services/http';
@@ -151,6 +152,12 @@ export const useExploreFriends = (): UseHomeFriendsReturn => {
 
     return () => clearTimeout(timeout);
   }, [searchTerm, selectedSports, selectedCity, selectedState, loadFriends]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refreshFriends();
+    }, [refreshFriends])
+  );
 
   return {
     friends,

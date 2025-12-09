@@ -53,7 +53,8 @@ export const useEventsScreen = ({
     loadEvents();
   }, [eventFilter, loadEvents]);
 
-  const { filterCounts: myEventsFilterCounts } = useEventFilterCounts();
+  const { filterCounts: myEventsFilterCounts, refetch: refetchFilterCounts } =
+    useEventFilterCounts();
 
   const filterCounts: FilterCount = useMemo(
     () => ({
@@ -65,7 +66,10 @@ export const useEventsScreen = ({
     [myEventsFilterCounts]
   );
 
-  const eventActions = useEventActions(refreshEvents);
+  const eventActions = useEventActions(async () => {
+    await refreshEvents();
+    await refetchFilterCounts();
+  });
 
   const markedDates = useMemo(() => {
     const marked: Record<string, { marked: boolean; dotColor: string }> = {};
@@ -138,14 +142,14 @@ export const useEventsScreen = ({
   const handleRefresh = useCallback(async () => {
     haptic.light();
     try {
-      await refreshEvents();
+      await Promise.all([refreshEvents(), refetchFilterCounts()]);
       haptic.success();
       showToast('Eventos atualizados', 'success');
     } catch {
       haptic.error();
       showToast('Erro ao atualizar eventos', 'error');
     }
-  }, [refreshEvents, showToast]);
+  }, [refreshEvents, refetchFilterCounts, showToast]);
 
   return {
     viewMode,
