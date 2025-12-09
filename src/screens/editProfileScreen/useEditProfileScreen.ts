@@ -4,6 +4,7 @@ import { useAlert } from '@/contexts/AlertContext';
 import { useSports } from '@/contexts/SportsContext';
 import { usersApi } from '@/services/users/api';
 import { updateUserSports } from '@/services/sports';
+import { authService } from '@/services/auth';
 import { SkillLevel, Sport } from '@/types/sport';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import {
@@ -89,6 +90,7 @@ export const useEditProfileScreen = ({
   const [formData, setFormData] = useState<EditProfileFormData>({
     firstName: '',
     lastName: '',
+    username: '',
     bio: '',
     birthDate: null,
     gender: null,
@@ -126,6 +128,7 @@ export const useEditProfileScreen = ({
           setFormData(prev => ({
             firstName: user.firstName || '',
             lastName: user.lastName || '',
+            username: user.username || '',
             bio: user.bio || '',
             birthDate: dateOfBirthValue ? new Date(dateOfBirthValue) : null,
             gender: user.gender || null,
@@ -150,6 +153,18 @@ export const useEditProfileScreen = ({
 
     loadData();
   }, [user, sportsLoading, showError]);
+  const validateUsername = useCallback((username: string): string | undefined => {
+    if (!username.trim()) return 'Username é obrigatório';
+    if (username.trim().length < 3)
+      return 'Username deve ter no mínimo 3 caracteres';
+    if (username.trim().length > 30)
+      return 'Username deve ter no máximo 30 caracteres';
+    if (!/^[a-z0-9_]+$/.test(username)) {
+      return 'Username deve conter apenas letras minúsculas, números e _';
+    }
+    return undefined;
+  }, []);
+
   const validateForm = useCallback((): boolean => {
     const newErrors: EditProfileFormErrors = {};
 
@@ -159,6 +174,13 @@ export const useEditProfileScreen = ({
 
     if (!formData.lastName.trim()) {
       newErrors.lastName = 'Sobrenome é obrigatório';
+    }
+
+    if (isOAuthFlow && requireCompletion) {
+      const usernameError = validateUsername(formData.username);
+      if (usernameError) {
+        newErrors.username = usernameError;
+      }
     }
 
     if (formData.bio && formData.bio.length > 500) {
@@ -185,7 +207,7 @@ export const useEditProfileScreen = ({
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [formData, isOAuthFlow, requireCompletion]);
+  }, [formData, isOAuthFlow, requireCompletion, validateUsername]);
 
   const handleFieldChange = useCallback(
     (
@@ -278,6 +300,7 @@ export const useEditProfileScreen = ({
       const updatedUser = await usersApi.updateUserProfile(user.id, {
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
+        username: formData.username.trim() || undefined,
         bio: formData.bio.trim() || undefined,
         dateOfBirth: formData.birthDate?.toISOString() || undefined,
         gender: formData.gender || undefined,

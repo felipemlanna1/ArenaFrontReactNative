@@ -10,6 +10,7 @@ export type EditProfileScreenProps = NativeStackScreenProps<
 export interface EditProfileFormData {
   firstName: string;
   lastName: string;
+  username: string;
   bio: string;
   birthDate: Date | null;
   gender: 'male' | 'female' | 'other' | null;
@@ -26,6 +27,7 @@ export interface EditProfileFormData {
 export interface EditProfileFormErrors {
   firstName?: string;
   lastName?: string;
+  username?: string;
   bio?: string;
   birthDate?: string;
   gender?: string;
