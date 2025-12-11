@@ -30,6 +30,7 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   loadingText?: string;
   disableAnimations?: boolean;
   align?: ButtonAlign;
+  rounded?: boolean;
 }
 export interface ButtonVariantConfig {
   backgroundColor: string;
@@ -77,6 +78,7 @@ export interface UseButtonParams {
   onPress: () => void;
   disableAnimations: boolean;
   align: ButtonAlign;
+  rounded: boolean;
 }
 export interface UseButtonReturn {
   buttonConfig: ButtonVariantConfig;

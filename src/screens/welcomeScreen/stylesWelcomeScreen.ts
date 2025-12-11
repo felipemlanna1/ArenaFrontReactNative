@@ -1,12 +1,26 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaSpacing, ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  gradient: {
-    flex: 1,
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+  },
+  gradientOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '70%',
+    zIndex: 1,
   },
   content: {
     flex: 1,
@@ -15,51 +29,17 @@ export const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    paddingTop: ArenaSpacing.xs,
-    paddingBottom: ArenaSpacing.sm,
+    paddingHorizontal: ArenaSpacing.lg,
     width: '100%',
-    position: 'relative',
-    zIndex: ArenaSpacing.xs,
-  },
-  playerImageContainer: {
-    position: 'absolute',
-    top: '5%',
-    left: 0,
-    right: 0,
-    bottom: '35%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: -1,
-  },
-  playerImage: {
-    width: '89%',
-    height: '100%',
-    resizeMode: 'contain',
-  },
-  backgroundOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
-    backgroundColor: `${ArenaColors.neutral.darkest}66`,
-    zIndex: 0,
+    zIndex: 10,
   },
-  radialOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-  },
-  bottomOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: ArenaSpacing.xxs,
+  logo: {
+    width: 240,
+    height: 53,
   },
   bottomContent: {
     position: 'absolute',
@@ -68,17 +48,28 @@ export const styles = StyleSheet.create({
     right: 0,
     paddingHorizontal: ArenaSpacing['2xl'],
     paddingBottom: ArenaSpacing.lg,
-    zIndex: 3,
+    zIndex: 10,
   },
   titleContainer: {
-    marginBottom: ArenaSpacing.xs,
+    marginBottom: ArenaSpacing.md,
   },
   subtitle: {
     marginBottom: ArenaSpacing['2xl'],
+    paddingRight: 100,
+    textAlign: 'left',
+    color: ArenaColors.neutral.light,
   },
   buttonContainer: {
     gap: ArenaSpacing.lg,
     width: '100%',
     paddingBottom: ArenaSpacing.lg,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: ArenaSpacing.md,
+    width: '100%',
+  },
+  buttonHalf: {
+    flex: 1,
   },
 });

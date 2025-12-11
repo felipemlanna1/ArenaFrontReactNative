@@ -35,7 +35,8 @@
     "production": {
       "distribution": "store",
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "app-bundle",
+        "resourceClass": "large"
       },
       "ios": {
         "resourceClass": "m-medium"

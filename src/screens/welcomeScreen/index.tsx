@@ -5,9 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/ui/logo';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
-import { ArenaColors } from '@/constants';
 import { useWelcomeScreen } from './useWelcomeScreen';
 import { styles } from './stylesWelcomeScreen';
 
@@ -26,131 +24,141 @@ export const WelcomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" backgroundColor="transparent" translucent />
+      <OptimizedImage
+        source={require('@/assets/players/bgWelcome.jpg')}
+        style={styles.backgroundImage}
+        contentFit="cover"
+        contentPosition="center"
+        priority="high"
+        showLoading={false}
+      />
+
       <LinearGradient
-        colors={['#0F0F23', '#1A1A2E', '#16213E']}
-        style={styles.gradient}
-      >
-        <View style={styles.content}>
-          <View style={styles.logoContainer}>
-            <Logo variant="variant1" size="lg" testID="welcome-logo" />
-          </View>
+        colors={['#000000', 'rgba(0, 0, 0, 0.509615)', 'rgba(0, 0, 0, 0)']}
+        locations={[0, 0.75, 1]}
+        style={styles.gradientOverlay}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
+      />
 
-          <View style={styles.playerImageContainer}>
-            <OptimizedImage
-              source={require('@/assets/players/jogadorDeTenis.webp')}
-              style={styles.playerImage}
-              contentFit="contain"
-              priority="high"
-              showLoading={false}
-            />
-          </View>
-
-          <View style={styles.backgroundOverlay} pointerEvents="none" />
-
-          <LinearGradient
-            colors={['transparent', `${ArenaColors.neutral.darkest}99`]}
-            style={styles.radialOverlay}
-            start={{ x: 0.5, y: 0.3 }}
-            end={{ x: 0.5, y: 1.0 }}
-            pointerEvents="none"
+      <View style={styles.content}>
+        <View
+          style={[
+            styles.logoContainer,
+            { paddingTop: 15 },
+          ]}
+        >
+          <OptimizedImage
+            source={require('@/assets/images/logos/L1.svg')}
+            style={styles.logo}
+            contentFit="contain"
+            priority="high"
+            showLoading={false}
           />
+        </View>
 
-          <LinearGradient
-            colors={['transparent', `${ArenaColors.neutral.darkest}CC`]}
-            locations={[0.7, 1.0]}
-            style={styles.bottomOverlay}
-            pointerEvents="none"
-          />
-
-          <View style={styles.bottomContent}>
-            <View style={styles.titleContainer}>
-              {titleLines.map(
-                (
-                  line:
-                    | string
-                    | number
-                    | bigint
-                    | boolean
-                    | React.ReactElement<
-                        unknown,
-                        string | React.JSXElementConstructor<unknown>
-                      >
-                    | Iterable<React.ReactNode>
-                    | React.ReactPortal
-                    | Promise<
-                        | string
-                        | number
-                        | bigint
-                        | boolean
-                        | React.ReactPortal
-                        | React.ReactElement<
-                            unknown,
-                            string | React.JSXElementConstructor<unknown>
-                          >
-                        | Iterable<React.ReactNode>
-                        | null
-                        | undefined
-                      >
-                    | null
-                    | undefined,
-                  index: React.Key | null | undefined
-                ) => (
-                  <Text
-                    key={index}
-                    variant="displayAccent"
-                    testID={`welcome-title-${index}`}
-                  >
-                    {line}
-                  </Text>
-                )
-              )}
-            </View>
-            <Text
-              variant="bodyMuted"
-              testID="welcome-subtitle"
-              style={styles.subtitle}
-            >
-              {subtitle}
-            </Text>
-
-            <View style={styles.buttonContainer}>
-              <Button
-                variant="primary"
-                size="md"
-                onPress={handleGetStarted}
-                testID="welcome-get-started"
-                disableAnimations
-                fullWidth
-              >
-                {startButtonTitle}
-              </Button>
-
-              <Button
-                variant="secondary"
-                size="md"
-                onPress={handleCreateAccount}
-                testID="welcome-create-account"
-                disableAnimations
-                fullWidth
-              >
-                {createAccountButtonTitle}
-              </Button>
-
-              {isDev && (
-                <Button
-                  variant="ghost"
-                  size="xs"
-                  onPress={handleGoToShowcase}
-                  testID="dev-docs-button-discrete"
-                  disableAnimations
+        <View style={styles.bottomContent}>
+          <View style={styles.titleContainer}>
+            {titleLines.map(
+              (
+                line:
+                  | string
+                  | number
+                  | bigint
+                  | boolean
+                  | React.ReactElement<
+                      unknown,
+                      string | React.JSXElementConstructor<unknown>
+                    >
+                  | Iterable<React.ReactNode>
+                  | React.ReactPortal
+                  | Promise<
+                      | string
+                      | number
+                      | bigint
+                      | boolean
+                      | React.ReactPortal
+                      | React.ReactElement<
+                          unknown,
+                          string | React.JSXElementConstructor<unknown>
+                        >
+                      | Iterable<React.ReactNode>
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined,
+                index: React.Key | null | undefined
+              ) => (
+                <Text
+                  key={index}
+                  variant="displayAccent"
+                  style={{
+                    fontSize: 57,
+                    lineHeight: 65,
+                    letterSpacing: 2,
+                  }}
+                  testID={`welcome-title-${index}`}
                 >
-                  LIB COMPONENTES
+                  {line}
+                </Text>
+              )
+            )}
+          </View>
+          <Text
+            variant="bodyMuted"
+            testID="welcome-subtitle"
+            style={styles.subtitle}
+          >
+            {subtitle}
+          </Text>
+
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonRow}>
+              <View style={styles.buttonHalf}>
+                <Button
+                  variant="secondary"
+                  size="md"
+                  onPress={handleGetStarted}
+                  testID="welcome-get-started"
+                  disableAnimations
+                  rounded
+                  fullWidth
+                >
+                  {startButtonTitle}
                 </Button>
-              )}
+              </View>
+
+              <View style={styles.buttonHalf}>
+                <Button
+                  variant="outline-light"
+                  size="md"
+                  onPress={handleCreateAccount}
+                  testID="welcome-create-account"
+                  disableAnimations
+                  rounded
+                  fullWidth
+                >
+                  {createAccountButtonTitle}
+                </Button>
+              </View>
             </View>
+
+            {isDev && (
+              <Button
+                variant="ghost"
+                size="xs"
+                onPress={handleGoToShowcase}
+                testID="dev-docs-button-discrete"
+                disableAnimations
+                fullWidth
+              >
+                LIB COMPONENTES
+              </Button>
+            )}
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </View>
   );
 };

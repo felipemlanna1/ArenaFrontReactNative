@@ -19,6 +19,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
     iconOnly,
     onPress,
     align,
+    rounded,
   } = params;
   const buttonConfig = useMemo(() => getButtonVariant(variant), [variant]);
   const sizeConfig = useMemo(() => getButtonSize(size), [size]);
@@ -39,18 +40,19 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
         backgroundColor: buttonConfig.backgroundColor,
         borderColor: buttonConfig.borderColor,
         borderWidth: buttonConfig.borderWidth,
-        borderRadius:
-          ArenaBorders.radius[
-            size === 'xs'
-              ? 'sm'
-              : size === 'sm'
-                ? 'md'
-                : size === 'md'
-                  ? 'lg'
-                  : size === 'lg'
-                    ? 'xl'
-                    : '2xl'
-          ],
+        borderRadius: rounded
+          ? ArenaBorders.radius.pill
+          : ArenaBorders.radius[
+              size === 'xs'
+                ? 'sm'
+                : size === 'sm'
+                  ? 'md'
+                  : size === 'md'
+                    ? 'lg'
+                    : size === 'lg'
+                      ? 'xl'
+                      : '2xl'
+            ],
         height: iconOnly ? undefined : sizeConfig.height,
         paddingHorizontal: iconOnly
           ? ArenaSpacing.none
@@ -108,6 +110,7 @@ export const useButton = (params: UseButtonParams): UseButtonReturn => {
     disabled,
     loading,
     align,
+    rounded,
   ]);
   const iconProps = useMemo(
     () => ({

@@ -1,10 +1,10 @@
 export const TEXTS = {
   WELCOME: {
-    TITLE_LINES: ['CONECTE, JOGUE, VIVA A ARENA'],
+    TITLE_LINES: ['CONECTE,', 'JOGUE,', 'VIVA A ARENA'],
     SUBTITLE:
       'A primeira plataforma que te coloca em movimento. Encontre atletas, crie eventos, forme sua comunidade esportiva.',
-    START_BUTTON: 'Começar agora',
-    CREATE_ACCOUNT_BUTTON: 'Criar conta',
+    START_BUTTON: 'COMEÇAR AGORA',
+    CREATE_ACCOUNT_BUTTON: 'CRIAR CONTA',
     ACCESSIBILITY: {
       START_BUTTON: 'Começar agora',
       CREATE_ACCOUNT_BUTTON: 'Criar conta',
