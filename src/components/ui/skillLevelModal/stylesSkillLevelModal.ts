@@ -73,5 +73,6 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     paddingHorizontal: ArenaSpacing.lg,
     paddingTop: ArenaSpacing.md,
+    gap: ArenaSpacing.sm,
   },
 });

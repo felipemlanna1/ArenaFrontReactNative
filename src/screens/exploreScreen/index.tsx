@@ -149,17 +149,11 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
     async (groupId: string) => {
       try {
         await groupsApi.requestJoin(groupId);
-        await Promise.all([
-          refetchGroupsContext(),
-          groupsData.refreshGroups(),
-        ]);
+        await Promise.all([refetchGroupsContext(), groupsData.refreshGroups()]);
         haptic.success();
         showToast('Você entrou no grupo', 'success');
       } catch {
-        await Promise.all([
-          refetchGroupsContext(),
-          groupsData.refreshGroups(),
-        ]);
+        await Promise.all([refetchGroupsContext(), groupsData.refreshGroups()]);
         haptic.error();
       }
     },
@@ -170,17 +164,11 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({ navigation }) => {
     async (groupId: string) => {
       try {
         await groupsApi.leaveGroup(groupId);
-        await Promise.all([
-          refetchGroupsContext(),
-          groupsData.refreshGroups(),
-        ]);
+        await Promise.all([refetchGroupsContext(), groupsData.refreshGroups()]);
         haptic.success();
         showToast('Você saiu do grupo', 'success');
       } catch {
-        await Promise.all([
-          refetchGroupsContext(),
-          groupsData.refreshGroups(),
-        ]);
+        await Promise.all([refetchGroupsContext(), groupsData.refreshGroups()]);
         haptic.error();
       }
     },

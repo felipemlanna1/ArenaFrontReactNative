@@ -73,7 +73,9 @@ export const VerifyEmailScreen: React.FC = () => {
           <View style={styles.codeInputContainer}>
             <Input
               value={code}
-              onChangeText={(text) => setCode(text.replace(/\D/g, '').slice(0, 6))}
+              onChangeText={text =>
+                setCode(text.replace(/\D/g, '').slice(0, 6))
+              }
               placeholder="000000"
               keyboardType="number-pad"
               maxLength={6}

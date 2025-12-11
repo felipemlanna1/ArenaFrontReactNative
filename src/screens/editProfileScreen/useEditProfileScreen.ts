@@ -4,7 +4,6 @@ import { useAlert } from '@/contexts/AlertContext';
 import { useSports } from '@/contexts/SportsContext';
 import { usersApi } from '@/services/users/api';
 import { updateUserSports } from '@/services/sports';
-import { authService } from '@/services/auth';
 import { SkillLevel, Sport } from '@/types/sport';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import {
@@ -46,6 +45,7 @@ interface UseEditProfileScreenReturn {
   handleToggleSport: (sportId: string) => void;
   handleTogglePrimary: (sportId: string) => void;
   handleUpdateSportLevel: (sportId: string, level: SkillLevel) => void;
+  handleRemoveSport: (sportId: string) => void;
   handlePickProfilePicture: () => Promise<void>;
   handlePickCoverPhoto: () => Promise<void>;
   handleSave: () => Promise<void>;
@@ -153,17 +153,20 @@ export const useEditProfileScreen = ({
 
     loadData();
   }, [user, sportsLoading, showError]);
-  const validateUsername = useCallback((username: string): string | undefined => {
-    if (!username.trim()) return 'Username é obrigatório';
-    if (username.trim().length < 3)
-      return 'Username deve ter no mínimo 3 caracteres';
-    if (username.trim().length > 30)
-      return 'Username deve ter no máximo 30 caracteres';
-    if (!/^[a-z0-9_]+$/.test(username)) {
-      return 'Username deve conter apenas letras minúsculas, números e _';
-    }
-    return undefined;
-  }, []);
+  const validateUsername = useCallback(
+    (username: string): string | undefined => {
+      if (!username.trim()) return 'Username é obrigatório';
+      if (username.trim().length < 3)
+        return 'Username deve ter no mínimo 3 caracteres';
+      if (username.trim().length > 30)
+        return 'Username deve ter no máximo 30 caracteres';
+      if (!/^[a-z0-9_]+$/.test(username)) {
+        return 'Username deve conter apenas letras minúsculas, números e _';
+      }
+      return undefined;
+    },
+    []
+  );
 
   const validateForm = useCallback((): boolean => {
     const newErrors: EditProfileFormErrors = {};
@@ -282,6 +285,30 @@ export const useEditProfileScreen = ({
     },
     []
   );
+
+  const handleRemoveSport = useCallback((sportId: string) => {
+    setFormData(prev => {
+      const newLevels = { ...prev.sportLevels };
+      delete newLevels[sportId];
+
+      const newSelectedSports = prev.selectedSports.filter(
+        id => id !== sportId
+      );
+      const newPrimarySportId =
+        prev.primarySportId === sportId
+          ? newSelectedSports.length > 0
+            ? newSelectedSports[0]
+            : null
+          : prev.primarySportId;
+
+      return {
+        ...prev,
+        selectedSports: newSelectedSports,
+        sportLevels: newLevels,
+        primarySportId: newPrimarySportId,
+      };
+    });
+  }, []);
 
   const handleSave = useCallback(async () => {
     if (!validateForm()) {
@@ -475,6 +502,7 @@ export const useEditProfileScreen = ({
     handleToggleSport,
     handleTogglePrimary,
     handleUpdateSportLevel,
+    handleRemoveSport,
     handlePickProfilePicture,
     handlePickCoverPhoto,
     handleSave,

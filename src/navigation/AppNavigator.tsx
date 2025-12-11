@@ -149,11 +149,16 @@ export const AppNavigator: React.FC = () => {
     const checkGoogleOAuthProfileCompletion = () => {
       if (!user || isLoading || !userHasSports) return;
 
-      const isGoogleOAuthUser = user.authProvider === 'google' || !!user.googleId;
+      const isGoogleOAuthUser =
+        user.authProvider === 'google' || !!user.googleId;
 
       if (!isGoogleOAuthUser) return;
 
-      const isProfileIncomplete = !user.dateOfBirth && !user.birthDate || !user.gender || !user.city || !user.state;
+      const isProfileIncomplete =
+        (!user.dateOfBirth && !user.birthDate) ||
+        !user.gender ||
+        !user.city ||
+        !user.state;
 
       if (isProfileIncomplete && navigationRef.current) {
         navigationRef.current.navigate('EditProfile', {

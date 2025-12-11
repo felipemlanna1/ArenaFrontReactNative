@@ -44,6 +44,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
     handleToggleSport,
     handleTogglePrimary,
     handleUpdateSportLevel,
+    handleRemoveSport,
     handlePickProfilePicture,
     handlePickCoverPhoto,
     handleSave,
@@ -92,6 +93,12 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
   const handleCloseModal = useCallback(() => {
     setSkillLevelModal(null);
   }, []);
+
+  const handleRemoveSportInModal = useCallback(() => {
+    if (skillLevelModal) {
+      handleRemoveSport(skillLevelModal.sportId);
+    }
+  }, [skillLevelModal, handleRemoveSport]);
 
   if (isLoading) {
     return (
@@ -412,6 +419,7 @@ export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           isPrimary={formData.primarySportId === skillLevelModal.sportId}
           onSelectLevel={handleSelectLevel}
           onTogglePrimary={handleTogglePrimaryInModal}
+          onRemoveSport={handleRemoveSportInModal}
           onClose={handleCloseModal}
           testID="skill-level-modal"
         />

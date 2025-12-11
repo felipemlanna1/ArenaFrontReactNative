@@ -48,6 +48,7 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
   isPrimary = false,
   onSelectLevel,
   onTogglePrimary,
+  onRemoveSport,
   onClose,
   testID = 'skill-level-modal',
 }) => {
@@ -76,6 +77,13 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
     }
     onClose();
   }, [tempLevel, onSelectLevel, onTogglePrimary, tempIsPrimary, onClose]);
+
+  const handleRemove = useCallback(() => {
+    if (onRemoveSport) {
+      onRemoveSport();
+    }
+    onClose();
+  }, [onRemoveSport, onClose]);
 
   return (
     <Modal
@@ -174,6 +182,16 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
             )}
 
             <View style={styles.buttonContainer}>
+              {onRemoveSport && (
+                <Button
+                  variant="secondary"
+                  onPress={handleRemove}
+                  size="lg"
+                  testID={`${testID}-remove-button`}
+                >
+                  Remover Esporte
+                </Button>
+              )}
               <Button
                 variant="primary"
                 onPress={handleConfirm}

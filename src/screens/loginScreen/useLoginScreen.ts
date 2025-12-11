@@ -43,17 +43,19 @@ export const useLoginScreen = (
   const { showInfo, showSuccess, showError } = useAlert();
 
   const googleWebClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
-  const googleAndroidClientId = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
+  const googleAndroidClientId =
+    process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
   const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
 
   const redirectUri = __DEV__
     ? undefined
     : AuthSession.makeRedirectUri({
-        scheme: Platform.OS === 'android'
-          ? `com.googleusercontent.apps.${googleAndroidClientId?.replace('.apps.googleusercontent.com', '')}`
-          : Platform.OS === 'ios'
-          ? `com.googleusercontent.apps.${googleIosClientId?.replace('.apps.googleusercontent.com', '')}`
-          : undefined,
+        scheme:
+          Platform.OS === 'android'
+            ? `com.googleusercontent.apps.${googleAndroidClientId?.replace('.apps.googleusercontent.com', '')}`
+            : Platform.OS === 'ios'
+              ? `com.googleusercontent.apps.${googleIosClientId?.replace('.apps.googleusercontent.com', '')}`
+              : undefined,
         path: 'oauth2redirect',
       });
 
@@ -62,8 +64,14 @@ export const useLoginScreen = (
   console.log('[Google OAuth Debug] Web Client ID:', googleWebClientId);
   console.log('[Google OAuth Debug] Android Client ID:', googleAndroidClientId);
   console.log('[Google OAuth Debug] iOS Client ID:', googleIosClientId);
-  console.log('[Google OAuth Debug] Expo Config Scheme:', Constants.expoConfig?.scheme);
-  console.log('[Google OAuth Debug] Expo Config iOS Schemes:', Constants.expoConfig?.ios?.infoPlist?.CFBundleURLTypes);
+  console.log(
+    '[Google OAuth Debug] Expo Config Scheme:',
+    Constants.expoConfig?.scheme
+  );
+  console.log(
+    '[Google OAuth Debug] Expo Config iOS Schemes:',
+    Constants.expoConfig?.ios?.infoPlist?.CFBundleURLTypes
+  );
   console.log('[Google OAuth Debug] useIdTokenAuthRequest config:', {
     clientId: googleWebClientId,
     androidClientId: googleAndroidClientId,
@@ -219,7 +227,10 @@ export const useLoginScreen = (
       console.log('[Google OAuth] 1. Iniciando autenticação...');
       const result = await googlePromptAsync();
       console.log('[Google OAuth] 2. Resultado recebido:', result.type);
-      console.log('[Google OAuth] 2.1. Resultado completo:', JSON.stringify(result, null, 2));
+      console.log(
+        '[Google OAuth] 2.1. Resultado completo:',
+        JSON.stringify(result, null, 2)
+      );
 
       if (result.type === 'success') {
         const { authentication, params } = result;
@@ -267,20 +278,34 @@ export const useLoginScreen = (
         console.error('[Google OAuth] Erro do Google OAuth:');
         console.error('[Google OAuth] Error code:', result.error?.code);
         console.error('[Google OAuth] Error message:', result.error?.message);
-        console.error('[Google OAuth] Full error:', JSON.stringify(result.error, null, 2));
+        console.error(
+          '[Google OAuth] Full error:',
+          JSON.stringify(result.error, null, 2)
+        );
         console.error('[Google OAuth] URL:', result.url);
         console.error('[Google OAuth] Params:', result.params);
         setErrors({
           general: `Erro do Google: ${result.error?.message || 'Erro desconhecido'}`,
         });
-        showError(`Erro do Google OAuth: ${result.error?.message || 'invalid_request'}`);
+        showError(
+          `Erro do Google OAuth: ${result.error?.message || 'invalid_request'}`
+        );
       } else {
-        console.log('[Google OAuth] Tipo de resultado inesperado:', result.type);
-        console.log('[Google OAuth] Dados completos:', JSON.stringify(result, null, 2));
+        console.log(
+          '[Google OAuth] Tipo de resultado inesperado:',
+          result.type
+        );
+        console.log(
+          '[Google OAuth] Dados completos:',
+          JSON.stringify(result, null, 2)
+        );
       }
     } catch (error: unknown) {
       console.error('[Google OAuth] ERRO:', error);
-      console.error('[Google OAuth] Tipo do erro:', (error as Error)?.constructor?.name);
+      console.error(
+        '[Google OAuth] Tipo do erro:',
+        (error as Error)?.constructor?.name
+      );
       console.error('[Google OAuth] Mensagem:', (error as Error)?.message);
       console.error('[Google OAuth] Stack:', (error as Error)?.stack);
 

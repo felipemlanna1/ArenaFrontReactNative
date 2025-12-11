@@ -120,10 +120,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           : undefined
       }
     >
-      <View
-        style={styles.container}
-        testID={testID}
-      >
+      <View style={styles.container} testID={testID}>
         <ScrollView contentContainerStyle={scrollContainerStyle}>
           <LinearGradient
             colors={[ArenaColors.neutral.darkest, ArenaColors.neutral.dark]}

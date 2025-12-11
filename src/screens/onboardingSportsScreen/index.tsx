@@ -76,6 +76,9 @@ export const OnboardingSportsScreen: React.FC<
           isPrimary={currentIsPrimary}
           onSelectLevel={handleSelectLevel}
           onTogglePrimary={handleTogglePrimary}
+          onRemoveSport={
+            currentSport ? () => handleRemoveSport(currentSport.id) : undefined
+          }
           onClose={handleCloseModal}
         />
 
