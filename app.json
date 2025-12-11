@@ -41,9 +41,7 @@
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Arena precisa acessar sua localização para mostrar eventos próximos a você.",
         "CFBundleURLTypes": [
           {
-            "CFBundleURLSchemes": [
-              "arena"
-            ]
+            "CFBundleURLSchemes": ["arena"]
           },
           {
             "CFBundleURLSchemes": [

@@ -60,10 +60,10 @@ export const VerifyEmailScreen: React.FC = () => {
           </View>
 
           <View style={styles.titleContainer}>
-            <Text variant="titlePrimary" style={{ textAlign: 'center' }}>
+            <Text variant="titlePrimary" style={styles.centeredText}>
               Verificar Email
             </Text>
-            <Text variant="bodySecondary" style={{ textAlign: 'center' }}>
+            <Text variant="bodySecondary" style={styles.centeredText}>
               Digite o código de 6 dígitos enviado para seu email
             </Text>
           </View>
@@ -104,7 +104,7 @@ export const VerifyEmailScreen: React.FC = () => {
                 size={20}
                 color={ArenaColors.semantic.error}
               />
-              <Text variant="bodyError" style={{ flex: 1 }}>
+              <Text variant="bodyError" style={styles.flexText}>
                 {error}
               </Text>
             </View>
@@ -135,7 +135,7 @@ export const VerifyEmailScreen: React.FC = () => {
         </View>
 
         <View style={styles.instructionsContainer}>
-          <Text variant="captionSecondary" style={{ textAlign: 'center' }}>
+          <Text variant="captionSecondary" style={styles.centeredText}>
             Verifique sua caixa de entrada e spam. O código é válido por 24
             horas.
           </Text>

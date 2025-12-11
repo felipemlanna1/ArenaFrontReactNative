@@ -7,8 +7,8 @@ import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArenaColors } from '@/constants';
-import { PulsatingBadge } from '../PulsatingBadge';
-import type { EnrichedPastEvent } from '../../typesPastEventsScreen';
+import { PulsatingBadge } from '@/screens/pastEventsScreen/components/PulsatingBadge';
+import type { EnrichedPastEvent } from '@/screens/pastEventsScreen/typesPastEventsScreen';
 import { styles } from './stylesPastEventCard';
 
 interface PastEventCardProps {

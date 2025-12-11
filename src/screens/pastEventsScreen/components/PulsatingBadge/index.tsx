@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 import { Badge } from '@/components/ui/badge';
 import type { BadgeVariant } from '@/components/ui/badge/typesBadge';
+import { styles } from './stylesPulsatingBadge';
 
 interface PulsatingBadgeProps {
   variant: BadgeVariant;
@@ -36,7 +37,9 @@ export const PulsatingBadge: React.FC<PulsatingBadgeProps> = ({
   }, [pulseAnim]);
 
   return (
-    <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+    <Animated.View
+      style={[styles.animatedContainer, { transform: [{ scale: pulseAnim }] }]}
+    >
       <Badge variant={variant}>{children}</Badge>
     </Animated.View>
   );

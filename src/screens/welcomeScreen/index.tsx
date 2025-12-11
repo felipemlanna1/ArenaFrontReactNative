@@ -42,12 +42,7 @@ export const WelcomeScreen: React.FC = () => {
       />
 
       <View style={styles.content}>
-        <View
-          style={[
-            styles.logoContainer,
-            { paddingTop: 15 },
-          ]}
-        >
+        <View style={styles.logoContainer}>
           <OptimizedImage
             source={require('@/assets/images/logos/L1.svg')}
             style={styles.logo}
@@ -93,11 +88,7 @@ export const WelcomeScreen: React.FC = () => {
                 <Text
                   key={index}
                   variant="displayAccent"
-                  style={{
-                    fontSize: 57,
-                    lineHeight: 65,
-                    letterSpacing: 2,
-                  }}
+                  style={styles.titleText}
                   testID={`welcome-title-${index}`}
                 >
                   {line}

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors } from '@/constants';
+import { ArenaSpacing, ArenaColors, ArenaSizes } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     paddingHorizontal: ArenaSpacing.lg,
+    paddingTop: ArenaSpacing.lg,
     width: '100%',
     position: 'absolute',
     top: 0,
@@ -38,8 +39,8 @@ export const styles = StyleSheet.create({
     zIndex: 10,
   },
   logo: {
-    width: 240,
-    height: 53,
+    width: ArenaSizes.logoWidth,
+    height: ArenaSizes.logoHeight,
   },
   bottomContent: {
     position: 'absolute',
@@ -53,9 +54,12 @@ export const styles = StyleSheet.create({
   titleContainer: {
     marginBottom: ArenaSpacing.md,
   },
+  titleText: {
+    textAlign: 'left',
+  },
   subtitle: {
     marginBottom: ArenaSpacing['2xl'],
-    paddingRight: 100,
+    paddingRight: ArenaSpacing['8.5xl'],
     textAlign: 'left',
     color: ArenaColors.neutral.light,
   },

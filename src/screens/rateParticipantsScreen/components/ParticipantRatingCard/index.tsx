@@ -5,6 +5,7 @@ import { Text } from '@/components/ui/text';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { StarRating } from '@/components/ui/starRating';
+import { SkillLevelRating } from '@/components/ui/skillLevelRating';
 import { OptimizedImage } from '@/components/ui/optimizedImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ArenaColors } from '@/constants';
@@ -71,12 +72,10 @@ export const ParticipantRatingCard: React.FC<ParticipantRatingCardProps> = ({
 
       <View style={styles.ratingSection}>
         <Label variant="inline">Habilidade Técnica</Label>
-        <StarRating
+        <SkillLevelRating
           value={technicalRating}
-          onValueChange={onTechnicalChange}
-          size="md"
-          readonly={isAlreadyRated}
-          showLabel
+          onChange={onTechnicalChange}
+          disabled={isAlreadyRated}
           testID={`${testID}-technical-rating`}
         />
       </View>

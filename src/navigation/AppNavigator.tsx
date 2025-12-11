@@ -43,7 +43,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const WrappedWelcomeScreen = withAndroidScreenWrapper(WelcomeScreen, {
   enableScroll: false,
-  containerStyle: { backgroundColor: '#FFFFFF' },
+  containerStyle: { backgroundColor: ArenaColors.neutral.light },
 });
 const WrappedLoginScreen = withAndroidScreenWrapper(LoginScreen, {
   enableScroll: false,

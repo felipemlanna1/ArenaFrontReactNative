@@ -46,6 +46,8 @@ export const ArenaSizes = {
   fabSize: 56,
   avatarMedium: 100,
   avatarLarge: 120,
+  logoWidth: 240,
+  logoHeight: 53,
   coverPhotoHeight: 120,
   coverImageHeight: 180,
   eventHeroHeight: 240,
