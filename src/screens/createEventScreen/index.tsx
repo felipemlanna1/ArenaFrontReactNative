@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AppLayout } from '@/components/AppLayout';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
@@ -17,12 +18,13 @@ import {
 } from './typesCreateEventScreen';
 import { useCreateEventScreen } from './useCreateEventScreen';
 import { styles } from './stylesCreateEventScreen';
-import { ArenaColors } from '@/constants';
+import { ArenaSpacing } from '@/constants';
 
 export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
   navigation,
   route,
 }) => {
+  const insets = useSafeAreaInsets();
   const isEditMode = route?.params?.mode === 'edit';
   const eventToEdit = route?.params?.eventData;
   const preSelectedGroupId = route?.params?.preSelectedGroupId;
@@ -102,40 +104,30 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <TouchableOpacity style={styles.backButton} onPress={handleCancel}>
-            <Ionicons
-              name="arrow-back"
-              size={24}
-              color={ArenaColors.neutral.light}
-            />
-          </TouchableOpacity>
-
-          <Text variant="headingPrimary" style={styles.headerTitle}>
-            {isEditMode ? 'Editar Evento' : 'Criar Evento'}
-          </Text>
-
-          <View style={styles.placeholder} />
+    <AppLayout
+      showHeader={true}
+      headerVariant="secondary"
+      headerTitle={isEditMode ? 'Editar Evento' : 'Criar Evento'}
+      headerShowLogo={false}
+      headerShowBackButton={true}
+      headerOnBackPress={handleCancel}
+      headerChildren={
+        <View style={styles.progressContainer}>
+          <Stepper
+            currentStep={currentStep}
+            totalSteps={TOTAL_STEPS}
+            variant="dots"
+            showProgress={true}
+            steps={[
+              { label: 'Informações' },
+              { label: 'Privacidade' },
+              { label: 'Localização' },
+              { label: 'Revisão' },
+            ]}
+          />
         </View>
-      </View>
-
-      <View style={styles.progressContainer}>
-        <Stepper
-          currentStep={currentStep}
-          totalSteps={TOTAL_STEPS}
-          variant="dots"
-          showProgress={true}
-          steps={[
-            { label: 'Informações' },
-            { label: 'Privacidade' },
-            { label: 'Localização' },
-            { label: 'Revisão' },
-          ]}
-        />
-      </View>
-
+      }
+    >
       <ArenaKeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -143,44 +135,49 @@ export const CreateEventScreen: React.FC<CreateEventScreenProps> = ({
         bottomOffset={100}
       >
         {renderStepContent()}
+      </ArenaKeyboardAwareScrollView>
 
-        <View style={styles.footer}>
-          <View style={styles.buttonRow}>
-            {!isFirstStep && (
-              <View style={styles.flex1}>
-                <Button
-                  variant="secondary"
-                  onPress={handlePrevious}
-                  disabled={isCreating}
-                  fullWidth
-                >
-                  Voltar
-                </Button>
-              </View>
-            )}
-
+      <View
+        style={[
+          styles.footer,
+          { paddingBottom: ArenaSpacing.md + (insets.bottom || 0) },
+        ]}
+      >
+        <View style={styles.buttonRow}>
+          {!isFirstStep && (
             <View style={styles.flex1}>
               <Button
-                variant="primary"
-                onPress={handleButtonPress}
+                variant="secondary"
+                onPress={handlePrevious}
                 disabled={isCreating}
                 fullWidth
               >
-                {getButtonText()}
+                Voltar
               </Button>
             </View>
-          </View>
-
-          {isCreating && (
-            <View style={styles.loadingContainer}>
-              <SportsLoading size="sm" />
-              <Text variant="captionSecondary" style={styles.loadingText}>
-                {isEditMode ? 'Salvando alterações...' : 'Criando evento...'}
-              </Text>
-            </View>
           )}
+
+          <View style={styles.flex1}>
+            <Button
+              variant="primary"
+              onPress={handleButtonPress}
+              disabled={isCreating}
+              fullWidth
+            >
+              {getButtonText()}
+            </Button>
+          </View>
         </View>
-      </ArenaKeyboardAwareScrollView>
-    </View>
+
+        {isCreating && (
+          <View style={styles.loadingContainer}>
+            <SportsLoading size="sm" />
+            <Text variant="captionSecondary" style={styles.loadingText}>
+              {isEditMode ? 'Salvando alterações...' : 'Criando evento...'}
+            </Text>
+          </View>
+        )}
+      </View>
+    </AppLayout>
   );
 };

@@ -16,6 +16,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   headerOnBackPress,
   headerRightActions = [],
   headerRightComponent,
+  headerChildren,
   testID = 'app-layout',
 }) => {
   return (
@@ -36,6 +37,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           testID={`${testID}-header`}
         />
       )}
+
+      {headerChildren}
 
       <View style={styles.content}>{children}</View>
 

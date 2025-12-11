@@ -32,7 +32,16 @@ export const PendingFeedbackProvider: React.FC<
     try {
       setIsLoading(true);
       const events = await feedbackApi.getPendingEvents();
-      setPendingCount(events.length);
+
+      const validEvents = events.filter(event => {
+        const endDate = new Date(event.endDate);
+        const daysSinceEnd = Math.floor(
+          (Date.now() - endDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
+        return daysSinceEnd < 7;
+      });
+
+      setPendingCount(validEvents.length);
     } catch {
       setPendingCount(0);
     } finally {

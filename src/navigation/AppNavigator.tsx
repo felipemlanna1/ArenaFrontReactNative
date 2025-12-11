@@ -173,7 +173,14 @@ export const AppNavigator: React.FC = () => {
       try {
         const events = await feedbackApi.getPendingEvents();
         if (Array.isArray(events)) {
-          setPendingEventsCount(events.length);
+          const validEvents = events.filter(event => {
+            const endDate = new Date(event.endDate);
+            const daysSinceEnd = Math.floor(
+              (Date.now() - endDate.getTime()) / (1000 * 60 * 60 * 24)
+            );
+            return daysSinceEnd < 7;
+          });
+          setPendingEventsCount(validEvents.length);
         } else {
           setPendingEventsCount(0);
         }

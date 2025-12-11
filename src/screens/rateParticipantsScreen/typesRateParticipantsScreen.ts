@@ -1,6 +1,8 @@
+import { SkillLevel } from '@/components/ui/skillLevelRating/typesSkillLevelRating';
+
 export interface ParticipantRating {
   userId: string;
-  technical: number;
+  technical: SkillLevel | null;
   participation: number;
 }
 

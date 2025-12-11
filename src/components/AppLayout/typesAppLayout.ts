@@ -17,5 +17,7 @@ export interface AppLayoutProps {
   headerRightActions?: HeaderAction[];
   headerRightComponent?: ReactNode;
 
+  headerChildren?: ReactNode;
+
   testID?: string;
 }

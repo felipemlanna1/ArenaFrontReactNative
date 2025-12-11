@@ -6,6 +6,7 @@ import { eventsApi } from '@/services/events/eventsApi';
 import { Event } from '@/services/events/typesEvents';
 import { ParticipantToRate } from '@/services/feedback/typesFeedback';
 import { haptic } from '@/utils/haptics';
+import { SkillLevel } from '@/components/ui/skillLevelRating/typesSkillLevelRating';
 import {
   ParticipantRating,
   RateParticipantsScreenParams,
@@ -20,11 +21,8 @@ interface UseRateParticipantsScreenReturn {
   isLoading: boolean;
   isSaving: boolean;
   isMarking: boolean;
-  updateRating: (
-    userId: string,
-    field: 'technical' | 'participation',
-    value: number
-  ) => void;
+  updateTechnicalRating: (userId: string, value: SkillLevel) => void;
+  updateParticipationRating: (userId: string, value: number) => void;
   submitRatings: () => Promise<void>;
   markAsCompleted: () => void;
   progress: RatingProgress;
@@ -89,22 +87,28 @@ export const useRateParticipantsScreen =
       fetchData();
     }, [fetchData]);
 
-    const updateRating = useCallback(
-      (
-        userId: string,
-        field: 'technical' | 'participation',
-        value: number
-      ): void => {
+    const updateTechnicalRating = useCallback(
+      (userId: string, value: SkillLevel): void => {
         setRatings(prev => ({
           ...prev,
           [userId]: {
             userId,
-            technical:
-              field === 'technical' ? value : prev[userId]?.technical || 0,
-            participation:
-              field === 'participation'
-                ? value
-                : prev[userId]?.participation || 0,
+            technical: value,
+            participation: prev[userId]?.participation || 0,
+          },
+        }));
+      },
+      []
+    );
+
+    const updateParticipationRating = useCallback(
+      (userId: string, value: number): void => {
+        setRatings(prev => ({
+          ...prev,
+          [userId]: {
+            userId,
+            technical: prev[userId]?.technical || null,
+            participation: value,
           },
         }));
       },
@@ -113,7 +117,7 @@ export const useRateParticipantsScreen =
 
     const submitRatings = useCallback(async (): Promise<void> => {
       const feedbacks = Object.values(ratings).filter(
-        rating => rating.technical > 0 && rating.participation > 0
+        rating => rating.technical !== null && rating.participation > 0
       );
 
       if (feedbacks.length === 0) {
@@ -127,7 +131,7 @@ export const useRateParticipantsScreen =
           eventId,
           feedbacks: feedbacks.map(rating => ({
             evaluatedUserId: rating.userId,
-            technicalSkillRating: rating.technical,
+            technicalSkillRating: rating.technical as number,
             participationRating: rating.participation,
           })),
         });
@@ -192,7 +196,7 @@ export const useRateParticipantsScreen =
       rated:
         alreadyRatedUserIds.length +
         Object.values(ratings).filter(
-          r => r.technical > 0 && r.participation > 0
+          r => r.technical !== null && r.participation > 0
         ).length,
       total: participantsToRate.length + alreadyRatedUserIds.length,
     };
@@ -205,7 +209,8 @@ export const useRateParticipantsScreen =
       isLoading,
       isSaving,
       isMarking,
-      updateRating,
+      updateTechnicalRating,
+      updateParticipationRating,
       submitRatings,
       markAsCompleted,
       progress,

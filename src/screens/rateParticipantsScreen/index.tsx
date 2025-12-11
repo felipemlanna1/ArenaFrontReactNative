@@ -18,7 +18,8 @@ export const RateParticipantsScreen: React.FC = () => {
     isLoading,
     isSaving,
     isMarking,
-    updateRating,
+    updateTechnicalRating,
+    updateParticipationRating,
     submitRatings,
     markAsCompleted,
     progress,
@@ -43,7 +44,7 @@ export const RateParticipantsScreen: React.FC = () => {
   }
 
   const hasNewRatings = Object.values(ratings).some(
-    r => r.technical > 0 && r.participation > 0
+    r => r.technical !== null && r.participation > 0
   );
 
   return (
@@ -72,13 +73,13 @@ export const RateParticipantsScreen: React.FC = () => {
         renderItem={({ item }) => (
           <ParticipantRatingCard
             participant={item}
-            technicalRating={ratings[item.userId]?.technical || 0}
+            technicalRating={ratings[item.userId]?.technical || null}
             participationRating={ratings[item.userId]?.participation || 0}
             onTechnicalChange={value =>
-              updateRating(item.userId, 'technical', value)
+              updateTechnicalRating(item.userId, value)
             }
             onParticipationChange={value =>
-              updateRating(item.userId, 'participation', value)
+              updateParticipationRating(item.userId, value)
             }
             isAlreadyRated={alreadyRatedUserIds.includes(item.userId)}
             testID={`participant-card-${item.userId}`}
