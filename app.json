@@ -110,7 +110,7 @@
           "data": [
             {
               "scheme": "com.googleusercontent.apps.701372933128-3oro4a7pjug66mvie4iv9larg5lnffo3",
-              "path": "oauth2redirect"
+              "path": "/oauth2redirect"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
