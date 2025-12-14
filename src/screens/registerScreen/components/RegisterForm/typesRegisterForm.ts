@@ -7,10 +7,8 @@ export interface RegisterFormProps {
   formData: RegisterFormData;
   errors: RegisterErrors;
   isLoading: boolean;
-  onFirstNameChange: (text: string) => void;
-  onFirstNameBlur: () => void;
-  onLastNameChange: (text: string) => void;
-  onLastNameBlur: () => void;
+  onFullNameChange: (text: string) => void;
+  onFullNameBlur: () => void;
   onUsernameChange: (text: string) => void;
   onUsernameBlur: () => void;
   onEmailChange: (text: string) => void;
@@ -19,6 +17,4 @@ export interface RegisterFormProps {
   onPasswordBlur: () => void;
   onConfirmPasswordChange: (text: string) => void;
   onConfirmPasswordBlur: () => void;
-  onCityChange: (text: string) => void;
-  onStateChange: (text: string) => void;
 }

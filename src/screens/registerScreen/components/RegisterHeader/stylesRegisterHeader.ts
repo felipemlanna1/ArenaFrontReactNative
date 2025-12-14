@@ -1,18 +1,29 @@
 import { StyleSheet } from 'react-native';
-import { ArenaColors, ArenaSpacing } from '@/constants';
+import { ArenaColors, ArenaSpacing, ArenaSizes } from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
-    marginBottom: ArenaSpacing.xl,
+    width: '100%',
     alignItems: 'center',
+    marginBottom: ArenaSpacing['2xl'],
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: ArenaSpacing['6xl'],
+  },
+  logo: {
+    width: ArenaSizes.logoWidth,
+    height: ArenaSizes.logoHeight,
+  },
+  textContainer: {
+    alignItems: 'center',
+    gap: 0,
   },
   title: {
-    color: ArenaColors.neutral.light,
     textAlign: 'center',
-    marginBottom: ArenaSpacing.xs,
   },
   subtitle: {
-    color: ArenaColors.neutral.medium,
     textAlign: 'center',
+    color: ArenaColors.neutral.light,
   },
 });

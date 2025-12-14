@@ -1,8 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Input } from '@/components/ui/input';
-import { StateDropdown } from '@/components/ui/stateDropdown';
-import { CityDropdown } from '@/components/ui/cityDropdown';
 import { styles } from './stylesRegisterForm';
 import { RegisterFormProps } from './typesRegisterForm';
 
@@ -11,10 +9,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
     formData,
     errors,
     isLoading,
-    onFirstNameChange,
-    onFirstNameBlur,
-    onLastNameChange,
-    onLastNameBlur,
+    onFullNameChange,
+    onFullNameBlur,
     onUsernameChange,
     onUsernameBlur,
     onEmailChange,
@@ -23,39 +19,24 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
     onPasswordBlur,
     onConfirmPasswordChange,
     onConfirmPasswordBlur,
-    onCityChange,
-    onStateChange,
   }) => {
     return (
       <View style={styles.container}>
         <Input
-          value={formData.firstName}
-          onChangeText={onFirstNameChange}
-          onBlur={onFirstNameBlur}
-          placeholder="Nome"
-          label="Nome"
-          variant="default"
-          size="md"
+          value={formData.fullName}
+          onChangeText={onFullNameChange}
+          onBlur={onFullNameBlur}
+          placeholder="Digite seu nome completo"
+          label="Nome completo"
+          size="lg"
           disabled={isLoading}
-          error={errors.firstName}
+          error={errors.fullName}
           required
+          fullWidth
+          disableAnimations
           autoCapitalize="words"
-          testID="register-first-name-input"
-        />
-
-        <Input
-          value={formData.lastName}
-          onChangeText={onLastNameChange}
-          onBlur={onLastNameBlur}
-          placeholder="Sobrenome"
-          label="Sobrenome"
-          variant="default"
-          size="md"
-          disabled={isLoading}
-          error={errors.lastName}
-          required
-          autoCapitalize="words"
-          testID="register-last-name-input"
+          style={styles.customInput}
+          testID="register-fullname-input"
         />
 
         <Input
@@ -65,11 +46,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           onBlur={onUsernameBlur}
           placeholder="username"
           label="Username"
-          variant="default"
-          size="md"
+          size="lg"
           disabled={isLoading}
           error={errors.username}
           required
+          fullWidth
+          disableAnimations
+          autoCapitalize="none"
+          style={styles.customInput}
           testID="register-username-input"
         />
 
@@ -79,37 +63,19 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           onChangeText={onEmailChange}
           onBlur={onEmailBlur}
           placeholder="seu@email.com"
-          label="Email"
-          variant="default"
-          size="md"
+          label="E-mail"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+          size="lg"
           disabled={isLoading}
           error={errors.email}
           required
+          fullWidth
+          disableAnimations
+          style={styles.customInput}
           testID="register-email-input"
         />
-
-        <StateDropdown
-          value={formData.state}
-          onChange={onStateChange}
-          label="Estado"
-          error={errors.state}
-          required
-          disabled={isLoading}
-          testID="register-state-dropdown"
-        />
-
-        {formData.state && (
-          <CityDropdown
-            value={formData.city}
-            onChange={onCityChange}
-            stateUF={formData.state}
-            label="Cidade"
-            error={errors.city}
-            required
-            disabled={isLoading}
-            testID="register-city-dropdown"
-          />
-        )}
 
         <Input
           type="password"
@@ -118,11 +84,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           onBlur={onPasswordBlur}
           placeholder="Mínimo 8 caracteres"
           label="Senha"
-          variant="default"
-          size="md"
+          size="lg"
           disabled={isLoading}
           error={errors.password}
           required
+          fullWidth
+          disableAnimations
+          style={styles.customInput}
           testID="register-password-input"
         />
 
@@ -133,11 +101,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = React.memo(
           onBlur={onConfirmPasswordBlur}
           placeholder="Digite a senha novamente"
           label="Confirmar senha"
-          variant="default"
-          size="md"
+          size="lg"
           disabled={isLoading}
           error={errors.confirmPassword}
           required
+          fullWidth
+          disableAnimations
+          style={styles.customInput}
           testID="register-confirm-password-input"
         />
       </View>

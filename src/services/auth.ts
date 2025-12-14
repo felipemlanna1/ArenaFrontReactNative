@@ -21,8 +21,8 @@ export interface RegisterData {
   email: string;
   password: string;
   confirmPassword: string;
-  city: string;
-  state: string;
+  city?: string;
+  state?: string;
 }
 
 export interface AuthResponse {

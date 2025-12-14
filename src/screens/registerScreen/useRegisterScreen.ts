@@ -37,35 +37,37 @@ const validateConfirmPassword = (
   return undefined;
 };
 
-const validateName = (name: string, field: string): string | undefined => {
-  if (!name.trim()) return `${field} é obrigatório`;
-  if (name.trim().length < 2) return `${field} muito curto`;
+const validateFullName = (fullName: string): string | undefined => {
+  if (!fullName.trim()) return 'Nome completo é obrigatório';
+  const words = fullName.trim().split(/\s+/);
+  if (words.length < 2) return 'Digite nome e sobrenome';
+  if (fullName.trim().length < 3) return 'Nome muito curto';
   return undefined;
 };
 
 const validateUsername = (username: string): string | undefined => {
-  if (!username.trim()) return 'Username é obrigatório';
-  if (username.trim().length < 3) return 'Username muito curto';
-  if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+  const cleanUsername = username.replace(/^@/, '');
+  if (!cleanUsername.trim()) return 'Username é obrigatório';
+  if (cleanUsername.trim().length < 3) return 'Username muito curto';
+  if (!/^[a-zA-Z0-9_]+$/.test(cleanUsername)) {
     return 'Username deve conter apenas letras, números e _';
   }
   return undefined;
 };
 
-const validateCity = (city: string): string | undefined => {
-  if (!city.trim()) return 'Cidade é obrigatória';
-  if (city.trim().length < 2) return 'Cidade inválida';
-  return undefined;
+const extractFirstName = (fullName: string): string => {
+  const trimmed = fullName.trim();
+  const firstWord = trimmed.split(/\s+/)[0];
+  return firstWord || '';
 };
 
-const validateState = (state: string): string | undefined => {
-  if (!state.trim()) return 'Estado é obrigatório';
-  const stateUpper = state.trim().toUpperCase();
-  if (stateUpper.length !== 2) return 'Estado deve ter 2 letras (ex: SP)';
-  if (!/^[A-Z]{2}$/.test(stateUpper)) {
-    return 'Estado inválido (use sigla: SP, RJ, etc)';
+const extractLastName = (fullName: string): string => {
+  const trimmed = fullName.trim();
+  const words = trimmed.split(/\s+/);
+  if (words.length === 1) {
+    return words[0];
   }
-  return undefined;
+  return words.slice(1).join(' ');
 };
 
 export const useRegisterScreen = (
@@ -75,22 +77,18 @@ export const useRegisterScreen = (
   const { showError } = useAlert();
 
   const [formData, setFormData] = useState<RegisterFormData>({
-    firstName: '',
-    lastName: '',
+    fullName: '',
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
-    city: '',
-    state: '',
   });
 
   const [errors, setErrors] = useState<RegisterErrors>({});
   const [isLoading, setIsLoading] = useState(false);
 
   const isFormValid = useMemo(() => {
-    const firstNameError = validateName(formData.firstName, 'Nome');
-    const lastNameError = validateName(formData.lastName, 'Sobrenome');
+    const fullNameError = validateFullName(formData.fullName);
     const usernameError = validateUsername(formData.username);
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
@@ -98,58 +96,46 @@ export const useRegisterScreen = (
       formData.password,
       formData.confirmPassword
     );
-    const stateError = validateState(formData.state);
-    const cityError = formData.state ? validateCity(formData.city) : null;
 
     return (
-      !firstNameError &&
-      !lastNameError &&
+      !fullNameError &&
       !usernameError &&
       !emailError &&
       !passwordError &&
-      !confirmPasswordError &&
-      !stateError &&
-      !cityError
+      !confirmPasswordError
     );
   }, [formData]);
 
-  const handleFirstNameChange = useCallback(
+  const handleFullNameChange = useCallback(
     (text: string) => {
-      setFormData(prev => ({ ...prev, firstName: text }));
-      if (errors.firstName) {
-        setErrors(prev => ({ ...prev, firstName: undefined }));
+      setFormData(prev => ({ ...prev, fullName: text }));
+      if (errors.fullName) {
+        setErrors(prev => ({ ...prev, fullName: undefined }));
       }
     },
-    [errors.firstName]
+    [errors.fullName]
   );
 
-  const handleFirstNameBlur = useCallback(() => {
-    const error = validateName(formData.firstName, 'Nome');
+  const handleFullNameBlur = useCallback(() => {
+    const error = validateFullName(formData.fullName);
     if (error) {
-      setErrors(prev => ({ ...prev, firstName: error }));
+      setErrors(prev => ({ ...prev, fullName: error }));
     }
-  }, [formData.firstName]);
-
-  const handleLastNameChange = useCallback(
-    (text: string) => {
-      setFormData(prev => ({ ...prev, lastName: text }));
-      if (errors.lastName) {
-        setErrors(prev => ({ ...prev, lastName: undefined }));
-      }
-    },
-    [errors.lastName]
-  );
-
-  const handleLastNameBlur = useCallback(() => {
-    const error = validateName(formData.lastName, 'Sobrenome');
-    if (error) {
-      setErrors(prev => ({ ...prev, lastName: error }));
-    }
-  }, [formData.lastName]);
+  }, [formData.fullName]);
 
   const handleUsernameChange = useCallback(
     (text: string) => {
-      setFormData(prev => ({ ...prev, username: text }));
+      let processedText = text;
+
+      if (processedText.length > 0 && !processedText.startsWith('@')) {
+        processedText = '@' + processedText;
+      }
+
+      if (processedText === '@') {
+        processedText = '';
+      }
+
+      setFormData(prev => ({ ...prev, username: processedText }));
       if (errors.username) {
         setErrors(prev => ({ ...prev, username: undefined }));
       }
@@ -218,33 +204,9 @@ export const useRegisterScreen = (
     }
   }, [formData.password, formData.confirmPassword]);
 
-  const handleCityChange = useCallback(
-    (text: string) => {
-      setFormData(prev => ({ ...prev, city: text }));
-      if (errors.city) {
-        setErrors(prev => ({ ...prev, city: undefined }));
-      }
-    },
-    [errors.city]
-  );
-
-  const handleStateChange = useCallback(
-    (text: string) => {
-      setFormData(prev => ({
-        ...prev,
-        state: text,
-        city: prev.state !== text ? '' : prev.city,
-      }));
-      if (errors.state) {
-        setErrors(prev => ({ ...prev, state: undefined, city: undefined }));
-      }
-    },
-    [errors.state]
-  );
 
   const handleSubmit = useCallback(async () => {
-    const firstNameError = validateName(formData.firstName, 'Nome');
-    const lastNameError = validateName(formData.lastName, 'Sobrenome');
+    const fullNameError = validateFullName(formData.fullName);
     const usernameError = validateUsername(formData.username);
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
@@ -252,28 +214,20 @@ export const useRegisterScreen = (
       formData.password,
       formData.confirmPassword
     );
-    const cityError = validateCity(formData.city);
-    const stateError = validateState(formData.state);
 
     if (
-      firstNameError ||
-      lastNameError ||
+      fullNameError ||
       usernameError ||
       emailError ||
       passwordError ||
-      confirmPasswordError ||
-      cityError ||
-      stateError
+      confirmPasswordError
     ) {
       setErrors({
-        firstName: firstNameError,
-        lastName: lastNameError,
+        fullName: fullNameError,
         username: usernameError,
         email: emailError,
         password: passwordError,
         confirmPassword: confirmPasswordError,
-        city: cityError,
-        state: stateError,
       });
       return;
     }
@@ -283,14 +237,12 @@ export const useRegisterScreen = (
 
     try {
       await signUp({
-        firstName: formData.firstName.trim(),
-        lastName: formData.lastName.trim(),
-        username: formData.username.trim(),
+        firstName: extractFirstName(formData.fullName),
+        lastName: extractLastName(formData.fullName),
+        username: formData.username.replace(/^@/, ''),
         email: formData.email.trim(),
         password: formData.password,
         confirmPassword: formData.confirmPassword,
-        city: formData.city.trim(),
-        state: formData.state.trim().toUpperCase(),
       });
     } catch (error: unknown) {
       if (error instanceof ApiError) {
@@ -324,10 +276,8 @@ export const useRegisterScreen = (
     errors,
     isLoading,
     isFormValid,
-    handleFirstNameChange,
-    handleFirstNameBlur,
-    handleLastNameChange,
-    handleLastNameBlur,
+    handleFullNameChange,
+    handleFullNameBlur,
     handleUsernameChange,
     handleUsernameBlur,
     handleEmailChange,
@@ -336,8 +286,6 @@ export const useRegisterScreen = (
     handlePasswordBlur,
     handleConfirmPasswordChange,
     handleConfirmPasswordBlur,
-    handleCityChange,
-    handleStateChange,
     handleSubmit,
     handleLoginPress,
   };

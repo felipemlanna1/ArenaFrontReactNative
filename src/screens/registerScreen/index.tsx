@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
-import { Symbol } from '@/components/ui/symbol';
 import { RegisterBackground } from './components/RegisterBackground';
 import { RegisterHeader } from './components/RegisterHeader';
 import { RegisterForm } from './components/RegisterForm';
@@ -11,19 +11,19 @@ import { RegisterFooter } from './components/RegisterFooter';
 import { useRegisterScreen } from './useRegisterScreen';
 import { styles } from './stylesRegisterScreen';
 import { RegisterScreenProps } from './typesRegisterScreen';
+import { ArenaSpacing } from '@/constants';
 
 export const RegisterScreen: React.FC<RegisterScreenProps> = React.memo(
   ({ navigation }) => {
     const registerHook = useRegisterScreen(navigation);
+    const insets = useSafeAreaInsets();
 
     const formProps = {
       formData: registerHook.formData,
       errors: registerHook.errors,
       isLoading: registerHook.isLoading,
-      onFirstNameChange: registerHook.handleFirstNameChange,
-      onFirstNameBlur: registerHook.handleFirstNameBlur,
-      onLastNameChange: registerHook.handleLastNameChange,
-      onLastNameBlur: registerHook.handleLastNameBlur,
+      onFullNameChange: registerHook.handleFullNameChange,
+      onFullNameBlur: registerHook.handleFullNameBlur,
       onUsernameChange: registerHook.handleUsernameChange,
       onUsernameBlur: registerHook.handleUsernameBlur,
       onEmailChange: registerHook.handleEmailChange,
@@ -32,8 +32,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = React.memo(
       onPasswordBlur: registerHook.handlePasswordBlur,
       onConfirmPasswordChange: registerHook.handleConfirmPasswordChange,
       onConfirmPasswordBlur: registerHook.handleConfirmPasswordBlur,
-      onCityChange: registerHook.handleCityChange,
-      onStateChange: registerHook.handleStateChange,
     };
 
     const actionProps = {
@@ -48,12 +46,12 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = React.memo(
 
     return (
       <View style={styles.container}>
-        <View style={styles.topSymbol}>
-          <Symbol size="md" variant="variant1" testID="register-arena-symbol" />
-        </View>
         <RegisterBackground>
           <ArenaKeyboardAwareScrollView
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[
+              styles.scrollContent,
+              { paddingBottom: ArenaSpacing['6xl'] + (insets.bottom || 0) },
+            ]}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
             bottomOffset={60}

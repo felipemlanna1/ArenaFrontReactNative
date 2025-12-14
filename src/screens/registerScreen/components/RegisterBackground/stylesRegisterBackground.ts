@@ -1,20 +1,32 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { ArenaColors, ArenaShadows } from '@/constants';
-
-const { height } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import { ArenaColors } from '@/constants';
 
 export const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: ArenaColors.neutral.darkest,
-    position: 'relative',
   },
   backgroundImage: {
-    opacity: 0.4,
-    height: height * 1.05,
-    width: '135%',
     position: 'absolute',
-    bottom: -30,
-    boxShadow: ArenaShadows.backgroundImage,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 0,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: ArenaColors.backdrop.moderate,
+    zIndex: 1,
+  },
+  content: {
+    flex: 1,
+    zIndex: 2,
   },
 });
