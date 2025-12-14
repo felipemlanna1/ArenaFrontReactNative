@@ -29,7 +29,7 @@ export const useLink = (params: UseLinkParams): UseLinkReturn => {
   const getTextStyle = useCallback(
     (pressed: boolean): TextStyle => {
       const fontSize = getFontSize(variantConfig.size);
-      const fontFamily = getFontFamily(variantConfig.family);
+      const fontFamily = getFontFamily(variantConfig.family, variantConfig.weight);
       const lineHeightMultiplier = getLineHeight(variantConfig.lineHeight);
       const baseColor = getTextColor(variantConfig.color || 'primary');
 
@@ -47,7 +47,7 @@ export const useLink = (params: UseLinkParams): UseLinkReturn => {
         lineHeight: fontSize * lineHeightMultiplier,
         letterSpacing: getLetterSpacing(variantConfig.letterSpacing),
         color: textColor,
-        fontWeight: ArenaTypography.weight.bold,
+        fontWeight: ArenaTypography.weight.extrabold,
         fontStyle: 'italic',
         textDecorationLine: underline ? 'underline' : 'none',
         opacity: disabled ? ArenaOpacity.medium : ArenaOpacity.opaque,

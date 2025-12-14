@@ -1,5 +1,6 @@
 import React from 'react';
-import { ImageBackground, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { styles } from './stylesLoginBackground';
 import { LoginBackgroundProps } from './typesLoginBackground';
 import { useLoginBackground } from './useLoginBackground';
@@ -11,15 +12,18 @@ export const LoginBackground: React.FC<LoginBackgroundProps> = React.memo(
     return (
       <>
         <StatusBar barStyle="light-content" backgroundColor={statusBarColor} />
-        <ImageBackground
-          source={backgroundImage}
-          style={styles.background}
-          resizeMode="cover"
-          imageStyle={styles.backgroundImage}
-          testID="login-background"
-        >
-          {children}
-        </ImageBackground>
+        <View style={styles.background} testID="login-background">
+          <OptimizedImage
+            source={backgroundImage}
+            style={styles.backgroundImage}
+            contentFit="cover"
+            contentPosition="center"
+            priority="high"
+            showLoading={false}
+          />
+          <View style={styles.overlay} />
+          <View style={styles.content}>{children}</View>
+        </View>
       </>
     );
   }

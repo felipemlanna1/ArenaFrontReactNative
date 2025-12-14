@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { TextStyle, TextProps as RNTextProps } from 'react-native';
 export type TextVariant =
+  | 'displayHero'
+  | 'displayXL'
   | 'displayPrimary'
   | 'displayAccent'
   | 'headingPrimary'
   | 'headingAccent'
+  | 'headingSecondary'
   | 'titlePrimary'
   | 'titleSecondary'
   | 'titleAccent'
@@ -13,6 +16,7 @@ export type TextVariant =
   | 'bodySecondary'
   | 'bodyBold'
   | 'bodyBoldAccent'
+  | 'bodyExtrabold'
   | 'bodyMuted'
   | 'bodyError'
   | 'bodySuccess'
@@ -24,6 +28,7 @@ export type TextVariant =
   | 'labelSecondary'
   | 'labelError';
 export type TextSize =
+  | 'xxs'
   | 'xs'
   | 'sm'
   | 'md'
@@ -31,10 +36,12 @@ export type TextSize =
   | 'xl'
   | '2xl'
   | '3xl'
+  | '3.5xl'
   | '4xl'
   | '5xl'
   | '6xl'
-  | '7xl';
+  | '7xl'
+  | '8xl';
 export type TextWeight =
   | 'light'
   | 'regular'
@@ -66,7 +73,9 @@ export interface TextVariantPreset {
     | 'normal'
     | 'wide'
     | 'wider'
-    | 'widest';
+    | 'widest'
+    | 'extraWide'
+    | 'extraWidest';
   color?: TextColor;
 }
 export type TextVariantPresets = Record<TextVariant, TextVariantPreset>;

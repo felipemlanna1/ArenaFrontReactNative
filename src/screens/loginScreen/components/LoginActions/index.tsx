@@ -18,7 +18,7 @@ export const LoginActions: React.FC<LoginActionsProps> = React.memo(
         <Button
           onPress={handleSubmit}
           variant="primary"
-          size="sm"
+          size="lg"
           fullWidth
           disabled={isButtonDisabled}
           loading={isLoading}

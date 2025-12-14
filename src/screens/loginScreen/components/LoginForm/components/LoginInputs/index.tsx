@@ -16,7 +16,7 @@ export const LoginInputs: React.FC<LoginInputsProps> = React.memo(
     return (
       <View style={styles.container}>
         <Input
-          label="Email"
+          label="E-mail"
           placeholder="Digite seu email"
           value={email}
           onChangeText={onEmailChange}
@@ -26,7 +26,9 @@ export const LoginInputs: React.FC<LoginInputsProps> = React.memo(
           autoCapitalize="none"
           autoCorrect={false}
           fullWidth
+          size="lg"
           disableAnimations
+          style={styles.customInput}
           testID="email-input"
         />
 
@@ -38,7 +40,9 @@ export const LoginInputs: React.FC<LoginInputsProps> = React.memo(
           error={errors.password}
           type="password"
           fullWidth
+          size="lg"
           disableAnimations
+          style={styles.customInput}
           testID="password-input"
         />
       </View>

@@ -89,6 +89,7 @@ export const ArenaColors = {
   },
   backdrop: {
     light: 'rgba(0, 0, 0, 0.5)',
+    moderate: 'rgba(0, 0, 0, 0.3)',
     medium: 'rgba(0, 0, 0, 0.7)',
     dark: 'rgba(0, 0, 0, 0.8)',
     darker: 'rgba(0, 0, 0, 0.9)',

@@ -2,8 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/ui/appHeader';
+import { useThemedStyles } from '@/hooks/useThemedStyles';
 import { AppLayoutProps } from './typesAppLayout';
-import { styles } from './stylesAppLayout';
+import { createStyles } from './stylesAppLayout';
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
@@ -19,6 +20,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   headerChildren,
   testID = 'app-layout',
 }) => {
+  const styles = useThemedStyles(createStyles);
+
   return (
     <SafeAreaView
       style={styles.container}

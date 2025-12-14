@@ -12,14 +12,13 @@ export const AppleLoginButton: React.FC<AppleLoginButtonProps> = React.memo(
     return (
       <Button
         onPress={onPress}
-        variant="subtle"
-        size="sm"
-        fullWidth
+        variant="outline-light"
+        size="md"
         disabled={isLoading}
         leftIcon={AppleIcon}
         testID="apple-login-button"
       >
-        Continuar com Apple
+        Login apple
       </Button>
     );
   }

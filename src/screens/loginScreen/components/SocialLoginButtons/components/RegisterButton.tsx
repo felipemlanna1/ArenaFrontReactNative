@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { Button } from '@/components/ui/button';
+import { Link } from '@/components/ui/link';
 import { StyleSheet } from 'react-native';
-import { ArenaSpacing, ArenaColors } from '@/constants';
+import { ArenaSpacing } from '@/constants';
 
 interface RegisterButtonProps {
   isLoading: boolean;
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     marginTop: ArenaSpacing.lg,
   },
   text: {
-    color: ArenaColors.neutral.medium,
     marginRight: ArenaSpacing.xs,
   },
 });
@@ -27,18 +26,17 @@ export const RegisterButton: React.FC<RegisterButtonProps> = React.memo(
   ({ isLoading, onPress }) => {
     return (
       <View style={styles.container}>
-        <Text variant="bodySecondary" style={styles.text}>
+        <Text variant="bodyPrimary" style={styles.text}>
           Não tem uma conta?
         </Text>
-        <Button
+        <Link
           onPress={onPress}
-          variant="ghost"
-          size="sm"
+          variant="bodyExtrabold"
           disabled={isLoading}
-          testID="register-button"
+          testID="register-link"
         >
           Cadastre-se
-        </Button>
+        </Link>
       </View>
     );
   }

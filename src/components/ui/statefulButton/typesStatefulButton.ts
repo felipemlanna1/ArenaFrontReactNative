@@ -3,8 +3,10 @@ import { ButtonProps } from '../button/typesButton';
 
 export type ButtonState = 'idle' | 'loading' | 'success' | 'error';
 
-export interface StatefulButtonProps
-  extends Omit<ButtonProps, 'onPress' | 'loading' | 'children'> {
+export interface StatefulButtonProps extends Omit<
+  ButtonProps,
+  'onPress' | 'loading' | 'children'
+> {
   onPress: () => Promise<void>;
   children?: React.ReactNode;
   idleText?: string;

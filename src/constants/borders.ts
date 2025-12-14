@@ -8,6 +8,7 @@ export const ArenaBorders = {
     xl: 12,
     '2xl': 16,
     '3xl': 20,
+    '4xl': 32,
     pill: 9999,
     circle: 9999,
   },

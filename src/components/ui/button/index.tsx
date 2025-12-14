@@ -28,6 +28,9 @@ export const Button: React.FC<ButtonProps> = ({
   disableAnimations = false,
   align = 'center',
   rounded = false,
+  numberOfLines,
+  adjustsFontSizeToFit = false,
+  minimumFontScale = 0.8,
   ...touchableProps
 }) => {
   const buttonLogic = useButton({
@@ -96,6 +99,9 @@ export const Button: React.FC<ButtonProps> = ({
               RightIcon && buttonStyles.textWithRightIcon,
             ].filter(Boolean) as TextStyle[]
           }
+          numberOfLines={numberOfLines}
+          adjustsFontSizeToFit={adjustsFontSizeToFit}
+          minimumFontScale={minimumFontScale}
         >
           {children}
         </Text>

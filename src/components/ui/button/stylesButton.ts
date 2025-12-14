@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     includeFontPadding: false,
+    textTransform: 'uppercase',
   },
   textWithLeftIcon: {
     marginLeft: ArenaSpacing.sm,

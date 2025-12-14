@@ -11,7 +11,7 @@ interface VariantConfig {
 export const VARIANT_CONFIG: Record<LabelVariant, VariantConfig> = {
   form: {
     size: 'sm',
-    fontWeight: ArenaTypography.weight.medium,
+    fontWeight: ArenaTypography.weight.extrabold,
     color: ArenaColors.neutral.light,
     marginBottom: ArenaSpacing.xs,
   },

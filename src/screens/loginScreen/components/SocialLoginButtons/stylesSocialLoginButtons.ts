@@ -6,4 +6,13 @@ export const styles = StyleSheet.create({
     width: '100%',
     gap: ArenaSpacing.md,
   },
+  socialButtonsRow: {
+    flexDirection: 'row',
+    gap: ArenaSpacing.md,
+    width: '100%',
+  },
+  socialButton: {
+    flex: 1,
+    alignSelf: 'stretch',
+  },
 });
