@@ -6,6 +6,7 @@ import { storageService } from '@/utils/storage';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAlert } from '@/contexts/AlertContext';
 import * as Google from 'expo-auth-session/providers/google';
+import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import {
   UseLoginScreenReturn,
@@ -44,10 +45,16 @@ export const useLoginScreen = (
     process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
   const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
 
+  const redirectUri = AuthSession.makeRedirectUri({
+    scheme: 'arena',
+    path: 'oauth2redirect',
+  });
+
   const [, , googlePromptAsync] = Google.useIdTokenAuthRequest({
     clientId: googleWebClientId,
     androidClientId: googleAndroidClientId,
     iosClientId: googleIosClientId,
+    redirectUri,
   });
 
   const [formData, setFormData] = useState<LoginFormData>({
