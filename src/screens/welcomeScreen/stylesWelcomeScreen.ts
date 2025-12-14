@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '100%',
+    zIndex: 0,
   },
   gradientOverlay: {
     position: 'absolute',
@@ -26,6 +27,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: ArenaSpacing.sm,
     paddingVertical: ArenaSpacing.xs,
+    zIndex: 2,
   },
   logoContainer: {
     alignItems: 'center',

@@ -115,6 +115,9 @@ export const WelcomeScreen: React.FC = () => {
                   disableAnimations
                   rounded
                   fullWidth
+                  numberOfLines={1}
+                  adjustsFontSizeToFit={true}
+                  minimumFontScale={0.75}
                 >
                   {startButtonTitle}
                 </Button>
@@ -129,6 +132,9 @@ export const WelcomeScreen: React.FC = () => {
                   disableAnimations
                   rounded
                   fullWidth
+                  numberOfLines={1}
+                  adjustsFontSizeToFit={true}
+                  minimumFontScale={0.75}
                 >
                   {createAccountButtonTitle}
                 </Button>

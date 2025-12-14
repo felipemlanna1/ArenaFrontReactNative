@@ -51,8 +51,8 @@ export const useInput = (params: UseInputParams): UseInputReturn => {
   const shouldShowLabel = Boolean(label);
   const shouldShowHelperText = Boolean(
     (hasError && typeof error === 'string') ||
-      (hasSuccess && typeof success === 'string') ||
-      (hasWarning && typeof warning === 'string')
+    (hasSuccess && typeof success === 'string') ||
+    (hasWarning && typeof warning === 'string')
   );
   const shouldShowClearButton =
     clearable && hasValue && !disabled && !readonly && !loading;

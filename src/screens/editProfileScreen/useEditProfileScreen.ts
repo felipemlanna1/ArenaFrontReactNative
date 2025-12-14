@@ -478,11 +478,11 @@ export const useEditProfileScreen = ({
 
     return Boolean(
       formData.firstName.trim() &&
-        formData.lastName.trim() &&
-        formData.birthDate &&
-        formData.gender &&
-        formData.city.trim() &&
-        formData.state.trim()
+      formData.lastName.trim() &&
+      formData.birthDate &&
+      formData.gender &&
+      formData.city.trim() &&
+      formData.state.trim()
     );
   }, [formData, isOAuthFlow, requireCompletion]);
 

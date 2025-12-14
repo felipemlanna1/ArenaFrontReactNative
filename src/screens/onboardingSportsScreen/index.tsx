@@ -2,6 +2,7 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Symbol } from '@/components/ui/symbol';
 import { Text } from '@/components/ui/text';
+import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { SkillLevelModal } from '@/components/ui/skillLevelModal';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { SkillLevel } from '@/types/sport';
@@ -38,6 +39,17 @@ export const OnboardingSportsScreen: React.FC<
   return (
     <ErrorBoundary>
       <View style={styles.container}>
+        <OptimizedImage
+          source={require('@/assets/players/loginBg.jpg')}
+          style={styles.backgroundImage}
+          contentFit="cover"
+          contentPosition="center"
+          priority="high"
+          showLoading={false}
+        />
+
+        <View style={styles.overlay} />
+
         <View style={styles.topSymbol}>
           <Symbol
             size="md"

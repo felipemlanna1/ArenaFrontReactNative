@@ -1,5 +1,21 @@
 import { TextVariantPresets } from './typesText';
 export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
+  displayHero: {
+    size: '8xl',
+    weight: 'regular',
+    family: 'heading',
+    lineHeight: 'tight',
+    letterSpacing: 'wider',
+    color: 'primary',
+  },
+  displayXL: {
+    size: '7xl',
+    weight: 'regular',
+    family: 'heading',
+    lineHeight: 'tight',
+    letterSpacing: 'wider',
+    color: 'primary',
+  },
   displayPrimary: {
     size: '6xl',
     weight: 'bold',
@@ -31,6 +47,14 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     lineHeight: 'tight',
     letterSpacing: 'tight',
     color: 'accent',
+  },
+  headingSecondary: {
+    size: '3.5xl',
+    weight: 'regular',
+    family: 'heading',
+    lineHeight: 'tight',
+    letterSpacing: 'extraWidest',
+    color: 'primary',
   },
   titlePrimary: {
     size: '2xl',
@@ -96,6 +120,14 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     letterSpacing: 'normal',
     color: 'accent',
   },
+  bodyExtrabold: {
+    size: 'md',
+    weight: 'extrabold',
+    family: 'body',
+    lineHeight: 'comfortable',
+    letterSpacing: 'normal',
+    color: 'primary',
+  },
   bodyMuted: {
     size: 'md',
     weight: 'regular',
@@ -129,11 +161,11 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     color: 'accent',
   },
   captionSecondary: {
-    size: 'sm',
+    size: 'xxs',
     weight: 'regular',
     family: 'body',
-    lineHeight: 'relaxed',
-    letterSpacing: 0.5,
+    lineHeight: 'tight',
+    letterSpacing: 'normal',
     color: 'secondary',
   },
   captionMuted: {
@@ -153,8 +185,8 @@ export const TEXT_VARIANT_PRESETS: TextVariantPresets = {
     color: 'error',
   },
   labelPrimary: {
-    size: 'xs',
-    weight: 'medium',
+    size: 'xxs',
+    weight: 'extrabold',
     family: 'ui',
     lineHeight: 'comfortable',
     letterSpacing: 0.5,

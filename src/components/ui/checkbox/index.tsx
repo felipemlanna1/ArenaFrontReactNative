@@ -52,7 +52,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         {label && (
           <Text
             style={[checkboxLogic.computedStyles.label, labelStyle || {}]}
-            variant="bodyPrimary"
+            variant="bodyExtrabold"
           >
             {label}
           </Text>
@@ -83,7 +83,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       {label && (
         <Text
           style={[checkboxLogic.computedStyles.label, labelStyle || {}]}
-          variant="bodyPrimary"
+          variant="bodyExtrabold"
         >
           {label}
         </Text>

@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             sports: fullUserData.sports as unknown as UserSportData[],
             hasSports: Boolean(
               fullUserData.hasSports ||
-                (fullUserData.sports && fullUserData.sports.length > 0)
+              (fullUserData.sports && fullUserData.sports.length > 0)
             ),
             createdAt: fullUserData.createdAt || new Date().toISOString(),
             updatedAt: fullUserData.updatedAt || new Date().toISOString(),

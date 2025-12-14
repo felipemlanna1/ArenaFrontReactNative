@@ -31,6 +31,9 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   disableAnimations?: boolean;
   align?: ButtonAlign;
   rounded?: boolean;
+  numberOfLines?: number;
+  adjustsFontSizeToFit?: boolean;
+  minimumFontScale?: number;
 }
 export interface ButtonVariantConfig {
   backgroundColor: string;

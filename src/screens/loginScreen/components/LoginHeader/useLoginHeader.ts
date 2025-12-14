@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { UseLoginHeaderReturn } from './typesLoginHeader';
 
 export const useLoginHeader = (): UseLoginHeaderReturn => {
-  const title = useMemo(() => 'Entrar na Arena', []);
+  const title = useMemo(() => 'ACESSE sua conta', []);
 
   const subtitle = useMemo(
-    () => 'Acesse sua conta para continuar sua jornada esportiva',
+    () => 'E faça parte de uma comunidade de atletas',
     []
   );
 

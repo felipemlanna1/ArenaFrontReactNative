@@ -6,8 +6,10 @@ export type SwitchSize = 'sm' | 'md' | 'lg';
 
 export type SwitchLabelPosition = 'left' | 'right';
 
-export interface SwitchProps
-  extends Omit<RNSwitchProps, 'trackColor' | 'thumbColor'> {
+export interface SwitchProps extends Omit<
+  RNSwitchProps,
+  'trackColor' | 'thumbColor'
+> {
   variant?: SwitchVariant;
   size?: SwitchSize;
   label?: string;

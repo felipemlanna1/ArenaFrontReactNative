@@ -12,14 +12,13 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = React.memo(
     return (
       <Button
         onPress={onPress}
-        variant="secondary"
-        size="sm"
-        fullWidth
+        variant="outline-light"
+        size="md"
         disabled={isLoading}
         leftIcon={GoogleIcon}
         testID="google-login-button"
       >
-        Continuar com Google
+        Login google
       </Button>
     );
   }

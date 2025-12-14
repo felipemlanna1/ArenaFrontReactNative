@@ -72,7 +72,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       height: ArenaSpacing['3xl'],
       paddingHorizontal: ArenaSpacing.sm,
       paddingVertical: ArenaSpacing.xs,
-      borderRadius: ArenaBorders.radius.md,
+      borderRadius: ArenaBorders.radius.lg,
     },
     text: {
       fontSize: ArenaTypography.size.xs,
@@ -96,7 +96,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       height: ArenaSpacing['3xl'] + ArenaSpacing.xs,
       paddingHorizontal: ArenaSpacing.md,
       paddingVertical: ArenaSpacing.sm,
-      borderRadius: ArenaBorders.radius.md,
+      borderRadius: ArenaBorders.radius.lg,
     },
     text: {
       fontSize: ArenaTypography.size.sm,
@@ -120,7 +120,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       height: ArenaSpacing['4xl'] + ArenaSpacing.xs,
       paddingHorizontal: ArenaSpacing.lg,
       paddingVertical: ArenaSpacing.md,
-      borderRadius: ArenaBorders.radius.lg,
+      borderRadius: ArenaBorders.radius.xl,
     },
     text: {
       fontSize: ArenaTypography.size.md,
@@ -144,7 +144,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       height: ArenaSpacing['5xl'] + ArenaSpacing.xs,
       paddingHorizontal: ArenaSpacing.xl,
       paddingVertical: ArenaSpacing.lg,
-      borderRadius: ArenaBorders.radius.xl,
+      borderRadius: ArenaBorders.radius['2xl'],
     },
     text: {
       fontSize: ArenaTypography.size.lg,
@@ -168,7 +168,7 @@ export const INPUT_SIZE_PRESETS: InputSizePresets = {
       height: ArenaSpacing['5xl'] + ArenaSpacing.md,
       paddingHorizontal: ArenaSpacing['2xl'],
       paddingVertical: ArenaSpacing.xl,
-      borderRadius: ArenaBorders.radius.xl,
+      borderRadius: ArenaBorders.radius['2xl'],
     },
     text: {
       fontSize: ArenaTypography.size.xl,

@@ -49,7 +49,7 @@ export const getFontFamily = (
   family: TextFamily,
   weight?: TextWeight
 ): string => {
-  if (family === 'body' && weight) {
+  if ((family === 'body' || family === 'ui') && weight) {
     return getBodyFontFamilyByWeight(weight);
   }
 
@@ -71,6 +71,8 @@ export const getLetterSpacing = (
     | 'wide'
     | 'wider'
     | 'widest'
+    | 'extraWide'
+    | 'extraWidest'
 ): number => {
   if (typeof letterSpacing === 'number') {
     return letterSpacing;

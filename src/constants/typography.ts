@@ -12,6 +12,7 @@ export const ArenaTypography = {
     bold: 'Inter-Bold',
   },
   size: {
+    xxs: 12,
     xs: 11,
     sm: 13,
     md: 15,
@@ -19,10 +20,12 @@ export const ArenaTypography = {
     xl: 19,
     '2xl': 22,
     '3xl': 26,
+    '3.5xl': 28,
     '4xl': 32,
     '5xl': 40,
     '6xl': 48,
     '7xl': 64,
+    '8xl': 84,
   },
   weight: {
     light: '300' as const,
@@ -48,6 +51,8 @@ export const ArenaTypography = {
     wide: 0.25,
     wider: 0.5,
     widest: 1,
+    extraWide: 1.5,
+    extraWidest: 2,
   },
 } as const;
 export type ArenaFontFamily = keyof typeof ArenaTypography.family;

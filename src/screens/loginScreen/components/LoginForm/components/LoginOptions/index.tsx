@@ -23,10 +23,10 @@ export const LoginOptions: React.FC<LoginOptionsProps> = React.memo(
           <Link
             onPress={onForgotPassword}
             disabled={isLoading}
-            variant="bodyPrimary"
+            variant="bodyExtrabold"
             testID="forgot-password-link"
           >
-            Esqueci minha senha
+            Esqueci a senha
           </Link>
         </View>
       </View>

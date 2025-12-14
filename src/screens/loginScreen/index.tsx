@@ -1,19 +1,22 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ArenaKeyboardAwareScrollView } from '@/components/ui/arenaKeyboardAwareScrollView';
-import { Symbol } from '@/components/ui/symbol';
 import { LoginBackground } from './components/LoginBackground';
 import { LoginHeader } from './components/LoginHeader';
 import { LoginForm } from './components/LoginForm';
 import { LoginActions } from './components/LoginActions';
 import { SocialLoginButtons } from './components/SocialLoginButtons';
+import { RegisterButton } from './components/SocialLoginButtons/components/RegisterButton';
 import { useLoginScreen } from './useLoginScreen';
 import { styles } from './stylesLoginScreen';
 import { LoginScreenProps } from './typesLoginScreen';
+import { ArenaSpacing } from '@/constants';
 
 export const LoginScreen: React.FC<LoginScreenProps> = React.memo(
   ({ navigation }) => {
     const loginHook = useLoginScreen(navigation);
+    const insets = useSafeAreaInsets();
 
     const formProps = {
       email: loginHook.formData.email,
@@ -38,17 +41,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = React.memo(
       isLoading: loginHook.isLoading,
       onGoogleLogin: loginHook.handleGoogleLogin,
       onAppleLogin: loginHook.handleAppleLogin,
-      onRegister: loginHook.handleRegister,
     };
 
     return (
       <View style={styles.container}>
-        <View style={styles.topSymbol}>
-          <Symbol size="md" variant="variant1" testID="login-arena-symbol" />
-        </View>
         <LoginBackground>
           <ArenaKeyboardAwareScrollView
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[
+              styles.scrollContent,
+              { paddingBottom: ArenaSpacing['6xl'] + (insets.bottom || 0) },
+            ]}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
             bottomOffset={60}
@@ -58,6 +60,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = React.memo(
             <LoginActions {...actionProps} />
             <SocialLoginButtons {...socialProps} />
           </ArenaKeyboardAwareScrollView>
+
+          <View
+            style={[
+              styles.registerButtonContainer,
+              { bottom: ArenaSpacing.xs + (insets.bottom || 0) },
+            ]}
+          >
+            <RegisterButton
+              isLoading={loginHook.isLoading}
+              onPress={loginHook.handleRegister}
+            />
+          </View>
         </LoginBackground>
       </View>
     );

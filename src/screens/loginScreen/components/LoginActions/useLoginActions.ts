@@ -14,7 +14,7 @@ export const useLoginActions = ({
     [isFormValid, isLoading]
   );
 
-  const buttonTitle = useMemo(() => 'Entrar', []);
+  const buttonTitle = useMemo(() => 'ENTRAR', []);
 
   const handleSubmit = useCallback(() => {
     if (!isButtonDisabled) {

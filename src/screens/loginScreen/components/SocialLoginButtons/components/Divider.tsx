@@ -16,12 +16,10 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: ArenaBorders.width.thin,
-    backgroundColor: ArenaColors.neutral.medium,
-    opacity: 0.5,
+    backgroundColor: ArenaColors.neutral.light,
   },
   text: {
     marginHorizontal: ArenaSpacing.md,
-    color: ArenaColors.neutral.medium,
   },
 });
 
@@ -30,7 +28,7 @@ export const Divider: React.FC<DividerProps> = ({ text }) => {
     <View style={styles.container}>
       <View style={styles.line} />
       {text && (
-        <Text variant="captionSecondary" style={styles.text}>
+        <Text variant="bodyPrimary" style={styles.text}>
           {text}
         </Text>
       )}

@@ -70,7 +70,7 @@ export const ArenaShadows = {
   input: '1px 2px 6px 0px rgba(0, 0, 0, 0.15)',
   card: '3px 6px 12px 0px rgba(0, 0, 0, 0.24)',
 
-  inputFocused: '0px 0px 10px 0px rgba(255, 83, 1, 0.3)',
+  inputFocused: 'none',
   brandGlow: '0px 0px 12px 0px rgba(255, 83, 1, 0.4)',
   errorGlow: '0px 0px 12px 0px rgba(239, 68, 68, 0.35)',
 
