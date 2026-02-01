@@ -16,6 +16,9 @@ export const styles = StyleSheet.create({
   subtitle: {
     textAlign: 'center',
   },
+  searchContainer: {
+    marginBottom: ArenaSpacing.lg,
+  },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -35,14 +38,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: ArenaSpacing.sm,
-  },
-  badgeWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: ArenaSpacing.xs,
-  },
-  starIcon: {
-    marginRight: -ArenaSpacing.xs,
   },
   loading: {
     paddingVertical: ArenaSpacing.xl,

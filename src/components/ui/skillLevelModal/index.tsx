@@ -1,49 +1,47 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { View, Modal, TouchableOpacity, ScrollView } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '../text';
 import { Button } from '../button';
-import { Checkbox } from '../checkbox';
+import { Switch } from '../switch';
+import { OptimizedImage } from '../optimizedImage';
 import { SkillLevel } from '@/types/sport';
 import { ArenaColors } from '@/constants';
+import { getSportIcon } from '@/config/sportIcons';
 import { SkillLevelModalProps, SkillLevelOption } from './typesSkillLevelModal';
 import { styles } from './stylesSkillLevelModal';
 
 const SKILL_LEVELS: SkillLevelOption[] = [
-  {
-    level: SkillLevel.BEGINNER,
-    label: 'Iniciante',
-    shortLabel: 'I',
-    description: 'Começando a jogar ou jogo ocasionalmente',
-    iconName: 'progress-empty',
-  },
-  {
-    level: SkillLevel.INTERMEDIATE,
-    label: 'Intermediário',
-    shortLabel: 'M',
-    description: 'Jogo regularmente e conheço bem as regras',
-    iconName: 'progress-one',
-  },
-  {
-    level: SkillLevel.ADVANCED,
-    label: 'Avançado',
-    shortLabel: 'A',
-    description: 'Jogo frequentemente com bom nível técnico',
-    iconName: 'progress-two',
-  },
-  {
-    level: SkillLevel.PROFESSIONAL,
-    label: 'Expert',
-    shortLabel: 'E',
-    description: 'Nível profissional ou competitivo',
-    iconName: 'progress-full',
-  },
+  { level: SkillLevel.BEGINNER, label: 'Iniciante', filledDots: 1 },
+  { level: SkillLevel.INTERMEDIATE, label: 'Intermediário', filledDots: 2 },
+  { level: SkillLevel.ADVANCED, label: 'Avançado', filledDots: 3 },
+  { level: SkillLevel.PROFESSIONAL, label: 'Profissional', filledDots: 4 },
 ];
+
+interface LevelDotsProps {
+  filled: number;
+  isSelected: boolean;
+}
+
+const LevelDots: React.FC<LevelDotsProps> = ({ filled, isSelected }) => (
+  <View style={styles.dotsContainer}>
+    {[0, 1, 2, 3].map(index => (
+      <View
+        key={index}
+        style={[
+          styles.dot,
+          index < filled &&
+            (isSelected ? styles.dotFilledSelected : styles.dotFilled),
+        ]}
+      />
+    ))}
+  </View>
+);
 
 export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
   visible,
   sportName,
+  sportIcon = 'ball',
   currentLevel,
   isPrimary = false,
   onSelectLevel,
@@ -54,6 +52,7 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
 }) => {
   const [tempIsPrimary, setTempIsPrimary] = useState(isPrimary);
   const [tempLevel, setTempLevel] = useState<SkillLevel | null>(currentLevel);
+  const iconSource = getSportIcon(sportIcon);
 
   useEffect(() => {
     setTempIsPrimary(isPrimary);
@@ -64,8 +63,8 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
     setTempLevel(level);
   }, []);
 
-  const handleTogglePrimary = useCallback(() => {
-    setTempIsPrimary(prev => !prev);
+  const handleTogglePrimary = useCallback((value: boolean) => {
+    setTempIsPrimary(value);
   }, []);
 
   const handleConfirm = useCallback(() => {
@@ -100,14 +99,36 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
       >
         <TouchableOpacity activeOpacity={1} onPress={e => e.stopPropagation()}>
           <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text variant="titlePrimary" style={styles.modalTitle}>
-                Nível de Habilidade
-              </Text>
-              <Text variant="bodySecondary" style={styles.modalTitle}>
-                {sportName}
-              </Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={onClose}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              testID={`${testID}-close-button`}
+            >
+              <Ionicons
+                name="close"
+                size={24}
+                color={ArenaColors.neutral.light}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.sportIconContainer}>
+              <OptimizedImage
+                source={iconSource}
+                style={styles.sportIcon}
+                contentFit="contain"
+                priority="high"
+                showLoading={false}
+              />
             </View>
+
+            <Text variant="titlePrimary" style={styles.sportName}>
+              {sportName}
+            </Text>
+
+            <Text variant="bodySecondary" style={styles.questionText}>
+              Qual seu nível?
+            </Text>
 
             <ScrollView
               style={styles.levelsList}
@@ -126,42 +147,13 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
                     activeOpacity={0.7}
                     testID={`${testID}-option-${option.level.toLowerCase()}`}
                   >
-                    <View style={styles.levelIcon}>
-                      <Entypo
-                        name={option.iconName}
-                        size={24}
-                        color={
-                          isSelected
-                            ? ArenaColors.brand.primary
-                            : ArenaColors.neutral.light
-                        }
-                      />
-                    </View>
-
-                    <View style={styles.levelContent}>
-                      <View style={styles.levelHeader}>
-                        <Text
-                          variant={
-                            isSelected ? 'labelPrimary' : 'labelSecondary'
-                          }
-                        >
-                          {option.label}
-                        </Text>
-                      </View>
-                      <Text variant="captionSecondary">
-                        {option.description}
-                      </Text>
-                    </View>
-
-                    {isSelected && (
-                      <View style={styles.checkIcon}>
-                        <Ionicons
-                          name="checkmark-circle"
-                          size={24}
-                          color={ArenaColors.brand.primary}
-                        />
-                      </View>
-                    )}
+                    <Text variant={isSelected ? 'bodyBold' : 'bodyPrimary'}>
+                      {option.label}
+                    </Text>
+                    <LevelDots
+                      filled={option.filledDots}
+                      isSelected={isSelected}
+                    />
                   </TouchableOpacity>
                 );
               })}
@@ -169,39 +161,49 @@ export const SkillLevelModal: React.FC<SkillLevelModalProps> = ({
 
             {onTogglePrimary && (
               <View style={styles.primarySection}>
-                <Checkbox
-                  checked={tempIsPrimary}
-                  onPress={handleTogglePrimary}
-                  label="Esporte Favorito"
-                  testID={`${testID}-primary-checkbox`}
-                />
-                <Text variant="captionSecondary">
-                  Será destacado no seu perfil
-                </Text>
+                <View style={styles.primaryRow}>
+                  <Ionicons
+                    name="star"
+                    size={20}
+                    color={ArenaColors.semantic.warning}
+                  />
+                  <Text variant="bodyPrimary" style={styles.primaryLabel}>
+                    Esporte principal
+                  </Text>
+                  <Switch
+                    value={tempIsPrimary}
+                    onValueChange={handleTogglePrimary}
+                    variant="brand"
+                    testID={`${testID}-primary-switch`}
+                  />
+                </View>
               </View>
             )}
 
             <View style={styles.buttonContainer}>
-              {onRemoveSport && (
-                <Button
-                  variant="secondary"
-                  onPress={handleRemove}
-                  size="lg"
-                  testID={`${testID}-remove-button`}
-                >
-                  Remover Esporte
-                </Button>
-              )}
               <Button
                 variant="primary"
                 onPress={handleConfirm}
                 size="lg"
                 disabled={!tempLevel}
+                fullWidth
                 testID={`${testID}-confirm-button`}
               >
-                Continuar
+                CONFIRMAR
               </Button>
             </View>
+
+            {onRemoveSport && (
+              <TouchableOpacity
+                style={styles.removeLink}
+                onPress={handleRemove}
+                testID={`${testID}-remove-button`}
+              >
+                <Text variant="bodyPrimary" style={styles.removeLinkText}>
+                  Remover
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </TouchableOpacity>
       </TouchableOpacity>

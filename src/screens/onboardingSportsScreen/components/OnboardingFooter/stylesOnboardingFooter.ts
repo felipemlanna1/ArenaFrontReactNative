@@ -13,4 +13,7 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: `${ArenaColors.neutral.medium}22`,
   },
+  buttonWrapper: {
+    flex: 1,
+  },
 });

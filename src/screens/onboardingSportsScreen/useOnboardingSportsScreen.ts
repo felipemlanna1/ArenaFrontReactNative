@@ -1,10 +1,16 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserSports } from '@/hooks/useUserSports';
 import { sportsService } from '@/services/sports';
 import { SkillLevel } from '@/types/sport';
 import { toUserSportData, toApiSportData } from '@/utils/mappers/sportMappers';
 import { SportSelection } from './typesOnboardingSportsScreen';
+
+const normalizeString = (str: string): string =>
+  str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 
 export const useOnboardingSportsScreen = () => {
   const { updateUserSports, signOut, user } = useAuth();
@@ -22,6 +28,15 @@ export const useOnboardingSportsScreen = () => {
   const [primarySportId, setPrimarySportId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredSports = useMemo(() => {
+    if (!searchQuery.trim()) return availableSports;
+    const normalizedQuery = normalizeString(searchQuery);
+    return availableSports.filter(sport =>
+      normalizeString(sport.name).includes(normalizedQuery)
+    );
+  }, [availableSports, searchQuery]);
 
   const currentSport = currentSportId
     ? availableSports.find(s => s.id === currentSportId)
@@ -160,6 +175,8 @@ export const useOnboardingSportsScreen = () => {
     currentIsPrimary,
     primarySportId,
     availableSports,
+    filteredSports,
+    searchQuery,
     isLoading: isLoading || sportsLoading,
     error: error || sportsError,
     handleSelectSport,
@@ -170,5 +187,6 @@ export const useOnboardingSportsScreen = () => {
     handleSkip,
     handleExit,
     handleRemoveSport,
+    handleSearchChange: setSearchQuery,
   };
 };

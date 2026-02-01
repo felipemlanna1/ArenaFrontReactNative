@@ -18,14 +18,29 @@ export const OnboardingFooter: React.FC<OnboardingFooterProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Button variant="ghost" onPress={onSkip} disabled={isLoading}>
-        Pular
-      </Button>
-      {canFinish && (
-        <Button variant="primary" onPress={onFinish} loading={isLoading}>
-          Finalizar
+      <View style={styles.buttonWrapper}>
+        <Button
+          variant="outline-light"
+          onPress={onSkip}
+          disabled={isLoading}
+          size="lg"
+          fullWidth
+        >
+          Pular
         </Button>
-      )}
+      </View>
+      <View style={styles.buttonWrapper}>
+        <Button
+          variant="primary"
+          onPress={onFinish}
+          loading={isLoading}
+          disabled={!canFinish}
+          size="lg"
+          fullWidth
+        >
+          Continuar
+        </Button>
+      </View>
     </View>
   );
 };

@@ -5,7 +5,7 @@ export const translateSkillLevel = (level: string): string => {
     [SkillLevel.BEGINNER]: 'Iniciante',
     [SkillLevel.INTERMEDIATE]: 'Intermediário',
     [SkillLevel.ADVANCED]: 'Avançado',
-    [SkillLevel.PROFESSIONAL]: 'Expert',
+    [SkillLevel.PROFESSIONAL]: 'Profissional',
   };
   return translations[level] || level;
 };

@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Symbol } from '@/components/ui/symbol';
 import { Text } from '@/components/ui/text';
-import { OptimizedImage } from '@/components/ui/optimizedImage';
 import { SkillLevelModal } from '@/components/ui/skillLevelModal';
 import { ErrorBoundary } from '@/components/error-boundary';
-import { SkillLevel } from '@/types/sport';
 import { SportsSelection } from './components/SportsSelection';
 import { OnboardingFooter } from './components/OnboardingFooter';
+import { OnboardingHeader } from './components/OnboardingHeader';
 import { useOnboardingSportsScreen } from './useOnboardingSportsScreen';
 import { OnboardingSportsScreenProps } from './typesOnboardingSportsScreen';
 import { styles } from './stylesOnboardingSportsScreen';
 
-export const OnboardingSportsScreen: React.FC<
-  OnboardingSportsScreenProps
-> = () => {
+export const OnboardingSportsScreen: React.FC<OnboardingSportsScreenProps> = ({
+  navigation,
+}) => {
   const {
     selectedSports,
     modalVisible,
@@ -22,7 +20,8 @@ export const OnboardingSportsScreen: React.FC<
     currentLevel,
     currentIsPrimary,
     primarySportId,
-    availableSports,
+    filteredSports,
+    searchQuery,
     isLoading,
     error,
     handleSelectSport,
@@ -32,31 +31,19 @@ export const OnboardingSportsScreen: React.FC<
     handleFinish,
     handleSkip,
     handleRemoveSport,
+    handleSearchChange,
   } = useOnboardingSportsScreen();
 
   const canFinish = selectedSports.length > 0;
 
+  const handleBack = useCallback(() => {
+    navigation.navigate('MainTabs');
+  }, [navigation]);
+
   return (
     <ErrorBoundary>
       <View style={styles.container}>
-        <OptimizedImage
-          source={require('@/assets/players/loginBg.jpg')}
-          style={styles.backgroundImage}
-          contentFit="cover"
-          contentPosition="center"
-          priority="high"
-          showLoading={false}
-        />
-
-        <View style={styles.overlay} />
-
-        <View style={styles.topSymbol}>
-          <Symbol
-            size="md"
-            variant="variant1"
-            testID="onboarding-arena-symbol"
-          />
-        </View>
+        <OnboardingHeader onBack={handleBack} />
 
         <ScrollView
           style={styles.content}
@@ -72,19 +59,22 @@ export const OnboardingSportsScreen: React.FC<
           )}
 
           <SportsSelection
-            availableSports={availableSports}
+            availableSports={filteredSports}
             selectedSports={selectedSports}
             onSelectSport={handleSelectSport}
             onRemoveSport={handleRemoveSport}
             primarySportId={primarySportId}
             isLoading={isLoading}
+            searchQuery={searchQuery}
+            onSearchChange={handleSearchChange}
           />
         </ScrollView>
 
         <SkillLevelModal
           visible={modalVisible}
           sportName={currentSport?.name || ''}
-          currentLevel={currentLevel || SkillLevel.INTERMEDIATE}
+          sportIcon={currentSport?.icon || 'ball'}
+          currentLevel={currentLevel}
           isPrimary={currentIsPrimary}
           onSelectLevel={handleSelectLevel}
           onTogglePrimary={handleTogglePrimary}

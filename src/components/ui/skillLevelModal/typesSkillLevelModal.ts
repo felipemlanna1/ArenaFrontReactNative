@@ -1,10 +1,10 @@
 import { SkillLevel } from '@/types/sport';
-import { Entypo } from '@expo/vector-icons';
 
 export interface SkillLevelModalProps {
   visible: boolean;
   sportName: string;
-  currentLevel: SkillLevel;
+  sportIcon?: string;
+  currentLevel: SkillLevel | null;
   isPrimary?: boolean;
   onSelectLevel: (level: SkillLevel, isPrimary?: boolean) => void;
   onTogglePrimary?: (isPrimary: boolean) => void;
@@ -16,7 +16,5 @@ export interface SkillLevelModalProps {
 export interface SkillLevelOption {
   level: SkillLevel;
   label: string;
-  shortLabel: string;
-  description: string;
-  iconName: keyof typeof Entypo.glyphMap;
+  filledDots: number;
 }

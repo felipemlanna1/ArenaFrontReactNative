@@ -1,14 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Text } from '@/components/ui/text';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { SportsLoading } from '@/components/ui/sportsLoading';
 import { SportCard } from '@/screens/onboardingSportsScreen/components/SportCard';
 import { Sport } from '@/types/sport';
 import { SportSelection as SportSelectionType } from '@/screens/onboardingSportsScreen/typesOnboardingSportsScreen';
 import { translateSkillLevel } from '@/utils/i18n/skillLevels';
-import { ArenaColors } from '@/constants';
 import { styles } from './stylesSportsSelection';
 
 interface SportsSelectionProps {
@@ -18,6 +17,8 @@ interface SportsSelectionProps {
   onRemoveSport: (sportId: string) => void;
   primarySportId?: string | null;
   isLoading: boolean;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
 }
 
 export const SportsSelection: React.FC<SportsSelectionProps> = ({
@@ -27,16 +28,10 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
   onRemoveSport,
   primarySportId,
   isLoading,
+  searchQuery,
+  onSearchChange,
 }) => {
   const selectedIds = selectedSports.map(s => s.sportId);
-
-  const handleToggleSport = (sportId: string) => {
-    if (selectedIds.includes(sportId)) {
-      onRemoveSport(sportId);
-    } else {
-      onSelectSport(sportId);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -56,8 +51,19 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
           Quais esportes você pratica?
         </Text>
         <Text variant="bodySecondary" style={styles.subtitle}>
-          Selecione seus esportes favoritos
+          Selecione um ou mais esportes
         </Text>
+      </View>
+
+      <View style={styles.searchContainer}>
+        <Input
+          type="search"
+          placeholder="Buscar..."
+          value={searchQuery}
+          onChangeText={onSearchChange}
+          clearable
+          testID="sports-search-input"
+        />
       </View>
 
       <View style={styles.gridContainer}>
@@ -72,7 +78,7 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
               sportName={sport.name}
               sportIcon={sport.icon}
               isSelected={selectedIds.includes(sport.id)}
-              onPress={() => handleToggleSport(sport.id)}
+              onPress={() => onSelectSport(sport.id)}
               level={selectedSport?.level}
               isPrimary={sport.id === primarySportId}
             />
@@ -89,24 +95,16 @@ export const SportsSelection: React.FC<SportsSelectionProps> = ({
             {selectedSports.map(sport => {
               const isPrimary = sport.sportId === primarySportId;
               return (
-                <View key={sport.sportId} style={styles.badgeWrapper}>
-                  {isPrimary && (
-                    <Ionicons
-                      name="star"
-                      size={12}
-                      color={ArenaColors.brand.primary}
-                      style={styles.starIcon}
-                    />
-                  )}
-                  <Badge
-                    variant="primary"
-                    removable
-                    onRemove={() => onRemoveSport(sport.sportId)}
-                    testID={`badge-${sport.sportId}`}
-                  >
-                    {`${sport.sportName} - ${translateSkillLevel(sport.level)}`}
-                  </Badge>
-                </View>
+                <Badge
+                  key={sport.sportId}
+                  variant="primary"
+                  removable
+                  onRemove={() => onRemoveSport(sport.sportId)}
+                  iconName={isPrimary ? 'star' : undefined}
+                  testID={`badge-${sport.sportId}`}
+                >
+                  {`${sport.sportName} • ${translateSkillLevel(sport.level)}`}
+                </Badge>
               );
             })}
           </View>

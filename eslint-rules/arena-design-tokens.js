@@ -155,15 +155,10 @@ module.exports = {
     }
 
     // Propriedades que podem conter tamanhos (size, iconSize, etc)
+    // NOTA: width/height removidos pois são dimensões de layout, não tipografia
     const sizeProperties = new Set([
       'size',
       'iconSize',
-      'width',
-      'height',
-      'minWidth',
-      'minHeight',
-      'maxWidth',
-      'maxHeight',
     ]);
 
     // Nomes de variáveis que indicam mapeamento de tamanhos
